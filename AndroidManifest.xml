@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * Copyright (C) 2007-2008 Esmertec AG.
+ * Copyright (C) 2007-2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="com.android.mms">
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_MMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.WRITE_SMS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application android:name="MmsApp"
+            android:label="@string/app_label"
+            android:icon="@drawable/ic_launcher_smsmms"
+            android:taskAffinity="android.task.mms"
+            android:allowTaskReparenting="true">
+
+        <service android:name=".transaction.TransactionService"
+                 android:exported="true" />
+
+        <service android:name=".transaction.SmsReceiverService" 
+                 android:exported="true" />
+
+        <activity android:name=".ui.ConversationList"
+                  android:label="@string/app_label"
+                  android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="vnd.android.cursor.dir/mms" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="vnd.android-dir/mms-sms" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.AlertDialogActivity"
+            android:theme="@android:style/Theme.Dialog"/>
+
+        <activity android:name=".ui.UndeliveredMessagesActivity"
+            android:label="@string/menu_undelivered_messages"/>
+
+        <activity android:name=".ui.SelectContactMethodActivity"
+            android:label="Select Contact Method"
+            android:theme="@android:style/Theme.Dialog">
+        </activity>
+
+        <activity android:name=".ui.ComposeMessageActivity"
+                  android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="vnd.android-dir/mms-sms" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SENDTO" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SENDTO" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
+           <intent-filter>
+               <action android:name="android.intent.action.SEND" />
+               <category android:name="android.intent.category.DEFAULT" />
+               <data android:mimeType="image/*" />
+           </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.DeliveryReportActivity"
+            android:label="Delivery report"
+            android:theme="@android:style/Theme.Dialog">
+        </activity>
+
+        <activity android:name=".ui.AddAttachmentActivity"
+            android:label="Add attachment:"
+            android:theme="@android:style/Theme.Dialog">
+        </activity>
+
+        <activity android:name=".ui.LayoutModeSelectorActivity"
+            android:label="Select layout"
+            android:theme="@android:style/Theme.Dialog">
+        </activity>
+
+        <activity android:name=".ui.EditSlideDurationActivity"
+            android:label="Change duration"
+            android:theme="@android:style/Theme.Dialog">
+        </activity>
+
+        <activity android:name=".ui.EditSlideTextActivity"
+            android:label="Edit text"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <activity android:name=".ui.SlideshowEditActivity"
+            android:label="Edit slideshow" />
+
+        <activity android:name=".ui.SlideEditorActivity"
+            android:label="Edit slide" />
+
+        <activity android:name=".ui.RecipientsPicker"
+            android:label="Pick Numbers" />
+
+        <activity android:name=".ui.SlideshowActivity"
+            android:label="Slideshow">
+        </activity>
+
+        <activity android:name=".ui.ClassZeroActivity"
+            android:label="Class 0 Message"
+            android:theme="@android:style/Theme.Dialog">
+        </activity>
+
+        <activity android:name=".ui.MessagingPreferenceActivity"
+            android:label="@string/preferences_title" />
+
+        <receiver android:name=".transaction.PushReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
+                <data android:mimeType="application/vnd.wap.mms-message" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".transaction.MmsSystemEventReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.CONTENT_CHANGED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.ANY_DATA_STATE" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name="AttachImage"
+            android:label="Send using MMS\u2026"
+            android:taskAffinity="">
+            <intent-filter>
+                <action android:name="com.android.mms.action.ATTACH_IMAGE" />
+                <data android:mimeType="image/*" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.ALTERNATIVE" />
+                <category android:name="android.intent.category.SELECTED_ALTERNATIVE" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.ManageSimMessages"
+                  android:launchMode="singleTop"
+                  android:label="@string/sim_manage_messages_title">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.UrlListActivity"
+                  android:label="@string/url_list_label">
+          <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+          </intent-filter>
+        </activity>
+
+        <receiver android:name=".transaction.SmsReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SERVICE_STATE" />
+            </intent-filter>
+            <intent-filter>                
+                <action android:name="com.android.mms.transaction.MESSAGE_SENT" />
+                <!-- TODO Do a better data match here. -->
+                <data android:scheme="content" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".transaction.MessageStatusReceiver">
+            <intent-filter>
+                <action android:name="com.android.mms.transaction.MessageStatusReceiver.MESSAGE_STATUS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".transaction.SimFullReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SIM_FULL" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".ui.ConfirmRateLimitActivity"
+                  android:theme="@android:style/Theme.Dialog">
+            <intent-filter>
+                <action android:name="com.android.mms.RATE_LIMIT_SURPASSED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

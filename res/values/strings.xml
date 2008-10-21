@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * Copyright (C) 2007-2008 Esmertec AG.
+ * Copyright (C) 2007-2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label">Messaging</string>
+
+    <!-- Conversation List -->
+    <string name="new_message">New message</string>
+    <string name="create_new_message">Compose new message</string>
+    <string name="menu_call_back">Call <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_compose_new">Compose</string>
+    <string name="menu_preferences">Settings</string>
+    <string name="menu_send_email">Send email to <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_delete_all">Delete threads</string>
+    <string name="menu_read_reply">Read/reply</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_undelivered_messages">Undelivered messages</string>
+    <string name="menu_view">View</string>
+    <string name="time_stamp_same_day_12_format"><xliff:g id="format">%I:%M %p</xliff:g></string>
+    <string name="time_stamp_same_day_24_format"><xliff:g id="format">%H:%M</xliff:g></string>
+    <string name="time_stamp_same_year"><xliff:g id="format">%b %d</xliff:g></string>
+    <string name="time_stamp_full"><xliff:g id="format">%b %d, %G</xliff:g></string>
+    <string name="time_stamp_full_time_12">%G-%m-%d, %I:%M %p</string>
+    <string name="time_stamp_full_time_24">%G-%m-%d, %H:%M</string>
+    <string name="refreshing">Refreshing\u2026</string>
+    <string name="search_results">Search results</string>
+    <string name="has_draft">Draft</string>
+    <string name="broadcast_from_to"><xliff:g id="format">%s to %s</xliff:g></string>
+    <string name="anonymous_recipient">Anonymous</string>
+    <string name="no_subject_view">(No subject)</string>
+
+    <!-- Message List -->
+    <string name="messagelist_sender_self">Me</string>
+    <string name="view_picture">View picture</string>
+    <string name="view_slideshow">View slideshow</string>
+    <string name="view_message_details">View message details</string>
+    <string name="view_delivery_report">View report</string>
+    <string name="delete_message">Delete message</string>
+    <string name="sent_on">"Sent: <xliff:g id="date">%s</xliff:g>"</string>
+    <string name="expire_on">"Expires: <xliff:g id="date">%s</xliff:g>"</string>
+    <string name="kilobyte">KB</string>
+    <string name="transmission_error">Message not sent.</string>
+    <string name="undelivered_msg_dialog_title">Undelivered message</string>
+    <string name="undelivered_msg_dialog_body">Unable to send this message.\nAttempt made: <xliff:g id="message">%s</xliff:g>.</string>
+    <string name="undelivered_sms_dialog_body">Unable to send this message.</string>
+    <string name="delete_thread">Delete thread</string>
+    <string name="menu_forward">Forward</string>
+    <string name="download">Download</string>
+    <string name="downloading">Downloading</string>
+    <string name="inline_subject">"&lt;Subject: <xliff:g id="subject">%s</xliff:g>&gt;"</string>
+    <string name="drm_protected_text">"* DRM protected text *"</string>
+    <string name="insufficient_drm_rights">Insufficient DRM rights detected.</string>
+
+    <!-- Edit Slide Text -->
+    <string name="done">Done</string>
+
+    <!-- Slideshow edit screen -->
+    <!-- menu -->
+    <string name="move_up">Move up</string>
+    <string name="move_down">Move down</string>
+    <string name="remove_slide">Remove slide</string>
+    <string name="add_slide">Add slide</string>
+    <string name="discard_slideshow">Discard slideshow</string>
+    <!-- context menu -->
+    <string name="remove_text">Remove text</string>
+    <string name="add_picture">Add picture</string>
+    <string name="remove_picture">Remove picture</string>
+    <string name="add_music">Add music</string>
+    <string name="remove_music">Remove music</string>
+    <string name="add_video">Add video</string>
+    <string name="remove_video">Remove video</string>
+    <!-- text -->
+    <string name="add_slide_hint">Select to create new slide.</string>
+
+    <!-- Compose Message Activity -->
+    <string name="to_hint">To</string>
+    <string name="compose_title">Compose</string>
+    <string name="subject_hint">Subject</string>
+    <string name="add_attachment">Attach</string>
+    <string name="add_subject">Add subject</string>
+    <string name="discard">Discard</string>
+    <string name="replace">Replace</string>
+    <string name="remove">Remove</string>
+    <string name="send">Send</string>
+    <string name="all_threads">All threads</string>
+    <string name="type_to_compose_text_enter_to_send">Type to compose, press Enter to send</string>
+    <string name="view">View</string>
+    <string name="cannot_render_msg">Cannot display this message.</string>
+    <string name="open_keyboard_to_compose_message">Open keyboard to compose message</string>
+    <string name="image_too_large">Picture too large</string>
+    <string name="ask_for_automatically_resize">Automatically resize picture before sending?</string>
+    <string name="compressing">Compressing\u2026</string>
+    <string name="unsupported_media_format">Unsupported <xliff:g id="name">%1$s</xliff:g> format</string>
+    <string name="select_different_media">Please select a different <xliff:g id="name">%1$s</xliff:g>.</string>
+    <string name="exceed_message_size_limitation">Message size limit reached.</string>
+    <string name="failed_to_add_media">Sorry, you cannot add this <xliff:g id="name">%1$s</xliff:g> to your message.</string>
+    <string name="failed_to_resize_image">Picture not resized.</string>
+    <string name="resize_image_error_information">Sorry, even when resized this picture is too large to send.</string>
+    <string name="forward_prefix">Fwd:\u0020</string>
+    <string name="discard_message">Discard</string>
+    <string name="discard_message_reason">Your message will be discarded because it has no valid recipients.</string>
+    <string name="has_invalid_recipient">Invalid recipient(s): &lt;<xliff:g id="name">%1$s</xliff:g>&gt;</string>
+    <string name="invalid_recipient_message">Please correct the recipient(s) or they will not receive the message.</string>
+    <string name="cannot_send_message">Cannot send this message</string>
+    <string name="cannot_send_message_reason">Your message has no valid recipients.</string>
+    <string name="cannot_forward_drm_obj">The DRM object included in the message cannot be forwarded.</string>
+
+    <!-- Toast -->
+    <string name="converting_to_picture_message">Converting to MMS message\u2026</string>
+    <string name="converting_to_video_message">Converting to MMS message\u2026</string>
+    <string name="converting_to_audio_message">Converting to MMS message\u2026</string>
+    <string name="converting_to_slideshow_message">Converting to MMS message\u2026</string>
+    <string name="converting_to_text_message">Converting to SMS message\u2026</string>
+    <string name="cannot_add_slide_anymore">Cannot add more slides.</string>
+    <string name="cannot_save_message">Cannot save message.</string>
+    <string name="cannot_load_message">Cannot load message.</string>
+    <string name="message_saved_as_draft">Message saved as draft.</string>
+    <string name="no_network_connection">No network connection.</string>
+
+    <!-- Audio attachment view -->
+    <string name="cannot_play_audio">Cannot play audio.</string>
+
+    <!-- Slide editor screen -->
+    <string name="preview">Preview</string>
+    <string name="preview_slideshow">Preview</string>
+    <string name="replace_image">Replace picture</string>
+    <string name="duration_sec">Duration (<xliff:g id="duration">%s</xliff:g> sec)</string>
+    <string name="duration_selector_title">"Duration for slide "</string>
+    <string name="layout_selector_title">"Layout for slide "</string>
+    <string name="layout_top">Layout (top)</string>
+    <string name="layout_bottom">Layout (bottom)</string>
+    <string name="type_to_compose_text_or_leave_blank">Type to compose text, or leave blank</string>
+
+    <!-- Change duration screen -->
+    <string name="secs">secs</string>
+    <string-array name="select_dialog_items">
+         <item>1 second</item>
+         <item>2 seconds</item>
+         <item>3 seconds</item>
+         <item>4 seconds</item>
+         <item>5 seconds</item>
+         <item>6 seconds</item>
+         <item>7 seconds</item>
+         <item>8 seconds</item>
+         <item>9 seconds</item>
+         <item>10 seconds</item>
+         <item>Other\u2026</item>
+    </string-array>
+
+    <!-- Recipients editor -->
+    <string name="bcc">Bcc</string>
+    <string name="menu_edit_recipient">Edit recipient</string>
+    <string name="menu_change_to_bcc">Change to Bcc</string>
+    <string name="menu_change_to_to">Change to To</string>
+    <string name="menu_remove_recipient">Remove recipient</string>
+    <string name="menu_view_contact">View contact</string>
+    <string name="menu_add_to_contacts">Add to Contacts</string>
+
+    <string name="hidden_sender_address">Hidden sender address</string>
+    <string name="unsupported_encoding">Unsupported encoding</string>
+
+    <string name="yes">OK</string>
+    <string name="no">Cancel</string>
+
+    <string name="play">Play</string>
+    <string name="reply">Reply</string>
+    <string name="edit">Edit</string>
+    <string name="resize">Resize</string>
+    <string name="try_to_send">Try to send</string>
+
+    <!-- Preferences screen -->
+    <string name="preferences_title">"Settings"</string>
+    <string name="restore_default">"Restore default settings"</string>
+
+    <string name="pref_general_title">General</string>
+    <string name="pref_notification_settings_title">Notification settings</string>
+    <string name="pref_mms_settings_title">MMS settings</string>
+    <string name="pref_sms_settings_title">SMS settings</string>
+
+    <!-- This must be one of the values in the array
+         "pref_entry_values_mms_max_size". -->
+    <string name="pref_default_mms_max_size">500000</string>
+
+    <!-- This must be one of the values in the array
+         "pref_entry_values_mms_creation_mode". -->
+    <string name="pref_default_mms_creation_mode">restricted</string>
+
+    <!-- This must be one of the values in the array
+         "pref_entry_values_mms_resubmission_mode". -->
+    <string name="pref_default_mms_resubmission_mode">restricted</string>
+
+    <string name="pref_dialog_title_mms_creation_mode">Creation mode</string>
+    <string name="pref_dialog_title_mms_resubmission_mode">Resubmission mode</string>
+    <string name="pref_dialog_title_signature">MMS message signature</string>
+    <string name="pref_summary_manage_sim_messages">Manage messages stored on your SIM card</string>
+    <string name="pref_summary_message_ring_tone">Set message ringtone</string>
+    <string name="pref_summary_mms_compress_images">Compress pictures for smaller messages</string>
+    <string name="pref_summary_mms_creation_mode">Select a message creation mode</string>
+    <string name="pref_summary_mms_delivery_reports">Request a delivery report for each message you send</string>
+    <string name="pref_summary_mms_read_reports">Request a read report for each message you send</string>
+    <string name="pref_summary_mms_resubmission_mode">Select a resubmission mode</string>
+    <string name="pref_summary_signature">Text that\'s appended to every MMS message you send</string>
+    <string name="pref_summary_sms_delivery_reports">Request a delivery report for each message you send</string>
+    <string name="pref_title_manage_sim_messages">Manage SIM card messages</string>
+    <string name="pref_title_message_ring_tone">Set message ringtone</string>
+    <string name="pref_title_mms_compress_images">Compress pictures</string>
+    <string name="pref_title_mms_creation_mode">Creation mode</string>
+    <string name="pref_title_mms_delivery_reports">Delivery reports</string>
+    <string name="pref_title_mms_read_reports">Read reports</string>
+    <string name="pref_title_mms_resubmission_mode">Resubmission mode</string>
+    <string name="pref_title_signature">Signature</string>
+    <string name="pref_title_sms_delivery_reports">Delivery reports</string>
+
+    <string name="pref_title_notification_enabled">Notifications</string>
+    <string name="pref_summary_notification_enabled">Display message notifications in status bar</string>
+    <string name="pref_title_notification_vibrate">Vibrate</string>
+    <string name="pref_summary_notification_vibrate">Also vibrate when notified</string>
+    <string name="pref_title_notification_sound">Sound</string>
+    <string name="pref_summary_notification_sound">Also play ringtone when notified</string>
+    <string name="pref_title_notification_ringtone">Select ringtone</string>
+
+    <!-- Preference entries for auto retrieval -->
+    <string name="pref_title_mms_auto_retrieval">Auto-retrieve</string>
+    <string name="pref_summary_mms_auto_retrieval">Automatically retrieve messages</string>
+    <string name="pref_title_mms_retrieval_during_roaming">Roaming auto-retrieve</string>
+    <string name="pref_summary_mms_retrieval_during_roaming">Automatically retrieve messages while roaming</string>
+
+    <!-- Labels -->
+    <string name="to_label">"To "</string>
+
+    <!-- Error Messages -->
+    <string name="not_supported">Not supported</string>
+
+    <!-- Confirm Delete -->
+    <string name="confirm_dialog_title">Delete</string>
+    <string name="confirm_delete_conversation">The entire thread will be deleted.</string>
+    <string name="confirm_delete_all_conversations">All threads will be deleted.</string>
+    <string name="confirm_delete_message">The message will be deleted.</string>
+    <string name="confirm_delete_all_messages">The entire thread will be deleted.</string>
+
+    <!-- View Message Details -->
+    <string name="time_stamp"><xliff:g id="format">%Y-%m-%d, %H:%M</xliff:g></string>
+    <string name="cannot_get_details">Cannot get details</string>
+    <string name="message_details_title">Message details</string>
+    <string name="message_type_label">Type:\u0020</string>
+    <string name="text_message">SMS message</string>
+    <string name="multimedia_message">MMS message</string>
+    <string name="multimedia_notification">MMS notification</string>
+    <string name="from_label">From:\u0020</string>
+    <string name="to_address_label">To:\u0020</string>
+    <string name="bcc_label">Bcc:\u0020</string>
+    <string name="sent_label">Sent:\u0020</string>
+    <string name="received_label">Received:\u0020</string>
+    <string name="saved_label">Saved:\u0020</string>
+    <string name="subject_label">Subject:\u0020</string>
+    <string name="message_size_label">Message size:\u0020</string>
+    <string name="priority_label">Priority:\u0020</string>
+    <string name="priority_high">High</string>
+    <string name="priority_normal">Normal</string>
+    <string name="priority_low">Low</string>
+    <string name="message_class_label">Message class:\u0020</string>
+
+   <!-- Undelivered Messages List -->
+   <string name="menu_edit">Edit</string>
+   <string name="menu_retry_sending">Retry sending</string>
+   <string name="menu_retry_sending_all">Retry sending all</string>
+   <string name="menu_delete_messages">Delete messages</string>
+   <string name="retrying_to_send_message">Retrying to send message\u2026</string>
+   <string name="retrying_dialog_body">This message <xliff:g id="message">%s</xliff:g> was not sent due to a connection problem.\r\nRetrying to send\u2026</string>
+
+    <!-- Manage SIM Messages -->
+    <string name="sim_copy_to_phone_memory">Copy to phone memory</string>
+    <string name="sim_delete">Delete</string>
+    <string name="sim_manage_messages_title">SMS messages on SIM card</string>
+    <string name="sim_view">View</string>
+    <string name="sim_empty">No messages on the SIM card.</string>
+
+    <!-- Delivery Header View -->
+    <string name="delivery_header_title">Report</string>
+
+    <!-- Delivery Report Activity -->
+    <string name="status_none">(None)</string>
+    <string name="status_pending">Pending</string>
+    <string name="status_read">Read</string>
+    <string name="status_received">Received</string>
+    <string name="status_failed">Unsuccessful</string>
+    <string name="status_unknown">Unknown</string>
+    <string name="status_unread">Unread</string>
+    <string name="status_rejected">Rejected</string>
+
+    <!-- Attachment Type Selector Adapter -->
+    <string name="attach_image">Pictures</string>
+    <string name="attach_take_photo">Camera</string>
+    <string name="attach_video">Video</string>
+    <string name="attach_record_video">Record video</string>
+    <string name="attach_sound">Audio</string>
+    <string name="attach_record_sound">Record audio</string>
+
+    <!-- Layout Selector Adapter -->
+    <string name="select_bottom_text">Bottom text</string>
+    <string name="select_top_text">Top text</string>
+
+    <!-- Delivery Report Notification -->
+    <string name="notification_description_delivered">Message delivered to <xliff:g id="message">%s</xliff:g>.</string>
+    <string name="notification_description_not_delivered">There was an error when sending the message to <xliff:g id="message">%s</xliff:g>.</string>
+    <string name="notification_title_delivered">Message delivered</string>
+    <string name="notification_title_not_delivered">Message not delivered</string>
+    <string name="notification_multiple"><xliff:g id="count">%s</xliff:g> unread messages.</string>
+    <string name="notification_multiple_title">New messages</string>
+
+    <!-- Sim Full Notification -->
+    <string name="sim_full_title">SIM card full</string>
+    <string name="sim_full_body">Delete some messages to make room for more.</string>
+
+    <!-- Share -->
+    <string name="action_send">MMS message</string>
+
+    <!-- Multimedia types -->
+    <string name="type_audio">audio</string>
+    <string name="type_picture">picture</string>
+    <string name="type_video">video</string>
+
+    <!-- Read report -->
+    <string name="confirm">Confirm</string>
+    <string name="message_send_read_report">A read report will be sent.</string>
+
+    <!-- URL list -->
+    <string name="url_list_label">Select link</string>
+
+    <string name="message_queued">Currently unable to send your message. It will be sent when the service becomes available.</string>
+
+    <!-- Download Manager -->
+    <string name="no_subject">(No subject)</string>
+    <string name="unknown_sender">Unknown sender</string>
+    <string name="dl_failure_notification">Download of message <xliff:g id="subject">%s</xliff:g> from <xliff:g id="from">%s</xliff:g> was unsuccessful.</string>
+
+    <string name="rate_limit_surpassed">Confirm</string>
+    <string name="confirm_rate_limit">A large number of multimedia messages are being sent. Is this OK?</string>
+
+    <!-- Message Failed Notification -->
+    <string name="message_download_failed_title">Message not downloaded</string>
+    <string name="message_send_failed_title">Message not sent</string>
+    <string name="message_failed_body">Select to review the message and try again.</string>
+
+    <string name="download_later">Currently unable to download. Please try again later.</string>
+
+</resources>
+

@@ -1,0 +1,27 @@
+<smil>
+    <head>
+        <meta name="title" content="mms info" />
+        <meta name="author" content="Esmertec System" />
+        <layout>
+            <root-layout backgroundColor="#FFFFFF" background-color="#FFFFFF" width="219px" height="169px"/>
+            <region id="Image" backgroundColor="#FFFFFF" background-color="#FFFFFF" width="49%" height="44%" left="50%" top="0%" fit="meet" />
+            <region id="Text" backgroundColor="#FFFFFF" background-color="#FFFFFF" width="49%" height="100%" left="0%" top="0%" fit="scroll" />
+        </layout>
+    </head>
+    <body>
+        <par dur="3000ms">
+            <img src="Utah.jpg" region="Image" begin="0ms" end="1000ms"/>
+            <text src="text0.txt" region="Text" begin="1000ms" end="3000ms">
+            <param name="foreground-color" value="#000000" />
+            <param name="background-color" value="#FFFFFF" />
+            </text>
+        </par>
+        <par dur="3000ms">
+            <img src="Flower.jpg" region="Image" begin="0ms" end="2000ms"/>
+            <text src="text1.txt" region="Text" begin="1000ms" end="3000ms">
+            <param name="foreground-color" value="#000000" />
+            <param name="background-color" value="#FFFFFF" />
+            </text>
+        </par>
+    </body>
+</smil>

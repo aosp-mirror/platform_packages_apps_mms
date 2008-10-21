@@ -1,0 +1,28 @@
+<smil>
+    <head>
+        <meta name="title" content="mms" />
+        <meta name="author" content="John Smith" />
+        <layout>
+            <root-layout width="352" height="144"/>
+            <region id="Image" width="176" height="144" left="0" top="0" />
+            <region id="Text" width="176" height="144" left="176" top ="0"/>
+        </layout>
+    </head>
+    <body>
+        <par dur = "8000ms">
+            <img  src = "FirstImage.jpg" region="Image" />
+            <text src = "FirstText.txt" region="Text" />
+            <audio src = "FirstSound.amr"/>
+        </par>
+        <par dur = "3.5s" >
+            <img   src = "SecondImage.jpg" region="Image" />
+            <text  src = "SecondText.txt" region="Text" />
+            <audio src = "SecondSound.amr"/>
+        </par>
+        <par dur = "4" >
+            <img   src = "ThirdImage.jpg" region="Image"/>
+            <text  src =  "ThirdText.txt" region="Text"/>
+            <audio src = "ThirdSound.amr"/>
+        </par>
+    </body>
+</smil>

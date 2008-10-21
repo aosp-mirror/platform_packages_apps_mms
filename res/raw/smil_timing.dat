@@ -1,0 +1,26 @@
+<smil>
+    <head>
+        <layout>
+            <root-layout backgroundColor="#FFFFFF" background-color="#FFFFFF" width="219px" height="169px"/>
+            <region id="Image" backgroundColor="#FFFFFF" background-color="#FFFFFF" width="49%" height="44%" left="50%" top="0%" fit="meet" /> 
+            <region id="Text" background-color="#FFFFFF" width="49%" height="100%" left="0%" top="0%" fit="scroll" />
+         </layout>
+    </head>
+    <body>
+        <par>
+            <text src="text1.txt" region="Text" begin="0ms" end="3000ms"/>
+        </par>
+        <par>
+            <text src="text2.txt" region="Text" begin="1000ms" dur="3000ms"/>
+        </par>
+        <par>
+            <text src="text3.txt" region="Text" dur="3000ms"/>
+        </par>
+        <par dur="3000ms">
+            <text src="text4.txt" region="Text" begin="1000ms"/>
+        </par>
+        <par>
+            <text src="text5.txt" region="Text"/>
+        </par>
+    </body>
+</smil>
