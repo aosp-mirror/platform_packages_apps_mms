@@ -48,24 +48,27 @@ public class TransactionSettings {
      *
      * @param context The context of the MMS Client
      */
-    public TransactionSettings(Context context) {
+    public TransactionSettings(Context context, String apnName) {
+        String selection = (apnName != null)?
+                Telephony.Carriers.APN + "='"+apnName+"'": null;
+        
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
                             Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI, "current"),
-                            null, null, null, null);
+                            null, selection, null, null);
 
         if (cursor == null) {
+            Log.e(TAG, "Apn is not found in Database!");
             return;
         }
-
 
         try {
             while (cursor.moveToNext() && TextUtils.isEmpty(mServiceCenter)) {
                 // Read values from APN settings
-                if (isValidApnType(cursor.getString(cursor.getColumnIndexOrThrow("type")))) {
-                    mServiceCenter = cursor.getString(cursor.getColumnIndexOrThrow("mmsc"));
-                    mProxyAddress = cursor.getString(cursor.getColumnIndexOrThrow("mmsproxy"));
+                if (isValidApnType(cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Carriers.TYPE)), Phone.APN_TYPE_MMS)) {
+                    mServiceCenter = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Carriers.MMSC));
+                    mProxyAddress = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Carriers.MMSPROXY));
                     if (isProxySet()) {
-                        String portString = cursor.getString(cursor.getColumnIndexOrThrow("mmsport"));
+                        String portString = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Carriers.MMSPORT));
                         try {
                             mProxyPort = Integer.parseInt(portString);
                         } catch (NumberFormatException e) {
@@ -110,8 +113,21 @@ public class TransactionSettings {
         return (mProxyAddress != null) && (mProxyAddress.trim().length() != 0);
     }
 
-    private boolean isValidApnType(String type) {
-        return (TextUtils.isEmpty(type) ||
-            type.equals(Phone.APN_TYPE_ALL) || type.equals(Phone.APN_TYPE_MMS));
+    static private boolean isValidApnType(String types, String requestType) {
+        String[] typeList;
+        // If unset, set to DEFAULT.
+        if (types == null || types.equals("")) {
+            typeList = new String[1];
+            typeList[0] = Phone.APN_TYPE_ALL;
+        } else {
+            typeList = types.split(",");
+        }
+        
+        for (String t : typeList) {
+            if (t.equals(requestType) || t.equals(Phone.APN_TYPE_ALL)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

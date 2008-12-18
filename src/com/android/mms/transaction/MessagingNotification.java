@@ -22,12 +22,14 @@ import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
 
 import com.android.mms.R;
 import com.android.mms.ui.ComposeMessageActivity;
-import com.android.mms.ui.ConversationList;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.ui.UndeliveredMessagesActivity;
 import com.android.mms.util.AddressUtils;
+import com.android.mms.util.ContactNameCache;
+import com.android.mms.util.DownloadManager;
 
 import com.google.android.mms.pdu.EncodedStringValue;
+import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.util.SqliteWrapper;
 
@@ -204,7 +206,7 @@ public class MessagingNotification {
             Context context) {
         ContentResolver resolver = context.getContentResolver();
         Cursor cursor = SqliteWrapper.query(context, resolver, Mms.CONTENT_URI,
-                            MMS_STATUS_PROJECTION, NEW_INCOMING_MM_CONSTRAINT,            
+                            MMS_STATUS_PROJECTION, NEW_INCOMING_MM_CONSTRAINT,
                             null, Mms.DATE + " desc");
 
         if (cursor != null) {
@@ -365,7 +367,8 @@ public class MessagingNotification {
 
     protected static CharSequence buildTickerMessage(
             Context context, String address, String subject, String body) {
-        String displayAddress = Mms.getDisplayAddress(context, address);
+        String displayAddress = ContactNameCache.getInstance()
+                .getContactName(context, address);
 
         StringBuilder buf = new StringBuilder(
                 displayAddress == null
@@ -391,12 +394,12 @@ public class MessagingNotification {
 
         return spanText;
     }
-    
+
     private static String getMmsSubject(String sub, int charset) {
         return TextUtils.isEmpty(sub) ? ""
                 : new EncodedStringValue(charset, PduPersister.getBytes(sub)).getString();
     }
-    
+
     public static void notifyDownloadFailed(Context context, long threadId) {
         notifyFailed(context, true, true, threadId);
     }
@@ -413,7 +416,7 @@ public class MessagingNotification {
         if (!enabled) {
             return;
         }
-        
+
         NotificationManager nm = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -429,7 +432,7 @@ public class MessagingNotification {
                 context, 0, failedIntent, 0);
 
         Notification notification = new Notification();
-        notification.icon = isMms ? R.drawable.stat_notify_mms_failed : 
+        notification.icon = isMms ? R.drawable.stat_notify_mms_failed :
                 R.drawable.stat_notify_sms_failed;
 
         String title = isDownload ?
@@ -437,7 +440,7 @@ public class MessagingNotification {
                     context.getString(R.string.message_send_failed_title);
         notification.tickerText = title;
 
-        notification.setLatestEventInfo(context, title, 
+        notification.setLatestEventInfo(context, title,
                 context.getString(R.string.message_failed_body),
                 pendingIntent);
 
@@ -466,6 +469,26 @@ public class MessagingNotification {
         if ( (mmsCursor == null || mmsCursor.getCount() < 1) &&
                 (smsCursor == null || smsCursor.getCount() < 1) ) {
             cancelNotification(context, MESSAGE_FAILED_NOTIFICATION_ID);
+        }
+    }
+    
+    public static void updateDownloadFailedNotification(Context context) {
+        // Look for any messages in the MMS Inbox that are of the type
+        // NOTIFICATION_IND (i.e. not already downloaded) and in the
+        // permanent failure state.  If there are none, cancel any
+        // failed download notification.
+        Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
+                Mms.Inbox.CONTENT_URI, null,
+                Mms.MESSAGE_TYPE + "=" +
+                    String.valueOf(PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND) +
+                " AND " + Mms.STATUS + "=" +
+                    String.valueOf(DownloadManager.STATE_PERMANENT_FAILURE),
+                null, null);
+        if (c != null) {
+            if (c.getCount() < 1) {
+                cancelNotification(context, DOWNLOAD_FAILED_NOTIFICATION_ID);
+            }
+            c.close();
         }
     }
 }

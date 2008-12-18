@@ -24,10 +24,15 @@ import com.android.mms.transaction.TransactionService;
 import com.android.mms.util.DownloadManager;
 import com.google.android.mms.pdu.PduHeaders;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
@@ -35,16 +40,22 @@ import android.os.Message;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.Sms;
+import android.telephony.PhoneNumberUtils;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.LineBackgroundSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -52,8 +63,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
+
+import com.google.android.util.SmileyParser;
+import com.google.android.util.SmileyResources;
 
 /**
  * This class provides view of a message in the messages list.
@@ -71,14 +84,38 @@ public class MessageListItem extends LinearLayout implements
     private View mMsgListItem;
     private View mMmsView;
     private ImageView mImageView;
-    private ImageView mLeftStatusIndicator;
     private ImageView mRightStatusIndicator;
     private ImageButton mSlideShowButton;
     private TextView mBodyTextView;
     private Button mDownloadButton;
     private TextView mDownloadingLabel;
     private Handler mHandler;
+    private MessageItem mMessageItem;
 
+    public static final int[] DEFAULT_SMILEY_RES_IDS = {
+        R.drawable.emo_im_happy,
+        R.drawable.emo_im_sad,
+        R.drawable.emo_im_winking,
+        R.drawable.emo_im_tongue_sticking_out,
+        R.drawable.emo_im_surprised,
+        R.drawable.emo_im_kissing,
+        R.drawable.emo_im_yelling,
+        R.drawable.emo_im_cool,
+        R.drawable.emo_im_cool,
+        R.drawable.emo_im_money_mouth,
+        R.drawable.emo_im_foot_in_mouth,
+        R.drawable.emo_im_embarrased,
+        R.drawable.emo_im_angel,
+        R.drawable.emo_im_undecided,
+        R.drawable.emo_im_crying,
+        R.drawable.emo_im_lips_are_sealed,
+        R.drawable.emo_im_laughing,
+        R.drawable.emo_im_wtf
+    };
+    
+    public static final int DEFAULT_SMILEY_TEXTS = R.array.default_smiley_texts;
+    public static final int DEFAULT_SMILEY_NAMES = R.array.default_smiley_names;
+    
     public MessageListItem(Context context) {
         super(context);
     }
@@ -92,14 +129,13 @@ public class MessageListItem extends LinearLayout implements
         super.onFinishInflate();
 
         mMsgListItem = findViewById(R.id.msg_list_item);
-        mLeftStatusIndicator = (ImageView) findViewById(R.id.left_status_indicator);
         mBodyTextView = (TextView) findViewById(R.id.text_view);
         mRightStatusIndicator = (ImageView) findViewById(R.id.right_status_indicator);
-        mDownloadButton = (Button) findViewById(R.id.btn_download_msg);
-        mDownloadingLabel = (TextView) findViewById(R.id.label_downloading);
     }
 
     public void bind(MessageItem msgItem) {
+        mMessageItem = msgItem;
+
         setLongClickable(false);
 
         switch (msgItem.mMessageType) {
@@ -112,6 +148,10 @@ public class MessageListItem extends LinearLayout implements
         }
     }
 
+    public MessageItem getMessageItem() {
+        return mMessageItem;
+    }
+    
     public void setMsgListItemHandler(Handler handler) {
         mHandler = handler;
     }
@@ -122,13 +162,17 @@ public class MessageListItem extends LinearLayout implements
         String msgSizeText = mContext.getString(R.string.message_size_label)
                                 + String.valueOf((msgItem.mMessageSize + 1023) / 1024)
                                 + mContext.getString(R.string.kilobyte);
+        
+        boolean drawWithBackground = msgItem.mBoxId == Mms.MESSAGE_BOX_INBOX;
 
         mBodyTextView.setText(formatMessage(msgItem.mContact, null, msgItem.mSubject,
-                                            msgSizeText + "\n" + msgItem.mTimestamp));
+                                            msgSizeText + "\n" + msgItem.mTimestamp,
+                                            drawWithBackground));
 
         int state = DownloadManager.getInstance().getState(msgItem.mMessageUri);
         switch (state) {
             case DownloadManager.STATE_DOWNLOADING:
+                inflateDownloadControls();
                 mDownloadingLabel.setVisibility(View.VISIBLE);
                 mDownloadButton.setVisibility(View.GONE);
                 break;
@@ -137,6 +181,7 @@ public class MessageListItem extends LinearLayout implements
             case DownloadManager.STATE_PERMANENT_FAILURE:
             default:
                 setLongClickable(true);
+                inflateDownloadControls();
                 mDownloadingLabel.setVisibility(View.GONE);
                 mDownloadButton.setVisibility(View.VISIBLE);
                 mDownloadButton.setOnClickListener(new OnClickListener() {
@@ -160,16 +205,20 @@ public class MessageListItem extends LinearLayout implements
     }
 
     private void bindCommonMessage(final MessageItem msgItem) {
-        mDownloadButton.setVisibility(View.GONE);
-        mDownloadingLabel.setVisibility(View.GONE);
-
+        if (mDownloadButton != null) {
+            mDownloadButton.setVisibility(View.GONE);
+            mDownloadingLabel.setVisibility(View.GONE);
+        }
         // Since the message text should be concatenated with the sender's
         // address(or name), I have to display it here instead of
         // displaying it by the Presenter.
         mBodyTextView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
+        boolean drawWithBackground = msgItem.mBoxId == Mms.MESSAGE_BOX_INBOX;
+
         mBodyTextView.setText(formatMessage(msgItem.mContact, msgItem.mBody,
-                                            msgItem.mSubject, msgItem.mTimestamp));
+                                            msgItem.mSubject, msgItem.mTimestamp,
+                                            drawWithBackground));
         // TODO part of changing contact names to links
         //mBodyTextView.setText(formatMessage(msgItem.mAddress, msgItem.mBody));
 
@@ -230,9 +279,18 @@ public class MessageListItem extends LinearLayout implements
             mSlideShowButton = (ImageButton) findViewById(R.id.play_slideshow_button);
         }
     }
-
+    
+    private void inflateDownloadControls() {
+        if (mDownloadButton == null) {
+            //inflate the download controls
+            findViewById(R.id.mms_downloading_view_stub).setVisibility(VISIBLE);
+            mDownloadButton = (Button) findViewById(R.id.btn_download_msg);
+            mDownloadingLabel = (TextView) findViewById(R.id.label_downloading);
+        }
+    }
+    
     private CharSequence formatMessage(String contact, String body, String subject,
-                                       String timestamp) {
+                                       String timestamp, boolean drawBackground) {
         SpannableStringBuilder buf = new SpannableStringBuilder(contact);
         buf.append(": ");
         buf.setSpan(STYLE_BOLD, 0, buf.length(),
@@ -247,13 +305,56 @@ public class MessageListItem extends LinearLayout implements
             if (hasSubject) {
                 buf.append(" - ");
             }
-            buf.append(body);
+            SmileyResources smileyResources = new SmileyResources(
+                    getResources().getStringArray(DEFAULT_SMILEY_TEXTS), DEFAULT_SMILEY_RES_IDS);
+            SmileyParser smileyParser = new SmileyParser(body, smileyResources);
+            smileyParser.parse();
+            buf.append(smileyParser.getSpannableString(mContext));
         }
 
         buf.append("\n");
+        int startOffset = buf.length();
+        
+        // put a one pixel high spacer line between the message and the time stamp as requested
+        // by the spec.
+        buf.append("\n");
+        buf.setSpan(new AbsoluteSizeSpan(3), startOffset, buf.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        
+        startOffset = buf.length();
         buf.append(timestamp);
-
+        buf.setSpan(new AbsoluteSizeSpan(12), startOffset, buf.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (drawBackground) {
+            int color = mContext.getResources().getColor(R.color.timestamp_color);
+            buf.setSpan(new Background(color), startOffset, buf.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
         return buf;
+    }
+
+    private static class Background implements LineBackgroundSpan {
+        private int mColor;
+        
+        public Background(int color) {
+            mColor = color;
+        }
+
+        public void drawBackground(Canvas c, Paint p,
+                int left, int right,
+                int top, int baseline, int bottom,
+                CharSequence text, int start, int end,
+                int lnum) {
+            int col = p.getColor();
+            Paint.Style s = p.getStyle();
+
+            p.setColor(mColor);
+            p.setStyle(Paint.Style.FILL);
+            c.drawRect(left, top, right, bottom, p);
+
+            p.setColor(col);
+            p.setStyle(s);
+        }
     }
 
     private void drawPlaybackButton(MessageItem msgItem) {
@@ -300,12 +401,57 @@ public class MessageListItem extends LinearLayout implements
 
             mContext.startActivity(intent);
         } else {
-            Intent intent = new Intent(
-                    mContext, UrlListActivity.class);
+            final java.util.ArrayList<String> urls = MessageUtils.extractUris(spans);
 
-            intent.putStringArrayListExtra(
-                    EXTRA_URLS, extractUris(spans));
-            mContext.startActivity(intent);
+            ArrayAdapter<String> adapter = 
+                new ArrayAdapter<String>(mContext, android.R.layout.select_dialog_item, urls) {
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    View v = super.getView(position, convertView, parent);
+                    try {
+                        String url = getItem(position).toString();
+                        TextView tv = (TextView) v;
+                        Drawable d = mContext.getPackageManager().getActivityIcon(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                        if (d != null) {
+                            d.setBounds(0, 0, d.getIntrinsicHeight(), d.getIntrinsicHeight());
+                            tv.setCompoundDrawablePadding(10);
+                            tv.setCompoundDrawables(d, null, null, null);
+                        }
+                        final String telPrefix = "tel:";
+                        if (url.startsWith(telPrefix)) {
+                            url = PhoneNumberUtils.formatNumber(url.substring(telPrefix.length()));
+                        }
+                        tv.setText(url);
+                    } catch (android.content.pm.PackageManager.NameNotFoundException ex) {
+                        ;
+                    }
+                    return v;
+                }
+            };
+
+            AlertDialog.Builder b = new AlertDialog.Builder(mContext);
+
+            DialogInterface.OnClickListener click = new DialogInterface.OnClickListener() {
+                public final void onClick(DialogInterface dialog, int which) {
+                    if (which >= 0) {
+                        Uri uri = Uri.parse(urls.get(which));
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                        mContext.startActivity(intent);
+                    }
+                }
+            };
+                
+            b.setTitle(R.string.select_link_title);
+            b.setCancelable(true);
+            b.setAdapter(adapter, click);
+
+            b.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                public final void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            b.show();
         }
     }
 
@@ -330,37 +476,21 @@ public class MessageListItem extends LinearLayout implements
         }
     }
 
-    private ArrayList<String> extractUris(URLSpan[] spans) {
-        int size = spans.length;
-        ArrayList<String> accumulator = new ArrayList<String>();
-
-        for (int i = 0; i < size; i++) {
-            accumulator.add(spans[i].getURL());
-        }
-        return accumulator;
-    }
-
     private void drawLeftStatusIndicator(int msgBoxId) {
         switch (msgBoxId) {
             case Mms.MESSAGE_BOX_INBOX:
-                mLeftStatusIndicator.setVisibility(VISIBLE);
-                mLeftStatusIndicator.setImageResource(R.drawable.textfield_im_left_indicator_blue);
-                mMsgListItem.setBackgroundResource(R.drawable.light_blue_background);
+                mMsgListItem.setBackgroundResource(R.drawable.listitem_background_lightblue);
                 break;
 
             case Mms.MESSAGE_BOX_DRAFTS:
             case Sms.MESSAGE_TYPE_FAILED:
             case Sms.MESSAGE_TYPE_QUEUED:
             case Mms.MESSAGE_BOX_OUTBOX:
-                mLeftStatusIndicator.setVisibility(VISIBLE);
-                mLeftStatusIndicator.setImageResource(R.drawable.textfield_im_left_indicator_red);
-                mMsgListItem.setBackgroundResource(R.drawable.white_background);
+                mMsgListItem.setBackgroundResource(R.drawable.listitem_background);
                 break;
 
             default:
-                // reserve space for one indicator to preserve alignment
-                mLeftStatusIndicator.setVisibility(INVISIBLE);
-                mMsgListItem.setBackgroundResource(R.drawable.white_background);
+                mMsgListItem.setBackgroundResource(R.drawable.listitem_background);
                 break;
         }
     }

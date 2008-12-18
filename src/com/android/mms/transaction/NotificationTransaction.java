@@ -225,7 +225,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
     private void sendNotifyRespInd(int status) throws MmsException, IOException {
         // Create the M-NotifyResp.ind
         NotifyRespInd notifyRespInd = new NotifyRespInd(
-                PduHeaders.MMS_VERSION_1_3,
+                PduHeaders.CURRENT_MMS_VERSION,
                 mNotificationInd.getTransactionId(),
                 status);
 

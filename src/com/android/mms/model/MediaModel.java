@@ -32,6 +32,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -61,12 +62,12 @@ public abstract class MediaModel extends Model implements EventListener {
         SEEK,
     }
 
-    public MediaModel(Context context, String tag, Uri uri) {
+    public MediaModel(Context context, String tag, Uri uri) throws MmsException{
         this(context, tag, null, null, uri);
     }
 
     public MediaModel(Context context, String tag, String contentType,
-            String src, Uri uri) {
+            String src, Uri uri) throws MmsException {
         mContext = context;
         mTag = tag;
         mContentType = contentType;
@@ -255,7 +256,7 @@ public abstract class MediaModel extends Model implements EventListener {
         }
     }
 
-    private void initMediaSize() {
+    private void initMediaSize() throws MmsException {
         ContentResolver cr = mContext.getContentResolver();
         InputStream input = null;
         try {
@@ -269,9 +270,13 @@ public abstract class MediaModel extends Model implements EventListener {
                     mSize++;
                 }
             }
+
         } catch (IOException e) {
             // Ignore
             Log.e(TAG, "IOException caught while opening or reading stream", e);
+            if (e instanceof FileNotFoundException) {
+                throw new MmsException(e.getMessage());
+            }
         } finally {
             if (null != input) {
                 try {

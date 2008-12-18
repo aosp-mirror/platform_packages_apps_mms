@@ -133,6 +133,13 @@ public class AttachmentEditor {
         }
     }
 
+    public void removeAttachment() {
+        SlideModel slide = mSlideshow.get(0);
+        slide.removeImage();
+        slide.removeVideo();
+        slide.removeAudio();
+    }
+    
     public void hideView() {
         if (mView != null) {
             ((View)mView).setVisibility(View.GONE);
@@ -149,175 +156,94 @@ public class AttachmentEditor {
         return view;
     }
 
-    private SlideViewInterface createView() {
-        switch (mAttachmentType) {
-            case IMAGE_ATTACHMENT: {
-                LinearLayout view =(LinearLayout) getStubView(
-                        R.id.image_attachment_view_stub, R.id.image_attachment_view);
-                view.setVisibility(View.VISIBLE);
-
-                Button vwImageBtn = (Button) view.findViewById(R.id.view_image_button);
-                Button rpImageBtn = (Button) view.findViewById(R.id.replace_image_button);
-                Button rmImageBtn = (Button) view.findViewById(R.id.remove_image_button);
-
-                vwImageBtn.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        Message msg = Message.obtain(mHandler, MSG_VIEW_IMAGE);
-                        msg.sendToTarget();
-                    }
-                });
-
-                rpImageBtn.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        Message msg = Message.obtain(mHandler, MSG_REPLACE_IMAGE);
-                        msg.sendToTarget();
-                    }
-                });
-
-                rmImageBtn.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        mSlideshow.get(0).removeImage();
-                        ((View) mView).setVisibility(View.GONE);
-
-                        int oldAttachmentType = mAttachmentType;
-                        mAttachmentType = TEXT_ONLY;
-                        if (mAttachmentChangedListener != null) {
-                            mAttachmentChangedListener.onAttachmentChanged(
-                                    mAttachmentType, oldAttachmentType);
-                        }
-                    }
-                });
-
-                return (SlideViewInterface) view;
-            }
-
-            case VIDEO_ATTACHMENT: {
-                LinearLayout view =(LinearLayout) getStubView(
-                        R.id.video_attachment_view_stub, R.id.video_attachment_view);
-                view.setVisibility(View.VISIBLE);
-
-                Button vwVideoBtn = (Button) view.findViewById(R.id.view_video_button);
-                Button rpVideoBtn = (Button) view.findViewById(R.id.replace_video_button);
-                Button rmVideoBtn = (Button) view.findViewById(R.id.remove_video_button);
-
-                vwVideoBtn.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        Message msg = Message.obtain(mHandler, MSG_PLAY_VIDEO);
-                        msg.sendToTarget();
-                    }
-                });
-
-                rpVideoBtn.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        Message msg = Message.obtain(mHandler, MSG_REPLACE_VIDEO);
-                        msg.sendToTarget();
-                    }
-                });
-
-                rmVideoBtn.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        mSlideshow.get(0).removeVideo();
-                        mView.stopVideo();
-                        ((View) mView).setVisibility(View.GONE);
-
-                        int oldAttachmentType = mAttachmentType;
-                        mAttachmentType = TEXT_ONLY;
-                        if (mAttachmentChangedListener != null) {
-                            mAttachmentChangedListener.onAttachmentChanged(
-                                    mAttachmentType, oldAttachmentType);
-                        }
-                    }
-                });
-
-                return (SlideViewInterface) view;
-            }
-
-            case AUDIO_ATTACHMENT: {
-                LinearLayout view =(LinearLayout) getStubView(
-                        R.id.audio_attachment_view_stub, R.id.audio_attachment_view);
-                view.setVisibility(View.VISIBLE);
-
-                Button plAudioBtn = (Button) view.findViewById(R.id.play_audio_button);
-                Button rpAudioBtn = (Button) view.findViewById(R.id.replace_audio_button);
-                Button rmAudioBtn = (Button) view.findViewById(R.id.remove_audio_button);
-
-                plAudioBtn.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        Message msg = Message.obtain(mHandler, MSG_PLAY_AUDIO);
-                        msg.sendToTarget();
-                    }
-                });
-
-                rpAudioBtn.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        AudioModel audio = mSlideshow.get(0).getAudio();
-                        if (audio != null) {
-                            audio.stop();
-                        }
-                        Message msg = Message.obtain(mHandler, MSG_REPLACE_AUDIO);
-                        msg.sendToTarget();
-                    }
-                });
-
-                rmAudioBtn.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        AudioModel audio = mSlideshow.get(0).getAudio();
-                        if (audio != null) {
-                            audio.stop();
-                        }
-                        mSlideshow.get(0).removeAudio();
-                        ((View) mView).setVisibility(View.GONE);
-
-                        int oldAttachmentType = mAttachmentType;
-                        mAttachmentType = TEXT_ONLY;
-                        if (mAttachmentChangedListener != null) {
-                            mAttachmentChangedListener.onAttachmentChanged(
-                                    mAttachmentType, oldAttachmentType);
-                        }
-                    }
-                });
-
-                return (SlideViewInterface) view;
-            }
-
-            case SLIDESHOW_ATTACHMENT: {
-                LinearLayout view =(LinearLayout) getStubView(
-                        R.id.slideshow_attachment_view_stub, R.id.slideshow_attachment_view);
-                view.setVisibility(View.VISIBLE);
-
-                Button editBtn = (Button) view.findViewById(R.id.edit_slideshow_button);
-                mSendButton = (Button) view.findViewById(R.id.send_slideshow_button);
-                updateSendButton();
-                final ImageButton playBtn = (ImageButton) view.findViewById(
-                        R.id.play_slideshow_button);
-
-                editBtn.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        Message msg = Message.obtain(mHandler, MSG_EDIT_SLIDESHOW);
-                        msg.sendToTarget();
-                    }
-                });
-
-                mSendButton.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        Message msg = Message.obtain(mHandler, MSG_SEND_SLIDESHOW);
-                        msg.sendToTarget();
-                    }
-                });
-
-                playBtn.setOnClickListener(new OnClickListener() {
-                    public void onClick(View v) {
-                        Message msg = Message.obtain(mHandler, MSG_PLAY_SLIDESHOW);
-                        msg.sendToTarget();
-                    }
-                });
-
-                return (SlideViewInterface) view;
-            }
-
-            default:
-                throw new IllegalArgumentException();
+    private class MessageOnClick implements OnClickListener {
+        private int mWhat;
+        
+        public MessageOnClick(int what) {
+            mWhat = what;
         }
+        
+        public void onClick(View v) {
+            Message msg = Message.obtain(mHandler, mWhat);
+            msg.sendToTarget();
+        }
+    }
+
+    private SlideViewInterface createView() {
+        switch(mAttachmentType) {
+        case IMAGE_ATTACHMENT:
+            return createMediaView(
+                    R.id.image_attachment_view_stub, R.id.image_attachment_view,
+                    R.id.view_image_button, R.id.replace_image_button, R.id.remove_image_button,
+                    MSG_VIEW_IMAGE, MSG_REPLACE_IMAGE);
+            
+        case VIDEO_ATTACHMENT:
+            return createMediaView(
+                    R.id.video_attachment_view_stub, R.id.video_attachment_view,
+                    R.id.view_video_button, R.id.replace_video_button, R.id.remove_video_button,
+                    MSG_PLAY_VIDEO, MSG_REPLACE_VIDEO);
+            
+        case AUDIO_ATTACHMENT:
+            return createMediaView(
+                    R.id.audio_attachment_view_stub, R.id.audio_attachment_view,
+                    R.id.play_audio_button, R.id.replace_audio_button, R.id.remove_audio_button,
+                    MSG_PLAY_AUDIO, MSG_REPLACE_AUDIO);
+            
+        case SLIDESHOW_ATTACHMENT:
+            return createSlideshowView();
+            
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private SlideViewInterface createMediaView(
+            int stub_view_id, int real_view_id,
+            int view_button_id, int replace_button_id, int remove_button_id,
+            int view_message, int replace_message) {
+        LinearLayout view = (LinearLayout)getStubView(stub_view_id, real_view_id);
+        view.setVisibility(View.VISIBLE);
+
+        Button viewButton = (Button) view.findViewById(view_button_id);
+        Button replaceButton = (Button) view.findViewById(replace_button_id);
+        Button removeButton = (Button) view.findViewById(remove_button_id);
+
+        viewButton.setOnClickListener(new MessageOnClick(view_message));
+        replaceButton.setOnClickListener(new MessageOnClick(replace_message));
+
+        removeButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                removeAttachment();
+                ((View) mView).setVisibility(View.GONE);
+
+                int oldAttachmentType = mAttachmentType;
+                mAttachmentType = TEXT_ONLY;
+                if (mAttachmentChangedListener != null) {
+                    mAttachmentChangedListener.onAttachmentChanged(
+                            mAttachmentType, oldAttachmentType);
+                }
+            }
+        });
+
+        return (SlideViewInterface) view;
+    }
+    
+    private SlideViewInterface createSlideshowView() {
+        LinearLayout view =(LinearLayout) getStubView(
+                R.id.slideshow_attachment_view_stub, R.id.slideshow_attachment_view);
+        view.setVisibility(View.VISIBLE);
+
+        Button editBtn = (Button) view.findViewById(R.id.edit_slideshow_button);
+        mSendButton = (Button) view.findViewById(R.id.send_slideshow_button);
+        updateSendButton();
+        final ImageButton playBtn = (ImageButton) view.findViewById(
+                R.id.play_slideshow_button);
+
+        editBtn.setOnClickListener(new MessageOnClick(MSG_EDIT_SLIDESHOW));
+        mSendButton.setOnClickListener(new MessageOnClick(MSG_SEND_SLIDESHOW));
+        playBtn.setOnClickListener(new MessageOnClick(MSG_PLAY_SLIDESHOW));
+
+        return (SlideViewInterface) view;
     }
 
     public void changeImage(Uri uri) throws MmsException {

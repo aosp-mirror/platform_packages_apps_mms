@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -80,13 +81,11 @@ public class EditSlideDurationActivity  extends Activity {
 
         // Label.
         mLabel = (TextView) findViewById(R.id.label);
-        mLabel.setText("Duration for slide " + (mCurSlide + 1) + "/" + mTotal);
+        mLabel.setText(getString(R.string.duration_selector_title) + " " + (mCurSlide + 1) + "/" + mTotal);
 
         // Input text field.
         mDur = (EditText) findViewById(R.id.text);
         mDur.setText(String.valueOf(dur));
-        mDur.setKeyListener(DigitsKeyListener.getInstance());
-        mDur.setFilters(new InputFilter[] {new InputFilter.LengthFilter(4)});
         mDur.setOnKeyListener(mOnKeyListener);
 
         // Done button.
@@ -154,39 +153,6 @@ public class EditSlideDurationActivity  extends Activity {
     private void notifyUser(String message) {
         if (LOCAL_LOGV) {
             Log.v(TAG, "notifyUser: message=" + message);
-        }
-    }
-
-    private static class DigitsKeyListener extends NumberKeyListener {
-        private static DigitsKeyListener sInstance;
-        private final char[] mAccepted = CHARACTERS;
-
-        @Override
-        protected char[] getAcceptedChars() {
-            return mAccepted;
-        }
-
-        /**
-         * The characters that are used.
-         *
-         * @see KeyEvent#getMatch
-         * @see #getAcceptedChars
-         */
-        private static final char[] CHARACTERS = new char[] {
-                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-        };
-
-        /**
-         * Returns a DigitsKeyListener that accepts the digits 0 through 9
-         * and the plus sign.
-         */
-        public static DigitsKeyListener getInstance() {
-            if (sInstance != null) {
-                return sInstance;
-            }
-
-            sInstance = new DigitsKeyListener();
-            return sInstance;
         }
     }
 }

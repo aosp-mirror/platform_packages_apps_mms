@@ -55,7 +55,6 @@ import android.graphics.Bitmap.CompressFormat;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
-import android.pim.Time;
 import android.provider.Settings;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
@@ -63,11 +62,15 @@ import android.provider.Telephony.Threads;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.text.format.Time;
+import android.text.style.URLSpan;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * An utility class for managing messages.
@@ -79,6 +82,17 @@ public class MessageUtils {
 
     private static final String TAG = "MessageUtils";
     private static String sLocalNumber;
+
+    // Cache of both groups of space-separated ids to their full
+    // comma-separated display names, as well as individual ids to
+    // display names.
+    // TODO: is it possible for canonical address ID keys to be
+    // re-used?  SQLite does reuse IDs on NULL id_ insert, but does
+    // anything ever delete from the mmssms.db canonical_addresses
+    // table?  Nothing that I could find.
+    private static final Map<String, String> sRecipientAddress =
+            new ConcurrentHashMap<String, String>(20 /* initial capacity */);
+
     public static final int READ_THREAD   = 1;
 
     private MessageUtils() {
@@ -378,45 +392,66 @@ public class MessageUtils {
      * @return true if clock is set to 24-hour mode
      */
     static boolean get24HourMode(final Context context) {
-        String value = Settings.System.getString(context.getContentResolver(),
-                            Settings.System.TIME_12_24);
-        return !((value == null) || value.equals("12"));
+        return android.text.format.DateFormat.is24HourFormat(context);
     }
 
+    /**
+     * @parameter recipientIds space-separated list of ids
+     */
     public static String getRecipientsByIds(Context context, String recipientIds) {
+        String value = sRecipientAddress.get(recipientIds);
+        if (value != null) {
+            return value;
+        }
         if (!TextUtils.isEmpty(recipientIds)) {
             StringBuilder addressBuf = extractIdsToAddresses(context, recipientIds);
-            if (addressBuf != null) {
-                return addressBuf.toString();
+            if (addressBuf == null) {
+                // temporary error?  Don't memoize.
+                return "";
             }
+            value = addressBuf.toString();
+        } else {
+            value = "";
         }
-        return "";
+        sRecipientAddress.put(recipientIds, value);
+        return value;
     }
 
     private static StringBuilder extractIdsToAddresses(Context context,
             String recipients) {
         StringBuilder addressBuf = new StringBuilder();
         String[] recipientIds = recipients.split(" ");
+        boolean firstItem = true;
         for (String recipientId : recipientIds) {
-            Uri uri = Uri.parse("content://mms-sms/canonical-address/" +
-                    recipientId);
-            Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
-                            uri, null, null, null, null);
-            if (c != null) {
-                try {
-                    if (c.moveToFirst()) {
-                        addressBuf.append(c.getString(0));
-                        addressBuf.append(";");
+            String value = sRecipientAddress.get(recipientId);
+            if (value == null) {
+                Uri uri = Uri.parse("content://mms-sms/canonical-address/" +
+                                    recipientId);
+                Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
+                                               uri, null, null, null, null);
+                if (c != null) {
+                    try {
+                        if (c.moveToFirst()) {
+                            value = c.getString(0);
+                        }
+                    } finally {
+                        c.close();
                     }
-                } finally {
-                    c.close();
                 }
             }
+            if (value == null) {
+                continue;
+            }
+            sRecipientAddress.put(recipientId, value);
+            if (firstItem) {
+                firstItem = false;
+            } else {
+                addressBuf.append(";");
+            }
+            addressBuf.append(value);
         }
 
-        return (addressBuf.length() == 0) ? null
-                // Remove the ';' at the end of the buffer.
-                : addressBuf.deleteCharAt(addressBuf.length() - 1);
+        return (addressBuf.length() == 0) ? null : addressBuf;
     }
 
     public static String getAddressByThreadId(Context context, long threadId) {
@@ -449,7 +484,8 @@ public class MessageUtils {
             Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
             intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
             intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
-            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select audio");
+            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, 
+                    context.getString(R.string.select_audio));
             ((Activity) context).startActivityForResult(intent, requestCode);
         }
     }
@@ -457,7 +493,7 @@ public class MessageUtils {
     public static void recordSound(Context context, int requestCode) {
         if (context instanceof Activity) {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType(ContentType.AUDIO_UNSPECIFIED);
+            intent.setType(ContentType.AUDIO_AMR);
             intent.setClassName("com.android.soundrecorder",
                     "com.android.soundrecorder.SoundRecorder");
 
@@ -521,7 +557,7 @@ public class MessageUtils {
         values.put("read", READ_THREAD);
         SqliteWrapper.update(context, context.getContentResolver(),
                 ContentUris.withAppendedId(Threads.CONTENT_URI, threadId),
-                values, null, null);
+                values, "read=0", null);
         MessagingNotification.updateNewMessageIndicator(context, threadId);
     }
 
@@ -708,11 +744,23 @@ public class MessageUtils {
             return new EncodedStringValue(charset, PduPersister.getBytes(rawBytes)).getString();
         }
     }
+
     private static String extractEncStr(Context context, EncodedStringValue value) {
-      if (value != null) {
-          return value.getString();
-      } else {
-          return "";
-      }
-  }
+        if (value != null) {
+            return value.getString();
+        } else {
+            return "";
+        }
+    }
+    
+    public static ArrayList<String> extractUris(URLSpan[] spans) {
+        int size = spans.length;
+        ArrayList<String> accumulator = new ArrayList<String>();
+
+        for (int i = 0; i < size; i++) {
+            accumulator.add(spans[i].getURL());
+        }
+        return accumulator;
+    }
+
 }

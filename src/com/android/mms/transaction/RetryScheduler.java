@@ -33,11 +33,11 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.pim.DateFormat;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.MmsSms.PendingMessages;
+import android.text.format.DateFormat;
 import android.util.Config;
 import android.util.Log;
 

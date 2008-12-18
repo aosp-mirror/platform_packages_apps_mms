@@ -21,7 +21,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/white_background"    
     android:orientation="vertical">
 
     <LinearLayout
@@ -59,14 +58,17 @@
         android:background="@drawable/white_background"
         android:gravity="bottom">
 
-        <ListView android:id="@+id/history"
+        <view class="com.android.mms.ui.MessageListView"
+            android:id="@+id/history"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
-            android:listSelector="@drawable/frame_gallery_thumb_selected"
+            android:listSelector="@drawable/chat_history_selector"
             android:divider="@android:drawable/divider_horizontal_bright"
             android:drawSelectorOnTop="true"
             android:transcriptMode="alwaysScroll"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarStyle="insideInset"
             android:stackFromBottom="true"
             android:visibility="gone"
             android:layout_marginBottom="1dip"

@@ -50,7 +50,7 @@ public class VideoModel extends RegionMediaModel {
     }
 
     public VideoModel(Context context, String contentType, String src,
-            Uri uri, RegionModel region) {
+            Uri uri, RegionModel region) throws MmsException {
         super(context, SmilHelper.ELEMENT_TAG_VIDEO, contentType, src, uri, region);
     }
 

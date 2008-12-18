@@ -60,7 +60,7 @@ public class ImageModel extends RegionMediaModel {
     }
 
     public ImageModel(Context context, String contentType, String src,
-            Uri uri, RegionModel region) throws DrmException {
+            Uri uri, RegionModel region) throws DrmException, MmsException {
         super(context, SmilHelper.ELEMENT_TAG_IMAGE,
                 contentType, src, uri, region);
         decodeImageBounds();

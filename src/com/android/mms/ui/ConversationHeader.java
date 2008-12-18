@@ -22,7 +22,6 @@ package com.android.mms.ui;
  */
 public class ConversationHeader {
     private long mThreadId;
-    private String mFrom;
     private String mSubject;
     private String mDate;
     private boolean mHasAttachment;
@@ -31,13 +30,25 @@ public class ConversationHeader {
     private boolean mHasDraft;
     private int mMessageCount;
 
+    // Guards access to both mViewWaitingForFromChange and mFrom:
+    private final Object mFromLock = new Object();
+
+    // The formatted "from" display that the user sees.  May be null
+    // if the contact name(s) aren't loaded yet.
+    private String mFrom;
+
+    // Optional callback to run when mFrom changes.  This is used to
+    // update ConversationHeaderView asynchronously.  The view registers
+    // with the header using setOnFromChanged() below.
+    private ConversationHeaderView mViewWaitingForFromChange;
+
     // Needed because it's Parcelable
     public ConversationHeader() {
     }
 
     public ConversationHeader(
             long threadId,
-            String from,
+            String from,  // may be null to signal async loading
             String subject,
             String date,
             boolean isRead,
@@ -46,9 +57,9 @@ public class ConversationHeader {
             int messageCount)
     {
         mThreadId = threadId;
-        mFrom = from;
-        mSubject = subject;
-        mDate = date;
+        mFrom = from;  // may be null
+        mSubject = subject != null ? subject : "";
+        mDate = date != null ? date : "";
         mIsRead = isRead;
         mHasError = hasError;
         mHasDraft = hasDraft;
@@ -62,10 +73,6 @@ public class ConversationHeader {
         return mThreadId;
     }
 
-    public void setThreadId(long threadId) {
-        mThreadId = threadId;
-    }
-
     /**
      * @return Returns the date.
      */
@@ -73,19 +80,41 @@ public class ConversationHeader {
         return mDate;
     }
 
-    public void setDate(String date) {
-        mDate = date;
-    }
-
     /**
-     * @return Returns the from.
+     * @return Returns the from.  (formatted for display)
      */
     public String getFrom() {
-        return mFrom;
+        synchronized (mFromLock) {
+            return mFrom;
+        }
     }
 
     public void setFrom(String from) {
-        mFrom = from;
+        synchronized (mFromLock) {
+            mFrom = from;
+            conditionallyRunFromChangedCallback();
+        }
+    }
+
+    /**
+     * Called by the {@link ConversationHeaderView} when it wants to
+     * register for updates to the model (only the from name of which
+     * is mutable.
+     */
+    public void setWaitingView(ConversationHeaderView headerView) {
+        synchronized (mFromLock) {
+            mViewWaitingForFromChange = headerView;
+            conditionallyRunFromChangedCallback();
+        }
+    }
+
+    private void conditionallyRunFromChangedCallback() {
+        synchronized (mFromLock) {
+            if (mViewWaitingForFromChange != null && mFrom != null) {
+                mViewWaitingForFromChange.onHeaderLoaded(this);
+                mViewWaitingForFromChange = null;
+            }
+        }
     }
 
     /**
@@ -93,10 +122,6 @@ public class ConversationHeader {
      */
     public String getSubject() {
         return mSubject;
-    }
-
-    public void setSubject(String subject) {
-        mSubject = subject;
     }
 
     /**
@@ -107,24 +132,10 @@ public class ConversationHeader {
     }
 
     /**
-     * @param hasAttachment The hasAttachment to set.
-     */
-    public void setHasAttachment(boolean hasAttachment) {
-        mHasAttachment = hasAttachment;
-    }
-
-    /**
      * @return Returns the isRead.
      */
     public boolean isRead() {
         return mIsRead;
-    }
-
-    /**
-     * @param isRead The isRead to set.
-     */
-    public void setRead(boolean isRead) {
-        mIsRead = isRead;
     }
 
     /**

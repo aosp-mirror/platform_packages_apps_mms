@@ -25,8 +25,8 @@ import com.android.mms.ResolutionException;
 import com.android.mms.UnsupportContentTypeException;
 
 public class CarrierContentRestriction implements ContentRestriction {
-    public static final int IMAGE_WIDTH_LIMIT  = 1600;
-    public static final int IMAGE_HEIGHT_LIMIT = 1200;
+    public static final int IMAGE_WIDTH_LIMIT  = 640;
+    public static final int IMAGE_HEIGHT_LIMIT = 480;
     public static final int MESSAGE_SIZE_LIMIT = 300 * 1024;
 
     private static final ArrayList<String> sSupportedImageTypes;

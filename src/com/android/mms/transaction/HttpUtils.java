@@ -36,6 +36,7 @@ import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Locale;
@@ -174,7 +175,7 @@ public class HttpUtils {
                             try {
                                 dis.close();
                             } catch (IOException e) {
-                                Log.e(TAG, "Unexpected IOException.", e);
+                                Log.e(TAG, "Error closing input stream: " + e.getMessage());
                             }
                         }
                     }
@@ -190,6 +191,8 @@ public class HttpUtils {
         } catch (IllegalStateException e) {
             handleHttpConnectionException(e);
         } catch (IllegalArgumentException e) {
+            handleHttpConnectionException(e);
+        } catch (SocketException e) {
             handleHttpConnectionException(e);
         } catch (Exception e) {
             handleHttpConnectionException(e);
@@ -211,7 +214,7 @@ public class HttpUtils {
     private static void handleHttpConnectionException(Exception exception)
             throws IOException {
         // Inner exception should be logged to make life easier.
-        Log.e(TAG, exception.getMessage(), exception);
+        Log.e(TAG, exception.getMessage());
         throw new IOException(exception.getMessage());
     }
 

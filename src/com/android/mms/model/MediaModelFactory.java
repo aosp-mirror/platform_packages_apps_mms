@@ -20,6 +20,7 @@ package com.android.mms.model;
 import com.android.mms.UnsupportContentTypeException;
 import com.android.mms.drm.DrmWrapper;
 import com.google.android.mms.ContentType;
+import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPart;
 
@@ -39,7 +40,7 @@ public class MediaModelFactory {
 
     public static MediaModel getMediaModel(Context context,
             SMILMediaElement sme, LayoutModel layouts, PduBody pb)
-            throws DrmException, IOException, IllegalArgumentException {
+            throws DrmException, IOException, IllegalArgumentException, MmsException {
         String tag = sme.getTagName();
         String src = sme.getSrc();
         PduPart part = findPart(pb, src);
@@ -79,7 +80,7 @@ public class MediaModelFactory {
 
     private static MediaModel getRegionMediaModel(Context context,
             String tag, String src, SMILRegionMediaElement srme,
-            LayoutModel layouts, PduPart part) throws DrmException, IOException {
+            LayoutModel layouts, PduPart part) throws DrmException, IOException, MmsException {
         SMILRegionElement sre = srme.getRegion();
         if (sre != null) {
             RegionModel region = layouts.findRegionById(sre.getId());
@@ -106,7 +107,7 @@ public class MediaModelFactory {
 
     private static MediaModel getGenericMediaModel(Context context,
             String tag, String src, SMILMediaElement sme, PduPart part,
-            RegionModel regionModel) throws DrmException, IOException {
+            RegionModel regionModel) throws DrmException, IOException, MmsException {
         byte[] bytes = part.getContentType();
         if (bytes == null) {
             throw new IllegalArgumentException(

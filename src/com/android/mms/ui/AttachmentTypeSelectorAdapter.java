@@ -30,7 +30,6 @@ import java.util.List;
 public class AttachmentTypeSelectorAdapter extends IconListAdapter {
     public final static int MODE_WITH_SLIDESHOW    = 0;
     public final static int MODE_WITHOUT_SLIDESHOW = 1;
-    public final static int MODE_REPLACE_IMAGE     = 2;
 
     public final static int ADD_IMAGE               = 0;
     public final static int TAKE_PICTURE            = 1;
@@ -45,27 +44,25 @@ public class AttachmentTypeSelectorAdapter extends IconListAdapter {
     }
 
     protected static List<IconListItem> getData(int mode, Context context) {
-        List<IconListItem> data = new ArrayList<IconListItem>(4);
+        List<IconListItem> data = new ArrayList<IconListItem>(6);
         addItem(data, context.getString(R.string.attach_image),
                 R.drawable.ic_mms_picture);
 
         addItem(data, context.getString(R.string.attach_take_photo),
                 R.drawable.ic_mms_take_picture);
 
-        if (mode != MODE_REPLACE_IMAGE) {
-//          TODO: should support video in the future.
-//          addItem(data, context.getString(R.string.attach_video),
-//                  R.drawable.ic_mms_movie);
+//      TODO: should support video in the future.
+//      addItem(data, context.getString(R.string.attach_video),
+//              R.drawable.ic_mms_movie);
 
-            addItem(data, context.getString(R.string.attach_sound),
-                    R.drawable.ic_mms_sound);
+        addItem(data, context.getString(R.string.attach_sound),
+                R.drawable.ic_mms_sound);
 
-            addItem(data, context.getString(R.string.attach_record_sound),
-                    R.drawable.ic_mms_record_sound);
+        addItem(data, context.getString(R.string.attach_record_sound),
+                R.drawable.ic_mms_record_sound);
 
-            if (mode == MODE_WITH_SLIDESHOW) {
-                addItem(data, "Slideshow", R.drawable.ic_mms_add_slide);
-            }
+        if (mode == MODE_WITH_SLIDESHOW) {
+            addItem(data, "Slideshow", R.drawable.ic_mms_add_slide);
         }
 
         return data;

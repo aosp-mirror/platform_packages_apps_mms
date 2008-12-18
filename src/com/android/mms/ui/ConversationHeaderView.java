@@ -18,16 +18,18 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
+import com.android.mms.util.ContactNameCache;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.provider.Telephony.Mms;
+import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,13 +38,22 @@ import android.widget.TextView;
  * This class manages the view for given conversation.
  */
 public class ConversationHeaderView extends RelativeLayout {
-    private ConversationHeader mConversationHeader;
+    private static final String TAG = "ConversationHeaderView";
+    private static final boolean DEBUG = false;
+
     private TextView mSubjectView;
     private TextView mFromView;
     private TextView mDateView;
     private View mAttachmentView;
     private View mUnreadIndicator;
     private View mErrorIndicator;
+
+    // For posting UI update Runnables from other threads:
+    private Handler mHandler = new Handler();
+
+    // Access to mConversationHeader is guarded by mConversationHeaderLock.
+    private final Object mConversationHeaderLock = new Object();
+    private ConversationHeader mConversationHeader;
 
     public ConversationHeaderView(Context context) {
         super(context);
@@ -58,6 +69,8 @@ public class ConversationHeaderView extends RelativeLayout {
 
         mFromView = (TextView) findViewById(R.id.from);
         mSubjectView = (TextView) findViewById(R.id.subject);
+        mSubjectView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
         mDateView = (TextView) findViewById(R.id.date);
         mAttachmentView = findViewById(R.id.attachment);
         mUnreadIndicator = findViewById(R.id.unread_indicator);
@@ -65,7 +78,15 @@ public class ConversationHeaderView extends RelativeLayout {
     }
 
     public ConversationHeader getConversationHeader() {
-        return mConversationHeader;
+        synchronized (mConversationHeaderLock) {
+            return mConversationHeader;
+        }
+    }
+
+    private void setConversationHeader(ConversationHeader header) {
+        synchronized (mConversationHeaderLock) {
+            mConversationHeader = header;
+        }
     }
 
     /**
@@ -79,7 +100,12 @@ public class ConversationHeaderView extends RelativeLayout {
     private CharSequence formatMessage(ConversationHeader ch) {
         final int size = android.R.style.TextAppearance_Small;
         final int color = android.R.styleable.Theme_textColorSecondary;
-        CharSequence from = (Mms.getDisplayAddress(mContext, ch.getFrom())).replace(';', ',');
+        String from = ch.getFrom();
+        if (from == null) {
+            // The temporary text users see while the names of contacts are loading.
+            // TODO: evaluate a better or prettier solution for this?
+            from = "...";
+        }
         SpannableStringBuilder buf = new SpannableStringBuilder(from);
 
         if (ch.getMessageCount() > 1) {
@@ -99,47 +125,69 @@ public class ConversationHeaderView extends RelativeLayout {
         return buf;
     }
 
-    public final void bind(Context context, ConversationHeader ch) {
-        mConversationHeader = ch;
+    // Called by another thread that loaded an updated
+    // ConversationHeader for us.  Note, however, that this view
+    // might've been re-used for a different header in the meantime,
+    // so we have to double-check that we still want this header.
+    public void onHeaderLoaded(final ConversationHeader newHeader) {
+        synchronized (mConversationHeaderLock) {
+            if (mConversationHeader != newHeader) {
+                // The user scrolled away before the item loaded and
+                // this view has been repurposed.
+                return;
+            }
 
-        if (ch.hasAttachment()) {
-            mAttachmentView.setVisibility(VISIBLE);
+            // TODO: as an optimization, send a message to mHandler instead
+            // of posting a Runnable.
+            mHandler.post(new Runnable() {
+                    public void run() {
+                        synchronized (mConversationHeaderLock) {
+                            if (mConversationHeader == newHeader) {
+                                mFromView.setText(formatMessage(newHeader));
+                            }
+                        }
+                    }
+                });
         }
+    }
 
-        boolean isRead = ch.isRead();
-        Typeface typeFace = isRead
-                ? Typeface.DEFAULT
-                : Typeface.DEFAULT_BOLD;
+    public final void bind(Context context, final ConversationHeader ch) {
+        if (DEBUG) Log.v(TAG, "bind()");
+
+        ConversationHeader oldHeader = getConversationHeader();
+        setConversationHeader(ch);
+
+        mAttachmentView.setVisibility(ch.hasAttachment() ? VISIBLE : INVISIBLE);
 
         // Date
         mDateView.setText(ch.getDate());
-        mDateView.setTypeface(typeFace);
 
-        // From
+        // From.
         mFromView.setText(formatMessage(ch));
-        mFromView.setTypeface(typeFace);
+
+        // The From above may be incomplete (still loading), so we register ourselves
+        // as a callback later to get woken up in onHeaderLoaded() when it changes.
+        if (ch.getFrom() == null) {
+            ch.setWaitingView(this);
+        }
+
+        boolean isRead = ch.isRead();
+
+        // Change font-face only if required.
+        if (oldHeader == null || oldHeader.isRead() != isRead) {
+            Typeface typeFace = isRead
+                    ? Typeface.DEFAULT
+                    : Typeface.DEFAULT_BOLD;
+            mDateView.setTypeface(typeFace);
+            mFromView.setTypeface(typeFace);
+        }
+
+        mUnreadIndicator.setVisibility(isRead ? INVISIBLE : VISIBLE);
 
         // Subject
-        mSubjectView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-
-        if (ch.getSubject() != null) {
-            mSubjectView.setText(ch.getSubject());
-        } else {
-            mSubjectView.setText("");
-        }
-
-        // Unread
-        if (isRead) {
-            mUnreadIndicator.setVisibility(View.INVISIBLE);
-        } else {
-            mUnreadIndicator.setVisibility(View.VISIBLE);
-        }
+        mSubjectView.setText(ch.getSubject());
 
         // Transmission error indicator.
-        if (ch.hasError()) {
-            mErrorIndicator.setVisibility(View.VISIBLE);
-        } else {
-            mErrorIndicator.setVisibility(View.INVISIBLE);
-        }
+        mErrorIndicator.setVisibility(ch.hasError() ? VISIBLE : INVISIBLE);
     }
 }

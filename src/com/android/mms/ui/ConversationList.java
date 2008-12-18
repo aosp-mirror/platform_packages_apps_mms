@@ -19,6 +19,7 @@ package com.android.mms.ui;
 
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
+import com.android.mms.util.ContactNameCache;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.util.SqliteWrapper;
 
@@ -31,10 +32,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.res.Configuration;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.Contacts;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
@@ -55,6 +60,8 @@ import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * This activity provides a list view of existing conversations.
  */
@@ -66,6 +73,8 @@ public class ConversationList extends ListActivity {
     private static final int THREAD_LIST_QUERY_TOKEN = 1701;
     private static final int SEARCH_TOKEN            = 1702;
 
+    private static final int DELETE_CONVERSATION_TOKEN = 1801;
+    
     // IDs of the main menu items.
     private static final int MENU_COMPOSE_NEW            = 0;
     private static final int MENU_SEARCH                 = 1;
@@ -75,7 +84,7 @@ public class ConversationList extends ListActivity {
     private static final int MENU_VIEW_BROADCAST_THREADS = 5;
 
     // IDs of the context menu items for the list of conversations.
-    private static final int MENU_DELETE               = 0;
+    public static final int MENU_DELETE               = 0;
     private static final int MENU_VIEW                 = 1;
 
     private Cursor mCursor;
@@ -89,6 +98,18 @@ public class ConversationList extends ListActivity {
     private int mQueryToken;
     private String mFilter;
     private boolean mSearchFlag;
+    private CachingNameStore mCachingNameStore;
+
+    /**
+     * An interface that's passed down to ListAdapters to use
+     * for looking up the names of contact numbers.
+     */
+    public static interface CachingNameStore {
+        // Returns comma-separated list of contact's display names
+        // given a semicolon-delimited string of canonical phone
+        // numbers.
+        public String getContactNames(String addresses);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +130,8 @@ public class ConversationList extends ListActivity {
 
         listView.setOnCreateContextMenuListener(mConvListOnCreateContextMenuListener);
         listView.setOnKeyListener(mThreadListKeyListener);
+
+        mCachingNameStore = new CachingNameStoreImpl(this);
 
         if (savedInstanceState != null) {
             mBaseUri = (Uri) savedInstanceState.getParcelable("base_uri");
@@ -136,6 +159,7 @@ public class ConversationList extends ListActivity {
         super.onResume();
 
         if (mListAdapter != null) {
+            mListAdapter.initDraftCache();  // we might have a draft now
             mListAdapter.registerObservers();
         }
 
@@ -300,7 +324,16 @@ public class ConversationList extends ListActivity {
         } else if (v instanceof ConversationHeaderView) {
             ConversationHeaderView headerView = (ConversationHeaderView) v;
             ConversationHeader ch = headerView.getConversationHeader();
-            openThread(ch.getThreadId(), ch.getFrom());
+
+            // TODO: The 'from' view of the ConversationHeader was
+            // repurposed to be the cached display value, rather than
+            // the old raw value, which openThread() wanted.  But it
+            // turns out openThread() doesn't need it:
+            // ComposeMessageActivity will load it.  That's not ideal,
+            // though, as it's an SQLite query.  So fix this later to
+            // save some latency on starting ComposeMessageActivity.
+            String somethingDelimitedAddresses = null;
+            openThread(ch.getThreadId(), somethingDelimitedAddresses);
         }
     }
 
@@ -322,6 +355,15 @@ public class ConversationList extends ListActivity {
         new OnCreateContextMenuListener() {
         public void onCreateContextMenu(ContextMenu menu, View v,
                 ContextMenuInfo menuInfo) {
+            String address = MessageUtils.getRecipientsByIds(
+                    ConversationList.this,
+                    mCursor.getString(ConversationListAdapter.COLUMN_RECIPIENTS_IDS));
+            // The Recipient IDs column is separated with semicolons for some reason.
+            // We should fix this in the content provider rework.
+            CharSequence from = (ContactNameCache.getInstance().getContactName(
+                    ConversationList.this, address)).replace(';', ',');
+            menu.setHeaderTitle(from);
+
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
             if (info.position > 0) {
                 menu.add(0, MENU_VIEW, 0, R.string.menu_view);
@@ -361,6 +403,19 @@ public class ConversationList extends ListActivity {
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        // We override this method to avoid restarting the entire
+        // activity when the keyboard is opened (declared in
+        // AndroidManifest.xml).  Because the only translatable text
+        // in this activity is "New Message", which has the full width
+        // of phone to work with, localization shouldn't be a problem:
+        // no abbreviated alternate words should be needed even in
+        // 'wide' languages like German or Russian.
+
+        super.onConfigurationChanged(newConfig);
+        if (DEBUG) Log.v(TAG, "onConfigurationChanged: " + newConfig);
     }
 
     private void confirmDeleteDialog(OnClickListener listener, boolean deleteAll) {
@@ -425,16 +480,8 @@ public class ConversationList extends ListActivity {
             MessageUtils.handleReadReport(ConversationList.this, mThreadId,
                     PduHeaders.READ_STATUS__DELETED_WITHOUT_BEING_READ, new Runnable() {
                 public void run() {
-                    SqliteWrapper.delete(ConversationList.this, getContentResolver(),
-                                    mDeleteUri, null, null);
-                    // Update the notification for new messages since they
-                    // may be deleted.
-                    MessagingNotification.updateNewMessageIndicator(
-                            ConversationList.this);
-                    // Update the notification for failed messages since they
-                    // may be deleted.
-                    MessagingNotification.updateSendFailedNotification(
-                            ConversationList.this);
+                    mQueryHandler.startDelete(DELETE_CONVERSATION_TOKEN,
+                            null, mDeleteUri, null, null);
                 }
             });
         }
@@ -457,11 +504,19 @@ public class ConversationList extends ListActivity {
                     switch ((Integer) cookie) {
                         case THREAD_LIST_QUERY_TOKEN:
                             mListAdapter = new ConversationListAdapter(
-                                    ConversationList.this, cursor, true);
+                                    ConversationList.this,
+                                    cursor,
+                                    true,  // simple (non-search)
+                                    mListAdapter,
+                                    mCachingNameStore);
                             break;
                         case SEARCH_TOKEN:
                             mListAdapter = new ConversationListAdapter(
-                                    ConversationList.this, cursor, false);
+                                    ConversationList.this,
+                                    cursor,
+                                    false,  // non-simple (search)
+                                    mListAdapter,
+                                    mCachingNameStore);
                             break;
                         default:
                             Log.e(TAG, "Bad query token: " + token);
@@ -478,5 +533,79 @@ public class ConversationList extends ListActivity {
                 setProgressBarIndeterminateVisibility(false);
             }
         }
+
+        @Override
+        protected void onDeleteComplete(int token, Object cookie, int result) {
+            switch (token) {
+            case DELETE_CONVERSATION_TOKEN:
+                // Update the notification for new messages since they
+                // may be deleted.
+                MessagingNotification.updateNewMessageIndicator(ConversationList.this);
+                // Update the notification for failed messages since they
+                // may be deleted.
+                MessagingNotification.updateSendFailedNotification(ConversationList.this);
+                break;
+            }
+        }
+    }
+
+    /**
+     * This implements the CachingNameStore interface defined above
+     * which we pass down to each newly-created ListAdapater, so they
+     * share a common, reused cached between activity resumes, not
+     * having to hit the Contacts providers all the time.
+     */
+    private static final class CachingNameStoreImpl implements CachingNameStore {
+        private static final String TAG = "ConversationList/CachingNameStoreImpl";
+        private final ConcurrentHashMap<String, String> mCachedNames =
+                new ConcurrentHashMap<String, String>();
+        private final ContentObserver mPhonesObserver;
+        private final Context mContext;
+
+        public CachingNameStoreImpl(Context ctxt) {
+            mContext = ctxt;
+            mPhonesObserver = new ContentObserver(new Handler()) {
+                    @Override
+                    public void onChange(boolean selfUpdate) {
+                        mCachedNames.clear();
+                    }
+                };
+            ctxt.getContentResolver().registerContentObserver(
+                    Contacts.Phones.CONTENT_URI,
+                    true, mPhonesObserver);
+        }
+
+        // Returns comma-separated list of contact's display names
+        // given a semicolon-delimited string of canonical phone
+        // numbers, getting data either from cache or via a blocking
+        // call to a provider.
+        public String getContactNames(String addresses) {
+            String value = mCachedNames.get(addresses);
+            if (value != null) {
+                return value;
+            }
+            String[] values = addresses.split(";");
+            if (values.length < 2) {
+                if (DEBUG) Log.v(TAG, "Looking up name: " + addresses);
+                ContactNameCache cache = ContactNameCache.getInstance();
+                value = (cache.getContactName(mContext, addresses)).replace(';', ',');
+            } else {
+                int length = 0;
+                for (int i = 0; i < values.length; ++i) {
+                    values[i] = getContactNames(values[i]);
+                    length += values[i].length() + 2;  // 2 for ", "
+                }
+                StringBuilder sb = new StringBuilder(length);
+                sb.append(values[0]);
+                for (int i = 1; i < values.length; ++i) {
+                    sb.append(", ");
+                    sb.append(values[i]);
+                }
+                value = sb.toString();
+            }
+            mCachedNames.put(addresses, value);
+            return value;
+        }
+
     }
 }

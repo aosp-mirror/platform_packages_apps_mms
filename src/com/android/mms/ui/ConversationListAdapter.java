@@ -30,16 +30,26 @@ import android.provider.Telephony.Threads;
 import android.provider.Telephony.Mms.Part;
 import android.provider.Telephony.Sms.Conversations;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Stack;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * The back-end data adapter for ConversationList.
  */
 //TODO: This should be public class ConversationListAdapter extends ArrayAdapter<Conversation>
 public class ConversationListAdapter extends CursorAdapter {
+    private static final String TAG = "ConversationListAdapter";
+    private static final boolean LOCAL_LOGV = false;
+
     static final String[] PROJECTION = new String[] {
         Threads._ID,                      // 0
         Threads.MESSAGE_COUNT,            // 1
@@ -64,6 +74,8 @@ public class ConversationListAdapter extends CursorAdapter {
         Threads._ID,                      // 0
         Conversations.THREAD_ID           // 1
     };
+
+    static final int COLUMN_DRAFT_THREAD_ID = 1;
 
     static final String[] SEARCH_PROJECTION = new String[] {
         MmsSms.TYPE_DISCRIMINATOR_COLUMN, // 0
@@ -101,24 +113,161 @@ public class ConversationListAdapter extends CursorAdapter {
     private final LayoutInflater mFactory;
     private final boolean mSimpleMode;
 
-    public ConversationListAdapter(Context context, Cursor cursor, boolean simple) {
-        super(context, cursor);
+    // Null if there's no drafts
+    private HashSet<Long> mDraftSet = null;
+
+    // Cache of space-separated recipient ids of a thread to the final
+    // display version.
+
+    // TODO: if you rename a contact or something, it'll cache the old
+    // name (or raw number) forever in here, never listening to
+    // changes from the contacts provider.  We should instead move away
+    // towards using only the CachingNameStore, which does respect
+    // contacts provider updates.
+    private final Map<String, String> mThreadDisplayFrom;
+
+    // For async loading of display names.
+    private final ScheduledThreadPoolExecutor mAsyncLoader;
+    private final Stack<Runnable> mThingsToLoad = new Stack<Runnable>();
+    // We execute things in LIFO order, so as users scroll around during loading,
+    // they get the most recently-requested item.
+    private final Runnable mPopStackRunnable = new Runnable() {
+            public void run() {
+                Runnable r = null;
+                synchronized (mThingsToLoad) {
+                    if (!mThingsToLoad.empty()) {
+                        r = mThingsToLoad.pop();
+                    }
+                }
+                if (r != null) {
+                    r.run();
+                }
+            }
+        };
+
+    private final ConversationList.CachingNameStore mCachingNameStore;
+
+    public ConversationListAdapter(Context context, Cursor cursor, boolean simple,
+                                   ConversationListAdapter oldListAdapter,
+                                   ConversationList.CachingNameStore nameStore) {
+        super(context, cursor, true /* auto-requery */);
         mSimpleMode = simple;
         mFactory = LayoutInflater.from(context);
+        mCachingNameStore = nameStore;
+
+        // Inherit the old one's cache.
+        if (oldListAdapter != null) {
+            mThreadDisplayFrom = oldListAdapter.mThreadDisplayFrom;
+            // On a new query from the ConversationListActivity, as an
+            // optimization we try to re-use the previous
+            // ListAdapter's threadpool executor, if it's not too
+            // back-logged in work.  (somewhat arbitrarily four
+            // outstanding requests) It could be backlogged if the
+            // user had a ton of conversation thread IDs and was
+            // scrolling up & down the list faster than the provider
+            // could keep up.  In that case, we opt not to re-use this
+            // thread and executor and instead create a new one.
+            if (oldListAdapter.mAsyncLoader.getQueue().size() < 4) {
+                mAsyncLoader = oldListAdapter.mAsyncLoader;
+            } else {
+                // It was too back-logged.  Ditch that threadpool and create
+                // a new one.
+                oldListAdapter.mAsyncLoader.shutdownNow();
+                mAsyncLoader = new ScheduledThreadPoolExecutor(1);
+            }
+        } else {
+            mThreadDisplayFrom = new ConcurrentHashMap<String, String>();
+            // 1 thread.  SQLite can't do better anyway.
+            mAsyncLoader = new ScheduledThreadPoolExecutor(1);
+        }
+
+        // Learn all the drafts up-front.  There shouldn't be many.
+        initDraftCache();
+    }
+
+    // To be called whenever the drafts might've changed.
+    public void initDraftCache() {
+        Cursor cursor = SqliteWrapper.query(
+                mContext,
+                mContext.getContentResolver(),
+                MmsSms.CONTENT_DRAFT_URI,
+                DRAFT_PROJECTION, null, null, null);
+        if (LOCAL_LOGV) Log.v(TAG, "initDraftCache.");
+        mDraftSet = null;  // null until we have our first draft
+        if (cursor == null) {
+            Log.v(TAG, "initDraftCache -- cursor was null.");
+        }
+        try {
+            if (cursor.moveToFirst()) {
+                if (mDraftSet == null) {
+                    // low initial capacity (unlikely to be many drafts)
+                    mDraftSet = new HashSet<Long>(4);
+                }
+                for (; !cursor.isAfterLast(); cursor.moveToNext()) {
+                    long threadId = cursor.getLong(COLUMN_DRAFT_THREAD_ID);
+                    mDraftSet.add(new Long(threadId));
+                    if (LOCAL_LOGV) Log.v(TAG, "  .. threadid with a draft: " + threadId);
+                }
+            }
+        } finally {
+            cursor.close();
+        }
+    }
+
+    /**
+     * Returns cached name of thread (display form of list of
+     * recipients) or returns null if the nullIfNotCached and there's
+     * nothing in the cache.  The UI thread calls this in "immediate
+     * mode" with nullIfNotCached set true, but the background loader
+     * thread calls it with nullIfNotCached set false.
+     */
+    private String getFromText(Context context, String spaceSeparatedRcptIds,
+                               boolean nullIfNotCached) {
+        // Thread IDs could in-theory be reassigned to different
+        // recipients (if latest threadid was deleted and new
+        // auto-increment was assigned), so our cache key is the
+        // space-separated list of recipients IDs instead:
+        String value = mThreadDisplayFrom.get(spaceSeparatedRcptIds);
+        if (value != null) {
+            return value;
+        }
+
+        if (nullIfNotCached) {
+            // We're in the UI thread and don't want to block.
+            return null;
+        }
+
+        // Potentially blocking call to MmsSms provider, looking up
+        // canonical addresses:
+        String address = MessageUtils.getRecipientsByIds(
+                context, spaceSeparatedRcptIds);
+
+        // Potentially blocking call to Contacts provider, lookup up
+        // names:  (should usually be cached, though)
+        value = mCachingNameStore.getContactNames(address);
+
+        if (TextUtils.isEmpty(value)) {
+            value = mContext.getString(R.string.anonymous_recipient);
+        }
+
+        mThreadDisplayFrom.put(spaceSeparatedRcptIds, value);
+        return value;
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         if (view instanceof ConversationHeaderView) {
-            String address, subject;
+            ConversationHeaderView headerView = (ConversationHeaderView) view;
+            String from, subject;
             long threadId, date;
             boolean read, error;
             int messageCount = 0;
+            String spaceSeparatedRcptIds = null;
 
             if (mSimpleMode) {
                 threadId = cursor.getLong(COLUMN_ID);
-                address = MessageUtils.getRecipientsByIds(
-                        context, cursor.getString(COLUMN_RECIPIENTS_IDS));
+                spaceSeparatedRcptIds = cursor.getString(COLUMN_RECIPIENTS_IDS);
+                from = getFromText(context, spaceSeparatedRcptIds, true);
                 subject = MessageUtils.extractEncStrFromCursor(
                         cursor, COLUMN_SNIPPET, COLUMN_SNIPPET_CHARSET);
                 date = cursor.getLong(COLUMN_DATE);
@@ -129,7 +278,7 @@ public class ConversationListAdapter extends CursorAdapter {
                 threadId = cursor.getLong(COLUMN_THREAD_ID);
                 String msgType = cursor.getString(COLUMN_MESSAGE_TYPE);
                 if (msgType.equals("sms")) {
-                    address = cursor.getString(COLUMN_SMS_ADDRESS);
+                    from = cursor.getString(COLUMN_SMS_ADDRESS);
                     subject = cursor.getString(COLUMN_SMS_BODY);
                     date = cursor.getLong(COLUMN_SMS_DATE);
                     // FIXME: This is wrong! We cannot determine whether a
@@ -137,7 +286,7 @@ public class ConversationListAdapter extends CursorAdapter {
                     // message in the thread.
                     read = cursor.getInt(COLUMN_SMS_READ) != 0;
                 } else {
-                    address = MessageUtils.getAddressByThreadId(
+                    from = MessageUtils.getAddressByThreadId(
                             context, threadId);
                     subject = MessageUtils.extractEncStrFromCursor(
                             cursor, COLUMN_MMS_SUBJECT, COLUMN_MMS_SUBJECT_CHARSET);
@@ -145,28 +294,55 @@ public class ConversationListAdapter extends CursorAdapter {
                     read = cursor.getInt(COLUMN_MMS_READ) != 0;
                 }
                 error = false;
+                if (TextUtils.isEmpty(from)) {
+                    from = mContext.getString(R.string.anonymous_recipient);
+                }
             }
 
             String timestamp = MessageUtils.formatTimeStampString(
                     context, date);
 
-            if (TextUtils.isEmpty(address)) {
-                address = mContext.getString(R.string.anonymous_recipient);
-            }
             if (TextUtils.isEmpty(subject)) {
                 subject = mContext.getString(R.string.no_subject_view);
             }
 
-            ConversationHeader ch = new ConversationHeader(
-                    threadId, address, subject, timestamp,
-                    read, error, hasDraft(threadId), messageCount);
+            if (LOCAL_LOGV) Log.v(TAG, "pre-create ConversationHeader");
+            boolean hasDraft = mDraftSet != null &&
+                    mDraftSet.contains(new Long(threadId));
 
-            ((ConversationHeaderView) view).bind(context, ch);
+            ConversationHeader ch = new ConversationHeader(
+                    threadId, from, subject, timestamp,
+                    read, error, hasDraft, messageCount);
+
+            headerView.bind(context, ch);
+
+            if (from == null && spaceSeparatedRcptIds != null) {
+                startAsyncDisplayFromLoad(context, ch, headerView, spaceSeparatedRcptIds);
+            }
+            if (LOCAL_LOGV) Log.v(TAG, "post-bind ConversationHeader");
+        } else {
+            Log.e(TAG, "Unexpected bound view: " + view);
         }
+    }
+
+    private void startAsyncDisplayFromLoad(final Context context,
+                                           final ConversationHeader ch,
+                                           final ConversationHeaderView headerView,
+                                           final String spaceSeparatedRcptIds) {
+        synchronized (mThingsToLoad) {
+            mThingsToLoad.push(new Runnable() {
+                    public void run() {
+                        String fromText = getFromText(context, spaceSeparatedRcptIds, false);
+                        ch.setFrom(fromText);
+                    }
+                });
+        }
+        mAsyncLoader.execute(mPopStackRunnable);
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        if (LOCAL_LOGV) Log.v(TAG, "inflating new view");
         return mFactory.inflate(R.layout.conversation_header, parent, false);
     }
 
@@ -175,6 +351,7 @@ public class ConversationListAdapter extends CursorAdapter {
     }
 
     public void registerObservers() {
+        if (LOCAL_LOGV) Log.v(TAG, "registerObservers()");
         if (mCursor != null) {
             try {
                 mCursor.registerContentObserver(mChangeObserver);
@@ -194,6 +371,7 @@ public class ConversationListAdapter extends CursorAdapter {
     }
 
     public void unregisterObservers() {
+        if (LOCAL_LOGV) Log.v(TAG, "unregisterObservers()");
         if (mCursor != null) {
             try {
                 mCursor.unregisterContentObserver(mChangeObserver);
@@ -217,7 +395,9 @@ public class ConversationListAdapter extends CursorAdapter {
         Cursor cursor = SqliteWrapper.query(mContext,
                             mContext.getContentResolver(), MmsSms.CONTENT_DRAFT_URI,
                             DRAFT_PROJECTION, selection, null, null);
-        return (null != cursor) && cursor.moveToFirst();
+        boolean result = (null != cursor) && cursor.moveToFirst();
+        cursor.close();
+        return result;
     }
 
     @Override

@@ -30,6 +30,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
 import android.provider.MediaStore.Images;
 import android.provider.Telephony.Mms.Part;
+import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
 
@@ -75,8 +76,11 @@ public class UriImage {
         try {
             String filePath;
             if (ImageModel.isMmsUri(uri)) {
-                filePath = c.getString(
-                        c.getColumnIndexOrThrow(Part._DATA));
+                filePath = c.getString(c.getColumnIndexOrThrow(Part.FILENAME));
+                if (TextUtils.isEmpty(filePath)) {
+                    filePath = c.getString(
+                            c.getColumnIndexOrThrow(Part._DATA));
+                }
                 mContentType = c.getString(
                         c.getColumnIndexOrThrow(Part.CONTENT_TYPE));
             } else {
@@ -135,12 +139,21 @@ public class UriImage {
     public PduPart getResizedImageAsPart(int widthLimit, int heightLimit) {
         PduPart part = new PduPart();
 
+        byte[] data = getResizedImageData(widthLimit, heightLimit);
+        if (data == null) {
+            if (LOCAL_LOGV) {
+                Log.v(TAG, "Resize image failed.");
+            }
+            return null;
+        }
+
+        part.setData(data);
         part.setContentType(getContentType().getBytes());
         String src = getSrc();
-        part.setContentLocation(src.getBytes());
+        byte[] srcBytes = src.getBytes();
+        part.setContentLocation(srcBytes);
+        part.setFilename(srcBytes);
         part.setContentId(src.substring(0, src.lastIndexOf(".")).getBytes());
-        byte[] data = getResizedImageData(widthLimit, heightLimit);
-        part.setData(data);
 
         return part;
     }
@@ -164,6 +177,10 @@ public class UriImage {
         try {
             input = mContext.getContentResolver().openInputStream(mUri);
             Bitmap b = BitmapFactory.decodeStream(input, null, options);
+            if (b == null) {
+                return null;
+            }
+
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             b.compress(CompressFormat.JPEG, MmsConfig.IMAGE_COMPRESSION_QUALITY, os);
             return os.toByteArray();

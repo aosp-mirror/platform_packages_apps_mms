@@ -19,6 +19,8 @@ package com.android.mms.model;
 
 import com.android.mms.drm.DrmWrapper;
 
+import com.google.android.mms.MmsException;
+
 import android.content.Context;
 import android.net.Uri;
 
@@ -29,12 +31,12 @@ public abstract class RegionMediaModel extends MediaModel {
     protected boolean mVisible = true;
 
     public RegionMediaModel(Context context, String tag, Uri uri,
-            RegionModel region) {
+            RegionModel region) throws MmsException {
         this(context, tag, null, null, uri, region);
     }
 
     public RegionMediaModel(Context context, String tag, String contentType,
-            String src, Uri uri, RegionModel region) {
+            String src, Uri uri, RegionModel region) throws MmsException {
         super(context, tag, contentType, src, uri);
         mRegion = region;
     }

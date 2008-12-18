@@ -70,26 +70,7 @@ public class SmsMessageSender implements MessageSender {
         mNumberOfDests = dests.length;
         mDests = new String[mNumberOfDests];
         System.arraycopy(dests, 0, mDests, 0, mNumberOfDests);
-
-        // Set the timestamp of the outgoing message, making sure it is at least
-        // newer than the last message in the thread.  Incoming messages are stamped
-        // by the network, so we can't take it for granted that a newer message will
-        // actually be ordered correctly.
         mTimestamp = System.currentTimeMillis();
-        if (threadId > 0) {
-            Cursor c = context.getContentResolver().query(
-                    ContentUris.withAppendedId(Conversations.CONTENT_URI, threadId),
-                    DATE_PROJECTION, null, null, Sms.DATE + " DESC LIMIT 1");
-            if (c.moveToFirst()) {
-                long latest = c.getLong(0);
-                if (latest > mTimestamp) {
-                    mTimestamp = latest + 1;
-                }
-            }
-            if (c != null) {
-                c.close();
-            }
-        }
         mThreadId = threadId > 0 ? threadId
                         : Threads.getOrCreateThreadId(context,
                                     new HashSet<String>(Arrays.asList(dests)));

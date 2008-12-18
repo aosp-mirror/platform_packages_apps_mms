@@ -205,7 +205,7 @@ public class MessageItem {
     private void interpretFrom(EncodedStringValue from) {
         if (from != null) {
             mAddress = from.getString();
-            mContact = Mms.getDisplayAddress(mContext, mAddress);
+            mContact = ContactNameCache.getInstance().getContactName(mContext, mAddress);
         } else {
             mContact = mAddress = mContext.getString(
                     R.string.anonymous_recipient);

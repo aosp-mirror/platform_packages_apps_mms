@@ -34,10 +34,11 @@ public class LayoutSelectorAdapter extends IconListAdapter {
 
     protected static List<IconListItem> getData(Context context) {
         List<IconListItem> data = new ArrayList<IconListItem>(2);
-        addItem(data, context.getString(R.string.select_bottom_text),
-                R.drawable.ic_mms_text_bottom);
-        addItem(data, context.getString(R.string.select_top_text),
+         addItem(data, context.getString(R.string.select_top_text),
                 R.drawable.ic_mms_text_top);
+         addItem(data, context.getString(R.string.select_bottom_text),
+                R.drawable.ic_mms_text_bottom);
+
         return data;
     }
 

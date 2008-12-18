@@ -18,9 +18,9 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
+import com.android.mms.util.ContactNameCache;
 
 import android.content.Context;
-import android.provider.Telephony.Mms;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,12 +53,13 @@ public class DeliveryReportListItem extends LinearLayout {
     }
 
     public final void bind(String recipient, String status) {
+        ContactNameCache cache = ContactNameCache.getInstance();
         Context context = getContext();
         // Recipient
-        mRecipientView.setText(Mms.getDisplayAddress(context, recipient));
+        mRecipientView.setText(cache.getContactName(context, recipient));
 
         // Status text
-        mStatusView.setText(Mms.getDisplayAddress(context, status));
+        mStatusView.setText(cache.getContactName(context, status));
 
         // Status icon
         String receivedStr = context.getString(R.string.status_received);

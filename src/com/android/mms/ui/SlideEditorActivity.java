@@ -399,7 +399,7 @@ public class SlideEditorActivity extends Activity {
             case MENU_ADD_AUDIO:
                 MessageUtils.selectAudio(this, REQUEST_CODE_CHANGE_MUSIC);
                 break;
-                
+
             case MENU_RECORD_SOUND:
                 MessageUtils.recordSound(this, REQUEST_CODE_RECORD_SOUND);
                 break;
@@ -524,7 +524,7 @@ public class SlideEditorActivity extends Activity {
                 try {
                     mSlideshowEditor.changeImage(mPosition,
                             MessageUtils.saveBitmapAsPart(this, mUri, bitmap));
-                    
+
                     setReplaceButtonText(R.string.replace_image);
                 } catch (MmsException e) {
                     Log.e(TAG, "add image failed", e);
@@ -634,7 +634,13 @@ public class SlideEditorActivity extends Activity {
         mCallback = new ResizeImageResultCallback() {
             public void onResizeResult(PduPart part) {
                 Context context = SlideEditorActivity.this;
-                Resources r = context.getResources();
+                if (part == null) {
+                    Toast.makeText(SlideEditorActivity.this,
+                            getResourcesString(R.string.failed_to_add_media, getPictureString()),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 try {
                     long messageId = ContentUris.parseId(mUri);
                     PduPersister persister = PduPersister.getPduPersister(context);

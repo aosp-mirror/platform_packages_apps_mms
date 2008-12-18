@@ -208,7 +208,7 @@ public class RetrieveTransaction extends Transaction implements Runnable {
         if (tranId != null) {
             // Create M-Acknowledge.ind
             AcknowledgeInd acknowledgeInd = new AcknowledgeInd(
-                    PduHeaders.MMS_VERSION_1_3, tranId);
+                    PduHeaders.CURRENT_MMS_VERSION, tranId);
 
             // Pack M-Acknowledge.ind and send it
             sendPdu(new PduComposer(mContext, acknowledgeInd).make());

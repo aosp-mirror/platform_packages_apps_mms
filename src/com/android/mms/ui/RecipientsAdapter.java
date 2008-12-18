@@ -50,9 +50,6 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
     public static final int NUMBER_INDEX    = 3;
     public static final int LABEL_INDEX     = 4;
     public static final int NAME_INDEX      = 5;
-    public static final int KIND_INDEX      = 6;
-
-    private static final int EMAIL_COLUMN_COUNT = 7;
 
     private static final String[] PROJECTION_PHONE = {
         Contacts.Phones._ID,        // 0
@@ -61,16 +58,6 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
         Contacts.Phones.NUMBER,     // 3
         Contacts.Phones.LABEL,      // 4
         Contacts.Phones.NAME,       // 5
-    };
-
-    private static final String[] PROJECTION_EMAIL = {
-        Contacts.ContactMethods._ID,        // 0
-        Contacts.ContactMethods.PERSON_ID,  // 1
-        Contacts.ContactMethods.TYPE,       // 2
-        Contacts.ContactMethods.DATA,     // 3
-        Contacts.ContactMethods.LABEL,      // 4
-        Contacts.ContactMethods.NAME,       // 5
-        Contacts.ContactMethods.KIND,       // 6
     };
 
     private static final String SORT_ORDER = "name, type";
@@ -126,13 +113,7 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
 
         TextView label = (TextView) view.findViewById(R.id.label);
         int type = cursor.getInt(TYPE_INDEX);
-        if (cursor.getColumnCount() == EMAIL_COLUMN_COUNT) {
-            int kind = cursor.getInt(KIND_INDEX);
-            label.setText(ContactMethods.getDisplayLabel(
-                    mContext, kind, type, cursor.getString(LABEL_INDEX)));
-        } else {
-            label.setText(Phones.getDisplayLabel(mContext, type, cursor.getString(LABEL_INDEX)));
-        }
+        label.setText(Phones.getDisplayLabel(mContext, type, cursor.getString(LABEL_INDEX)));
 
         TextView number = (TextView) view.findViewById(R.id.number);
         number.setText("(" + cursor.getString(NUMBER_INDEX) + ")");
@@ -170,21 +151,10 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
             s.append(")) AND type = ");
             s.append(Phones.TYPE_MOBILE);
             wherePhone = s.toString();
-
-            s.delete(0, s.length()); // Clear the string builder.
-            s.append("((name LIKE ");
-            s.append(filter);
-            s.append(") OR (data LIKE ");
-            s.append(filter);
-            s.append(")) AND kind = ");
-            s.append(Contacts.KIND_EMAIL);
-            whereEmail = s.toString();
         }
 
         Cursor phoneCursor = SqliteWrapper.query(mContext, mContentResolver,
                 Phones.CONTENT_URI, PROJECTION_PHONE, wherePhone, null, SORT_ORDER);
-        Cursor emailCursor = SqliteWrapper.query(mContext, mContentResolver,
-                ContactMethods.CONTENT_URI, PROJECTION_EMAIL, whereEmail, null, SORT_ORDER);
 
         if (phone.length() > 0) {
             ArrayList result = new ArrayList();
@@ -206,9 +176,9 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
 
             ArrayListCursor translated = new ArrayListCursor(PROJECTION_PHONE, wrap);
 
-            return new MergeCursor(new Cursor[] { translated, phoneCursor, emailCursor });
+            return new MergeCursor(new Cursor[] { translated, phoneCursor });
         } else {
-            return new MergeCursor(new Cursor[] { phoneCursor, emailCursor });
+            return phoneCursor;
         }
     }
 

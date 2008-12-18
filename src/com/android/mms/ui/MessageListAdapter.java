@@ -37,7 +37,8 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The back-end data adapter of a message list.
@@ -92,9 +93,11 @@ public class MessageListAdapter extends CursorAdapter {
     static final int COLUMN_MMS_READ_REPORT     = 16;
     static final int COLUMN_MMS_ERROR_TYPE      = 17;
 
+    private static final int CACHE_SIZE            = 50;
+    
     protected LayoutInflater mInflater;
     private final ListView mListView;
-    private final HashMap<String, MessageItem> mMessageItemCache;
+    private final LinkedHashMap<Long, MessageItem> mMessageItemCache;
     private final ColumnsMap mColumnsMap;
     private OnDataSetChangedListener mOnDataSetChangedListener;
     private final int mThreadType;
@@ -108,7 +111,13 @@ public class MessageListAdapter extends CursorAdapter {
         mInflater = (LayoutInflater) context.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
         mListView = listView;
-        mMessageItemCache = new HashMap<String, MessageItem>();
+        mMessageItemCache = new LinkedHashMap<Long, MessageItem>(
+                    10, 1.0f, true) {
+            @Override
+            protected boolean removeEldestEntry(Map.Entry eldest) {
+                return size() > CACHE_SIZE;
+            }
+        };
 
         if (useDefaultColumnsMap) {
             mColumnsMap = new ColumnsMap();
@@ -122,15 +131,8 @@ public class MessageListAdapter extends CursorAdapter {
         if (view instanceof MessageListItem) {
             String type = cursor.getString(mColumnsMap.mColumnMsgType);
             long msgId = cursor.getLong(mColumnsMap.mColumnMsgId);
-            MessageItem msgItem = mMessageItemCache.get(getKey(type, msgId));
-            if (msgItem == null) {
-                try {
-                    msgItem = cacheMessageItem(type, cursor);
-                } catch (MmsException e) {
-                    Log.e(TAG, e.getMessage());
-                }
-            }
-
+            
+            MessageItem msgItem = getCachedMessageItem(type, msgId, cursor);
             if (msgItem != null) {
                 ((MessageListItem) view).bind(msgItem);
                 ((MessageListItem) view).setMsgListItemHandler(mMsgListItemHandler);
@@ -170,20 +172,25 @@ public class MessageListAdapter extends CursorAdapter {
         return mInflater.inflate(R.layout.message_list_item, parent, false);
     }
 
-    public MessageItem getCachedMessageItem(String type, long msgId) {
-        return mMessageItemCache.get(getKey(type, msgId));
+    public MessageItem getCachedMessageItem(String type, long msgId, Cursor c) {
+        MessageItem item = mMessageItemCache.get(getKey(type, msgId));
+        if (item == null) {
+            try {
+                item = new MessageItem(mContext, type, c, mColumnsMap, mThreadType);
+                mMessageItemCache.put(getKey(item.mType, item.mMsgId), item);
+            } catch (MmsException e) {
+                Log.e(TAG, e.getMessage());
+            }
+        }
+        return item;
     }
 
-    public MessageItem cacheMessageItem(String type, Cursor cursor)
-            throws MmsException {
-        MessageItem msgItem = new MessageItem(mContext, type, cursor,
-                                              mColumnsMap, mThreadType);
-        mMessageItemCache.put(getKey(msgItem.mType, msgItem.mMsgId), msgItem);
-        return msgItem;
-    }
-
-    private static String getKey(String type, long id) {
-        return new StringBuilder(type).append("_").append(id).toString();
+    private static long getKey(String type, long id) {
+        if (type.equals("mms")) {
+            return -id;
+        } else {
+            return id;
+        }
     }
 
     final class ColumnsMap {

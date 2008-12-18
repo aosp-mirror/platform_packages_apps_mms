@@ -121,7 +121,7 @@ public class MmsMessageSender implements MessageSender {
             final ReadRecInd readRec = new ReadRecInd(
                     new EncodedStringValue(PduHeaders.FROM_INSERT_ADDRESS_TOKEN_STR.getBytes()),
                     messageId.getBytes(),
-                    PduHeaders.MMS_VERSION_1_3,
+                    PduHeaders.CURRENT_MMS_VERSION,
                     status,
                     sender);
 

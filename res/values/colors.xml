@@ -43,5 +43,8 @@
     <drawable name="text_color_offwhite">#55ffffff</drawable>
     <drawable name="tooltips_text_color">#80FFFFFF</drawable>
     <drawable name="picker_empty_list_text_color">#555555</drawable>
+
+    <!-- Chat "sent time" text background -->
+    <color name="timestamp_color">#cef7ef</color>
 </resources>
 

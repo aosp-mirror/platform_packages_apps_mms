@@ -70,7 +70,7 @@ public class RecipientList {
          * These are the characters that we permit in input but that we
          * filter out.
          */
-        private static final String PHONE_NUMBER_SEPARATORS = " ()-.";
+        private static final String PHONE_NUMBER_SEPARATORS = " ()-./";
 
         public static boolean isValid(String recipient) {
             return isPhoneNumber(recipient) || Mms.isEmailAddress(recipient);

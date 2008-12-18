@@ -355,13 +355,13 @@ public class SmsReceiverService extends Service {
 
         if (pduCount == 1) {
             // There is only one part, so grab the body directly.
-            values.put(Inbox.BODY, sms.getMessageBody());
+            values.put(Inbox.BODY, sms.getDisplayMessageBody());
         } else {
             // Build up the body from the parts.
             StringBuilder body = new StringBuilder();
             for (int i = 0; i < pduCount; i++) {
                 sms = msgs[i];
-                body.append(sms.getMessageBody());
+                body.append(sms.getDisplayMessageBody());
             }
             values.put(Inbox.BODY, body.toString());
         }
@@ -379,11 +379,11 @@ public class SmsReceiverService extends Service {
         // Store the message in the content provider.
         ContentValues values = new ContentValues();
 
-        values.put(Inbox.ADDRESS, sms.getOriginatingAddress());
+        values.put(Inbox.ADDRESS, sms.getDisplayOriginatingAddress());
 
         // Use now for the timestamp to avoid confusion with clock
         // drift between the handset and the SMSC.
-        values.put(Inbox.DATE, Long.valueOf(sms.getTimestampMillis()));
+        values.put(Inbox.DATE, new Long(System.currentTimeMillis()));
         values.put(Inbox.PROTOCOL, sms.getProtocolIdentifier());
         values.put(Inbox.READ, Integer.valueOf(0));
         if (sms.getPseudoSubject().length() > 0) {

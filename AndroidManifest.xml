@@ -50,6 +50,7 @@
 
         <activity android:name=".ui.ConversationList"
                   android:label="@string/app_label"
+                  android:configChanges="orientation|keyboardHidden"
                   android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -67,9 +68,6 @@
                 <data android:mimeType="vnd.android-dir/mms-sms" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ui.AlertDialogActivity"
-            android:theme="@android:style/Theme.Dialog"/>
 
         <activity android:name=".ui.UndeliveredMessagesActivity"
             android:label="@string/menu_undelivered_messages"/>
@@ -106,6 +104,11 @@
                <action android:name="android.intent.action.SEND" />
                <category android:name="android.intent.category.DEFAULT" />
                <data android:mimeType="image/*" />
+           </intent-filter>
+           <intent-filter>
+               <action android:name="android.intent.action.SEND" />
+               <category android:name="android.intent.category.DEFAULT" />
+               <data android:mimeType="text/plain" />
            </intent-filter>
         </activity>
 
@@ -154,7 +157,8 @@
         <activity android:name=".ui.MessagingPreferenceActivity"
             android:label="@string/preferences_title" />
 
-        <receiver android:name=".transaction.PushReceiver">
+        <receiver android:name=".transaction.PushReceiver"
+            android:permission="android.permission.BROADCAST_WAP_PUSH">
             <intent-filter>
                 <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
                 <data android:mimeType="application/vnd.wap.mms-message" />
@@ -193,17 +197,16 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.UrlListActivity"
-                  android:label="@string/url_list_label">
-          <intent-filter>
-            <action android:name="android.intent.action.VIEW" />
-          </intent-filter>
-        </activity>
-
-        <receiver android:name=".transaction.SmsReceiver">
+        <!-- Require sender permissions to prevent SMS spoofing -->
+        <receiver android:name=".transaction.PrivilegedSmsReceiver"
+            android:permission="android.permission.BROADCAST_SMS">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
+        </receiver>
+        
+        <!-- Catch-all receiver for broadcasts that don't have associated security -->
+        <receiver android:name=".transaction.SmsReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

@@ -29,10 +29,10 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:cacheColorHint="#ffffffff"
-        android:listSelector="@drawable/frame_gallery_thumb_selected"
+        android:listSelector="@android:drawable/list_selector_background"
         android:divider="@android:drawable/divider_horizontal_bright"
         android:focusable="true"
-        android:drawSelectorOnTop="true"
+        android:drawSelectorOnTop="false"
         android:stackFromBottom="true" />
     <TextView
         android:id="@+id/empty_message"

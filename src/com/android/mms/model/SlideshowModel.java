@@ -94,7 +94,7 @@ public class SlideshowModel extends Model
         return createFromPduBody(context, getPduBody(context, uri));
     }
 
-    public static SlideshowModel createFromPduBody(Context context, PduBody pb) {
+    public static SlideshowModel createFromPduBody(Context context, PduBody pb) throws MmsException {
         SMILDocument document = SmilHelper.getDocument(pb);
 
         // Create root-layout model.
@@ -275,7 +275,7 @@ public class SlideshowModel extends Model
         return mDocumentCache;
     }
 
-    private static PduBody getPduBody(Context context, Uri msg) throws MmsException {
+    public static PduBody getPduBody(Context context, Uri msg) throws MmsException {
         PduPersister p = PduPersister.getPduPersister(context);
         GenericPdu pdu = p.load(msg);
 

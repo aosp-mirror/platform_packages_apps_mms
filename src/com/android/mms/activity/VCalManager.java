@@ -24,7 +24,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.pim.Time;
 import android.provider.Calendar;
 import android.provider.Calendar.Calendars;
 import android.syncml.pim.PropertyNode;
@@ -34,6 +33,7 @@ import android.syncml.pim.vcalendar.CalendarStruct;
 import android.syncml.pim.vcalendar.VCalComposer;
 import android.syncml.pim.vcalendar.VCalException;
 import android.syncml.pim.vcalendar.VCalParser;
+import android.text.format.Time;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -344,14 +344,10 @@ public class VCalManager {
                 if (prop.propName.equalsIgnoreCase("DESCRIPTION")) {
                     values.put(Calendar.Events.DESCRIPTION, prop.propValue);
                 } else if (prop.propName.equalsIgnoreCase("DTEND")) {
-                    if (!time.parse2445(prop.propValue)) {
-                        time.parse(prop.propValue);
-                    }
+                    time.parse(prop.propValue);
                     values.put(Calendar.Events.DTEND, time.toMillis(false /* use isDst */));
                 } else if (prop.propName.equalsIgnoreCase("DTSTART")) {
-                    if (!time.parse2445(prop.propValue)) {
-                        time.parse(prop.propValue);
-                    }
+                    time.parse(prop.propValue);
                     values.put(Calendar.Events.DTSTART, time.toMillis(false /* use isDst */));
                 } else if (prop.propName.equalsIgnoreCase("SUMMARY")) {
                     values.put(Calendar.Events.TITLE, prop.propValue);
@@ -362,9 +358,7 @@ public class VCalManager {
                 } else if (prop.propName.equalsIgnoreCase("RRULE")) {
                     values.put(Calendar.Events.RRULE, prop.propValue);
                 } else if (prop.propName.equalsIgnoreCase("COMPLETED")) {
-                    if (!time.parse2445(prop.propValue)) {
-                        time.parse(prop.propValue);
-                    }
+                    time.parse(prop.propValue);
                     values.put(Calendar.Events.LAST_DATE, time.toMillis(false /* use isDst */));
                 }
             }

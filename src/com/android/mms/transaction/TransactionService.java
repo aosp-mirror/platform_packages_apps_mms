@@ -43,6 +43,7 @@ import android.os.Message;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.MmsSms.PendingMessages;
+import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
 import android.widget.Toast;
@@ -127,7 +128,9 @@ public class TransactionService extends Service implements Observer {
     private static final int EVENT_TRANSACTION_REQUEST = 1;
     private static final int EVENT_DATA_STATE_CHANGED = 2;
     private static final int EVENT_CONTINUE_MMS_CONNECTIVITY = 3;
-
+    private static final int EVENT_HANDLE_NEXT_PENDING_TRANSACTION = 4;
+    private static final int EVENT_QUIT = 100;
+    
     private static final int TOAST_MSG_QUEUED = 1;
     private static final int TOAST_DOWNLOAD_LATER = 2;
     private static final int TOAST_NONE = -1;
@@ -326,11 +329,12 @@ public class TransactionService extends Service implements Observer {
         if (!mPending.isEmpty()) {
             Log.i(TAG, "TransactionService exiting with transaction still pending");
         }
-        mServiceLooper.quit();
 
         mConnectivityListener.unregisterHandler(mServiceHandler);
         mConnectivityListener.stopListening();
         mConnectivityListener = null;
+
+        mServiceHandler.sendEmptyMessage(EVENT_QUIT);
     }
 
     @Override
@@ -345,9 +349,17 @@ public class TransactionService extends Service implements Observer {
         Transaction transaction = (Transaction) observable;
         int serviceId = transaction.getServiceId();
         try {
-            endMmsConnectivity();
             synchronized (mProcessing) {
                 mProcessing.remove(transaction);
+                if (mPending.size() > 0) {
+                    Message msg = mServiceHandler.obtainMessage(
+                            EVENT_HANDLE_NEXT_PENDING_TRANSACTION,
+                            transaction.getConnectionSettings());
+                    mServiceHandler.sendMessage(msg);
+                }
+                else {
+                    endMmsConnectivity();
+                }
             }
 
             Intent intent = new Intent(TRANSACTION_COMPLETED_ACTION);
@@ -368,6 +380,7 @@ public class TransactionService extends Service implements Observer {
                         case Transaction.NOTIFICATION_TRANSACTION:
                         case Transaction.RETRIEVE_TRANSACTION:
                             MessagingNotification.updateNewMessageIndicator(this, true);
+                            MessagingNotification.updateDownloadFailedNotification(this);
                             break;
                         case Transaction.SEND_TRANSACTION:
                             RateController.getInstance().update();
@@ -435,6 +448,10 @@ public class TransactionService extends Service implements Observer {
 
             Transaction transaction = null;
             switch (msg.what) {
+                case EVENT_QUIT:
+                    getLooper().quit();
+                    return;
+                    
                 case EVENT_CONTINUE_MMS_CONNECTIVITY:
                     synchronized (mProcessing) {
                         if (mProcessing.isEmpty()) {
@@ -489,7 +506,11 @@ public class TransactionService extends Service implements Observer {
                         return;
                     }
 
-                    if (!Phone.REASON_APN_SWITCHED.equals(info.getReason())) {
+                    TransactionSettings settings = new TransactionSettings(
+                            TransactionService.this, info.getExtraInfo());
+
+                    if (TextUtils.isEmpty(settings.getMmscUrl())) {
+                        Log.e(TAG, "Invalid APN settings");
                         return;
                     }
 
@@ -497,36 +518,7 @@ public class TransactionService extends Service implements Observer {
                     sendMessageDelayed(obtainMessage(EVENT_CONTINUE_MMS_CONNECTIVITY),
                                        APN_EXTENSION_WAIT);
 
-                    synchronized (mProcessing) {
-                        if (mPending.size() != 0) {
-                            transaction = mPending.remove(0);
-                        }
-                    }
-
-                    if (transaction == null) {
-                        endMmsConnectivity();
-                        return;
-                    }
-
-                    /*
-                     * Process deferred transaction
-                     */
-                    try {
-                        int serviceId = transaction.getServiceId();
-                        if (processTransaction(transaction)) {
-                            if (LOCAL_LOGV) {
-                                Log.v(TAG, "Started deferred processing of transaction: "
-                                        + transaction);
-                            }
-                        } else {
-                            transaction = null;
-                            stopSelf(serviceId);
-                        }
-                    } catch (IOException e) {
-                        if (LOCAL_LOGV) {
-                            Log.v(TAG, e.getMessage(), e);
-                        }
-                    }
+                    processPendingTransaction(transaction, settings);
                     return;
                 
                 case EVENT_TRANSACTION_REQUEST:
@@ -543,7 +535,7 @@ public class TransactionService extends Service implements Observer {
                                     mmsc, args.getProxyAddress(), args.getProxyPort());
                         } else {
                             transactionSettings = new TransactionSettings(
-                                                    TransactionService.this);
+                                                    TransactionService.this, null);
                         }
 
                         // Create appropriate transaction
@@ -632,9 +624,53 @@ public class TransactionService extends Service implements Observer {
                         }
                     }
                     return;
+                case EVENT_HANDLE_NEXT_PENDING_TRANSACTION:
+                    processPendingTransaction(transaction, (TransactionSettings) msg.obj);
+                    return;
                 default:
                     Log.w(TAG, "what=" + msg.what);
                     return;
+            }
+        }
+
+        private void processPendingTransaction(Transaction transaction, TransactionSettings settings) {
+            int numProcessTransaction = 0;
+            synchronized (mProcessing) {
+                if (mPending.size() != 0) {
+                    transaction = mPending.remove(0);
+                }
+                numProcessTransaction = mProcessing.size();
+            }
+
+            if (transaction != null) {
+                if (settings != null) {
+                    transaction.setConnectionSettings(settings);
+                }
+   
+                /*
+                 * Process deferred transaction
+                 */
+                try {
+                    int serviceId = transaction.getServiceId();
+                    if (processTransaction(transaction)) {
+                        if (LOCAL_LOGV) {
+                            Log.v(TAG, "Started deferred processing of transaction: "
+                                    + transaction);
+                        }
+                    } else {
+                        transaction = null;
+                        stopSelf(serviceId);
+                    }
+                } catch (IOException e) {
+                    if (LOCAL_LOGV) {
+                        Log.v(TAG, e.getMessage(), e);
+                    }
+                }
+            }
+            else {
+                if (numProcessTransaction == 0) {
+                    endMmsConnectivity();
+                }
             }
         }
 

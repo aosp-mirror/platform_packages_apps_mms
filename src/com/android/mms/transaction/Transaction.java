@@ -37,7 +37,7 @@ public abstract class Transaction extends Observable {
     protected Context mContext;
     protected String mId;
     protected TransactionState mTransactionState;
-    protected final TransactionSettings mTransactionSettings;
+    protected TransactionSettings mTransactionSettings;
 
     /**
      * Identifies push requests.
@@ -101,6 +101,9 @@ public abstract class Transaction extends Observable {
 
     public TransactionSettings getConnectionSettings() {
         return mTransactionSettings;
+    }
+    public void setConnectionSettings(TransactionSettings settings) {
+        mTransactionSettings = settings;
     }
 
     /**

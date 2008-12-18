@@ -27,6 +27,7 @@ import static com.android.mms.ui.UndeliveredMessagesActivity.COLUMN_SMS_DATE;
 import static com.android.mms.ui.UndeliveredMessagesActivity.COLUMN_SMS_STATUS;
 
 import com.android.mms.R;
+import com.android.mms.util.ContactNameCache;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.MultimediaMessagePdu;
@@ -103,7 +104,7 @@ public class UndeliveredMessagesListAdapter extends CursorAdapter {
 
     private void bindSmsView(View view, Context context, Cursor cursor) {
         // Set contact and message body
-        String contact = Sms.getDisplayAddress(
+        String contact = ContactNameCache.getInstance().getContactName(
                 mContext, cursor.getString(COLUMN_SMS_ADDRESS));
         contact = mContext.getString(R.string.to_label) + contact;
         TextView addrView = (TextView) view.findViewById(R.id.from);
@@ -142,7 +143,7 @@ public class UndeliveredMessagesListAdapter extends CursorAdapter {
         bodyView.setText(subject == null ? "" : subject.getString());
 
         // Get display address.
-        String contact = Mms.getDisplayAddress(
+        String contact = ContactNameCache.getInstance().getContactName(
                 mContext, EncodedStringValue.concat(((SendReq) msg).getTo()));
         contact = mContext.getString(R.string.to_label) + contact;
         TextView addrView = (TextView) view.findViewById(R.id.from);

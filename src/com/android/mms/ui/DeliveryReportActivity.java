@@ -182,8 +182,9 @@ public class DeliveryReportActivity extends ListActivity {
             List<DeliveryReportItem> items = new ArrayList<DeliveryReportItem>();
             while (c.moveToNext()) {
                 items.add(new DeliveryReportItem(
-                                c.getString(COLUMN_RECIPIENT),
-                                getSmsStatusText(c.getInt(COLUMN_DELIVERY_STATUS))));
+                                getString(R.string.recipient_label) + c.getString(COLUMN_RECIPIENT),
+                                getString(R.string.status_label) + 
+                                    getSmsStatusText(c.getInt(COLUMN_DELIVERY_STATUS))));
             }
             return items;
         } finally {
@@ -263,8 +264,10 @@ public class DeliveryReportActivity extends ListActivity {
         Map<String, MmsReportStatus> reportStatus = getMmsReportStatus();
         List<DeliveryReportItem> items = new ArrayList<DeliveryReportItem>();
         for (MmsReportRequest reportReq : reportReqs) {
-            String statusText = getMmsReportStatusText(reportReq, reportStatus);
-            items.add(new DeliveryReportItem(reportReq.getRecipient(), statusText));
+            String statusText = getString(R.string.status_label) + 
+                getMmsReportStatusText(reportReq, reportStatus);
+            items.add(new DeliveryReportItem(getString(R.string.recipient_label) + 
+                    reportReq.getRecipient(), statusText));
         }
         return items;
     }
