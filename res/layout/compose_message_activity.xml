@@ -31,7 +31,7 @@
         android:paddingBottom="5dip"
         android:paddingLeft="5dip"
         android:paddingRight="5dip"
-        android:background="#000000"    
+        android:background="@drawable/white_background"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -71,7 +71,9 @@
             android:scrollbarStyle="insideInset"
             android:stackFromBottom="true"
             android:visibility="gone"
+            android:fadingEdge="none"
             android:layout_marginBottom="1dip"
+            android:cacheColorHint="@android:color/white"
         />
     
         <ScrollView
@@ -119,7 +121,7 @@
                     android:paddingBottom="5dip"
                     android:paddingLeft="5dip"
                     android:paddingRight="5dip"
-                    android:background="@drawable/medium_blue_background">
+                    android:background="@drawable/bottombar_landscape_565">
 
                     <RelativeLayout
                         android:id="@+id/editor_with_counter"
@@ -158,6 +160,7 @@
                     </RelativeLayout>
 
                     <Button android:id="@+id/send_button"
+                        android:layout_marginLeft="5dip"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         style="?android:attr/buttonStyleSmall"

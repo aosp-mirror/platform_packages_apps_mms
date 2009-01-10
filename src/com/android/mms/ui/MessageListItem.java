@@ -47,6 +47,7 @@ import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.LineBackgroundSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
@@ -325,11 +326,18 @@ public class MessageListItem extends LinearLayout implements
         buf.append(timestamp);
         buf.setSpan(new AbsoluteSizeSpan(12), startOffset, buf.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        if (drawBackground) {
-            int color = mContext.getResources().getColor(R.color.timestamp_color);
-            buf.setSpan(new Background(color), startOffset, buf.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
+        // Make the timestamp text not as dark
+        int color = mContext.getResources().getColor(R.color.timestamp_color);
+        buf.setSpan(new ForegroundColorSpan(color), startOffset, buf.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        
+        // For now, they've decided not to draw a darker background behind the timestamp.
+        // Keep the code for now.
+//        if (drawBackground) {
+//            int color = mContext.getResources().getColor(R.color.timestamp_color);
+//            buf.setSpan(new Background(color), startOffset, buf.length(),
+//                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        }
         return buf;
     }
 

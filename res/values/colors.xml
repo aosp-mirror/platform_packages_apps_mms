@@ -45,6 +45,6 @@
     <drawable name="picker_empty_list_text_color">#555555</drawable>
 
     <!-- Chat "sent time" text background -->
-    <color name="timestamp_color">#cef7ef</color>
+    <color name="timestamp_color">#bf000000</color>
 </resources>
 
