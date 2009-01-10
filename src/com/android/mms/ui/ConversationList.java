@@ -258,7 +258,7 @@ public class ConversationList extends ListActivity {
         //        R.drawable.ic_menu_search).setAlphabeticShortcut(SearchManager.MENU_KEY);
         if ((mCursor != null) && (mCursor.getCount() > 0) && !mSearchFlag) {
             menu.add(0, MENU_DELETE_ALL, 0, R.string.menu_delete_all).setIcon(
-                    R.drawable.ic_menu_delete);
+                    android.R.drawable.ic_menu_delete);
         }
 
         // Check undelivered messages
@@ -280,7 +280,7 @@ public class ConversationList extends ListActivity {
         }
 
         menu.add(0, MENU_PREFERENCES, 0, R.string.menu_preferences).setIcon(
-                R.drawable.ic_menu_preferences);
+                android.R.drawable.ic_menu_preferences);
 
         return true;
     }
@@ -355,19 +355,21 @@ public class ConversationList extends ListActivity {
         new OnCreateContextMenuListener() {
         public void onCreateContextMenu(ContextMenu menu, View v,
                 ContextMenuInfo menuInfo) {
-            String address = MessageUtils.getRecipientsByIds(
-                    ConversationList.this,
-                    mCursor.getString(ConversationListAdapter.COLUMN_RECIPIENTS_IDS));
-            // The Recipient IDs column is separated with semicolons for some reason.
-            // We should fix this in the content provider rework.
-            CharSequence from = (ContactNameCache.getInstance().getContactName(
-                    ConversationList.this, address)).replace(';', ',');
-            menu.setHeaderTitle(from);
+            if ((mCursor != null) && (mCursor.getCount() > 0) && !mSearchFlag) {
+                String address = MessageUtils.getRecipientsByIds(
+                        ConversationList.this,
+                        mCursor.getString(ConversationListAdapter.COLUMN_RECIPIENTS_IDS));
+                // The Recipient IDs column is separated with semicolons for some reason.
+                // We should fix this in the content provider rework.
+                CharSequence from = (ContactNameCache.getInstance().getContactName(
+                        ConversationList.this, address)).replace(';', ',');
+                menu.setHeaderTitle(from);
 
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-            if (info.position > 0) {
-                menu.add(0, MENU_VIEW, 0, R.string.menu_view);
-                menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+                if (info.position > 0) {
+                    menu.add(0, MENU_VIEW, 0, R.string.menu_view);
+                    menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
+                }
             }
         }
     };

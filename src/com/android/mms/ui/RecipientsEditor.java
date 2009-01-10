@@ -33,6 +33,7 @@ import android.view.MotionEvent;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ListAdapter;
 import android.widget.MultiAutoCompleteTextView;
+import android.util.Log;
 
 import java.util.Iterator;
 
@@ -72,6 +73,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
     private int pointToPosition(int x, int y) {
         x -= getCompoundPaddingLeft();
         y -= getExtendedPaddingTop();
+
 
         x += getScrollX();
         y += getScrollY();
@@ -121,13 +123,15 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         String name = getAnnotation(a, "name");
         String label = getAnnotation(a, "label");
         String bcc = getAnnotation(a, "bcc");
+        String number = getAnnotation(a, "number");
 
         Recipient r = new Recipient();
 
         r.name = name;
         r.label = label;
         r.bcc = bcc.equals("true");
-        r.number = TextUtils.substring(sp, start, end);
+        r.number = TextUtils.isEmpty(number) ? TextUtils.substring(sp, start, end) : number;
+        r.nameAndNumber = Recipient.buildNameAndNumber(r.name, r.number);
 
         if (person_id.length() > 0) {
             r.person_id = Long.parseLong(person_id);
@@ -188,7 +192,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
             Spanned sp = mList.getText();
             int len = sp.length();
             RecipientList rl = new RecipientList();
-
+            
             int start = 0;
             int i = 0;
             while (i < len + 1) {

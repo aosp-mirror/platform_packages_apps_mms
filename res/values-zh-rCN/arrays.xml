@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string-array name="pref_entries_message_ring_tone">
+    <item>"Robo Dream"</item>
+    <item>"Robo Nightmare"</item>
+    <item>"Electric Sheep"</item>
+  </string-array>
+  <string-array name="pref_entry_values_message_ring_tone">
+    <item>"robo_dream"</item>
+    <item>"robo_nightmare"</item>
+    <item>"electric_sheep"</item>
+  </string-array>
+  <string-array name="pref_entries_mms_creation_mode">
+    <item>"受限制"</item>
+    <item>"警告"</item>
+    <item>"免费"</item>
+  </string-array>
+  <string-array name="pref_entry_values_mms_creation_mode">
+    <item>"受限制"</item>
+    <item>"警告"</item>
+    <item>"免费"</item>
+  </string-array>
+  <string-array name="pref_entries_mms_expiry">
+    <item>"1 小时"</item>
+    <item>"3 小时"</item>
+    <item>"1 天"</item>
+    <item>"1 周"</item>
+  </string-array>
+  <string-array name="pref_entry_values_mms_expiry">
+    <item>"3600"</item>
+    <item>"10800"</item>
+    <item>"86400"</item>
+    <item>"604800"</item>
+  </string-array>
+  <string-array name="pref_entries_mms_max_size">
+    <item>"100K"</item>
+    <item>"200K"</item>
+    <item>"500K"</item>
+  </string-array>
+  <string-array name="pref_entry_values_mms_max_size">
+    <item>"100000L"</item>
+    <item>"200000L"</item>
+    <item>"500000L"</item>
+  </string-array>
+  <string-array name="pref_entries_mms_priority">
+    <item>"低"</item>
+    <item>"中"</item>
+    <item>"高"</item>
+  </string-array>
+  <string-array name="pref_entry_values_mms_priority">
+    <item>"低"</item>
+    <item>"中"</item>
+    <item>"高"</item>
+  </string-array>
+  <string-array name="pref_entries_mms_resubmission_mode">
+    <item>"受限制"</item>
+    <item>"警告"</item>
+    <item>"免费"</item>
+  </string-array>
+  <string-array name="pref_entry_values_mms_resubmission_mode">
+    <item>"受限制"</item>
+    <item>"警告"</item>
+    <item>"免费"</item>
+  </string-array>
+    <!-- no translation found for default_smiley_texts:0 (6418813270603201918) -->
+    <!-- no translation found for default_smiley_texts:1 (5037069969500587717) -->
+    <!-- no translation found for default_smiley_texts:2 (1706022067142803863) -->
+    <!-- no translation found for default_smiley_texts:3 (1248733150365342132) -->
+    <!-- no translation found for default_smiley_texts:4 (817475806953665071) -->
+    <!-- no translation found for default_smiley_texts:5 (2791428909459014455) -->
+    <!-- no translation found for default_smiley_texts:6 (3521914049512875091) -->
+    <!-- no translation found for default_smiley_texts:7 (1245726345240784103) -->
+    <!-- no translation found for default_smiley_texts:8 (6236841507652113784) -->
+    <!-- no translation found for default_smiley_texts:9 (9041518876704445176) -->
+    <!-- no translation found for default_smiley_texts:10 (5938573563873054892) -->
+    <!-- no translation found for default_smiley_texts:11 (662834190186827918) -->
+    <!-- no translation found for default_smiley_texts:12 (8667007781479284572) -->
+    <!-- no translation found for default_smiley_texts:13 (6895634303037073990) -->
+    <!-- no translation found for default_smiley_texts:14 (3660685022708121640) -->
+    <!-- no translation found for default_smiley_texts:15 (2893940139682468617) -->
+    <!-- no translation found for default_smiley_texts:16 (4888792634429693183) -->
+    <!-- no translation found for default_smiley_names:0 (1831934949361041701) -->
+    <!-- no translation found for default_smiley_names:1 (1601611480575517120) -->
+    <!-- no translation found for default_smiley_names:2 (1531181614218625881) -->
+    <!-- no translation found for default_smiley_names:3 (3858808057949077894) -->
+    <!-- no translation found for default_smiley_names:4 (7835238297967185651) -->
+    <!-- no translation found for default_smiley_names:5 (1756223535005296033) -->
+    <!-- no translation found for default_smiley_names:6 (1093906245140165107) -->
+    <!-- no translation found for default_smiley_names:7 (888834839864150170) -->
+    <!-- no translation found for default_smiley_names:8 (6320683740534773967) -->
+    <!-- no translation found for default_smiley_names:9 (6610111212478853990) -->
+    <!-- no translation found for default_smiley_names:10 (1706035208563940251) -->
+    <!-- no translation found for default_smiley_names:11 (9079275787422313427) -->
+    <!-- no translation found for default_smiley_names:12 (4630490399784004880) -->
+    <!-- no translation found for default_smiley_names:13 (7002574538342357456) -->
+    <!-- no translation found for default_smiley_names:14 (850324578089267455) -->
+    <!-- no translation found for default_smiley_names:15 (6334637439528489607) -->
+    <!-- no translation found for default_smiley_names:16 (7602915122893958066) -->
+</resources>

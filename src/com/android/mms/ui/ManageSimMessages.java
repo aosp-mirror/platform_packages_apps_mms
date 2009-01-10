@@ -271,7 +271,7 @@ public class ManageSimMessages extends Activity
 
         if ((null != mCursor) && (mCursor.getCount() > 0) && mState == SHOW_LIST) {
             menu.add(0, OPTION_MENU_DELETE_ALL, 0, R.string.menu_delete_messages).setIcon(
-                R.drawable.ic_menu_delete);
+                    android.R.drawable.ic_menu_delete);
         }
 
         return true;

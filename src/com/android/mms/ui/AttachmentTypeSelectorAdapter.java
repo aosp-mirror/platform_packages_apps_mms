@@ -33,27 +33,29 @@ public class AttachmentTypeSelectorAdapter extends IconListAdapter {
 
     public final static int ADD_IMAGE               = 0;
     public final static int TAKE_PICTURE            = 1;
-    // Keep the ADD_VIDEO id since we should support video later.
-    public final static int ADD_VIDEO               = 5;
-    public final static int ADD_SOUND               = 2;
-    public final static int RECORD_SOUND          = 3;
-    public final static int ADD_SLIDESHOW           = 4;
+    public final static int ADD_VIDEO               = 2;
+    public final static int RECORD_VIDEO            = 3;
+    public final static int ADD_SOUND               = 4;
+    public final static int RECORD_SOUND            = 5;
+    public final static int ADD_SLIDESHOW           = 6;
 
     public AttachmentTypeSelectorAdapter(Context context, int mode) {
         super(context, getData(mode, context));
     }
 
     protected static List<IconListItem> getData(int mode, Context context) {
-        List<IconListItem> data = new ArrayList<IconListItem>(6);
+        List<IconListItem> data = new ArrayList<IconListItem>(7);
         addItem(data, context.getString(R.string.attach_image),
                 R.drawable.ic_mms_picture);
 
         addItem(data, context.getString(R.string.attach_take_photo),
                 R.drawable.ic_mms_take_picture);
 
-//      TODO: should support video in the future.
-//      addItem(data, context.getString(R.string.attach_video),
-//              R.drawable.ic_mms_movie);
+        addItem(data, context.getString(R.string.attach_video),
+                R.drawable.ic_mms_movie);
+
+        addItem(data, context.getString(R.string.attach_record_video),
+                R.drawable.ic_mms_take_picture);
 
         addItem(data, context.getString(R.string.attach_sound),
                 R.drawable.ic_mms_sound);

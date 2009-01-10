@@ -18,6 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
+import com.android.mms.ui.RecipientList.Recipient;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.content.ContentResolver;
@@ -84,7 +85,9 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
             return number;
         }
 
-        SpannableString out = new SpannableString(number);
+        String nameAndNumber = Recipient.buildNameAndNumber(name, number);
+
+        SpannableString out = new SpannableString(nameAndNumber);
         int len = out.length();
 
         if (!TextUtils.isEmpty(name)) {

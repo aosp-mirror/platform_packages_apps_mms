@@ -22,11 +22,11 @@ import com.android.mms.transaction.MessageSender;
 
 import android.content.Context;
 import android.provider.Telephony.Mms;
+import android.telephony.PhoneNumberUtils;
 import android.text.Annotation;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.util.Regex;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -56,12 +56,14 @@ public class RecipientList {
         public long person_id = -1;
         public String name;
         public CharSequence label;
-        public String number;
+        public String number;           // often filtered from 800-892-1212 to 8008921212
+        public String nameAndNumber;    // Fred Flintstone <670-782-1123>
         public boolean bcc;
 
         @Override
         public String toString() {
             return "{ name=" + name + " number= " + number +
+                    " nameAndNumber=" + nameAndNumber +
                     " person_id=" + person_id + " label=" + label +
                     " bcc=" + bcc + " }";
         }
@@ -126,6 +128,7 @@ public class RecipientList {
                     ? number
                     : filterPhoneNumber(number);
             result.bcc = bcc;
+            result.nameAndNumber = nameAndNumber;
             return result;
         }
 
@@ -153,7 +156,7 @@ public class RecipientList {
         }
 
         public CharSequence toToken() {
-            SpannableString s = new SpannableString(number);
+            SpannableString s = new SpannableString(this.nameAndNumber);
             int len = s.length();
 
             if (len == 0) {
@@ -182,6 +185,19 @@ public class RecipientList {
                       Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             return s;
+        }
+        
+        public static String buildNameAndNumber(String name, String number) {
+            // Format like this: Mike Cleron <(650) 555-1234>
+            //                   Erick Tseng <(650) 555-1212>
+            //                   (408) 555-1289
+
+            if (!TextUtils.isEmpty(name) &&
+                    !name.equals(number)) {
+                return name + " <" + PhoneNumberUtils.formatNumber(number) + ">";
+            } else {
+                return PhoneNumberUtils.formatNumber(number);
+            }            
         }
     }
 
@@ -215,6 +231,9 @@ public class RecipientList {
                 }
                 recipient.label = ci.phoneLabel;
                 recipient.number = (ci.phoneNumber == null) ? "" : ci.phoneNumber;
+                
+                recipient.nameAndNumber = Recipient.buildNameAndNumber(recipient.name,
+                        recipient.number);
 
                 list.add(recipient.filter());
             }

@@ -131,6 +131,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -157,6 +158,7 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_ATTACH_IMAGE     = 10;
     public static final int REQUEST_CODE_TAKE_PICTURE     = 11;
     public static final int REQUEST_CODE_ATTACH_VIDEO     = 12;
+    public static final int REQUEST_CODE_TAKE_VIDEO       = 13;
     public static final int REQUEST_CODE_ATTACH_SOUND     = 14;
     public static final int REQUEST_CODE_RECORD_SOUND     = 15;
     public static final int REQUEST_CODE_CREATE_SLIDESHOW = 16;
@@ -202,14 +204,14 @@ public class ComposeMessageActivity extends Activity
 
     private static final int DELETE_MESSAGE_TOKEN  = 9700;
     private static final int DELETE_CONVERSATION_TOKEN  = 9701;
-    
+
     private static final int MMS_THRESHOLD = 4;
 
     private static final int CHARS_REMAINING_BEFORE_COUNTER_SHOWN = 10;
 
     private static final long NO_DATE_FOR_DIALOG = -1L;
 
-    
+
     private ContentResolver mContentResolver;
 
     // The parameters/states of the activity.
@@ -241,10 +243,10 @@ public class ComposeMessageActivity extends Activity
     private boolean mPossiblePendingNotification;   // If the message list has changed, we may have
                                                     // a pending notification to deal with.
 
-    private static final int RECIPIENTS_REQUIRE_MMS = (1 << 0);
-    private static final int HAS_SUBJECT = (1 << 1);
-    private static final int HAS_ATTACHMENT = (1 << 2);
-    private static final int LENGTH_REQUIRES_MMS = (1 << 3);
+    private static final int RECIPIENTS_REQUIRE_MMS = (1 << 0);     // 1
+    private static final int HAS_SUBJECT = (1 << 1);                // 2
+    private static final int HAS_ATTACHMENT = (1 << 2);             // 4
+    private static final int LENGTH_REQUIRES_MMS = (1 << 3);        // 8
 
     private int mMessageState;                  // A bitmap of the above indicating different
                                                 // properties of the message -- any bit set
@@ -405,7 +407,7 @@ public class ComposeMessageActivity extends Activity
         mMsgCount = params[0];
         mMsgSize = params[1];
         int remainingInCurrentMessage = params[2];
-        
+
         if (mMsgCount > 1 || remainingInCurrentMessage <= CHARS_REMAINING_BEFORE_COUNTER_SHOWN) {
             // Update the remaining characters and number of messages required.
             mTextCounter.setText(remainingInCurrentMessage + " / " + mMsgCount);
@@ -540,7 +542,6 @@ public class ComposeMessageActivity extends Activity
             Log.v(TAG, "Message type: " + (requiresMms() ? "MMS" : "SMS")
                     + " -> " + (toMms ? "MMS" : "SMS"));
         }
-
         if (toMms) {
             // Hide the counter and alert the user with a toast
             if (mTextCounter != null) {
@@ -550,7 +551,7 @@ public class ComposeMessageActivity extends Activity
         } else {
             uninitMmsComponents();
             // Show the counter if necessary
-            updateCounter();            
+            updateCounter();
         }
 
         updateSendButtonState();
@@ -765,7 +766,7 @@ public class ComposeMessageActivity extends Activity
                 Log.e(TAG, "RecipientsWatcher called incorrectly", e);
                 throw e;
             }
- 
+
             // Refresh our local copy of the recipient list.
             mRecipientList = mRecipientsEditor.getRecipientList();
             // If we have gone to zero recipients, disable send button.
@@ -798,7 +799,7 @@ public class ComposeMessageActivity extends Activity
                 RecipientsMenuClickListener l = new RecipientsMenuClickListener(r);
 
                 menu.setHeaderTitle(r.name);
-                
+
                 if (r.person_id != -1) {
                     menu.add(0, MENU_VIEW_CONTACT, 0, R.string.menu_view_contact)
                             .setOnMenuItemClickListener(l);
@@ -834,14 +835,14 @@ public class ComposeMessageActivity extends Activity
                     } else {
                         intent.putExtra(Insert.EMAIL, mRecipient.number);
                     }
-                    ComposeMessageActivity.this.startActivity(intent);        
+                    ComposeMessageActivity.this.startActivity(intent);
                     return true;
                 }
             }
             return false;
         }
     }
-    
+
     private void addPositionBasedMenuItems(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         AdapterView.AdapterContextMenuInfo info;
 
@@ -929,13 +930,19 @@ public class ComposeMessageActivity extends Activity
             textToSpannify.append(msgItem.mAddress + " ");
         }
         textToSpannify.append(msgItem.mBody);
-        
+
         SpannableString msg = new SpannableString(textToSpannify.toString());
         Linkify.addLinks(msg, Linkify.ALL);
-        ArrayList<String> uris = 
+        ArrayList<String> uris =
             MessageUtils.extractUris(msg.getSpans(0, msg.length(), URLSpan.class));
-        
-        for (String uriString : uris) {
+
+        while (uris.size() > 0) {
+            String uriString = uris.remove(0);
+            // Remove any dupes so they don't get added to the menu multiple times
+            while (uris.contains(uriString)) {
+                uris.remove(uriString);
+            }
+            
             int sep = uriString.indexOf(":");
             String prefix = null;
             if (sep >= 0) {
@@ -978,7 +985,7 @@ public class ComposeMessageActivity extends Activity
             }
         }
     }
-    
+
     private boolean haveEmailContact(String emailAddress) {
         Cursor cursor = SqliteWrapper.query(this, getContentResolver(),
                 Contacts.ContactMethods.CONTENT_EMAIL_URI,
@@ -1000,7 +1007,7 @@ public class ComposeMessageActivity extends Activity
         }
         return false;
     }
-    
+
     private boolean havePhoneContact(String phoneNumber) {
         String name = CallerInfo.getCallerId(this, phoneNumber);
         // If we don't have a contact, getCallerId returns the same number passed in.
@@ -1024,7 +1031,7 @@ public class ComposeMessageActivity extends Activity
             }
 
             menu.setHeaderTitle(R.string.message_options);
-            
+
             String recipient = msgItem.mAddress;
 
             MsgListMenuClickListener l = new MsgListMenuClickListener();
@@ -1082,7 +1089,7 @@ public class ComposeMessageActivity extends Activity
                 menu.add(0, MENU_COPY_MESSAGE_TEXT, 0, R.string.copy_message_text)
                         .setOnMenuItemClickListener(l);
             }
-            
+
             menu.add(0, MENU_VIEW_MESSAGE_DETAILS, 0, R.string.view_message_details)
                     .setOnMenuItemClickListener(l);
             menu.add(0, MENU_DELETE_MESSAGE, 0, R.string.delete_message)
@@ -1141,7 +1148,7 @@ public class ComposeMessageActivity extends Activity
             hideTopPanelIfNecessary();
         }
     }
-    
+
     private void copyToClipboard(String str) {
         ClipboardManager clip =
             (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
@@ -1272,10 +1279,10 @@ public class ComposeMessageActivity extends Activity
         } catch (MmsException e) {
             Log.e(TAG, e.getMessage(), e);
             return false;
-        }        
-        
+        }
+
         boolean result = false;
-        int partNum = body.getPartsNum(); 
+        int partNum = body.getPartsNum();
         for(int i = 0; i < partNum; i++) {
             PduPart part = body.getPart(i);
             String type = new String(part.getContentType());
@@ -1284,11 +1291,11 @@ public class ComposeMessageActivity extends Activity
                     ContentType.isAudioType(type))) {
                 result = true;
                 break;
-            }            
+            }
         }
         return result;
     }
-    
+
     /**
      * Copies media from an Mms to the "download" directory on the SD card
      * @param msgId
@@ -1301,9 +1308,9 @@ public class ComposeMessageActivity extends Activity
         } catch (MmsException e) {
             Log.e(TAG, e.getMessage(), e);
             return false;
-        }        
-        
-        int partNum = body.getPartsNum(); 
+        }
+
+        int partNum = body.getPartsNum();
         for(int i = 0; i < partNum; i++) {
             PduPart part = body.getPart(i);
             String type = new String(part.getContentType());
@@ -1311,11 +1318,11 @@ public class ComposeMessageActivity extends Activity
             if ((ContentType.isImageType(type) || ContentType.isVideoType(type) ||
                     ContentType.isAudioType(type))) {
                 result &= copyPart(part);   // all parts have to be successful for a valid result.
-            }            
+            }
         }
         return result;
     }
-    
+
     private boolean copyPart(PduPart part) {
         Uri uri = part.getDataUri();
 
@@ -1325,7 +1332,7 @@ public class ComposeMessageActivity extends Activity
             input = mContentResolver.openInputStream(uri);
             if (input instanceof FileInputStream) {
                 FileInputStream fin = (FileInputStream) input;
-                
+
                 byte[] location = part.getName();
                 if (location == null) {
                     location = part.getFilename();
@@ -1333,8 +1340,8 @@ public class ComposeMessageActivity extends Activity
                 if (location == null) {
                     location = part.getContentLocation();
                 }
-                
-                // Depending on the location, there may be an 
+
+                // Depending on the location, there may be an
                 // extension already on the name or not
                 String fileName = new String(location);
                 String dir = "/sdcard/download/";
@@ -1347,7 +1354,7 @@ public class ComposeMessageActivity extends Activity
                     extension = fileName.substring(index + 1, fileName.length());
                     fileName = fileName.substring(0, index);
                 }
-                    
+
                 File file = getUniqueDestination(dir + fileName, extension);
 
                 // make sure the path is valid and directories created for this file.
@@ -1356,18 +1363,18 @@ public class ComposeMessageActivity extends Activity
                     Log.e(TAG, "[MMS] copyPart: mkdirs for " + parentFile.getPath() + " failed!");
                     return false;
                 }
-                                
+
                 fout = new FileOutputStream(file);
 
                 int size;
                 byte[] buffer = new byte[8000];
                 while((size = fin.read(buffer)) != -1) {
-                    fout.write(buffer);                        
+                    fout.write(buffer);
                 }
-                
-                // Notify other applications listening to scanner events 
+
+                // Notify other applications listening to scanner events
                 // that a media file has been added to the sd card
-                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, 
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
                         Uri.fromFile(file)));
             }
         } catch (IOException e) {
@@ -1395,17 +1402,17 @@ public class ComposeMessageActivity extends Activity
             }
         }
         return true;
-    } 
+    }
 
-    private File getUniqueDestination(String base, String extension) {        
+    private File getUniqueDestination(String base, String extension) {
         File file = new File(base + "." + extension);
 
         for (int i = 2; file.exists(); i++) {
-            file = new File(base + "_" + i + "." + extension);                                         
+            file = new File(base + "_" + i + "." + extension);
         }
         return file;
     }
-    
+
     private void showDeliveryReport(long messageId, String type) {
         Intent intent = new Intent(this, DeliveryReportActivity.class);
         intent.putExtra("message_id", messageId);
@@ -1862,6 +1869,8 @@ public class ComposeMessageActivity extends Activity
                 discardTemporaryMessage();
             }
         }
+
+        MessageUtils.markAsRead(this, mThreadId);
     }
 
     @Override
@@ -2049,7 +2058,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (isPreparedForSending()) {
-            menu.add(0, MENU_SEND, 0, R.string.send).setIcon(R.drawable.ic_menu_send);
+            menu.add(0, MENU_SEND, 0, R.string.send).setIcon(android.R.drawable.ic_menu_send);
         }
 
         if (mThreadId > 0L) {
@@ -2060,12 +2069,12 @@ public class ComposeMessageActivity extends Activity
             //        R.drawable.ic_menu_search);
             if ((null != mMsgListCursor) && (mMsgListCursor.getCount() > 0)) {
                 menu.add(0, MENU_DELETE_THREAD, 0, R.string.delete_thread).setIcon(
-                    R.drawable.ic_menu_delete);
+                    android.R.drawable.ic_menu_delete);
             }
         } else {
-            menu.add(0, MENU_DISCARD, 0, R.string.discard).setIcon(R.drawable.ic_menu_delete);
+            menu.add(0, MENU_DISCARD, 0, R.string.discard).setIcon(android.R.drawable.ic_menu_delete);
         }
-        
+
         menu.add(0, MENU_INSERT_SMILEY, 0, R.string.menu_insert_smiley).setIcon(
                 R.drawable.ic_menu_emoticons);
 
@@ -2115,7 +2124,7 @@ public class ComposeMessageActivity extends Activity
                     }
                 });
                 break;
-                
+
             case MENU_INSERT_SMILEY:
                 showSmileyDialog();
                 break;
@@ -2130,13 +2139,21 @@ public class ComposeMessageActivity extends Activity
                 MessageUtils.selectImage(this, REQUEST_CODE_ATTACH_IMAGE);
                 break;
 
-            case AttachmentTypeSelectorAdapter.TAKE_PICTURE:
+            case AttachmentTypeSelectorAdapter.TAKE_PICTURE: {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
+            }
                 break;
 
             case AttachmentTypeSelectorAdapter.ADD_VIDEO:
                 MessageUtils.selectVideo(this, REQUEST_CODE_ATTACH_VIDEO);
+                break;
+
+            case AttachmentTypeSelectorAdapter.RECORD_VIDEO: {
+                Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+                startActivityForResult(intent, REQUEST_CODE_TAKE_VIDEO);
+            }
                 break;
 
             case AttachmentTypeSelectorAdapter.ADD_SOUND:
@@ -2147,7 +2164,7 @@ public class ComposeMessageActivity extends Activity
                 MessageUtils.recordSound(this, REQUEST_CODE_RECORD_SOUND);
                 break;
 
-            case AttachmentTypeSelectorAdapter.ADD_SLIDESHOW:
+            case AttachmentTypeSelectorAdapter.ADD_SLIDESHOW: {
                 boolean wasSms = !requiresMms();
 
                 // SlideshowEditActivity needs mMessageUri to work with.
@@ -2162,9 +2179,10 @@ public class ComposeMessageActivity extends Activity
                     }
                 }
 
-                intent = new Intent(this, SlideshowEditActivity.class);
+                Intent intent = new Intent(this, SlideshowEditActivity.class);
                 intent.setData(mMessageUri);
                 startActivityForResult(intent, REQUEST_CODE_CREATE_SLIDESHOW);
+            }
                 break;
 
             default:
@@ -2256,6 +2274,7 @@ public class ComposeMessageActivity extends Activity
                 addImage(data.getData());
                 break;
 
+            case REQUEST_CODE_TAKE_VIDEO:
             case REQUEST_CODE_ATTACH_VIDEO:
                 try {
                     mAttachmentEditor.changeVideo(data.getData());
@@ -2495,6 +2514,7 @@ public class ComposeMessageActivity extends Activity
      */
     private void initResourceRefs() {
         mMsgListView = (MessageListView) findViewById(R.id.history);
+        mMsgListView.setDivider(null);      // no divider so we look like IM conversation.
         mBottomPanel = findViewById(R.id.bottom_panel);
         mTextEditor = (EditText) findViewById(R.id.embedded_text_editor);
         mTextEditor.setOnKeyListener(mEmbeddedTextEditorKeyListener);
@@ -2838,16 +2858,27 @@ public class ComposeMessageActivity extends Activity
         // SMS from deleting the "unnecessary" MMS in the database.
         mMessageUri = null;
 
+        // We have to remove the text change listener while the text editor gets cleared and
+        // we subsequently turn the message back into SMS. When the listener is listening while
+        // doing the clearing, it's fighting to update its counts and itself try and turn
+        // the message one way or the other.
+        mTextEditor.removeTextChangedListener(mTextEditorWatcher);
+
+        // Clear the text box.
+        TextKeyListener.clear(mTextEditor.getText());
+
         if (0 == (RECIPIENTS_REQUIRE_MMS & mMessageState)) {
             // Start a new message as an SMS.
             convertMessage(false);
+            mMsgText = "";  // must clear mMsgText because uninitMmsComponents (called from
+                            // convertMessage) resets mMsgText text from the text in the attachment
+                            // editor's slideshow. If mMsgText is not cleared, drawBottomPanel
+                            // will put mMsgText back into the compose text field.
         } else {
             // Start a new message as an MMS
             refreshMmsComponents();
         }
 
-        // Clear the text box.
-        TextKeyListener.clear(mTextEditor.getText());
         drawBottomPanel(AttachmentEditor.TEXT_ONLY);
 
         // "Or not", in this case.
@@ -2871,7 +2902,9 @@ public class ComposeMessageActivity extends Activity
             finish();
             return;
         }
-    }
+        // Our changes are done. Let the listener respond to text changes once again.
+        mTextEditor.addTextChangedListener(mTextEditorWatcher);
+   }
 
     private void updateSendButtonState() {
         boolean enable = false;
@@ -2986,13 +3019,14 @@ public class ComposeMessageActivity extends Activity
 
     private void updateWindowTitle() {
         StringBuilder sb = new StringBuilder();
-        String[] values = mRecipientList.getToNumbers();
-        ContactNameCache cache = ContactNameCache.getInstance();
-        for (String v : values) {
-            sb.append(cache.getContactName(this, v)).append(", ");
+        Iterator<Recipient> iter = mRecipientList.iterator();
+        while (iter.hasNext()) {
+            Recipient r = iter.next();
+            sb.append(r.nameAndNumber).append(", ");;
         }
 
-        values = mRecipientList.getBccNumbers();
+        ContactNameCache cache = ContactNameCache.getInstance();
+        String[] values = mRecipientList.getBccNumbers();
         if (values.length > 0) {
             sb.append("Bcc: ");
             for (String v : values) {
@@ -3089,7 +3123,7 @@ public class ComposeMessageActivity extends Activity
                     return;
             }
         }
-        
+
         @Override
         protected void onDeleteComplete(int token, Object cookie, int result) {
             switch(token) {
@@ -3105,14 +3139,14 @@ public class ComposeMessageActivity extends Activity
                         ComposeMessageActivity.this);
                 break;
             }
-            
+
             if (token == DELETE_CONVERSATION_TOKEN) {
                 ComposeMessageActivity.this.discardTemporaryMessage();
                 ComposeMessageActivity.this.finish();
             }
         }
     }
-    
+
     private void showSmileyDialog() {
         if (mSmileyDialog == null) {
             int[] icons = MessageListItem.DEFAULT_SMILEY_RES_IDS;

@@ -159,13 +159,13 @@ public class UndeliveredMessagesActivity extends ListActivity {
             // Menu item 'Retry sending all'
             MenuItem mi = menu.add(0, MENU_RETRY_SENDING_ALL, 0,
                     R.string.menu_retry_sending_all);
-            mi.setIcon(R.drawable.ic_menu_send);
+            mi.setIcon(android.R.drawable.ic_menu_send);
             mi.setAlphabeticShortcut('a');
 
             // Menu item 'Delete Messages'
             mi = menu.add(0, MENU_DELETE_MESSAGES, 0,
                     R.string.menu_delete_messages);
-            mi.setIcon(R.drawable.ic_menu_delete);
+            mi.setIcon(android.R.drawable.ic_menu_delete);
             mi.setAlphabeticShortcut('x');
             return true;
         } else {
