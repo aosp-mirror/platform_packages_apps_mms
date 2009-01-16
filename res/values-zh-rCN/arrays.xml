@@ -63,38 +63,42 @@
     <item>"警告"</item>
     <item>"免费"</item>
   </string-array>
-    <!-- no translation found for default_smiley_texts:0 (6418813270603201918) -->
-    <!-- no translation found for default_smiley_texts:1 (5037069969500587717) -->
-    <!-- no translation found for default_smiley_texts:2 (1706022067142803863) -->
-    <!-- no translation found for default_smiley_texts:3 (1248733150365342132) -->
-    <!-- no translation found for default_smiley_texts:4 (817475806953665071) -->
-    <!-- no translation found for default_smiley_texts:5 (2791428909459014455) -->
-    <!-- no translation found for default_smiley_texts:6 (3521914049512875091) -->
-    <!-- no translation found for default_smiley_texts:7 (1245726345240784103) -->
-    <!-- no translation found for default_smiley_texts:8 (6236841507652113784) -->
-    <!-- no translation found for default_smiley_texts:9 (9041518876704445176) -->
-    <!-- no translation found for default_smiley_texts:10 (5938573563873054892) -->
-    <!-- no translation found for default_smiley_texts:11 (662834190186827918) -->
-    <!-- no translation found for default_smiley_texts:12 (8667007781479284572) -->
-    <!-- no translation found for default_smiley_texts:13 (6895634303037073990) -->
-    <!-- no translation found for default_smiley_texts:14 (3660685022708121640) -->
-    <!-- no translation found for default_smiley_texts:15 (2893940139682468617) -->
-    <!-- no translation found for default_smiley_texts:16 (4888792634429693183) -->
-    <!-- no translation found for default_smiley_names:0 (1831934949361041701) -->
-    <!-- no translation found for default_smiley_names:1 (1601611480575517120) -->
-    <!-- no translation found for default_smiley_names:2 (1531181614218625881) -->
-    <!-- no translation found for default_smiley_names:3 (3858808057949077894) -->
-    <!-- no translation found for default_smiley_names:4 (7835238297967185651) -->
-    <!-- no translation found for default_smiley_names:5 (1756223535005296033) -->
-    <!-- no translation found for default_smiley_names:6 (1093906245140165107) -->
-    <!-- no translation found for default_smiley_names:7 (888834839864150170) -->
-    <!-- no translation found for default_smiley_names:8 (6320683740534773967) -->
-    <!-- no translation found for default_smiley_names:9 (6610111212478853990) -->
-    <!-- no translation found for default_smiley_names:10 (1706035208563940251) -->
-    <!-- no translation found for default_smiley_names:11 (9079275787422313427) -->
-    <!-- no translation found for default_smiley_names:12 (4630490399784004880) -->
-    <!-- no translation found for default_smiley_names:13 (7002574538342357456) -->
-    <!-- no translation found for default_smiley_names:14 (850324578089267455) -->
-    <!-- no translation found for default_smiley_names:15 (6334637439528489607) -->
-    <!-- no translation found for default_smiley_names:16 (7602915122893958066) -->
+  <string-array name="default_smiley_texts">
+    <item>":-)"</item>
+    <item>":-("</item>
+    <item>";-)"</item>
+    <item>":-P"</item>
+    <item>"=-O"</item>
+    <item>":-*"</item>
+    <item>":O"</item>
+    <item>"B-)"</item>
+    <item>":-$"</item>
+    <item>":-!"</item>
+    <item>":-["</item>
+    <item>"O:-)"</item>
+    <item>":-\\"</item>
+    <item>":\'("</item>
+    <item>":-X"</item>
+    <item>":-D"</item>
+    <item>"o_O"</item>
+  </string-array>
+  <string-array name="default_smiley_names">
+    <item>"开心"</item>
+    <item>"忧伤"</item>
+    <item>"眨眼"</item>
+    <item>"吐舌"</item>
+    <item>"吃惊"</item>
+    <item>"亲吻"</item>
+    <item>"叫喊"</item>
+    <item>"酷"</item>
+    <item>"财迷"</item>
+    <item>"不知所云"</item>
+    <item>"尴尬"</item>
+    <item>"天使"</item>
+    <item>"犹豫不定"</item>
+    <item>"哭泣"</item>
+    <item>"保守秘密"</item>
+    <item>"大笑"</item>
+    <item>"困惑"</item>
+  </string-array>
 </resources>

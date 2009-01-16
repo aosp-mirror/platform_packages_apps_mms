@@ -30,7 +30,7 @@
         android:id="@+id/audio_icon"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:src="@drawable/ic_mms_sound" />
+        android:src="@drawable/ic_launcher_record_audio" />
 
      <TextView android:id="@+id/name"
          android:layout_width="wrap_content"

@@ -29,7 +29,7 @@
         android:layout_height="60dip"
         android:paddingLeft="2dip"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_mms_picture" />
+        android:src="@drawable/ic_launcher_slideshow_default_sms" />
 
     <LinearLayout
         android:layout_width="fill_parent"

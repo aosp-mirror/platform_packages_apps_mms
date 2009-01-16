@@ -8,8 +8,7 @@
     <string name="menu_compose_new">"Schreiben"</string>
     <string name="menu_preferences">"Einstellungen"</string>
     <string name="menu_send_email">"E-Mail an <xliff:g id="NAME">%s</xliff:g> senden"</string>
-    <!-- no translation found for menu_add_address_to_contacts (2313624913486309940) -->
-    <skip />
+    <string name="menu_add_address_to_contacts">"<xliff:g id="NAME">%s</xliff:g> zu Kontakten hinzufügen"</string>
     <string name="menu_delete_all">"Threads löschen"</string>
     <string name="menu_delete">"Löschen"</string>
     <string name="menu_undelivered_messages">"Nicht gelieferte Nachrichten"</string>
@@ -49,10 +48,8 @@
     <string name="inline_subject">"&lt;Betreff: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text">"* DRM-geschützter Text *"</string>
     <string name="insufficient_drm_rights">"Nicht ausreichende DRM-Rechte ermittelt."</string>
-    <!-- no translation found for copy_message_text (4640869459731924158) -->
-    <skip />
-    <!-- no translation found for message_options (6838806653341967550) -->
-    <skip />
+    <string name="copy_message_text">"Nachrichtentext kopieren"</string>
+    <string name="message_options">"Nachrichtenoptionen"</string>
     <string name="done">"Fertig"</string>
     <string name="move_up">"Nach oben verschieben"</string>
     <string name="move_down">"Nach unten verschieben"</string>
@@ -66,8 +63,7 @@
     <string name="remove_music">"Musik entfernen"</string>
     <string name="add_video">"Video hinzufügen"</string>
     <string name="remove_video">"Video entfernen"</string>
-    <!-- no translation found for add_slide_hint (4681471335637402141) -->
-    <skip />
+    <string name="add_slide_hint">"Wählen Sie diese Option, um ein neues Dia zu erstellen."</string>
     <string name="to_hint">"An"</string>
     <string name="compose_title">"Schreiben"</string>
     <string name="subject_hint">"Betreff"</string>
@@ -102,8 +98,7 @@
     <string name="converting_to_text_message">"Konvertierung in SMS-Nachricht wird ausgeführt..."</string>
     <string name="cannot_add_slide_anymore">"Es können keine weiteren Dias hinzugefügt werden."</string>
     <string name="cannot_save_message">"Nachricht kann nicht gespeichert werden."</string>
-    <!-- no translation found for cannot_load_message (2577010607550849892) -->
-    <skip />
+    <string name="cannot_load_message">"Nachricht kann nicht geladen werden."</string>
     <string name="message_saved_as_draft">"Nachricht als Entwurf gespeichert"</string>
     <string name="cannot_play_audio">"Audio kann nicht wiedergegeben werden."</string>
     <string name="preview">"Vorschau"</string>
@@ -111,8 +106,7 @@
     <string name="replace_image">"Bild ersetzen"</string>
     <string name="duration_sec">"Dauer (<xliff:g id="DURATION">%s</xliff:g> s)"</string>
     <string name="duration_selector_title">"Dauer für Dia"</string>
-    <!-- no translation found for layout_selector_title (7344600117972450771) -->
-    <skip />
+    <string name="layout_selector_title">"Layout der Diashow"</string>
     <string name="layout_top">"Layout (oben)"</string>
     <string name="layout_bottom">"Layout (unten)"</string>
     <string name="type_to_compose_text_or_leave_blank">"Geben Sie einen Text ein oder lassen Sie das Feld leer."</string>
@@ -207,19 +201,17 @@
     <string name="status_failed">"Nicht erfolgreich"</string>
     <string name="status_unread">"Ungelesen"</string>
     <string name="status_rejected">"Zurückgewiesen"</string>
-    <!-- no translation found for recipient_label (3922667485312634446) -->
-    <skip />
-    <!-- no translation found for status_label (7283375460919181660) -->
-    <skip />
+    <string name="recipient_label">"Empfänger:"</string>
+    <string name="status_label">"Status:"</string>
     <string name="attach_image">"Bilder"</string>
     <string name="attach_take_photo">"Kamera"</string>
     <string name="attach_video">"Video"</string>
+    <!-- no translation found for attach_record_video (8316660230614707172) -->
+    <skip />
     <string name="attach_sound">"Audio"</string>
     <string name="attach_record_sound">"Audio aufnehmen"</string>
-    <!-- no translation found for select_bottom_text (4201966447623311931) -->
-    <skip />
-    <!-- no translation found for select_top_text (6734183477539197815) -->
-    <skip />
+    <string name="select_bottom_text">"Text unten"</string>
+    <string name="select_top_text">"Text oben"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> ungelesene Nachrichten"</string>
     <string name="notification_multiple_title">"Neue Nachrichten"</string>
     <string name="sim_full_title">"SIM-Karte ist voll."</string>
@@ -241,14 +233,9 @@
     <string name="message_failed_body">"Überprüfen Sie die Nachricht und versuchen Sie es erneut."</string>
     <string name="download_later">"Herunterladen derzeit nicht möglich. Bitte versuchen Sie es später erneut."</string>
     <string name="select_audio">"Audio auswählen"</string>
-    <!-- no translation found for copy_to_sdcard (6056459122898138734) -->
-    <skip />
-    <!-- no translation found for copy_to_sdcard_success (5322211009838330188) -->
-    <skip />
-    <!-- no translation found for copy_to_sdcard_fail (2726421767948392438) -->
-    <skip />
-    <!-- no translation found for menu_insert_smiley (4964504393061025071) -->
-    <skip />
-    <!-- no translation found for select_link_title (600168208731216059) -->
-    <skip />
+    <string name="copy_to_sdcard">"Anhang auf SD-Karte kopieren"</string>
+    <string name="copy_to_sdcard_success">"Anhang auf SD-Karte kopiert"</string>
+    <string name="copy_to_sdcard_fail">"Kopieren von Anhang auf SD-Karte fehlgeschlagen"</string>
+    <string name="menu_insert_smiley">"Smiley einfügen"</string>
+    <string name="select_link_title">"Aktion auswählen"</string>
 </resources>

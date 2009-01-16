@@ -93,25 +93,26 @@ public class MessageListItem extends LinearLayout implements
     private Handler mHandler;
     private MessageItem mMessageItem;
 
+    // NOTE: if you change anything about this array, you must make the corresponding change
+    // to the string arrays: default_smiley_texts and default_smiley_names in res/values/arrays.xml
     public static final int[] DEFAULT_SMILEY_RES_IDS = {
-        R.drawable.emo_im_happy,
-        R.drawable.emo_im_sad,
-        R.drawable.emo_im_winking,
-        R.drawable.emo_im_tongue_sticking_out,
-        R.drawable.emo_im_surprised,
-        R.drawable.emo_im_kissing,
-        R.drawable.emo_im_yelling,
-        R.drawable.emo_im_cool,
-        R.drawable.emo_im_cool,
-        R.drawable.emo_im_money_mouth,
-        R.drawable.emo_im_foot_in_mouth,
-        R.drawable.emo_im_embarrased,
-        R.drawable.emo_im_angel,
-        R.drawable.emo_im_undecided,
-        R.drawable.emo_im_crying,
-        R.drawable.emo_im_lips_are_sealed,
-        R.drawable.emo_im_laughing,
-        R.drawable.emo_im_wtf
+        R.drawable.emo_im_happy,                //  0
+        R.drawable.emo_im_sad,                  //  1
+        R.drawable.emo_im_winking,              //  2
+        R.drawable.emo_im_tongue_sticking_out,  //  3
+        R.drawable.emo_im_surprised,            //  4
+        R.drawable.emo_im_kissing,              //  5
+        R.drawable.emo_im_yelling,              //  6
+        R.drawable.emo_im_cool,                 //  7
+        R.drawable.emo_im_money_mouth,          //  8
+        R.drawable.emo_im_foot_in_mouth,        //  9
+        R.drawable.emo_im_embarrased,           //  10
+        R.drawable.emo_im_angel,                //  11
+        R.drawable.emo_im_undecided,            //  12
+        R.drawable.emo_im_crying,               //  13
+        R.drawable.emo_im_lips_are_sealed,      //  14
+        R.drawable.emo_im_laughing,             //  15
+        R.drawable.emo_im_wtf                   //  16
     };
     
     public static final int DEFAULT_SMILEY_TEXTS = R.array.default_smiley_texts;

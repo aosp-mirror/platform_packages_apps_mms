@@ -12,20 +12,20 @@
     <item>"electric_sheep"</item>
   </string-array>
   <string-array name="pref_entries_mms_creation_mode">
-    <item>"Limitata"</item>
-    <item>"Avviso"</item>
-    <item>"Libera"</item>
+    <item>"Omezeno"</item>
+    <item>"Upozornění"</item>
+    <item>"Bezplatné"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_creation_mode">
-    <item>"limitata"</item>
-    <item>"avviso"</item>
-    <item>"libera"</item>
+    <item>"omezeno"</item>
+    <item>"upozornění"</item>
+    <item>"bezplatné"</item>
   </string-array>
   <string-array name="pref_entries_mms_expiry">
-    <item>"un\'ora"</item>
-    <item>"tre ore"</item>
-    <item>"un giorno"</item>
-    <item>"una settimana"</item>
+    <item>"jedna hodina"</item>
+    <item>"tři hodiny"</item>
+    <item>"jeden den"</item>
+    <item>"jeden týden"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_expiry">
     <item>"3600"</item>
@@ -39,29 +39,29 @@
     <item>"500 K"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_max_size">
-    <item>"100000L"</item>
-    <item>"200000L"</item>
-    <item>"500000L"</item>
+    <item>"100000 L"</item>
+    <item>"200000 L"</item>
+    <item>"500000 L"</item>
   </string-array>
   <string-array name="pref_entries_mms_priority">
-    <item>"bassa"</item>
-    <item>"media"</item>
-    <item>"elevata"</item>
+    <item>"nízká"</item>
+    <item>"střední"</item>
+    <item>"vysoká"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_priority">
-    <item>"bassa"</item>
-    <item>"media"</item>
-    <item>"elevata"</item>
+    <item>"nízká"</item>
+    <item>"střední"</item>
+    <item>"vysoká"</item>
   </string-array>
   <string-array name="pref_entries_mms_resubmission_mode">
-    <item>"Limitata"</item>
-    <item>"Avviso"</item>
-    <item>"Libera"</item>
+    <item>"Omezeno"</item>
+    <item>"Upozornění"</item>
+    <item>"Bezplatné"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_resubmission_mode">
-    <item>"limitata"</item>
-    <item>"avviso"</item>
-    <item>"libera"</item>
+    <item>"omezeno"</item>
+    <item>"upozornění"</item>
+    <item>"bezplatné"</item>
   </string-array>
   <string-array name="default_smiley_texts">
     <item>":-)"</item>
@@ -83,22 +83,22 @@
     <item>"o_O"</item>
   </string-array>
   <string-array name="default_smiley_names">
-    <item>"Felice"</item>
-    <item>"Triste"</item>
-    <item>"Fare l\'occhiolino"</item>
-    <item>"Lingua fuori"</item>
-    <item>"Sorpreso"</item>
-    <item>"Baciare"</item>
-    <item>"Urlare"</item>
-    <item>"Favoloso"</item>
-    <item>"Bocca a forma di dollaro"</item>
-    <item>"Gaffe"</item>
-    <item>"Imbarazzato"</item>
-    <item>"Angelo"</item>
-    <item>"Indeciso"</item>
-    <item>"Piangere"</item>
-    <item>"Labbra cucite"</item>
-    <item>"Sorridere"</item>
-    <item>"Confuso"</item>
+    <item>"Happy"</item>
+    <item>"Smutný"</item>
+    <item>"Mrkající"</item>
+    <item>"Vypláznutý jazyk"</item>
+    <item>"Překvapený"</item>
+    <item>"Pusa"</item>
+    <item>"Hej!"</item>
+    <item>"Cool"</item>
+    <item>"Cinkání zlaťáků"</item>
+    <item>"Šlápota v úsměvu"</item>
+    <item>"V rozpacích"</item>
+    <item>"Andílek"</item>
+    <item>"Nerozhodný"</item>
+    <item>"Rozplakaný"</item>
+    <item>"Ani muk"</item>
+    <item>"Smějící se"</item>
+    <item>"Zmatený"</item>
   </string-array>
 </resources>

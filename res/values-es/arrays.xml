@@ -12,56 +12,56 @@
     <item>"electric_sheep"</item>
   </string-array>
   <string-array name="pref_entries_mms_creation_mode">
-    <item>"Limitata"</item>
-    <item>"Avviso"</item>
-    <item>"Libera"</item>
+    <item>"Con restricción"</item>
+    <item>"Advertencia:"</item>
+    <item>"Libre"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_creation_mode">
-    <item>"limitata"</item>
-    <item>"avviso"</item>
-    <item>"libera"</item>
+    <item>"con restricción"</item>
+    <item>"advertencia"</item>
+    <item>"libre"</item>
   </string-array>
   <string-array name="pref_entries_mms_expiry">
-    <item>"un\'ora"</item>
-    <item>"tre ore"</item>
-    <item>"un giorno"</item>
-    <item>"una settimana"</item>
+    <item>"una hora"</item>
+    <item>"tres horas"</item>
+    <item>"un día"</item>
+    <item>"una semana"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_expiry">
-    <item>"3600"</item>
-    <item>"10800"</item>
-    <item>"86400"</item>
-    <item>"604800"</item>
+    <item>"3.600"</item>
+    <item>"10.800"</item>
+    <item>"86.400"</item>
+    <item>"604.800"</item>
   </string-array>
   <string-array name="pref_entries_mms_max_size">
-    <item>"100 K"</item>
-    <item>"200 K"</item>
-    <item>"500 K"</item>
+    <item>"100.000"</item>
+    <item>"200.000"</item>
+    <item>"500.000"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_max_size">
-    <item>"100000L"</item>
-    <item>"200000L"</item>
-    <item>"500000L"</item>
+    <item>"100.000.000.000"</item>
+    <item>"200.000.000.000"</item>
+    <item>"500.000.000.000"</item>
   </string-array>
   <string-array name="pref_entries_mms_priority">
-    <item>"bassa"</item>
+    <item>"baja"</item>
     <item>"media"</item>
-    <item>"elevata"</item>
+    <item>"alta"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_priority">
-    <item>"bassa"</item>
+    <item>"baja"</item>
     <item>"media"</item>
-    <item>"elevata"</item>
+    <item>"alta"</item>
   </string-array>
   <string-array name="pref_entries_mms_resubmission_mode">
-    <item>"Limitata"</item>
-    <item>"Avviso"</item>
-    <item>"Libera"</item>
+    <item>"Con restricción"</item>
+    <item>"Advertencia:"</item>
+    <item>"Libre"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_resubmission_mode">
-    <item>"limitata"</item>
-    <item>"avviso"</item>
-    <item>"libera"</item>
+    <item>"con restricción"</item>
+    <item>"advertencia"</item>
+    <item>"libre"</item>
   </string-array>
   <string-array name="default_smiley_texts">
     <item>":-)"</item>
@@ -83,22 +83,22 @@
     <item>"o_O"</item>
   </string-array>
   <string-array name="default_smiley_names">
-    <item>"Felice"</item>
+    <item>"Feliz"</item>
     <item>"Triste"</item>
-    <item>"Fare l\'occhiolino"</item>
-    <item>"Lingua fuori"</item>
-    <item>"Sorpreso"</item>
-    <item>"Baciare"</item>
-    <item>"Urlare"</item>
-    <item>"Favoloso"</item>
-    <item>"Bocca a forma di dollaro"</item>
-    <item>"Gaffe"</item>
-    <item>"Imbarazzato"</item>
-    <item>"Angelo"</item>
+    <item>"Guiñando"</item>
+    <item>"Sacando la lengua"</item>
+    <item>"Sorprendido"</item>
+    <item>"Besando"</item>
+    <item>"Gritando"</item>
+    <item>"Atractivo"</item>
+    <item>"Dinero en la boca"</item>
+    <item>"Metedura de pata"</item>
+    <item>"Avergonzado"</item>
+    <item>"Ángel"</item>
     <item>"Indeciso"</item>
-    <item>"Piangere"</item>
-    <item>"Labbra cucite"</item>
-    <item>"Sorridere"</item>
+    <item>"Llorando"</item>
+    <item>"Labios sellados"</item>
+    <item>"Riendo"</item>
     <item>"Confuso"</item>
   </string-array>
 </resources>
