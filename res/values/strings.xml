@@ -382,15 +382,17 @@
     <!-- Attachment Type Selector Adapter. This string is an option in the "Attach" dialog, "Add music" dialog -->
     <string name="attach_image">Pictures</string>
     <!-- Attachment Type Selector Adapter. This string is an option in the "Attach" dialog, "Add music" dialog -->
-    <string name="attach_take_photo">Camera</string>
+    <string name="attach_take_photo">Capture picture</string>
     <!-- Attachment Type Selector Adapter. This string is an option in the "Attach" dialog, "Add music" dialog -->
-    <string name="attach_video">Video</string>
+    <string name="attach_video">Videos</string>
     <!-- Attachment Type Selector Adapter. This string is an option in the "Attach" dialog, "Add music" dialog -->
-    <string name="attach_record_video">Video Camera</string>
+    <string name="attach_record_video">Capture video</string>
     <!-- Attachment Type Selector Adapter. This string is an option in the "Attach" dialog, "Add music" dialog -->
     <string name="attach_sound">Audio</string>
     <!-- Attachment Type Selector Adapter. This string is an option in the "Attach" dialog, "Add music" dialog -->
     <string name="attach_record_sound">Record audio</string>
+    <!-- Attachment Type Selector Adapter. This string is an option in the "Attach" dialog, "Add music" dialog -->
+    <string name="attach_slideshow">Slideshow</string>
 
     <!-- Layout Selector Adapter. Slideshow layout dialog option for aligning an icon. -->
     <string name="select_bottom_text">Text on bottom</string>

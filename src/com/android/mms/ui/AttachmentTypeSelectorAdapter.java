@@ -46,25 +46,26 @@ public class AttachmentTypeSelectorAdapter extends IconListAdapter {
     protected static List<IconListItem> getData(int mode, Context context) {
         List<IconListItem> data = new ArrayList<IconListItem>(7);
         addItem(data, context.getString(R.string.attach_image),
-                R.drawable.ic_mms_picture);
+                R.drawable.ic_launcher_gallery);
 
         addItem(data, context.getString(R.string.attach_take_photo),
-                R.drawable.ic_mms_take_picture);
+                R.drawable.ic_launcher_camera);
 
         addItem(data, context.getString(R.string.attach_video),
-                R.drawable.ic_mms_movie);
+                R.drawable.ic_launcher_video_player);
 
         addItem(data, context.getString(R.string.attach_record_video),
-                R.drawable.ic_mms_take_picture);
+                R.drawable.ic_launcher_camera_record);
 
         addItem(data, context.getString(R.string.attach_sound),
-                R.drawable.ic_mms_sound);
+                R.drawable.ic_launcher_musicplayer_2);
 
         addItem(data, context.getString(R.string.attach_record_sound),
-                R.drawable.ic_mms_record_sound);
+                R.drawable.ic_launcher_record_audio);
 
         if (mode == MODE_WITH_SLIDESHOW) {
-            addItem(data, "Slideshow", R.drawable.ic_mms_add_slide);
+            addItem(data, context.getString(R.string.attach_slideshow),
+                    R.drawable.ic_launcher_slideshow_add_sms);
         }
 
         return data;

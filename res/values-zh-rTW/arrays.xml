@@ -4,7 +4,7 @@
   <string-array name="pref_entries_message_ring_tone">
     <item>"Robo Dream"</item>
     <item>"Robo Nightmare"</item>
-    <item>"Electric Sheep"</item>
+    <item>"電子羊"</item>
   </string-array>
   <string-array name="pref_entry_values_message_ring_tone">
     <item>"robo_dream"</item>
@@ -12,20 +12,20 @@
     <item>"electric_sheep"</item>
   </string-array>
   <string-array name="pref_entries_mms_creation_mode">
-    <item>"Limitata"</item>
-    <item>"Avviso"</item>
-    <item>"Libera"</item>
+    <item>"受限制的"</item>
+    <item>"警告"</item>
+    <item>"免費"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_creation_mode">
-    <item>"limitata"</item>
-    <item>"avviso"</item>
-    <item>"libera"</item>
+    <item>"受限制的"</item>
+    <item>"警告"</item>
+    <item>"免費"</item>
   </string-array>
   <string-array name="pref_entries_mms_expiry">
-    <item>"un\'ora"</item>
-    <item>"tre ore"</item>
-    <item>"un giorno"</item>
-    <item>"una settimana"</item>
+    <item>"1 小時"</item>
+    <item>"3 小時"</item>
+    <item>"1 天"</item>
+    <item>"1 週"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_expiry">
     <item>"3600"</item>
@@ -34,9 +34,9 @@
     <item>"604800"</item>
   </string-array>
   <string-array name="pref_entries_mms_max_size">
-    <item>"100 K"</item>
-    <item>"200 K"</item>
-    <item>"500 K"</item>
+    <item>"100K"</item>
+    <item>"200K"</item>
+    <item>"500K"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_max_size">
     <item>"100000L"</item>
@@ -44,24 +44,24 @@
     <item>"500000L"</item>
   </string-array>
   <string-array name="pref_entries_mms_priority">
-    <item>"bassa"</item>
-    <item>"media"</item>
-    <item>"elevata"</item>
+    <item>"低"</item>
+    <item>"中"</item>
+    <item>"高"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_priority">
-    <item>"bassa"</item>
-    <item>"media"</item>
-    <item>"elevata"</item>
+    <item>"低"</item>
+    <item>"中"</item>
+    <item>"高"</item>
   </string-array>
   <string-array name="pref_entries_mms_resubmission_mode">
-    <item>"Limitata"</item>
-    <item>"Avviso"</item>
-    <item>"Libera"</item>
+    <item>"受限制的"</item>
+    <item>"警告"</item>
+    <item>"免費"</item>
   </string-array>
   <string-array name="pref_entry_values_mms_resubmission_mode">
-    <item>"limitata"</item>
-    <item>"avviso"</item>
-    <item>"libera"</item>
+    <item>"受限制的"</item>
+    <item>"警告"</item>
+    <item>"免費"</item>
   </string-array>
   <string-array name="default_smiley_texts">
     <item>":-)"</item>
@@ -83,22 +83,22 @@
     <item>"o_O"</item>
   </string-array>
   <string-array name="default_smiley_names">
-    <item>"Felice"</item>
-    <item>"Triste"</item>
-    <item>"Fare l\'occhiolino"</item>
-    <item>"Lingua fuori"</item>
-    <item>"Sorpreso"</item>
-    <item>"Baciare"</item>
-    <item>"Urlare"</item>
-    <item>"Favoloso"</item>
-    <item>"Bocca a forma di dollaro"</item>
-    <item>"Gaffe"</item>
-    <item>"Imbarazzato"</item>
-    <item>"Angelo"</item>
-    <item>"Indeciso"</item>
-    <item>"Piangere"</item>
-    <item>"Labbra cucite"</item>
-    <item>"Sorridere"</item>
-    <item>"Confuso"</item>
+    <item>"開心"</item>
+    <item>"傷心"</item>
+    <item>"眨眼"</item>
+    <item>"吐舌頭"</item>
+    <item>"驚訝"</item>
+    <item>"紅唇"</item>
+    <item>"大喊"</item>
+    <item>"酷"</item>
+    <item>"滿嘴錢"</item>
+    <item>"說錯話"</item>
+    <item>"害羞"</item>
+    <item>"天使"</item>
+    <item>"還沒決定"</item>
+    <item>"嚎啕大哭"</item>
+    <item>"不要告訴別人"</item>
+    <item>"開懷大笑"</item>
+    <item>"疑惑"</item>
   </string-array>
 </resources>

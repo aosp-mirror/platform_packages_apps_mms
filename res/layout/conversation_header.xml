@@ -73,7 +73,7 @@
         android:visibility="invisible"
         android:layout_toLeftOf="@+id/error"
         android:layout_alignParentTop="true"
-        android:src="@drawable/ic_sms_add_attachment"
+        android:src="@drawable/ic_dialog_attach"
         android:layout_alignWithParentIfMissing="true" />
 
     <ImageView android:id="@id/error"

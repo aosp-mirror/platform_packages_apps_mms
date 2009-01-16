@@ -927,7 +927,7 @@ public class ComposeMessageActivity extends Activity
         // Add all possible links in the address & message
         StringBuilder textToSpannify = new StringBuilder();
         if (msgItem.mBoxId == Mms.MESSAGE_BOX_INBOX) {
-            textToSpannify.append(msgItem.mAddress + " ");
+            textToSpannify.append(msgItem.mAddress + ": ");
         }
         textToSpannify.append(msgItem.mBody);
 
@@ -967,7 +967,7 @@ public class ComposeMessageActivity extends Activity
                     .setIntent(new Intent(
                             Intent.ACTION_DIAL,
                             Uri.parse("tel:" + uriString)));
-                addToContacts = !havePhoneContact(uriString);
+                addToContacts = !isNumberInContacts(uriString);
             }
             if (addToContacts) {
                 Intent intent = new Intent(Insert.ACTION, People.CONTENT_URI);
@@ -1008,7 +1008,7 @@ public class ComposeMessageActivity extends Activity
         return false;
     }
 
-    private boolean havePhoneContact(String phoneNumber) {
+    private boolean isNumberInContacts(String phoneNumber) {
         String name = CallerInfo.getCallerId(this, phoneNumber);
         // If we don't have a contact, getCallerId returns the same number passed in.
         return !phoneNumber.equalsIgnoreCase(name);
@@ -2078,8 +2078,26 @@ public class ComposeMessageActivity extends Activity
         menu.add(0, MENU_INSERT_SMILEY, 0, R.string.menu_insert_smiley).setIcon(
                 R.drawable.ic_menu_emoticons);
 
-
+        buildAddAddressToContactMenuItem(menu);
         return true;
+    }
+    
+    private void buildAddAddressToContactMenuItem(Menu menu) {
+        if (mRecipientList.hasValidRecipient()) {
+            // Look for the first recipient we don't have a contact for and create a menu item to
+            // add the number to contacts.
+            for (String number : mRecipientList.getToNumbers()) {
+                if (Recipient.isPhoneNumber(number) && !isNumberInContacts(number)) {
+                    String addContactString = getString(
+                            R.string.menu_add_address_to_contacts).replace("%s", number);
+                    Intent intent = new Intent(Insert.ACTION, People.CONTENT_URI);
+                    intent.putExtra(Insert.PHONE, number);
+                    menu.add(0, MENU_ADD_ADDRESS_TO_CONTACTS, 0, addContactString)
+                    .setIntent(intent);
+                    break;
+                }
+            }
+        }
     }
 
     @Override
@@ -2128,6 +2146,9 @@ public class ComposeMessageActivity extends Activity
             case MENU_INSERT_SMILEY:
                 showSmileyDialog();
                 break;
+
+            case MENU_ADD_ADDRESS_TO_CONTACTS:
+                return false;   // so the intent attached to the menu item will get launched.
         }
 
         return true;
@@ -2192,7 +2213,7 @@ public class ComposeMessageActivity extends Activity
 
     private void showAddAttachmentDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(R.drawable.ic_sms_add_attachment);
+        builder.setIcon(R.drawable.ic_dialog_attach);
         builder.setTitle(R.string.add_attachment);
 
         AttachmentTypeSelectorAdapter adapter = new AttachmentTypeSelectorAdapter(
@@ -2391,20 +2412,36 @@ public class ComposeMessageActivity extends Activity
                 Toast.LENGTH_SHORT).show();
     }
 
+    private void addVideo(Uri uri) {
+        try {
+            mAttachmentEditor.changeVideo(uri);
+            mAttachmentEditor.setAttachment(mSlideshow, AttachmentEditor.VIDEO_ATTACHMENT);
+        } catch (MmsException e) {
+            Log.e(TAG, "add video failed", e);
+            Toast.makeText(this, getResourcesString(R.string.failed_to_add_media, getVideoString()),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+    
     private void handleSendIntent(Intent intent) {
         Bundle extras = intent.getExtras();
 
-        if (Intent.ACTION_SEND.equals(intent.getAction()) &&
-                (extras != null)) {
-            if (extras.containsKey(Intent.EXTRA_STREAM)) {
-                Uri uri = (Uri)extras.getParcelable(Intent.EXTRA_STREAM);
-                if (uri != null) {
-                    convertMessage(true);
+        if (!Intent.ACTION_SEND.equals(intent.getAction()) || (extras == null)) {
+            return;
+        }
+        
+        if (extras.containsKey(Intent.EXTRA_STREAM)) {
+            Uri uri = (Uri)extras.getParcelable(Intent.EXTRA_STREAM);
+            if (uri != null) {
+                convertMessage(true);
+                if (intent.getType().startsWith("image/")) {
                     addImage(uri);
+                } else if (intent.getType().startsWith("video/")) {
+                    addVideo(uri);
                 }
-            } else if (extras.containsKey(Intent.EXTRA_TEXT)) {
-                mMsgText = extras.getString(Intent.EXTRA_TEXT);
             }
+        } else if (extras.containsKey(Intent.EXTRA_TEXT)) {
+            mMsgText = extras.getString(Intent.EXTRA_TEXT);
         }
     }
 

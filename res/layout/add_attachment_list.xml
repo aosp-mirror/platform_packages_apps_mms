@@ -36,7 +36,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_sms_add_attachment" />
+            android:src="@drawable/ic_dialog_attach" />
 
         <TextView
             android:layout_width="wrap_content"

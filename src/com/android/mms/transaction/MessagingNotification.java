@@ -369,22 +369,22 @@ public class MessagingNotification {
             Context context, String address, String subject, String body) {
         String displayAddress = ContactNameCache.getInstance()
                 .getContactName(context, address);
-
+        
         StringBuilder buf = new StringBuilder(
                 displayAddress == null
                 ? ""
-                : displayAddress.replace('\n', ' '));
+                : displayAddress.replace('\n', ' ').replace('\r', ' '));
         buf.append(':').append(' ');
 
         int offset = buf.length();
         if (!TextUtils.isEmpty(subject)) {
-            subject = subject.replace('\n', ' ');
+            subject = subject.replace('\n', ' ').replace('\r', ' ');
             buf.append(subject);
             buf.append(' ');
         }
 
         if (!TextUtils.isEmpty(body)) {
-            body = body.replace('\n', ' ');
+            body = body.replace('\n', ' ').replace('\r', ' ');
             buf.append(body);
         }
 
