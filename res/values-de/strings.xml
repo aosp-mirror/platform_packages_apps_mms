@@ -13,16 +13,6 @@
     <string name="menu_delete">"Löschen"</string>
     <string name="menu_undelivered_messages">"Nicht gelieferte Nachrichten"</string>
     <string name="menu_view">"Anzeigen"</string>
-    <!-- no translation found for time_stamp_same_day_12_format (4834838905357030616) -->
-    <skip />
-    <!-- no translation found for time_stamp_same_day_24_format (2935039761679601728) -->
-    <skip />
-    <!-- no translation found for time_stamp_same_year (5951139508639084214) -->
-    <skip />
-    <!-- no translation found for time_stamp_full (1898569157476269692) -->
-    <skip />
-    <string name="time_stamp_full_time_12">"%G-%m-%d, %I:%M %p"</string>
-    <string name="time_stamp_full_time_24">"%G-%m-%d, %H:%M"</string>
     <string name="refreshing">"Aktualisierung wird ausgeführt..."</string>
     <string name="has_draft">"Entwurf"</string>
     <!-- no translation found for broadcast_from_to (1804605929273213017) -->
@@ -42,7 +32,7 @@
     <string name="undelivered_msg_dialog_body">"Senden der Nachricht nicht möglich."\n"Anzahl bisheriger Versuche: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body">"Nachricht kann nicht gesendet werden."</string>
     <string name="delete_thread">"Thread löschen"</string>
-    <string name="menu_forward">"Weiterleiten"</string>
+    <string name="menu_forward">"Senden"</string>
     <string name="download">"Herunterladen"</string>
     <string name="downloading">"Ladevorgang wird ausgeführt"</string>
     <string name="inline_subject">"&lt;Betreff: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
@@ -148,7 +138,7 @@
     <string name="pref_title_manage_sim_messages">"Nachrichten auf SIM-Karte"</string>
     <string name="pref_title_mms_delivery_reports">"Zustellberichte"</string>
     <string name="pref_title_mms_read_reports">"Berichte lesen"</string>
-    <string name="pref_title_sms_delivery_reports">"Lieferberichte"</string>
+    <string name="pref_title_sms_delivery_reports">"Zustellberichte"</string>
     <string name="pref_title_notification_enabled">"Benachrichtigungen"</string>
     <string name="pref_summary_notification_enabled">"Bei Nachrichteneingang Benachrichtigung in Statuszeile anzeigen"</string>
     <string name="pref_title_notification_vibrate">"Vibrieren"</string>
@@ -204,12 +194,16 @@
     <string name="recipient_label">"Empfänger:"</string>
     <string name="status_label">"Status:"</string>
     <string name="attach_image">"Bilder"</string>
-    <string name="attach_take_photo">"Kamera"</string>
-    <string name="attach_video">"Video"</string>
-    <!-- no translation found for attach_record_video (8316660230614707172) -->
+    <!-- no translation found for attach_take_photo (4280601313184373837) -->
+    <skip />
+    <!-- no translation found for attach_video (4264272693501538294) -->
+    <skip />
+    <!-- no translation found for attach_record_video (3099814114743078615) -->
     <skip />
     <string name="attach_sound">"Audio"</string>
     <string name="attach_record_sound">"Audio aufnehmen"</string>
+    <!-- no translation found for attach_slideshow (3497422151091037063) -->
+    <skip />
     <string name="select_bottom_text">"Text unten"</string>
     <string name="select_top_text">"Text oben"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> ungelesene Nachrichten"</string>
