@@ -252,7 +252,7 @@ public class ConversationList extends ListActivity {
         menu.clear();
 
         menu.add(0, MENU_COMPOSE_NEW, 0, R.string.menu_compose_new).setIcon(
-                R.drawable.ic_menu_compose);
+                com.android.internal.R.drawable.ic_menu_compose);
         // Removed search as part of b/1205708
         //menu.add(0, MENU_SEARCH, 0, R.string.menu_search).setIcon(
         //        R.drawable.ic_menu_search).setAlphabeticShortcut(SearchManager.MENU_KEY);

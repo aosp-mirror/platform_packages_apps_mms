@@ -13,16 +13,6 @@
     <string name="menu_delete">"削除"</string>
     <string name="menu_undelivered_messages">"配信不能メッセージ"</string>
     <string name="menu_view">"表示"</string>
-    <!-- no translation found for time_stamp_same_day_12_format (4834838905357030616) -->
-    <skip />
-    <!-- no translation found for time_stamp_same_day_24_format (2935039761679601728) -->
-    <skip />
-    <!-- no translation found for time_stamp_same_year (5951139508639084214) -->
-    <skip />
-    <!-- no translation found for time_stamp_full (1898569157476269692) -->
-    <skip />
-    <string name="time_stamp_full_time_12">"%G-%m-%d、%I:%M %p"</string>
-    <string name="time_stamp_full_time_24">"%G-%m-%d、%H:%M"</string>
     <string name="refreshing">"更新中..."</string>
     <string name="has_draft">"下書き"</string>
     <!-- no translation found for broadcast_from_to (1804605929273213017) -->
@@ -204,12 +194,16 @@
     <string name="recipient_label">"受信者:"</string>
     <string name="status_label">"ステータス:"</string>
     <string name="attach_image">"画像"</string>
-    <string name="attach_take_photo">"カメラ"</string>
-    <string name="attach_video">"動画"</string>
-    <!-- no translation found for attach_record_video (8316660230614707172) -->
+    <!-- no translation found for attach_take_photo (4280601313184373837) -->
+    <skip />
+    <!-- no translation found for attach_video (4264272693501538294) -->
+    <skip />
+    <!-- no translation found for attach_record_video (3099814114743078615) -->
     <skip />
     <string name="attach_sound">"音声"</string>
     <string name="attach_record_sound">"録音"</string>
+    <!-- no translation found for attach_slideshow (3497422151091037063) -->
+    <skip />
     <string name="select_bottom_text">"テキストを下に表示"</string>
     <string name="select_top_text">"テキストを上に表示"</string>
     <string name="notification_multiple">"未読メッセージ<xliff:g id="COUNT">%s</xliff:g>通"</string>

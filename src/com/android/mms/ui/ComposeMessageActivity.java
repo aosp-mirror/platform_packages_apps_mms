@@ -1490,6 +1490,13 @@ public class ComposeMessageActivity extends Activity
         mRecipientsEditor.setOnFocusChangeListener(mRecipientsFocusListener);
         mRecipientsEditor.setFilters(new InputFilter[] {
                 new InputFilter.LengthFilter(RECIPIENTS_MAX_LENGTH) });
+        mRecipientsEditor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // After the user selects on item in the popup contacts list, move the
+                // focus to the text editor.
+                mTextEditor.requestFocus();
+            }
+        });
 
         mTopPanel.setVisibility(View.VISIBLE);
     }
@@ -2045,16 +2052,16 @@ public class ComposeMessageActivity extends Activity
         menu.clear();
 
         menu.add(0, MENU_CONVERSATION_LIST, 0, R.string.all_threads).setIcon(
-                    R.drawable.ic_menu_friendslist);
+                com.android.internal.R.drawable.ic_menu_friendslist);
 
         if ((mSubjectTextEditor == null) || (mSubjectTextEditor.getVisibility() != View.VISIBLE)) {
             menu.add(0, MENU_ADD_SUBJECT, 0, R.string.add_subject).setIcon(
-                    android.R.drawable.ic_menu_edit);
+                    com.android.internal.R.drawable.ic_menu_edit);
         }
 
         if ((mAttachmentEditor == null) || (mAttachmentEditor.getAttachmentType() == AttachmentEditor.TEXT_ONLY)) {
             menu.add(0, MENU_ADD_ATTACHMENT, 0, R.string.add_attachment).setIcon(
-                    R.drawable.ic_menu_attachment);
+                    com.android.internal.R.drawable.ic_menu_attachment);
         }
 
         if (isPreparedForSending()) {
@@ -2063,7 +2070,7 @@ public class ComposeMessageActivity extends Activity
 
         if (mThreadId > 0L) {
             menu.add(0, MENU_COMPOSE_NEW, 0, R.string.menu_compose_new).setIcon(
-                    R.drawable.ic_menu_compose);
+                    com.android.internal.R.drawable.ic_menu_compose);
             // Removed search as part of b/1205708
             //menu.add(0, MENU_SEARCH, 0, R.string.menu_search).setIcon(
             //        R.drawable.ic_menu_search);
@@ -2076,7 +2083,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         menu.add(0, MENU_INSERT_SMILEY, 0, R.string.menu_insert_smiley).setIcon(
-                R.drawable.ic_menu_emoticons);
+                com.android.internal.R.drawable.ic_menu_emoticons);
 
         buildAddAddressToContactMenuItem(menu);
         return true;

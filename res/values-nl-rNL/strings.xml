@@ -17,16 +17,6 @@
     <string name="menu_undelivered_messages">"Onafgeleverde berichten"</string>
     <!-- no translation found for menu_view (4608917361485479217) -->
     <skip />
-    <!-- no translation found for time_stamp_same_day_12_format (8958490183487960532) -->
-    <skip />
-    <!-- no translation found for time_stamp_same_day_24_format (2364610156090461068) -->
-    <skip />
-    <string name="time_stamp_same_year">"<xliff:g id="FORMAT">%b %d</xliff:g>"</string>
-    <string name="time_stamp_full">"<xliff:g id="FORMAT">%b %d, %G</xliff:g>"</string>
-    <!-- no translation found for time_stamp_full_time_12 (1219335679074676420) -->
-    <skip />
-    <!-- no translation found for time_stamp_full_time_24 (5275479082063813042) -->
-    <skip />
     <string name="refreshing">"Vernieuwen…"</string>
     <!-- no translation found for has_draft (7932044256500477806) -->
     <skip />

@@ -62,6 +62,7 @@ import android.provider.Telephony.Threads;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.text.style.URLSpan;
 import android.util.Log;
@@ -372,30 +373,36 @@ public class MessageUtils {
     public static String formatTimeStampString(Context context, long when, boolean fullFormat) {
         Time then = new Time();
         then.set(when);
-
         Time now = new Time();
-        now.set(System.currentTimeMillis());
+        now.setToNow();
+
+        // Basic settings for formatDateTime() we want for all cases.
+        int format_flags = DateUtils.FORMAT_NO_NOON_MIDNIGHT |
+                           DateUtils.FORMAT_ABBREV_ALL |
+                           DateUtils.FORMAT_CAP_AMPM;
         
-        boolean is24HourMode = get24HourMode(context);
-        int resId;
-
-        if (fullFormat) {
-            resId = is24HourMode ? R.string.time_stamp_full_time_24
-                    : R.string.time_stamp_full_time_12;
+        // DateUtils does this for you, but it ultimately makes the call to the slow
+        // DateFormat.is24HourFormat() method that we cache the result of, so
+        // override that for now until is24HourFormat() is made to be fast.
+        if (get24HourMode(context)) {
+            format_flags |= DateUtils.FORMAT_24HOUR;
         } else {
-            resId = R.string.time_stamp_full;
-            if (then.year == now.year) {
-                if ((then.month == now.month) && (then.monthDay == now.monthDay)) {
-                    resId = is24HourMode ? R.string.time_stamp_same_day_24_format
-                            : R.string.time_stamp_same_day_12_format;
-                } else {
-                    resId = R.string.time_stamp_same_year;
-                }
-            }
+            format_flags |= DateUtils.FORMAT_12HOUR;
         }
-        return then.format(context.getString(resId));
-    }
+        // If the message is from a different year, show the date and year.
+        if (then.year != now.year) {
+            format_flags |= DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_DATE;
+        } else if (then.yearDay != now.yearDay) {
+            // If it is from a different day than today, show only the date.
+            format_flags |= DateUtils.FORMAT_SHOW_DATE;
+        } else {
+            // Otherwise, if the message is from today, show the time.
+            format_flags |= DateUtils.FORMAT_SHOW_TIME;
+        }
 
+        return DateUtils.formatDateTime(context, when, format_flags);
+    }
+    
     /**
      * @return true if clock is set to 24-hour mode
      */

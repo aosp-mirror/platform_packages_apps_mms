@@ -40,12 +40,6 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_undelivered_messages">Undelivered messages</string>
     <string name="menu_view">View</string>
-    <string name="time_stamp_same_day_12_format"><xliff:g id="format">%I:%M %p</xliff:g></string>
-    <string name="time_stamp_same_day_24_format"><xliff:g id="format">%H:%M</xliff:g></string>
-    <string name="time_stamp_same_year"><xliff:g id="format">%b %d</xliff:g></string>
-    <string name="time_stamp_full"><xliff:g id="format">%b %d, %G</xliff:g></string>
-    <string name="time_stamp_full_time_12">%G-%m-%d, %I:%M %p</string>
-    <string name="time_stamp_full_time_24">%G-%m-%d, %H:%M</string>
     <!-- Message that appears on screen while SIM card messages are retrieved -->
     <string name="refreshing">Refreshing\u2026</string>
     <string name="has_draft">Draft</string>

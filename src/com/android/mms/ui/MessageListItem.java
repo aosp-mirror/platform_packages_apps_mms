@@ -96,23 +96,23 @@ public class MessageListItem extends LinearLayout implements
     // NOTE: if you change anything about this array, you must make the corresponding change
     // to the string arrays: default_smiley_texts and default_smiley_names in res/values/arrays.xml
     public static final int[] DEFAULT_SMILEY_RES_IDS = {
-        R.drawable.emo_im_happy,                //  0
-        R.drawable.emo_im_sad,                  //  1
-        R.drawable.emo_im_winking,              //  2
-        R.drawable.emo_im_tongue_sticking_out,  //  3
-        R.drawable.emo_im_surprised,            //  4
-        R.drawable.emo_im_kissing,              //  5
-        R.drawable.emo_im_yelling,              //  6
-        R.drawable.emo_im_cool,                 //  7
-        R.drawable.emo_im_money_mouth,          //  8
-        R.drawable.emo_im_foot_in_mouth,        //  9
-        R.drawable.emo_im_embarrased,           //  10
-        R.drawable.emo_im_angel,                //  11
-        R.drawable.emo_im_undecided,            //  12
-        R.drawable.emo_im_crying,               //  13
-        R.drawable.emo_im_lips_are_sealed,      //  14
-        R.drawable.emo_im_laughing,             //  15
-        R.drawable.emo_im_wtf                   //  16
+        android.R.drawable.emo_im_happy,                //  0
+        android.R.drawable.emo_im_sad,                  //  1
+        android.R.drawable.emo_im_winking,              //  2
+        android.R.drawable.emo_im_tongue_sticking_out,  //  3
+        android.R.drawable.emo_im_surprised,            //  4
+        android.R.drawable.emo_im_kissing,              //  5
+        android.R.drawable.emo_im_yelling,              //  6
+        android.R.drawable.emo_im_cool,                 //  7
+        android.R.drawable.emo_im_money_mouth,          //  8
+        android.R.drawable.emo_im_foot_in_mouth,        //  9
+        android.R.drawable.emo_im_embarrassed,          //  10
+        android.R.drawable.emo_im_angel,                //  11
+        android.R.drawable.emo_im_undecided,            //  12
+        android.R.drawable.emo_im_crying,               //  13
+        android.R.drawable.emo_im_lips_are_sealed,      //  14
+        android.R.drawable.emo_im_laughing,             //  15
+        android.R.drawable.emo_im_wtf                   //  16
     };
     
     public static final int DEFAULT_SMILEY_TEXTS = R.array.default_smiley_texts;

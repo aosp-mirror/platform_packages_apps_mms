@@ -13,16 +13,6 @@
     <string name="menu_delete">"删除"</string>
     <string name="menu_undelivered_messages">"未发送的信息"</string>
     <string name="menu_view">"查看"</string>
-    <!-- no translation found for time_stamp_same_day_12_format (4834838905357030616) -->
-    <skip />
-    <!-- no translation found for time_stamp_same_day_24_format (2935039761679601728) -->
-    <skip />
-    <!-- no translation found for time_stamp_same_year (5951139508639084214) -->
-    <skip />
-    <!-- no translation found for time_stamp_full (1898569157476269692) -->
-    <skip />
-    <string name="time_stamp_full_time_12">"%G 年 %m 月 %d 日 %I:%M %p"</string>
-    <string name="time_stamp_full_time_24">"%G 年 %m 月 %d 日 %H:%M"</string>
     <string name="refreshing">"正在刷新..."</string>
     <string name="has_draft">"草稿"</string>
     <!-- no translation found for broadcast_from_to (1804605929273213017) -->
@@ -204,12 +194,16 @@
     <string name="recipient_label">"收信人："</string>
     <string name="status_label">"状态："</string>
     <string name="attach_image">"图片"</string>
-    <string name="attach_take_photo">"相机"</string>
-    <string name="attach_video">"视频"</string>
-    <!-- no translation found for attach_record_video (8316660230614707172) -->
+    <!-- no translation found for attach_take_photo (4280601313184373837) -->
+    <skip />
+    <!-- no translation found for attach_video (4264272693501538294) -->
+    <skip />
+    <!-- no translation found for attach_record_video (3099814114743078615) -->
     <skip />
     <string name="attach_sound">"音频"</string>
     <string name="attach_record_sound">"录音"</string>
+    <!-- no translation found for attach_slideshow (3497422151091037063) -->
+    <skip />
     <string name="select_bottom_text">"底部文本"</string>
     <string name="select_top_text">"顶部文本"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> 条未读信息。"</string>
