@@ -42,6 +42,7 @@ import org.w3c.dom.smil.SMILParElement;
 import org.w3c.dom.smil.SMILRegionElement;
 import org.w3c.dom.smil.SMILRootLayoutElement;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.drm.mobile1.DrmException;
 import android.net.Uri;
@@ -65,17 +66,21 @@ public class SlideshowModel extends Model
     private SMILDocument mDocumentCache;
     private PduBody mPduBodyCache;
     private int mCurrentMessageSize;
+    private ContentResolver mContentResolver;
 
-    private SlideshowModel() {
+    private SlideshowModel(ContentResolver contentResolver) {
         mLayout = new LayoutModel();
         mSlides = new ArrayList<SlideModel>();
+        mContentResolver = contentResolver;
     }
 
     private SlideshowModel (
             LayoutModel layouts, ArrayList<SlideModel> slides,
-            SMILDocument documentCache, PduBody pbCache) {
+            SMILDocument documentCache, PduBody pbCache,
+            ContentResolver contentResolver) {
         mLayout = layouts;
         mSlides = slides;
+        mContentResolver = contentResolver;
 
         mDocumentCache = documentCache;
         mPduBodyCache = pbCache;
@@ -86,7 +91,7 @@ public class SlideshowModel extends Model
     }
 
     public static SlideshowModel createNew(Context context) {
-        return new SlideshowModel();
+        return new SlideshowModel(context.getContentResolver());
     }
 
     public static SlideshowModel createFromMessageUri(
@@ -164,7 +169,8 @@ public class SlideshowModel extends Model
             slides.add(slide);
         }
 
-        SlideshowModel slideshow = new SlideshowModel(layouts, slides, document, pb);
+        SlideshowModel slideshow = new SlideshowModel(layouts, slides, document, pb,
+                context.getContentResolver());
         slideshow.registerModelChangedObserver(slideshow);
         return slideshow;
     }
@@ -531,6 +537,6 @@ public class SlideshowModel extends Model
 
     public void checkMessageSize(int increaseSize) throws ContentRestrictionException {
         ContentRestriction cr = ContentRestrictionFactory.getContentRestriction();
-        cr.checkMessageSize(mCurrentMessageSize, increaseSize);
+        cr.checkMessageSize(mCurrentMessageSize, increaseSize, mContentResolver);
     }
 }
