@@ -16,10 +16,12 @@
  */
 package com.android.mms.model;
 
+import android.content.ContentResolver;
+
 import com.android.mms.ContentRestrictionException;
 
 public interface ContentRestriction {
-    void checkMessageSize(int messageSize, int increaseSize)
+    void checkMessageSize(int messageSize, int increaseSize, ContentResolver resolver)
             throws ContentRestrictionException;
 
     void checkImageContentType(String contentType) throws ContentRestrictionException;
