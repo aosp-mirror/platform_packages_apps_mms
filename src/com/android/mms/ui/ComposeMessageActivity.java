@@ -26,7 +26,7 @@ import static com.android.mms.ui.MessageListAdapter.COLUMN_ID;
 import static com.android.mms.ui.MessageListAdapter.COLUMN_MSG_TYPE;
 import static com.android.mms.ui.MessageListAdapter.PROJECTION;
 
-import com.android.internal.telephony.gsm.GsmAlphabet;
+import com.android.internal.telephony.GsmAlphabet;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.R;
 import com.android.mms.ResolutionException;
@@ -82,7 +82,7 @@ import android.provider.Contacts.Intents.Insert;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
-import android.telephony.gsm.SmsMessage;
+import android.telephony.SmsMessage;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -396,7 +396,7 @@ public class ComposeMessageActivity extends Activity
                 // in the size of the header to determine how many will fit.
                 mMsgCount = mSeptets / (SmsMessage.MAX_USER_DATA_SEPTETS_WITH_HEADER) + 1;
                 remainingInCurrentMessage = SmsMessage.MAX_USER_DATA_SEPTETS_WITH_HEADER
-                                            - (mSeptets % SmsMessage.MAX_USER_DATA_SEPTETS_WITH_HEADER);
+                        - (mSeptets % SmsMessage.MAX_USER_DATA_SEPTETS_WITH_HEADER);
             } else {
                 mMsgCount = 1;
                 remainingInCurrentMessage = SmsMessage.MAX_USER_DATA_SEPTETS - mSeptets;
@@ -1387,9 +1387,11 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void hideTopPanelIfNecessary() {
-        if ( (((mSubjectTextEditor != null) && (mSubjectTextEditor.getVisibility() != View.VISIBLE)) ||
+        if ( (((mSubjectTextEditor != null) &&
+                (mSubjectTextEditor.getVisibility() != View.VISIBLE)) ||
                 (mSubjectTextEditor == null)) &&
-            (((mRecipientsEditor != null) && (mRecipientsEditor.getVisibility() != View.VISIBLE)) ||
+                (((mRecipientsEditor != null) &&
+                (mRecipientsEditor.getVisibility() != View.VISIBLE)) ||
                 (mRecipientsEditor == null))) {
             mTopPanel.setVisibility(View.GONE);
         }
@@ -1816,7 +1818,8 @@ public class ComposeMessageActivity extends Activity
                     android.R.drawable.ic_menu_edit);
         }
 
-        if ((mAttachmentEditor == null) || (mAttachmentEditor.getAttachmentType() == AttachmentEditor.TEXT_ONLY)) {
+        if ((mAttachmentEditor == null) ||
+                (mAttachmentEditor.getAttachmentType() == AttachmentEditor.TEXT_ONLY)) {
             menu.add(0, MENU_ADD_ATTACHMENT, 0, R.string.add_attachment).setIcon(
                     R.drawable.ic_menu_attachment);
         }

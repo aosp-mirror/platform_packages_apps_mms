@@ -33,7 +33,7 @@ import android.preference.PreferenceManager;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
 import android.provider.Telephony.Sms.Conversations;
-import android.telephony.gsm.SmsManager;
+import android.telephony.SmsManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;

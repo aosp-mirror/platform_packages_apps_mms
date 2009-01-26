@@ -20,13 +20,6 @@ package com.android.mms.transaction;
 import static android.content.Intent.ACTION_BOOT_COMPLETED;
 import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
 
-import com.android.internal.telephony.TelephonyIntents;
-import com.android.mms.R;
-import com.android.mms.ui.ClassZeroActivity;
-import com.android.mms.util.SendingProgressTokenManager;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.util.SqliteWrapper;
-
 import android.app.Activity;
 import android.app.Service;
 import android.content.ContentResolver;
@@ -47,11 +40,18 @@ import android.provider.Telephony.Sms.Inbox;
 import android.provider.Telephony.Sms.Intents;
 import android.provider.Telephony.Sms.Outbox;
 import android.telephony.ServiceState;
-import android.telephony.gsm.SmsManager;
-import android.telephony.gsm.SmsMessage;
+import android.telephony.SmsManager;
+import android.telephony.SmsMessage;
 import android.util.Config;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.android.internal.telephony.TelephonyIntents;
+import com.android.mms.R;
+import com.android.mms.ui.ClassZeroActivity;
+import com.android.mms.util.SendingProgressTokenManager;
+import com.google.android.mms.MmsException;
+import com.google.android.mms.util.SqliteWrapper;
 
 /**
  * This service essentially plays the role of a "worker thread", allowing us to store
