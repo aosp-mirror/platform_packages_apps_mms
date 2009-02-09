@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAACH///9g\u003d",
+        "filename": "src/com/android/mms/transaction/SmsReceiverService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001545
+      },
+      "writtenOn": "2009-02-09T17:49:12Z",
+      "side": 1,
+      "message": "Since we needed to modify two of them, we rearranged the rest according to the code style guide.",
+      "revId": "f54ddb0659ce2980cddd3f3b73055156330a5568",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAB3////c\u003d",
         "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
         "patchSetId": 1
@@ -30,6 +47,23 @@
       "writtenOn": "2009-01-29T21:46:00Z",
       "side": 1,
       "message": "Why move this out of the gsm package?  It\u0027s called GsmAlphabet, so it still must be GSM-specific.",
+      "revId": "f54ddb0659ce2980cddd3f3b73055156330a5568",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACH///9c\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001545
+      },
+      "writtenOn": "2009-02-09T17:49:12Z",
+      "side": 1,
+      "message": "This was moved up to the common package because -- despite its name -- GsmAlphabet is also a valid encoding type for CDMA-SMS. If one wants to build a CDMA-only phone it should still be present.",
       "revId": "f54ddb0659ce2980cddd3f3b73055156330a5568",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -53,6 +87,23 @@
     },
     {
       "key": {
+        "uuid": "AAAACn///+4\u003d",
+        "filename": "src/com/android/mms/ui/ManageSimMessages.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001545
+      },
+      "writtenOn": "2009-02-09T17:49:12Z",
+      "side": 1,
+      "message": "The term \"icc\" comes from the framework, where it is used for functionality that is common to both SIM and RUIM. Mainly the parts that are close to the framework have been renamed here. Renaming all occurences of \"sim\" here would require renaming in other files, too.",
+      "revId": "f54ddb0659ce2980cddd3f3b73055156330a5568",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAB3////I\u003d",
         "filename": "src/com/android/mms/ui/ManageSimMessages.java",
         "patchSetId": 1
@@ -64,6 +115,23 @@
       "writtenOn": "2009-01-29T21:46:00Z",
       "side": 1,
       "message": "I see you have a corresponding change in TelephonyProvider renaming this URI.  This will break any old apps that try to access content://sms/sim.",
+      "revId": "f54ddb0659ce2980cddd3f3b73055156330a5568",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn///6k\u003d",
+        "filename": "src/com/android/mms/ui/ManageSimMessages.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001545
+      },
+      "writtenOn": "2009-02-09T17:49:12Z",
+      "side": 1,
+      "message": "The next patch for TelephonyProvider will contain a SmsProvider.UriMatcher that additionally matches the old string \"sim\" again.",
       "revId": "f54ddb0659ce2980cddd3f3b73055156330a5568",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
