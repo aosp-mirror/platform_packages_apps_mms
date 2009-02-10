@@ -122,7 +122,7 @@ public class ContactNameCache {
         return displayString;
     }
 
-    private static String getDisplayName(Context context, String email) {
+    public static String getDisplayName(Context context, String email) {
         Matcher match = Mms.NAME_ADDR_EMAIL_PATTERN.matcher(email);
         if (match.matches()) {
             // email has display name

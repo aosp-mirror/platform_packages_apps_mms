@@ -22,11 +22,14 @@ import com.google.android.mms.util.SqliteWrapper;
 import com.android.mms.transaction.MessagingNotification;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
@@ -281,12 +284,28 @@ public class ManageSimMessages extends Activity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case OPTION_MENU_DELETE_ALL:
-                updateState(SHOW_BUSY);
-                deleteAllFromSim();
+                confirmDeleteDialog(new OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateState(SHOW_BUSY);
+                        deleteAllFromSim();
+                    }
+                });
                 break;
         }
 
         return true;
+    }
+
+    private void confirmDeleteDialog(OnClickListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.confirm_dialog_title);
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        builder.setCancelable(true);
+        builder.setPositiveButton(R.string.yes, listener);
+        builder.setNegativeButton(R.string.no, null);
+        builder.setMessage(R.string.confirm_delete_all_SIM_messages);
+
+        builder.show();
     }
 
     private void updateState(int state) {

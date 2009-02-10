@@ -41,6 +41,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.PowerManager;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Inbox;
 import android.util.Config;
@@ -55,14 +57,42 @@ public class PushReceiver extends BroadcastReceiver {
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(WAP_PUSH_RECEIVED_ACTION)
-                && ContentType.MMS_MESSAGE.equals(intent.getType())) {
-            if (LOCAL_LOGV) {
-                Log.v(TAG, "Received PUSH Intent: " + intent);
+    private abstract class WakefulAsyncTask<Params,Progress,Result>
+                          extends AsyncTask<Params,Progress,Result> {
+        private PowerManager.WakeLock mWakeLock;
+        
+        public void useWakeLock(Context c, int wakeLockFlags, String tag) {
+            PowerManager pm = (PowerManager)c.getSystemService(Context.POWER_SERVICE);
+            mWakeLock = pm.newWakeLock(wakeLockFlags, tag);
+            mWakeLock.setReferenceCounted(false);
+        }
+        
+        @Override
+        protected void onPreExecute() {
+            if (mWakeLock != null) {
+                mWakeLock.acquire();
             }
+        }
+        
+        @Override
+        protected void onPostExecute(Result result) {
+            if (mWakeLock != null) {
+                mWakeLock.release();
+            }
+        }
+    }
+    
+    private class ReceivePushTask extends WakefulAsyncTask<Intent,Void,Void> {
+        private Context mContext;
+        public ReceivePushTask(Context context) {
+            mContext = context;
+            useWakeLock(context, PowerManager.PARTIAL_WAKE_LOCK, "ReceivePushTask");
+        }
 
+        @Override
+        protected Void doInBackground(Intent... intents) {
+            Intent intent = intents[0];
+            
             // Get raw PDU push-data from the message and parse it
             byte[] pushData = intent.getByteArrayExtra("data");
             PduParser parser = new PduParser(pushData);
@@ -70,11 +100,11 @@ public class PushReceiver extends BroadcastReceiver {
 
             if (null == pdu) {
                 Log.e(TAG, "Invalid PUSH data");
-                return;
+                return null;
             }
 
-            PduPersister p = PduPersister.getPduPersister(context);
-            ContentResolver cr = context.getContentResolver();
+            PduPersister p = PduPersister.getPduPersister(mContext);
+            ContentResolver cr = mContext.getContentResolver();
             int type = pdu.getMessageType();
             long threadId = -1;
 
@@ -82,7 +112,7 @@ public class PushReceiver extends BroadcastReceiver {
                 switch (type) {
                     case MESSAGE_TYPE_DELIVERY_IND:
                     case MESSAGE_TYPE_READ_ORIG_IND: {
-                        threadId = findThreadId(context, pdu, type);
+                        threadId = findThreadId(mContext, pdu, type);
                         if (threadId == -1) {
                             // The associated SendReq isn't found, therefore skip
                             // processing this PDU.
@@ -93,19 +123,19 @@ public class PushReceiver extends BroadcastReceiver {
                         // Update thread ID for ReadOrigInd & DeliveryInd.
                         ContentValues values = new ContentValues(1);
                         values.put(Mms.THREAD_ID, threadId);
-                        SqliteWrapper.update(context, cr, uri, values, null, null);
+                        SqliteWrapper.update(mContext, cr, uri, values, null, null);
                         break;
                     }
                     case MESSAGE_TYPE_NOTIFICATION_IND: {
                         NotificationInd nInd = (NotificationInd) pdu;
-                        if (!isDuplicateNotification(context, nInd)) {
+                        if (!isDuplicateNotification(mContext, nInd)) {
                             Uri uri = p.persist(pdu, Inbox.CONTENT_URI);
                             // Start service to finish the notification transaction.
-                            Intent svc = new Intent(context, TransactionService.class);
+                            Intent svc = new Intent(mContext, TransactionService.class);
                             svc.putExtra(TransactionBundle.URI, uri.toString());
                             svc.putExtra(TransactionBundle.TRANSACTION_TYPE,
                                     Transaction.NOTIFICATION_TRANSACTION);
-                            context.startService(svc);
+                            mContext.startService(svc);
                         } else if (LOCAL_LOGV) {
                             Log.v(TAG, "Skip downloading duplicate message: "
                                     + new String(nInd.getContentLocation()));
@@ -124,6 +154,20 @@ public class PushReceiver extends BroadcastReceiver {
             if (LOCAL_LOGV) {
                 Log.v(TAG, "PUSH Intent processed.");
             }
+
+            return null;
+        }
+    }
+    
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (intent.getAction().equals(WAP_PUSH_RECEIVED_ACTION)
+                && ContentType.MMS_MESSAGE.equals(intent.getType())) {
+            if (LOCAL_LOGV) {
+                Log.v(TAG, "Received PUSH Intent: " + intent);
+            }
+            
+            new ReceivePushTask(context).execute(intent);
         }
     }
 

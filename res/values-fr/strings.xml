@@ -19,10 +19,12 @@
     <string name="new_message">"Nouveau message"</string>
     <string name="create_new_message">"Composer un nouveau message"</string>
     <string name="menu_call_back">"Appeler <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email">"Envoyer un e-mail à <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"Composer"</string>
     <string name="menu_preferences">"Paramètres"</string>
-    <string name="menu_send_email">"Envoyer un e-mail à <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_add_address_to_contacts">"Ajouter <xliff:g id="NAME">%s</xliff:g> à mes contacts"</string>
+    <!-- no translation found for menu_call (5877123227307074690) -->
+    <skip />
     <string name="menu_delete_all">"Supprimer les fils de discussion"</string>
     <string name="menu_delete">"Supprimer"</string>
     <string name="menu_undelivered_messages">"Messages non transmis"</string>
@@ -59,6 +61,7 @@
     <string name="move_down">"Déplacer vers le bas"</string>
     <string name="remove_slide">"Supprimer la diapositive"</string>
     <string name="add_slide">"Ajouter une diapositive"</string>
+    <string name="add_slide_hint">"Sélectionner cet élément pour créer une nouvelle diapositive."</string>
     <string name="discard_slideshow">"Supprimer le diaporama"</string>
     <string name="remove_text">"Supprimer le texte"</string>
     <string name="add_picture">"Ajouter une image"</string>
@@ -67,19 +70,18 @@
     <string name="remove_music">"Supprimer la musique"</string>
     <string name="add_video">"Ajouter une vidéo"</string>
     <string name="remove_video">"Supprimer la vidéo"</string>
-    <string name="add_slide_hint">"Sélectionner cet élément pour créer une nouvelle diapositive"</string>
-    <string name="to_hint">"À"</string>
     <string name="compose_title">"Composer"</string>
+    <string name="to_hint">"À"</string>
     <string name="subject_hint">"Objet"</string>
     <string name="add_attachment">"Joindre"</string>
     <string name="add_subject">"Ajouter un objet"</string>
     <string name="discard">"Supprimer"</string>
+    <string name="view">"Afficher"</string>
     <string name="replace">"Remplacer"</string>
     <string name="remove">"Supprimer"</string>
     <string name="send">"Envoyer"</string>
     <string name="all_threads">"Tous les fils de discussion"</string>
     <string name="type_to_compose_text_enter_to_send">"Saisissez un texte et appuyez sur Entrée pour envoyer le message."</string>
-    <string name="view">"Afficher"</string>
     <string name="open_keyboard_to_compose_message">"Ouvrez le clavier pour composer un message."</string>
     <string name="image_too_large">"Image trop lourde"</string>
     <string name="ask_for_automatically_resize">"Redimensionner automatiquement l\'image avant de l\'envoyer ?"</string>
@@ -142,9 +144,6 @@
     <string name="pref_notification_settings_title">"Paramètres de notification"</string>
     <string name="pref_mms_settings_title">"Paramètres MMS"</string>
     <string name="pref_sms_settings_title">"Paramètres SMS"</string>
-    <string name="pref_default_mms_max_size">"500000"</string>
-    <string name="pref_default_mms_creation_mode">"limité"</string>
-    <string name="pref_default_mms_resubmission_mode">"limité"</string>
     <string name="pref_summary_manage_sim_messages">"Gérer les messages enregistrés sur votre carte SIM"</string>
     <string name="pref_summary_mms_delivery_reports">"Demander un accusé de réception pour chaque message envoyé"</string>
     <string name="pref_summary_mms_read_reports">"Demander une confirmation de lecture pour chaque message envoyé"</string>
@@ -229,7 +228,6 @@
     <string name="type_video">"vidéo"</string>
     <string name="confirm">"Confirmer"</string>
     <string name="message_send_read_report">"Une confirmation de lecture sera envoyée."</string>
-    <string name="url_list_label">"Sélectionner un lien"</string>
     <string name="message_queued">"Votre message ne peut pas être envoyé pour l\'instant. Il sera transmis lorsque le service sera à nouveau disponible."</string>
     <string name="no_subject">"(Aucun objet)"</string>
     <string name="unknown_sender">"Expéditeur inconnu"</string>

@@ -19,10 +19,12 @@
     <string name="new_message">"Nuovo messaggio"</string>
     <string name="create_new_message">"Componi nuovo messaggio"</string>
     <string name="menu_call_back">"Chiama <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email">"Invia email a <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"Componi"</string>
     <string name="menu_preferences">"Impostazioni"</string>
-    <string name="menu_send_email">"Invia email a <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_add_address_to_contacts">"Aggiungi <xliff:g id="NAME">%s</xliff:g> a Contatti"</string>
+    <!-- no translation found for menu_call (5877123227307074690) -->
+    <skip />
     <string name="menu_delete_all">"Elimina conversazioni"</string>
     <string name="menu_delete">"Elimina"</string>
     <string name="menu_undelivered_messages">"Messaggi non consegnati"</string>
@@ -59,6 +61,7 @@
     <string name="move_down">"Sposta giù"</string>
     <string name="remove_slide">"Rimuovi diapositiva"</string>
     <string name="add_slide">"Aggiungi diapositiva"</string>
+    <string name="add_slide_hint">"Seleziona per creare nuova diapositiva."</string>
     <string name="discard_slideshow">"Ignora presentazione"</string>
     <string name="remove_text">"Rimuovi testo"</string>
     <string name="add_picture">"Aggiungi immagine"</string>
@@ -67,19 +70,18 @@
     <string name="remove_music">"Rimuovi musica"</string>
     <string name="add_video">"Aggiungi video"</string>
     <string name="remove_video">"Rimuovi video"</string>
-    <string name="add_slide_hint">"Seleziona per creare nuova diapositiva"</string>
-    <string name="to_hint">"A"</string>
     <string name="compose_title">"Componi"</string>
+    <string name="to_hint">"A"</string>
     <string name="subject_hint">"Oggetto"</string>
     <string name="add_attachment">"Allega"</string>
     <string name="add_subject">"Aggiungi oggetto"</string>
     <string name="discard">"Ignora"</string>
+    <string name="view">"Visualizza"</string>
     <string name="replace">"Sostituisci"</string>
     <string name="remove">"Rimuovi"</string>
     <string name="send">"Invia"</string>
     <string name="all_threads">"Tutte le conversazioni"</string>
     <string name="type_to_compose_text_enter_to_send">"Digita per comporre. Premi Invio per inviare"</string>
-    <string name="view">"Visualizza"</string>
     <string name="open_keyboard_to_compose_message">"Apri tastiera per comporre il messaggio"</string>
     <string name="image_too_large">"Immagine troppo grande"</string>
     <string name="ask_for_automatically_resize">"Ridimensionare automaticamente l\'immagine prima di inviarla?"</string>
@@ -142,9 +144,6 @@
     <string name="pref_notification_settings_title">"Impostazioni notifiche"</string>
     <string name="pref_mms_settings_title">"Impostazioni MMS"</string>
     <string name="pref_sms_settings_title">"Impostazioni SMS"</string>
-    <string name="pref_default_mms_max_size">"500000"</string>
-    <string name="pref_default_mms_creation_mode">"limitata"</string>
-    <string name="pref_default_mms_resubmission_mode">"limitata"</string>
     <string name="pref_summary_manage_sim_messages">"Gestisci i messaggi memorizzati nella SIM"</string>
     <string name="pref_summary_mms_delivery_reports">"Richiedi un rapporto di consegna per ogni messaggio inviato"</string>
     <string name="pref_summary_mms_read_reports">"Richiedi un rapporto di lettura per ogni messaggio inviato"</string>
@@ -229,7 +228,6 @@
     <string name="type_video">"video"</string>
     <string name="confirm">"Conferma"</string>
     <string name="message_send_read_report">"Verrà inviato un rapporto di lettura."</string>
-    <string name="url_list_label">"Seleziona link"</string>
     <string name="message_queued">"Al momento è impossibile inviare il messaggio. Il messaggio verrà inviato non appena il servizio diventa disponibile."</string>
     <string name="no_subject">"(Nessun oggetto)"</string>
     <string name="unknown_sender">"Mittente sconosciuto"</string>

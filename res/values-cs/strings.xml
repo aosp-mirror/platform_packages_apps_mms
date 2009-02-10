@@ -19,10 +19,12 @@
     <string name="new_message">"Nová zpráva"</string>
     <string name="create_new_message">"Napsat novou zprávu"</string>
     <string name="menu_call_back">"Volat odesílatele <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email">"Odeslat e-mail adresátovi <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"Napsat"</string>
     <string name="menu_preferences">"Nastavení"</string>
-    <string name="menu_send_email">"Odeslat e-mail adresátovi <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_add_address_to_contacts">"Přidat <xliff:g id="NAME">%s</xliff:g> mezi Kontakty"</string>
+    <!-- no translation found for menu_call (5877123227307074690) -->
+    <skip />
     <string name="menu_delete_all">"Smazat konverzace"</string>
     <string name="menu_delete">"Smazat"</string>
     <string name="menu_undelivered_messages">"Nedoručené zprávy"</string>
@@ -59,6 +61,7 @@
     <string name="move_down">"Přesunout dolů"</string>
     <string name="remove_slide">"Odstranit snímek"</string>
     <string name="add_slide">"Přidat snímek"</string>
+    <string name="add_slide_hint">"Umožňuje vytvořit nový snímek."</string>
     <string name="discard_slideshow">"Zahodit prezentaci"</string>
     <string name="remove_text">"Odstranit text"</string>
     <string name="add_picture">"Přidat fotografii"</string>
@@ -67,19 +70,18 @@
     <string name="remove_music">"Odstranit hudbu"</string>
     <string name="add_video">"Přidat video"</string>
     <string name="remove_video">"Odstranit video"</string>
-    <string name="add_slide_hint">"Umožňuje vytvořit nový snímek"</string>
-    <string name="to_hint">"Komu:"</string>
     <string name="compose_title">"Napsat"</string>
+    <string name="to_hint">"Komu:"</string>
     <string name="subject_hint">"Předmět"</string>
     <string name="add_attachment">"Připojit přílohu"</string>
     <string name="add_subject">"Přidat předmět"</string>
     <string name="discard">"Zahodit"</string>
+    <string name="view">"Zobrazit"</string>
     <string name="replace">"Nahradit"</string>
     <string name="remove">"Odstranit"</string>
     <string name="send">"Odeslat"</string>
     <string name="all_threads">"Všechny konverzace"</string>
     <string name="type_to_compose_text_enter_to_send">"Napište zprávu a odešlete ji stiskem tlačítka Enter."</string>
-    <string name="view">"Zobrazit"</string>
     <string name="open_keyboard_to_compose_message">"Otevřete klávesnici a napište zprávu."</string>
     <string name="image_too_large">"Fotografie je příliš velká"</string>
     <string name="ask_for_automatically_resize">"Přizpůsobit velikost fotografie před odesláním?"</string>
@@ -142,9 +144,6 @@
     <string name="pref_notification_settings_title">"Nastavení oznámení"</string>
     <string name="pref_mms_settings_title">"Nastavení MMS"</string>
     <string name="pref_sms_settings_title">"Nastavení SMS"</string>
-    <string name="pref_default_mms_max_size">"500000"</string>
-    <string name="pref_default_mms_creation_mode">"omezeno"</string>
-    <string name="pref_default_mms_resubmission_mode">"omezeno"</string>
     <string name="pref_summary_manage_sim_messages">"Umožňuje spravovat zprávy uložené na kartě SIM"</string>
     <string name="pref_summary_mms_delivery_reports">"Potvrzení o doručení je vyžadováno pro každou odeslanou zprávu"</string>
     <string name="pref_summary_mms_read_reports">"Potvrzení o přečtení je vyžadováno pro každou odeslanou zprávu"</string>
@@ -229,7 +228,6 @@
     <string name="type_video">"video"</string>
     <string name="confirm">"Potvrdit"</string>
     <string name="message_send_read_report">"Bude odesláno potvrzení o přečtení."</string>
-    <string name="url_list_label">"Zvolit odkaz"</string>
     <string name="message_queued">"Momentálně nelze zprávu odeslat. Zpráva bude odeslána, jakmile bude služba dostupná."</string>
     <string name="no_subject">"(Předmět neuveden)"</string>
     <string name="unknown_sender">"Neznámý odesílatel"</string>

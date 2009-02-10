@@ -231,6 +231,7 @@ public class UndeliveredMessagesActivity extends ListActivity {
     private void editMessage(long threadId, long msgId, String msgType) {
         Intent intent = new Intent(this, ComposeMessageActivity.class);
         intent.putExtra("thread_id", threadId);
+        intent.putExtra("undelivered_flag", true);
 
         if (msgType.equals("sms")) {
             Uri.Builder builder = Sms.Outbox.CONTENT_URI.buildUpon();

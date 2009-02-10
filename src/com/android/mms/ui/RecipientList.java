@@ -19,6 +19,7 @@ package com.android.mms.ui;
 
 import com.android.internal.telephony.CallerInfo;
 import com.android.mms.transaction.MessageSender;
+import com.android.mms.util.ContactNameCache;
 
 import android.content.Context;
 import android.provider.Telephony.Mms;
@@ -190,13 +191,17 @@ public class RecipientList {
         public static String buildNameAndNumber(String name, String number) {
             // Format like this: Mike Cleron <(650) 555-1234>
             //                   Erick Tseng <(650) 555-1212>
+            //                   Tutankhamun <tutank1341@gmail.com>
             //                   (408) 555-1289
-
-            if (!TextUtils.isEmpty(name) &&
-                    !name.equals(number)) {
-                return name + " <" + PhoneNumberUtils.formatNumber(number) + ">";
+            String formattedNumber = number;
+            if (!Mms.isEmailAddress(number)) {
+                formattedNumber = PhoneNumberUtils.formatNumber(number);
+            }
+            
+            if (!name.equals(number)) {
+                return name + " <" + formattedNumber + ">";
             } else {
-                return PhoneNumberUtils.formatNumber(number);
+                return formattedNumber;
             }            
         }
     }
@@ -212,25 +217,31 @@ public class RecipientList {
                     recipient.bcc = true;
                     number = number.substring(5);
                 }
-                /*
-                 * TODO: Consider getting the CallerInfo object asynchronously
-                 * to help with ui responsiveness, instead of running the query
-                 * directly from the UI thread
-                 */
-                CallerInfo ci = CallerInfo.getCallerInfo(context, number);
-                if (TextUtils.isEmpty(ci.name)) {
-                    recipient.person_id = -1;
-                    if (MessageUtils.isLocalNumber(ci.phoneNumber)) {
-                        recipient.name = "Me";
+                
+                if (!Mms.isEmailAddress(number)) {
+                    /*
+                     * TODO: Consider getting the CallerInfo object asynchronously
+                     * to help with ui responsiveness, instead of running the query
+                     * directly from the UI thread
+                     */
+                    CallerInfo ci = CallerInfo.getCallerInfo(context, number);
+                    if (TextUtils.isEmpty(ci.name)) {
+                        recipient.person_id = -1;
+                        if (MessageUtils.isLocalNumber(ci.phoneNumber)) {
+                            recipient.name = "Me";
+                        } else {
+                            recipient.name = ci.phoneNumber;
+                        }
                     } else {
-                        recipient.name = ci.phoneNumber;
+                        recipient.person_id = ci.person_id;
+                        recipient.name = ci.name;
                     }
+                    recipient.label = ci.phoneLabel;
+                    recipient.number = (ci.phoneNumber == null) ? "" : ci.phoneNumber;
                 } else {
-                    recipient.person_id = ci.person_id;
-                    recipient.name = ci.name;
+                    recipient.number = number;
+                    recipient.name = ContactNameCache.getDisplayName(context, number);
                 }
-                recipient.label = ci.phoneLabel;
-                recipient.number = (ci.phoneNumber == null) ? "" : ci.phoneNumber;
                 
                 recipient.nameAndNumber = Recipient.buildNameAndNumber(recipient.name,
                         recipient.number);

@@ -19,10 +19,12 @@
     <string name="new_message">"新しいメッセージ"</string>
     <string name="create_new_message">"新しいメッセージを作成する"</string>
     <string name="menu_call_back">"<xliff:g id="NAME">%s</xliff:g>さんに発信"</string>
+    <string name="menu_send_email">"<xliff:g id="NAME">%s</xliff:g>さんにメールを送信"</string>
     <string name="menu_compose_new">"作成"</string>
     <string name="menu_preferences">"設定"</string>
-    <string name="menu_send_email">"<xliff:g id="NAME">%s</xliff:g>さんにメールを送信"</string>
     <string name="menu_add_address_to_contacts">"連絡先に<xliff:g id="NAME">%s</xliff:g>さんを追加"</string>
+    <!-- no translation found for menu_call (5877123227307074690) -->
+    <skip />
     <string name="menu_delete_all">"スレッドを削除"</string>
     <string name="menu_delete">"削除"</string>
     <string name="menu_undelivered_messages">"配信不能メッセージ"</string>
@@ -59,6 +61,7 @@
     <string name="move_down">"下に移動"</string>
     <string name="remove_slide">"スライドを削除"</string>
     <string name="add_slide">"スライドを追加"</string>
+    <string name="add_slide_hint">"新しいスライドを作成します。"</string>
     <string name="discard_slideshow">"スライドショーを破棄"</string>
     <string name="remove_text">"テキストを削除"</string>
     <string name="add_picture">"画像を追加"</string>
@@ -67,19 +70,18 @@
     <string name="remove_music">"音楽を削除"</string>
     <string name="add_video">"動画を追加"</string>
     <string name="remove_video">"動画を削除"</string>
-    <string name="add_slide_hint">"新しいスライドを作成します。"</string>
-    <string name="to_hint">"宛先"</string>
     <string name="compose_title">"作成"</string>
+    <string name="to_hint">"宛先"</string>
     <string name="subject_hint">"件名"</string>
     <string name="add_attachment">"添付"</string>
     <string name="add_subject">"件名を追加"</string>
     <string name="discard">"破棄"</string>
+    <string name="view">"表示"</string>
     <string name="replace">"取り替える"</string>
     <string name="remove">"削除"</string>
     <string name="send">"送信"</string>
     <string name="all_threads">"すべてのスレッド"</string>
     <string name="type_to_compose_text_enter_to_send">"メッセージを入力してEnterキーを押すと送信します"</string>
-    <string name="view">"表示"</string>
     <string name="open_keyboard_to_compose_message">"キーボードを表示してメッセージを作成します"</string>
     <string name="image_too_large">"画像が大きすぎる"</string>
     <string name="ask_for_automatically_resize">"送信する画像のサイズを自動的に変更しますか？"</string>
@@ -142,9 +144,6 @@
     <string name="pref_notification_settings_title">"通知設定"</string>
     <string name="pref_mms_settings_title">"MMS設定"</string>
     <string name="pref_sms_settings_title">"SMS設定"</string>
-    <string name="pref_default_mms_max_size">"500000"</string>
-    <string name="pref_default_mms_creation_mode">"制限"</string>
-    <string name="pref_default_mms_resubmission_mode">"制限"</string>
     <string name="pref_summary_manage_sim_messages">"SIMカードに保存したメッセージを管理"</string>
     <string name="pref_summary_mms_delivery_reports">"送信する各メッセージの配信レポートを要求する"</string>
     <string name="pref_summary_mms_read_reports">"送信する各メッセージの既読レポートを要求する"</string>
@@ -229,7 +228,6 @@
     <string name="type_video">"動画"</string>
     <string name="confirm">"確認"</string>
     <string name="message_send_read_report">"既読レポートが送信されます。"</string>
-    <string name="url_list_label">"リンクを選択"</string>
     <string name="message_queued">"現在メッセージを送信できません。サービスが利用可能になると送信されます。"</string>
     <string name="no_subject">"(件名なし)"</string>
     <string name="unknown_sender">"送信者不明"</string>

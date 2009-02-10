@@ -22,6 +22,7 @@ import com.android.mms.R;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.AttributeSet;
@@ -87,19 +88,30 @@ public class VideoAttachmentView extends LinearLayout implements
     }
 
     public void setVideo(String name, Uri video) {
-        MediaPlayer mp = new MediaPlayer();
-        try {
-            mp.setDataSource(mContext, video);
-            Bitmap bitmap = mp.getFrameAt(1000);
-            if (null == bitmap) {
-                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mms_play_btn);
-            }
-            mThumbnailView.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            Log.e(TAG, "Unexpected IOException.", e);
-        } finally {
-            mp.release();
+        Bitmap bitmap = createVideoThumbnail(mContext, video);
+        if (null == bitmap) {
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mms_play_btn);
         }
+        mThumbnailView.setImageBitmap(bitmap);
+    }
+
+    public static Bitmap createVideoThumbnail(Context context, Uri uri) {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            retriever.setMode(MediaMetadataRetriever.MODE_CAPTURE_FRAME_ONLY);
+            retriever.setDataSource(context, uri);
+            bitmap = retriever.captureFrame();
+        } catch (RuntimeException ex) {
+            // Assume this is a corrupt video file.
+        } finally {
+            try {
+                retriever.release();
+            } catch (RuntimeException ex) {
+                // Ignore failures while cleaning up.
+            }
+        }
+        return bitmap;
     }
 
     public void setVideoVisibility(boolean visible) {

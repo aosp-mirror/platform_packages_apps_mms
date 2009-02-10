@@ -78,7 +78,8 @@
         </activity>
 
         <activity android:name=".ui.ComposeMessageActivity"
-                  android:configChanges="orientation|keyboardHidden">
+                  android:configChanges="orientation|keyboardHidden"
+                  android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

@@ -29,10 +29,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
@@ -504,7 +506,7 @@ public class MessageListItem extends LinearLayout implements
         }
     }
 
-    private boolean isFailedMessage(MessageItem msgItem) {
+    public static boolean isFailedMessage(MessageItem msgItem) {
         boolean isFailedMms = msgItem.isMms()
                             && (msgItem.mErrorType >= MmsSms.ERR_TYPE_GENERIC_PERMANENT);
         boolean isFailedSms = msgItem.isSms()
@@ -566,18 +568,12 @@ public class MessageListItem extends LinearLayout implements
 
     public void setVideo(String name, Uri video) {
         inflateMmsView();
-
-        MediaPlayer mp = new MediaPlayer();
-
-        try {
-            mp.setDataSource(mContext, video);
-            mImageView.setImageBitmap(mp.getFrameAt(1000));
-            mImageView.setVisibility(VISIBLE);
-        } catch (IOException e) {
-            Log.e(TAG, "Unexpected IOException.", e);
-        } finally {
-            mp.release();
+        Bitmap bitmap = VideoAttachmentView.createVideoThumbnail(mContext, video);
+        if (null == bitmap) {
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mms_play_btn);
         }
+        mImageView.setImageBitmap(bitmap);
+        mImageView.setVisibility(VISIBLE);
     }
 
     public void setVideoVisibility(boolean visible) {

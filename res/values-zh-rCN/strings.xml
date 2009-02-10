@@ -19,10 +19,12 @@
     <string name="new_message">"新建信息"</string>
     <string name="create_new_message">"撰写新信息"</string>
     <string name="menu_call_back">"呼叫<xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email">"向<xliff:g id="NAME">%s</xliff:g>发送电子邮件"</string>
     <string name="menu_compose_new">"撰写"</string>
     <string name="menu_preferences">"设置"</string>
-    <string name="menu_send_email">"向<xliff:g id="NAME">%s</xliff:g>发送电子邮件"</string>
     <string name="menu_add_address_to_contacts">"将<xliff:g id="NAME">%s</xliff:g>添加到“联系人”"</string>
+    <!-- no translation found for menu_call (5877123227307074690) -->
+    <skip />
     <string name="menu_delete_all">"删除线程"</string>
     <string name="menu_delete">"删除"</string>
     <string name="menu_undelivered_messages">"未发送的信息"</string>
@@ -59,6 +61,7 @@
     <string name="move_down">"下移"</string>
     <string name="remove_slide">"删除幻灯片"</string>
     <string name="add_slide">"添加幻灯片"</string>
+    <string name="add_slide_hint">"选择以创建新幻灯片。"</string>
     <string name="discard_slideshow">"放弃幻灯片演示"</string>
     <string name="remove_text">"删除文本"</string>
     <string name="add_picture">"添加图片"</string>
@@ -67,19 +70,18 @@
     <string name="remove_music">"删除音乐"</string>
     <string name="add_video">"添加视频"</string>
     <string name="remove_video">"删除视频"</string>
-    <string name="add_slide_hint">"选择以创建新幻灯片"</string>
-    <string name="to_hint">"收信人"</string>
     <string name="compose_title">"撰写"</string>
+    <string name="to_hint">"收信人"</string>
     <string name="subject_hint">"主题"</string>
     <string name="add_attachment">"附加"</string>
     <string name="add_subject">"添加主题"</string>
     <string name="discard">"放弃"</string>
+    <string name="view">"查看"</string>
     <string name="replace">"替换"</string>
     <string name="remove">"删除"</string>
     <string name="send">"发送"</string>
     <string name="all_threads">"所有线程"</string>
     <string name="type_to_compose_text_enter_to_send">"键入内容以撰写信息，按 Enter 键发送"</string>
-    <string name="view">"查看"</string>
     <string name="open_keyboard_to_compose_message">"打开键盘以撰写信息"</string>
     <string name="image_too_large">"图片太大"</string>
     <string name="ask_for_automatically_resize">"发送前自动调整图片大小？"</string>
@@ -142,9 +144,6 @@
     <string name="pref_notification_settings_title">"通知设置"</string>
     <string name="pref_mms_settings_title">"彩信设置"</string>
     <string name="pref_sms_settings_title">"短信设置"</string>
-    <string name="pref_default_mms_max_size">"500000"</string>
-    <string name="pref_default_mms_creation_mode">"受限制"</string>
-    <string name="pref_default_mms_resubmission_mode">"受限制"</string>
     <string name="pref_summary_manage_sim_messages">"管理 SIM 卡中存储的信息"</string>
     <string name="pref_summary_mms_delivery_reports">"为您发送的每条信息请求一个发送报告"</string>
     <string name="pref_summary_mms_read_reports">"发送的每条信息都要求返回已读报告"</string>
@@ -229,7 +228,6 @@
     <string name="type_video">"视频"</string>
     <string name="confirm">"确认"</string>
     <string name="message_send_read_report">"会发送已读报告。"</string>
-    <string name="url_list_label">"选择链接"</string>
     <string name="message_queued">"当前无法发送您的信息。该信息会在服务可用后发送。"</string>
     <string name="no_subject">"（无主题）"</string>
     <string name="unknown_sender">"未知发信人"</string>

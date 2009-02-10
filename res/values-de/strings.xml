@@ -19,10 +19,12 @@
     <string name="new_message">"Neue Nachricht"</string>
     <string name="create_new_message">"Neue Nachricht schreiben"</string>
     <string name="menu_call_back">"<xliff:g id="NAME">%s</xliff:g> anrufen"</string>
+    <string name="menu_send_email">"E-Mail an <xliff:g id="NAME">%s</xliff:g> senden"</string>
     <string name="menu_compose_new">"Schreiben"</string>
     <string name="menu_preferences">"Einstellungen"</string>
-    <string name="menu_send_email">"E-Mail an <xliff:g id="NAME">%s</xliff:g> senden"</string>
     <string name="menu_add_address_to_contacts">"<xliff:g id="NAME">%s</xliff:g> zu Kontakten hinzufügen"</string>
+    <!-- no translation found for menu_call (5877123227307074690) -->
+    <skip />
     <string name="menu_delete_all">"Threads löschen"</string>
     <string name="menu_delete">"Löschen"</string>
     <string name="menu_undelivered_messages">"Nicht gelieferte Nachrichten"</string>
@@ -59,6 +61,7 @@
     <string name="move_down">"Nach unten verschieben"</string>
     <string name="remove_slide">"Dia entfernen"</string>
     <string name="add_slide">"Dia hinzufügen"</string>
+    <string name="add_slide_hint">"Wählen Sie diese Option, um ein neues Dia zu erstellen."</string>
     <string name="discard_slideshow">"Diashow verwerfen"</string>
     <string name="remove_text">"Text entfernen"</string>
     <string name="add_picture">"Bild hinzufügen"</string>
@@ -67,19 +70,18 @@
     <string name="remove_music">"Musik entfernen"</string>
     <string name="add_video">"Video hinzufügen"</string>
     <string name="remove_video">"Video entfernen"</string>
-    <string name="add_slide_hint">"Wählen Sie diese Option, um ein neues Dia zu erstellen."</string>
-    <string name="to_hint">"An"</string>
     <string name="compose_title">"Schreiben"</string>
+    <string name="to_hint">"An"</string>
     <string name="subject_hint">"Betreff"</string>
     <string name="add_attachment">"Anhängen"</string>
     <string name="add_subject">"Betreff hinzufügen"</string>
     <string name="discard">"Verwerfen"</string>
+    <string name="view">"Anzeigen"</string>
     <string name="replace">"Ersetzen"</string>
     <string name="remove">"Entfernen"</string>
     <string name="send">"Senden"</string>
     <string name="all_threads">"Alle Threads"</string>
     <string name="type_to_compose_text_enter_to_send">"Geben Sie den gewünschten Text ein und drücken Sie zum Senden die Eingabetaste."</string>
-    <string name="view">"Anzeigen"</string>
     <string name="open_keyboard_to_compose_message">"Tastatur herausziehen, um Nachricht zu schreiben"</string>
     <string name="image_too_large">"Bild zu groß"</string>
     <string name="ask_for_automatically_resize">"Bildgröße vor dem Senden automatisch anpassen?"</string>
@@ -142,9 +144,6 @@
     <string name="pref_notification_settings_title">"Benachrichtigungseinstellungen"</string>
     <string name="pref_mms_settings_title">"MMS-Einstellungen"</string>
     <string name="pref_sms_settings_title">"SMS-Einstellungen"</string>
-    <string name="pref_default_mms_max_size">"500000"</string>
-    <string name="pref_default_mms_creation_mode">"eingeschränkt"</string>
-    <string name="pref_default_mms_resubmission_mode">"eingeschränkt"</string>
     <string name="pref_summary_manage_sim_messages">"Auf der SIM-Karte gespeicherte Nachrichten verwalten"</string>
     <string name="pref_summary_mms_delivery_reports">"Zustellbestätigung für jede gesendete Nachricht anfordern"</string>
     <string name="pref_summary_mms_read_reports">"Lesebestätigung für jede gesendete Nachricht anfordern"</string>
@@ -229,7 +228,6 @@
     <string name="type_video">"Video"</string>
     <string name="confirm">"Bestätigen"</string>
     <string name="message_send_read_report">"Eine Lesebestätigung wird gesendet."</string>
-    <string name="url_list_label">"Link auswählen"</string>
     <string name="message_queued">"Senden der Nachricht derzeit nicht möglich. Sie wird gesendet, sobald der Service verfügbar ist."</string>
     <string name="no_subject">"(Kein Betreff)"</string>
     <string name="unknown_sender">"Unbekannter Sender"</string>

@@ -19,10 +19,12 @@
     <string name="new_message">"Nieuw bericht"</string>
     <string name="create_new_message">"Nieuw bericht opstellen"</string>
     <string name="menu_call_back">"<xliff:g id="NAME">%s</xliff:g> bellen"</string>
+    <string name="menu_send_email">"E-mail verzenden aan <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"Opstellen"</string>
     <string name="menu_preferences">"Instellingen"</string>
-    <string name="menu_send_email">"E-mail verzenden aan <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_add_address_to_contacts">"<xliff:g id="NAME">%s</xliff:g> toevoegen aan contactpersonen"</string>
+    <!-- no translation found for menu_call (5877123227307074690) -->
+    <skip />
     <string name="menu_delete_all">"Threads verwijderen"</string>
     <string name="menu_delete">"Verwijderen"</string>
     <string name="menu_undelivered_messages">"Niet-afgeleverde berichten"</string>
@@ -59,6 +61,7 @@
     <string name="move_down">"Naar beneden"</string>
     <string name="remove_slide">"Dia verwijderen"</string>
     <string name="add_slide">"Dia toevoegen"</string>
+    <string name="add_slide_hint">"Selecteer dit om een nieuwe dia te maken."</string>
     <string name="discard_slideshow">"Diavoorstelling weggooien"</string>
     <string name="remove_text">"Tekst verwijderen"</string>
     <string name="add_picture">"Foto toevoegen"</string>
@@ -67,19 +70,18 @@
     <string name="remove_music">"Muziek verwijderen"</string>
     <string name="add_video">"Video toevoegen"</string>
     <string name="remove_video">"Video verwijderen"</string>
-    <string name="add_slide_hint">"Selecteer dit om een nieuwe dia te maken"</string>
-    <string name="to_hint">"Aan"</string>
     <string name="compose_title">"Opstellen"</string>
+    <string name="to_hint">"Aan"</string>
     <string name="subject_hint">"Onderwerp"</string>
     <string name="add_attachment">"Bijvoegen"</string>
     <string name="add_subject">"Onderwerp toevoegen"</string>
     <string name="discard">"Weggooien"</string>
+    <string name="view">"Weergeven"</string>
     <string name="replace">"Vervangen"</string>
     <string name="remove">"Verwijderen"</string>
     <string name="send">"Verzenden"</string>
     <string name="all_threads">"Alle threads"</string>
     <string name="type_to_compose_text_enter_to_send">"Typ om tekst in te voeren, druk op Enter om te verzenden"</string>
-    <string name="view">"Weergeven"</string>
     <string name="open_keyboard_to_compose_message">"Toetsenbord openen om bericht op te stellen"</string>
     <string name="image_too_large">"Foto te groot"</string>
     <string name="ask_for_automatically_resize">"Formaat van foto automatisch aanpassen vóór verzending?"</string>
@@ -142,9 +144,6 @@
     <string name="pref_notification_settings_title">"Meldingsinstellingen"</string>
     <string name="pref_mms_settings_title">"MMS-instellingen"</string>
     <string name="pref_sms_settings_title">"SMS-instellingen"</string>
-    <string name="pref_default_mms_max_size">"500000"</string>
-    <string name="pref_default_mms_creation_mode">"beperkt"</string>
-    <string name="pref_default_mms_resubmission_mode">"beperkt"</string>
     <string name="pref_summary_manage_sim_messages">"Berichten op uw SIM-kaart beheren"</string>
     <string name="pref_summary_mms_delivery_reports">"Leveringsrapport voor elk verzonden bericht aanvragen"</string>
     <string name="pref_summary_mms_read_reports">"Leesrapport voor elk verzonden bericht aanvragen"</string>
@@ -229,7 +228,6 @@
     <string name="type_video">"video"</string>
     <string name="confirm">"Bevestigen"</string>
     <string name="message_send_read_report">"Er wordt een leesrapport verzonden."</string>
-    <string name="url_list_label">"Link selecteren"</string>
     <string name="message_queued">"Uw bericht kan momenteel niet worden verzonden. Het wordt verzonden als de service beschikbaar komt."</string>
     <string name="no_subject">"(Geen onderwerp)"</string>
     <string name="unknown_sender">"Onbekende afzender"</string>

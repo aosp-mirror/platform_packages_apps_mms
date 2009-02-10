@@ -19,10 +19,12 @@
     <string name="new_message">"新增簡訊"</string>
     <string name="create_new_message">"撰寫新簡訊"</string>
     <string name="menu_call_back">"撥打電話給 <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email">"傳送電子郵件給 <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"撰寫"</string>
     <string name="menu_preferences">"設定"</string>
-    <string name="menu_send_email">"傳送電子郵件給 <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_add_address_to_contacts">"新增 <xliff:g id="NAME">%s</xliff:g> 至 [通訊錄]"</string>
+    <!-- no translation found for menu_call (5877123227307074690) -->
+    <skip />
     <string name="menu_delete_all">"刪除會話群組"</string>
     <string name="menu_delete">"刪除"</string>
     <string name="menu_undelivered_messages">"無法傳送的簡訊"</string>
@@ -59,6 +61,7 @@
     <string name="move_down">"往下移動"</string>
     <string name="remove_slide">"移除投影片"</string>
     <string name="add_slide">"新增投影片"</string>
+    <string name="add_slide_hint">"新增投影片"</string>
     <string name="discard_slideshow">"放棄投影片"</string>
     <string name="remove_text">"移除文字"</string>
     <string name="add_picture">"新增圖片"</string>
@@ -67,19 +70,18 @@
     <string name="remove_music">"移除音樂"</string>
     <string name="add_video">"新增影片"</string>
     <string name="remove_video">"移除影片"</string>
-    <string name="add_slide_hint">"新增投影片"</string>
-    <string name="to_hint">"給"</string>
     <string name="compose_title">"撰寫"</string>
+    <string name="to_hint">"給"</string>
     <string name="subject_hint">"主旨"</string>
     <string name="add_attachment">"附加"</string>
     <string name="add_subject">"新增主旨"</string>
     <string name="discard">"放棄"</string>
+    <string name="view">"檢視"</string>
     <string name="replace">"取代"</string>
     <string name="remove">"移除"</string>
     <string name="send">"傳送"</string>
     <string name="all_threads">"所有會話群組"</string>
     <string name="type_to_compose_text_enter_to_send">"輸入簡訊，按下 [Enter] 傳送"</string>
-    <string name="view">"檢視"</string>
     <string name="open_keyboard_to_compose_message">"開啟鍵盤以撰寫簡訊"</string>
     <string name="image_too_large">"圖片太大"</string>
     <string name="ask_for_automatically_resize">"傳送前是否自動重新調整圖片大小？"</string>
@@ -142,9 +144,6 @@
     <string name="pref_notification_settings_title">"通知設定"</string>
     <string name="pref_mms_settings_title">"MMS 設定"</string>
     <string name="pref_sms_settings_title">"SMS 設定"</string>
-    <string name="pref_default_mms_max_size">"500000"</string>
-    <string name="pref_default_mms_creation_mode">"受限制的"</string>
-    <string name="pref_default_mms_resubmission_mode">"受限制的"</string>
     <string name="pref_summary_manage_sim_messages">"管理 SIM 卡上的簡訊"</string>
     <string name="pref_summary_mms_delivery_reports">"傳送簡訊後要求傳送報告"</string>
     <string name="pref_summary_mms_read_reports">"傳送簡訊後要求讀取報告"</string>
@@ -229,7 +228,6 @@
     <string name="type_video">"影片"</string>
     <string name="confirm">"確認"</string>
     <string name="message_send_read_report">"即將傳送讀取報告。"</string>
-    <string name="url_list_label">"選取連結"</string>
     <string name="message_queued">"目前無法傳送簡訊。服務恢復後會自動傳送。"</string>
     <string name="no_subject">"(沒有主旨)"</string>
     <string name="unknown_sender">"未知的寄件者"</string>

@@ -19,10 +19,12 @@
     <string name="new_message">"Создать сообщение"</string>
     <string name="create_new_message">"Создать сообщение"</string>
     <string name="menu_call_back">"Позвонить: <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email">"Отправить письмо, адресат: <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"Написать"</string>
     <string name="menu_preferences">"Настройки"</string>
-    <string name="menu_send_email">"Отправить письмо, адресат: <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_add_address_to_contacts">"Добавить <xliff:g id="NAME">%s</xliff:g>в контакты"</string>
+    <!-- no translation found for menu_call (5877123227307074690) -->
+    <skip />
     <string name="menu_delete_all">"Удалить ветки"</string>
     <string name="menu_delete">"Удалить"</string>
     <string name="menu_undelivered_messages">"Недоставленные сообщения"</string>
@@ -59,6 +61,7 @@
     <string name="move_down">"Переместить вниз"</string>
     <string name="remove_slide">"Удалить слайд"</string>
     <string name="add_slide">"Добавить слайд"</string>
+    <string name="add_slide_hint">"Выберите для создания слайда."</string>
     <string name="discard_slideshow">"Отменить слайд-шоу"</string>
     <string name="remove_text">"Удалить текст"</string>
     <string name="add_picture">"Добавить изображение"</string>
@@ -67,19 +70,18 @@
     <string name="remove_music">"Убрать музыку"</string>
     <string name="add_video">"Добавить видео"</string>
     <string name="remove_video">"Убрать видео"</string>
-    <string name="add_slide_hint">"Выберите для создания слайда"</string>
-    <string name="to_hint">"Кому"</string>
     <string name="compose_title">"Написать"</string>
+    <string name="to_hint">"Кому"</string>
     <string name="subject_hint">"Тема"</string>
     <string name="add_attachment">"Вложить"</string>
     <string name="add_subject">"Добавить тему"</string>
     <string name="discard">"Закрыть"</string>
+    <string name="view">"Просмотреть"</string>
     <string name="replace">"Заменить"</string>
     <string name="remove">"Удалить"</string>
     <string name="send">"Отправить"</string>
     <string name="all_threads">"Все ветки"</string>
     <string name="type_to_compose_text_enter_to_send">"Введите текст, нажмите Enter для отправки"</string>
-    <string name="view">"Просмотреть"</string>
     <string name="open_keyboard_to_compose_message">"Откройте клавиатуру для ввода сообщения"</string>
     <string name="image_too_large">"Изображение слишком велико"</string>
     <string name="ask_for_automatically_resize">"Изменить размер изображения автоматически перед отправкой?"</string>
@@ -142,9 +144,6 @@
     <string name="pref_notification_settings_title">"Настройки уведомлений"</string>
     <string name="pref_mms_settings_title">"Настройки MMS"</string>
     <string name="pref_sms_settings_title">"Настройки SMS"</string>
-    <string name="pref_default_mms_max_size">"500000"</string>
-    <string name="pref_default_mms_creation_mode">"ограничено"</string>
-    <string name="pref_default_mms_resubmission_mode">"ограничено"</string>
     <string name="pref_summary_manage_sim_messages">"Управление сообщениями на SIM-карте"</string>
     <string name="pref_summary_mms_delivery_reports">"Запрашивать отчет о доставке каждого отправляемого сообщения"</string>
     <string name="pref_summary_mms_read_reports">"Запрашивать отчет о прочтении каждого отправляемого сообщения"</string>
@@ -229,7 +228,6 @@
     <string name="type_video">"видео"</string>
     <string name="confirm">"Подтверждение"</string>
     <string name="message_send_read_report">"Будет отправлен отчет о прочтении."</string>
-    <string name="url_list_label">"Выбрать ссылку"</string>
     <string name="message_queued">"Не удается отправить сообщение. Оно будет отправлено, когда станет доступна сеть."</string>
     <string name="no_subject">"(Без темы)"</string>
     <string name="unknown_sender">"Неизвестный отправитель"</string>

@@ -19,10 +19,12 @@
     <string name="new_message">"Nowa wiadomość"</string>
     <string name="create_new_message">"Utwórz nową wiadomość"</string>
     <string name="menu_call_back">"Zadzwoń do: <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email">"Wyślij wiadomość e-mail do: <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"Utwórz"</string>
     <string name="menu_preferences">"Ustawienia"</string>
-    <string name="menu_send_email">"Wyślij wiadomość e-mail do: <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_add_address_to_contacts">"Dodaj <xliff:g id="NAME">%s</xliff:g> do Kontaktów"</string>
+    <!-- no translation found for menu_call (5877123227307074690) -->
+    <skip />
     <string name="menu_delete_all">"Usuń wątki"</string>
     <string name="menu_delete">"Usuń"</string>
     <string name="menu_undelivered_messages">"Niedostarczone wiadomości"</string>
@@ -59,6 +61,7 @@
     <string name="move_down">"Przesuń w dół"</string>
     <string name="remove_slide">"Usuń slajd"</string>
     <string name="add_slide">"Dodaj slajd"</string>
+    <string name="add_slide_hint">"Wybierz, aby utworzyć nowy slajd."</string>
     <string name="discard_slideshow">"Odrzuć pokaz slajdów"</string>
     <string name="remove_text">"Usuń tekst"</string>
     <string name="add_picture">"Dodaj zdjęcie"</string>
@@ -67,19 +70,18 @@
     <string name="remove_music">"Usuń muzykę"</string>
     <string name="add_video">"Dodaj film wideo"</string>
     <string name="remove_video">"Usuń film wideo"</string>
-    <string name="add_slide_hint">"Wybierz, aby utworzyć nowy slajd"</string>
-    <string name="to_hint">"Do"</string>
     <string name="compose_title">"Utwórz"</string>
+    <string name="to_hint">"Do"</string>
     <string name="subject_hint">"Temat"</string>
     <string name="add_attachment">"Załącz"</string>
     <string name="add_subject">"Dodaj temat"</string>
     <string name="discard">"Odrzuć"</string>
+    <string name="view">"Wyświetl"</string>
     <string name="replace">"Zastąp"</string>
     <string name="remove">"Usuń"</string>
     <string name="send">"Wyślij"</string>
     <string name="all_threads">"Wszystkie wątki"</string>
     <string name="type_to_compose_text_enter_to_send">"Wpisz, aby utworzyć i naciśnij klawisz ENTER, aby wysłać."</string>
-    <string name="view">"Wyświetl"</string>
     <string name="open_keyboard_to_compose_message">"Otwórz klawiaturę, aby utworzyć wiadomość"</string>
     <string name="image_too_large">"Zdjęcie jest za duże"</string>
     <string name="ask_for_automatically_resize">"Zmienić automatycznie rozmiar zdjęcia przed wysłaniem?"</string>
@@ -142,9 +144,6 @@
     <string name="pref_notification_settings_title">"Ustawienia powiadomień"</string>
     <string name="pref_mms_settings_title">"Ustawienia wiadomości MMS"</string>
     <string name="pref_sms_settings_title">"Ustawienia wiadomości SMS"</string>
-    <string name="pref_default_mms_max_size">"500000"</string>
-    <string name="pref_default_mms_creation_mode">"ograniczony"</string>
-    <string name="pref_default_mms_resubmission_mode">"ograniczone"</string>
     <string name="pref_summary_manage_sim_messages">"Zarządzanie wiadomościami zapisanymi na karcie SIM"</string>
     <string name="pref_summary_mms_delivery_reports">"Żądaj potwierdzenia dostarczenia każdej wysłanej wiadomości"</string>
     <string name="pref_summary_mms_read_reports">"Żądanie raportu przeczytania każdej wysłanej wiadomości."</string>
@@ -229,7 +228,6 @@
     <string name="type_video">"film wideo"</string>
     <string name="confirm">"Potwierdź"</string>
     <string name="message_send_read_report">"Wysłany zostanie raport o odczytaniu wiadomości."</string>
-    <string name="url_list_label">"Wybierz link"</string>
     <string name="message_queued">"Nie można w tej chwili wysłać wiadomości. Zostanie ona wysłana, gdy usługa będzie dostępna."</string>
     <string name="no_subject">"(Brak tematu)"</string>
     <string name="unknown_sender">"Nieznany nadawca"</string>

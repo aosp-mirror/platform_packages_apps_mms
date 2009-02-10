@@ -25,7 +25,6 @@ import android.graphics.Typeface;
 import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.method.HideReturnsTransformationMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
@@ -69,7 +68,6 @@ public class ConversationHeaderView extends RelativeLayout {
 
         mFromView = (TextView) findViewById(R.id.from);
         mSubjectView = (TextView) findViewById(R.id.subject);
-        mSubjectView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
         mDateView = (TextView) findViewById(R.id.date);
         mAttachmentView = findViewById(R.id.attachment);

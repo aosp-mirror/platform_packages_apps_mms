@@ -546,6 +546,16 @@ public class ConversationList extends ListActivity {
                 // Update the notification for failed messages since they
                 // may be deleted.
                 MessagingNotification.updateSendFailedNotification(ConversationList.this);
+                
+                // Make sure the list reflects the delete
+                synchronized (mCursorLock) {
+                    if (mCursor == null) {
+                        startAsyncQuery();
+                    } else {
+                        SqliteWrapper.requery(ConversationList.this, mCursor);
+                    }
+                }
+                onContentChanged();
                 break;
             }
         }

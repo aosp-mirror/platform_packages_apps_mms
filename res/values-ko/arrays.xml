@@ -35,22 +35,22 @@
     <item>"o_O"</item>
   </string-array>
   <string-array name="default_smiley_names">
-    <item>"Content"</item>
-    <item>"Triste"</item>
-    <item>"Clin d\'œil"</item>
-    <item>"Tire la langue"</item>
-    <item>"Surpris"</item>
-    <item>"Bisous"</item>
-    <item>"Crier"</item>
-    <item>"Cool"</item>
-    <item>"Argent"</item>
-    <item>"Embarrassé"</item>
-    <item>"Gêné"</item>
-    <item>"Ange"</item>
-    <item>"Indécis"</item>
-    <item>"Pleure"</item>
-    <item>"Motus et bouche cousue"</item>
-    <item>"Rire"</item>
-    <item>"Confus"</item>
+    <item>"행복"</item>
+    <item>"슬픔"</item>
+    <item>"윙크"</item>
+    <item>"메롱"</item>
+    <item>"놀람"</item>
+    <item>"키스"</item>
+    <item>"소리 지름"</item>
+    <item>"멋짐"</item>
+    <item>"욕심"</item>
+    <item>"부끄러움"</item>
+    <item>"당황"</item>
+    <item>"천사"</item>
+    <item>"우유부단"</item>
+    <item>"울음"</item>
+    <item>"입막음"</item>
+    <item>"웃음"</item>
+    <item>"어리둥절"</item>
   </string-array>
 </resources>
