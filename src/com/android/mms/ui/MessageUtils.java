@@ -556,13 +556,27 @@ public class MessageUtils {
     public static void resizeImageAsync(final Context context,
             final Uri imageUri, final Handler handler,
             final ResizeImageResultCallback cb) {
-        final ProgressDialog progressDialog = ProgressDialog.show(
-                context,
-                context.getText(R.string.image_too_large),
-                context.getText(R.string.compressing),
-                true,
-                false);
 
+        // Show a progress dialog if the resize hasn't finished
+        // within one second.
+
+        // Make the progress dialog.
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle(context.getText(R.string.image_too_large));
+        progressDialog.setMessage(context.getText(R.string.compressing));
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        
+        // Stash the runnable for showing it away so we can cancel
+        // it later if the resize completes ahead of the deadline.
+        final Runnable showProgress = new Runnable() {
+            public void run() {
+                progressDialog.show();
+            }
+        };
+        // Schedule it for one second from now.
+        handler.postDelayed(showProgress, 1000);
+        
         new Thread(new Runnable() {
             public void run() {
                 final PduPart part;
@@ -572,6 +586,9 @@ public class MessageUtils {
                         CarrierContentRestriction.IMAGE_WIDTH_LIMIT,
                         CarrierContentRestriction.IMAGE_HEIGHT_LIMIT);
                 } finally {
+                    // Cancel pending show of the progress dialog if necessary.
+                    handler.removeCallbacks(showProgress);
+                    // Dismiss the progress dialog if it's around.
                     progressDialog.dismiss();
                 }
 
@@ -582,39 +599,6 @@ public class MessageUtils {
                 });
             }
         }).start();
-    }
-
-    public static void showResizeConfirmDialog(Context context,
-            OnClickListener resizeListener,
-            final Runnable cancel) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context)
-            .setIcon(R.drawable.ic_sms_error)
-            .setTitle(R.string.image_too_large)
-            .setMessage(R.string.ask_for_automatically_resize)
-            .setPositiveButton(R.string.resize, resizeListener);
-
-        if (cancel == null) {
-            builder.setCancelable(true)
-                .setNegativeButton(R.string.no, null);
-        } else {
-            OnClickListener clickCancel = new OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    cancel.run();
-                }
-            };
-
-            OnCancelListener cancelListener = new OnCancelListener() {
-                public void onCancel(DialogInterface dialog) {
-                    cancel.run();
-                }
-            };
-
-            builder.setNegativeButton(R.string.no, clickCancel)
-                .setOnCancelListener(cancelListener);
-        }
-
-
-        builder.show();
     }
 
     public static void showDiscardDraftConfirmDialog(Context context,

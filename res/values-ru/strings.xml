@@ -167,6 +167,8 @@
     <string name="confirm_delete_all_conversations">"Все ветки будут удалены."</string>
     <string name="confirm_delete_message">"Это сообщение будет удалено."</string>
     <string name="confirm_delete_all_messages">"Вся ветка будет удалена."</string>
+    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
+    <skip />
     <string name="cannot_get_details">"Не удается получить сведения"</string>
     <string name="message_details_title">"Сведения о сообщении"</string>
     <string name="message_type_label">"Тип:"</string>

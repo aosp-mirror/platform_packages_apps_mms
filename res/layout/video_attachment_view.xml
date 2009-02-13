@@ -27,17 +27,24 @@
     android:paddingRight="5dip"
     android:background="@drawable/attachment_editor_bg">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_weight="1"
         android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
         <ImageView
             android:id="@+id/video_thumbnail"
-            android:layout_width="200dip"
-            android:layout_height="150dip"/>
-    </LinearLayout>
+            android:scaleType="centerCrop"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_gallery_video_overlay" />
+    </RelativeLayout>
 
     <LinearLayout
         android:orientation="vertical"

@@ -167,6 +167,8 @@
     <string name="confirm_delete_all_conversations">"Se eliminarán todas las cadenas."</string>
     <string name="confirm_delete_message">"Se eliminará el mensaje."</string>
     <string name="confirm_delete_all_messages">"Se eliminará toda la cadena."</string>
+    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
+    <skip />
     <string name="cannot_get_details">"No se pueden obtener detalles."</string>
     <string name="message_details_title">"Detalles del mensaje"</string>
     <string name="message_type_label">"Tipo:"</string>

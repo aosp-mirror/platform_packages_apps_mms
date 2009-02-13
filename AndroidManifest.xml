@@ -69,9 +69,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.UndeliveredMessagesActivity"
-            android:label="@string/menu_undelivered_messages"/>
-
         <activity android:name=".ui.SelectContactMethodActivity"
             android:label="Select Contact Method"
             android:theme="@android:style/Theme.Dialog">

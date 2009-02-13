@@ -167,6 +167,8 @@
     <string name="confirm_delete_all_conversations">"会删除所有线程。"</string>
     <string name="confirm_delete_message">"会删除此信息。"</string>
     <string name="confirm_delete_all_messages">"会删除整个线程。"</string>
+    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
+    <skip />
     <string name="cannot_get_details">"无法获取详情"</string>
     <string name="message_details_title">"信息详情"</string>
     <string name="message_type_label">"类型："</string>

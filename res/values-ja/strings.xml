@@ -167,6 +167,8 @@
     <string name="confirm_delete_all_conversations">"スレッドはすべて削除されます。"</string>
     <string name="confirm_delete_message">"メッセージを削除します。"</string>
     <string name="confirm_delete_all_messages">"スレッド全体が削除されます。"</string>
+    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
+    <skip />
     <string name="cannot_get_details">"詳細を表示できません"</string>
     <string name="message_details_title">"メッセージの詳細"</string>
     <string name="message_type_label">"タイプ:"</string>

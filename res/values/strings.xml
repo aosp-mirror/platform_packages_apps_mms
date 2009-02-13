@@ -42,7 +42,8 @@
     <string name="menu_delete_all">Delete threads</string>
     <!-- Context menu item on an individual conversation for deleting that conversation -->
     <string name="menu_delete">Delete</string>
-    <!-- Menu item for viewing all messages that were unable to be delivered, i.e. send failed -->
+    <!-- This string is no longer used. It used to be the menu item for viewing all messages that
+         were unable to be delivered, i.e. send failed -->
     <string name="menu_undelivered_messages">Undelivered messages</string>
     <!-- Context menu item on an individual conversation for viewing that conversation -->
     <string name="menu_view">View</string>

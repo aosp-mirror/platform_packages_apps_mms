@@ -167,6 +167,8 @@
     <string name="confirm_delete_all_conversations">"Tous les fils de discussion vont être supprimés."</string>
     <string name="confirm_delete_message">"Le message va être supprimé."</string>
     <string name="confirm_delete_all_messages">"L\'intégralité du fil de discussion va être supprimée."</string>
+    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
+    <skip />
     <string name="cannot_get_details">"Impossible de récupérer les détails"</string>
     <string name="message_details_title">"Détails du message"</string>
     <string name="message_type_label">"Type :"</string>

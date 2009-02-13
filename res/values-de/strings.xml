@@ -167,6 +167,8 @@
     <string name="confirm_delete_all_conversations">"Alle Threads werden gelöscht."</string>
     <string name="confirm_delete_message">"Die Nachricht wird gelöscht."</string>
     <string name="confirm_delete_all_messages">"Der gesamte Thread wird gelöscht."</string>
+    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
+    <skip />
     <string name="cannot_get_details">"Details nicht abrufbar"</string>
     <string name="message_details_title">"Nachrichtendetails"</string>
     <string name="message_type_label">"Typ:"</string>

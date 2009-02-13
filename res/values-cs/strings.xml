@@ -167,6 +167,8 @@
     <string name="confirm_delete_all_conversations">"Všechny konverzace budou smazány."</string>
     <string name="confirm_delete_message">"Zpráva bude smazána."</string>
     <string name="confirm_delete_all_messages">"Celá konverzace bude smazána."</string>
+    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
+    <skip />
     <string name="cannot_get_details">"Podrobnosti se nepodařilo zobrazit."</string>
     <string name="message_details_title">"Podrobnosti zprávy"</string>
     <string name="message_type_label">"Typ:"</string>

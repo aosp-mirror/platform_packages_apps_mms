@@ -77,8 +77,9 @@ public class MessageItem {
         mContext = context;
         mThreadType = threadType;
         mMsgId = cursor.getLong(columnsMap.mColumnMsgId);
-
+        
         if ("sms".equals(type)) {
+            ContactNameCache nameCache = ContactNameCache.getInstance();
             mReadReport = false; // No read reports in sms
             mDeliveryReport = (cursor.getLong(columnsMap.mColumnSmsStatus)
                     != Sms.STATUS_NONE);
@@ -95,11 +96,12 @@ public class MessageItem {
                 } else {
                     mContact = String.format(
                             context.getString(R.string.broadcast_from_to),
-                            meString, mAddress);
+                            meString,
+                            nameCache.getContactName(context, mAddress));
                 }
             } else {
                 // For incoming messages, the ADDRESS field contains the sender.
-                mContact = ContactNameCache.getInstance().getContactName(context, mAddress);
+                mContact = nameCache.getContactName(context, mAddress);
             }
             mBody = cursor.getString(columnsMap.mColumnSmsBody);
 

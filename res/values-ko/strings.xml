@@ -167,6 +167,8 @@
     <string name="confirm_delete_all_conversations">"대화목록이 모두 삭제됩니다."</string>
     <string name="confirm_delete_message">"메시지가 삭제됩니다."</string>
     <string name="confirm_delete_all_messages">"전체 대화가 삭제됩니다."</string>
+    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
+    <skip />
     <string name="cannot_get_details">"세부정보를 가져올 수 없음"</string>
     <string name="message_details_title">"메시지 세부정보"</string>
     <string name="message_type_label">"유형:"</string>

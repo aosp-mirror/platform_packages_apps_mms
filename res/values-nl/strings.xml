@@ -167,6 +167,8 @@
     <string name="confirm_delete_all_conversations">"Alle threads worden verwijderd."</string>
     <string name="confirm_delete_message">"Het bericht wordt verwijderd."</string>
     <string name="confirm_delete_all_messages">"De volledige thread wordt verwijderd."</string>
+    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
+    <skip />
     <string name="cannot_get_details">"Kan details niet ophalen"</string>
     <string name="message_details_title">"Berichtdetails"</string>
     <string name="message_type_label">"Type:"</string>

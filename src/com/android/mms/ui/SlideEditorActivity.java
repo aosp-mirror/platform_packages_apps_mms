@@ -537,8 +537,7 @@ public class SlideEditorActivity extends Activity {
                             getResourcesString(R.string.unsupported_media_format, getPictureString()),
                             getResourcesString(R.string.select_different_media, getPictureString()));
                 } catch (ResolutionException e) {
-                    ResizeButtonListener listener = new ResizeButtonListener(data.getData());
-                    MessageUtils.showResizeConfirmDialog(this, listener, null);
+                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(), mResizeImageCallback);
                 } catch (ExceedMessageSizeException e) {
                     MessageUtils.showErrorDialog(SlideEditorActivity.this,
                             getResourcesString(R.string.exceed_message_size_limitation),
@@ -561,8 +560,7 @@ public class SlideEditorActivity extends Activity {
                             getResourcesString(R.string.unsupported_media_format, getPictureString()),
                             getResourcesString(R.string.select_different_media, getPictureString()));
                 } catch (ResolutionException e) {
-                    ResizeButtonListener listener = new ResizeButtonListener(data.getData());
-                    MessageUtils.showResizeConfirmDialog(this, listener, null);
+                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(), mResizeImageCallback);
                 } catch (ExceedMessageSizeException e) {
                     MessageUtils.showErrorDialog(SlideEditorActivity.this,
                             getResourcesString(R.string.exceed_message_size_limitation),
@@ -628,56 +626,43 @@ public class SlideEditorActivity extends Activity {
         }
     }
 
-    private class ResizeButtonListener implements DialogInterface.OnClickListener {
-        private final Uri mImageUri;
-        private final ResizeImageResultCallback
-        mCallback = new ResizeImageResultCallback() {
-            public void onResizeResult(PduPart part) {
-                Context context = SlideEditorActivity.this;
-                if (part == null) {
-                    Toast.makeText(SlideEditorActivity.this,
-                            getResourcesString(R.string.failed_to_add_media, getPictureString()),
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                try {
-                    long messageId = ContentUris.parseId(mUri);
-                    PduPersister persister = PduPersister.getPduPersister(context);
-                    Uri newUri = persister.persistPart(part, messageId);
-                    mSlideshowEditor.changeImage(mPosition, newUri);
-
-                    setReplaceButtonText(R.string.replace_image);
-                } catch (MmsException e) {
-                    notifyUser("add picture failed");
-                    Toast.makeText(SlideEditorActivity.this,
-                            getResourcesString(R.string.failed_to_add_media, getPictureString()),
-                            Toast.LENGTH_SHORT).show();
-                } catch (UnsupportContentTypeException e) {
-                    MessageUtils.showErrorDialog(SlideEditorActivity.this,
-                            getResourcesString(R.string.unsupported_media_format, getPictureString()),
-                            getResourcesString(R.string.select_different_media, getPictureString()));
-                } catch (ResolutionException e) {
-                    MessageUtils.showErrorDialog(SlideEditorActivity.this,
-                            getResourcesString(R.string.failed_to_resize_image),
-                            getResourcesString(R.string.resize_image_error_information));
-                } catch (ExceedMessageSizeException e) {
-                    MessageUtils.showErrorDialog(SlideEditorActivity.this,
-                            getResourcesString(R.string.exceed_message_size_limitation),
-                            getResourcesString(R.string.failed_to_add_media, getPictureString()));
-                }
+    private final ResizeImageResultCallback mResizeImageCallback = new ResizeImageResultCallback() {
+        public void onResizeResult(PduPart part) {
+            Context context = SlideEditorActivity.this;
+            if (part == null) {
+                Toast.makeText(SlideEditorActivity.this,
+                        getResourcesString(R.string.failed_to_add_media, getPictureString()),
+                        Toast.LENGTH_SHORT).show();
+                return;
             }
-        };
 
-        public ResizeButtonListener(Uri uri) {
-            mImageUri = uri;
-        }
+            try {
+                long messageId = ContentUris.parseId(mUri);
+                PduPersister persister = PduPersister.getPduPersister(context);
+                Uri newUri = persister.persistPart(part, messageId);
+                mSlideshowEditor.changeImage(mPosition, newUri);
 
-        public void onClick(DialogInterface dialog, int which) {
-            MessageUtils.resizeImageAsync(SlideEditorActivity.this,
-                    mImageUri, new Handler(), mCallback);
+                setReplaceButtonText(R.string.replace_image);
+            } catch (MmsException e) {
+                notifyUser("add picture failed");
+                Toast.makeText(SlideEditorActivity.this,
+                        getResourcesString(R.string.failed_to_add_media, getPictureString()),
+                        Toast.LENGTH_SHORT).show();
+            } catch (UnsupportContentTypeException e) {
+                MessageUtils.showErrorDialog(SlideEditorActivity.this,
+                        getResourcesString(R.string.unsupported_media_format, getPictureString()),
+                        getResourcesString(R.string.select_different_media, getPictureString()));
+            } catch (ResolutionException e) {
+                MessageUtils.showErrorDialog(SlideEditorActivity.this,
+                        getResourcesString(R.string.failed_to_resize_image),
+                        getResourcesString(R.string.resize_image_error_information));
+            } catch (ExceedMessageSizeException e) {
+                MessageUtils.showErrorDialog(SlideEditorActivity.this,
+                        getResourcesString(R.string.exceed_message_size_limitation),
+                        getResourcesString(R.string.failed_to_add_media, getPictureString()));
+            }
         }
-    }
+    };
 
     private String getResourcesString(int id, String mediaName) {
         Resources r = getResources();

@@ -104,7 +104,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.Window;
@@ -254,7 +253,6 @@ public class ComposeMessageActivity extends Activity
                                                 // properties of the message -- any bit set
                                                 // will require conversion to MMS.
 
-    private int mMsgSize;   // Number of septets or octets required for the message.
     private int mMsgCount;  // Number of SMS messages required to send the current message.
 
     // These fields are only used in MMS compose mode (requiresMms() == true) and should
@@ -389,7 +387,6 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void resetCounter() {
-        mMsgSize = 0;
         mMsgCount = 1;
 
         mTextCounter.setText("");
@@ -407,7 +404,6 @@ public class ComposeMessageActivity extends Activity
              *   int[3] is the encoding type that should be used for the message.
              */
         mMsgCount = params[0];
-        mMsgSize = params[1];
         int remainingInCurrentMessage = params[2];
 
         if (mMsgCount > 1 || remainingInCurrentMessage <= CHARS_REMAINING_BEFORE_COUNTER_SHOWN) {
@@ -466,8 +462,14 @@ public class ComposeMessageActivity extends Activity
         // Get text from slideshow if needed.
         if (mAttachmentEditor != null) {
             int attachmentType = mAttachmentEditor.getAttachmentType();
-            if (AttachmentEditor.TEXT_ONLY == attachmentType) {
-                mMsgText = mSlideshow.get(0).getText().getText();
+            if (AttachmentEditor.TEXT_ONLY == attachmentType && mSlideshow != null) {
+                SlideModel model = mSlideshow.get(0);
+                if (model != null) {
+                    TextModel textModel = model.getText();
+                    if (textModel != null) {
+                        mMsgText = textModel.getText();
+                    }
+                }
             }
         }
 
@@ -614,58 +616,6 @@ public class ComposeMessageActivity extends Activity
                                    : DELETE_MESSAGE_TOKEN;
             mMsgListQueryHandler.startDelete(token,
                     null, mDeleteUri, null, null);
-        }
-    }
-
-    private class ResizeButtonListener implements OnClickListener {
-        private final Uri mImageUri;
-        private final ResizeImageResultCallback
-        mCallback = new ResizeImageResultCallback() {
-            public void onResizeResult(PduPart part) {
-                Context context = ComposeMessageActivity.this;
-                Resources r = context.getResources();
-
-                if (part == null) {
-                    Toast.makeText(context,
-                            r.getString(R.string.failed_to_add_media, getPictureString()),
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                convertMessageIfNeeded(HAS_ATTACHMENT, true);
-                try {
-                    long messageId = ContentUris.parseId(mMessageUri);
-                    Uri newUri = mPersister.persistPart(part, messageId);
-                    mAttachmentEditor.changeImage(newUri);
-                    mAttachmentEditor.setAttachment(
-                            mSlideshow, AttachmentEditor.IMAGE_ATTACHMENT);
-                } catch (MmsException e) {
-                    Toast.makeText(context,
-                            r.getString(R.string.failed_to_add_media, getPictureString()),
-                            Toast.LENGTH_SHORT).show();
-                } catch (UnsupportContentTypeException e) {
-                    MessageUtils.showErrorDialog(context,
-                            r.getString(R.string.unsupported_media_format, getPictureString()),
-                            r.getString(R.string.select_different_media, getPictureString()));
-                } catch (ResolutionException e) {
-                    MessageUtils.showErrorDialog(context,
-                            r.getString(R.string.failed_to_resize_image),
-                            r.getString(R.string.resize_image_error_information));
-                } catch (ExceedMessageSizeException e) {
-                    MessageUtils.showErrorDialog(context,
-                            r.getString(R.string.exceed_message_size_limitation),
-                            r.getString(R.string.failed_to_add_media, getPictureString()));
-                }
-            }
-        };
-
-        public ResizeButtonListener(Uri uri) {
-            mImageUri = uri;
-        }
-
-        public void onClick(DialogInterface dialog, int which) {
-            MessageUtils.resizeImageAsync(ComposeMessageActivity.this,
-                    mImageUri, mAttachmentEditorHandler, mCallback);
         }
     }
 
@@ -1038,8 +988,6 @@ public class ComposeMessageActivity extends Activity
 
             menu.setHeaderTitle(R.string.message_options);
 
-            String recipient = msgItem.mAddress;
-
             MsgListMenuClickListener l = new MsgListMenuClickListener();
             if (msgItem.isMms()) {
                 switch (msgItem.mBoxId) {
@@ -1173,7 +1121,6 @@ public class ComposeMessageActivity extends Activity
             String type = mMsgListCursor.getString(COLUMN_MSG_TYPE);
             long msgId = mMsgListCursor.getLong(COLUMN_ID);
             MessageItem msgItem = getMessageItem(type, msgId);
-            String itemTitle = (String)item.getTitle();
 
             if (msgItem == null) {
                 return false;
@@ -1376,9 +1323,8 @@ public class ComposeMessageActivity extends Activity
 
                 fout = new FileOutputStream(file);
 
-                int size;
                 byte[] buffer = new byte[8000];
-                while((size = fin.read(buffer)) != -1) {
+                while(fin.read(buffer) != -1) {
                     fout.write(buffer);
                 }
 
@@ -1646,7 +1592,7 @@ public class ComposeMessageActivity extends Activity
 
         Configuration config = getResources().getConfiguration();
         mIsKeyboardOpen = config.keyboardHidden == KEYBOARDHIDDEN_NO;
-        mIsLandscape = config.orientation == config.ORIENTATION_LANDSCAPE;
+        mIsLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE;
         onKeyboardStateChanged(mIsKeyboardOpen);
         
         if (TRACE) {
@@ -1760,13 +1706,7 @@ public class ComposeMessageActivity extends Activity
 
         if (mMsgListAdapter != null) {
             mMsgListAdapter.registerObservers();
-            synchronized (mMsgListCursorLock) {
-                if (mMsgListCursor == null) {
-                    startMsgListQuery();
-                } else {
-                    SqliteWrapper.requery(this, mMsgListCursor);
-                }
-            }
+            startMsgListQuery();
         }
     }
 
@@ -1921,7 +1861,7 @@ public class ComposeMessageActivity extends Activity
         }
         
         mIsKeyboardOpen = newConfig.keyboardHidden == KEYBOARDHIDDEN_NO;
-        mIsLandscape = newConfig.orientation == newConfig.ORIENTATION_LANDSCAPE;
+        mIsLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
         onKeyboardStateChanged(mIsKeyboardOpen);
     }
 
@@ -2391,6 +2331,45 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
+    private final ResizeImageResultCallback mResizeImageCallback = new ResizeImageResultCallback() {
+        public void onResizeResult(PduPart part) {
+            Context context = ComposeMessageActivity.this;
+            Resources r = context.getResources();
+
+            if (part == null) {
+                Toast.makeText(context,
+                        r.getString(R.string.failed_to_add_media, getPictureString()),
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            convertMessageIfNeeded(HAS_ATTACHMENT, true);
+            try {
+                long messageId = ContentUris.parseId(mMessageUri);
+                Uri newUri = mPersister.persistPart(part, messageId);
+                mAttachmentEditor.changeImage(newUri);
+                mAttachmentEditor.setAttachment(
+                        mSlideshow, AttachmentEditor.IMAGE_ATTACHMENT);
+            } catch (MmsException e) {
+                Toast.makeText(context,
+                        r.getString(R.string.failed_to_add_media, getPictureString()),
+                        Toast.LENGTH_SHORT).show();
+            } catch (UnsupportContentTypeException e) {
+                MessageUtils.showErrorDialog(context,
+                        r.getString(R.string.unsupported_media_format, getPictureString()),
+                        r.getString(R.string.select_different_media, getPictureString()));
+            } catch (ResolutionException e) {
+                MessageUtils.showErrorDialog(context,
+                        r.getString(R.string.failed_to_resize_image),
+                        r.getString(R.string.resize_image_error_information));
+            } catch (ExceedMessageSizeException e) {
+                MessageUtils.showErrorDialog(context,
+                        r.getString(R.string.exceed_message_size_limitation),
+                        r.getString(R.string.failed_to_add_media, getPictureString()));
+            }
+        }
+    };
+
     private void addImage(Uri uri) {
         try {
             mAttachmentEditor.changeImage(uri);
@@ -2404,15 +2383,8 @@ public class ComposeMessageActivity extends Activity
                     getResourcesString(R.string.unsupported_media_format, getPictureString()),
                     getResourcesString(R.string.select_different_media, getPictureString()));
         } catch (ResolutionException e) {
-            MessageUtils.showResizeConfirmDialog(
-                    this, new ResizeButtonListener(uri),
-                    new Runnable() {
-                        public void run() {
-                            if (!requiresMms()) {
-                                convertMessage(false);
-                            }
-                        }
-                    });
+            MessageUtils.resizeImageAsync(ComposeMessageActivity.this,
+                    uri, mAttachmentEditorHandler, mResizeImageCallback);
         } catch (ExceedMessageSizeException e) {
             MessageUtils.showErrorDialog(
                     ComposeMessageActivity.this,
@@ -2655,17 +2627,15 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void startMsgListQuery() {
-        synchronized (mMsgListCursorLock) {
-            // Cancel any pending queries
-            mMsgListQueryHandler.cancelOperation(MESSAGE_LIST_QUERY_TOKEN);
-            try {
-                // Kick off the new query
-                mMsgListQueryHandler.startQuery(
-                        MESSAGE_LIST_QUERY_TOKEN, null, getThreadUri(),
-                        PROJECTION, null, null, null);
-            } catch (SQLiteException e) {
-                SqliteWrapper.checkSQLiteException(this, e);
-            }
+        // Cancel any pending queries
+        mMsgListQueryHandler.cancelOperation(MESSAGE_LIST_QUERY_TOKEN);
+        try {
+            // Kick off the new query
+            mMsgListQueryHandler.startQuery(
+                    MESSAGE_LIST_QUERY_TOKEN, null, getThreadUri(),
+                    PROJECTION, null, null, null);
+        } catch (SQLiteException e) {
+            SqliteWrapper.checkSQLiteException(this, e);
         }
     }
 
@@ -2826,7 +2796,6 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void deleteTemporarySmsMessage(long threadId) {
-        String where = getTemporarySmsMessageWhere(threadId);
         SqliteWrapper.delete(this, mContentResolver,
                 ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
                 Sms.TYPE + "=" + Sms.MESSAGE_TYPE_DRAFT, null);

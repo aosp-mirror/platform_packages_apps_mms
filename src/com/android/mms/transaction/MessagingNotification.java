@@ -22,8 +22,8 @@ import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
 
 import com.android.mms.R;
 import com.android.mms.ui.ComposeMessageActivity;
+import com.android.mms.ui.ConversationList;
 import com.android.mms.ui.MessagingPreferenceActivity;
-import com.android.mms.ui.UndeliveredMessagesActivity;
 import com.android.mms.util.AddressUtils;
 import com.android.mms.util.ContactNameCache;
 import com.android.mms.util.DownloadManager;
@@ -420,13 +420,8 @@ public class MessagingNotification {
         NotificationManager nm = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent failedIntent = null;
-        if (isDownload) {
-            failedIntent = new Intent(context, ComposeMessageActivity.class);
-            failedIntent.putExtra("thread_id", threadId);         
-        } else {
-            failedIntent = new Intent(context, UndeliveredMessagesActivity.class);
-        }
+        Intent failedIntent = new Intent(context, ComposeMessageActivity.class);
+        failedIntent.putExtra("thread_id", threadId);         
 
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 context, 0, failedIntent, 0);

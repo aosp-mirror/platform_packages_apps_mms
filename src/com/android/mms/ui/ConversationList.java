@@ -78,7 +78,6 @@ public class ConversationList extends ListActivity {
     // IDs of the main menu items.
     private static final int MENU_COMPOSE_NEW            = 0;
     private static final int MENU_SEARCH                 = 1;
-    private static final int MENU_UNDELIVERED_MESSAGES   = 2;
     private static final int MENU_DELETE_ALL             = 3;
     private static final int MENU_PREFERENCES            = 4;
     private static final int MENU_VIEW_BROADCAST_THREADS = 5;
@@ -88,7 +87,6 @@ public class ConversationList extends ListActivity {
     private static final int MENU_VIEW                 = 1;
 
     private Cursor mCursor;
-    private final Object mCursorLock = new Object();
     private ThreadListQueryHandler mQueryHandler;
     private ConversationListAdapter mListAdapter;
     private CharSequence mTitle;
@@ -165,13 +163,7 @@ public class ConversationList extends ListActivity {
 
         getContentResolver().delete(Threads.OBSOLETE_THREADS_URI, null, null);
 
-        synchronized (mCursorLock) {
-            if (mCursor == null) {
-                startAsyncQuery();
-            } else {
-                SqliteWrapper.requery(this, mCursor);
-            }
-        }
+        startAsyncQuery();
     }
 
     @Override
@@ -199,14 +191,12 @@ public class ConversationList extends ListActivity {
     protected void onStop() {
         super.onStop();
 
-        synchronized (mCursorLock) {
-            if (mCursor != null) {
-                if (mListAdapter != null) {
-                    mListAdapter.changeCursor(null);
-                }
-                mCursor.close();
-                mCursor = null;
+        if (mCursor != null) {
+            if (mListAdapter != null) {
+                mListAdapter.changeCursor(null);
             }
+            mCursor.close();
+            mCursor = null;
         }
     }
 
@@ -231,17 +221,15 @@ public class ConversationList extends ListActivity {
 
     private void startAsyncQuery() {
         try {
-            synchronized (mCursorLock) {
-                setTitle(getString(R.string.refreshing));
-                setProgressBarIndeterminateVisibility(true);
+            setTitle(getString(R.string.refreshing));
+            setProgressBarIndeterminateVisibility(true);
 
-                mQueryHandler.cancelOperation(THREAD_LIST_QUERY_TOKEN);
-                // FIXME: I have to pass the mQueryToken as cookie since the
-                // AsyncQueryHandler.onQueryComplete() method doesn't provide
-                // the same token as what I input here.
-                mQueryHandler.startQuery(0, mQueryToken, mBaseUri, mProjection, mQuery, null,
-                        Conversations.DEFAULT_SORT_ORDER);
-            }
+            mQueryHandler.cancelOperation(THREAD_LIST_QUERY_TOKEN);
+            // FIXME: I have to pass the mQueryToken as cookie since the
+            // AsyncQueryHandler.onQueryComplete() method doesn't provide
+            // the same token as what I input here.
+            mQueryHandler.startQuery(0, mQueryToken, mBaseUri, mProjection, mQuery, null,
+                    Conversations.DEFAULT_SORT_ORDER);
         } catch (SQLiteException e) {
             SqliteWrapper.checkSQLiteException(this, e);
         }
@@ -259,24 +247,6 @@ public class ConversationList extends ListActivity {
         if ((mCursor != null) && (mCursor.getCount() > 0) && !mSearchFlag) {
             menu.add(0, MENU_DELETE_ALL, 0, R.string.menu_delete_all).setIcon(
                     android.R.drawable.ic_menu_delete);
-        }
-
-        // Check undelivered messages
-        Cursor mmsCursor = SqliteWrapper.query(this, getContentResolver(),
-                                Mms.Outbox.CONTENT_URI, null, null, null, null);
-        Cursor smsCursor = SqliteWrapper.query(this, getContentResolver(),
-                                Uri.withAppendedPath(Sms.CONTENT_URI, "undelivered"),
-                                null, null, null, null);
-        if (((mmsCursor != null) && (mmsCursor.getCount() > 0)) ||
-                ((smsCursor != null) && (smsCursor.getCount() > 0))) {
-                menu.add(0, MENU_UNDELIVERED_MESSAGES, 0, R.string.menu_undelivered_messages).setIcon(
-                        R.drawable.ic_menu_undelivered);
-        }
-        if (mmsCursor != null) {
-            mmsCursor.close();
-        }
-        if (smsCursor != null) {
-            smsCursor.close();
         }
 
         menu.add(0, MENU_PREFERENCES, 0, R.string.menu_preferences).setIcon(
@@ -297,11 +267,6 @@ public class ConversationList extends ListActivity {
             case MENU_DELETE_ALL:
                 confirmDeleteDialog(new DeleteThreadListener(-1L), true);
                 break;
-            case MENU_UNDELIVERED_MESSAGES: {
-                Intent intent = new Intent(this, UndeliveredMessagesActivity.class);
-                startActivityIfNeeded(intent, -1);
-                break;
-            }
             case MENU_PREFERENCES: {
                 Intent intent = new Intent(this, MessagingPreferenceActivity.class);
                 startActivityIfNeeded(intent, -1);
@@ -496,44 +461,42 @@ public class ConversationList extends ListActivity {
 
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            synchronized (mCursorLock) {
-                if (mCursor != null) {
-                    mCursor.close();
-                }
-
-                if (cursor != null) {
-                    mCursor = cursor;
-                    switch ((Integer) cookie) {
-                        case THREAD_LIST_QUERY_TOKEN:
-                            mListAdapter = new ConversationListAdapter(
-                                    ConversationList.this,
-                                    cursor,
-                                    true,  // simple (non-search)
-                                    mListAdapter,
-                                    mCachingNameStore);
-                            break;
-                        case SEARCH_TOKEN:
-                            mListAdapter = new ConversationListAdapter(
-                                    ConversationList.this,
-                                    cursor,
-                                    false,  // non-simple (search)
-                                    mListAdapter,
-                                    mCachingNameStore);
-                            break;
-                        default:
-                            Log.e(TAG, "Bad query token: " + token);
-                            break;
-                    }
-
-                    ConversationList.this.setListAdapter(mListAdapter);
-                } else {
-                    Log.e(TAG, "Cannot init the cursor for the thread list.");
-                    finish();
-                }
-
-                setTitle(mTitle);
-                setProgressBarIndeterminateVisibility(false);
+            if (mCursor != null) {
+                mCursor.close();
             }
+
+            if (cursor != null) {
+                mCursor = cursor;
+                switch ((Integer) cookie) {
+                    case THREAD_LIST_QUERY_TOKEN:
+                        mListAdapter = new ConversationListAdapter(
+                                ConversationList.this,
+                                cursor,
+                                true,  // simple (non-search)
+                                mListAdapter,
+                                mCachingNameStore);
+                        break;
+                    case SEARCH_TOKEN:
+                        mListAdapter = new ConversationListAdapter(
+                                ConversationList.this,
+                                cursor,
+                                false,  // non-simple (search)
+                                mListAdapter,
+                                mCachingNameStore);
+                        break;
+                    default:
+                        Log.e(TAG, "Bad query token: " + token);
+                        break;
+                }
+
+                ConversationList.this.setListAdapter(mListAdapter);
+            } else {
+                Log.e(TAG, "Cannot init the cursor for the thread list.");
+                finish();
+            }
+
+            setTitle(mTitle);
+            setProgressBarIndeterminateVisibility(false);
         }
 
         @Override
@@ -548,13 +511,8 @@ public class ConversationList extends ListActivity {
                 MessagingNotification.updateSendFailedNotification(ConversationList.this);
                 
                 // Make sure the list reflects the delete
-                synchronized (mCursorLock) {
-                    if (mCursor == null) {
-                        startAsyncQuery();
-                    } else {
-                        SqliteWrapper.requery(ConversationList.this, mCursor);
-                    }
-                }
+                startAsyncQuery();
+
                 onContentChanged();
                 break;
             }
