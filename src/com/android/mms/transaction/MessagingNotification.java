@@ -25,7 +25,7 @@ import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.ConversationList;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.AddressUtils;
-import com.android.mms.util.ContactNameCache;
+import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.DownloadManager;
 
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -367,7 +367,7 @@ public class MessagingNotification {
 
     protected static CharSequence buildTickerMessage(
             Context context, String address, String subject, String body) {
-        String displayAddress = ContactNameCache.getInstance()
+        String displayAddress = ContactInfoCache.getInstance()
                 .getContactName(context, address);
         
         StringBuilder buf = new StringBuilder(

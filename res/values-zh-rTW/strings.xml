@@ -23,8 +23,7 @@
     <string name="menu_compose_new">"撰寫"</string>
     <string name="menu_preferences">"設定"</string>
     <string name="menu_add_address_to_contacts">"新增 <xliff:g id="NAME">%s</xliff:g> 至 [通訊錄]"</string>
-    <!-- no translation found for menu_call (5877123227307074690) -->
-    <skip />
+    <string name="menu_call">"撥打"</string>
     <string name="menu_delete_all">"刪除會話群組"</string>
     <string name="menu_delete">"刪除"</string>
     <string name="menu_undelivered_messages">"無法傳送的簡訊"</string>
@@ -167,8 +166,7 @@
     <string name="confirm_delete_all_conversations">"所有會話群組都會被刪除。"</string>
     <string name="confirm_delete_message">"此簡訊將被刪除。"</string>
     <string name="confirm_delete_all_messages">"將刪除整個會話群組。"</string>
-    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
-    <skip />
+    <string name="confirm_delete_all_SIM_messages">"即將刪除 SIM 卡上的所有訊息。"</string>
     <string name="cannot_get_details">"無法取得細節"</string>
     <string name="message_details_title">"簡訊細節"</string>
     <string name="message_type_label">"類型："</string>
@@ -209,16 +207,12 @@
     <string name="recipient_label">"收件者："</string>
     <string name="status_label">"狀態："</string>
     <string name="attach_image">"圖片"</string>
-    <!-- no translation found for attach_take_photo (4280601313184373837) -->
-    <skip />
-    <!-- no translation found for attach_video (4264272693501538294) -->
-    <skip />
-    <!-- no translation found for attach_record_video (3099814114743078615) -->
-    <skip />
+    <string name="attach_take_photo">"擷取圖片"</string>
+    <string name="attach_video">"影片"</string>
+    <string name="attach_record_video">"擷取影片"</string>
     <string name="attach_sound">"音訊"</string>
     <string name="attach_record_sound">"錄製音訊"</string>
-    <!-- no translation found for attach_slideshow (3497422151091037063) -->
-    <skip />
+    <string name="attach_slideshow">"投影片"</string>
     <string name="select_bottom_text">"置底文字"</string>
     <string name="select_top_text">"置頂文字"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> 封未讀簡訊。"</string>

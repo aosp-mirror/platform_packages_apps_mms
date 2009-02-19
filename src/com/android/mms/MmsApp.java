@@ -19,7 +19,7 @@ package com.android.mms;
 
 import com.android.mms.drm.DrmUtils;
 import com.android.mms.layout.LayoutManager;
-import com.android.mms.util.ContactNameCache;
+import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.RateController;
 
@@ -36,7 +36,7 @@ public class MmsApp extends Application {
         // Load the default preference values
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        ContactNameCache.init(this);
+        ContactInfoCache.init(this);
         DownloadManager.init(this);
         RateController.init(this);
         DrmUtils.cleanupStorage(this);

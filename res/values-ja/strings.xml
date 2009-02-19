@@ -23,11 +23,10 @@
     <string name="menu_compose_new">"作成"</string>
     <string name="menu_preferences">"設定"</string>
     <string name="menu_add_address_to_contacts">"連絡先に<xliff:g id="NAME">%s</xliff:g>さんを追加"</string>
-    <!-- no translation found for menu_call (5877123227307074690) -->
-    <skip />
+    <string name="menu_call">"発信"</string>
     <string name="menu_delete_all">"スレッドを削除"</string>
     <string name="menu_delete">"削除"</string>
-    <string name="menu_undelivered_messages">"配信不能メッセージ"</string>
+    <string name="menu_undelivered_messages">"未配信メッセージ"</string>
     <string name="menu_view">"表示"</string>
     <string name="refreshing">"更新中..."</string>
     <string name="has_draft">"下書き"</string>
@@ -41,10 +40,10 @@
     <string name="view_message_details">"メッセージの詳細を表示"</string>
     <string name="view_delivery_report">"レポートを表示"</string>
     <string name="delete_message">"メッセージを削除"</string>
-    <string name="sent_on">"送信日:<xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="sent_on">"送信: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on">"有効期限:<xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte">"KB"</string>
-    <string name="undelivered_msg_dialog_title">"配信不能メッセージ"</string>
+    <string name="undelivered_msg_dialog_title">"未配信メッセージ"</string>
     <string name="undelivered_msg_dialog_body">"このメッセージは送信できません。"\n"最終試行時間:<xliff:g id="MESSAGE">%s</xliff:g>"</string>
     <string name="undelivered_sms_dialog_body">"このメッセージは送信できません。"</string>
     <string name="delete_thread">"スレッドを削除"</string>
@@ -52,7 +51,7 @@
     <string name="download">"ダウンロード"</string>
     <string name="downloading">"ダウンロード中"</string>
     <string name="inline_subject">"&lt;件名:<xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
-    <string name="drm_protected_text">"*DRMで保護対象のテキスト*"</string>
+    <string name="drm_protected_text">"*DRM保護対象テキスト*"</string>
     <string name="insufficient_drm_rights">"DRM権限が十分ではありません。"</string>
     <string name="copy_message_text">"メッセージテキストをコピー"</string>
     <string name="message_options">"メッセージオプション"</string>
@@ -77,21 +76,21 @@
     <string name="add_subject">"件名を追加"</string>
     <string name="discard">"破棄"</string>
     <string name="view">"表示"</string>
-    <string name="replace">"取り替える"</string>
+    <string name="replace">"変更"</string>
     <string name="remove">"削除"</string>
     <string name="send">"送信"</string>
-    <string name="all_threads">"すべてのスレッド"</string>
-    <string name="type_to_compose_text_enter_to_send">"メッセージを入力してEnterキーを押すと送信します"</string>
-    <string name="open_keyboard_to_compose_message">"キーボードを表示してメッセージを作成します"</string>
-    <string name="image_too_large">"画像が大きすぎる"</string>
-    <string name="ask_for_automatically_resize">"送信する画像のサイズを自動的に変更しますか？"</string>
+    <string name="all_threads">"スレッド一覧"</string>
+    <string name="type_to_compose_text_enter_to_send">"メッセージを入力してEnterキーを押すと送信されます"</string>
+    <string name="open_keyboard_to_compose_message">"キーボードを表示してメッセージを入力してください"</string>
+    <string name="image_too_large">"画像が大きすぎます"</string>
+    <string name="ask_for_automatically_resize">"画像のサイズを送信用に自動調整しますか？"</string>
     <string name="compressing">"圧縮中..."</string>
     <string name="unsupported_media_format">"対応していない<xliff:g id="NAME">%1$s</xliff:g>形式です"</string>
     <string name="select_different_media">"別の<xliff:g id="NAME">%1$s</xliff:g>を選択してください。"</string>
     <string name="exceed_message_size_limitation">"メッセージサイズの上限に達しました。"</string>
     <string name="failed_to_add_media">"この<xliff:g id="NAME">%1$s</xliff:g>はメッセージに追加できません。"</string>
     <string name="failed_to_resize_image">"画像のサイズを変更できません。"</string>
-    <string name="resize_image_error_information">"画像のサイズを変更しても、大きすぎて送信できません。"</string>
+    <string name="resize_image_error_information">"この画像は大きすぎるため、サイズを変更しても送信できません。"</string>
     <string name="forward_prefix">"Fwd:"</string>
     <string name="discard_message">"破棄"</string>
     <string name="discard_message_reason">"有効な宛先が指定されていないので、メッセージは破棄されます。"</string>
@@ -106,16 +105,16 @@
     <string name="cannot_save_message">"メッセージを保存できません。"</string>
     <string name="cannot_load_message">"メッセージを読み込めません。"</string>
     <string name="message_saved_as_draft">"メッセージが下書きとして保存されました。"</string>
-    <string name="cannot_play_audio">"音声を再生できません。"</string>
+    <string name="cannot_play_audio">"オーディオを再生できません。"</string>
     <string name="preview">"プレビュー"</string>
     <string name="preview_slideshow">"プレビュー"</string>
-    <string name="replace_image">"画像を取り替える"</string>
+    <string name="replace_image">"画像を変更"</string>
     <string name="duration_sec">"時間 (<xliff:g id="DURATION">%s</xliff:g>秒)"</string>
     <string name="duration_selector_title">"スライドの表示時間"</string>
     <string name="layout_selector_title">"スライドショーのレイアウト"</string>
     <string name="layout_top">"レイアウト (上部)"</string>
     <string name="layout_bottom">"レイアウト (下部)"</string>
-    <string name="type_to_compose_text_or_leave_blank">"テキストを入力するか、空白のままにします"</string>
+    <string name="type_to_compose_text_or_leave_blank">"文字を入力するか空白のまま完了を押します"</string>
     <string name="secs">"秒"</string>
   <string-array name="select_dialog_items">
     <item>"1秒"</item>
@@ -140,7 +139,7 @@
     <string name="resize">"サイズを変更"</string>
     <string name="try_to_send">"送信を試行"</string>
     <string name="preferences_title">"設定"</string>
-    <string name="restore_default">"デフォルト設定に戻す"</string>
+    <string name="restore_default">"初期設定に戻す"</string>
     <string name="pref_notification_settings_title">"通知設定"</string>
     <string name="pref_mms_settings_title">"MMS設定"</string>
     <string name="pref_sms_settings_title">"SMS設定"</string>
@@ -153,9 +152,9 @@
     <string name="pref_title_mms_read_reports">"既読レポート"</string>
     <string name="pref_title_sms_delivery_reports">"配信レポート"</string>
     <string name="pref_title_notification_enabled">"通知"</string>
-    <string name="pref_summary_notification_enabled">"ステータスバーにメッセージ通知を表示する"</string>
-    <string name="pref_title_notification_vibrate">"バイブ"</string>
-    <string name="pref_summary_notification_vibrate">"通知時にバイブ"</string>
+    <string name="pref_summary_notification_enabled">"メール受信をステータスバーで通知する"</string>
+    <string name="pref_title_notification_vibrate">"バイブレーション"</string>
+    <string name="pref_summary_notification_vibrate">"通知: バイブレーションもON"</string>
     <string name="pref_title_notification_ringtone">"着信音を選択"</string>
     <string name="pref_title_mms_auto_retrieval">"自動で取得"</string>
     <string name="pref_summary_mms_auto_retrieval">"メッセージを自動的に取得"</string>
@@ -167,8 +166,7 @@
     <string name="confirm_delete_all_conversations">"スレッドはすべて削除されます。"</string>
     <string name="confirm_delete_message">"メッセージを削除します。"</string>
     <string name="confirm_delete_all_messages">"スレッド全体が削除されます。"</string>
-    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
-    <skip />
+    <string name="confirm_delete_all_SIM_messages">"SIMカードのすべてのメッセージが削除されます。"</string>
     <string name="cannot_get_details">"詳細を表示できません"</string>
     <string name="message_details_title">"メッセージの詳細"</string>
     <string name="message_type_label">"タイプ:"</string>
@@ -192,7 +190,7 @@
     <string name="menu_retry_sending">"送信を再試行"</string>
     <string name="menu_retry_sending_all">"すべて再送信する"</string>
     <string name="menu_delete_messages">"メッセージを削除"</string>
-    <string name="retrying_dialog_body">"接続の問題により、メッセージ「<xliff:g id="MESSAGE">%s</xliff:g>」を送信できませんでした。"\n"再送信しています..."</string>
+    <string name="retrying_dialog_body">"接続エラーのためメッセージ「<xliff:g id="MESSAGE">%s</xliff:g>」を送信できませんでした。"\n"再送信しています..."</string>
     <string name="sim_copy_to_phone_memory">"携帯電話のメモリにコピー"</string>
     <string name="sim_delete">"削除"</string>
     <string name="sim_manage_messages_title">"SIMカード内のSMSメッセージ"</string>
@@ -209,28 +207,24 @@
     <string name="recipient_label">"受信者:"</string>
     <string name="status_label">"ステータス:"</string>
     <string name="attach_image">"画像"</string>
-    <!-- no translation found for attach_take_photo (4280601313184373837) -->
-    <skip />
-    <!-- no translation found for attach_video (4264272693501538294) -->
-    <skip />
-    <!-- no translation found for attach_record_video (3099814114743078615) -->
-    <skip />
-    <string name="attach_sound">"音声"</string>
-    <string name="attach_record_sound">"録音"</string>
-    <!-- no translation found for attach_slideshow (3497422151091037063) -->
-    <skip />
+    <string name="attach_take_photo">"写真をキャプチャ"</string>
+    <string name="attach_video">"動画"</string>
+    <string name="attach_record_video">"動画をキャプチャ"</string>
+    <string name="attach_sound">"オーディオ"</string>
+    <string name="attach_record_sound">"音声録音"</string>
+    <string name="attach_slideshow">"スライドショー"</string>
     <string name="select_bottom_text">"テキストを下に表示"</string>
     <string name="select_top_text">"テキストを上に表示"</string>
     <string name="notification_multiple">"未読メッセージ<xliff:g id="COUNT">%s</xliff:g>通"</string>
     <string name="notification_multiple_title">"新しいメッセージ"</string>
-    <string name="sim_full_title">"SIMカードがいっぱい"</string>
+    <string name="sim_full_title">"SIMカード空き領域なし"</string>
     <string name="sim_full_body">"空き容量を増やすにはメッセージを削除します。"</string>
-    <string name="type_audio">"音声"</string>
+    <string name="type_audio">"オーディオ"</string>
     <string name="type_picture">"画像"</string>
     <string name="type_video">"動画"</string>
     <string name="confirm">"確認"</string>
     <string name="message_send_read_report">"既読レポートが送信されます。"</string>
-    <string name="message_queued">"現在メッセージを送信できません。サービスが利用可能になると送信されます。"</string>
+    <string name="message_queued">"現在メッセージを送信できません。サービスが利用できる状態になり次第送信されます。"</string>
     <string name="no_subject">"(件名なし)"</string>
     <string name="unknown_sender">"送信者不明"</string>
     <string name="dl_failure_notification">"<xliff:g id="FROM">%s</xliff:g>さんからのメッセージ「<xliff:g id="SUBJECT">%s</xliff:g>」をダウンロードできませんでした。"</string>
@@ -240,7 +234,7 @@
     <string name="message_send_failed_title">"メッセージの送信失敗"</string>
     <string name="message_failed_body">"メッセージを確認してもう一度送信します。"</string>
     <string name="download_later">"現在ダウンロードできません。しばらくしてからもう一度お試しください。"</string>
-    <string name="select_audio">"音声の選択"</string>
+    <string name="select_audio">"オーディオの選択"</string>
     <string name="copy_to_sdcard">"添付ファイルをSDカードにコピー"</string>
     <string name="copy_to_sdcard_success">"添付ファイルをSDカードにコピーしました"</string>
     <string name="copy_to_sdcard_fail">"添付ファイルをSDカードにコピーできませんでした"</string>

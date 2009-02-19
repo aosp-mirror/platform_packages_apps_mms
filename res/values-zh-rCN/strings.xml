@@ -23,8 +23,7 @@
     <string name="menu_compose_new">"撰写"</string>
     <string name="menu_preferences">"设置"</string>
     <string name="menu_add_address_to_contacts">"将<xliff:g id="NAME">%s</xliff:g>添加到“联系人”"</string>
-    <!-- no translation found for menu_call (5877123227307074690) -->
-    <skip />
+    <string name="menu_call">"呼叫"</string>
     <string name="menu_delete_all">"删除线程"</string>
     <string name="menu_delete">"删除"</string>
     <string name="menu_undelivered_messages">"未发送的信息"</string>
@@ -167,8 +166,7 @@
     <string name="confirm_delete_all_conversations">"会删除所有线程。"</string>
     <string name="confirm_delete_message">"会删除此信息。"</string>
     <string name="confirm_delete_all_messages">"会删除整个线程。"</string>
-    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
-    <skip />
+    <string name="confirm_delete_all_SIM_messages">"SIM 卡上的所有信息都会删除。"</string>
     <string name="cannot_get_details">"无法获取详情"</string>
     <string name="message_details_title">"信息详情"</string>
     <string name="message_type_label">"类型："</string>
@@ -209,16 +207,12 @@
     <string name="recipient_label">"收信人："</string>
     <string name="status_label">"状态："</string>
     <string name="attach_image">"图片"</string>
-    <!-- no translation found for attach_take_photo (4280601313184373837) -->
-    <skip />
-    <!-- no translation found for attach_video (4264272693501538294) -->
-    <skip />
-    <!-- no translation found for attach_record_video (3099814114743078615) -->
-    <skip />
+    <string name="attach_take_photo">"拍摄照片"</string>
+    <string name="attach_video">"视频"</string>
+    <string name="attach_record_video">"拍摄视频"</string>
     <string name="attach_sound">"音频"</string>
     <string name="attach_record_sound">"录音"</string>
-    <!-- no translation found for attach_slideshow (3497422151091037063) -->
-    <skip />
+    <string name="attach_slideshow">"幻灯片演示"</string>
     <string name="select_bottom_text">"底部文本"</string>
     <string name="select_top_text">"顶部文本"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> 条未读信息。"</string>

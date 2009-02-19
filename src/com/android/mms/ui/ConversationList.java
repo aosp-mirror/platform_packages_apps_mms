@@ -19,7 +19,7 @@ package com.android.mms.ui;
 
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
-import com.android.mms.util.ContactNameCache;
+import com.android.mms.util.ContactInfoCache;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.util.SqliteWrapper;
 
@@ -326,7 +326,7 @@ public class ConversationList extends ListActivity {
                         mCursor.getString(ConversationListAdapter.COLUMN_RECIPIENTS_IDS));
                 // The Recipient IDs column is separated with semicolons for some reason.
                 // We should fix this in the content provider rework.
-                CharSequence from = (ContactNameCache.getInstance().getContactName(
+                CharSequence from = (ContactInfoCache.getInstance().getContactName(
                         ConversationList.this, address)).replace(';', ',');
                 menu.setHeaderTitle(from);
 
@@ -557,7 +557,7 @@ public class ConversationList extends ListActivity {
             String[] values = addresses.split(";");
             if (values.length < 2) {
                 if (DEBUG) Log.v(TAG, "Looking up name: " + addresses);
-                ContactNameCache cache = ContactNameCache.getInstance();
+                ContactInfoCache cache = ContactInfoCache.getInstance();
                 value = (cache.getContactName(mContext, addresses)).replace(';', ',');
             } else {
                 int length = 0;

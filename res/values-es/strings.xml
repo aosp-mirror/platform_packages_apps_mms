@@ -20,11 +20,10 @@
     <string name="create_new_message">"Redactar mensaje nuevo"</string>
     <string name="menu_call_back">"Llamar a <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email">"Enviar mensaje a <xliff:g id="NAME">%s</xliff:g>"</string>
-    <string name="menu_compose_new">"Iniciar"</string>
-    <string name="menu_preferences">"Configuración"</string>
+    <string name="menu_compose_new">"Redactar"</string>
+    <string name="menu_preferences">"Ajustes"</string>
     <string name="menu_add_address_to_contacts">"Añadir <xliff:g id="NAME">%s</xliff:g> a contactos"</string>
-    <!-- no translation found for menu_call (5877123227307074690) -->
-    <skip />
+    <string name="menu_call">"Llamar"</string>
     <string name="menu_delete_all">"Eliminar cadenas"</string>
     <string name="menu_delete">"Suprimir"</string>
     <string name="menu_undelivered_messages">"Mensajes no entregados"</string>
@@ -139,7 +138,7 @@
     <string name="edit">"Editar"</string>
     <string name="resize">"Ajustar tamaño"</string>
     <string name="try_to_send">"Intentar envío"</string>
-    <string name="preferences_title">"Configuración"</string>
+    <string name="preferences_title">"Ajustes"</string>
     <string name="restore_default">"Restaurar configuración predeterminada"</string>
     <string name="pref_notification_settings_title">"Configuración de notificaciones"</string>
     <string name="pref_mms_settings_title">"Configuración de MMS"</string>
@@ -167,8 +166,7 @@
     <string name="confirm_delete_all_conversations">"Se eliminarán todas las cadenas."</string>
     <string name="confirm_delete_message">"Se eliminará el mensaje."</string>
     <string name="confirm_delete_all_messages">"Se eliminará toda la cadena."</string>
-    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
-    <skip />
+    <string name="confirm_delete_all_SIM_messages">"Todos los mensajes se eliminarán de la tarjeta SIM."</string>
     <string name="cannot_get_details">"No se pueden obtener detalles."</string>
     <string name="message_details_title">"Detalles del mensaje"</string>
     <string name="message_type_label">"Tipo:"</string>
@@ -209,16 +207,12 @@
     <string name="recipient_label">"Destinatario:"</string>
     <string name="status_label">"Estado:"</string>
     <string name="attach_image">"Fotografías"</string>
-    <!-- no translation found for attach_take_photo (4280601313184373837) -->
-    <skip />
-    <!-- no translation found for attach_video (4264272693501538294) -->
-    <skip />
-    <!-- no translation found for attach_record_video (3099814114743078615) -->
-    <skip />
+    <string name="attach_take_photo">"Capturar imagen"</string>
+    <string name="attach_video">"Vídeos"</string>
+    <string name="attach_record_video">"Capturar vídeo"</string>
     <string name="attach_sound">"Audio"</string>
     <string name="attach_record_sound">"Grabar audio"</string>
-    <!-- no translation found for attach_slideshow (3497422151091037063) -->
-    <skip />
+    <string name="attach_slideshow">"Presentación"</string>
     <string name="select_bottom_text">"Texto abajo"</string>
     <string name="select_top_text">"Texto arriba"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> mensajes no leídos"</string>

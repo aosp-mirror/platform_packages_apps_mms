@@ -42,7 +42,7 @@ import com.android.mms.ui.AttachmentEditor.OnAttachmentChangedListener;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 import com.android.mms.ui.RecipientList.Recipient;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
-import com.android.mms.util.ContactNameCache;
+import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
@@ -965,9 +965,8 @@ public class ComposeMessageActivity extends Activity
     }
 
     private boolean isNumberInContacts(String phoneNumber) {
-        String name = CallerInfo.getCallerId(this, phoneNumber);
-        // If we don't have a contact, getCallerId returns the same number passed in.
-        return !phoneNumber.equalsIgnoreCase(name);
+        CallerInfo ci = ContactInfoCache.getInstance().getCallerInfo(this, phoneNumber);
+        return !TextUtils.isEmpty(ci.name);
     }
 
     private final OnCreateContextMenuListener mMsgListMenuCreateListener =
@@ -1946,7 +1945,8 @@ public class ComposeMessageActivity extends Activity
             // onKeyUp fires and immediately initiates the phone call.
             if (isRecipientCallable()) {
                 dialRecipient();
-                return true;
+                // Fall through to allow the default key handler to cancel
+                // its long press timeout.
             }
             break;
         }
@@ -3118,7 +3118,7 @@ public class ComposeMessageActivity extends Activity
             sb.append(r.nameAndNumber).append(", ");;
         }
 
-        ContactNameCache cache = ContactNameCache.getInstance();
+        ContactInfoCache cache = ContactInfoCache.getInstance();
         String[] values = mRecipientList.getBccNumbers();
         if (values.length > 0) {
             sb.append("Bcc: ");

@@ -120,6 +120,17 @@ public class MessageListItem extends LinearLayout implements
     public static final int DEFAULT_SMILEY_TEXTS = R.array.default_smiley_texts;
     public static final int DEFAULT_SMILEY_NAMES = R.array.default_smiley_names;
     
+    private static SmileyResources mSmileyResources = null;
+    
+    private SmileyResources getSmileyResources() {
+        if (mSmileyResources == null) {
+            mSmileyResources = new SmileyResources(
+                    getResources().getStringArray(DEFAULT_SMILEY_TEXTS),
+                    DEFAULT_SMILEY_RES_IDS);
+        }
+        return mSmileyResources;
+    }
+
     public MessageListItem(Context context) {
         super(context);
     }
@@ -309,9 +320,7 @@ public class MessageListItem extends LinearLayout implements
             if (hasSubject) {
                 buf.append(" - ");
             }
-            SmileyResources smileyResources = new SmileyResources(
-                    getResources().getStringArray(DEFAULT_SMILEY_TEXTS), DEFAULT_SMILEY_RES_IDS);
-            SmileyParser smileyParser = new SmileyParser(body, smileyResources);
+            SmileyParser smileyParser = new SmileyParser(body, getSmileyResources());
             smileyParser.parse();
             buf.append(smileyParser.getSpannableString(mContext));
         }
@@ -480,6 +489,11 @@ public class MessageListItem extends LinearLayout implements
                     Intent intent = new Intent(mContext, SlideshowActivity.class);
                     intent.setData(msgItem.mMessageUri);
                     mContext.startActivity(intent);
+                }
+            });
+            mImageView.setOnLongClickListener(new OnLongClickListener() {
+                public boolean onLongClick(View v) {
+                    return v.showContextMenu();
                 }
             });
         } else {

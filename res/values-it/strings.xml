@@ -23,8 +23,7 @@
     <string name="menu_compose_new">"Componi"</string>
     <string name="menu_preferences">"Impostazioni"</string>
     <string name="menu_add_address_to_contacts">"Aggiungi <xliff:g id="NAME">%s</xliff:g> a Contatti"</string>
-    <!-- no translation found for menu_call (5877123227307074690) -->
-    <skip />
+    <string name="menu_call">"Chiama"</string>
     <string name="menu_delete_all">"Elimina conversazioni"</string>
     <string name="menu_delete">"Elimina"</string>
     <string name="menu_undelivered_messages">"Messaggi non consegnati"</string>
@@ -167,8 +166,7 @@
     <string name="confirm_delete_all_conversations">"Verranno eliminate tutte le conversazioni."</string>
     <string name="confirm_delete_message">"Il messaggio verrà eliminato."</string>
     <string name="confirm_delete_all_messages">"Verrà eliminata l\'intera conversazione."</string>
-    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
-    <skip />
+    <string name="confirm_delete_all_SIM_messages">"Verranno eliminati tutti i messaggi nella SIM."</string>
     <string name="cannot_get_details">"Impossibile ottenere i dettagli"</string>
     <string name="message_details_title">"Dettagli messaggio"</string>
     <string name="message_type_label">"Tipo:"</string>
@@ -209,16 +207,12 @@
     <string name="recipient_label">"Destinatario:"</string>
     <string name="status_label">"Stato:"</string>
     <string name="attach_image">"Immagini"</string>
-    <!-- no translation found for attach_take_photo (4280601313184373837) -->
-    <skip />
-    <!-- no translation found for attach_video (4264272693501538294) -->
-    <skip />
-    <!-- no translation found for attach_record_video (3099814114743078615) -->
-    <skip />
+    <string name="attach_take_photo">"Scatta foto"</string>
+    <string name="attach_video">"Video"</string>
+    <string name="attach_record_video">"Registra video"</string>
     <string name="attach_sound">"Audio"</string>
     <string name="attach_record_sound">"Registra audio"</string>
-    <!-- no translation found for attach_slideshow (3497422151091037063) -->
-    <skip />
+    <string name="attach_slideshow">"Presentazione"</string>
     <string name="select_bottom_text">"Testo in basso"</string>
     <string name="select_top_text">"Testo in alto"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> messaggi da leggere."</string>

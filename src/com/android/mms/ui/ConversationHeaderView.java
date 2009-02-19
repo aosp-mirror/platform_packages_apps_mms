@@ -18,7 +18,6 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
-import com.android.mms.util.ContactNameCache;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -155,7 +154,7 @@ public class ConversationHeaderView extends RelativeLayout {
         ConversationHeader oldHeader = getConversationHeader();
         setConversationHeader(ch);
 
-        mAttachmentView.setVisibility(ch.hasAttachment() ? VISIBLE : INVISIBLE);
+        mAttachmentView.setVisibility(ch.hasAttachment() ? VISIBLE : GONE);
 
         // Date
         mDateView.setText(ch.getDate());
@@ -186,6 +185,6 @@ public class ConversationHeaderView extends RelativeLayout {
         mSubjectView.setText(ch.getSubject());
 
         // Transmission error indicator.
-        mErrorIndicator.setVisibility(ch.hasError() ? VISIBLE : INVISIBLE);
+        mErrorIndicator.setVisibility(ch.hasError() ? VISIBLE : GONE);
     }
 }

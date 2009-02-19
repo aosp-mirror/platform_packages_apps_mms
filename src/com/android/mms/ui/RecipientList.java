@@ -19,7 +19,7 @@ package com.android.mms.ui;
 
 import com.android.internal.telephony.CallerInfo;
 import com.android.mms.transaction.MessageSender;
-import com.android.mms.util.ContactNameCache;
+import com.android.mms.util.ContactInfoCache;
 
 import android.content.Context;
 import android.provider.Telephony.Mms;
@@ -208,6 +208,7 @@ public class RecipientList {
 
     public static RecipientList from(String address, Context context) {
         RecipientList list = new RecipientList();
+        ContactInfoCache cache = ContactInfoCache.getInstance();
 
         if (!TextUtils.isEmpty(address)) {
             String[] phoneNumbers = address.split(MessageSender.RECIPIENTS_SEPARATOR);
@@ -224,7 +225,7 @@ public class RecipientList {
                      * to help with ui responsiveness, instead of running the query
                      * directly from the UI thread
                      */
-                    CallerInfo ci = CallerInfo.getCallerInfo(context, number);
+                    CallerInfo ci = cache.getCallerInfo(context, number);
                     if (TextUtils.isEmpty(ci.name)) {
                         recipient.person_id = -1;
                         if (MessageUtils.isLocalNumber(ci.phoneNumber)) {
@@ -240,7 +241,7 @@ public class RecipientList {
                     recipient.number = (ci.phoneNumber == null) ? "" : ci.phoneNumber;
                 } else {
                     recipient.number = number;
-                    recipient.name = ContactNameCache.getDisplayName(context, number);
+                    recipient.name = cache.getDisplayName(context, number);
                 }
                 
                 recipient.nameAndNumber = Recipient.buildNameAndNumber(recipient.name,

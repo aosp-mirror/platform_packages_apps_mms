@@ -22,7 +22,7 @@ import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.TextModel;
 import com.android.mms.ui.MessageListAdapter.ColumnsMap;
-import com.android.mms.util.ContactNameCache;
+import com.android.mms.util.ContactInfoCache;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.MultimediaMessagePdu;
@@ -79,7 +79,7 @@ public class MessageItem {
         mMsgId = cursor.getLong(columnsMap.mColumnMsgId);
         
         if ("sms".equals(type)) {
-            ContactNameCache nameCache = ContactNameCache.getInstance();
+            ContactInfoCache infoCache = ContactInfoCache.getInstance();
             mReadReport = false; // No read reports in sms
             mDeliveryReport = (cursor.getLong(columnsMap.mColumnSmsStatus)
                     != Sms.STATUS_NONE);
@@ -97,11 +97,11 @@ public class MessageItem {
                     mContact = String.format(
                             context.getString(R.string.broadcast_from_to),
                             meString,
-                            nameCache.getContactName(context, mAddress));
+                            infoCache.getContactName(context, mAddress));
                 }
             } else {
                 // For incoming messages, the ADDRESS field contains the sender.
-                mContact = nameCache.getContactName(context, mAddress);
+                mContact = infoCache.getContactName(context, mAddress);
             }
             mBody = cursor.getString(columnsMap.mColumnSmsBody);
 
@@ -207,7 +207,7 @@ public class MessageItem {
     private void interpretFrom(EncodedStringValue from) {
         if (from != null) {
             mAddress = from.getString();
-            mContact = ContactNameCache.getInstance().getContactName(mContext, mAddress);
+            mContact = ContactInfoCache.getInstance().getContactName(mContext, mAddress);
         } else {
             mContact = mAddress = mContext.getString(
                     R.string.anonymous_recipient);

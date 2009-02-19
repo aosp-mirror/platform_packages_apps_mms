@@ -23,8 +23,7 @@
     <string name="menu_compose_new">"Utwórz"</string>
     <string name="menu_preferences">"Ustawienia"</string>
     <string name="menu_add_address_to_contacts">"Dodaj <xliff:g id="NAME">%s</xliff:g> do Kontaktów"</string>
-    <!-- no translation found for menu_call (5877123227307074690) -->
-    <skip />
+    <string name="menu_call">"Zadzwoń"</string>
     <string name="menu_delete_all">"Usuń wątki"</string>
     <string name="menu_delete">"Usuń"</string>
     <string name="menu_undelivered_messages">"Niedostarczone wiadomości"</string>
@@ -167,8 +166,7 @@
     <string name="confirm_delete_all_conversations">"Wszystkie wątki zostaną usunięte."</string>
     <string name="confirm_delete_message">"Wiadomość zostanie usunięta."</string>
     <string name="confirm_delete_all_messages">"Cały wątek zostanie usunięty."</string>
-    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
-    <skip />
+    <string name="confirm_delete_all_SIM_messages">"Wszystkie wiadomości na karcie SIM zostaną usunięte."</string>
     <string name="cannot_get_details">"Nie można uzyskać szczegółów"</string>
     <string name="message_details_title">"Szczegóły wiadomości"</string>
     <string name="message_type_label">"Typ:"</string>
@@ -209,16 +207,12 @@
     <string name="recipient_label">"Adresat"</string>
     <string name="status_label">"Stan:"</string>
     <string name="attach_image">"Zdjęcia"</string>
-    <!-- no translation found for attach_take_photo (4280601313184373837) -->
-    <skip />
-    <!-- no translation found for attach_video (4264272693501538294) -->
-    <skip />
-    <!-- no translation found for attach_record_video (3099814114743078615) -->
-    <skip />
+    <string name="attach_take_photo">"Zrób zdjęcie"</string>
+    <string name="attach_video">"Filmy wideo"</string>
+    <string name="attach_record_video">"Nagraj film wideo"</string>
     <string name="attach_sound">"Audio"</string>
     <string name="attach_record_sound">"Nagraj audio"</string>
-    <!-- no translation found for attach_slideshow (3497422151091037063) -->
-    <skip />
+    <string name="attach_slideshow">"Pokaz slajdów"</string>
     <string name="select_bottom_text">"Tekst na dole"</string>
     <string name="select_top_text">"Tekst na górze"</string>
     <string name="notification_multiple">"Liczba nieprzeczytanych wiadomości: <xliff:g id="COUNT">%s</xliff:g>."</string>
