@@ -22,6 +22,8 @@ import com.android.mms.transaction.Transaction;
 import com.android.mms.transaction.TransactionBundle;
 import com.android.mms.transaction.TransactionService;
 import com.android.mms.util.DownloadManager;
+import com.android.mms.util.SmileyParser;
+
 import com.google.android.mms.pdu.PduHeaders;
 
 import android.app.AlertDialog;
@@ -68,9 +70,6 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.Map;
 
-import com.google.android.util.SmileyParser;
-import com.google.android.util.SmileyResources;
-
 /**
  * This class provides view of a message in the messages list.
  */
@@ -94,42 +93,6 @@ public class MessageListItem extends LinearLayout implements
     private TextView mDownloadingLabel;
     private Handler mHandler;
     private MessageItem mMessageItem;
-
-    // NOTE: if you change anything about this array, you must make the corresponding change
-    // to the string arrays: default_smiley_texts and default_smiley_names in res/values/arrays.xml
-    public static final int[] DEFAULT_SMILEY_RES_IDS = {
-        android.R.drawable.emo_im_happy,                //  0
-        android.R.drawable.emo_im_sad,                  //  1
-        android.R.drawable.emo_im_winking,              //  2
-        android.R.drawable.emo_im_tongue_sticking_out,  //  3
-        android.R.drawable.emo_im_surprised,            //  4
-        android.R.drawable.emo_im_kissing,              //  5
-        android.R.drawable.emo_im_yelling,              //  6
-        android.R.drawable.emo_im_cool,                 //  7
-        android.R.drawable.emo_im_money_mouth,          //  8
-        android.R.drawable.emo_im_foot_in_mouth,        //  9
-        android.R.drawable.emo_im_embarrassed,          //  10
-        android.R.drawable.emo_im_angel,                //  11
-        android.R.drawable.emo_im_undecided,            //  12
-        android.R.drawable.emo_im_crying,               //  13
-        android.R.drawable.emo_im_lips_are_sealed,      //  14
-        android.R.drawable.emo_im_laughing,             //  15
-        android.R.drawable.emo_im_wtf                   //  16
-    };
-    
-    public static final int DEFAULT_SMILEY_TEXTS = R.array.default_smiley_texts;
-    public static final int DEFAULT_SMILEY_NAMES = R.array.default_smiley_names;
-    
-    private static SmileyResources mSmileyResources = null;
-    
-    private SmileyResources getSmileyResources() {
-        if (mSmileyResources == null) {
-            mSmileyResources = new SmileyResources(
-                    getResources().getStringArray(DEFAULT_SMILEY_TEXTS),
-                    DEFAULT_SMILEY_RES_IDS);
-        }
-        return mSmileyResources;
-    }
 
     public MessageListItem(Context context) {
         super(context);
@@ -320,9 +283,8 @@ public class MessageListItem extends LinearLayout implements
             if (hasSubject) {
                 buf.append(" - ");
             }
-            SmileyParser smileyParser = new SmileyParser(body, getSmileyResources());
-            smileyParser.parse();
-            buf.append(smileyParser.getSpannableString(mContext));
+            SmileyParser parser = SmileyParser.getInstance();
+            buf.append(parser.addSmileySpans(body));
         }
 
         buf.append("\n");
@@ -343,38 +305,7 @@ public class MessageListItem extends LinearLayout implements
         buf.setSpan(new ForegroundColorSpan(color), startOffset, buf.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         
-        // For now, they've decided not to draw a darker background behind the timestamp.
-        // Keep the code for now.
-//        if (drawBackground) {
-//            int color = mContext.getResources().getColor(R.color.timestamp_color);
-//            buf.setSpan(new Background(color), startOffset, buf.length(),
-//                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        }
         return buf;
-    }
-
-    private static class Background implements LineBackgroundSpan {
-        private int mColor;
-        
-        public Background(int color) {
-            mColor = color;
-        }
-
-        public void drawBackground(Canvas c, Paint p,
-                int left, int right,
-                int top, int baseline, int bottom,
-                CharSequence text, int start, int end,
-                int lnum) {
-            int col = p.getColor();
-            Paint.Style s = p.getStyle();
-
-            p.setColor(mColor);
-            p.setStyle(Paint.Style.FILL);
-            c.drawRect(left, top, right, bottom, p);
-
-            p.setColor(col);
-            p.setStyle(s);
-        }
     }
 
     private void drawPlaybackButton(MessageItem msgItem) {
@@ -550,7 +481,7 @@ public class MessageListItem extends LinearLayout implements
     private void drawRightStatusIndicator(MessageItem msgItem) {
         if (msgItem.isOutgoingMessage()) {
             if (isFailedMessage(msgItem)) {
-                mRightStatusIndicator.setImageResource(R.drawable.ic_sms_error);
+                mRightStatusIndicator.setImageResource(R.drawable.ic_sms_mms_not_delivered);
                 setErrorIndicatorClickListener(msgItem);
             } else {
                 mRightStatusIndicator.setImageResource(R.drawable.ic_email_pending);

@@ -137,8 +137,18 @@ public class ConversationList extends ListActivity {
             mFilter = savedInstanceState.getString("filter");
             mQueryToken = savedInstanceState.getInt("query_token");
         }
+        
+        if (isFailedToDeliver(getIntent())) {
+            // Cancel any failed message notifications
+            MessagingNotification.cancelNotification(getApplicationContext(),
+                        MessagingNotification.MESSAGE_FAILED_NOTIFICATION_ID);
+        }
 
         handleCreationIntent(getIntent());
+    }
+
+    static public boolean isFailedToDeliver(Intent intent) {
+        return (intent != null) && intent.getBooleanExtra("undelivered_flag", false);
     }
 
     @Override

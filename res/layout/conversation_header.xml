@@ -37,7 +37,7 @@
         android:visibility="gone"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/ic_sms_error" />
+        android:src="@drawable/ic_sms_mms_not_delivered" />
 
     <ImageView android:id="@+id/attachment"
         android:layout_marginLeft="3dip"

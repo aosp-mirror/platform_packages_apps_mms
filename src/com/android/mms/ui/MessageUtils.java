@@ -519,7 +519,7 @@ public class MessageUtils {
             String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-        builder.setIcon(R.drawable.ic_sms_error);
+        builder.setIcon(R.drawable.ic_sms_mms_not_delivered);
         builder.setTitle(title);
         builder.setMessage(message);
         builder.setPositiveButton(android.R.string.ok, null);

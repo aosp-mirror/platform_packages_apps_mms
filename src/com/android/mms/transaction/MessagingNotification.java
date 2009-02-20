@@ -420,8 +420,9 @@ public class MessagingNotification {
         NotificationManager nm = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent failedIntent = new Intent(context, ComposeMessageActivity.class);
+        Intent failedIntent = new Intent(context, ConversationList.class);
         failedIntent.putExtra("thread_id", threadId);         
+        failedIntent.putExtra("undelivered_flag", true);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 context, 0, failedIntent, 0);

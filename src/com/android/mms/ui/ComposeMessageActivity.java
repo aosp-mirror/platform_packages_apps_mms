@@ -44,6 +44,8 @@ import com.android.mms.ui.RecipientList.Recipient;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
 import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.SendingProgressTokenManager;
+import com.android.mms.util.SmileyParser;
+
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -1470,11 +1472,6 @@ public class ComposeMessageActivity extends Activity
     // Activity methods
     //==========================================================
 
-    private boolean isFailedToDeliver() {
-        Intent intent = getIntent();
-        return (intent != null) && intent.getBooleanExtra("undelivered_flag", false);
-    }
-
     private static final String[] MMS_DRAFT_PROJECTION = {
             Mms._ID,        // 0
             Mms.SUBJECT     // 1
@@ -1542,7 +1539,7 @@ public class ComposeMessageActivity extends Activity
         mRecipientList = RecipientList.from(mExternalAddress, this);
         updateState(RECIPIENTS_REQUIRE_MMS, recipientsRequireMms());
 
-        if (isFailedToDeliver()) {
+        if (ConversationList.isFailedToDeliver(getIntent())) {
             // Show a pop-up dialog to inform user the message was
             // failed to deliver.
             undeliveredMessageDialog(getMessageDate(mMessageUri));
@@ -1573,7 +1570,8 @@ public class ComposeMessageActivity extends Activity
             // Otherwise, show the recipients editor.
             initRecipients = true;
         }
-        if (initRecipients || (isFailedToDeliver() && mMsgListAdapter.getCount() <= 1)) {
+        if (initRecipients || (ConversationList.isFailedToDeliver(getIntent()) 
+                && mMsgListAdapter.getCount() <= 1)) {
             initRecipientsEditor();
         }
         
@@ -2716,15 +2714,9 @@ public class ComposeMessageActivity extends Activity
         deleteTemporarySmsMessage(mThreadId);
     }
 
-    private String getTemporarySmsMessageWhere(long thread_id) {
-        String where = Sms.THREAD_ID + "=" + thread_id
-                        + " AND " +
-                        Sms.TYPE + "=" + Sms.MESSAGE_TYPE_DRAFT;
-        return where;
-    }
-
     private static final String[] SMS_BODY_PROJECTION = { Sms._ID, Sms.BODY };
-
+    private static final String SMS_DRAFT_WHERE = Sms.TYPE + "=" + Sms.MESSAGE_TYPE_DRAFT;
+    
     /**
      * Reads a draft message for the given thread ID from the database,
      * if there is one, deletes it from the database, and returns it.
@@ -2736,12 +2728,11 @@ public class ComposeMessageActivity extends Activity
             return "";
         }
 
-        String where = getTemporarySmsMessageWhere(thread_id);
+        Uri thread_uri = ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, thread_id);
         String body = "";
         
         Cursor c = SqliteWrapper.query(this, mContentResolver,
-                        Sms.CONTENT_URI, SMS_BODY_PROJECTION,
-                        where, null, null);
+                        thread_uri, SMS_BODY_PROJECTION, SMS_DRAFT_WHERE, null, null);
         if (c != null) {
             try {
                 if (c.moveToFirst()) {
@@ -2756,7 +2747,7 @@ public class ComposeMessageActivity extends Activity
         // we will lose track of the original draft and be unable to delete
         // it later.  The message will be re-saved if necessary upon exit of
         // the activity.
-        SqliteWrapper.delete(this, mContentResolver, Sms.CONTENT_URI, where, null);
+        SqliteWrapper.delete(this, mContentResolver, thread_uri, SMS_DRAFT_WHERE, null);
 
         return body;
     }
@@ -2773,15 +2764,14 @@ public class ComposeMessageActivity extends Activity
             deleteTemporarySmsMessage(thread_id);
             return;
         }
-        String where = getTemporarySmsMessageWhere(thread_id);
+        Uri thread_uri = ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, thread_id);
         Cursor c = SqliteWrapper.query(this, mContentResolver,
-                Sms.CONTENT_URI, SMS_BODY_PROJECTION,
-                where, null, null);
+                thread_uri, SMS_BODY_PROJECTION, SMS_DRAFT_WHERE, null, null);
 
         if (c.moveToFirst()) {
             ContentValues values = new ContentValues(1);
             values.put(Sms.BODY, contents);
-            SqliteWrapper.update(this, mContentResolver, Sms.CONTENT_URI, values, where, null);
+            SqliteWrapper.update(this, mContentResolver, thread_uri, values, SMS_DRAFT_WHERE, null);
         } else {
             ContentValues values = new ContentValues(3);
             values.put(Sms.THREAD_ID, thread_id);
@@ -2798,7 +2788,7 @@ public class ComposeMessageActivity extends Activity
     private void deleteTemporarySmsMessage(long threadId) {
         SqliteWrapper.delete(this, mContentResolver,
                 ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
-                Sms.TYPE + "=" + Sms.MESSAGE_TYPE_DRAFT, null);
+                SMS_DRAFT_WHERE, null);
     }
 
     private void deleteTemporaryMmsMessage(long threadId) {
@@ -3250,11 +3240,11 @@ public class ComposeMessageActivity extends Activity
 
     private void showSmileyDialog() {
         if (mSmileyDialog == null) {
-            int[] icons = MessageListItem.DEFAULT_SMILEY_RES_IDS;
+            int[] icons = SmileyParser.DEFAULT_SMILEY_RES_IDS;
             String[] names = getResources().getStringArray(
-                    MessageListItem.DEFAULT_SMILEY_NAMES);
+                    SmileyParser.DEFAULT_SMILEY_NAMES);
             final String[] texts = getResources().getStringArray(
-                    MessageListItem.DEFAULT_SMILEY_TEXTS);
+                    SmileyParser.DEFAULT_SMILEY_TEXTS);
 
             final int N = names.length;
 
