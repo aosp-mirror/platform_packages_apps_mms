@@ -18,7 +18,6 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
-import com.android.mms.util.ContactInfoCache;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.content.Context;
@@ -216,25 +215,14 @@ public class ConversationListAdapter extends CursorAdapter {
     }
 
     /**
-     * Returns the from text using the CachingNameStore.
+     * Returns cached name of thread (display form of list of
+     * recipients) or returns null if the nullIfNotCached and there's
+     * nothing in the cache.  The UI thread calls this in "immediate
+     * mode" with nullIfNotCached set true, but the background loader
+     * thread calls it with nullIfNotCached set false.
      */
-    private String getFromTextFromCache(String spaceSeparatedRcptIds, String address) {
-        // Potentially blocking call to Contacts provider, lookup up
-        // names:  (should usually be cached, though)
-        String value = mCachingNameStore.getContactNames(address);
-
-        if (TextUtils.isEmpty(value)) {
-            value = mContext.getString(R.string.anonymous_recipient);
-        }
-
-        mThreadDisplayFrom.put(spaceSeparatedRcptIds, value);
-        return value;
-    }
-
-    /**
-     * Returns cached 'from' text of message thread (display form of list of recipients)
-     */
-    private String getFromTextFromMessageThread(String spaceSeparatedRcptIds) {
+    private String getFromText(Context context, String spaceSeparatedRcptIds,
+                               boolean nullIfNotCached) {
         // Thread IDs could in-theory be reassigned to different
         // recipients (if latest threadid was deleted and new
         // auto-increment was assigned), so our cache key is the
@@ -244,7 +232,26 @@ public class ConversationListAdapter extends CursorAdapter {
             return value;
         }
 
-        return null;
+        if (nullIfNotCached) {
+            // We're in the UI thread and don't want to block.
+            return null;
+        }
+
+        // Potentially blocking call to MmsSms provider, looking up
+        // canonical addresses:
+        String address = MessageUtils.getRecipientsByIds(
+                context, spaceSeparatedRcptIds);
+
+        // Potentially blocking call to Contacts provider, lookup up
+        // names:  (should usually be cached, though)
+        value = mCachingNameStore.getContactNames(address);
+
+        if (TextUtils.isEmpty(value)) {
+            value = mContext.getString(R.string.anonymous_recipient);
+        }
+
+        mThreadDisplayFrom.put(spaceSeparatedRcptIds, value);
+        return value;
     }
 
     @Override
@@ -256,48 +263,17 @@ public class ConversationListAdapter extends CursorAdapter {
             boolean read, error;
             int messageCount = 0;
             String spaceSeparatedRcptIds = null;
-            int presenceIconResId = 0;
-            boolean cacheEntryInvalid = false;
-            boolean hasAttachment = false;
 
             if (mSimpleMode) {
                 threadId = cursor.getLong(COLUMN_ID);
                 spaceSeparatedRcptIds = cursor.getString(COLUMN_RECIPIENTS_IDS);
-                from = getFromTextFromMessageThread(spaceSeparatedRcptIds);
+                from = getFromText(context, spaceSeparatedRcptIds, true);
                 subject = MessageUtils.extractEncStrFromCursor(
                         cursor, COLUMN_SNIPPET, COLUMN_SNIPPET_CHARSET);
                 date = cursor.getLong(COLUMN_DATE);
                 read = cursor.getInt(COLUMN_READ) != 0;
                 error = cursor.getInt(COLUMN_ERROR) != 0;
                 messageCount = cursor.getInt(COLUMN_MESSAGE_COUNT);
-
-                cacheEntryInvalid = true;
-
-                // display the presence from the cache. The cache entry could be invalidated
-                // in the activity's onResume(), but display the info anyways if it's in the cache.
-                // If it's invalid, we'll force a refresh in the async thread.
-                String address = MessageUtils.getRecipientsByIds(
-                        context, spaceSeparatedRcptIds, false /* no query */);
-                if (!TextUtils.isEmpty(address)) {
-                    ContactInfoCache.CacheEntry entry = null;
-                    ContactInfoCache cache = ContactInfoCache.getInstance();
-
-                    if (Mms.isEmailAddress(address)) {
-                        entry = cache.getContactInfoForEmailAddress(context, address,
-                                false /* no query */);
-                    } else {
-                        entry = cache.getContactInfo(context, address, false /* no query */);
-                    }
-                    
-                    if (entry != null) {
-                        presenceIconResId = entry.presenceResId;
-                        cacheEntryInvalid = entry.isStale();
-                        if (LOCAL_LOGV) {
-                            Log.d(TAG, "ConvListAdapter.bindView: " + entry.name + ", presence=" +
-                                presenceIconResId + ", cache invalid=" + cacheEntryInvalid);
-                        }
-                    }
-                }
             } else {
                 threadId = cursor.getLong(COLUMN_THREAD_ID);
                 String msgType = cursor.getString(COLUMN_MESSAGE_TYPE);
@@ -336,14 +312,11 @@ public class ConversationListAdapter extends CursorAdapter {
 
             ConversationHeader ch = new ConversationHeader(
                     threadId, from, subject, timestamp,
-                    read, error, hasDraft, messageCount, hasAttachment);
+                    read, error, hasDraft, messageCount);
 
             headerView.bind(context, ch);
-            headerView.setPresenceIcon(presenceIconResId);
 
-            // if the cache entry is invalid, or if we can't find the "from" field,
-            // kick off an async op to refresh the name and presence
-            if (cacheEntryInvalid || (from == null && spaceSeparatedRcptIds != null)) {
+            if (from == null && spaceSeparatedRcptIds != null) {
                 startAsyncDisplayFromLoad(context, ch, headerView, spaceSeparatedRcptIds);
             }
             if (LOCAL_LOGV) Log.v(TAG, "post-bind ConversationHeader");
@@ -359,39 +332,8 @@ public class ConversationListAdapter extends CursorAdapter {
         synchronized (mThingsToLoad) {
             mThingsToLoad.push(new Runnable() {
                     public void run() {
-                        String address = MessageUtils.getRecipientsByIds(
-                                context, spaceSeparatedRcptIds, true /* allow query */);
-
-                        // set from text
-                        String fromText = getFromTextFromMessageThread(spaceSeparatedRcptIds);
-                        if (TextUtils.isEmpty(fromText)) {
-                            fromText = getFromTextFromCache(spaceSeparatedRcptIds, address);
-                        }
-
-                        // set presence
-                        ContactInfoCache.CacheEntry entry = null;
-                        ContactInfoCache cache = ContactInfoCache.getInstance();
-
-                        if (Mms.isEmailAddress(address)) {
-                            entry = cache.getContactInfoForEmailAddress(context, address,
-                                    true /* allow query */);
-                        } else {
-                            entry = cache.getContactInfo(context, address, true /* allow query */);
-                        }
-
-                        int presenceIconResId = 0;
-                        if (entry != null) {
-                            presenceIconResId = entry.presenceResId;
-                        }
-
-                        if (LOCAL_LOGV) {
-                            Log.d(TAG, "ConvListAdapter.startAsyncDisplayFromLoad: " + fromText +
-                                ", presence=" + presenceIconResId + ", cacheEntry=" + entry);
-                        }
-
-                        // need to update the from text and presence icon using a callback, so
-                        // they are done in the UI thread
-                        ch.setFromAndPresence(fromText, presenceIconResId);
+                        String fromText = getFromText(context, spaceSeparatedRcptIds, false);
+                        ch.setFrom(fromText);
                     }
                 });
         }

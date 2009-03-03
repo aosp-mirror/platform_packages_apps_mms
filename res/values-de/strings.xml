@@ -25,14 +25,12 @@
     <string name="menu_add_address_to_contacts">"<xliff:g id="NAME">%s</xliff:g> zu Kontakten hinzufügen"</string>
     <string name="menu_call">"Anrufen"</string>
     <string name="menu_delete_all">"Threads löschen"</string>
-    <!-- no translation found for menu_delete (1851666911396479006) -->
-    <skip />
+    <string name="menu_delete">"Löschen"</string>
     <string name="menu_undelivered_messages">"Nicht gelieferte Nachrichten"</string>
-    <!-- no translation found for menu_view (7448852683948080108) -->
-    <skip />
+    <string name="menu_view">"Anzeigen"</string>
     <string name="refreshing">"Aktualisierung wird ausgeführt..."</string>
     <string name="has_draft">"Entwurf"</string>
-    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
     <skip />
     <string name="anonymous_recipient">"Anonym"</string>
     <string name="no_subject_view">"(Kein Betreff)"</string>
@@ -82,8 +80,7 @@
     <string name="remove">"Entfernen"</string>
     <string name="send">"Senden"</string>
     <string name="all_threads">"Alle Threads"</string>
-    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
-    <skip />
+    <string name="type_to_compose_text_enter_to_send">"Geben Sie den gewünschten Text ein und drücken Sie zum Senden die Eingabetaste."</string>
     <string name="open_keyboard_to_compose_message">"Tastatur herausziehen, um Nachricht zu schreiben"</string>
     <string name="image_too_large">"Bild zu groß"</string>
     <string name="ask_for_automatically_resize">"Bildgröße vor dem Senden automatisch anpassen?"</string>
@@ -94,7 +91,7 @@
     <string name="failed_to_add_media">"<xliff:g id="NAME">%1$s</xliff:g> kann nicht zur Nachricht hinzugefügt werden."</string>
     <string name="failed_to_resize_image">"Bildgröße nicht angepasst."</string>
     <string name="resize_image_error_information">"Das Bild ist trotz Größenanpassung zu groß zum Senden."</string>
-    <string name="forward_prefix">"WG: "</string>
+    <string name="forward_prefix">"WG:"</string>
     <string name="discard_message">"Verwerfen"</string>
     <string name="discard_message_reason">"Die Nachricht wird verworfen, da keine gültigen Empfänger für sie vorhanden sind."</string>
     <string name="has_invalid_recipient">"Ungültige Empfänger: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
@@ -113,8 +110,8 @@
     <string name="preview_slideshow">"Vorschau"</string>
     <string name="replace_image">"Bild ersetzen"</string>
     <string name="duration_sec">"Dauer (<xliff:g id="DURATION">%s</xliff:g> s)"</string>
-    <string name="duration_selector_title">"Dauer für Dia "</string>
-    <string name="layout_selector_title">"Layout der Diashow "</string>
+    <string name="duration_selector_title">"Dauer für Dia"</string>
+    <string name="layout_selector_title">"Layout der Diashow"</string>
     <string name="layout_top">"Layout (oben)"</string>
     <string name="layout_bottom">"Layout (unten)"</string>
     <string name="type_to_compose_text_or_leave_blank">"Geben Sie einen Text ein oder lassen Sie das Feld leer."</string>
@@ -163,7 +160,7 @@
     <string name="pref_summary_mms_auto_retrieval">"Nachrichten automatisch empfangen"</string>
     <string name="pref_title_mms_retrieval_during_roaming">"Autom. Roaming-Abruf"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"Bei Roaming Nachrichten automatisch abrufen"</string>
-    <string name="to_label">"An "</string>
+    <string name="to_label">"An"</string>
     <string name="confirm_dialog_title">"Löschen"</string>
     <string name="confirm_delete_conversation">"Der gesamte Thread wird gelöscht."</string>
     <string name="confirm_delete_all_conversations">"Alle Threads werden gelöscht."</string>
@@ -172,23 +169,23 @@
     <string name="confirm_delete_all_SIM_messages">"Alle Nachrichten auf der SIM werden gelöscht."</string>
     <string name="cannot_get_details">"Details nicht abrufbar"</string>
     <string name="message_details_title">"Nachrichtendetails"</string>
-    <string name="message_type_label">"Typ: "</string>
+    <string name="message_type_label">"Typ:"</string>
     <string name="text_message">"SMS-Nachricht"</string>
     <string name="multimedia_message">"MMS-Nachricht"</string>
     <string name="multimedia_notification">"MMS-Benachrichtigung"</string>
-    <string name="from_label">"Von: "</string>
-    <string name="to_address_label">"An: "</string>
-    <string name="bcc_label">"Bcc: "</string>
-    <string name="sent_label">"Gesendet: "</string>
-    <string name="received_label">"Empfangen: "</string>
-    <string name="saved_label">"Gespeichert: "</string>
-    <string name="subject_label">"Betreff: "</string>
-    <string name="message_size_label">"Nachrichtengröße: "</string>
-    <string name="priority_label">"Priorität: "</string>
+    <string name="from_label">"Von:"</string>
+    <string name="to_address_label">"An:"</string>
+    <string name="bcc_label">"Bcc:"</string>
+    <string name="sent_label">"Gesendet:"</string>
+    <string name="received_label">"Empfangen:"</string>
+    <string name="saved_label">"Gespeichert:"</string>
+    <string name="subject_label">"Betreff:"</string>
+    <string name="message_size_label">"Nachrichtengröße:"</string>
+    <string name="priority_label">"Priorität:"</string>
     <string name="priority_high">"Hoch"</string>
     <string name="priority_normal">"Normal"</string>
     <string name="priority_low">"Niedrig"</string>
-    <string name="message_class_label">"Nachrichtenklasse: "</string>
+    <string name="message_class_label">"Nachrichtenklasse:"</string>
     <string name="menu_edit">"Bearbeiten"</string>
     <string name="menu_retry_sending">"Senden erneut versuchen"</string>
     <string name="menu_retry_sending_all">"Erneut versuchen, alle zu senden"</string>
@@ -207,8 +204,8 @@
     <string name="status_failed">"Nicht erfolgreich"</string>
     <string name="status_unread">"Ungelesen"</string>
     <string name="status_rejected">"Zurückgewiesen"</string>
-    <string name="recipient_label">"Empfänger: "</string>
-    <string name="status_label">"Status: "</string>
+    <string name="recipient_label">"Empfänger:"</string>
+    <string name="status_label">"Status:"</string>
     <string name="attach_image">"Bilder"</string>
     <string name="attach_take_photo">"Bild aufnehmen"</string>
     <string name="attach_video">"Videos"</string>
@@ -220,10 +217,6 @@
     <string name="select_top_text">"Text oben"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> ungelesene Nachrichten"</string>
     <string name="notification_multiple_title">"Neue Nachrichten"</string>
-    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
-    <skip />
-    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
-    <skip />
     <string name="sim_full_title">"SIM-Karte ist voll."</string>
     <string name="sim_full_body">"Löschen Sie einige Nachrichten, um Platz für weitere Nachrichten zu schaffen."</string>
     <string name="type_audio">"Audio"</string>

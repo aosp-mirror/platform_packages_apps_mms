@@ -25,14 +25,12 @@
     <string name="menu_add_address_to_contacts">"新增 <xliff:g id="NAME">%s</xliff:g> 至 [通訊錄]"</string>
     <string name="menu_call">"撥打"</string>
     <string name="menu_delete_all">"刪除會話群組"</string>
-    <!-- no translation found for menu_delete (1851666911396479006) -->
-    <skip />
+    <string name="menu_delete">"刪除"</string>
     <string name="menu_undelivered_messages">"無法傳送的簡訊"</string>
-    <!-- no translation found for menu_view (7448852683948080108) -->
-    <skip />
+    <string name="menu_view">"檢視"</string>
     <string name="refreshing">"重新整理中..."</string>
     <string name="has_draft">"草稿"</string>
-    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
     <skip />
     <string name="anonymous_recipient">"匿名"</string>
     <string name="no_subject_view">"(沒有主旨)"</string>
@@ -82,8 +80,7 @@
     <string name="remove">"移除"</string>
     <string name="send">"傳送"</string>
     <string name="all_threads">"所有會話群組"</string>
-    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
-    <skip />
+    <string name="type_to_compose_text_enter_to_send">"輸入簡訊，按下 [Enter] 傳送"</string>
     <string name="open_keyboard_to_compose_message">"開啟鍵盤以撰寫簡訊"</string>
     <string name="image_too_large">"圖片太大"</string>
     <string name="ask_for_automatically_resize">"傳送前是否自動重新調整圖片大小？"</string>
@@ -94,7 +91,7 @@
     <string name="failed_to_add_media">"抱歉，無法在簡訊中新增 <xliff:g id="NAME">%1$s</xliff:g>。"</string>
     <string name="failed_to_resize_image">"圖片大小未改變。"</string>
     <string name="resize_image_error_information">"抱歉，縮小後的圖片仍然太大、無法傳送。"</string>
-    <string name="forward_prefix">"轉寄： "</string>
+    <string name="forward_prefix">"轉寄："</string>
     <string name="discard_message">"放棄"</string>
     <string name="discard_message_reason">"由於沒有有效的收件者，您的簡訊將被捨棄。"</string>
     <string name="has_invalid_recipient">"無效收件者：(<xliff:g id="NAME">%1$s</xliff:g>)"</string>
@@ -113,8 +110,8 @@
     <string name="preview_slideshow">"預覽"</string>
     <string name="replace_image">"取代圖片"</string>
     <string name="duration_sec">"長度 (<xliff:g id="DURATION">%s</xliff:g> 秒)"</string>
-    <string name="duration_selector_title">"投影片長度 "</string>
-    <string name="layout_selector_title">"投影片版面 "</string>
+    <string name="duration_selector_title">"投影片長度"</string>
+    <string name="layout_selector_title">"投影片版面"</string>
     <string name="layout_top">"投影片版面 (頂部)"</string>
     <string name="layout_bottom">"投影片版面 (底部)"</string>
     <string name="type_to_compose_text_or_leave_blank">"輸入文字或空白"</string>
@@ -163,7 +160,7 @@
     <string name="pref_summary_mms_auto_retrieval">"自動擷取簡訊"</string>
     <string name="pref_title_mms_retrieval_during_roaming">"漫遊時自動擷取"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"漫遊時自動擷取簡訊"</string>
-    <string name="to_label">"給 "</string>
+    <string name="to_label">"給"</string>
     <string name="confirm_dialog_title">"刪除"</string>
     <string name="confirm_delete_conversation">"將刪除整個會話群組。"</string>
     <string name="confirm_delete_all_conversations">"所有會話群組都會被刪除。"</string>
@@ -172,23 +169,23 @@
     <string name="confirm_delete_all_SIM_messages">"即將刪除 SIM 卡上的所有訊息。"</string>
     <string name="cannot_get_details">"無法取得細節"</string>
     <string name="message_details_title">"簡訊細節"</string>
-    <string name="message_type_label">"類型： "</string>
+    <string name="message_type_label">"類型："</string>
     <string name="text_message">"SMS 簡訊"</string>
     <string name="multimedia_message">"MMS 簡訊"</string>
     <string name="multimedia_notification">"MMS 通知"</string>
-    <string name="from_label">"從： "</string>
-    <string name="to_address_label">"收件者： "</string>
-    <string name="bcc_label">"密件副本： "</string>
-    <string name="sent_label">"傳送： "</string>
-    <string name="received_label">"已接收： "</string>
-    <string name="saved_label">"已儲存： "</string>
-    <string name="subject_label">"主旨： "</string>
-    <string name="message_size_label">"簡訊大小： "</string>
-    <string name="priority_label">"優先權： "</string>
+    <string name="from_label">"從："</string>
+    <string name="to_address_label">"收件者："</string>
+    <string name="bcc_label">"密件副本："</string>
+    <string name="sent_label">"傳送："</string>
+    <string name="received_label">"已接收："</string>
+    <string name="saved_label">"已儲存："</string>
+    <string name="subject_label">"主旨："</string>
+    <string name="message_size_label">"簡訊大小："</string>
+    <string name="priority_label">"優先權："</string>
     <string name="priority_high">"高"</string>
     <string name="priority_normal">"一般"</string>
     <string name="priority_low">"低"</string>
-    <string name="message_class_label">"簡訊種類： "</string>
+    <string name="message_class_label">"簡訊種類："</string>
     <string name="menu_edit">"編輯"</string>
     <string name="menu_retry_sending">"重新傳送"</string>
     <string name="menu_retry_sending_all">"全部重新傳送"</string>
@@ -207,8 +204,8 @@
     <string name="status_failed">"失敗"</string>
     <string name="status_unread">"未讀"</string>
     <string name="status_rejected">"已拒絕"</string>
-    <string name="recipient_label">"收件者： "</string>
-    <string name="status_label">"狀態： "</string>
+    <string name="recipient_label">"收件者："</string>
+    <string name="status_label">"狀態："</string>
     <string name="attach_image">"圖片"</string>
     <string name="attach_take_photo">"擷取圖片"</string>
     <string name="attach_video">"影片"</string>
@@ -220,10 +217,6 @@
     <string name="select_top_text">"置頂文字"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> 封未讀簡訊。"</string>
     <string name="notification_multiple_title">"新簡訊"</string>
-    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
-    <skip />
-    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
-    <skip />
     <string name="sim_full_title">"SIM 卡已滿"</string>
     <string name="sim_full_body">"刪除一些簡訊以釋放儲存空間。"</string>
     <string name="type_audio">"音訊"</string>

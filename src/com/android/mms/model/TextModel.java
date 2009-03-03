@@ -34,7 +34,7 @@ import java.io.UnsupportedEncodingException;
 public class TextModel extends RegionMediaModel {
     private static final String TAG = "TextModel";
 
-    private CharSequence mText;
+    private String mText;
     private final int mCharset;
 
     public TextModel(Context context, String contentType, String src, RegionModel region) {
@@ -55,7 +55,7 @@ public class TextModel extends RegionMediaModel {
         mText = extractTextFromData(data);
     }
 
-    private CharSequence extractTextFromData(byte[] data) {
+    private String extractTextFromData(byte[] data) {
         if (data != null) {
             try {
                 if (CharacterSets.ANY_CHARSET == mCharset) {
@@ -94,18 +94,10 @@ public class TextModel extends RegionMediaModel {
                 mText = e.getMessage();
             }
         }
-        
-        // If our internal CharSequence is not already a String,
-        // re-save it as a String so subsequent calls to getText will
-        // be less expensive.
-        if (!(mText instanceof String)) {
-            mText = mText.toString();
-        }
-        
-        return mText.toString();
+        return mText;
     }
 
-    public void setText(CharSequence text) {
+    public void setText(String text) {
         mText = text;
         notifyModelChanged(true);
     }

@@ -17,6 +17,7 @@
 
 package com.android.mms.ui;
 
+import com.android.internal.telephony.CallerInfo;
 import com.android.mms.transaction.MessageSender;
 import com.android.mms.util.ContactInfoCache;
 
@@ -224,20 +225,20 @@ public class RecipientList {
                      * to help with ui responsiveness, instead of running the query
                      * directly from the UI thread
                      */
-                    ContactInfoCache.CacheEntry entry = cache.getContactInfo(context, number);
-                    if (TextUtils.isEmpty(entry.name)) {
+                    CallerInfo ci = cache.getCallerInfo(context, number);
+                    if (TextUtils.isEmpty(ci.name)) {
                         recipient.person_id = -1;
-                        if (MessageUtils.isLocalNumber(entry.phoneNumber)) {
+                        if (MessageUtils.isLocalNumber(ci.phoneNumber)) {
                             recipient.name = "Me";
                         } else {
-                            recipient.name = entry.phoneNumber;
+                            recipient.name = ci.phoneNumber;
                         }
                     } else {
-                        recipient.person_id = entry.person_id;
-                        recipient.name = entry.name;
+                        recipient.person_id = ci.person_id;
+                        recipient.name = ci.name;
                     }
-                    recipient.label = entry.phoneLabel;
-                    recipient.number = (entry.phoneNumber == null) ? "" : entry.phoneNumber;
+                    recipient.label = ci.phoneLabel;
+                    recipient.number = (ci.phoneNumber == null) ? "" : ci.phoneNumber;
                 } else {
                     recipient.number = number;
                     recipient.name = cache.getDisplayName(context, number);
@@ -262,26 +263,6 @@ public class RecipientList {
             }
         }
         return numbers.toArray(new String[numbers.size()]);
-    }
-
-    /**
-     * getSingleRecipient returns the recipient if there is a single recipient. In all other cases,
-     * it returns null.
-     */
-    public Recipient getSingleRecipient() {
-        int count = mRecipients.size();
-        if (count != 1) {
-            return null;
-        }
-        return mRecipients.get(0);
-    }
-    
-    public String getSingleRecipientNumber() {
-        Recipient first = getSingleRecipient();
-        if (first == null) {
-            return null;
-        }
-        return first.number;
     }
 
     public boolean containsBcc() {

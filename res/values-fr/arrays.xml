@@ -40,8 +40,8 @@
     <item>"Clin d\'œil"</item>
     <item>"Tire la langue"</item>
     <item>"Surpris"</item>
-    <item>"Bisou"</item>
-    <item>"Hurle"</item>
+    <item>"Bisous"</item>
+    <item>"Crier"</item>
     <item>"Cool"</item>
     <item>"Argent"</item>
     <item>"Embarrassé"</item>
@@ -50,7 +50,7 @@
     <item>"Indécis"</item>
     <item>"Pleure"</item>
     <item>"Motus et bouche cousue"</item>
-    <item>"Rigole"</item>
+    <item>"Rire"</item>
     <item>"Confus"</item>
   </string-array>
 </resources>

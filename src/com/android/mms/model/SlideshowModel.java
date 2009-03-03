@@ -545,29 +545,4 @@ public class SlideshowModel extends Model
         ContentRestriction cr = ContentRestrictionFactory.getContentRestriction();
         cr.checkMessageSize(mCurrentMessageSize, increaseSize, mContentResolver);
     }
-    
-    /**
-     * Determines whether this is a "simple" slideshow.
-     * Criteria:
-     * - Exactly one slide
-     * - Exactly one multimedia attachment, but no audio
-     * - It can optionally have a caption
-    */
-    public boolean isSimple() {
-        // There must be one (and only one) slide.
-        if (size() != 1)
-            return false;
-        
-        SlideModel slide = get(0);
-        // The slide must have either an image or video, but not both.
-        if (!(slide.hasImage() ^ slide.hasVideo()))
-            return false;
-     
-        // No audio allowed.
-        if (slide.hasAudio())
-            return false;
-        
-        return true;
-    }
-
 }

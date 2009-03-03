@@ -22,17 +22,15 @@
     <string name="menu_send_email">"E-mail verzenden aan <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"Opstellen"</string>
     <string name="menu_preferences">"Instellingen"</string>
-    <string name="menu_add_address_to_contacts">"<xliff:g id="NAME">%s</xliff:g> toevoegen aan contacten"</string>
+    <string name="menu_add_address_to_contacts">"<xliff:g id="NAME">%s</xliff:g> toevoegen aan contactpersonen"</string>
     <string name="menu_call">"Bellen"</string>
     <string name="menu_delete_all">"Threads verwijderen"</string>
-    <!-- no translation found for menu_delete (1851666911396479006) -->
-    <skip />
+    <string name="menu_delete">"Verwijderen"</string>
     <string name="menu_undelivered_messages">"Niet-afgeleverde berichten"</string>
-    <!-- no translation found for menu_view (7448852683948080108) -->
-    <skip />
+    <string name="menu_view">"Weergeven"</string>
     <string name="refreshing">"Vernieuwen..."</string>
     <string name="has_draft">"Concept"</string>
-    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
     <skip />
     <string name="anonymous_recipient">"Anoniem"</string>
     <string name="no_subject_view">"(Geen onderwerp)"</string>
@@ -82,8 +80,7 @@
     <string name="remove">"Verwijderen"</string>
     <string name="send">"Verzenden"</string>
     <string name="all_threads">"Alle threads"</string>
-    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
-    <skip />
+    <string name="type_to_compose_text_enter_to_send">"Typ om tekst in te voeren, druk op Enter om te verzenden"</string>
     <string name="open_keyboard_to_compose_message">"Toetsenbord openen om bericht op te stellen"</string>
     <string name="image_too_large">"Foto te groot"</string>
     <string name="ask_for_automatically_resize">"Formaat van foto automatisch aanpassen vóór verzending?"</string>
@@ -94,7 +91,7 @@
     <string name="failed_to_add_media">"U kunt dit item (<xliff:g id="NAME">%1$s</xliff:g>) niet aan uw bericht toevoegen."</string>
     <string name="failed_to_resize_image">"Formaat van foto is niet aangepast."</string>
     <string name="resize_image_error_information">"Zelfs nadat het formaat is aangepast, is deze foto te groot voor verzending."</string>
-    <string name="forward_prefix">"Fw: "</string>
+    <string name="forward_prefix">"Fw:"</string>
     <string name="discard_message">"Weggooien"</string>
     <string name="discard_message_reason">"Uw bericht wordt weggegooid, omdat het geen geldige ontvangers heeft."</string>
     <string name="has_invalid_recipient">"Ongeldige ontvanger(s): &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
@@ -113,8 +110,8 @@
     <string name="preview_slideshow">"Voorbeeld"</string>
     <string name="replace_image">"Foto vervangen"</string>
     <string name="duration_sec">"Duur (<xliff:g id="DURATION">%s</xliff:g> sec)"</string>
-    <string name="duration_selector_title">"Duur voor dia "</string>
-    <string name="layout_selector_title">"Lay-out van diavoorstelling "</string>
+    <string name="duration_selector_title">"Duur voor dia"</string>
+    <string name="layout_selector_title">"Lay-out van diavoorstelling"</string>
     <string name="layout_top">"Indeling (bovenaan)"</string>
     <string name="layout_bottom">"Indeling (onderaan)"</string>
     <string name="type_to_compose_text_or_leave_blank">"Typ om tekst in te voeren of laat leeg"</string>
@@ -133,7 +130,7 @@
     <item>"Anders..."</item>
   </string-array>
     <string name="menu_view_contact">"Contactpersoon weergeven"</string>
-    <string name="menu_add_to_contacts">"Toevoegen aan contacten"</string>
+    <string name="menu_add_to_contacts">"Toevoegen aan contactpersonen"</string>
     <string name="hidden_sender_address">"Verborgen adres verzender"</string>
     <string name="yes">"OK"</string>
     <string name="no">"Annuleren"</string>
@@ -163,7 +160,7 @@
     <string name="pref_summary_mms_auto_retrieval">"Berichten automatisch ophalen"</string>
     <string name="pref_title_mms_retrieval_during_roaming">"Automatisch ophalen tijdens roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"Berichten automatisch ophalen tijdens roaming"</string>
-    <string name="to_label">"Aan "</string>
+    <string name="to_label">"Aan"</string>
     <string name="confirm_dialog_title">"Verwijderen"</string>
     <string name="confirm_delete_conversation">"De volledige thread wordt verwijderd."</string>
     <string name="confirm_delete_all_conversations">"Alle threads worden verwijderd."</string>
@@ -172,23 +169,23 @@
     <string name="confirm_delete_all_SIM_messages">"Alle berichten op de SIM-kaart worden verwijderd."</string>
     <string name="cannot_get_details">"Kan details niet ophalen"</string>
     <string name="message_details_title">"Berichtdetails"</string>
-    <string name="message_type_label">"Type: "</string>
+    <string name="message_type_label">"Type:"</string>
     <string name="text_message">"SMS-bericht"</string>
     <string name="multimedia_message">"MMS-bericht"</string>
     <string name="multimedia_notification">"MMS-melding"</string>
-    <string name="from_label">"Van: "</string>
-    <string name="to_address_label">"Aan: "</string>
-    <string name="bcc_label">"Bcc: "</string>
-    <string name="sent_label">"Verzonden: "</string>
-    <string name="received_label">"Ontvangen: "</string>
-    <string name="saved_label">"Opgeslagen: "</string>
-    <string name="subject_label">"Onderwerp: "</string>
-    <string name="message_size_label">"Berichtgrootte: "</string>
-    <string name="priority_label">"Prioriteit: "</string>
+    <string name="from_label">"Van:"</string>
+    <string name="to_address_label">"Aan:"</string>
+    <string name="bcc_label">"Bcc:"</string>
+    <string name="sent_label">"Verzonden:"</string>
+    <string name="received_label">"Ontvangen:"</string>
+    <string name="saved_label">"Opgeslagen:"</string>
+    <string name="subject_label">"Onderwerp:"</string>
+    <string name="message_size_label">"Berichtgrootte:"</string>
+    <string name="priority_label">"Prioriteit:"</string>
     <string name="priority_high">"Hoog"</string>
     <string name="priority_normal">"Normaal"</string>
     <string name="priority_low">"Laag"</string>
-    <string name="message_class_label">"Berichtklasse: "</string>
+    <string name="message_class_label">"Berichtklasse:"</string>
     <string name="menu_edit">"Bewerken"</string>
     <string name="menu_retry_sending">"Nieuwe verzendpoging"</string>
     <string name="menu_retry_sending_all">"Nieuwe verzendpoging voor alles"</string>
@@ -207,8 +204,8 @@
     <string name="status_failed">"Mislukt"</string>
     <string name="status_unread">"Ongelezen"</string>
     <string name="status_rejected">"Afgewezen"</string>
-    <string name="recipient_label">"Ontvanger: "</string>
-    <string name="status_label">"Status: "</string>
+    <string name="recipient_label">"Ontvanger:"</string>
+    <string name="status_label">"Status:"</string>
     <string name="attach_image">"Foto\'s"</string>
     <string name="attach_take_photo">"Foto nemen"</string>
     <string name="attach_video">"Video\'s"</string>
@@ -220,10 +217,6 @@
     <string name="select_top_text">"Tekst bovenaan"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> ongelezen berichten."</string>
     <string name="notification_multiple_title">"Nieuwe berichten"</string>
-    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
-    <skip />
-    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
-    <skip />
     <string name="sim_full_title">"SIM-kaart vol"</string>
     <string name="sim_full_body">"Verwijder enkele berichten om ruimte vrij te maken voor nieuwe berichten."</string>
     <string name="type_audio">"audio"</string>

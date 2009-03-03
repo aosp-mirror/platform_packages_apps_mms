@@ -37,9 +37,6 @@ public class ConversationHeader {
     // if the contact name(s) aren't loaded yet.
     private String mFrom;
 
-    // the presence icon resource id displayed for the conversation thread.
-    private int mPresenceResId;
-
     // Optional callback to run when mFrom changes.  This is used to
     // update ConversationHeaderView asynchronously.  The view registers
     // with the header using setOnFromChanged() below.
@@ -57,19 +54,16 @@ public class ConversationHeader {
             boolean isRead,
             boolean hasError,
             boolean hasDraft,
-            int messageCount,
-            boolean hasAttachment)
+            int messageCount)
     {
         mThreadId = threadId;
         mFrom = from;  // may be null
-        mPresenceResId = 0;
         mSubject = subject != null ? subject : "";
         mDate = date != null ? date : "";
         mIsRead = isRead;
         mHasError = hasError;
         mHasDraft = hasDraft;
         mMessageCount = messageCount;
-        mHasAttachment = hasAttachment;
     }
 
     /**
@@ -98,20 +92,6 @@ public class ConversationHeader {
     public void setFrom(String from) {
         synchronized (mFromLock) {
             mFrom = from;
-            conditionallyRunFromChangedCallback();
-        }
-    }
-
-    public int getPresenceResourceId() {
-        synchronized (mFromLock) {
-            return mPresenceResId;
-        }
-    }
-
-    public void setFromAndPresence(String from, int presenceResId) {
-        synchronized (mFromLock) {
-            mFrom = from;
-            mPresenceResId = presenceResId;
             conditionallyRunFromChangedCallback();
         }
     }
