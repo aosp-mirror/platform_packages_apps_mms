@@ -25,12 +25,14 @@
     <string name="menu_add_address_to_contacts">"連絡先に<xliff:g id="NAME">%s</xliff:g>さんを追加"</string>
     <string name="menu_call">"発信"</string>
     <string name="menu_delete_all">"スレッドを削除"</string>
-    <string name="menu_delete">"削除"</string>
+    <!-- no translation found for menu_delete (1851666911396479006) -->
+    <skip />
     <string name="menu_undelivered_messages">"未配信メッセージ"</string>
-    <string name="menu_view">"表示"</string>
+    <!-- no translation found for menu_view (7448852683948080108) -->
+    <skip />
     <string name="refreshing">"更新中..."</string>
     <string name="has_draft">"下書き"</string>
-    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
     <skip />
     <string name="anonymous_recipient">"差出人不明"</string>
     <string name="no_subject_view">"(件名なし)"</string>
@@ -80,7 +82,8 @@
     <string name="remove">"削除"</string>
     <string name="send">"送信"</string>
     <string name="all_threads">"スレッド一覧"</string>
-    <string name="type_to_compose_text_enter_to_send">"メッセージを入力してEnterキーを押すと送信されます"</string>
+    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
+    <skip />
     <string name="open_keyboard_to_compose_message">"キーボードを表示してメッセージを入力してください"</string>
     <string name="image_too_large">"画像が大きすぎます"</string>
     <string name="ask_for_automatically_resize">"画像のサイズを送信用に自動調整しますか？"</string>
@@ -91,7 +94,7 @@
     <string name="failed_to_add_media">"この<xliff:g id="NAME">%1$s</xliff:g>はメッセージに追加できません。"</string>
     <string name="failed_to_resize_image">"画像のサイズを変更できません。"</string>
     <string name="resize_image_error_information">"この画像は大きすぎるため、サイズを変更しても送信できません。"</string>
-    <string name="forward_prefix">"Fwd:"</string>
+    <string name="forward_prefix">"Fwd: "</string>
     <string name="discard_message">"破棄"</string>
     <string name="discard_message_reason">"有効な宛先が指定されていないので、メッセージは破棄されます。"</string>
     <string name="has_invalid_recipient">"無効な受信者:&lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
@@ -110,8 +113,8 @@
     <string name="preview_slideshow">"プレビュー"</string>
     <string name="replace_image">"画像を変更"</string>
     <string name="duration_sec">"時間 (<xliff:g id="DURATION">%s</xliff:g>秒)"</string>
-    <string name="duration_selector_title">"スライドの表示時間"</string>
-    <string name="layout_selector_title">"スライドショーのレイアウト"</string>
+    <string name="duration_selector_title">"スライドの表示時間 "</string>
+    <string name="layout_selector_title">"スライドショーのレイアウト "</string>
     <string name="layout_top">"レイアウト (上部)"</string>
     <string name="layout_bottom">"レイアウト (下部)"</string>
     <string name="type_to_compose_text_or_leave_blank">"文字を入力するか空白のまま完了を押します"</string>
@@ -160,7 +163,7 @@
     <string name="pref_summary_mms_auto_retrieval">"メッセージを自動的に取得"</string>
     <string name="pref_title_mms_retrieval_during_roaming">"ローミングを自動的に取得"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"ローミング中にメッセージを自動的に取得する"</string>
-    <string name="to_label">"宛先"</string>
+    <string name="to_label">"宛先 "</string>
     <string name="confirm_dialog_title">"削除"</string>
     <string name="confirm_delete_conversation">"スレッド全体が削除されます。"</string>
     <string name="confirm_delete_all_conversations">"スレッドはすべて削除されます。"</string>
@@ -169,23 +172,23 @@
     <string name="confirm_delete_all_SIM_messages">"SIMカードのすべてのメッセージが削除されます。"</string>
     <string name="cannot_get_details">"詳細を表示できません"</string>
     <string name="message_details_title">"メッセージの詳細"</string>
-    <string name="message_type_label">"タイプ:"</string>
+    <string name="message_type_label">"タイプ: "</string>
     <string name="text_message">"SMSメッセージ"</string>
     <string name="multimedia_message">"MMSメッセージ"</string>
     <string name="multimedia_notification">"MMS通知"</string>
-    <string name="from_label">"差出人:"</string>
-    <string name="to_address_label">"宛先:"</string>
-    <string name="bcc_label">"Bcc:"</string>
-    <string name="sent_label">"送信:"</string>
-    <string name="received_label">"受信:"</string>
-    <string name="saved_label">"保存:"</string>
-    <string name="subject_label">"件名:"</string>
-    <string name="message_size_label">"メッセージサイズ:"</string>
-    <string name="priority_label">"優先度:"</string>
+    <string name="from_label">"差出人: "</string>
+    <string name="to_address_label">"宛先: "</string>
+    <string name="bcc_label">"Bcc: "</string>
+    <string name="sent_label">"送信: "</string>
+    <string name="received_label">"受信: "</string>
+    <string name="saved_label">"保存: "</string>
+    <string name="subject_label">"件名: "</string>
+    <string name="message_size_label">"メッセージサイズ: "</string>
+    <string name="priority_label">"優先度: "</string>
     <string name="priority_high">"高"</string>
     <string name="priority_normal">"中"</string>
     <string name="priority_low">"低"</string>
-    <string name="message_class_label">"メッセージクラス:"</string>
+    <string name="message_class_label">"メッセージクラス: "</string>
     <string name="menu_edit">"編集"</string>
     <string name="menu_retry_sending">"送信を再試行"</string>
     <string name="menu_retry_sending_all">"すべて再送信する"</string>
@@ -204,8 +207,8 @@
     <string name="status_failed">"失敗"</string>
     <string name="status_unread">"未読"</string>
     <string name="status_rejected">"拒否"</string>
-    <string name="recipient_label">"受信者:"</string>
-    <string name="status_label">"ステータス:"</string>
+    <string name="recipient_label">"受信者: "</string>
+    <string name="status_label">"ステータス: "</string>
     <string name="attach_image">"画像"</string>
     <string name="attach_take_photo">"写真をキャプチャ"</string>
     <string name="attach_video">"動画"</string>
@@ -217,6 +220,10 @@
     <string name="select_top_text">"テキストを上に表示"</string>
     <string name="notification_multiple">"未読メッセージ<xliff:g id="COUNT">%s</xliff:g>通"</string>
     <string name="notification_multiple_title">"新しいメッセージ"</string>
+    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
+    <skip />
+    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
+    <skip />
     <string name="sim_full_title">"SIMカード空き領域なし"</string>
     <string name="sim_full_body">"空き容量を増やすにはメッセージを削除します。"</string>
     <string name="type_audio">"オーディオ"</string>

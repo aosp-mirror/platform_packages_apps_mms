@@ -25,12 +25,14 @@
     <string name="menu_add_address_to_contacts">"연락처에 <xliff:g id="NAME">%s</xliff:g> 추가"</string>
     <string name="menu_call">"전화걸기"</string>
     <string name="menu_delete_all">"대화 삭제"</string>
-    <string name="menu_delete">"삭제"</string>
+    <!-- no translation found for menu_delete (1851666911396479006) -->
+    <skip />
     <string name="menu_undelivered_messages">"전송되지 않은 메시지"</string>
-    <string name="menu_view">"보기"</string>
+    <!-- no translation found for menu_view (7448852683948080108) -->
+    <skip />
     <string name="refreshing">"새로 고치는 중..."</string>
     <string name="has_draft">"임시저장"</string>
-    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
     <skip />
     <string name="anonymous_recipient">"익명"</string>
     <string name="no_subject_view">"(제목 없음)"</string>
@@ -80,7 +82,8 @@
     <string name="remove">"삭제"</string>
     <string name="send">"보내기"</string>
     <string name="all_threads">"모든 대화"</string>
-    <string name="type_to_compose_text_enter_to_send">"메시지 내용을 입력한 다음 Enter 키를 눌러 보냅니다."</string>
+    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
+    <skip />
     <string name="open_keyboard_to_compose_message">"키보드를 사용하여 메시지 작성"</string>
     <string name="image_too_large">"사진 크기가 너무 큼"</string>
     <string name="ask_for_automatically_resize">"보내기 전에 사진 크기를 자동으로 조정하시겠습니까?"</string>
@@ -91,7 +94,7 @@
     <string name="failed_to_add_media">"<xliff:g id="NAME">%1$s</xliff:g>은(는) 메시지에 추가할 수 없습니다."</string>
     <string name="failed_to_resize_image">"사진 크기가 조정되지 않았습니다."</string>
     <string name="resize_image_error_information">"사진의 크기를 조정했지만 아직도 전송할 수 없습니다."</string>
-    <string name="forward_prefix">"Fwd:"</string>
+    <string name="forward_prefix">"Fwd: "</string>
     <string name="discard_message">"삭제"</string>
     <string name="discard_message_reason">"유효한 수신자가 없으므로 메시지가 삭제됩니다."</string>
     <string name="has_invalid_recipient">"유효하지 않은 수신자: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
@@ -110,8 +113,8 @@
     <string name="preview_slideshow">"미리보기"</string>
     <string name="replace_image">"사진 바꾸기"</string>
     <string name="duration_sec">"표시 시간(<xliff:g id="DURATION">%s</xliff:g>초)"</string>
-    <string name="duration_selector_title">"슬라이드 표시 시간"</string>
-    <string name="layout_selector_title">"슬라이드쇼 레이아웃"</string>
+    <string name="duration_selector_title">"슬라이드 표시 시간 "</string>
+    <string name="layout_selector_title">"슬라이드쇼 레이아웃 "</string>
     <string name="layout_top">"레이아웃(위)"</string>
     <string name="layout_bottom">"레이아웃(아래)"</string>
     <string name="type_to_compose_text_or_leave_blank">"텍스트를 입력하거나 비워 두세요."</string>
@@ -160,7 +163,7 @@
     <string name="pref_summary_mms_auto_retrieval">"자동으로 메시지 검색"</string>
     <string name="pref_title_mms_retrieval_during_roaming">"로밍 중에 자동 검색"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"로밍 중에 메시지를 자동으로 검색"</string>
-    <string name="to_label">"받는 사람"</string>
+    <string name="to_label">"받는 사람 "</string>
     <string name="confirm_dialog_title">"삭제"</string>
     <string name="confirm_delete_conversation">"전체 대화가 삭제됩니다."</string>
     <string name="confirm_delete_all_conversations">"대화목록이 모두 삭제됩니다."</string>
@@ -169,23 +172,23 @@
     <string name="confirm_delete_all_SIM_messages">"SIM에 있는 모든 메일이 삭제됩니다."</string>
     <string name="cannot_get_details">"세부정보를 가져올 수 없음"</string>
     <string name="message_details_title">"메시지 세부정보"</string>
-    <string name="message_type_label">"유형:"</string>
+    <string name="message_type_label">"유형: "</string>
     <string name="text_message">"SMS 메시지"</string>
     <string name="multimedia_message">"MMS 메시지"</string>
     <string name="multimedia_notification">"MMS 알림"</string>
-    <string name="from_label">"보낸사람:"</string>
-    <string name="to_address_label">"받는사람:"</string>
-    <string name="bcc_label">"숨은 참조:"</string>
-    <string name="sent_label">"보낸 시간:"</string>
-    <string name="received_label">"받은 시간:"</string>
-    <string name="saved_label">"저장됨:"</string>
-    <string name="subject_label">"제목:"</string>
-    <string name="message_size_label">"메시지 크기:"</string>
-    <string name="priority_label">"중요도:"</string>
+    <string name="from_label">"보낸사람: "</string>
+    <string name="to_address_label">"받는사람: "</string>
+    <string name="bcc_label">"숨은 참조: "</string>
+    <string name="sent_label">"보낸 시간: "</string>
+    <string name="received_label">"받은 시간: "</string>
+    <string name="saved_label">"저장됨: "</string>
+    <string name="subject_label">"제목: "</string>
+    <string name="message_size_label">"메시지 크기: "</string>
+    <string name="priority_label">"중요도: "</string>
     <string name="priority_high">"높음"</string>
     <string name="priority_normal">"보통"</string>
     <string name="priority_low">"낮음"</string>
-    <string name="message_class_label">"메시지 클래스:"</string>
+    <string name="message_class_label">"메시지 클래스: "</string>
     <string name="menu_edit">"편집"</string>
     <string name="menu_retry_sending">"보내기 재시도"</string>
     <string name="menu_retry_sending_all">"모두 보내기 재시도"</string>
@@ -204,8 +207,8 @@
     <string name="status_failed">"실패"</string>
     <string name="status_unread">"읽지않음"</string>
     <string name="status_rejected">"거부"</string>
-    <string name="recipient_label">"받는사람:"</string>
-    <string name="status_label">"상태:"</string>
+    <string name="recipient_label">"받는사람: "</string>
+    <string name="status_label">"상태: "</string>
     <string name="attach_image">"사진"</string>
     <string name="attach_take_photo">"사진촬영"</string>
     <string name="attach_video">"동영상"</string>
@@ -217,6 +220,10 @@
     <string name="select_top_text">"텍스트를 위쪽에"</string>
     <string name="notification_multiple">"읽지 않은 메시지가 <xliff:g id="COUNT">%s</xliff:g>개 있습니다."</string>
     <string name="notification_multiple_title">"새 메시지"</string>
+    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
+    <skip />
+    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
+    <skip />
     <string name="sim_full_title">"SIM 카드 용량이 가득 참"</string>
     <string name="sim_full_body">"저장 공간을 늘리려면 메시지를 일부 삭제하세요."</string>
     <string name="type_audio">"오디오"</string>

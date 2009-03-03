@@ -43,7 +43,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 /**
- * This object holds some brief information of a message.
+ * Mostly immutable model for an SMS/MMS message.
+ *
+ * <p>The only mutable field is the cached formatted message member,
+ * the formatting of which is done outside this model in MessageListItem.
  */
 public class MessageItem {
     private static String TAG = "MessageItem";
@@ -60,6 +63,12 @@ public class MessageItem {
     String mAddress;
     String mContact;
     String mBody; // Body of SMS, first text of MMS.
+
+    // The only non-immutable field.  Not synchronized, as access will
+    // only be from the main GUI thread.  Worst case if accessed from
+    // another thread is it'll return null and be set again from that
+    // thread.
+    CharSequence mCachedFormattedMessage;
 
     // Fields for MMS only.
     Uri mMessageUri;
@@ -233,7 +242,7 @@ public class MessageItem {
     public boolean isDownloaded() {
         return (mMessageType != PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND);
     }
-    
+
     public boolean isOutgoingMessage() {
         boolean isOutgoingMms = isMms() && (mBoxId == Mms.MESSAGE_BOX_OUTBOX);
         boolean isOutgoingSms = isSms()
@@ -241,5 +250,18 @@ public class MessageItem {
                                             || (mBoxId == Sms.MESSAGE_TYPE_OUTBOX)
                                             || (mBoxId == Sms.MESSAGE_TYPE_QUEUED));
         return isOutgoingMms || isOutgoingSms;
+    }
+
+    // Note: This is the only mutable field in this class.  Think of
+    // mCachedFormattedMessage as a C++ 'mutable' field on a const
+    // object, with this being a lazy accessor whose logic to set it
+    // is outside the class for model/view separation reasons.  In any
+    // case, please keep this class conceptually immutable.
+    public void setCachedFormattedMessage(CharSequence formattedMessage) {
+        mCachedFormattedMessage = formattedMessage;
+    }
+
+    public CharSequence getCachedFormattedMessage() {
+        return mCachedFormattedMessage;
     }
 }

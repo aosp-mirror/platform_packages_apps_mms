@@ -41,12 +41,12 @@
     <!-- Menu item for deleting all conversations -->
     <string name="menu_delete_all">Delete threads</string>
     <!-- Context menu item on an individual conversation for deleting that conversation -->
-    <string name="menu_delete">Delete</string>
+    <string name="menu_delete">Delete thread</string>
     <!-- This string is no longer used. It used to be the menu item for viewing all messages that
          were unable to be delivered, i.e. send failed -->
     <string name="menu_undelivered_messages">Undelivered messages</string>
     <!-- Context menu item on an individual conversation for viewing that conversation -->
-    <string name="menu_view">View</string>
+    <string name="menu_view">View thread</string>
     <!-- Message that appears on screen while SIM card messages are retrieved -->
     <string name="refreshing">Refreshing\u2026</string>
 
@@ -166,7 +166,7 @@
     <string name="all_threads">All threads</string>
 
     <!-- Hint text in message body field when keyboard is exposed -->
-    <string name="type_to_compose_text_enter_to_send">Type to compose, press Enter to send</string>
+    <string name="type_to_compose_text_enter_to_send">Type to compose</string>
     <!-- Hint text in message body field when keyboard is hidden -->
     <string name="open_keyboard_to_compose_message">Open keyboard to compose message</string>
 
@@ -460,6 +460,11 @@
     <string name="notification_multiple"><xliff:g id="count">%s</xliff:g> unread messages.</string>
     <!-- Delivery Report Notification dialog title. -->
     <string name="notification_multiple_title">New messages</string>
+
+    <!-- Failed to send/download Notification dialog title. -->
+    <string name="notification_failed_multiple"><xliff:g id="count">%s</xliff:g> messages could not be sent.</string>
+    <!-- Failed to send/download Notification dialog title. -->
+    <string name="notification_failed_multiple_title">Messages not sent</string>
 
     <!-- Sim Full Notification dialog title. -->
     <string name="sim_full_title">SIM card full</string>

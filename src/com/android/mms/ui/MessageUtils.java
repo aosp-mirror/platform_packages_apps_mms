@@ -19,6 +19,7 @@ package com.android.mms.ui;
 
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
+import com.android.mms.model.MediaModel;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.CarrierContentRestriction;
@@ -390,13 +391,15 @@ public class MessageUtils {
     /**
      * @parameter recipientIds space-separated list of ids
      */
-    public static String getRecipientsByIds(Context context, String recipientIds) {
+    public static String getRecipientsByIds(Context context, String recipientIds,
+                                            boolean allowQuery) {
         String value = sRecipientAddress.get(recipientIds);
         if (value != null) {
             return value;
         }
         if (!TextUtils.isEmpty(recipientIds)) {
-            StringBuilder addressBuf = extractIdsToAddresses(context, recipientIds);
+            StringBuilder addressBuf = extractIdsToAddresses(
+                    context, recipientIds, allowQuery);
             if (addressBuf == null) {
                 // temporary error?  Don't memoize.
                 return "";
@@ -409,16 +412,15 @@ public class MessageUtils {
         return value;
     }
 
-    private static StringBuilder extractIdsToAddresses(Context context,
-            String recipients) {
+    private static StringBuilder extractIdsToAddresses(Context context, String recipients,
+                                                       boolean allowQuery) {
         StringBuilder addressBuf = new StringBuilder();
         String[] recipientIds = recipients.split(" ");
         boolean firstItem = true;
         for (String recipientId : recipientIds) {
             String value = sRecipientAddress.get(recipientId);
-            if (value == null) {
-                Uri uri = Uri.parse("content://mms-sms/canonical-address/" +
-                                    recipientId);
+            if (value == null && allowQuery) {
+                Uri uri = Uri.parse("content://mms-sms/canonical-address/" + recipientId);
                 Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
                                                uri, null, null, null, null);
                 if (c != null) {
@@ -459,7 +461,7 @@ public class MessageUtils {
             try {
                 if ((cursor.getCount() == 1) && cursor.moveToFirst()) {
                     String address = getRecipientsByIds(context,
-                            cursor.getString(0));
+                            cursor.getString(0), true /* allow query */);
                     if (!TextUtils.isEmpty(address)) {
                         return address;
                     }
@@ -515,6 +517,26 @@ public class MessageUtils {
         }
     }
 
+    public static void viewSimpleSlideshow(Context context, SlideshowModel slideshow) {
+        if (!slideshow.isSimple()) {
+            throw new IllegalArgumentException(
+                    "viewSimpleSlideshow() called on a non-simple slideshow");
+        }
+        SlideModel slide = slideshow.get(0);
+        MediaModel mm = null;
+        if (slide.hasImage()) {
+            mm = slide.getImage();
+        } else if (slide.hasVideo()) {
+            mm = slide.getVideo();
+        }
+        
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setType(mm.getContentType());
+        intent.setData(mm.getUri());
+        context.startActivity(intent);
+    }
+    
     public static void showErrorDialog(Context context,
             String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -545,11 +567,15 @@ public class MessageUtils {
     }
 
     public static void markAsRead(Context context, long threadId) {
+        MessageUtils.handleReadReport(context, threadId,
+                PduHeaders.READ_STATUS_READ, null);
+        
         ContentValues values = new ContentValues(1);
         values.put("read", READ_THREAD);
         SqliteWrapper.update(context, context.getContentResolver(),
                 ContentUris.withAppendedId(Threads.CONTENT_URI, threadId),
                 values, "read=0", null);
+        
         MessagingNotification.updateNewMessageIndicator(context, threadId);
     }
 

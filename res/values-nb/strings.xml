@@ -30,7 +30,7 @@
     <string name="menu_view">"Vis"</string>
     <string name="refreshing">"Synkroniserer…"</string>
     <string name="has_draft">"Utkast"</string>
-    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
     <skip />
     <string name="anonymous_recipient">"Anonym"</string>
     <string name="no_subject_view">"(Mangler emne)"</string>
@@ -80,7 +80,8 @@
     <string name="remove">"Fjern"</string>
     <string name="send">"Send"</string>
     <string name="all_threads">"Alle tråder"</string>
-    <string name="type_to_compose_text_enter_to_send">"Skriv melding, trykk Enter for å sende"</string>
+    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
+    <skip />
     <string name="open_keyboard_to_compose_message">"Åpne tastaturet for å skrive en melding"</string>
     <string name="image_too_large">"Bildet er for stort"</string>
     <string name="ask_for_automatically_resize">"Gjør bildet mindre før sending?"</string>
@@ -91,7 +92,7 @@
     <string name="failed_to_add_media">"Beklager, du kan ikke legge dette <xliff:g id="NAME">%1$s</xliff:g>et til meldingen din."</string>
     <string name="failed_to_resize_image">"Bildet ble ikke skalert."</string>
     <string name="resize_image_error_information">"Beklager, selv etter skalering er dette bildet for stort."</string>
-    <string name="forward_prefix">"Fwd:"</string>
+    <string name="forward_prefix">"Fwd: "</string>
     <string name="discard_message">"Forkast"</string>
     <string name="discard_message_reason">"Meldingen vil bli forkastet, siden den ikke har noen gyldige mottagere."</string>
     <string name="has_invalid_recipient">"Ugyldig(e) mottager(e): &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
@@ -110,8 +111,8 @@
     <string name="preview_slideshow">"Forhåndsvisning"</string>
     <string name="replace_image">"Erstatt bilde"</string>
     <string name="duration_sec">"Varighet (<xliff:g id="DURATION">%s</xliff:g> sek)"</string>
-    <string name="duration_selector_title">"Varighet for lysbilde"</string>
-    <string name="layout_selector_title">"Lysbilde-layout"</string>
+    <string name="duration_selector_title">"Varighet for lysbilde "</string>
+    <string name="layout_selector_title">"Lysbilde-layout "</string>
     <string name="layout_top">"Layout (topp)"</string>
     <string name="layout_bottom">"Layout (bunn)"</string>
     <string name="type_to_compose_text_or_leave_blank">"Skriv for å legge til tekst, eller la stå tom"</string>
@@ -160,33 +161,33 @@
     <string name="pref_summary_mms_auto_retrieval">"Hent meldinger automatisk"</string>
     <string name="pref_title_mms_retrieval_during_roaming">"Omstreifende autohent"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"Hent meldinger automatisk ved roaming"</string>
-    <string name="to_label">"Til"</string>
+    <string name="to_label">"Til "</string>
     <string name="confirm_dialog_title">"Slett"</string>
     <string name="confirm_delete_conversation">"Hele tråden vil bli slettet."</string>
     <string name="confirm_delete_all_conversations">"Alle tråder vil bli slettet."</string>
     <string name="confirm_delete_message">"Denne meldingen vil bli slettet."</string>
-    <string name="confirm_delete_all_messages">"Hele tråden vil bli slettet.\n\n\n65701806463341097\nAlle meldinger på SIM-kortet vil bli slettet."</string>
+    <string name="confirm_delete_all_messages">"Hele tråden vil bli slettet.BREAK_0BREAK_1BREAK_265701806463341097BREAK_3Alle meldinger på SIM-kortet vil bli slettet."</string>
     <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
     <skip />
     <string name="cannot_get_details">"Kan ikke hente detaljer"</string>
     <string name="message_details_title">"Meldingsdetaljer"</string>
-    <string name="message_type_label">"Type:"</string>
+    <string name="message_type_label">"Type: "</string>
     <string name="text_message">"SMS-melding"</string>
     <string name="multimedia_message">"MMS-melding"</string>
     <string name="multimedia_notification">"MMS-varsling"</string>
-    <string name="from_label">"Fra:"</string>
-    <string name="to_address_label">"Til:"</string>
-    <string name="bcc_label">"Blindkopi:"</string>
-    <string name="sent_label">"Sendt:"</string>
-    <string name="received_label">"Mottatt:"</string>
-    <string name="saved_label">"Lagret:"</string>
-    <string name="subject_label">"Emne:"</string>
-    <string name="message_size_label">"Meldingsstørrelse:"</string>
-    <string name="priority_label">"Prioritet:"</string>
+    <string name="from_label">"Fra: "</string>
+    <string name="to_address_label">"Til: "</string>
+    <string name="bcc_label">"Blindkopi: "</string>
+    <string name="sent_label">"Sendt: "</string>
+    <string name="received_label">"Mottatt: "</string>
+    <string name="saved_label">"Lagret: "</string>
+    <string name="subject_label">"Emne: "</string>
+    <string name="message_size_label">"Meldingsstørrelse: "</string>
+    <string name="priority_label">"Prioritet: "</string>
     <string name="priority_high">"Høy"</string>
     <string name="priority_normal">"Vanlig"</string>
     <string name="priority_low">"Lav"</string>
-    <string name="message_class_label">"Meldingsklasse:"</string>
+    <string name="message_class_label">"Meldingsklasse: "</string>
     <string name="menu_edit">"Rediger"</string>
     <string name="menu_retry_sending">"Prøv å sende på nytt"</string>
     <string name="menu_retry_sending_all">"Prøv å sende alle på nytt"</string>
@@ -205,8 +206,8 @@
     <string name="status_failed">"Mislykket"</string>
     <string name="status_unread">"Ulest"</string>
     <string name="status_rejected">"Avvist"</string>
-    <string name="recipient_label">"Mottager:"</string>
-    <string name="status_label">"Status:"</string>
+    <string name="recipient_label">"Mottager: "</string>
+    <string name="status_label">"Status: "</string>
     <string name="attach_image">"Bilder"</string>
     <string name="attach_take_photo">"Kamera"</string>
     <string name="attach_video">"Video"</string>
@@ -218,6 +219,10 @@
     <string name="select_top_text">"Text på toppen"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> uleste meldinger."</string>
     <string name="notification_multiple_title">"Nye meldinger"</string>
+    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
+    <skip />
+    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
+    <skip />
     <string name="sim_full_title">"SIM-kort fullt"</string>
     <string name="sim_full_body">"Fjern noen meldinger for å gjøre plass til flere."</string>
     <string name="type_audio">"lyden"</string>

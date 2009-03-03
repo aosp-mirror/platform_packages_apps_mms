@@ -51,6 +51,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
+import android.util.Log;
 
 import java.util.Comparator;
 import java.util.SortedSet;
@@ -100,6 +101,8 @@ public class MessagingNotification {
 
     private static final MmsSmsNotificationInfoComparator INFO_COMPARATOR =
             new MmsSmsNotificationInfoComparator();
+    
+    private static final Uri UNDELIVERED_URI = Uri.parse("content://mms-sms/undelivered");
 
     private MessagingNotification() {
     }
@@ -323,7 +326,8 @@ public class MessagingNotification {
         PendingIntent pendingIntent;
 
         if (count > 1) {
-            String multiDescription = context.getString(R.string.notification_multiple);
+            String multiDescription = context.getString(R.string.notification_multiple,
+                    Integer.toString(count));
             String multiTitle = context.getString(R.string.notification_multiple_title);
 
             Intent multiIntent = getAppIntent();
@@ -332,9 +336,7 @@ public class MessagingNotification {
             pendingIntent =
                 PendingIntent.getActivity(context, 0, multiIntent, 0);
 
-            notification.setLatestEventInfo(
-                    context, multiTitle, multiDescription.replaceAll("%s", Integer.toString(count)),
-                    pendingIntent);
+            notification.setLatestEventInfo(context, multiTitle, multiDescription, pendingIntent);
         } else {
             pendingIntent =
                 PendingIntent.getActivity(context, 0, clickIntent, 0);
@@ -408,7 +410,8 @@ public class MessagingNotification {
         notifyFailed(context, isMms, false, 0);
     }
 
-    private static void notifyFailed(Context context, boolean isMms, boolean isDownload, long threadId) {
+    private static void notifyFailed(Context context, boolean isMms,
+            boolean isDownload, long threadId) {
         // TODO factor out common code for creating notifications
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -419,26 +422,50 @@ public class MessagingNotification {
 
         NotificationManager nm = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
+        
+        // Strategy:
+        // a. If there is a single failure notification, tapping on the notification goes
+        //    to the compose view.
+        // b. If there are two failure it stays in the thread view. Selecting one undelivered 
+        //    thread will dismiss one undelivered notification but will still display the
+        //    notification.If you select the 2nd undelivered one it will dismiss the notification.
+        
+        long[] msgThreadId = new long[1];
+        msgThreadId[0] = 0;
+        int failedDownloadCount = getDownloadFailedMessageCount(context);
+        int totalFailedCount = getUndeliveredMessageCount(context, msgThreadId);
+        
+        Intent failedIntent;
+        Notification notification = new Notification();
+        String title;
+        String description;
+        if (totalFailedCount > 1) {
+            description = context.getString(R.string.notification_failed_multiple,
+                    Integer.toString(totalFailedCount));
+            title = context.getString(R.string.notification_failed_multiple_title);
 
-        Intent failedIntent = new Intent(context, ConversationList.class);
-        failedIntent.putExtra("thread_id", threadId);         
-        failedIntent.putExtra("undelivered_flag", true);
+            failedIntent = new Intent(context, ConversationList.class);
+        } else {
+            failedIntent = new Intent(context, ComposeMessageActivity.class);
+            failedIntent.putExtra("thread_id", threadId);         
+            failedIntent.putExtra("undelivered_flag", true);
+            
+            title = isDownload ?
+                        context.getString(R.string.message_download_failed_title) :
+                        context.getString(R.string.message_send_failed_title);
+            
+            description = context.getString(R.string.message_failed_body);
+            threadId = (msgThreadId[0] != 0 ? msgThreadId[0] : 0);
+        }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 context, 0, failedIntent, 0);
 
-        Notification notification = new Notification();
-        notification.icon = isMms ? R.drawable.stat_notify_mms_failed :
-                R.drawable.stat_notify_sms_failed;
+        notification.icon = R.drawable.stat_notify_sms_failed;
 
-        String title = isDownload ?
-                context.getString(R.string.message_download_failed_title) :
-                    context.getString(R.string.message_send_failed_title);
         notification.tickerText = title;
 
-        notification.setLatestEventInfo(context, title,
-                context.getString(R.string.message_failed_body),
-                pendingIntent);
+        notification.setLatestEventInfo(context, title, description, pendingIntent);
 
         boolean vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE, true);
         if (vibrate) {
@@ -455,20 +482,31 @@ public class MessagingNotification {
             nm.notify(MESSAGE_FAILED_NOTIFICATION_ID, notification);
         }
     }
+    
+    private static int getUndeliveredMessageCount(Context context, long[] threadIdResult) {
+        Cursor undeliveredCursor = SqliteWrapper.query(context, context.getContentResolver(),
+                UNDELIVERED_URI, new String[] { Mms.THREAD_ID }, null, null, null);
+        if (undeliveredCursor == null) {
+            return 0;
+        }
+        int count = undeliveredCursor.getCount();
+        try {
+            if (threadIdResult != null && undeliveredCursor.moveToFirst()) {
+                threadIdResult[0] = undeliveredCursor.getLong(0);
+            }
+        } finally {
+            undeliveredCursor.close();
+        }
+        return count;
+    }
 
     public static void updateSendFailedNotification(Context context) {
-        Cursor mmsCursor = SqliteWrapper.query(context, context.getContentResolver(),
-                Mms.Outbox.CONTENT_URI, null, null, null, null);
-        Cursor smsCursor = SqliteWrapper.query(context, context.getContentResolver(),
-                Uri.withAppendedPath(Sms.CONTENT_URI, "undelivered"),
-                null, null, null, null);
-        if ( (mmsCursor == null || mmsCursor.getCount() < 1) &&
-                (smsCursor == null || smsCursor.getCount() < 1) ) {
+        if (getUndeliveredMessageCount(context, null) < 1) {
             cancelNotification(context, MESSAGE_FAILED_NOTIFICATION_ID);
         }
     }
     
-    public static void updateDownloadFailedNotification(Context context) {
+    private static int getDownloadFailedMessageCount(Context context) {
         // Look for any messages in the MMS Inbox that are of the type
         // NOTIFICATION_IND (i.e. not already downloaded) and in the
         // permanent failure state.  If there are none, cancel any
@@ -480,11 +518,17 @@ public class MessagingNotification {
                 " AND " + Mms.STATUS + "=" +
                     String.valueOf(DownloadManager.STATE_PERMANENT_FAILURE),
                 null, null);
-        if (c != null) {
-            if (c.getCount() < 1) {
-                cancelNotification(context, DOWNLOAD_FAILED_NOTIFICATION_ID);
-            }
-            c.close();
+        if (c == null) {
+            return 0;
+        }
+        int count = c.getCount();
+        c.close();
+        return count;
+    }
+
+    public static void updateDownloadFailedNotification(Context context) {
+        if (getDownloadFailedMessageCount(context) < 1) {
+            cancelNotification(context, DOWNLOAD_FAILED_NOTIFICATION_ID);
         }
     }
 }

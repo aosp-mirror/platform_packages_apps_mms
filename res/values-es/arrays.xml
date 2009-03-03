@@ -35,9 +35,9 @@
     <item>"o_O"</item>
   </string-array>
   <string-array name="default_smiley_names">
-    <item>"Feliz"</item>
+    <item>"Contento"</item>
     <item>"Triste"</item>
-    <item>"Guiñando"</item>
+    <item>"Guiño"</item>
     <item>"Sacando la lengua"</item>
     <item>"Sorprendido"</item>
     <item>"Besando"</item>

@@ -17,7 +17,6 @@
 
 package com.android.mms.util;
 
-import com.android.internal.telephony.CallerInfo;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.RecipientList.Recipient;
 import com.google.android.mms.util.SqliteWrapper;
@@ -29,13 +28,14 @@ import android.database.Cursor;
 import android.os.Handler;
 import android.provider.Contacts;
 import android.provider.Telephony.Mms;
-import android.telephony.PhoneNumberUtils;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.net.Uri;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 /**
@@ -47,22 +47,102 @@ import java.util.regex.Matcher;
  *       database could have a caching layer to ease the work for all apps.
  */
 public class ContactInfoCache {
+    private static final String TAG = "MMS/Cache";
+
+    private static final boolean LOCAL_DEBUG = false;
 
     private static final long REBUILD_DELAY = 5000; // 5 seconds
     private static final String SEPARATOR = ";";
+
+    // query params for caller id lookup
+    private static final String CALLER_ID_SELECTION = "PHONE_NUMBERS_EQUAL(" +
+            Contacts.Phones.NUMBER + ",?)";
+    private static final Uri PHONES_WITH_PRESENCE_URI =
+            Uri.parse(Contacts.Phones.CONTENT_URI + "_with_presence");
+
+    private static final String[] CALLER_ID_PROJECTION = new String[] {
+            Contacts.People.Phones.NUMBER,      // 0
+            Contacts.People.Phones.LABEL,       // 1
+            Contacts.People.NAME,               // 2
+            Contacts.Phones.PERSON_ID,          // 3
+            Contacts.People.PRESENCE_STATUS,    // 4
+    };
+    private static final int PHONE_NUMBER_COLUMN = 0;
+    private static final int PHONE_LABEL_COLUMN = 1;
+    private static final int CONTACT_NAME_COLUMN = 2;
+    private static final int CONTACT_ID_COLUMN = 3;
+    private static final int CONTACT_PRESENCE_COLUMN = 4;
+
+    // query params for contact lookup by email
+    private static final String CONTACT_METHOD_SELECTION = Contacts.ContactMethods.DATA + "=?";
+    private static final Uri CONTACT_METHOD_WITH_PRESENCE_URI =
+            Uri.withAppendedPath(Contacts.ContactMethods.CONTENT_URI, "with_presence");
+
+    private static final String[] CONTACT_METHOD_PROJECTION = new String[] {
+            Contacts.ContactMethods.NAME,        // 0;
+            Contacts.People.PRESENCE_STATUS,     // 1
+    };
+    private static final int CONTACT_METHOD_NAME_COLUMN = 0;
+    private static final int CONTACT_METHOD_STATUS_COLUMN = 1;
+
+
 
     private static ContactInfoCache sInstance;
 
     private final Context mContext;
 
+    private String[] mContactInfoSelectionArgs = new String[1];
+
     // cached contact info
-    private final HashMap<String, CallerInfo> mCache = new HashMap<String, CallerInfo>();
+    private final HashMap<String, CacheEntry> mCache = new HashMap<String, CacheEntry>();
 
     // for background cache rebuilding
     private Thread mCacheRebuilder = null;
     private Object mCacheRebuildLock = new Object();
     private boolean mPhoneCacheInvalidated = false;
     private boolean mEmailCacheInvalidated = false;
+
+    /**
+     * CacheEntry stores the caller id or email lookup info.
+     */
+    public class CacheEntry {
+        /**
+         * phone number
+         */
+        public String phoneNumber;
+        /**
+         * phone label
+         */
+        public String phoneLabel;
+        /**
+         * name of the contact
+         */
+        public String name;
+        /**
+         * the contact id in the contacts people table
+         */
+        public long person_id;
+        /**
+         * the presence icon resource id
+         */
+        public int presenceResId;
+        /**
+         * If true, it indicates the CacheEntry has old info. We want to give the user of this
+         * class a chance to use the old info, as it can still be useful for displaying something
+         * rather than nothing in the UI. But this flag indicates that the CacheEntry needs to be
+         * updated.
+         */
+        private boolean isStale;
+
+        /**
+         * Returns true if this CacheEntry needs to be updated. However, cache may still contain
+         * the old information.
+         *
+         */
+        public boolean isStale() {
+            return isStale;
+        }
+    };
 
     private ContactInfoCache(Context context) {
         mContext = context;
@@ -91,6 +171,18 @@ public class ContactInfoCache {
     }
 
     /**
+     * invalidates the cache entries by marking CacheEntry.isStale to true.
+     */
+    public void invalidateCache() {
+        synchronized (mCache) {
+            for (Map.Entry<String, CacheEntry> e: mCache.entrySet()) {
+                CacheEntry entry = e.getValue();                
+                entry.isStale = true;
+            }
+        }
+    }
+
+    /**
      * Initialize the global instance. Should call only once.
      */
     public static void init(Context context) {
@@ -105,22 +197,83 @@ public class ContactInfoCache {
     }
 
     /**
-     * A cached version of CallerInfo.getCallerInfo().
+     * Returns the caller info in CacheEntry.
      */
-    public CallerInfo getCallerInfo(Context context, String number) {
+    public CacheEntry getContactInfo(Context context, String number) {
+        return getContactInfo(context, number, true /* allow query */);
+    }
+
+    /**
+     * Returns the caller info in a CacheEntry. If 'noQuery' is set to true, then this
+     * method only checks in the cache and makes no content provider query.
+     *
+     * @param context the Context.
+     * @param number the phone number for the contact.
+     * @param allowQuery allow (potentially blocking) query the content provider if true.
+     * @return the CacheEntry containing the contact info.
+     */
+    public CacheEntry getContactInfo(Context context, String number, boolean allowQuery) {
         // TODO: numbers like "6501234567" and "+16501234567" are equivalent.
         // we should convert them into a uniform format so that we don't cache
         // them twice.
         number = Recipient.filterPhoneNumber(number);
         synchronized (mCache) {
             if (mCache.containsKey(number)) {
-                return mCache.get(number);
-            } else {
-                CallerInfo ci = CallerInfo.getCallerInfo(context, number);
-                mCache.put(number, ci);
-                return ci;
+                CacheEntry entry = mCache.get(number);
+                if (LOCAL_DEBUG) {
+                    log("getContactInfo: number=" + number + ", name=" + entry.name +
+                            ", presence=" + entry.presenceResId);
+                }
+                if (!allowQuery || !entry.isStale()) {
+                    return entry;
+                }
+            } else if (!allowQuery) {
+                return null;
             }
+
+            CacheEntry entry = queryContactInfoByNumber(context, number);
+            mCache.put(number, entry);
+
+            return entry;
         }
+    }
+
+    /**
+     * Queries the caller id info with the phone number.
+     * @return a CacheEntry containing the caller id info corresponding to the number.
+     */
+    private CacheEntry queryContactInfoByNumber(Context context, String number) {
+        CacheEntry entry = new CacheEntry();
+        entry.phoneNumber = number;
+
+        //if (LOCAL_DEBUG) log("queryContactInfoByNumber: number=" + number);
+
+        mContactInfoSelectionArgs[0] = number;
+
+        Cursor cursor = context.getContentResolver().query(
+                PHONES_WITH_PRESENCE_URI,
+                CALLER_ID_PROJECTION,
+                CALLER_ID_SELECTION,
+                mContactInfoSelectionArgs,
+                null);
+
+        try {
+            if (cursor.moveToFirst()) {
+                entry.phoneLabel = cursor.getString(PHONE_LABEL_COLUMN);
+                entry.name = cursor.getString(CONTACT_NAME_COLUMN);
+                entry.person_id = cursor.getLong(CONTACT_ID_COLUMN);
+                entry.presenceResId = getPresenceIconResourceId(
+                        cursor.getInt(CONTACT_PRESENCE_COLUMN));
+                if (LOCAL_DEBUG) {
+                    log("queryContactInfoByNumber: name=" + entry.name + ", number=" + number +
+                            ", presence=" + entry.presenceResId);
+                }
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return entry;
     }
 
     /**
@@ -170,31 +323,43 @@ public class ContactInfoCache {
             return getEmailDisplayName(match.group(1));
         }
 
-        CallerInfo ci;
-        synchronized (mCache) {
-            if (mCache.containsKey(email)) {
-                ci = mCache.get(email);
-            } else {
-                ci = new CallerInfo();
-                ci.name = queryEmailDisplayName(context, email);
-                mCache.put(email, ci);
-            }
-        }
-
-        if (ci.name != null) {
-            return ci.name;
+        CacheEntry entry = getContactInfoForEmailAddress(context, email, true /* allow query */);
+        if (entry != null && entry.name != null) {
+            return entry.name;
         }
 
         return email;
     }
 
     /**
+     * Returns the contact info for a given email address
+     *
+     * @param context the context.
+     * @param email the email address.
+     * @param allowQuery allow making (potentially blocking) content provider queries if true.
+     * @return a CacheEntry if the contact is found.
+     */
+    public CacheEntry getContactInfoForEmailAddress(Context context, String email,
+                                                    boolean allowQuery) {
+        CacheEntry entry = null;
+        synchronized (mCache) {
+            if (mCache.containsKey(email)) {
+                entry = mCache.get(email);
+            } else if (allowQuery) {
+                entry = queryEmailDisplayName(context, email);
+                mCache.put(email, entry);
+            }
+        }
+        return entry;
+    }
+
+    /**
      * A cached version of CallerInfo.getCallerId().
      */
     private String getCallerId(Context context, String number) {
-        CallerInfo info = getCallerInfo(context, number);
-        if (!TextUtils.isEmpty(info.name)) {
-            return info.name;
+        ContactInfoCache.CacheEntry entry = getContactInfo(context, number);
+        if (entry != null && !TextUtils.isEmpty(entry.name)) {
+            return entry.name;
         }
         return number;
     }
@@ -208,24 +373,42 @@ public class ContactInfoCache {
         return displayString;
     }
 
+    private int getPresenceIconResourceId(int presence) {
+        if (presence != Contacts.People.OFFLINE) {
+            return Contacts.Presence.getPresenceIconResourceId(presence);
+        }
+
+        return 0;
+    }
+
     /**
      * Query the contact email table to get the name of an email address.
      */
-    private static String queryEmailDisplayName(Context context, String email) {
+    private CacheEntry queryEmailDisplayName(Context context, String email) {
+        CacheEntry entry = new CacheEntry();
+
+        mContactInfoSelectionArgs[0] = email;
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
-                Contacts.ContactMethods.CONTENT_EMAIL_URI,
-                new String[] { Contacts.ContactMethods.NAME },
-                Contacts.ContactMethods.DATA + " = \'" + email + "\'",
-                null, null);
+                CONTACT_METHOD_WITH_PRESENCE_URI,
+                CONTACT_METHOD_PROJECTION,
+                CONTACT_METHOD_SELECTION,
+                mContactInfoSelectionArgs,
+                null);
 
         if (cursor != null) {
             try {
-                int columnIndex = cursor.getColumnIndexOrThrow(
-                        Contacts.ContactMethods.NAME);
                 while (cursor.moveToNext()) {
-                    String name = cursor.getString(columnIndex);
+                    entry.presenceResId = getPresenceIconResourceId(
+                            cursor.getInt(CONTACT_METHOD_STATUS_COLUMN));
+
+                    String name = cursor.getString(CONTACT_METHOD_NAME_COLUMN);
                     if (!TextUtils.isEmpty(name)) {
-                        return name;
+                        entry.name = name;
+                        if (LOCAL_DEBUG) {
+                            log("queryEmailDisplayName: name=" + entry.name + ", email=" + email +
+                                    ", presence=" + entry.presenceResId);
+                        }
+                        break;
                     }
                 }
             } finally {
@@ -233,7 +416,7 @@ public class ContactInfoCache {
             }
         }
 
-        return null;
+        return entry;
     }
 
     /**
@@ -279,7 +462,6 @@ public class ContactInfoCache {
         List<String> emails;
 
         for (;;) {
-
             // simulate the Nagle's algorithm:
             // delay for a while to prevent from getting too busy, when, say,
             // there is a big contacts sync going on
@@ -311,22 +493,27 @@ public class ContactInfoCache {
             getRebuildList(phones, emails);
             // now sync
             if (phones != null) {
+                if (LOCAL_DEBUG) log("rebuild cache for phone numbers...");
                 for (String phone : phones) {
                     synchronized (mCache) {
-                        CallerInfo ci = CallerInfo.getCallerInfo(mContext, phone);
-                        mCache.put(phone, ci);
+                        CacheEntry entry = queryContactInfoByNumber(mContext, phone);
+                        mCache.put(phone, entry);
                     }
                 }
             }
             if (emails != null) {
+                if (LOCAL_DEBUG) log("rebuild cache for emails...");
                 for (String email : emails) {
                     synchronized (mCache) {
-                        CallerInfo ci = new CallerInfo();
-                        ci.name = queryEmailDisplayName(mContext, email);
-                        mCache.put(email, ci);
+                        CacheEntry entry = queryEmailDisplayName(mContext, email);
+                        mCache.put(email, entry);
                     }
                 }
             }
         }
+    }
+
+    private void log(String msg) {
+        Log.d(TAG, "[ContactInfoCache] " + msg);
     }
 }

@@ -40,6 +40,7 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.os.PowerManager;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.MmsSms.PendingMessages;
@@ -145,7 +146,8 @@ public class TransactionService extends Service implements Observer {
     private final ArrayList<Transaction> mPending  = new ArrayList<Transaction>();
     private ConnectivityManager mConnMgr;
     private NetworkConnectivityListener mConnectivityListener;
-
+    private PowerManager.WakeLock mWakeLock;
+    
     public Handler mToastHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -330,6 +332,8 @@ public class TransactionService extends Service implements Observer {
             Log.i(TAG, "TransactionService exiting with transaction still pending");
         }
 
+        releaseWakeLock();
+        
         mConnectivityListener.unregisterHandler(mServiceHandler);
         mConnectivityListener.stopListening();
         mConnectivityListener = null;
@@ -408,25 +412,56 @@ public class TransactionService extends Service implements Observer {
         }
     }
 
+    private synchronized void createWakeLock() {
+        // Create a new wake lock if we haven't made one yet.
+        if (mWakeLock == null) {
+            PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
+            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MMS Connectivity");
+            mWakeLock.setReferenceCounted(false);
+        }
+    }
+    
+
+    private void acquireWakeLock() {
+        // It's okay to double-acquire this because we are not using it
+        // in reference-counted mode.
+        mWakeLock.acquire();
+    }
+    
+    private void releaseWakeLock() {
+        // Don't release the wake lock if it hasn't been created and acquired.
+        if (mWakeLock != null && mWakeLock.isHeld()) {
+            mWakeLock.release();
+        }
+    }
+
     protected int beginMmsConnectivity() throws IOException {
+        // Take a wake lock so we don't fall asleep before the message is downloaded.
+        createWakeLock();
+        
         int result = mConnMgr.startUsingNetworkFeature(
                 ConnectivityManager.TYPE_MOBILE, Phone.FEATURE_ENABLE_MMS);
 
         switch (result) {
-            case Phone.APN_ALREADY_ACTIVE:
-            case Phone.APN_REQUEST_STARTED:
-                return result;
+        case Phone.APN_ALREADY_ACTIVE:
+        case Phone.APN_REQUEST_STARTED:
+            acquireWakeLock();
+            return result;
         }
 
         throw new IOException("Cannot establish MMS connectivity");
     }
 
     protected void endMmsConnectivity() {
-        // cancel timer for renewal of lease
-        mServiceHandler.removeMessages(EVENT_CONTINUE_MMS_CONNECTIVITY);
-        if (mConnMgr != null) {
-            mConnMgr.stopUsingNetworkFeature(
-                    ConnectivityManager.TYPE_MOBILE, Phone.FEATURE_ENABLE_MMS);
+        try {
+            // cancel timer for renewal of lease
+            mServiceHandler.removeMessages(EVENT_CONTINUE_MMS_CONNECTIVITY);
+            if (mConnMgr != null) {
+                mConnMgr.stopUsingNetworkFeature(
+                        ConnectivityManager.TYPE_MOBILE, Phone.FEATURE_ENABLE_MMS);
+            }
+        } finally {
+            releaseWakeLock();
         }
     }
 
@@ -510,7 +545,7 @@ public class TransactionService extends Service implements Observer {
                             TransactionService.this, info.getExtraInfo());
 
                     if (TextUtils.isEmpty(settings.getMmscUrl())) {
-                        Log.e(TAG, "Invalid APN settings");
+                        Log.e(TAG, "Invalid APN setting: MMSC URL is empty");
                         return;
                     }
 
