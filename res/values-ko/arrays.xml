@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string-array name="default_smiley_texts">
+    <item>":-)"</item>
+    <item>":-("</item>
+    <item>";-)"</item>
+    <item>":-P"</item>
+    <item>"=-O"</item>
+    <item>":-*"</item>
+    <item>":O"</item>
+    <item>"B-)"</item>
+    <item>":-$"</item>
+    <item>":-!"</item>
+    <item>":-["</item>
+    <item>"O:-)"</item>
+    <item>":-\\"</item>
+    <item>":\'("</item>
+    <item>":-X"</item>
+    <item>":-D"</item>
+    <item>"o_O"</item>
+  </string-array>
+  <string-array name="default_smiley_names">
+    <item>"행복"</item>
+    <item>"슬픔"</item>
+    <item>"윙크"</item>
+    <item>"메롱"</item>
+    <item>"놀람"</item>
+    <item>"키스"</item>
+    <item>"소리 지름"</item>
+    <item>"멋짐"</item>
+    <item>"욕심"</item>
+    <item>"부끄러움"</item>
+    <item>"당황"</item>
+    <item>"천사"</item>
+    <item>"우유부단"</item>
+    <item>"울음"</item>
+    <item>"입막음"</item>
+    <item>"웃음"</item>
+    <item>"어리둥절"</item>
+  </string-array>
+</resources>
