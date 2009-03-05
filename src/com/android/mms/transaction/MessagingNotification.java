@@ -430,8 +430,7 @@ public class MessagingNotification {
         //    thread will dismiss one undelivered notification but will still display the
         //    notification.If you select the 2nd undelivered one it will dismiss the notification.
         
-        long[] msgThreadId = new long[1];
-        msgThreadId[0] = 0;
+        long[] msgThreadId = {0};
         int failedDownloadCount = getDownloadFailedMessageCount(context);
         int totalFailedCount = getUndeliveredMessageCount(context, msgThreadId);
         
@@ -483,6 +482,10 @@ public class MessagingNotification {
         }
     }
     
+    // threadIdResult[0] contains the thread id of the first message.
+    // threadIdResult[1] is nonzero if the thread ids of all the messages are the same.
+    // You can pass in null for threadIdResult.
+    // You can pass in a threadIdResult of size 1 to avoid the comparison of each thread id.
     private static int getUndeliveredMessageCount(Context context, long[] threadIdResult) {
         Cursor undeliveredCursor = SqliteWrapper.query(context, context.getContentResolver(),
                 UNDELIVERED_URI, new String[] { Mms.THREAD_ID }, null, null, null);
@@ -493,6 +496,18 @@ public class MessagingNotification {
         try {
             if (threadIdResult != null && undeliveredCursor.moveToFirst()) {
                 threadIdResult[0] = undeliveredCursor.getLong(0);
+                
+                if (threadIdResult.length >= 2) {
+                    // Test to see if all the undelivered messages belong to the same thread.
+                    long firstId = threadIdResult[0];
+                    while (undeliveredCursor.moveToNext()) {
+                        if (undeliveredCursor.getLong(0) != firstId) {
+                            firstId = 0;
+                            break;
+                        }
+                    }
+                    threadIdResult[1] = firstId;    // non-zero if all ids are the same
+                }
             }
         } finally {
             undeliveredCursor.close();
@@ -502,6 +517,18 @@ public class MessagingNotification {
 
     public static void updateSendFailedNotification(Context context) {
         if (getUndeliveredMessageCount(context, null) < 1) {
+            cancelNotification(context, MESSAGE_FAILED_NOTIFICATION_ID);
+        }
+    }
+    
+    /** 
+     *  If all the undelivered messages belong to "threadId", cancel the notification.
+     */
+    public static void updateSendFailedNotificationForThread(Context context, long threadId) {
+        long[] msgThreadId = {0, 0};
+        if (getUndeliveredMessageCount(context, msgThreadId) > 0 
+                && msgThreadId[0] == threadId
+                && msgThreadId[1] != 0) {
             cancelNotification(context, MESSAGE_FAILED_NOTIFICATION_ID);
         }
     }

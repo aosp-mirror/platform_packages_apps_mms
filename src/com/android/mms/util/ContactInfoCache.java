@@ -200,7 +200,7 @@ public class ContactInfoCache {
      * Returns the caller info in CacheEntry.
      */
     public CacheEntry getContactInfo(Context context, String number) {
-        return getContactInfo(context, number, true /* allow query */);
+        return getContactInfoForPhoneNumber(context, number, true /* allow query */);
     }
 
     /**
@@ -212,7 +212,8 @@ public class ContactInfoCache {
      * @param allowQuery allow (potentially blocking) query the content provider if true.
      * @return the CacheEntry containing the contact info.
      */
-    public CacheEntry getContactInfo(Context context, String number, boolean allowQuery) {
+    public CacheEntry getContactInfoForPhoneNumber(Context context, String number,
+                                                   boolean allowQuery) {
         // TODO: numbers like "6501234567" and "+16501234567" are equivalent.
         // we should convert them into a uniform format so that we don't cache
         // them twice.

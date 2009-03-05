@@ -419,7 +419,15 @@ public class MessageUtils {
         boolean firstItem = true;
         for (String recipientId : recipientIds) {
             String value = sRecipientAddress.get(recipientId);
-            if (value == null && allowQuery) {
+
+            if (value == null) {
+                if (!allowQuery) {
+                    // when allowQuery is false, if any value from sRecipientAddress.get() is null,
+                    // return null for the whole thing. We don't want to stick partial result
+                    // into sRecipientAddress for multiple recipient ids.
+                    return null;
+                }
+
                 Uri uri = Uri.parse("content://mms-sms/canonical-address/" + recipientId);
                 Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
                                                uri, null, null, null, null);
@@ -427,6 +435,7 @@ public class MessageUtils {
                     try {
                         if (c.moveToFirst()) {
                             value = c.getString(0);
+                            sRecipientAddress.put(recipientId, value);                            
                         }
                     } finally {
                         c.close();
@@ -436,7 +445,6 @@ public class MessageUtils {
             if (value == null) {
                 continue;
             }
-            sRecipientAddress.put(recipientId, value);
             if (firstItem) {
                 firstItem = false;
             } else {

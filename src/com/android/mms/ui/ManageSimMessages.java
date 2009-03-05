@@ -186,15 +186,19 @@ public class ManageSimMessages extends Activity
             return false;
         }
 
-        Cursor cursor = (Cursor) mListAdapter.getItem(info.position);
+        final Cursor cursor = (Cursor) mListAdapter.getItem(info.position);
 
         switch (item.getItemId()) {
             case MENU_COPY_TO_PHONE_MEMORY:
                 copyToPhoneMemory(cursor);
                 return true;
             case MENU_DELETE_FROM_SIM:
-                updateState(SHOW_BUSY);
-                deleteFromSim(cursor);
+                confirmDeleteDialog(new OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateState(SHOW_BUSY);
+                        deleteFromSim(cursor);
+                    }
+                }, R.string.confirm_delete_SIM_message);
                 return true;
             case MENU_VIEW:
                 viewMessage(cursor);
@@ -289,21 +293,21 @@ public class ManageSimMessages extends Activity
                         updateState(SHOW_BUSY);
                         deleteAllFromSim();
                     }
-                });
+                }, R.string.confirm_delete_all_SIM_messages);
                 break;
         }
 
         return true;
     }
 
-    private void confirmDeleteDialog(OnClickListener listener) {
+    private void confirmDeleteDialog(OnClickListener listener, int messageId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.confirm_dialog_title);
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setCancelable(true);
         builder.setPositiveButton(R.string.yes, listener);
         builder.setNegativeButton(R.string.no, null);
-        builder.setMessage(R.string.confirm_delete_all_SIM_messages);
+        builder.setMessage(messageId);
 
         builder.show();
     }

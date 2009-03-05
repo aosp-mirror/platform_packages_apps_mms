@@ -349,9 +349,8 @@ public class SlideEditorActivity extends Activity {
 
         // Video
         if (slide.hasVideo()) {
-            // FIXME: set correct icon when ic_menu_remove_movie is available.
             menu.add(0, MENU_DEL_VIDEO, 0, R.string.remove_video).setIcon(
-                    R.drawable.ic_menu_movie);
+                    R.drawable.ic_menu_remove_video);
         } else if (!slide.hasAudio() && !slide.hasImage()) {
             menu.add(0, MENU_ADD_VIDEO, 0, R.string.add_video).setIcon(R.drawable.ic_menu_movie);
         }

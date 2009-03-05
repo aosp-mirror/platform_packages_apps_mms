@@ -544,8 +544,8 @@ public class TransactionService extends Service implements Observer {
                     TransactionSettings settings = new TransactionSettings(
                             TransactionService.this, info.getExtraInfo());
 
+                    // If this APN doesn't have an MMSC, wait for one that does.
                     if (TextUtils.isEmpty(settings.getMmscUrl())) {
-                        Log.e(TAG, "Invalid APN setting: MMSC URL is empty");
                         return;
                     }
 

@@ -21,6 +21,7 @@ import com.android.mms.R;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.text.Editable;
@@ -124,15 +125,11 @@ public class BasicSlideEditorView extends LinearLayout implements
     }
 
     public void setVideo(String name, Uri video) {
-        MediaPlayer mp = new MediaPlayer();
-        try {
-            mp.setDataSource(mContext, video);
-            mImageView.setImageBitmap(mp.getFrameAt(1000));
-        } catch (IOException e) {
-            Log.e(TAG, "Unexpected IOException.", e);
-        } finally {
-            mp.release();
+        Bitmap bitmap = VideoAttachmentView.createVideoThumbnail(mContext, video);
+        if (null == bitmap) {
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mms_play_btn);
         }
+        mImageView.setImageBitmap(bitmap);
     }
 
     public void setVideoVisibility(boolean visible) {

@@ -257,8 +257,6 @@ public class ComposeMessageActivity extends Activity
 
     private CharSequence mMsgText;                // Text of message
 
-    private Cursor mMsgListCursor;          // Cursor for messages-in-thread query
-    private final Object mMsgListCursorLock = new Object();
     private BackgroundQueryHandler mBackgroundQueryHandler;
 
     private MessageListView mMsgListView;               // ListView for messages in this conversation
@@ -400,14 +398,13 @@ public class ComposeMessageActivity extends Activity
 
     private MessageItem getMessageItem(String type, long msgId) {
         // Check whether the cursor is valid or not.
-        if (mMsgListCursor.isClosed()
-                || mMsgListCursor.isBeforeFirst()
-                || mMsgListCursor.isAfterLast()) {
+        Cursor cursor = mMsgListAdapter.getCursor();
+        if (cursor.isClosed() || cursor.isBeforeFirst() || cursor.isAfterLast()) {
             Log.e(TAG, "Bad cursor.", new RuntimeException());
             return null;
         }
 
-        return mMsgListAdapter.getCachedMessageItem(type, msgId, mMsgListCursor);
+        return mMsgListAdapter.getCachedMessageItem(type, msgId, cursor);
     }
 
     private void resetCounter() {
@@ -513,7 +510,7 @@ public class ComposeMessageActivity extends Activity
 
     synchronized private void uninitMmsComponents() {
         // Get text from slideshow if needed.
-        if (mAttachmentEditor != null) {
+        if (mAttachmentEditor != null && mSlideshow != null) {
             int attachmentType = mAttachmentEditor.getAttachmentType();
             if (AttachmentEditor.TEXT_ONLY == attachmentType && mSlideshow != null) {
                 SlideModel model = mSlideshow.get(0);
@@ -545,7 +542,7 @@ public class ComposeMessageActivity extends Activity
         mAttachmentEditor = null;
     }
 
-    synchronized private void refreshMmsComponents() {
+    private void resetMmsComponents() {
         mMessageState = RECIPIENTS_REQUIRE_MMS;
         if (mSubjectTextEditor != null) {
             mSubjectTextEditor.setText("");
@@ -600,7 +597,7 @@ public class ComposeMessageActivity extends Activity
                     + " -> " + (toMms ? "MMS" : "SMS"));
         }
         if (toMms) {
-            // Hide the counter and alert the user with a toast
+            // Hide the counter
             if (mTextCounter != null) {
                 mTextCounter.setVisibility(View.GONE);
             }
@@ -1030,14 +1027,14 @@ public class ComposeMessageActivity extends Activity
 
     private final OnCreateContextMenuListener mMsgListMenuCreateListener =
         new OnCreateContextMenuListener() {
-        public void onCreateContextMenu(ContextMenu menu, View v,
-                ContextMenuInfo menuInfo) {
-            String type = mMsgListCursor.getString(COLUMN_MSG_TYPE);
-            long msgId = mMsgListCursor.getLong(COLUMN_ID);
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+            Cursor cursor = mMsgListAdapter.getCursor();
+            String type = cursor.getString(COLUMN_MSG_TYPE);
+            long msgId = cursor.getLong(COLUMN_ID);
 
             addPositionBasedMenuItems(menu, v, menuInfo);
 
-            MessageItem msgItem = mMsgListAdapter.getCachedMessageItem(type, msgId, mMsgListCursor);
+            MessageItem msgItem = mMsgListAdapter.getCachedMessageItem(type, msgId, cursor);
             if (msgItem == null) {
                 Log.e(TAG, "Cannot load message item for type = " + type
                         + ", msgId = " + msgId);
@@ -1175,8 +1172,9 @@ public class ComposeMessageActivity extends Activity
      */
     private final class MsgListMenuClickListener implements MenuItem.OnMenuItemClickListener {
         public boolean onMenuItemClick(MenuItem item) {
-            String type = mMsgListCursor.getString(COLUMN_MSG_TYPE);
-            long msgId = mMsgListCursor.getLong(COLUMN_ID);
+            Cursor cursor = mMsgListAdapter.getCursor();
+            String type = cursor.getString(COLUMN_MSG_TYPE);
+            long msgId = cursor.getLong(COLUMN_ID);
             MessageItem msgItem = getMessageItem(type, msgId);
 
             if (msgItem == null) {
@@ -1242,7 +1240,7 @@ public class ComposeMessageActivity extends Activity
                 }
                 case MENU_VIEW_MESSAGE_DETAILS: {
                     String messageDetails = MessageUtils.getMessageDetails(
-                            ComposeMessageActivity.this, mMsgListCursor, msgItem.mMessageSize);
+                            ComposeMessageActivity.this, cursor, msgItem.mMessageSize);
                     new AlertDialog.Builder(ComposeMessageActivity.this)
                             .setTitle(R.string.message_details_title)
                             .setMessage(messageDetails)
@@ -1759,9 +1757,8 @@ public class ComposeMessageActivity extends Activity
                                                : AttachmentEditor.TEXT_ONLY;
             drawBottomPanel(attachmentType);
 
-            if (mMsgListCursor != null) {
-                mMsgListCursor.close();
-                mMsgListCursor = null;
+            if (mMsgListAdapter.getCursor() != null) {
+                mMsgListAdapter.changeCursor(null);
             }
         }
     }
@@ -1778,6 +1775,18 @@ public class ComposeMessageActivity extends Activity
 
         startMsgListQuery();
         startQueryForContactInfo();
+        updateSendFailedNotification();
+    }
+    
+    private void updateSendFailedNotification() {
+        // updateSendFailedNotificationForThread makes a database call, so do the work off
+        // of the ui thread.
+        new Thread(new Runnable() {
+            public void run() {
+                MessagingNotification.updateSendFailedNotificationForThread(
+                        ComposeMessageActivity.this, mThreadId);
+            }
+        }).run();
     }
 
     @Override
@@ -1888,10 +1897,7 @@ public class ComposeMessageActivity extends Activity
         super.onStop();
 
         if (mMsgListAdapter != null) {
-            synchronized (mMsgListCursorLock) {
-                mMsgListCursor = null;
-                mMsgListAdapter.changeCursor(null);
-            }
+            mMsgListAdapter.changeCursor(null);
         }
 
         // Cleanup the BroadcastReceiver.
@@ -1907,10 +1913,6 @@ public class ComposeMessageActivity extends Activity
         }
 
         super.onDestroy();
-
-        if (mMsgListCursor != null) {
-            mMsgListCursor.close();
-        }
     }
 
     @Override
@@ -2101,7 +2103,8 @@ public class ComposeMessageActivity extends Activity
             // Removed search as part of b/1205708
             //menu.add(0, MENU_SEARCH, 0, R.string.menu_search).setIcon(
             //        R.drawable.ic_menu_search);
-            if ((null != mMsgListCursor) && (mMsgListCursor.getCount() > 0)) {
+            Cursor cursor = mMsgListAdapter.getCursor();
+            if ((null != cursor) && (cursor.getCount() > 0)) {
                 menu.add(0, MENU_DELETE_THREAD, 0, R.string.delete_thread).setIcon(
                     android.R.drawable.ic_menu_delete);
             }
@@ -2989,6 +2992,33 @@ public class ComposeMessageActivity extends Activity
         return Threads.getOrCreateThreadId(this, recipients);
     }
 
+    private void resetMessage() {
+        // RECIPIENTS_REQUIRE_MMS is the only state flag that is valid
+        // when starting a new message, so preserve only that.
+        mMessageState &= RECIPIENTS_REQUIRE_MMS;
+        
+        // Clear the text box.
+        TextKeyListener.clear(mTextEditor.getText());
+
+        // Clear out the slideshow and message URI.  New ones will be
+        // created if we are starting a new message as MMS.
+        mSlideshow = null;
+        mMessageUri = null;
+        
+        // Empty out text.
+        mMsgText = "";
+        
+        // Convert back to SMS if necessary, or if we still need to
+        // be in MMS mode, reset the MMS components.
+        if (mMessageState == 0) {
+            // Start a new message as an SMS.
+            convertMessage(false);
+        } else {
+            // Start a new message as an MMS.
+            resetMmsComponents();
+        }
+    }
+
     private void postSendingMessage() {
         if (!requiresMms()) {
             // This should not be necessary because we delete the draft
@@ -3005,30 +3035,14 @@ public class ComposeMessageActivity extends Activity
         // Focus to the text editor.
         mTextEditor.requestFocus();
 
-        // Setting mMessageUri to null here keeps the conversion back to
-        // SMS from deleting the "unnecessary" MMS in the database.
-        mMessageUri = null;
-
         // We have to remove the text change listener while the text editor gets cleared and
         // we subsequently turn the message back into SMS. When the listener is listening while
         // doing the clearing, it's fighting to update its counts and itself try and turn
         // the message one way or the other.
         mTextEditor.removeTextChangedListener(mTextEditorWatcher);
 
-        // Clear the text box.
-        TextKeyListener.clear(mTextEditor.getText());
-
-        if (0 == (RECIPIENTS_REQUIRE_MMS & mMessageState)) {
-            // Start a new message as an SMS.
-            convertMessage(false);
-            mMsgText = "";  // must clear mMsgText because uninitMmsComponents (called from
-                            // convertMessage) resets mMsgText text from the text in the attachment
-                            // editor's slideshow. If mMsgText is not cleared, drawBottomPanel
-                            // will put mMsgText back into the compose text field.
-        } else {
-            // Start a new message as an MMS
-            refreshMmsComponents();
-        }
+        // Clear out all the debris in preparation for starting a new message. 
+        resetMessage();
 
         drawBottomPanel(AttachmentEditor.TEXT_ONLY);
 
@@ -3251,36 +3265,21 @@ public class ComposeMessageActivity extends Activity
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch(token) {
                 case MESSAGE_LIST_QUERY_TOKEN:
-                    synchronized (mMsgListCursorLock) {
-                        if (cursor != null) {
-                            mMsgListCursor = cursor;
-                            mMsgListAdapter.changeCursor(cursor);
-                        } else {
-                            if (mMsgListCursor != null) {
-                                mMsgListCursor.close();
-                            }
-                            if (mMsgListAdapter != null) {
-                                // changeCursor unregisters the observers.
-                                mMsgListAdapter.changeCursor(null);
-                            }
-
-                            Log.e(TAG, "Cannot init the cursor for the message list.");
-                            finish();
-                        }
-
-                        // Once we have completed the query for the message history, if
-                        // there is nothing in the cursor and we are not composing a new
-                        // message, we must be editing a draft in a new conversation.
-                        // Show the recipients editor to give the user a chance to add
-                        // more people before the conversation begins.
-                        if (mMsgListCursor.getCount() == 0 && !isRecipientsEditorVisible()) {
-                            initRecipientsEditor();
-                        }
-
-                        // FIXME: freshing layout changes the focused view to an unexpected
-                        // one, set it back to TextEditor forcely.
-                        mTextEditor.requestFocus();
+                    mMsgListAdapter.changeCursor(cursor);
+                    
+                    // Once we have completed the query for the message history, if
+                    // there is nothing in the cursor and we are not composing a new
+                    // message, we must be editing a draft in a new conversation.
+                    // Show the recipients editor to give the user a chance to add
+                    // more people before the conversation begins.
+                    if (cursor.getCount() == 0 && !isRecipientsEditorVisible()) {
+                        initRecipientsEditor();
                     }
+
+                    // FIXME: freshing layout changes the focused view to an unexpected
+                    // one, set it back to TextEditor forcely.
+                    mTextEditor.requestFocus();
+
                     return;
 
                 case THREAD_READ_QUERY_TOKEN:
@@ -3312,8 +3311,7 @@ public class ComposeMessageActivity extends Activity
                         ComposeMessageActivity.this);
                 // Update the notification for failed messages since they
                 // may be deleted.
-                MessagingNotification.updateSendFailedNotification(
-                        ComposeMessageActivity.this);
+                updateSendFailedNotification();
                 break;
             }
 

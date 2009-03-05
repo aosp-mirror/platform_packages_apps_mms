@@ -21,10 +21,12 @@ import com.android.mms.ui.RecipientList.Recipient;
 
 import android.content.Context;
 import android.text.Annotation;
+import android.text.Editable;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -48,6 +50,40 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         super(context, attrs, android.R.attr.autoCompleteTextViewStyle);
         mTokenizer = new RecipientsEditorTokenizer(context, this);
         setTokenizer(mTokenizer);
+
+        /*
+         * The point of this TextWatcher is that when the user chooses
+         * an address completion from the AutoCompleteTextView menu, it
+         * is marked up with Annotation objects to tie it back to the
+         * address book entry that it came from.  If the user then goes
+         * back and edits that part of the text, it no longer corresponds
+         * to that address book entry and needs to have the Annotations
+         * claiming that it does removed.
+         */
+        addTextChangedListener(new TextWatcher() {
+            private Annotation[] mAffected;
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+                mAffected = ((Spanned) s).getSpans(start, start + count,
+                                                   Annotation.class);
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int after) {
+
+            }
+
+            public void afterTextChanged(Editable s) {
+                if (mAffected != null) {
+                    for (Annotation a : mAffected) {
+                        s.removeSpan(a);
+                    }
+                }
+
+                mAffected = null;
+            }
+        });
     }
 
     public RecipientList getRecipientList() {
