@@ -17,6 +17,7 @@
 
 package com.android.mms.ui;
 
+import com.android.mms.MmsConfig;
 import com.android.mms.transaction.MessageSender;
 import com.android.mms.util.ContactInfoCache;
 
@@ -75,6 +76,10 @@ public class RecipientList {
         private static final String PHONE_NUMBER_SEPARATORS = " ()-./";
 
         public static boolean isValid(String recipient) {
+            if (MmsConfig.DISABLE_MMS) {
+                return isPhoneNumber(recipient);
+            }
+            
             return isPhoneNumber(recipient) || Mms.isEmailAddress(recipient);
         }
 

@@ -27,6 +27,7 @@ import static com.android.mms.ui.MessageListAdapter.COLUMN_MSG_TYPE;
 import static com.android.mms.ui.MessageListAdapter.PROJECTION;
 
 import com.android.mms.ExceedMessageSizeException;
+import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.ResolutionException;
 import com.android.mms.UnsupportContentTypeException;
@@ -443,7 +444,7 @@ public class ComposeMessageActivity extends Activity
 
         // Convert to MMS if this message has gotten too long for SMS.
         convertMessageIfNeeded(LENGTH_REQUIRES_MMS, msgCount >= MMS_THRESHOLD);
-
+        
         // Show the counter only if:
         // - We are not in MMS mode
         // - We are going to send more than one message OR we are getting close
@@ -623,6 +624,11 @@ public class ComposeMessageActivity extends Activity
         int oldState = mMessageState;
         updateState(whichState, set);
 
+        // With MMS disabled, LENGTH_REQUIRES_MMS is a no-op.
+        if (MmsConfig.DISABLE_MMS) {
+            whichState &= ~LENGTH_REQUIRES_MMS;
+        }
+
         boolean toMms;
         // If any bits are set in the new state and none were set in the
         // old state, we need to convert to MMS.
@@ -637,6 +643,11 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
+        if (MmsConfig.DISABLE_MMS && toMms) {
+            throw new IllegalStateException(
+                    "Message converted to MMS with DISABLE_MMS set");
+        }
+        
         toastConvertInfo(toMms);
         convertMessage(toMms);
     }
@@ -2082,16 +2093,18 @@ public class ComposeMessageActivity extends Activity
                     R.drawable.ic_menu_contact);
         }
 
-        if (isSubjectEditorVisible()) {
-            menu.add(0, MENU_ADD_SUBJECT, 0, R.string.add_subject).setIcon(
-                    com.android.internal.R.drawable.ic_menu_edit);
-        }
+        if (!MmsConfig.DISABLE_MMS) {
+            if (isSubjectEditorVisible()) {
+                menu.add(0, MENU_ADD_SUBJECT, 0, R.string.add_subject).setIcon(
+                        com.android.internal.R.drawable.ic_menu_edit);
+            }
 
-        if ((mAttachmentEditor == null) || (mAttachmentEditor.getAttachmentType() == AttachmentEditor.TEXT_ONLY)) {
-            menu.add(0, MENU_ADD_ATTACHMENT, 0, R.string.add_attachment).setIcon(
-                    R.drawable.ic_menu_attachment);
+            if ((mAttachmentEditor == null) || (mAttachmentEditor.getAttachmentType() == AttachmentEditor.TEXT_ONLY)) {
+                menu.add(0, MENU_ADD_ATTACHMENT, 0, R.string.add_attachment).setIcon(
+                        R.drawable.ic_menu_attachment);
+            }
         }
-
+        
         if (isPreparedForSending()) {
             menu.add(0, MENU_SEND, 0, R.string.send).setIcon(android.R.drawable.ic_menu_send);
         }

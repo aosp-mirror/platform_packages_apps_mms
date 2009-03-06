@@ -205,7 +205,7 @@ public class UriImage {
             }
 
             ByteArrayOutputStream os = new ByteArrayOutputStream();
-            b.compress(CompressFormat.JPEG, MmsConfig.IMAGE_COMPRESSION_QUALITY, os);
+            b.compress(CompressFormat.JPEG, MessageUtils.IMAGE_COMPRESSION_QUALITY, os);
             return os.toByteArray();
         } catch (FileNotFoundException e) {
             Log.e(TAG, e.getMessage(), e);

@@ -556,11 +556,15 @@ public class MessageUtils {
         builder.show();
     }
 
+    /**
+     * The quality parameter which is used to compress JPEG images.
+     */
+    public static final int IMAGE_COMPRESSION_QUALITY = 80;
+
     public static Uri saveBitmapAsPart(Context context, Uri messageUri, Bitmap bitmap)
             throws MmsException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        bitmap.compress(CompressFormat.JPEG,
-                MmsConfig.IMAGE_COMPRESSION_QUALITY, os);
+        bitmap.compress(CompressFormat.JPEG, IMAGE_COMPRESSION_QUALITY, os);
 
         PduPart part = new PduPart();
 
