@@ -17,7 +17,6 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.MmsConfig;
 import com.android.mms.model.ImageModel;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.util.SqliteWrapper;
@@ -66,6 +65,13 @@ public class UriImage {
         }
         
         mSrc = mPath.substring(mPath.lastIndexOf('/') + 1);
+        
+        // Some MMSCs appear to have problems with filenames
+        // containing a space.  So just replace them with
+        // underscores in the name, which is typically not
+        // visible to the user anyway.
+        mSrc = mSrc.replace(' ', '_');
+
         mContext = context;
         mUri = uri;
 

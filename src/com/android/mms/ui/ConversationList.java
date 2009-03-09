@@ -41,6 +41,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Contacts;
 import android.provider.Contacts.People;
+import android.provider.Telephony.Mms;
 import android.provider.Telephony.Threads;
 import android.provider.Telephony.Sms.Conversations;
 import android.text.TextUtils;
@@ -335,7 +336,13 @@ public class ConversationList extends ListActivity {
     private void viewContact(String address) {
         // address must be a single recipient
         ContactInfoCache cache = ContactInfoCache.getInstance();
-        ContactInfoCache.CacheEntry info = cache.getContactInfo(this, address);
+        ContactInfoCache.CacheEntry info;
+        if (Mms.isEmailAddress(address)) {
+            info = cache.getContactInfoForEmailAddress(getApplicationContext(), address,
+                    true /* allow query */);
+        } else {
+            info = cache.getContactInfo(this, address);
+        }
         if (info != null && info.person_id != -1) {
             Uri uri = ContentUris.withAppendedId(People.CONTENT_URI, info.person_id);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);

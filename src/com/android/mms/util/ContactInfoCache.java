@@ -79,11 +79,13 @@ public class ContactInfoCache {
             Uri.withAppendedPath(Contacts.ContactMethods.CONTENT_URI, "with_presence");
 
     private static final String[] CONTACT_METHOD_PROJECTION = new String[] {
-            Contacts.ContactMethods.NAME,        // 0;
+            Contacts.ContactMethods.NAME,        // 0
             Contacts.People.PRESENCE_STATUS,     // 1
+            Contacts.ContactMethods.PERSON_ID,   // 2
     };
     private static final int CONTACT_METHOD_NAME_COLUMN = 0;
     private static final int CONTACT_METHOD_STATUS_COLUMN = 1;
+    private static final int CONTACT_METHOD_ID_COLUMN = 2;
 
 
 
@@ -142,6 +144,14 @@ public class ContactInfoCache {
         public boolean isStale() {
             return isStale;
         }
+        public String toString() {
+            StringBuilder buf = new StringBuilder(name);
+            buf.append(", phone=" + phoneNumber);
+            buf.append(", pid=" + person_id);
+            buf.append(", presence=" + presenceResId);
+            buf.append(", stale=" + isStale);
+            return buf.toString();
+        }
     };
 
     private ContactInfoCache(Context context) {
@@ -196,9 +206,25 @@ public class ContactInfoCache {
         return sInstance;
     }
 
+    public void dump() {
+        synchronized (mCache) {
+            Log.i(TAG, "ContactInfoCache.dump");
+
+            for (String name : mCache.keySet()) {
+                CacheEntry entry = mCache.get(name);
+                if (entry != null) {
+                    Log.i(TAG, "key=" + name + ", cacheEntry={" + entry.toString() + '}');
+                } else {
+                    Log.i(TAG, "key=" + name + ", cacheEntry={null}");
+                }
+            }
+        }        
+    }
+
     /**
      * Returns the caller info in CacheEntry.
      */
+    // TODO: rename this function to: getContactInfoForPhoneNumber
     public CacheEntry getContactInfo(Context context, String number) {
         return getContactInfoForPhoneNumber(context, number, true /* allow query */);
     }
@@ -405,6 +431,7 @@ public class ContactInfoCache {
                     String name = cursor.getString(CONTACT_METHOD_NAME_COLUMN);
                     if (!TextUtils.isEmpty(name)) {
                         entry.name = name;
+                        entry.person_id = cursor.getLong(CONTACT_METHOD_ID_COLUMN);
                         if (LOCAL_DEBUG) {
                             log("queryEmailDisplayName: name=" + entry.name + ", email=" + email +
                                     ", presence=" + entry.presenceResId);

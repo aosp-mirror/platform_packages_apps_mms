@@ -1729,6 +1729,7 @@ public class ComposeMessageActivity extends Activity
                     mRecipientsEditor.setVisibility(View.GONE);
                     hideTopPanelIfNecessary();
                 }
+
                 MessageUtils.markAsRead(this, mThreadId);
                 initMessageList(false);
             } else {
@@ -1771,6 +1772,16 @@ public class ComposeMessageActivity extends Activity
             if (mMsgListAdapter.getCursor() != null) {
                 mMsgListAdapter.changeCursor(null);
             }
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        if (mThreadId > 0L && !mComposeMode && mMsgListAdapter == null) {
+            MessageUtils.markAsRead(this, mThreadId);
+            initMessageList(false);
         }
     }
 
