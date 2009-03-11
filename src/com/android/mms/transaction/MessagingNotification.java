@@ -445,16 +445,16 @@ public class MessagingNotification {
 
             failedIntent = new Intent(context, ConversationList.class);
         } else {
-            failedIntent = new Intent(context, ComposeMessageActivity.class);
-            failedIntent.putExtra("thread_id", threadId);         
-            failedIntent.putExtra("undelivered_flag", true);
-            
             title = isDownload ?
                         context.getString(R.string.message_download_failed_title) :
                         context.getString(R.string.message_send_failed_title);
             
             description = context.getString(R.string.message_failed_body);
             threadId = (msgThreadId[0] != 0 ? msgThreadId[0] : 0);
+            
+            failedIntent = new Intent(context, ComposeMessageActivity.class);
+            failedIntent.putExtra("thread_id", threadId);         
+            failedIntent.putExtra("undelivered_flag", true);
         }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(

@@ -18,8 +18,10 @@
 package com.android.mms.ui;
 
 import com.android.mms.ui.RecipientList.Recipient;
+import com.android.mms.util.ContactInfoCache;
 
 import android.content.Context;
+import android.provider.Telephony.Mms;
 import android.text.Annotation;
 import android.text.Editable;
 import android.text.Layout;
@@ -146,14 +148,14 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
             int end = mTokenizer.findTokenEnd(text, start);
 
             if (end != start) {
-                Recipient r = getRecipientAt(getText(), start, end);
+                Recipient r = getRecipientAt(getText(), start, end, mContext);
                 return new RecipientContextMenuInfo(r);
             }
         }
         return null;
     }
 
-    private static Recipient getRecipientAt(Spanned sp, int start, int end) {
+    private static Recipient getRecipientAt(Spanned sp, int start, int end, Context context) {
         Annotation[] a = sp.getSpans(start, end, Annotation.class);
         String person_id = getAnnotation(a, "person_id");
         String name = getAnnotation(a, "name");
@@ -167,8 +169,14 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         r.label = label;
         r.bcc = bcc.equals("true");
         r.number = TextUtils.isEmpty(number) ? TextUtils.substring(sp, start, end) : number;
-        r.nameAndNumber = Recipient.buildNameAndNumber(r.name, r.number);
+        
+        if (TextUtils.isEmpty(r.name) && Mms.isEmailAddress(r.number)) {
+            ContactInfoCache cache = ContactInfoCache.getInstance();
+            r.name = cache.getDisplayName(context, r.number);
+        }
 
+        r.nameAndNumber = Recipient.buildNameAndNumber(r.name, r.number);
+        
         if (person_id.length() > 0) {
             r.person_id = Long.parseLong(person_id);
         } else {
@@ -213,10 +221,12 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         private final LayoutInflater mInflater;
         private final TextAppearanceSpan mLabelSpan;
         private final TextAppearanceSpan mTypeSpan;
+        private final Context mContext;
 
         RecipientsEditorTokenizer(Context context, MultiAutoCompleteTextView list) {
             mInflater = LayoutInflater.from(context);
             mList = list;
+            mContext = context;
 
             final int size = android.R.style.TextAppearance_Small;
             final int color = android.R.styleable.Theme_textColorSecondary;
@@ -234,7 +244,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
             while (i < len + 1) {
                 if ((i == len) || (sp.charAt(i) == ',')) {
                     if (i > start) {
-                        Recipient r = getRecipientAt(sp, start, i);
+                        Recipient r = getRecipientAt(sp, start, i, mContext);
 
                         rl.add(r);
                     }

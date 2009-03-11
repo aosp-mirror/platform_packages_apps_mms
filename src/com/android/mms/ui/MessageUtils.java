@@ -373,7 +373,7 @@ public class MessageUtils {
         int format_flags = DateUtils.FORMAT_NO_NOON_MIDNIGHT |
                            DateUtils.FORMAT_ABBREV_ALL |
                            DateUtils.FORMAT_CAP_AMPM;
-        
+
         // If the message is from a different year, show the date and year.
         if (then.year != now.year) {
             format_flags |= DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_DATE;
@@ -383,6 +383,13 @@ public class MessageUtils {
         } else {
             // Otherwise, if the message is from today, show the time.
             format_flags |= DateUtils.FORMAT_SHOW_TIME;
+        }
+
+        // If the caller has asked for full details, make sure to show the date
+        // and time no matter what we've determined above (but still make showing
+        // the year only happen if it is a different year from today).
+        if (fullFormat) {
+            format_flags |= (DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME);
         }
 
         return DateUtils.formatDateTime(context, when, format_flags);

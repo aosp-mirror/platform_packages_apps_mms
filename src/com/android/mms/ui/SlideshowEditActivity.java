@@ -119,6 +119,7 @@ public class SlideshowEditActivity extends ListActivity {
 
         text = (TextView) v.findViewById(R.id.text_preview);
         text.setText(R.string.add_slide_hint);
+        text.setVisibility(View.VISIBLE);
 
         ImageView image = (ImageView) v.findViewById(R.id.image_preview);
         image.setImageResource(R.drawable.ic_launcher_slideshow_add_sms);

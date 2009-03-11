@@ -817,7 +817,8 @@ public class ComposeMessageActivity extends Activity
                 Recipient r = ((RecipientContextMenuInfo) menuInfo).recipient;
                 RecipientsMenuClickListener l = new RecipientsMenuClickListener(r);
 
-                menu.setHeaderTitle(r.name);
+                String title = !TextUtils.isEmpty(r.name) ? r.name : r.number;
+                menu.setHeaderTitle(title);
 
                 if (r.person_id != -1) {
                     menu.add(0, MENU_VIEW_CONTACT, 0, R.string.menu_view_contact)
@@ -2105,7 +2106,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (!MmsConfig.DISABLE_MMS) {
-            if (isSubjectEditorVisible()) {
+            if (!isSubjectEditorVisible()) {
                 menu.add(0, MENU_ADD_SUBJECT, 0, R.string.add_subject).setIcon(
                         com.android.internal.R.drawable.ic_menu_edit);
             }
@@ -2278,7 +2279,7 @@ public class ComposeMessageActivity extends Activity
 
     private void showAddAttachmentDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(R.drawable.ic_menu_attachment);
+        builder.setIcon(R.drawable.ic_dialog_attach);
         builder.setTitle(R.string.add_attachment);
 
         AttachmentTypeSelectorAdapter adapter = new AttachmentTypeSelectorAdapter(

@@ -171,18 +171,19 @@ public class ConversationHeaderView extends RelativeLayout {
         ConversationHeader oldHeader = getConversationHeader();
         setConversationHeader(ch);
 
-        LayoutParams layoutParams = (LayoutParams)mAttachmentView.getLayoutParams();
+        LayoutParams attachmentLayout = (LayoutParams)mAttachmentView.getLayoutParams();
         boolean hasError = ch.hasError();
         // When there's an error icon, the attachment icon is left of the error icon.
         // When there is not an error icon, the attachment icon is left of the date text.
         // As far as I know, there's no way to specify that relationship in xml.
         if (hasError) {
-            layoutParams.addRule(RelativeLayout.LEFT_OF, R.id.error);
+            attachmentLayout.addRule(RelativeLayout.LEFT_OF, R.id.error);
         } else {
-            layoutParams.addRule(RelativeLayout.LEFT_OF, R.id.date);
+            attachmentLayout.addRule(RelativeLayout.LEFT_OF, R.id.date);
         }
 
-        mAttachmentView.setVisibility(ch.hasAttachment() ? VISIBLE : GONE);
+        boolean hasAttachment = ch.hasAttachment();
+        mAttachmentView.setVisibility(hasAttachment ? VISIBLE : GONE);
 
         // Date
         mDateView.setText(ch.getDate());
@@ -201,6 +202,10 @@ public class ConversationHeaderView extends RelativeLayout {
 
         // Subject
         mSubjectView.setText(ch.getSubject());
+        LayoutParams subjectLayout = (LayoutParams)mSubjectView.getLayoutParams();
+        // We have to make the subject left of whatever optional items are shown on the right.
+        subjectLayout.addRule(RelativeLayout.LEFT_OF, hasAttachment ? R.id.attachment :
+            (hasError ? R.id.error : R.id.date));
 
         // Transmission error indicator.
         mErrorIndicator.setVisibility(hasError ? VISIBLE : GONE);

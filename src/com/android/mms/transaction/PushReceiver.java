@@ -57,36 +57,10 @@ public class PushReceiver extends BroadcastReceiver {
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
-    private abstract class WakefulAsyncTask<Params,Progress,Result>
-                          extends AsyncTask<Params,Progress,Result> {
-        private PowerManager.WakeLock mWakeLock;
-        
-        public void useWakeLock(Context c, int wakeLockFlags, String tag) {
-            PowerManager pm = (PowerManager)c.getSystemService(Context.POWER_SERVICE);
-            mWakeLock = pm.newWakeLock(wakeLockFlags, tag);
-            mWakeLock.setReferenceCounted(false);
-        }
-        
-        @Override
-        protected void onPreExecute() {
-            if (mWakeLock != null) {
-                mWakeLock.acquire();
-            }
-        }
-        
-        @Override
-        protected void onPostExecute(Result result) {
-            if (mWakeLock != null) {
-                mWakeLock.release();
-            }
-        }
-    }
-    
-    private class ReceivePushTask extends WakefulAsyncTask<Intent,Void,Void> {
+    private class ReceivePushTask extends AsyncTask<Intent,Void,Void> {
         private Context mContext;
         public ReceivePushTask(Context context) {
             mContext = context;
-            useWakeLock(context, PowerManager.PARTIAL_WAKE_LOCK, "ReceivePushTask");
         }
 
         @Override
@@ -167,6 +141,12 @@ public class PushReceiver extends BroadcastReceiver {
                 Log.v(TAG, "Received PUSH Intent: " + intent);
             }
             
+            // Hold a wake lock for 5 seconds, enough to give any
+            // services we start time to take their own wake locks.
+            PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+            PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                                            "MMS PushReceiver");
+            wl.acquire(5000);
             new ReceivePushTask(context).execute(intent);
         }
     }
