@@ -144,7 +144,12 @@ public class ContactInfoCache {
         public boolean isStale() {
             return isStale;
         }
+        
         public String toString() {
+            if (null == name) {
+                return "";
+            }
+
             StringBuilder buf = new StringBuilder(name);
             buf.append(", phone=" + phoneNumber);
             buf.append(", pid=" + person_id);

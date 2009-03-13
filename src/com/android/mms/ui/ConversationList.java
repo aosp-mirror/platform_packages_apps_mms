@@ -139,10 +139,6 @@ public class ConversationList extends ListActivity {
             mQueryToken = savedInstanceState.getInt("query_token");
         }
         
-        // Cancel any failed message notifications
-        MessagingNotification.cancelNotification(getApplicationContext(),
-                    MessagingNotification.MESSAGE_FAILED_NOTIFICATION_ID);
-
         handleCreationIntent(getIntent());
     }
 
@@ -161,7 +157,11 @@ public class ConversationList extends ListActivity {
     protected void handleCreationIntent(Intent intent) {
         // Handle intents that occur upon creation of the activity.
         initNormalQueryArgs();
-    }
+        
+        // Cancel any failed message notifications
+        MessagingNotification.cancelNotification(getApplicationContext(),
+                    MessagingNotification.MESSAGE_FAILED_NOTIFICATION_ID);
+   }
 
     @Override
     protected void onResume() {

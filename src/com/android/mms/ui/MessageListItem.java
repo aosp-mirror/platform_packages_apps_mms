@@ -41,6 +41,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Browser;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.Sms;
@@ -389,7 +390,7 @@ public class MessageListItem extends LinearLayout implements
                     if (which >= 0) {
                         Uri uri = Uri.parse(urls.get(which));
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                        intent.putExtra(Browser.EXTRA_APPLICATION_ID, mContext.getPackageName());
                         mContext.startActivity(intent);
                     }
                 }

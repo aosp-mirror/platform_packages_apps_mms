@@ -161,7 +161,6 @@ public class MessageItem {
                 String report = cursor.getString(columnsMap.mColumnMmsDeliveryReport);
                 if ((report == null) || !mAddress.equals(context.getString(
                         R.string.messagelist_sender_self))) {
-                    Log.e(TAG, "Value for delivery report was null.");
                     mDeliveryReport = false;
                 } else {
                     int reportInt;
@@ -178,7 +177,6 @@ public class MessageItem {
                 report = cursor.getString(columnsMap.mColumnMmsReadReport);
                 if ((report == null) || !mAddress.equals(context.getString(
                         R.string.messagelist_sender_self))) {
-                    Log.e(TAG, "Value for read report was null.");
                     mReadReport = false;
                 } else {
                     int reportInt;

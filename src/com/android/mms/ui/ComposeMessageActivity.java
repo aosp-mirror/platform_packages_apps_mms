@@ -260,7 +260,7 @@ public class ComposeMessageActivity extends Activity
 
     private BackgroundQueryHandler mBackgroundQueryHandler;
 
-    private MessageListView mMsgListView;               // ListView for messages in this conversation
+    private MessageListView mMsgListView;        // ListView for messages in this conversation
     private MessageListAdapter mMsgListAdapter;  // and its corresponding ListAdapter
 
     private RecipientList mRecipientList;        // List of recipients for this conversation
@@ -1690,7 +1690,7 @@ public class ComposeMessageActivity extends Activity
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
 
-        long oldThreadId = mThreadId;
+        long oldThreadId = getThreadId();
         boolean oldIsMms = requiresMms();
         mMessageState = 0;
         CharSequence oldText = mMsgText;
@@ -1698,14 +1698,16 @@ public class ComposeMessageActivity extends Activity
         // Read parameters or previously saved state of this activity.
         initActivityState(null, intent);
 
+        long newThreadId = getThreadId();
+
         if (LOCAL_LOGV) {
             Log.v(TAG, "onNewIntent(): intent = " + getIntent());
-            Log.v(TAG, "onNewIntent(): mThreadId = " + mThreadId);
+            Log.v(TAG, "onNewIntent(): threadId = " + newThreadId);
             Log.v(TAG, "onNewIntent(): mMessageUri = " + mMessageUri);
         }
         cancelFailedToDeliverNotification(intent, getApplicationContext());
 
-        if (mThreadId != oldThreadId) {
+        if (newThreadId != oldThreadId) {
             // Save the old message as a draft.
             if (oldIsMms) {
                 // Save the old temporary message if necessary.
@@ -1723,7 +1725,7 @@ public class ComposeMessageActivity extends Activity
             mRecipientList = RecipientList.from(mExternalAddress, this);
             updateState(RECIPIENTS_REQUIRE_MMS, recipientsRequireMms());
 
-            if ((mThreadId > 0L) && !mComposeMode) {
+            if (newThreadId > 0L && !mComposeMode) {
                 // If we have already initialized the recipients editor, just
                 // hide it in the display.
                 if (mRecipientsEditor != null) {
@@ -1731,7 +1733,7 @@ public class ComposeMessageActivity extends Activity
                     hideTopPanelIfNecessary();
                 }
 
-                MessageUtils.markAsRead(this, mThreadId);
+                MessageUtils.markAsRead(this, newThreadId);
                 initMessageList(false);
             } else {
                 initRecipientsEditor();
@@ -1763,7 +1765,7 @@ public class ComposeMessageActivity extends Activity
                     finish();
                 }
             } else if (isEmptySms()) {
-                mMsgText = readTemporarySmsMessage(mThreadId);
+                mMsgText = readTemporarySmsMessage(newThreadId);
             }
 
             int attachmentType = requiresMms() ? MessageUtils.getAttachmentType(mSlideshow)
@@ -1780,7 +1782,7 @@ public class ComposeMessageActivity extends Activity
     protected void onRestart() {
         super.onRestart();
 
-        if (mThreadId > 0L && !mComposeMode && mMsgListAdapter == null) {
+        if (mThreadId > 0L && !mComposeMode) {
             MessageUtils.markAsRead(this, mThreadId);
             initMessageList(false);
         }
@@ -1843,7 +1845,8 @@ public class ComposeMessageActivity extends Activity
         } else {
             outState.putString("sms_body", mMsgText.toString());
             if (mThreadId <= 0) {
-                mThreadId = getOrCreateThreadId(mRecipientList.getToNumbers());
+                setThreadId(getOrCreateThreadId(mRecipientList.getToNumbers()));
+                initMessageList(false);
             }
             updateTemporarySmsMessage(mThreadId, mMsgText.toString());
         }
@@ -1893,7 +1896,7 @@ public class ComposeMessageActivity extends Activity
                             SqliteWrapper.delete(ComposeMessageActivity.this,
                                     mContentResolver, mMessageUri, null, null);
                         } else {
-                            mThreadId = getOrCreateThreadId(mRecipientList.getToNumbers());
+                            setThreadId(getOrCreateThreadId(mRecipientList.getToNumbers()));
                             updateTemporaryMmsMessage(true);
                         }
                     }
@@ -1903,7 +1906,7 @@ public class ComposeMessageActivity extends Activity
                             deleteTemporarySmsMessage(mThreadId);
                         }
                     } else {
-                        mThreadId = getOrCreateThreadId(mRecipientList.getToNumbers());
+                        setThreadId(getOrCreateThreadId(mRecipientList.getToNumbers()));
                         updateTemporarySmsMessage(mThreadId, mMsgText.toString());
                         Toast.makeText(this, R.string.message_saved_as_draft,
                                 Toast.LENGTH_SHORT).show();
@@ -2748,6 +2751,10 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void initMessageList(boolean startNewQuery) {
+        if (mMsgListAdapter != null) {
+            return;
+        }
+
         // Initialize the list adapter with a null cursor.
         mMsgListAdapter = new MessageListAdapter(
                 this, null, mMsgListView, true, getThreadType());
@@ -2869,25 +2876,28 @@ public class ComposeMessageActivity extends Activity
             deleteTemporarySmsMessage(thread_id);
             return;
         }
+        
         Uri thread_uri = ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, thread_id);
         Cursor c = SqliteWrapper.query(this, mContentResolver,
                 thread_uri, SMS_BODY_PROJECTION, SMS_DRAFT_WHERE, null, null);
 
-        if (c.moveToFirst()) {
-            ContentValues values = new ContentValues(1);
-            values.put(Sms.BODY, contents);
-            SqliteWrapper.update(this, mContentResolver, thread_uri, values, SMS_DRAFT_WHERE, null);
-        } else {
-            ContentValues values = new ContentValues(3);
-            values.put(Sms.THREAD_ID, thread_id);
-            values.put(Sms.BODY, contents);
-            values.put(Sms.TYPE, Sms.MESSAGE_TYPE_DRAFT);
-            SqliteWrapper.insert(this, mContentResolver,
-                    Sms.CONTENT_URI, values);
-            deleteTemporaryMmsMessage(thread_id);
+        try {
+            if (c.moveToFirst()) {
+                ContentValues values = new ContentValues(1);
+                values.put(Sms.BODY, contents);
+                SqliteWrapper.update(this, mContentResolver, thread_uri, values,
+                        SMS_DRAFT_WHERE, null);
+            } else {
+                ContentValues values = new ContentValues(3);
+                values.put(Sms.THREAD_ID, thread_id);
+                values.put(Sms.BODY, contents);
+                values.put(Sms.TYPE, Sms.MESSAGE_TYPE_DRAFT);
+                SqliteWrapper.insert(this, mContentResolver, Sms.CONTENT_URI, values);
+                deleteTemporaryMmsMessage(thread_id);
+            }
+        } finally {
+            c.close();
         }
-
-        c.close();
     }
 
     private void deleteTemporarySmsMessage(long threadId) {
@@ -2958,26 +2968,27 @@ public class ComposeMessageActivity extends Activity
         return hasRecipient() && (hasAttachment() || hasText());
     }
 
-    private boolean preSendingMessage() {
-        // Nothing to do here for SMS.
-        
+    private void preSendingMessage() {
+        // If the recipients editor is visible, recalculate the thread ID we
+        // should be using.  The user could have edited it.
+        if (isRecipientsEditorVisible()) {
+            mThreadId = getOrCreateThreadId(mRecipientList.getToNumbers());
+        }
+
         // needSaveAsMms will convert a message that is solely a Mms message because it has
         // an empty subject back into an Sms message. Doesn't notify the user of the conversion.
         if (!needSaveAsMms() && !requiresMms()) {
-            return true;
+            return;
         }
 
         // Update contents of the message before sending it.
         updateTemporaryMmsMessage(false);
-        return true;
     }
 
     private void sendMessage() {
         boolean failed = false;
 
-        if (!preSendingMessage()) {
-            return;
-        }
+        preSendingMessage();
 
         String[] dests = fillMessageHeaders(new SendReq());
         MessageSender msgSender = requiresMms()
@@ -3083,7 +3094,7 @@ public class ComposeMessageActivity extends Activity
             }
 
             if ((mMsgListAdapter == null) || (threadId != mThreadId)) {
-                mThreadId = threadId;
+                setThreadId(threadId);
                 initMessageList(true);
             }
         } else {
@@ -3149,9 +3160,17 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
+    private long getThreadId() {
+        return mThreadId;
+    }
+
+    private void setThreadId(long threadId) {
+        mThreadId = threadId;
+    }
+
     private void initActivityState(Bundle savedInstanceState, Intent intent) {
         if (savedInstanceState != null) {
-            mThreadId = savedInstanceState.getLong("thread_id", 0);
+            setThreadId(savedInstanceState.getLong("thread_id", 0));
             mMessageUri = (Uri) savedInstanceState.getParcelable("msg_uri");
             mExternalAddress = savedInstanceState.getString("address");
             mComposeMode = savedInstanceState.getBoolean("compose_mode", false);
@@ -3159,7 +3178,7 @@ public class ComposeMessageActivity extends Activity
             mSubject = savedInstanceState.getString("subject");
             mMsgText = savedInstanceState.getString("sms_body");
         } else {
-            mThreadId = intent.getLongExtra("thread_id", 0);
+            setThreadId(intent.getLongExtra("thread_id", 0));
             mMessageUri = (Uri) intent.getParcelableExtra("msg_uri");
             if ((mMessageUri == null) && (mThreadId == 0)) {
                 // If we haven't been given a thread id or a URI in the extras,
@@ -3167,7 +3186,7 @@ public class ComposeMessageActivity extends Activity
                 Uri uri = intent.getData();
                 if ((uri != null) && (uri.getPathSegments().size() >= 2)) {
                     try {
-                        mThreadId = Long.parseLong(uri.getPathSegments().get(1));
+                        setThreadId(Long.parseLong(uri.getPathSegments().get(1)));
                     } catch (NumberFormatException exception) {
                         Log.e(TAG, "Thread ID must be a Long.");
                     }
@@ -3192,15 +3211,14 @@ public class ComposeMessageActivity extends Activity
 
         if (mExternalAddress == null) {
             if (mThreadId > 0L) {
-                mExternalAddress = MessageUtils.getAddressByThreadId(
-                        this, mThreadId);
+                mExternalAddress = MessageUtils.getAddressByThreadId(this, mThreadId);
             } else {
                 mExternalAddress = deriveAddress(intent);
                 // Even if we end up creating a thread here and the user
                 // discards the message, we will clean it up later when we
                 // delete obsolete threads.
                 if (!TextUtils.isEmpty(mExternalAddress)) {
-                    mThreadId = Threads.getOrCreateThreadId(this, mExternalAddress);
+                    setThreadId(Threads.getOrCreateThreadId(this, mExternalAddress));
                 }
             }
         }

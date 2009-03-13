@@ -195,18 +195,8 @@ public class NotificationTransaction extends Transaction implements Runnable {
 
             sendNotifyRespInd(status);
 
-        } catch (MmsException e) {
-            if (LOCAL_LOGV) {
-                Log.v(TAG, "Unexpected MmsException.", e);
-            }
-        } catch (IOException e) {
-            if (LOCAL_LOGV) {
-                Log.v(TAG, "Unexpected IOException.", e);
-            }
-        } catch (Exception e) {
-            if (LOCAL_LOGV) {
-                Log.v(TAG, "Unexpected Exception.", e);
-            }
+        } catch (Throwable t) {
+            Log.e(TAG, Log.getStackTraceString(t));
         } finally {
             mTransactionState.setContentUri(mUri);
             if (!autoDownload) {
