@@ -85,6 +85,10 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
             return number;
         }
 
+        if (name == null) {
+            name = "";
+        }
+        
         String nameAndNumber = Recipient.buildNameAndNumber(name, number);
 
         SpannableString out = new SpannableString(nameAndNumber);

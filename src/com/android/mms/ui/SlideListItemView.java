@@ -23,9 +23,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -95,6 +97,7 @@ public class SlideListItemView extends LinearLayout implements SlideViewInterfac
 
     public void setText(String name, String text) {
         mTextPreview.setText(text);
+        mTextPreview.setVisibility(TextUtils.isEmpty(text) ? View.GONE : View.VISIBLE);
     }
 
     public void setTextVisibility(boolean visible) {

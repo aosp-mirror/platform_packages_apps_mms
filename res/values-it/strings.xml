@@ -17,19 +17,22 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label">"Messaggi"</string>
     <string name="new_message">"Nuovo messaggio"</string>
-    <string name="create_new_message">"Componi nuovo messaggio"</string>
+    <string name="create_new_message">"Scrivi nuovo messaggio"</string>
     <string name="menu_call_back">"Chiama <xliff:g id="NAME">%s</xliff:g>"</string>
-    <string name="menu_compose_new">"Componi"</string>
-    <string name="menu_preferences">"Impostazioni"</string>
     <string name="menu_send_email">"Invia email a <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_compose_new">"Scrivi"</string>
+    <string name="menu_preferences">"Impostazioni"</string>
     <string name="menu_add_address_to_contacts">"Aggiungi <xliff:g id="NAME">%s</xliff:g> a Contatti"</string>
+    <string name="menu_call">"Chiama"</string>
     <string name="menu_delete_all">"Elimina conversazioni"</string>
-    <string name="menu_delete">"Elimina"</string>
+    <!-- no translation found for menu_delete (1851666911396479006) -->
+    <skip />
     <string name="menu_undelivered_messages">"Messaggi non consegnati"</string>
-    <string name="menu_view">"Visualizza"</string>
+    <!-- no translation found for menu_view (7448852683948080108) -->
+    <skip />
     <string name="refreshing">"Aggiornamento..."</string>
     <string name="has_draft">"Bozza"</string>
-    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
     <skip />
     <string name="anonymous_recipient">"Anonimo"</string>
     <string name="no_subject_view">"(Nessun oggetto)"</string>
@@ -59,6 +62,7 @@
     <string name="move_down">"Sposta giù"</string>
     <string name="remove_slide">"Rimuovi diapositiva"</string>
     <string name="add_slide">"Aggiungi diapositiva"</string>
+    <string name="add_slide_hint">"Seleziona per creare nuova diapositiva."</string>
     <string name="discard_slideshow">"Ignora presentazione"</string>
     <string name="remove_text">"Rimuovi testo"</string>
     <string name="add_picture">"Aggiungi immagine"</string>
@@ -67,20 +71,20 @@
     <string name="remove_music">"Rimuovi musica"</string>
     <string name="add_video">"Aggiungi video"</string>
     <string name="remove_video">"Rimuovi video"</string>
-    <string name="add_slide_hint">"Seleziona per creare nuova diapositiva"</string>
+    <string name="compose_title">"Scrivi"</string>
     <string name="to_hint">"A"</string>
-    <string name="compose_title">"Componi"</string>
     <string name="subject_hint">"Oggetto"</string>
     <string name="add_attachment">"Allega"</string>
     <string name="add_subject">"Aggiungi oggetto"</string>
     <string name="discard">"Ignora"</string>
+    <string name="view">"Visualizza"</string>
     <string name="replace">"Sostituisci"</string>
     <string name="remove">"Rimuovi"</string>
     <string name="send">"Invia"</string>
     <string name="all_threads">"Tutte le conversazioni"</string>
-    <string name="type_to_compose_text_enter_to_send">"Digita per comporre. Premi Invio per inviare"</string>
-    <string name="view">"Visualizza"</string>
-    <string name="open_keyboard_to_compose_message">"Apri tastiera per comporre il messaggio"</string>
+    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
+    <skip />
+    <string name="open_keyboard_to_compose_message">"Apri tastiera per scrivere il messaggio"</string>
     <string name="image_too_large">"Immagine troppo grande"</string>
     <string name="ask_for_automatically_resize">"Ridimensionare automaticamente l\'immagine prima di inviarla?"</string>
     <string name="compressing">"Compressione..."</string>
@@ -90,7 +94,7 @@
     <string name="failed_to_add_media">"Spiacenti. Impossibile aggiungere questo <xliff:g id="NAME">%1$s</xliff:g> al messaggio."</string>
     <string name="failed_to_resize_image">"Immagine non ridimensionata."</string>
     <string name="resize_image_error_information">"Anche ridimensionata, l\'immagine è troppo grande per essere inviata."</string>
-    <string name="forward_prefix">"I:"</string>
+    <string name="forward_prefix">"I: "</string>
     <string name="discard_message">"Ignora"</string>
     <string name="discard_message_reason">"Il messaggio verrà ignorato. I destinatari non sono validi."</string>
     <string name="has_invalid_recipient">"Destinatari non validi: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
@@ -109,8 +113,8 @@
     <string name="preview_slideshow">"Anteprima"</string>
     <string name="replace_image">"Sostituisci immagine"</string>
     <string name="duration_sec">"Durata (<xliff:g id="DURATION">%s</xliff:g> sec)"</string>
-    <string name="duration_selector_title">"Durata diapositiva"</string>
-    <string name="layout_selector_title">"Layout presentazione"</string>
+    <string name="duration_selector_title">"Durata diapositiva "</string>
+    <string name="layout_selector_title">"Layout presentazione "</string>
     <string name="layout_top">"Layout (superiore)"</string>
     <string name="layout_bottom">"Layout (inferiore)"</string>
     <string name="type_to_compose_text_or_leave_blank">"Digita per comporre il testo o lascia vuoto"</string>
@@ -142,9 +146,6 @@
     <string name="pref_notification_settings_title">"Impostazioni notifiche"</string>
     <string name="pref_mms_settings_title">"Impostazioni MMS"</string>
     <string name="pref_sms_settings_title">"Impostazioni SMS"</string>
-    <string name="pref_default_mms_max_size">"500000"</string>
-    <string name="pref_default_mms_creation_mode">"limitata"</string>
-    <string name="pref_default_mms_resubmission_mode">"limitata"</string>
     <string name="pref_summary_manage_sim_messages">"Gestisci i messaggi memorizzati nella SIM"</string>
     <string name="pref_summary_mms_delivery_reports">"Richiedi un rapporto di consegna per ogni messaggio inviato"</string>
     <string name="pref_summary_mms_read_reports">"Richiedi un rapporto di lettura per ogni messaggio inviato"</string>
@@ -162,31 +163,32 @@
     <string name="pref_summary_mms_auto_retrieval">"Recupera messaggi automaticamente"</string>
     <string name="pref_title_mms_retrieval_during_roaming">"Recupero automatico in roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"Recupera automaticamente i messaggi durante il roaming"</string>
-    <string name="to_label">"A"</string>
+    <string name="to_label">"A "</string>
     <string name="confirm_dialog_title">"Elimina"</string>
     <string name="confirm_delete_conversation">"Verrà eliminata l\'intera conversazione."</string>
     <string name="confirm_delete_all_conversations">"Verranno eliminate tutte le conversazioni."</string>
     <string name="confirm_delete_message">"Il messaggio verrà eliminato."</string>
     <string name="confirm_delete_all_messages">"Verrà eliminata l\'intera conversazione."</string>
+    <string name="confirm_delete_all_SIM_messages">"Verranno eliminati tutti i messaggi nella SIM."</string>
     <string name="cannot_get_details">"Impossibile ottenere i dettagli"</string>
     <string name="message_details_title">"Dettagli messaggio"</string>
-    <string name="message_type_label">"Tipo:"</string>
+    <string name="message_type_label">"Tipo: "</string>
     <string name="text_message">"SMS"</string>
     <string name="multimedia_message">"MMS"</string>
     <string name="multimedia_notification">"Notifica MMS"</string>
-    <string name="from_label">"Da:"</string>
-    <string name="to_address_label">"A:"</string>
-    <string name="bcc_label">"Ccn:"</string>
-    <string name="sent_label">"Inviato:"</string>
-    <string name="received_label">"Ricevuto:"</string>
-    <string name="saved_label">"Salvato:"</string>
-    <string name="subject_label">"Oggetto:"</string>
-    <string name="message_size_label">"Dimensione messaggio:"</string>
-    <string name="priority_label">"Priorità:"</string>
+    <string name="from_label">"Da: "</string>
+    <string name="to_address_label">"A: "</string>
+    <string name="bcc_label">"Ccn: "</string>
+    <string name="sent_label">"Inviato: "</string>
+    <string name="received_label">"Ricevuto: "</string>
+    <string name="saved_label">"Salvato: "</string>
+    <string name="subject_label">"Oggetto: "</string>
+    <string name="message_size_label">"Dimensione messaggio: "</string>
+    <string name="priority_label">"Priorità: "</string>
     <string name="priority_high">"Elevata"</string>
     <string name="priority_normal">"Normale"</string>
     <string name="priority_low">"Bassa"</string>
-    <string name="message_class_label">"Classe messaggio:"</string>
+    <string name="message_class_label">"Classe messaggio: "</string>
     <string name="menu_edit">"Modifica"</string>
     <string name="menu_retry_sending">"Riprova invio"</string>
     <string name="menu_retry_sending_all">"Riprova a inviare tutti"</string>
@@ -205,23 +207,23 @@
     <string name="status_failed">"Non riuscito"</string>
     <string name="status_unread">"Da leggere"</string>
     <string name="status_rejected">"Rifiutato"</string>
-    <string name="recipient_label">"Destinatario:"</string>
-    <string name="status_label">"Stato:"</string>
+    <string name="recipient_label">"Destinatario: "</string>
+    <string name="status_label">"Stato: "</string>
     <string name="attach_image">"Immagini"</string>
-    <!-- no translation found for attach_take_photo (4280601313184373837) -->
-    <skip />
-    <!-- no translation found for attach_video (4264272693501538294) -->
-    <skip />
-    <!-- no translation found for attach_record_video (3099814114743078615) -->
-    <skip />
+    <string name="attach_take_photo">"Scatta foto"</string>
+    <string name="attach_video">"Video"</string>
+    <string name="attach_record_video">"Registra video"</string>
     <string name="attach_sound">"Audio"</string>
     <string name="attach_record_sound">"Registra audio"</string>
-    <!-- no translation found for attach_slideshow (3497422151091037063) -->
-    <skip />
+    <string name="attach_slideshow">"Presentazione"</string>
     <string name="select_bottom_text">"Testo in basso"</string>
     <string name="select_top_text">"Testo in alto"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> messaggi da leggere."</string>
     <string name="notification_multiple_title">"Nuovi messaggi"</string>
+    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
+    <skip />
+    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
+    <skip />
     <string name="sim_full_title">"SIM piena"</string>
     <string name="sim_full_body">"Elimina alcuni messaggi per liberare spazio."</string>
     <string name="type_audio">"audio"</string>
@@ -229,7 +231,6 @@
     <string name="type_video">"video"</string>
     <string name="confirm">"Conferma"</string>
     <string name="message_send_read_report">"Verrà inviato un rapporto di lettura."</string>
-    <string name="url_list_label">"Seleziona link"</string>
     <string name="message_queued">"Al momento è impossibile inviare il messaggio. Il messaggio verrà inviato non appena il servizio diventa disponibile."</string>
     <string name="no_subject">"(Nessun oggetto)"</string>
     <string name="unknown_sender">"Mittente sconosciuto"</string>

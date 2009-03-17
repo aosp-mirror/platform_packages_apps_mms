@@ -140,7 +140,10 @@
                             android:nextFocusRight="@+id/send_button"
                             android:hint="@string/type_to_compose_text_enter_to_send"
                             android:maxLines="4"
+                            android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
+                            android:imeOptions="actionSend|flagNoEnterAction"
                             android:background="@null"
+                            android:maxLength="1000"
                         />
     
                         <TextView

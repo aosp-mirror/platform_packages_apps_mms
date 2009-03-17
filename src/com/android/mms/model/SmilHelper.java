@@ -33,7 +33,6 @@ import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPart;
 
-import org.w3c.dom.NodeList;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.smil.SMILDocument;
 import org.w3c.dom.smil.SMILElement;
@@ -280,22 +279,24 @@ public class SmilHelper {
 
         // Create REGIONs and append them to LAYOUT
         ArrayList<RegionModel> regions = layouts.getRegions();
+        ArrayList<SMILRegionElement> smilRegions = new ArrayList<SMILRegionElement>();
         for (RegionModel r : regions) {
-            SMILRegionElement regionElement = (SMILRegionElement)
-                    document.createElement("region");
-            regionElement.setId(r.getRegionId());
-            regionElement.setLeft(r.getLeft());
-            regionElement.setTop(r.getTop());
-            regionElement.setWidth(r.getWidth());
-            regionElement.setHeight(r.getHeight());
-            regionElement.setFit(r.getFit());
-            layoutElement.appendChild(regionElement);
+            SMILRegionElement smilRegion = (SMILRegionElement) document.createElement("region");
+            smilRegion.setId(r.getRegionId());
+            smilRegion.setLeft(r.getLeft());
+            smilRegion.setTop(r.getTop());
+            smilRegion.setWidth(r.getWidth());
+            smilRegion.setHeight(r.getHeight());
+            smilRegion.setFit(r.getFit());
+            smilRegions.add(smilRegion);
         }
 
         // Create BODY and append it to the document.
         SMILElement bodyElement = (SMILElement) document.createElement("body");
         smilElement.appendChild(bodyElement);
 
+        boolean txtRegionPresentInLayout = false;
+        boolean imgRegionPresentInLayout = false;
         for (SlideModel slide : slideshow) {
             // Create PAR element.
             SMILParElement par = addPar(document);
@@ -308,23 +309,35 @@ public class SmilHelper {
                 SMILMediaElement sme = null;
                 String src = media.getSrc();
                 if (media instanceof TextModel) {
-                    sme = SmilHelper.createMediaElement(
-                            SmilHelper.ELEMENT_TAG_TEXT, document, src);
-                    ((SMILRegionMediaElement) sme).setRegion(
-                            findRegionElementById(layoutElement, LayoutModel.TEXT_REGION_ID));
+                    TextModel text = (TextModel) media;
+                    if (TextUtils.isEmpty(text.getText())) {
+                        if (LOCAL_LOGV) {
+                            Log.v(TAG, "Empty text part ignored: " + text.getSrc());
+                        }
+                        continue;
+                    }
+                    sme = SmilHelper.createMediaElement(SmilHelper.ELEMENT_TAG_TEXT, document, src);
+                    txtRegionPresentInLayout = setRegion((SMILRegionMediaElement) sme,
+                                                         smilRegions,
+                                                         layoutElement,
+                                                         LayoutModel.TEXT_REGION_ID,
+                                                         txtRegionPresentInLayout);
                 } else if (media instanceof ImageModel) {
-                    sme = SmilHelper.createMediaElement(
-                            SmilHelper.ELEMENT_TAG_IMAGE, document, src);
-                    ((SMILRegionMediaElement) sme).setRegion(
-                            findRegionElementById(layoutElement, LayoutModel.IMAGE_REGION_ID));
+                    sme = SmilHelper.createMediaElement(SmilHelper.ELEMENT_TAG_IMAGE, document, src);
+                    imgRegionPresentInLayout = setRegion((SMILRegionMediaElement) sme,
+                                                         smilRegions,
+                                                         layoutElement,
+                                                         LayoutModel.IMAGE_REGION_ID,
+                                                         imgRegionPresentInLayout);
                 } else if (media instanceof VideoModel) {
-                    sme = SmilHelper.createMediaElement(
-                            SmilHelper.ELEMENT_TAG_VIDEO, document, src);
-                    ((SMILRegionMediaElement) sme).setRegion(
-                            findRegionElementById(layoutElement, LayoutModel.IMAGE_REGION_ID));
+                    sme = SmilHelper.createMediaElement(SmilHelper.ELEMENT_TAG_VIDEO, document, src);
+                    imgRegionPresentInLayout = setRegion((SMILRegionMediaElement) sme,
+                                                         smilRegions,
+                                                         layoutElement,
+                                                         LayoutModel.IMAGE_REGION_ID,
+                                                         imgRegionPresentInLayout);
                 } else if (media instanceof AudioModel) {
-                    sme = SmilHelper.createMediaElement(
-                            SmilHelper.ELEMENT_TAG_AUDIO, document, src);
+                    sme = SmilHelper.createMediaElement(SmilHelper.ELEMENT_TAG_AUDIO, document, src);
                 } else {
                     Log.w(TAG, "Unsupport media: " + media);
                     continue;
@@ -355,16 +368,27 @@ public class SmilHelper {
     }
 
     private static SMILRegionElement findRegionElementById(
-            SMILLayoutElement layoutElement, String rId) {
-        NodeList nl = layoutElement.getRegions();
-        int len = nl.getLength();
-        for (int i = 0; i < len; i++) {
-            SMILRegionElement sre = (SMILRegionElement) nl.item(i);
-            if (sre.getId().equals(rId)) {
-                return sre;
+            ArrayList<SMILRegionElement> smilRegions, String rId) {
+        for (SMILRegionElement smilRegion : smilRegions) {
+            if (smilRegion.getId().equals(rId)) {
+                return smilRegion;
             }
         }
         return null;
+    }
+
+    private static boolean setRegion(SMILRegionMediaElement srme,
+                                     ArrayList<SMILRegionElement> smilRegions,
+                                     SMILLayoutElement smilLayout,
+                                     String regionId,
+                                     boolean regionPresentInLayout) {
+        SMILRegionElement smilRegion = findRegionElementById(smilRegions, regionId);
+        if (!regionPresentInLayout && smilRegion != null) {
+            srme.setRegion(smilRegion);
+            smilLayout.appendChild(smilRegion);
+            return true;
+        }
+        return false;
     }
 
     static void addMediaElementEventListeners(

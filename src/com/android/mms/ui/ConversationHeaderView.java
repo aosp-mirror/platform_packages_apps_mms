@@ -18,19 +18,21 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
-import com.android.mms.util.ContactNameCache;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+
 import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.method.HideReturnsTransformationMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -47,6 +49,7 @@ public class ConversationHeaderView extends RelativeLayout {
     private View mAttachmentView;
     private View mUnreadIndicator;
     private View mErrorIndicator;
+    private ImageView mPresenceView;
 
     // For posting UI update Runnables from other threads:
     private Handler mHandler = new Handler();
@@ -69,12 +72,21 @@ public class ConversationHeaderView extends RelativeLayout {
 
         mFromView = (TextView) findViewById(R.id.from);
         mSubjectView = (TextView) findViewById(R.id.subject);
-        mSubjectView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
         mDateView = (TextView) findViewById(R.id.date);
         mAttachmentView = findViewById(R.id.attachment);
         mUnreadIndicator = findViewById(R.id.unread_indicator);
         mErrorIndicator = findViewById(R.id.error);
+        mPresenceView = (ImageView) findViewById(R.id.presence);
+    }
+
+    public void setPresenceIcon(int iconId) {
+        if (iconId == 0) {
+            mPresenceView.setVisibility(View.GONE);            
+        } else {
+            mPresenceView.setImageResource(iconId);
+            mPresenceView.setVisibility(View.VISIBLE);
+        }
     }
 
     public ConversationHeader getConversationHeader() {
@@ -144,6 +156,8 @@ public class ConversationHeaderView extends RelativeLayout {
                         synchronized (mConversationHeaderLock) {
                             if (mConversationHeader == newHeader) {
                                 mFromView.setText(formatMessage(newHeader));
+                                setPresenceIcon(newHeader.getPresenceResourceId());
+
                             }
                         }
                     }
@@ -157,7 +171,19 @@ public class ConversationHeaderView extends RelativeLayout {
         ConversationHeader oldHeader = getConversationHeader();
         setConversationHeader(ch);
 
-        mAttachmentView.setVisibility(ch.hasAttachment() ? VISIBLE : INVISIBLE);
+        LayoutParams attachmentLayout = (LayoutParams)mAttachmentView.getLayoutParams();
+        boolean hasError = ch.hasError();
+        // When there's an error icon, the attachment icon is left of the error icon.
+        // When there is not an error icon, the attachment icon is left of the date text.
+        // As far as I know, there's no way to specify that relationship in xml.
+        if (hasError) {
+            attachmentLayout.addRule(RelativeLayout.LEFT_OF, R.id.error);
+        } else {
+            attachmentLayout.addRule(RelativeLayout.LEFT_OF, R.id.date);
+        }
+
+        boolean hasAttachment = ch.hasAttachment();
+        mAttachmentView.setVisibility(hasAttachment ? VISIBLE : GONE);
 
         // Date
         mDateView.setText(ch.getDate());
@@ -172,22 +198,16 @@ public class ConversationHeaderView extends RelativeLayout {
         }
 
         boolean isRead = ch.isRead();
-
-        // Change font-face only if required.
-        if (oldHeader == null || oldHeader.isRead() != isRead) {
-            Typeface typeFace = isRead
-                    ? Typeface.DEFAULT
-                    : Typeface.DEFAULT_BOLD;
-            mDateView.setTypeface(typeFace);
-            mFromView.setTypeface(typeFace);
-        }
-
         mUnreadIndicator.setVisibility(isRead ? INVISIBLE : VISIBLE);
 
         // Subject
         mSubjectView.setText(ch.getSubject());
+        LayoutParams subjectLayout = (LayoutParams)mSubjectView.getLayoutParams();
+        // We have to make the subject left of whatever optional items are shown on the right.
+        subjectLayout.addRule(RelativeLayout.LEFT_OF, hasAttachment ? R.id.attachment :
+            (hasError ? R.id.error : R.id.date));
 
         // Transmission error indicator.
-        mErrorIndicator.setVisibility(ch.hasError() ? VISIBLE : INVISIBLE);
+        mErrorIndicator.setVisibility(hasError ? VISIBLE : GONE);
     }
 }

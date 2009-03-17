@@ -22,6 +22,8 @@ import com.android.mms.transaction.Transaction;
 import com.android.mms.transaction.TransactionBundle;
 import com.android.mms.transaction.TransactionService;
 import com.android.mms.util.DownloadManager;
+import com.android.mms.util.SmileyParser;
+
 import com.google.android.mms.pdu.PduHeaders;
 
 import android.app.AlertDialog;
@@ -29,14 +31,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Browser;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.Sms;
@@ -66,9 +71,6 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.Map;
 
-import com.google.android.util.SmileyParser;
-import com.google.android.util.SmileyResources;
-
 /**
  * This class provides view of a message in the messages list.
  */
@@ -93,31 +95,6 @@ public class MessageListItem extends LinearLayout implements
     private Handler mHandler;
     private MessageItem mMessageItem;
 
-    // NOTE: if you change anything about this array, you must make the corresponding change
-    // to the string arrays: default_smiley_texts and default_smiley_names in res/values/arrays.xml
-    public static final int[] DEFAULT_SMILEY_RES_IDS = {
-        android.R.drawable.emo_im_happy,                //  0
-        android.R.drawable.emo_im_sad,                  //  1
-        android.R.drawable.emo_im_winking,              //  2
-        android.R.drawable.emo_im_tongue_sticking_out,  //  3
-        android.R.drawable.emo_im_surprised,            //  4
-        android.R.drawable.emo_im_kissing,              //  5
-        android.R.drawable.emo_im_yelling,              //  6
-        android.R.drawable.emo_im_cool,                 //  7
-        android.R.drawable.emo_im_money_mouth,          //  8
-        android.R.drawable.emo_im_foot_in_mouth,        //  9
-        android.R.drawable.emo_im_embarrassed,          //  10
-        android.R.drawable.emo_im_angel,                //  11
-        android.R.drawable.emo_im_undecided,            //  12
-        android.R.drawable.emo_im_crying,               //  13
-        android.R.drawable.emo_im_lips_are_sealed,      //  14
-        android.R.drawable.emo_im_laughing,             //  15
-        android.R.drawable.emo_im_wtf                   //  16
-    };
-    
-    public static final int DEFAULT_SMILEY_TEXTS = R.array.default_smiley_texts;
-    public static final int DEFAULT_SMILEY_NAMES = R.array.default_smiley_names;
-    
     public MessageListItem(Context context) {
         super(context);
     }
@@ -164,12 +141,9 @@ public class MessageListItem extends LinearLayout implements
         String msgSizeText = mContext.getString(R.string.message_size_label)
                                 + String.valueOf((msgItem.mMessageSize + 1023) / 1024)
                                 + mContext.getString(R.string.kilobyte);
-        
-        boolean drawWithBackground = msgItem.mBoxId == Mms.MESSAGE_BOX_INBOX;
 
         mBodyTextView.setText(formatMessage(msgItem.mContact, null, msgItem.mSubject,
-                                            msgSizeText + "\n" + msgItem.mTimestamp,
-                                            drawWithBackground));
+                                            msgSizeText + "\n" + msgItem.mTimestamp));
 
         int state = DownloadManager.getInstance().getState(msgItem.mMessageUri);
         switch (state) {
@@ -216,13 +190,17 @@ public class MessageListItem extends LinearLayout implements
         // displaying it by the Presenter.
         mBodyTextView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
-        boolean drawWithBackground = msgItem.mBoxId == Mms.MESSAGE_BOX_INBOX;
-
-        mBodyTextView.setText(formatMessage(msgItem.mContact, msgItem.mBody,
-                                            msgItem.mSubject, msgItem.mTimestamp,
-                                            drawWithBackground));
-        // TODO part of changing contact names to links
-        //mBodyTextView.setText(formatMessage(msgItem.mAddress, msgItem.mBody));
+        // Get and/or lazily set the formatted message from/on the
+        // MessageItem.  Because the MessageItem instances come from a
+        // cache (currently of size ~50), the hit rate on avoiding the
+        // expensive formatMessage() call is very high.
+        CharSequence formattedMessage = msgItem.getCachedFormattedMessage();
+        if (formattedMessage == null) {
+            formattedMessage = formatMessage(msgItem.mContact, msgItem.mBody,
+                                             msgItem.mSubject, msgItem.mTimestamp);
+            msgItem.setCachedFormattedMessage(formattedMessage);
+        }
+        mBodyTextView.setText(formattedMessage);
 
         if (msgItem.isSms()) {
             hideMmsViewIfNeeded();
@@ -290,9 +268,9 @@ public class MessageListItem extends LinearLayout implements
             mDownloadingLabel = (TextView) findViewById(R.id.label_downloading);
         }
     }
-    
+
     private CharSequence formatMessage(String contact, String body, String subject,
-                                       String timestamp, boolean drawBackground) {
+                                       String timestamp) {
         SpannableStringBuilder buf = new SpannableStringBuilder(contact);
         buf.append(": ");
         buf.setSpan(STYLE_BOLD, 0, buf.length(),
@@ -307,22 +285,19 @@ public class MessageListItem extends LinearLayout implements
             if (hasSubject) {
                 buf.append(" - ");
             }
-            SmileyResources smileyResources = new SmileyResources(
-                    getResources().getStringArray(DEFAULT_SMILEY_TEXTS), DEFAULT_SMILEY_RES_IDS);
-            SmileyParser smileyParser = new SmileyParser(body, smileyResources);
-            smileyParser.parse();
-            buf.append(smileyParser.getSpannableString(mContext));
+            SmileyParser parser = SmileyParser.getInstance();
+            buf.append(parser.addSmileySpans(body));
         }
 
         buf.append("\n");
         int startOffset = buf.length();
-        
+
         // put a one pixel high spacer line between the message and the time stamp as requested
         // by the spec.
         buf.append("\n");
         buf.setSpan(new AbsoluteSizeSpan(3), startOffset, buf.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        
+
         startOffset = buf.length();
         buf.append(timestamp);
         buf.setSpan(new AbsoluteSizeSpan(12), startOffset, buf.length(),
@@ -331,39 +306,8 @@ public class MessageListItem extends LinearLayout implements
         int color = mContext.getResources().getColor(R.color.timestamp_color);
         buf.setSpan(new ForegroundColorSpan(color), startOffset, buf.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        
-        // For now, they've decided not to draw a darker background behind the timestamp.
-        // Keep the code for now.
-//        if (drawBackground) {
-//            int color = mContext.getResources().getColor(R.color.timestamp_color);
-//            buf.setSpan(new Background(color), startOffset, buf.length(),
-//                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        }
+
         return buf;
-    }
-
-    private static class Background implements LineBackgroundSpan {
-        private int mColor;
-        
-        public Background(int color) {
-            mColor = color;
-        }
-
-        public void drawBackground(Canvas c, Paint p,
-                int left, int right,
-                int top, int baseline, int bottom,
-                CharSequence text, int start, int end,
-                int lnum) {
-            int col = p.getColor();
-            Paint.Style s = p.getStyle();
-
-            p.setColor(mColor);
-            p.setStyle(Paint.Style.FILL);
-            c.drawRect(left, top, right, bottom, p);
-
-            p.setColor(col);
-            p.setStyle(s);
-        }
     }
 
     private void drawPlaybackButton(MessageItem msgItem) {
@@ -388,8 +332,10 @@ public class MessageListItem extends LinearLayout implements
     public void onClick(View v) {
         MessageItem mi = (MessageItem) v.getTag();
         switch (mi.mAttachmentType) {
-            case AttachmentEditor.AUDIO_ATTACHMENT:
             case AttachmentEditor.VIDEO_ATTACHMENT:
+                MessageUtils.viewSimpleSlideshow(mContext, mi.mSlideshow);
+                break;
+            case AttachmentEditor.AUDIO_ATTACHMENT:
             case AttachmentEditor.SLIDESHOW_ATTACHMENT:
                 Intent intent = new Intent(
                         mContext, SlideshowActivity.class);
@@ -444,7 +390,7 @@ public class MessageListItem extends LinearLayout implements
                     if (which >= 0) {
                         Uri uri = Uri.parse(urls.get(which));
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                        intent.putExtra(Browser.EXTRA_APPLICATION_ID, mContext.getPackageName());
                         mContext.startActivity(intent);
                     }
                 }
@@ -466,22 +412,24 @@ public class MessageListItem extends LinearLayout implements
 
 
     private void setOnClickListener(final MessageItem msgItem) {
-        if (msgItem.mAttachmentType == AttachmentEditor.IMAGE_ATTACHMENT) {
+        switch(msgItem.mAttachmentType) {
+        case AttachmentEditor.IMAGE_ATTACHMENT:
+        case AttachmentEditor.VIDEO_ATTACHMENT:
             mImageView.setOnClickListener(new OnClickListener() {
                 public void onClick(View v) {
-                    // FIXME: Use SlideshowActivity to view image for the time being.
-                    // As described in UI spec, pressing an inline attachment will
-                    // open up the full view of the attachment in its associated app
-                    // (here should the pictures app).
-                    // But the <ViewImage> would only show images in MediaStore.
-                    // Should we save a copy to MediaStore temporarily for displaying?
-                    Intent intent = new Intent(mContext, SlideshowActivity.class);
-                    intent.setData(msgItem.mMessageUri);
-                    mContext.startActivity(intent);
+                    MessageUtils.viewSimpleSlideshow(mContext, msgItem.mSlideshow);
                 }
             });
-        } else {
+            mImageView.setOnLongClickListener(new OnLongClickListener() {
+                public boolean onLongClick(View v) {
+                    return v.showContextMenu();
+                }
+            });
+            break;
+            
+        default:
             mImageView.setOnClickListener(null);
+            break;
         }
     }
 
@@ -504,7 +452,7 @@ public class MessageListItem extends LinearLayout implements
         }
     }
 
-    private boolean isFailedMessage(MessageItem msgItem) {
+    public static boolean isFailedMessage(MessageItem msgItem) {
         boolean isFailedMms = msgItem.isMms()
                             && (msgItem.mErrorType >= MmsSms.ERR_TYPE_GENERIC_PERMANENT);
         boolean isFailedSms = msgItem.isSms()
@@ -534,7 +482,7 @@ public class MessageListItem extends LinearLayout implements
     private void drawRightStatusIndicator(MessageItem msgItem) {
         if (msgItem.isOutgoingMessage()) {
             if (isFailedMessage(msgItem)) {
-                mRightStatusIndicator.setImageResource(R.drawable.ic_sms_error);
+                mRightStatusIndicator.setImageResource(R.drawable.ic_sms_mms_not_delivered);
                 setErrorIndicatorClickListener(msgItem);
             } else {
                 mRightStatusIndicator.setImageResource(R.drawable.ic_email_pending);
@@ -566,18 +514,12 @@ public class MessageListItem extends LinearLayout implements
 
     public void setVideo(String name, Uri video) {
         inflateMmsView();
-
-        MediaPlayer mp = new MediaPlayer();
-
-        try {
-            mp.setDataSource(mContext, video);
-            mImageView.setImageBitmap(mp.getFrameAt(1000));
-            mImageView.setVisibility(VISIBLE);
-        } catch (IOException e) {
-            Log.e(TAG, "Unexpected IOException.", e);
-        } finally {
-            mp.release();
+        Bitmap bitmap = VideoAttachmentView.createVideoThumbnail(mContext, video);
+        if (null == bitmap) {
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mms_play_btn);
         }
+        mImageView.setImageBitmap(bitmap);
+        mImageView.setVisibility(VISIBLE);
     }
 
     public void setVideoVisibility(boolean visible) {

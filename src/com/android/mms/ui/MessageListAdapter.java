@@ -339,18 +339,4 @@ public class MessageListAdapter extends CursorAdapter {
             }
         }
     }
-
-    public void registerObservers() {
-        if (mCursor != null) {
-            mCursor.registerContentObserver(mChangeObserver);
-            mCursor.registerDataSetObserver(mDataSetObserver);
-        }
-    }
-
-    public void unregisterObservers() {
-        if (mCursor != null) {
-            mCursor.unregisterContentObserver(mChangeObserver);
-            mCursor.unregisterDataSetObserver(mDataSetObserver);
-        }
-    }
 }

@@ -19,17 +19,20 @@
     <string name="new_message">"Nová zpráva"</string>
     <string name="create_new_message">"Napsat novou zprávu"</string>
     <string name="menu_call_back">"Volat odesílatele <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email">"Odeslat e-mail adresátovi <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"Napsat"</string>
     <string name="menu_preferences">"Nastavení"</string>
-    <string name="menu_send_email">"Odeslat e-mail adresátovi <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_add_address_to_contacts">"Přidat <xliff:g id="NAME">%s</xliff:g> mezi Kontakty"</string>
+    <string name="menu_call">"Volat"</string>
     <string name="menu_delete_all">"Smazat konverzace"</string>
-    <string name="menu_delete">"Smazat"</string>
+    <!-- no translation found for menu_delete (1851666911396479006) -->
+    <skip />
     <string name="menu_undelivered_messages">"Nedoručené zprávy"</string>
-    <string name="menu_view">"Zobrazit"</string>
+    <!-- no translation found for menu_view (7448852683948080108) -->
+    <skip />
     <string name="refreshing">"Obnovování..."</string>
     <string name="has_draft">"Koncept"</string>
-    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
     <skip />
     <string name="anonymous_recipient">"Anonymní"</string>
     <string name="no_subject_view">"(Předmět neuveden)"</string>
@@ -59,6 +62,7 @@
     <string name="move_down">"Přesunout dolů"</string>
     <string name="remove_slide">"Odstranit snímek"</string>
     <string name="add_slide">"Přidat snímek"</string>
+    <string name="add_slide_hint">"Umožňuje vytvořit nový snímek."</string>
     <string name="discard_slideshow">"Zahodit prezentaci"</string>
     <string name="remove_text">"Odstranit text"</string>
     <string name="add_picture">"Přidat fotografii"</string>
@@ -67,19 +71,19 @@
     <string name="remove_music">"Odstranit hudbu"</string>
     <string name="add_video">"Přidat video"</string>
     <string name="remove_video">"Odstranit video"</string>
-    <string name="add_slide_hint">"Umožňuje vytvořit nový snímek"</string>
-    <string name="to_hint">"Komu:"</string>
     <string name="compose_title">"Napsat"</string>
+    <string name="to_hint">"Komu:"</string>
     <string name="subject_hint">"Předmět"</string>
     <string name="add_attachment">"Připojit přílohu"</string>
     <string name="add_subject">"Přidat předmět"</string>
     <string name="discard">"Zahodit"</string>
+    <string name="view">"Zobrazit"</string>
     <string name="replace">"Nahradit"</string>
     <string name="remove">"Odstranit"</string>
     <string name="send">"Odeslat"</string>
     <string name="all_threads">"Všechny konverzace"</string>
-    <string name="type_to_compose_text_enter_to_send">"Napište zprávu a odešlete ji stiskem tlačítka Enter."</string>
-    <string name="view">"Zobrazit"</string>
+    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
+    <skip />
     <string name="open_keyboard_to_compose_message">"Otevřete klávesnici a napište zprávu."</string>
     <string name="image_too_large">"Fotografie je příliš velká"</string>
     <string name="ask_for_automatically_resize">"Přizpůsobit velikost fotografie před odesláním?"</string>
@@ -90,7 +94,7 @@
     <string name="failed_to_add_media">"Tuto položku (<xliff:g id="NAME">%1$s</xliff:g>) nelze do zprávy přidat."</string>
     <string name="failed_to_resize_image">"Velikost fotografie se nepodařilo přizpůsobit."</string>
     <string name="resize_image_error_information">"Velikost fotografie byla přizpůsobena. Přesto je příliš velká a nelze ji odeslat."</string>
-    <string name="forward_prefix">"Fwd:"</string>
+    <string name="forward_prefix">"Fwd: "</string>
     <string name="discard_message">"Zahodit"</string>
     <string name="discard_message_reason">"Zpráva bude zrušena, protože neobsahuje žádné platné příjemce."</string>
     <string name="has_invalid_recipient">"Neplatní příjemci: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
@@ -109,8 +113,8 @@
     <string name="preview_slideshow">"Náhled"</string>
     <string name="replace_image">"Nahradit fotografii"</string>
     <string name="duration_sec">"Trvání (<xliff:g id="DURATION">%s</xliff:g> s)"</string>
-    <string name="duration_selector_title">"Doba trvání snímku"</string>
-    <string name="layout_selector_title">"Rozložení prezentace"</string>
+    <string name="duration_selector_title">"Doba trvání snímku "</string>
+    <string name="layout_selector_title">"Rozložení prezentace "</string>
     <string name="layout_top">"Rozložení (nahoře)"</string>
     <string name="layout_bottom">"Rozložení (dole)"</string>
     <string name="type_to_compose_text_or_leave_blank">"Zadejte text nebo nechte prázdné."</string>
@@ -142,9 +146,6 @@
     <string name="pref_notification_settings_title">"Nastavení oznámení"</string>
     <string name="pref_mms_settings_title">"Nastavení MMS"</string>
     <string name="pref_sms_settings_title">"Nastavení SMS"</string>
-    <string name="pref_default_mms_max_size">"500000"</string>
-    <string name="pref_default_mms_creation_mode">"omezeno"</string>
-    <string name="pref_default_mms_resubmission_mode">"omezeno"</string>
     <string name="pref_summary_manage_sim_messages">"Umožňuje spravovat zprávy uložené na kartě SIM"</string>
     <string name="pref_summary_mms_delivery_reports">"Potvrzení o doručení je vyžadováno pro každou odeslanou zprávu"</string>
     <string name="pref_summary_mms_read_reports">"Potvrzení o přečtení je vyžadováno pro každou odeslanou zprávu"</string>
@@ -162,31 +163,32 @@
     <string name="pref_summary_mms_auto_retrieval">"Automaticky načítat zprávy"</string>
     <string name="pref_title_mms_retrieval_during_roaming">"Automatické načítání při roamingu"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"Zprávy jsou automaticky načítány i při roamingu"</string>
-    <string name="to_label">"Komu:"</string>
+    <string name="to_label">"Komu: "</string>
     <string name="confirm_dialog_title">"Smazat"</string>
     <string name="confirm_delete_conversation">"Celá konverzace bude smazána."</string>
     <string name="confirm_delete_all_conversations">"Všechny konverzace budou smazány."</string>
     <string name="confirm_delete_message">"Zpráva bude smazána."</string>
     <string name="confirm_delete_all_messages">"Celá konverzace bude smazána."</string>
+    <string name="confirm_delete_all_SIM_messages">"Všechny zprávy na kartě SIM budou smazány."</string>
     <string name="cannot_get_details">"Podrobnosti se nepodařilo zobrazit."</string>
     <string name="message_details_title">"Podrobnosti zprávy"</string>
-    <string name="message_type_label">"Typ:"</string>
+    <string name="message_type_label">"Typ: "</string>
     <string name="text_message">"Zpráva SMS"</string>
     <string name="multimedia_message">"Zpráva MMS"</string>
     <string name="multimedia_notification">"Oznamování MMS"</string>
-    <string name="from_label">"Od:"</string>
-    <string name="to_address_label">"Komu:"</string>
-    <string name="bcc_label">"Skrytá kopie:"</string>
-    <string name="sent_label">"Odesláno:"</string>
-    <string name="received_label">"Přijato:"</string>
-    <string name="saved_label">"Uloženo:"</string>
-    <string name="subject_label">"Předmět:"</string>
-    <string name="message_size_label">"Velikost zprávy:"</string>
-    <string name="priority_label">"Priorita:"</string>
+    <string name="from_label">"Od: "</string>
+    <string name="to_address_label">"Komu: "</string>
+    <string name="bcc_label">"Skrytá kopie: "</string>
+    <string name="sent_label">"Odesláno: "</string>
+    <string name="received_label">"Přijato: "</string>
+    <string name="saved_label">"Uloženo: "</string>
+    <string name="subject_label">"Předmět: "</string>
+    <string name="message_size_label">"Velikost zprávy: "</string>
+    <string name="priority_label">"Priorita: "</string>
     <string name="priority_high">"Vysoká"</string>
     <string name="priority_normal">"Běžná"</string>
     <string name="priority_low">"Nízká"</string>
-    <string name="message_class_label">"Třída zprávy:"</string>
+    <string name="message_class_label">"Třída zprávy: "</string>
     <string name="menu_edit">"Upravit"</string>
     <string name="menu_retry_sending">"Odeslat znovu"</string>
     <string name="menu_retry_sending_all">"Odeslat znovu všechny"</string>
@@ -205,23 +207,23 @@
     <string name="status_failed">"Nedoručeno"</string>
     <string name="status_unread">"Nepřečtena"</string>
     <string name="status_rejected">"Odmítnuta"</string>
-    <string name="recipient_label">"Příjemce:"</string>
-    <string name="status_label">"Stav:"</string>
+    <string name="recipient_label">"Příjemce: "</string>
+    <string name="status_label">"Stav: "</string>
     <string name="attach_image">"Fotografie"</string>
-    <!-- no translation found for attach_take_photo (4280601313184373837) -->
-    <skip />
-    <!-- no translation found for attach_video (4264272693501538294) -->
-    <skip />
-    <!-- no translation found for attach_record_video (3099814114743078615) -->
-    <skip />
+    <string name="attach_take_photo">"Fotografovat"</string>
+    <string name="attach_video">"Videa"</string>
+    <string name="attach_record_video">"Natočit video"</string>
     <string name="attach_sound">"Zvuk"</string>
     <string name="attach_record_sound">"Nahrát zvuk"</string>
-    <!-- no translation found for attach_slideshow (3497422151091037063) -->
-    <skip />
+    <string name="attach_slideshow">"Prezentace"</string>
     <string name="select_bottom_text">"Dolní text"</string>
     <string name="select_top_text">"Horní text"</string>
     <string name="notification_multiple">"Nepřečtené zprávy: <xliff:g id="COUNT">%s</xliff:g>."</string>
     <string name="notification_multiple_title">"Nové zprávy"</string>
+    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
+    <skip />
+    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
+    <skip />
     <string name="sim_full_title">"Paměť karty SIM je plná"</string>
     <string name="sim_full_body">"Smažte některé zprávy a vytvořte tak místo pro nové."</string>
     <string name="type_audio">"zvuk"</string>
@@ -229,8 +231,7 @@
     <string name="type_video">"video"</string>
     <string name="confirm">"Potvrdit"</string>
     <string name="message_send_read_report">"Bude odesláno potvrzení o přečtení."</string>
-    <string name="url_list_label">"Zvolit odkaz"</string>
-    <string name="message_queued">"Momentálně nelze zprávu odeslat. Zpráva bude odeslána, jakmile bude služba dostupná."</string>
+    <string name="message_queued">"Zprávu momentálně nelze odeslat. Zpráva bude odeslána, jakmile bude služba dostupná."</string>
     <string name="no_subject">"(Předmět neuveden)"</string>
     <string name="unknown_sender">"Neznámý odesílatel"</string>
     <string name="dl_failure_notification">"Stažení zprávy <xliff:g id="SUBJECT">%s</xliff:g> od uživatele <xliff:g id="FROM">%s</xliff:g> se nezdařilo."</string>

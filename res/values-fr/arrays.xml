@@ -15,68 +15,6 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string-array name="pref_entries_message_ring_tone">
-    <item>"Rêve robotique"</item>
-    <item>"Cauchemar robotique"</item>
-    <item>"Mouton électrique"</item>
-  </string-array>
-  <string-array name="pref_entry_values_message_ring_tone">
-    <item>"rêve_robotique"</item>
-    <item>"cauchemar_robotique"</item>
-    <item>"mouton_électrique"</item>
-  </string-array>
-  <string-array name="pref_entries_mms_creation_mode">
-    <item>"Limité"</item>
-    <item>"Avertissement"</item>
-    <item>"Libre"</item>
-  </string-array>
-  <string-array name="pref_entry_values_mms_creation_mode">
-    <item>"limité"</item>
-    <item>"avertissement"</item>
-    <item>"libre"</item>
-  </string-array>
-  <string-array name="pref_entries_mms_expiry">
-    <item>"une heure"</item>
-    <item>"trois heures"</item>
-    <item>"un jour"</item>
-    <item>"une semaine"</item>
-  </string-array>
-  <string-array name="pref_entry_values_mms_expiry">
-    <item>"3600"</item>
-    <item>"10800"</item>
-    <item>"86400"</item>
-    <item>"604800"</item>
-  </string-array>
-  <string-array name="pref_entries_mms_max_size">
-    <item>"100K"</item>
-    <item>"200K"</item>
-    <item>"500K"</item>
-  </string-array>
-  <string-array name="pref_entry_values_mms_max_size">
-    <item>"100000L"</item>
-    <item>"200000L"</item>
-    <item>"500000L"</item>
-  </string-array>
-  <string-array name="pref_entries_mms_priority">
-    <item>"faible"</item>
-    <item>"moyen"</item>
-    <item>"élevé"</item>
-  </string-array>
-  <string-array name="pref_entry_values_mms_priority">
-    <item>"faible"</item>
-    <item>"moyen"</item>
-    <item>"élevé"</item>
-  </string-array>
-  <string-array name="pref_entries_mms_resubmission_mode">
-    <item>"Limité"</item>
-    <item>"Avertissement"</item>
-    <item>"Libre"</item>
-  </string-array>
-  <string-array name="pref_entry_values_mms_resubmission_mode">
-    <item>"limité"</item>
-    <item>"avertissement"</item>
-    <item>"libre"</item>
-  </string-array>
   <string-array name="default_smiley_texts">
     <item>":-)"</item>
     <item>":-("</item>
@@ -102,8 +40,8 @@
     <item>"Clin d\'œil"</item>
     <item>"Tire la langue"</item>
     <item>"Surpris"</item>
-    <item>"Bisous"</item>
-    <item>"Crier"</item>
+    <item>"Bisou"</item>
+    <item>"Hurle"</item>
     <item>"Cool"</item>
     <item>"Argent"</item>
     <item>"Embarrassé"</item>
@@ -112,7 +50,7 @@
     <item>"Indécis"</item>
     <item>"Pleure"</item>
     <item>"Motus et bouche cousue"</item>
-    <item>"Rire"</item>
+    <item>"Rigole"</item>
     <item>"Confus"</item>
   </string-array>
 </resources>

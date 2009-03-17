@@ -46,6 +46,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.drm.mobile1.DrmException;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -202,9 +203,14 @@ public class SlideshowModel extends Model
 
                 PduPart part = new PduPart();
 
-                // Set Charset if it's a text media.
                 if (media.isText()) {
-                    part.setCharset(((TextModel) media).getCharset());
+                    TextModel text = (TextModel) media;
+                    // Don't create empty text part.
+                    if (TextUtils.isEmpty(text.getText())) {
+                        continue;
+                    }
+                    // Set Charset if it's a text media.
+                    part.setCharset(text.getCharset());
                 }
 
                 // Set Content-Type.
@@ -539,4 +545,29 @@ public class SlideshowModel extends Model
         ContentRestriction cr = ContentRestrictionFactory.getContentRestriction();
         cr.checkMessageSize(mCurrentMessageSize, increaseSize, mContentResolver);
     }
+    
+    /**
+     * Determines whether this is a "simple" slideshow.
+     * Criteria:
+     * - Exactly one slide
+     * - Exactly one multimedia attachment, but no audio
+     * - It can optionally have a caption
+    */
+    public boolean isSimple() {
+        // There must be one (and only one) slide.
+        if (size() != 1)
+            return false;
+        
+        SlideModel slide = get(0);
+        // The slide must have either an image or video, but not both.
+        if (!(slide.hasImage() ^ slide.hasVideo()))
+            return false;
+     
+        // No audio allowed.
+        if (slide.hasAudio())
+            return false;
+        
+        return true;
+    }
+
 }

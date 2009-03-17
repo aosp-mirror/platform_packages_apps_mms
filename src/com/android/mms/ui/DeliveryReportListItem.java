@@ -18,7 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
-import com.android.mms.util.ContactNameCache;
+import com.android.mms.util.ContactInfoCache;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -53,7 +53,7 @@ public class DeliveryReportListItem extends LinearLayout {
     }
 
     public final void bind(String recipient, String status) {
-        ContactNameCache cache = ContactNameCache.getInstance();
+        ContactInfoCache cache = ContactInfoCache.getInstance();
         Context context = getContext();
         // Recipient
         mRecipientView.setText(cache.getContactName(context, recipient));
