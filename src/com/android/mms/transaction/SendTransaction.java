@@ -85,7 +85,8 @@ public class SendTransaction extends Transaction implements Runnable {
         try {
             RateController rateCtlr = RateController.getInstance();
             if (rateCtlr.isLimitSurpassed() && !rateCtlr.isAllowedByUser()) {
-                throw new MmsException("Sending rate limit surpassed.");
+                Log.e(TAG, "Sending rate limit surpassed.");
+                return;
             }
 
             // Load M-Send.req from outbox
@@ -110,13 +111,17 @@ public class SendTransaction extends Transaction implements Runnable {
 
             SendConf conf = (SendConf) new PduParser(response).parse();
             if (conf == null) {
-                throw new MmsException("None M-Send.conf received.");
+                Log.e(TAG, "No M-Send.conf received.");
             }
 
             // Check whether the responding Transaction-ID is consistent
             // with the sent one.
-            if (!Arrays.equals(sendReq.getTransactionId(), conf.getTransactionId())) {
-                throw new MmsException("Inconsistent Transaction-ID.");
+            byte[] reqId = sendReq.getTransactionId();
+            byte[] confId = conf.getTransactionId();
+            if (!Arrays.equals(reqId, confId)) {
+                Log.e(TAG, "Inconsistent Transaction-ID: req="
+                        + new String(reqId) + ", conf=" + new String(confId));
+                return;
             }
 
             // From now on, we won't save the whole M-Send.conf into
@@ -129,7 +134,8 @@ public class SendTransaction extends Transaction implements Runnable {
             if (respStatus != PduHeaders.RESPONSE_STATUS_OK) {
                 SqliteWrapper.update(mContext, mContext.getContentResolver(),
                                      mSendReqURI, values, null, null);
-                throw new MmsException("Server returns an error code: " + respStatus);
+                Log.e(TAG, "Server returned an error code: " + respStatus);
+                return;
             }
 
             String messageId = PduPersister.toIsoString(conf.getMessageId());
@@ -142,26 +148,8 @@ public class SendTransaction extends Transaction implements Runnable {
 
             mTransactionState.setState(TransactionState.SUCCESS);
             mTransactionState.setContentUri(uri);
-        } catch (IOException e) {
-            if (LOCAL_LOGV) {
-                Log.v(TAG, "Unexpected IOException", e);
-            }
-        } catch (MmsException e) {
-            if (LOCAL_LOGV) {
-                Log.v(TAG, "Unexpected MmsException", e);
-            }
-        } catch (ClassCastException e) {
-            if (LOCAL_LOGV) {
-                Log.v(TAG, "Unexpected ClassCastException", e);
-            }
-        } catch (RuntimeException e) {
-            if (LOCAL_LOGV) {
-                Log.v(TAG, "Unexpected RuntimeException", e);
-            }
-        } catch (Exception e) {
-            if (LOCAL_LOGV) {
-                Log.v(TAG, "Unexpected Exception.", e);
-            }
+        } catch (Throwable t) {
+            Log.e(TAG, Log.getStackTraceString(t));
         } finally {
             if (mTransactionState.getState() != TransactionState.SUCCESS) {
                 mTransactionState.setState(TransactionState.FAILED);

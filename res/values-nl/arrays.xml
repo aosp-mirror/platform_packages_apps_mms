@@ -15,74 +15,12 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string-array name="pref_entries_message_ring_tone">
-    <item>"Robo Dream"</item>
-    <item>"Robo Nightmare"</item>
-    <item>"Electric Sheep"</item>
-  </string-array>
-  <string-array name="pref_entry_values_message_ring_tone">
-    <item>"robo_dream"</item>
-    <item>"robo_nightmare"</item>
-    <item>"electric_sheep"</item>
-  </string-array>
-  <string-array name="pref_entries_mms_creation_mode">
-    <item>"Beperkt"</item>
-    <item>"Waarschuwing"</item>
-    <item>"Vrij"</item>
-  </string-array>
-  <string-array name="pref_entry_values_mms_creation_mode">
-    <item>"beperkt"</item>
-    <item>"waarschuwing"</item>
-    <item>"vrij"</item>
-  </string-array>
-  <string-array name="pref_entries_mms_expiry">
-    <item>"één uur"</item>
-    <item>"drie uur"</item>
-    <item>"één dag"</item>
-    <item>"één week"</item>
-  </string-array>
-  <string-array name="pref_entry_values_mms_expiry">
-    <item>"3600"</item>
-    <item>"10800"</item>
-    <item>"86400"</item>
-    <item>"604800"</item>
-  </string-array>
-  <string-array name="pref_entries_mms_max_size">
-    <item>"100K"</item>
-    <item>"200K"</item>
-    <item>"500K"</item>
-  </string-array>
-  <string-array name="pref_entry_values_mms_max_size">
-    <item>"100000L"</item>
-    <item>"200000L"</item>
-    <item>"500000L"</item>
-  </string-array>
-  <string-array name="pref_entries_mms_priority">
-    <item>"laag"</item>
-    <item>"gemiddeld"</item>
-    <item>"hoog"</item>
-  </string-array>
-  <string-array name="pref_entry_values_mms_priority">
-    <item>"laag"</item>
-    <item>"gemiddeld"</item>
-    <item>"hoog"</item>
-  </string-array>
-  <string-array name="pref_entries_mms_resubmission_mode">
-    <item>"Beperkt"</item>
-    <item>"Waarschuwing"</item>
-    <item>"Vrij"</item>
-  </string-array>
-  <string-array name="pref_entry_values_mms_resubmission_mode">
-    <item>"beperkt"</item>
-    <item>"waarschuwing"</item>
-    <item>"vrij"</item>
-  </string-array>
   <string-array name="default_smiley_texts">
     <item>":-)"</item>
     <item>":-("</item>
     <item>";-)"</item>
     <item>":-P"</item>
-    <item>"=-O"</item>
+    <item>"Err:502"</item>
     <item>":-*"</item>
     <item>":O"</item>
     <item>"B-)"</item>

@@ -22,7 +22,7 @@ import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.TextModel;
 import com.android.mms.ui.MessageListAdapter.ColumnsMap;
-import com.android.mms.util.ContactNameCache;
+import com.android.mms.util.ContactInfoCache;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.MultimediaMessagePdu;
@@ -43,7 +43,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 /**
- * This object holds some brief information of a message.
+ * Mostly immutable model for an SMS/MMS message.
+ *
+ * <p>The only mutable field is the cached formatted message member,
+ * the formatting of which is done outside this model in MessageListItem.
  */
 public class MessageItem {
     private static String TAG = "MessageItem";
@@ -61,6 +64,12 @@ public class MessageItem {
     String mContact;
     String mBody; // Body of SMS, first text of MMS.
 
+    // The only non-immutable field.  Not synchronized, as access will
+    // only be from the main GUI thread.  Worst case if accessed from
+    // another thread is it'll return null and be set again from that
+    // thread.
+    CharSequence mCachedFormattedMessage;
+
     // Fields for MMS only.
     Uri mMessageUri;
     int mMessageType;
@@ -77,8 +86,9 @@ public class MessageItem {
         mContext = context;
         mThreadType = threadType;
         mMsgId = cursor.getLong(columnsMap.mColumnMsgId);
-
+        
         if ("sms".equals(type)) {
+            ContactInfoCache infoCache = ContactInfoCache.getInstance();
             mReadReport = false; // No read reports in sms
             mDeliveryReport = (cursor.getLong(columnsMap.mColumnSmsStatus)
                     != Sms.STATUS_NONE);
@@ -95,11 +105,12 @@ public class MessageItem {
                 } else {
                     mContact = String.format(
                             context.getString(R.string.broadcast_from_to),
-                            meString, mAddress);
+                            meString,
+                            infoCache.getContactName(context, mAddress));
                 }
             } else {
                 // For incoming messages, the ADDRESS field contains the sender.
-                mContact = ContactNameCache.getInstance().getContactName(context, mAddress);
+                mContact = infoCache.getContactName(context, mAddress);
             }
             mBody = cursor.getString(columnsMap.mColumnSmsBody);
 
@@ -150,7 +161,6 @@ public class MessageItem {
                 String report = cursor.getString(columnsMap.mColumnMmsDeliveryReport);
                 if ((report == null) || !mAddress.equals(context.getString(
                         R.string.messagelist_sender_self))) {
-                    Log.e(TAG, "Value for delivery report was null.");
                     mDeliveryReport = false;
                 } else {
                     int reportInt;
@@ -167,7 +177,6 @@ public class MessageItem {
                 report = cursor.getString(columnsMap.mColumnMmsReadReport);
                 if ((report == null) || !mAddress.equals(context.getString(
                         R.string.messagelist_sender_self))) {
-                    Log.e(TAG, "Value for read report was null.");
                     mReadReport = false;
                 } else {
                     int reportInt;
@@ -205,7 +214,7 @@ public class MessageItem {
     private void interpretFrom(EncodedStringValue from) {
         if (from != null) {
             mAddress = from.getString();
-            mContact = ContactNameCache.getInstance().getContactName(mContext, mAddress);
+            mContact = ContactInfoCache.getInstance().getContactName(mContext, mAddress);
         } else {
             mContact = mAddress = mContext.getString(
                     R.string.anonymous_recipient);
@@ -231,7 +240,7 @@ public class MessageItem {
     public boolean isDownloaded() {
         return (mMessageType != PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND);
     }
-    
+
     public boolean isOutgoingMessage() {
         boolean isOutgoingMms = isMms() && (mBoxId == Mms.MESSAGE_BOX_OUTBOX);
         boolean isOutgoingSms = isSms()
@@ -239,5 +248,18 @@ public class MessageItem {
                                             || (mBoxId == Sms.MESSAGE_TYPE_OUTBOX)
                                             || (mBoxId == Sms.MESSAGE_TYPE_QUEUED));
         return isOutgoingMms || isOutgoingSms;
+    }
+
+    // Note: This is the only mutable field in this class.  Think of
+    // mCachedFormattedMessage as a C++ 'mutable' field on a const
+    // object, with this being a lazy accessor whose logic to set it
+    // is outside the class for model/view separation reasons.  In any
+    // case, please keep this class conceptually immutable.
+    public void setCachedFormattedMessage(CharSequence formattedMessage) {
+        mCachedFormattedMessage = formattedMessage;
+    }
+
+    public CharSequence getCachedFormattedMessage() {
+        return mCachedFormattedMessage;
     }
 }

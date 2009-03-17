@@ -3,11 +3,11 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
-LOCAL_MODULE_TAGS := eng development
-
 LOCAL_SRC_FILES := $(call all-java-files-under, src)
 
 LOCAL_PACKAGE_NAME := Mms
+
+LOCAL_REQUIRED_MODULES := SoundRecorder
 
 include $(BUILD_PACKAGE)
 

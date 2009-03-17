@@ -19,6 +19,7 @@ package com.android.mms.ui;
 
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
+import com.android.mms.model.MediaModel;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.CarrierContentRestriction;
@@ -389,6 +390,7 @@ public class MessageUtils {
         } else {
             format_flags |= DateUtils.FORMAT_12HOUR;
         }
+
         // If the message is from a different year, show the date and year.
         if (then.year != now.year) {
             format_flags |= DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_DATE;
@@ -398,6 +400,13 @@ public class MessageUtils {
         } else {
             // Otherwise, if the message is from today, show the time.
             format_flags |= DateUtils.FORMAT_SHOW_TIME;
+        }
+
+        // If the caller has asked for full details, make sure to show the date
+        // and time no matter what we've determined above (but still make showing
+        // the year only happen if it is a different year from today).
+        if (fullFormat) {
+            format_flags |= (DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME);
         }
 
         return DateUtils.formatDateTime(context, when, format_flags);
@@ -419,13 +428,15 @@ public class MessageUtils {
     /**
      * @parameter recipientIds space-separated list of ids
      */
-    public static String getRecipientsByIds(Context context, String recipientIds) {
+    public static String getRecipientsByIds(Context context, String recipientIds,
+                                            boolean allowQuery) {
         String value = sRecipientAddress.get(recipientIds);
         if (value != null) {
             return value;
         }
         if (!TextUtils.isEmpty(recipientIds)) {
-            StringBuilder addressBuf = extractIdsToAddresses(context, recipientIds);
+            StringBuilder addressBuf = extractIdsToAddresses(
+                    context, recipientIds, allowQuery);
             if (addressBuf == null) {
                 // temporary error?  Don't memoize.
                 return "";
@@ -438,22 +449,30 @@ public class MessageUtils {
         return value;
     }
 
-    private static StringBuilder extractIdsToAddresses(Context context,
-            String recipients) {
+    private static StringBuilder extractIdsToAddresses(Context context, String recipients,
+                                                       boolean allowQuery) {
         StringBuilder addressBuf = new StringBuilder();
         String[] recipientIds = recipients.split(" ");
         boolean firstItem = true;
         for (String recipientId : recipientIds) {
             String value = sRecipientAddress.get(recipientId);
+
             if (value == null) {
-                Uri uri = Uri.parse("content://mms-sms/canonical-address/" +
-                                    recipientId);
+                if (!allowQuery) {
+                    // when allowQuery is false, if any value from sRecipientAddress.get() is null,
+                    // return null for the whole thing. We don't want to stick partial result
+                    // into sRecipientAddress for multiple recipient ids.
+                    return null;
+                }
+
+                Uri uri = Uri.parse("content://mms-sms/canonical-address/" + recipientId);
                 Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
                                                uri, null, null, null, null);
                 if (c != null) {
                     try {
                         if (c.moveToFirst()) {
                             value = c.getString(0);
+                            sRecipientAddress.put(recipientId, value);                            
                         }
                     } finally {
                         c.close();
@@ -463,7 +482,6 @@ public class MessageUtils {
             if (value == null) {
                 continue;
             }
-            sRecipientAddress.put(recipientId, value);
             if (firstItem) {
                 firstItem = false;
             } else {
@@ -488,7 +506,7 @@ public class MessageUtils {
             try {
                 if ((cursor.getCount() == 1) && cursor.moveToFirst()) {
                     String address = getRecipientsByIds(context,
-                            cursor.getString(0));
+                            cursor.getString(0), true /* allow query */);
                     if (!TextUtils.isEmpty(address)) {
                         return address;
                     }
@@ -544,22 +562,46 @@ public class MessageUtils {
         }
     }
 
+    public static void viewSimpleSlideshow(Context context, SlideshowModel slideshow) {
+        if (!slideshow.isSimple()) {
+            throw new IllegalArgumentException(
+                    "viewSimpleSlideshow() called on a non-simple slideshow");
+        }
+        SlideModel slide = slideshow.get(0);
+        MediaModel mm = null;
+        if (slide.hasImage()) {
+            mm = slide.getImage();
+        } else if (slide.hasVideo()) {
+            mm = slide.getVideo();
+        }
+        
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setType(mm.getContentType());
+        intent.setData(mm.getUri());
+        context.startActivity(intent);
+    }
+    
     public static void showErrorDialog(Context context,
             String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-        builder.setIcon(R.drawable.ic_sms_error);
+        builder.setIcon(R.drawable.ic_sms_mms_not_delivered);
         builder.setTitle(title);
         builder.setMessage(message);
         builder.setPositiveButton(android.R.string.ok, null);
         builder.show();
     }
 
+    /**
+     * The quality parameter which is used to compress JPEG images.
+     */
+    public static final int IMAGE_COMPRESSION_QUALITY = 80;
+
     public static Uri saveBitmapAsPart(Context context, Uri messageUri, Bitmap bitmap)
             throws MmsException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        bitmap.compress(CompressFormat.JPEG,
-                MmsConfig.IMAGE_COMPRESSION_QUALITY, os);
+        bitmap.compress(CompressFormat.JPEG, IMAGE_COMPRESSION_QUALITY, os);
 
         PduPart part = new PduPart();
 
@@ -574,24 +616,42 @@ public class MessageUtils {
     }
 
     public static void markAsRead(Context context, long threadId) {
+        MessageUtils.handleReadReport(context, threadId,
+                PduHeaders.READ_STATUS_READ, null);
+        
         ContentValues values = new ContentValues(1);
         values.put("read", READ_THREAD);
         SqliteWrapper.update(context, context.getContentResolver(),
                 ContentUris.withAppendedId(Threads.CONTENT_URI, threadId),
                 values, "read=0", null);
+        
         MessagingNotification.updateNewMessageIndicator(context, threadId);
     }
 
     public static void resizeImageAsync(final Context context,
             final Uri imageUri, final Handler handler,
             final ResizeImageResultCallback cb) {
-        final ProgressDialog progressDialog = ProgressDialog.show(
-                context,
-                context.getText(R.string.image_too_large),
-                context.getText(R.string.compressing),
-                true,
-                false);
 
+        // Show a progress dialog if the resize hasn't finished
+        // within one second.
+
+        // Make the progress dialog.
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle(context.getText(R.string.image_too_large));
+        progressDialog.setMessage(context.getText(R.string.compressing));
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        
+        // Stash the runnable for showing it away so we can cancel
+        // it later if the resize completes ahead of the deadline.
+        final Runnable showProgress = new Runnable() {
+            public void run() {
+                progressDialog.show();
+            }
+        };
+        // Schedule it for one second from now.
+        handler.postDelayed(showProgress, 1000);
+        
         new Thread(new Runnable() {
             public void run() {
                 final PduPart part;
@@ -601,6 +661,9 @@ public class MessageUtils {
                         CarrierContentRestriction.IMAGE_WIDTH_LIMIT,
                         CarrierContentRestriction.IMAGE_HEIGHT_LIMIT);
                 } finally {
+                    // Cancel pending show of the progress dialog if necessary.
+                    handler.removeCallbacks(showProgress);
+                    // Dismiss the progress dialog if it's around.
                     progressDialog.dismiss();
                 }
 
@@ -611,39 +674,6 @@ public class MessageUtils {
                 });
             }
         }).start();
-    }
-
-    public static void showResizeConfirmDialog(Context context,
-            OnClickListener resizeListener,
-            final Runnable cancel) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context)
-            .setIcon(R.drawable.ic_sms_error)
-            .setTitle(R.string.image_too_large)
-            .setMessage(R.string.ask_for_automatically_resize)
-            .setPositiveButton(R.string.resize, resizeListener);
-
-        if (cancel == null) {
-            builder.setCancelable(true)
-                .setNegativeButton(R.string.no, null);
-        } else {
-            OnClickListener clickCancel = new OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    cancel.run();
-                }
-            };
-
-            OnCancelListener cancelListener = new OnCancelListener() {
-                public void onCancel(DialogInterface dialog) {
-                    cancel.run();
-                }
-            };
-
-            builder.setNegativeButton(R.string.no, clickCancel)
-                .setOnCancelListener(cancelListener);
-        }
-
-
-        builder.show();
     }
 
     public static void showDiscardDraftConfirmDialog(Context context,

@@ -28,29 +28,29 @@
     <item>":-!"</item>
     <item>":-["</item>
     <item>"O:-)"</item>
-    <item>":-\\"</item>
-    <item>":\'("</item>
+    <item>":-\\\\\\\\"</item>
+    <item>":\\\\\\\'("</item>
     <item>":-X"</item>
     <item>":-D"</item>
     <item>"o_O"</item>
   </string-array>
   <string-array name="default_smiley_names">
-    <item>"Contento"</item>
-    <item>"Triste"</item>
-    <item>"Guiño"</item>
-    <item>"Sacando la lengua"</item>
-    <item>"Sorprendido"</item>
-    <item>"Besando"</item>
-    <item>"Gritando"</item>
-    <item>"Atractivo"</item>
-    <item>"Dinero en la boca"</item>
-    <item>"Metedura de pata"</item>
-    <item>"Avergonzado"</item>
-    <item>"Ángel"</item>
-    <item>"Indeciso"</item>
-    <item>"Llorando"</item>
-    <item>"Labios sellados"</item>
-    <item>"Riendo"</item>
-    <item>"Confuso"</item>
+    <item>"Glad"</item>
+    <item>"Trist"</item>
+    <item>"Blunker"</item>
+    <item>"Rekker tunge"</item>
+    <item>"Overrasket"</item>
+    <item>"Kys"</item>
+    <item>"Roper"</item>
+    <item>"Kul"</item>
+    <item>"Pengemunn"</item>
+    <item>"Fot i munnen"</item>
+    <item>"Flau"</item>
+    <item>"Engel"</item>
+    <item>"Usikker"</item>
+    <item>"Gråter"</item>
+    <item>"Stille som graven"</item>
+    <item>"Ler"</item>
+    <item>"Forvirret"</item>
   </string-array>
 </resources>

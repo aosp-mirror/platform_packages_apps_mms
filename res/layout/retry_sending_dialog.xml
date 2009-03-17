@@ -35,7 +35,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_sms_error" />
+            android:src="@drawable/ic_sms_mms_not_delivered" />
 
         <TextView android:id="@+id/title_text_view"
             android:layout_width="wrap_content"

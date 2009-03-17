@@ -43,6 +43,17 @@ public class TransactionSettings {
     private String mProxyAddress;
     private int mProxyPort = -1;
 
+    private static final String[] APN_PROJECTION = {
+            Telephony.Carriers.TYPE,            // 0
+            Telephony.Carriers.MMSC,            // 1
+            Telephony.Carriers.MMSPROXY,        // 2
+            Telephony.Carriers.MMSPORT          // 3
+    };
+    private static final int COLUMN_TYPE         = 0;
+    private static final int COLUMN_MMSC         = 1;
+    private static final int COLUMN_MMSPROXY     = 2;
+    private static final int COLUMN_MMSPORT      = 3;
+    
     /**
      * Constructor that uses the default settings of the MMS Client.
      *
@@ -54,21 +65,23 @@ public class TransactionSettings {
         
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
                             Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI, "current"),
-                            null, selection, null, null);
+                            APN_PROJECTION, selection, null, null);
 
         if (cursor == null) {
             Log.e(TAG, "Apn is not found in Database!");
             return;
         }
 
+        boolean sawValidApn = false;
         try {
             while (cursor.moveToNext() && TextUtils.isEmpty(mServiceCenter)) {
                 // Read values from APN settings
-                if (isValidApnType(cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Carriers.TYPE)), Phone.APN_TYPE_MMS)) {
-                    mServiceCenter = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Carriers.MMSC));
-                    mProxyAddress = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Carriers.MMSPROXY));
+                if (isValidApnType(cursor.getString(COLUMN_TYPE), Phone.APN_TYPE_MMS)) {
+                    sawValidApn = true;
+                    mServiceCenter = cursor.getString(COLUMN_MMSC);
+                    mProxyAddress = cursor.getString(COLUMN_MMSPROXY);
                     if (isProxySet()) {
-                        String portString = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Carriers.MMSPORT));
+                        String portString = cursor.getString(COLUMN_MMSPORT);
                         try {
                             mProxyPort = Integer.parseInt(portString);
                         } catch (NumberFormatException e) {
@@ -79,6 +92,10 @@ public class TransactionSettings {
             }
         } finally {
             cursor.close();
+        }
+        
+        if (sawValidApn && TextUtils.isEmpty(mServiceCenter)) {
+            Log.e(TAG, "Invalid APN setting: MMSC is empty");
         }
     }
 
@@ -114,16 +131,12 @@ public class TransactionSettings {
     }
 
     static private boolean isValidApnType(String types, String requestType) {
-        String[] typeList;
-        // If unset, set to DEFAULT.
-        if (types == null || types.equals("")) {
-            typeList = new String[1];
-            typeList[0] = Phone.APN_TYPE_ALL;
-        } else {
-            typeList = types.split(",");
-        }
+        // If APN type is unspecified, assume APN_TYPE_ALL.
+        if (TextUtils.isEmpty(types)) {
+            return true;
+        } 
         
-        for (String t : typeList) {
+        for (String t : types.split(",")) {
             if (t.equals(requestType) || t.equals(Phone.APN_TYPE_ALL)) {
                 return true;
             }

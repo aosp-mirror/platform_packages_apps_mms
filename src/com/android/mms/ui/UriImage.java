@@ -17,7 +17,6 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.MmsConfig;
 import com.android.mms.model.ImageModel;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.util.SqliteWrapper;
@@ -33,6 +32,7 @@ import android.provider.Telephony.Mms.Part;
 import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -47,6 +47,7 @@ public class UriImage {
     private final Context mContext;
     private final Uri mUri;
     private String mContentType;
+    private String mPath;
     private String mSrc;
     private int mWidth;
     private int mHeight;
@@ -56,9 +57,39 @@ public class UriImage {
             throw new IllegalArgumentException();
         }
 
+        String scheme = uri.getScheme();
+        if (scheme.equals("content")) {
+            initFromContentUri(context, uri);
+        } else if (uri.getScheme().equals("file")) {
+            initFromFile(context, uri);
+        }
+        
+        mSrc = mPath.substring(mPath.lastIndexOf('/') + 1);
+        
+        // Some MMSCs appear to have problems with filenames
+        // containing a space.  So just replace them with
+        // underscores in the name, which is typically not
+        // visible to the user anyway.
+        mSrc = mSrc.replace(' ', '_');
+
         mContext = context;
         mUri = uri;
 
+        decodeBoundsInfo();
+    }
+
+    private void initFromFile(Context context, Uri uri) {
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        String extension = MimeTypeMap.getFileExtensionFromUrl(uri.toString());
+        mContentType = mimeTypeMap.getMimeTypeFromExtension(extension);
+        if (mContentType == null) {
+            throw new IllegalArgumentException(
+                    "Unable to determine extension for " + uri.toString());
+        }
+        mPath = uri.getPath();
+    }
+    
+    private void initFromContentUri(Context context, Uri uri) {
         Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
                             uri, null, null, null, null);
 
@@ -67,13 +98,12 @@ public class UriImage {
                     "Query on " + uri + " returns null result.");
         }
 
-        if ((c.getCount() != 1) || !c.moveToFirst()) {
-            c.close();
-            throw new IllegalArgumentException(
-                    "Query on " + uri + " returns 0 or multiple rows.");
-        }
-
         try {
+            if ((c.getCount() != 1) || !c.moveToFirst()) {
+                throw new IllegalArgumentException(
+                        "Query on " + uri + " returns 0 or multiple rows.");
+            }
+
             String filePath;
             if (ImageModel.isMmsUri(uri)) {
                 filePath = c.getString(c.getColumnIndexOrThrow(Part.FILENAME));
@@ -89,8 +119,7 @@ public class UriImage {
                 mContentType = c.getString(
                         c.getColumnIndexOrThrow(Images.Media.MIME_TYPE));
             }
-            mSrc = filePath.substring(filePath.lastIndexOf('/') + 1);
-            decodeBoundsInfo();
+            mPath = filePath;
         } finally {
             c.close();
         }
@@ -182,7 +211,7 @@ public class UriImage {
             }
 
             ByteArrayOutputStream os = new ByteArrayOutputStream();
-            b.compress(CompressFormat.JPEG, MmsConfig.IMAGE_COMPRESSION_QUALITY, os);
+            b.compress(CompressFormat.JPEG, MessageUtils.IMAGE_COMPRESSION_QUALITY, os);
             return os.toByteArray();
         } catch (FileNotFoundException e) {
             Log.e(TAG, e.getMessage(), e);

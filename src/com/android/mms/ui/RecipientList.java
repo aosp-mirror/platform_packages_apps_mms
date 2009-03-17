@@ -17,8 +17,9 @@
 
 package com.android.mms.ui;
 
-import com.android.internal.telephony.CallerInfo;
+import com.android.mms.MmsConfig;
 import com.android.mms.transaction.MessageSender;
+import com.android.mms.util.ContactInfoCache;
 
 import android.content.Context;
 import android.provider.Telephony.Mms;
@@ -75,6 +76,10 @@ public class RecipientList {
         private static final String PHONE_NUMBER_SEPARATORS = " ()-./";
 
         public static boolean isValid(String recipient) {
+            if (MmsConfig.DISABLE_MMS) {
+                return isPhoneNumber(recipient);
+            }
+            
             return isPhoneNumber(recipient) || Mms.isEmailAddress(recipient);
         }
 
@@ -190,19 +195,24 @@ public class RecipientList {
         public static String buildNameAndNumber(String name, String number) {
             // Format like this: Mike Cleron <(650) 555-1234>
             //                   Erick Tseng <(650) 555-1212>
+            //                   Tutankhamun <tutank1341@gmail.com>
             //                   (408) 555-1289
-
-            if (!TextUtils.isEmpty(name) &&
-                    !name.equals(number)) {
-                return name + " <" + PhoneNumberUtils.formatNumber(number) + ">";
+            String formattedNumber = number;
+            if (!Mms.isEmailAddress(number)) {
+                formattedNumber = PhoneNumberUtils.formatNumber(number);
+            }
+            
+            if (!name.equals(number)) {
+                return name + " <" + formattedNumber + ">";
             } else {
-                return PhoneNumberUtils.formatNumber(number);
+                return formattedNumber;
             }            
         }
     }
 
     public static RecipientList from(String address, Context context) {
         RecipientList list = new RecipientList();
+        ContactInfoCache cache = ContactInfoCache.getInstance();
 
         if (!TextUtils.isEmpty(address)) {
             String[] phoneNumbers = address.split(MessageSender.RECIPIENTS_SEPARATOR);
@@ -212,25 +222,31 @@ public class RecipientList {
                     recipient.bcc = true;
                     number = number.substring(5);
                 }
-                /*
-                 * TODO: Consider getting the CallerInfo object asynchronously
-                 * to help with ui responsiveness, instead of running the query
-                 * directly from the UI thread
-                 */
-                CallerInfo ci = CallerInfo.getCallerInfo(context, number);
-                if (TextUtils.isEmpty(ci.name)) {
-                    recipient.person_id = -1;
-                    if (MessageUtils.isLocalNumber(ci.phoneNumber)) {
-                        recipient.name = "Me";
+                
+                if (!Mms.isEmailAddress(number)) {
+                    /*
+                     * TODO: Consider getting the CallerInfo object asynchronously
+                     * to help with ui responsiveness, instead of running the query
+                     * directly from the UI thread
+                     */
+                    ContactInfoCache.CacheEntry entry = cache.getContactInfo(context, number);
+                    if (TextUtils.isEmpty(entry.name)) {
+                        recipient.person_id = -1;
+                        if (MessageUtils.isLocalNumber(entry.phoneNumber)) {
+                            recipient.name = "Me";
+                        } else {
+                            recipient.name = entry.phoneNumber;
+                        }
                     } else {
-                        recipient.name = ci.phoneNumber;
+                        recipient.person_id = entry.person_id;
+                        recipient.name = entry.name;
                     }
+                    recipient.label = entry.phoneLabel;
+                    recipient.number = (entry.phoneNumber == null) ? "" : entry.phoneNumber;
                 } else {
-                    recipient.person_id = ci.person_id;
-                    recipient.name = ci.name;
+                    recipient.number = number;
+                    recipient.name = cache.getDisplayName(context, number);
                 }
-                recipient.label = ci.phoneLabel;
-                recipient.number = (ci.phoneNumber == null) ? "" : ci.phoneNumber;
                 
                 recipient.nameAndNumber = Recipient.buildNameAndNumber(recipient.name,
                         recipient.number);
@@ -251,6 +267,26 @@ public class RecipientList {
             }
         }
         return numbers.toArray(new String[numbers.size()]);
+    }
+
+    /**
+     * getSingleRecipient returns the recipient if there is a single recipient. In all other cases,
+     * it returns null.
+     */
+    public Recipient getSingleRecipient() {
+        int count = mRecipients.size();
+        if (count != 1) {
+            return null;
+        }
+        return mRecipients.get(0);
+    }
+    
+    public String getSingleRecipientNumber() {
+        Recipient first = getSingleRecipient();
+        if (first == null) {
+            return null;
+        }
+        return first.number;
     }
 
     public boolean containsBcc() {

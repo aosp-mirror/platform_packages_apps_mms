@@ -216,7 +216,7 @@ public class DownloadManager {
 
         v = ind.getFrom();
         String from = (v != null)
-                ? ContactNameCache.getInstance().getContactName(mContext, v.getString())
+                ? ContactInfoCache.getInstance().getContactName(mContext, v.getString())
                 : mContext.getString(R.string.unknown_sender);
 
         return mContext.getString(R.string.dl_failure_notification, subject, from);

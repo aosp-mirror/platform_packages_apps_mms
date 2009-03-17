@@ -69,16 +69,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.UndeliveredMessagesActivity"
-            android:label="@string/menu_undelivered_messages"/>
-
         <activity android:name=".ui.SelectContactMethodActivity"
             android:label="Select Contact Method"
             android:theme="@android:style/Theme.Dialog">
         </activity>
 
         <activity android:name=".ui.ComposeMessageActivity"
-                  android:configChanges="orientation|keyboardHidden">
+                  android:configChanges="orientation|keyboardHidden"
+                  android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -145,6 +143,7 @@
             android:label="Edit slideshow" />
 
         <activity android:name=".ui.SlideEditorActivity"
+            android:windowSoftInputMode="adjustResize"
             android:label="Edit slide" />
 
         <activity android:name=".ui.RecipientsPicker"

@@ -147,22 +147,8 @@ public class RetrieveTransaction extends Transaction implements Runnable {
             // MM successfully.
             // Don't mark the transaction as failed if we failed to send it.
             sendAcknowledgeInd(retrieveConf);
-        } catch (MmsException e) {
-            if (LOCAL_LOGV) {
-                Log.v(TAG, "Unexpected MmsException.", e);
-            }
-        } catch (ClassCastException e) {
-            if (LOCAL_LOGV) {
-                Log.v(TAG, "Invalid M-Retrieve.conf pdu.", e);
-            }
-        } catch (IOException e) {
-            if (LOCAL_LOGV) {
-                Log.v(TAG, "Unexpected IOException.", e);
-            }
-        } catch (Exception e) {
-            if (LOCAL_LOGV) {
-                Log.v(TAG, "Unexpected Exception.", e);
-            }
+        } catch (Throwable t) {
+            Log.e(TAG, Log.getStackTraceString(t));
         } finally {
             if (mTransactionState.getState() != TransactionState.SUCCESS) {
                 mTransactionState.setState(TransactionState.FAILED);

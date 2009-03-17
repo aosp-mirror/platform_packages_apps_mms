@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2007 Esmertec AG.
- * Copyright (C) 2007 The Android Open Source Project
+ * Copyright (C) 2009 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +16,9 @@
 
 package com.android.mms;
 
-/**
- * Configuration values for MMS application.
- *
- */
 public class MmsConfig {
     /**
-     * Defines how many slides could be added into a MM.
+     * Whether to hide MMS functionality from the user (i.e. SMS only).
      */
-    public static final int MAX_SLIDES_COUNT = 10;
-    /**
-     * The quality parameter which is used to compress JPEG images.
-     */
-    public static final int IMAGE_COMPRESSION_QUALITY = 80;
+    public static final boolean DISABLE_MMS = false;
 }
