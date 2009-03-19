@@ -181,7 +181,7 @@ public class RetryScheduler implements Observer {
                             DownloadManager.getInstance().markState(
                                     uri, DownloadManager.STATE_PERMANENT_FAILURE);
                         } else {
-                            MessagingNotification.notifySendFailed(mContext, true);
+                            MessagingNotification.notifySendFailed(mContext);
                         }
                     }
 

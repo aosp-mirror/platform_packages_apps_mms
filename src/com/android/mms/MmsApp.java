@@ -29,6 +29,7 @@ import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 
 public class MmsApp extends Application {
+    public static final String LOG_TAG = "Mms";
 
     @Override
     public void onCreate() {

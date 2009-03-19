@@ -32,7 +32,7 @@
     <skip />
     <string name="refreshing">"正在刷新..."</string>
     <string name="has_draft">"草稿"</string>
-    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
     <skip />
     <string name="anonymous_recipient">"匿名"</string>
     <string name="no_subject_view">"（无主题）"</string>
@@ -64,6 +64,8 @@
     <string name="add_slide">"添加幻灯片"</string>
     <string name="add_slide_hint">"选择以创建新幻灯片。"</string>
     <string name="discard_slideshow">"放弃幻灯片演示"</string>
+    <!-- no translation found for slide_show_part (5077675385448696846) -->
+    <skip />
     <string name="remove_text">"删除文本"</string>
     <string name="add_picture">"添加图片"</string>
     <string name="remove_picture">"删除图片"</string>
@@ -170,6 +172,8 @@
     <string name="confirm_delete_message">"会删除此信息。"</string>
     <string name="confirm_delete_all_messages">"会删除整个线程。"</string>
     <string name="confirm_delete_all_SIM_messages">"SIM 卡上的所有信息都会删除。"</string>
+    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
+    <skip />
     <string name="cannot_get_details">"无法获取详情"</string>
     <string name="message_details_title">"信息详情"</string>
     <string name="message_type_label">"类型： "</string>
@@ -220,9 +224,9 @@
     <string name="select_top_text">"顶部文本"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> 条未读信息。"</string>
     <string name="notification_multiple_title">"新信息"</string>
-    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
+    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
     <skip />
-    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
+    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
     <skip />
     <string name="sim_full_title">"SIM 卡已满"</string>
     <string name="sim_full_body">"删除某些信息以腾出空间存储更多内容。"</string>

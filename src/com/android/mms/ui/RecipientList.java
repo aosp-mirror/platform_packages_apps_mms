@@ -18,6 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.MmsConfig;
+import com.android.mms.R;
 import com.android.mms.transaction.MessageSender;
 import com.android.mms.util.ContactInfoCache;
 
@@ -222,35 +223,33 @@ public class RecipientList {
                     recipient.bcc = true;
                     number = number.substring(5);
                 }
-                
-                if (!Mms.isEmailAddress(number)) {
-                    /*
-                     * TODO: Consider getting the CallerInfo object asynchronously
-                     * to help with ui responsiveness, instead of running the query
-                     * directly from the UI thread
-                     */
-                    ContactInfoCache.CacheEntry entry = cache.getContactInfo(context, number);
-                    if (TextUtils.isEmpty(entry.name)) {
-                        recipient.person_id = -1;
-                        if (MessageUtils.isLocalNumber(entry.phoneNumber)) {
-                            recipient.name = "Me";
-                        } else {
-                            recipient.name = entry.phoneNumber;
-                        }
+
+                /*
+                 * TODO: Consider getting the CallerInfo object asynchronously
+                 * to help with ui responsiveness, instead of running the query
+                 * directly from the UI thread
+                 */
+                ContactInfoCache.CacheEntry entry = cache.getContactInfo(context, number);
+                recipient.person_id = entry.person_id;
+                if (TextUtils.isEmpty(entry.name)) {
+                    if (MessageUtils.isLocalNumber(entry.phoneNumber)) {
+                        recipient.name = context.getString(R.string.messagelist_sender_self);
                     } else {
-                        recipient.person_id = entry.person_id;
-                        recipient.name = entry.name;
+                        recipient.name = entry.phoneNumber;
                     }
-                    recipient.label = entry.phoneLabel;
-                    recipient.number = (entry.phoneNumber == null) ? "" : entry.phoneNumber;
                 } else {
-                    recipient.number = number;
-                    recipient.name = cache.getDisplayName(context, number);
+                    recipient.name = entry.name;
                 }
                 
+                if (Mms.isEmailAddress(number)) {
+                    recipient.number = number;
+                    recipient.name = cache.getDisplayName(context, number);
+                } else {
+                    recipient.label = entry.phoneLabel;
+                    recipient.number = (entry.phoneNumber == null) ? "" : entry.phoneNumber;
+                }
                 recipient.nameAndNumber = Recipient.buildNameAndNumber(recipient.name,
                         recipient.number);
-
                 list.add(recipient.filter());
             }
         }

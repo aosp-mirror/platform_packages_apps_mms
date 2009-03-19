@@ -32,7 +32,7 @@
     <skip />
     <string name="refreshing">"Идет обновление…"</string>
     <string name="has_draft">"Черновик"</string>
-    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
     <skip />
     <string name="anonymous_recipient">"Аноним"</string>
     <string name="no_subject_view">"(Без темы)"</string>
@@ -64,6 +64,8 @@
     <string name="add_slide">"Добавить слайд"</string>
     <string name="add_slide_hint">"Выберите для создания слайда."</string>
     <string name="discard_slideshow">"Отменить слайд-шоу"</string>
+    <!-- no translation found for slide_show_part (5077675385448696846) -->
+    <skip />
     <string name="remove_text">"Удалить текст"</string>
     <string name="add_picture">"Добавить изображение"</string>
     <string name="remove_picture">"Убрать изображение"</string>
@@ -170,6 +172,8 @@
     <string name="confirm_delete_message">"Это сообщение будет удалено."</string>
     <string name="confirm_delete_all_messages">"Вся ветка будет удалена."</string>
     <string name="confirm_delete_all_SIM_messages">"Все сообщения на SIM-карте будут удалены."</string>
+    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
+    <skip />
     <string name="cannot_get_details">"Не удается получить сведения"</string>
     <string name="message_details_title">"Сведения о сообщении"</string>
     <string name="message_type_label">"Тип: "</string>
@@ -220,9 +224,9 @@
     <string name="select_top_text">"Текст сверху"</string>
     <string name="notification_multiple">"Непрочитанных сообщений: <xliff:g id="COUNT">%s</xliff:g>."</string>
     <string name="notification_multiple_title">"Новые сообщения"</string>
-    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
+    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
     <skip />
-    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
+    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
     <skip />
     <string name="sim_full_title">"SIM-карта заполнена"</string>
     <string name="sim_full_body">"Удалите какие-нибудь сообщения, чтобы освободить место для новых."</string>

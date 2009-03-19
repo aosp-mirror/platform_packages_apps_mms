@@ -403,15 +403,14 @@ public class MessagingNotification {
     }
 
     public static void notifyDownloadFailed(Context context, long threadId) {
-        notifyFailed(context, true, true, threadId);
+        notifyFailed(context, true, threadId);
     }
 
-    public static void notifySendFailed(Context context, boolean isMms) {
-        notifyFailed(context, isMms, false, 0);
+    public static void notifySendFailed(Context context) {
+        notifyFailed(context, false, 0);
     }
 
-    private static void notifyFailed(Context context, boolean isMms,
-            boolean isDownload, long threadId) {
+    private static void notifyFailed(Context context, boolean isDownload, long threadId) {
         // TODO factor out common code for creating notifications
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -518,6 +517,8 @@ public class MessagingNotification {
     public static void updateSendFailedNotification(Context context) {
         if (getUndeliveredMessageCount(context, null) < 1) {
             cancelNotification(context, MESSAGE_FAILED_NOTIFICATION_ID);
+        } else {
+            notifySendFailed(context);      // rebuild and adjust the message count if necessary.
         }
     }
     

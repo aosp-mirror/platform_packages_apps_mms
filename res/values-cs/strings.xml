@@ -32,7 +32,7 @@
     <skip />
     <string name="refreshing">"Obnovování..."</string>
     <string name="has_draft">"Koncept"</string>
-    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
     <skip />
     <string name="anonymous_recipient">"Anonymní"</string>
     <string name="no_subject_view">"(Předmět neuveden)"</string>
@@ -64,6 +64,8 @@
     <string name="add_slide">"Přidat snímek"</string>
     <string name="add_slide_hint">"Umožňuje vytvořit nový snímek."</string>
     <string name="discard_slideshow">"Zahodit prezentaci"</string>
+    <!-- no translation found for slide_show_part (5077675385448696846) -->
+    <skip />
     <string name="remove_text">"Odstranit text"</string>
     <string name="add_picture">"Přidat fotografii"</string>
     <string name="remove_picture">"Odstranit fotografii"</string>
@@ -170,6 +172,8 @@
     <string name="confirm_delete_message">"Zpráva bude smazána."</string>
     <string name="confirm_delete_all_messages">"Celá konverzace bude smazána."</string>
     <string name="confirm_delete_all_SIM_messages">"Všechny zprávy na kartě SIM budou smazány."</string>
+    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
+    <skip />
     <string name="cannot_get_details">"Podrobnosti se nepodařilo zobrazit."</string>
     <string name="message_details_title">"Podrobnosti zprávy"</string>
     <string name="message_type_label">"Typ: "</string>
@@ -220,9 +224,9 @@
     <string name="select_top_text">"Horní text"</string>
     <string name="notification_multiple">"Nepřečtené zprávy: <xliff:g id="COUNT">%s</xliff:g>."</string>
     <string name="notification_multiple_title">"Nové zprávy"</string>
-    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
+    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
     <skip />
-    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
+    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
     <skip />
     <string name="sim_full_title">"Paměť karty SIM je plná"</string>
     <string name="sim_full_body">"Smažte některé zprávy a vytvořte tak místo pro nové."</string>

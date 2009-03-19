@@ -18,7 +18,7 @@
     <string name="app_label">"メッセージ"</string>
     <string name="new_message">"新しいメッセージ"</string>
     <string name="create_new_message">"新しいメッセージを作成する"</string>
-    <string name="menu_call_back">"<xliff:g id="NAME">%s</xliff:g>さんに発信"</string>
+    <string name="menu_call_back">"発信 <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email">"<xliff:g id="NAME">%s</xliff:g>さんにメールを送信"</string>
     <string name="menu_compose_new">"作成"</string>
     <string name="menu_preferences">"設定"</string>
@@ -32,9 +32,9 @@
     <skip />
     <string name="refreshing">"更新中..."</string>
     <string name="has_draft">"下書き"</string>
-    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
     <skip />
-    <string name="anonymous_recipient">"差出人不明"</string>
+    <string name="anonymous_recipient">"非通知"</string>
     <string name="no_subject_view">"(件名なし)"</string>
     <string name="messagelist_sender_self">"自分"</string>
     <string name="view_picture">"画像を表示"</string>
@@ -64,6 +64,8 @@
     <string name="add_slide">"スライドを追加"</string>
     <string name="add_slide_hint">"新しいスライドを作成します。"</string>
     <string name="discard_slideshow">"スライドショーを破棄"</string>
+    <!-- no translation found for slide_show_part (5077675385448696846) -->
+    <skip />
     <string name="remove_text">"テキストを削除"</string>
     <string name="add_picture">"画像を追加"</string>
     <string name="remove_picture">"画像を削除"</string>
@@ -72,7 +74,7 @@
     <string name="add_video">"動画を追加"</string>
     <string name="remove_video">"動画を削除"</string>
     <string name="compose_title">"作成"</string>
-    <string name="to_hint">"宛先"</string>
+    <string name="to_hint">"To"</string>
     <string name="subject_hint">"件名"</string>
     <string name="add_attachment">"添付"</string>
     <string name="add_subject">"件名を追加"</string>
@@ -97,8 +99,8 @@
     <string name="forward_prefix">"Fwd: "</string>
     <string name="discard_message">"破棄"</string>
     <string name="discard_message_reason">"有効な宛先が指定されていないので、メッセージは破棄されます。"</string>
-    <string name="has_invalid_recipient">"無効な受信者:&lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <string name="invalid_recipient_message">"受信者にメッセージが届くように、宛先を修正してください。"</string>
+    <string name="has_invalid_recipient">"不明な宛先: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
+    <string name="invalid_recipient_message">"宛先を修正してください。無効なアドレスがあります。"</string>
     <string name="cannot_send_message">"メッセージを送信できません"</string>
     <string name="cannot_send_message_reason">"メッセージに有効な宛先が指定されていません。"</string>
     <string name="cannot_forward_drm_obj">"メッセージ内のDRM対象は転送できません。"</string>
@@ -163,21 +165,23 @@
     <string name="pref_summary_mms_auto_retrieval">"メッセージを自動的に取得"</string>
     <string name="pref_title_mms_retrieval_during_roaming">"ローミングを自動的に取得"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"ローミング中にメッセージを自動的に取得する"</string>
-    <string name="to_label">"宛先 "</string>
+    <string name="to_label">"To "</string>
     <string name="confirm_dialog_title">"削除"</string>
     <string name="confirm_delete_conversation">"スレッド全体が削除されます。"</string>
     <string name="confirm_delete_all_conversations">"スレッドはすべて削除されます。"</string>
     <string name="confirm_delete_message">"メッセージを削除します。"</string>
     <string name="confirm_delete_all_messages">"スレッド全体が削除されます。"</string>
     <string name="confirm_delete_all_SIM_messages">"SIMカードのすべてのメッセージが削除されます。"</string>
+    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
+    <skip />
     <string name="cannot_get_details">"詳細を表示できません"</string>
     <string name="message_details_title">"メッセージの詳細"</string>
     <string name="message_type_label">"タイプ: "</string>
     <string name="text_message">"SMSメッセージ"</string>
     <string name="multimedia_message">"MMSメッセージ"</string>
     <string name="multimedia_notification">"MMS通知"</string>
-    <string name="from_label">"差出人: "</string>
-    <string name="to_address_label">"宛先: "</string>
+    <string name="from_label">"From: "</string>
+    <string name="to_address_label">"To: "</string>
     <string name="bcc_label">"Bcc: "</string>
     <string name="sent_label">"送信: "</string>
     <string name="received_label">"受信: "</string>
@@ -207,7 +211,7 @@
     <string name="status_failed">"失敗"</string>
     <string name="status_unread">"未読"</string>
     <string name="status_rejected">"拒否"</string>
-    <string name="recipient_label">"受信者: "</string>
+    <string name="recipient_label">"宛先: "</string>
     <string name="status_label">"ステータス: "</string>
     <string name="attach_image">"画像"</string>
     <string name="attach_take_photo">"写真をキャプチャ"</string>
@@ -216,13 +220,13 @@
     <string name="attach_sound">"オーディオ"</string>
     <string name="attach_record_sound">"音声録音"</string>
     <string name="attach_slideshow">"スライドショー"</string>
-    <string name="select_bottom_text">"テキストを下に表示"</string>
-    <string name="select_top_text">"テキストを上に表示"</string>
+    <string name="select_bottom_text">"テキストを下に配置"</string>
+    <string name="select_top_text">"テキストを上に配置"</string>
     <string name="notification_multiple">"未読メッセージ<xliff:g id="COUNT">%s</xliff:g>通"</string>
     <string name="notification_multiple_title">"新しいメッセージ"</string>
-    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
+    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
     <skip />
-    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
+    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
     <skip />
     <string name="sim_full_title">"SIMカード空き領域なし"</string>
     <string name="sim_full_body">"空き容量を増やすにはメッセージを削除します。"</string>

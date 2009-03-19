@@ -32,7 +32,7 @@
     <skip />
     <string name="refreshing">"重新整理中..."</string>
     <string name="has_draft">"草稿"</string>
-    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
     <skip />
     <string name="anonymous_recipient">"匿名"</string>
     <string name="no_subject_view">"(沒有主旨)"</string>
@@ -64,6 +64,8 @@
     <string name="add_slide">"新增投影片"</string>
     <string name="add_slide_hint">"新增投影片"</string>
     <string name="discard_slideshow">"放棄投影片"</string>
+    <!-- no translation found for slide_show_part (5077675385448696846) -->
+    <skip />
     <string name="remove_text">"移除文字"</string>
     <string name="add_picture">"新增圖片"</string>
     <string name="remove_picture">"移除圖片"</string>
@@ -170,6 +172,8 @@
     <string name="confirm_delete_message">"此簡訊將被刪除。"</string>
     <string name="confirm_delete_all_messages">"將刪除整個會話群組。"</string>
     <string name="confirm_delete_all_SIM_messages">"即將刪除 SIM 卡上的所有訊息。"</string>
+    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
+    <skip />
     <string name="cannot_get_details">"無法取得細節"</string>
     <string name="message_details_title">"簡訊細節"</string>
     <string name="message_type_label">"類型： "</string>
@@ -220,9 +224,9 @@
     <string name="select_top_text">"置頂文字"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> 封未讀簡訊。"</string>
     <string name="notification_multiple_title">"新簡訊"</string>
-    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
+    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
     <skip />
-    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
+    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
     <skip />
     <string name="sim_full_title">"SIM 卡已滿"</string>
     <string name="sim_full_body">"刪除一些簡訊以釋放儲存空間。"</string>

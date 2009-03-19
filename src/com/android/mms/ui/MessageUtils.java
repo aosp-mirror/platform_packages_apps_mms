@@ -585,19 +585,6 @@ public class MessageUtils {
                         ContentUris.parseId(messageUri));
     }
 
-    public static void markAsRead(Context context, long threadId) {
-        MessageUtils.handleReadReport(context, threadId,
-                PduHeaders.READ_STATUS_READ, null);
-        
-        ContentValues values = new ContentValues(1);
-        values.put("read", READ_THREAD);
-        SqliteWrapper.update(context, context.getContentResolver(),
-                ContentUris.withAppendedId(Threads.CONTENT_URI, threadId),
-                values, "read=0", null);
-        
-        MessagingNotification.updateNewMessageIndicator(context, threadId);
-    }
-
     public static void resizeImageAsync(final Context context,
             final Uri imageUri, final Handler handler,
             final ResizeImageResultCallback cb) {

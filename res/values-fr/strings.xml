@@ -32,7 +32,7 @@
     <skip />
     <string name="refreshing">"Actualisation…"</string>
     <string name="has_draft">"Brouillon"</string>
-    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
     <skip />
     <string name="anonymous_recipient">"Anonyme"</string>
     <string name="no_subject_view">"(Aucun objet)"</string>
@@ -64,6 +64,8 @@
     <string name="add_slide">"Ajouter une diapositive"</string>
     <string name="add_slide_hint">"Sélectionner cet élément pour créer une nouvelle diapositive."</string>
     <string name="discard_slideshow">"Supprimer le diaporama"</string>
+    <!-- no translation found for slide_show_part (5077675385448696846) -->
+    <skip />
     <string name="remove_text">"Supprimer le texte"</string>
     <string name="add_picture">"Ajouter une image"</string>
     <string name="remove_picture">"Supprimer l\'image"</string>
@@ -170,6 +172,8 @@
     <string name="confirm_delete_message">"Le message va être supprimé."</string>
     <string name="confirm_delete_all_messages">"L\'intégralité du fil de discussion va être supprimée."</string>
     <string name="confirm_delete_all_SIM_messages">"Tous les messages de la carte SIM seront effacés."</string>
+    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
+    <skip />
     <string name="cannot_get_details">"Impossible de récupérer les détails"</string>
     <string name="message_details_title">"Détails du message"</string>
     <string name="message_type_label">"Type : "</string>
@@ -220,9 +224,9 @@
     <string name="select_top_text">"Texte en haut de l\'écran"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> messages non lus."</string>
     <string name="notification_multiple_title">"Nouveaux messages"</string>
-    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
+    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
     <skip />
-    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
+    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
     <skip />
     <string name="sim_full_title">"La carte SIM est pleine."</string>
     <string name="sim_full_body">"Supprimez des messages pour libérer de l\'espace."</string>

@@ -343,7 +343,7 @@ public class ConversationList extends ListActivity {
         } else {
             info = cache.getContactInfo(this, address);
         }
-        if (info != null && info.person_id != -1) {
+        if (info != null && info.person_id > 0) {
             Uri uri = ContentUris.withAppendedId(People.CONTENT_URI, info.person_id);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);            

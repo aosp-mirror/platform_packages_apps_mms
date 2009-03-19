@@ -28,6 +28,7 @@ import android.util.Config;
 import android.util.Log;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.Phone;
+import com.android.mms.MmsApp;
 
 /**
  * MmsSystemEventReceiver receives the
@@ -42,12 +43,10 @@ import com.android.internal.telephony.Phone;
  */
 public class MmsSystemEventReceiver extends BroadcastReceiver {
     private static final String TAG = "MmsSystemEventReceiver";
-    private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
     private static void wakeUpService(Context context) {
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "TransactionService is going to be woken up.");
+        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+            Log.v(TAG, "wakeUpService: start transaction service ...");
         }
 
         context.startService(new Intent(context, TransactionService.class));
@@ -55,7 +54,7 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (LOCAL_LOGV) {
+        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
             Log.v(TAG, "Intent received: " + intent);
         }
 
@@ -66,7 +65,7 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
         } else if (action.equals(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED)) {
             String state = intent.getStringExtra(Phone.STATE_KEY);
 
-            if (LOCAL_LOGV) {
+            if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
                 Log.v(TAG, "ANY_DATA_STATE event received: " + state);
             }
 

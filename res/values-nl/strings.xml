@@ -32,7 +32,7 @@
     <skip />
     <string name="refreshing">"Vernieuwen..."</string>
     <string name="has_draft">"Concept"</string>
-    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
     <skip />
     <string name="anonymous_recipient">"Anoniem"</string>
     <string name="no_subject_view">"(Geen onderwerp)"</string>
@@ -64,6 +64,8 @@
     <string name="add_slide">"Dia toevoegen"</string>
     <string name="add_slide_hint">"Selecteer dit om een nieuwe dia te maken."</string>
     <string name="discard_slideshow">"Diavoorstelling weggooien"</string>
+    <!-- no translation found for slide_show_part (5077675385448696846) -->
+    <skip />
     <string name="remove_text">"Tekst verwijderen"</string>
     <string name="add_picture">"Foto toevoegen"</string>
     <string name="remove_picture">"Foto verwijderen"</string>
@@ -170,6 +172,8 @@
     <string name="confirm_delete_message">"Het bericht wordt verwijderd."</string>
     <string name="confirm_delete_all_messages">"De volledige thread wordt verwijderd."</string>
     <string name="confirm_delete_all_SIM_messages">"Alle berichten op de SIM-kaart worden verwijderd."</string>
+    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
+    <skip />
     <string name="cannot_get_details">"Kan details niet ophalen"</string>
     <string name="message_details_title">"Berichtdetails"</string>
     <string name="message_type_label">"Type: "</string>
@@ -220,9 +224,9 @@
     <string name="select_top_text">"Tekst bovenaan"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> ongelezen berichten."</string>
     <string name="notification_multiple_title">"Nieuwe berichten"</string>
-    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
+    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
     <skip />
-    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
+    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
     <skip />
     <string name="sim_full_title">"SIM-kaart vol"</string>
     <string name="sim_full_body">"Verwijder enkele berichten om ruimte vrij te maken voor nieuwe berichten."</string>
