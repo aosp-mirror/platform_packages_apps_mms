@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string-array name="pref_entries_message_ring_tone">
+    <item>"Robo Dream"</item>
+    <item>"Robo Nightmare"</item>
+    <item>"Electric Sheep"</item>
+  </string-array>
+  <string-array name="pref_entry_values_message_ring_tone">
+    <item>"robo_dream"</item>
+    <item>"robo_nightmare"</item>
+    <item>"electric_sheep"</item>
+  </string-array>
+  <string-array name="pref_entries_mms_creation_mode">
+    <item>"Обмежено"</item>
+    <item>"Попередження"</item>
+    <item>"Безкоштовно"</item>
+  </string-array>
+  <string-array name="pref_entry_values_mms_creation_mode">
+    <item>"обмежено"</item>
+    <item>"попередження"</item>
+    <item>"безкоштовно"</item>
+  </string-array>
+  <string-array name="pref_entries_mms_expiry">
+    <item>"одна година"</item>
+    <item>"три години"</item>
+    <item>"один день"</item>
+    <item>"один тиждень"</item>
+  </string-array>
+  <string-array name="pref_entry_values_mms_expiry">
+    <item>"3600"</item>
+    <item>"10800"</item>
+    <item>"86400"</item>
+    <item>"604800"</item>
+  </string-array>
+  <string-array name="pref_entries_mms_max_size">
+    <item>"100K"</item>
+    <item>"200K"</item>
+    <item>"500K"</item>
+  </string-array>
+  <string-array name="pref_entry_values_mms_max_size">
+    <item>"100000L"</item>
+    <item>"200000L"</item>
+    <item>"500000L"</item>
+  </string-array>
+  <string-array name="pref_entries_mms_priority">
+    <item>"низька"</item>
+    <item>"середня"</item>
+    <item>"висока"</item>
+  </string-array>
+  <string-array name="pref_entry_values_mms_priority">
+    <item>"низька"</item>
+    <item>"середня"</item>
+    <item>"висока"</item>
+  </string-array>
+  <string-array name="pref_entries_mms_resubmission_mode">
+    <item>"Обмежено"</item>
+    <item>"Попередження"</item>
+    <item>"Безкоштовно"</item>
+  </string-array>
+  <string-array name="pref_entry_values_mms_resubmission_mode">
+    <item>"обмежено"</item>
+    <item>"попередження"</item>
+    <item>"безкоштовно"</item>
+  </string-array>
+  <string-array name="default_smiley_texts">
+    <item>":-)"</item>
+    <item>":-("</item>
+    <item>";-)"</item>
+    <item>":-P"</item>
+    <item>"=-O"</item>
+    <item>":-*"</item>
+    <item>":O"</item>
+    <item>"B-)"</item>
+    <item>":-$"</item>
+    <item>":-!"</item>
+    <item>":-["</item>
+    <item>"O:-)"</item>
+    <item>":-\\"</item>
+    <item>":\'("</item>
+    <item>":-X"</item>
+    <item>":-D"</item>
+    <item>"o_O"</item>
+  </string-array>
+  <string-array name="default_smiley_names">
+    <item>"Щастя"</item>
+    <item>"Сумно"</item>
+    <item>"Підморгую"</item>
+    <item>"Висунутий язик"</item>
+    <item>"Здивування"</item>
+    <item>"Цілую"</item>
+    <item>"Кричу"</item>
+    <item>"Круто"</item>
+    <item>"Знаю, що говорю"</item>
+    <item>"Мовчу"</item>
+    <item>"Засоромлений"</item>
+    <item>"Ангел"</item>
+    <item>"Невпевнений"</item>
+    <item>"Плачу"</item>
+    <item>"Нікому не скажу"</item>
+    <item>"Смішно"</item>
+    <item>"В збентеженні"</item>
+  </string-array>
+</resources>
