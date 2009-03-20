@@ -45,6 +45,7 @@ import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
 import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
+import com.android.mms.util.ContactInfoCache.CacheEntry;
 
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
@@ -268,6 +269,9 @@ public class ComposeMessageActivity extends Activity
 
     private boolean mPossiblePendingNotification;   // If the message list has changed, we may have
                                                     // a pending notification to deal with.
+    
+    private boolean mToastForDraftSave;          // Whether to notify the user that a draft is
+                                                 // being saved.
 
     private static final int RECIPIENTS_REQUIRE_MMS = (1 << 0);     // 1
     private static final int HAS_SUBJECT = (1 << 1);                // 2
@@ -293,6 +297,8 @@ public class ComposeMessageActivity extends Activity
     private Cursor mContactInfoCursor;
     private int mPresenceStatus;
     private String[] mContactInfoSelectionArgs = new String[1];
+    
+    private boolean mWaitingForSubActivity;
 
 
     //==========================================================
@@ -476,6 +482,7 @@ public class ComposeMessageActivity extends Activity
         if (!TextUtils.isEmpty(mSubject)) {
             updateState(HAS_SUBJECT, true);
             mSubjectTextEditor.setText(mSubject);
+            showSubjectEditor();
         }
 
         try {
@@ -484,7 +491,7 @@ public class ComposeMessageActivity extends Activity
                 mMessageUri = mPersister.move(mMessageUri, Mms.Draft.CONTENT_URI);
                 mSlideshow = SlideshowModel.createFromMessageUri(this, mMessageUri);
             } else {
-                mSlideshow = createNewMessage(this);
+                mSlideshow = createNewSlideshow(this);
                 if (mMsgText != null) {
                     mSlideshow.get(0).getText().setText(mMsgText);
                 }
@@ -502,8 +509,8 @@ public class ComposeMessageActivity extends Activity
         mAttachmentEditor.setOnAttachmentChangedListener(this);
 
         int attachmentType = MessageUtils.getAttachmentType(mSlideshow);
+        fixEmptySlideshow(mSlideshow);
         if (attachmentType == AttachmentEditor.EMPTY) {
-            fixEmptySlideshow(mSlideshow);
             attachmentType = AttachmentEditor.TEXT_ONLY;
         }
         mAttachmentEditor.setAttachment(mSlideshow, attachmentType);
@@ -513,6 +520,14 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode)
+    {
+        mWaitingForSubActivity = true;  // not ref counting. Hope we can't start more than one.
+        
+        super.startActivityForResult(intent, requestCode);
+    }
+    
     synchronized private void uninitMmsComponents() {
         // Get text from slideshow if needed.
         if (mAttachmentEditor != null && mSlideshow != null) {
@@ -533,7 +548,7 @@ public class ComposeMessageActivity extends Activity
         if (mMessageUri != null) {
             // Not sure if this is the best way to do this..
             if (mMessageUri.toString().startsWith(Mms.Draft.CONTENT_URI.toString())) {
-                SqliteWrapper.delete(this, mContentResolver, mMessageUri, null, null);
+                asyncDelete(mMessageUri, null, null);
                 mMessageUri = null;
             }
         }
@@ -556,7 +571,7 @@ public class ComposeMessageActivity extends Activity
         mSubject = null;
 
         try {
-            mSlideshow = createNewMessage(this);
+            mSlideshow = createNewSlideshow(this);
             if (mMsgText != null) {
                 mSlideshow.get(0).getText().setText(mMsgText);
             }
@@ -607,9 +622,12 @@ public class ComposeMessageActivity extends Activity
                 mTextCounter.setVisibility(View.GONE);
             }
             initMmsComponents();
+            CharSequence mmsText = mSlideshow.get(0).getText().getText();
+            // Show or hide the counter as necessary
+            updateCounter(mmsText, 0, 0, mmsText.length());
         } else {
             uninitMmsComponents();
-            // Show the counter if necessary
+            // Show or hide the counter as necessary
             updateCounter(mMsgText, 0, 0, mMsgText.length());
         }
 
@@ -687,11 +705,10 @@ public class ComposeMessageActivity extends Activity
     private void discardTemporaryMessage() {
         if (requiresMms()) {
             if (mMessageUri != null) {
-                SqliteWrapper.delete(ComposeMessageActivity.this,
-                        mContentResolver, mMessageUri, null, null);
+                asyncDelete(mMessageUri, null, null);
             }
         } else if (mThreadId > 0) {
-            deleteTemporarySmsMessage(mThreadId);
+            asyncDeleteTemporarySmsMessage(mThreadId);
         }
 
         // Don't save this message as a draft, even if it is only an SMS.
@@ -1064,7 +1081,6 @@ public class ComposeMessageActivity extends Activity
                 switch (msgItem.mBoxId) {
                     case Mms.MESSAGE_BOX_INBOX:
                         break;
-                    case Mms.MESSAGE_BOX_DRAFTS:
                     case Mms.MESSAGE_BOX_OUTBOX:
                         menu.add(0, MENU_EDIT_MESSAGE, 0, R.string.menu_edit)
                                 .setOnMenuItemClickListener(l);
@@ -1169,8 +1185,7 @@ public class ComposeMessageActivity extends Activity
 
         convertMessage(true);
         if (!TextUtils.isEmpty(mSubject)) {
-            mSubjectTextEditor.setVisibility(View.VISIBLE);
-            mTopPanel.setVisibility(View.VISIBLE);
+            showSubjectEditor();
         } else {
             mSubjectTextEditor.setVisibility(View.GONE);
             hideTopPanelIfNecessary();
@@ -1211,15 +1226,12 @@ public class ComposeMessageActivity extends Activity
                     return true;
                 }
                 case MENU_FORWARD_MESSAGE: {
-                    Uri uri = null;
                     Intent intent = new Intent(ComposeMessageActivity.this,
                                                ComposeMessageActivity.class);
 
                     intent.putExtra("compose_mode", true);
                     intent.putExtra("exit_on_sent", true);
                     if (type.equals("sms")) {
-                        uri = ContentUris.withAppendedId(
-                                Sms.CONTENT_URI, msgId);
                         intent.putExtra("sms_body", msgItem.mBody);
                     } else {
                         SendReq sendReq = new SendReq();
@@ -1231,6 +1243,7 @@ public class ComposeMessageActivity extends Activity
                         sendReq.setBody(msgItem.mSlideshow.makeCopy(
                                 ComposeMessageActivity.this));
 
+                        Uri uri = null;
                         try {
                             // Implicitly copy the parts of the message here.
                             uri = mPersister.persist(sendReq, Mms.Draft.CONTENT_URI);
@@ -1473,7 +1486,7 @@ public class ComposeMessageActivity extends Activity
     // Static methods
     //==========================================================
 
-    private static SlideshowModel createNewMessage(Context context) {
+    private static SlideshowModel createNewSlideshow(Context context) {
         SlideshowModel slideshow = SlideshowModel.createNew(context);
         SlideModel slide = new SlideModel(slideshow);
 
@@ -1523,7 +1536,12 @@ public class ComposeMessageActivity extends Activity
                 // but avoids annoying a user who is trying to add five recipients and
                 // keeps having focus stolen away.
                 if (mRecipientList.size() == 1) {
-                    mTextEditor.requestFocus();
+                    // if we're in extract mode then don't request focus
+                    final InputMethodManager inputManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (inputManager == null || !inputManager.isFullscreenMode()) {
+                        mTextEditor.requestFocus();
+                    }
                 }
             }
         });
@@ -1535,41 +1553,6 @@ public class ComposeMessageActivity extends Activity
     // Activity methods
     //==========================================================
 
-    private static final String[] MMS_DRAFT_PROJECTION = {
-            Mms._ID,        // 0
-            Mms.SUBJECT     // 1
-        };
-
-    private static final int MMS_ID_INDEX       = 0;
-    private static final int MMS_SUBJECT_INDEX  = 1;
-
-    private Cursor queryMmsDraft(long threadId) {
-        final String selection = Mms.THREAD_ID + " = " + threadId;
-        return SqliteWrapper.query(this, mContentResolver,
-                    Mms.Draft.CONTENT_URI, MMS_DRAFT_PROJECTION,
-                    selection, null, null);
-    }
-
-    private boolean loadMmsDraftIfNeeded() {
-        Cursor cursor = queryMmsDraft(mThreadId);
-        if (cursor != null) {
-            try {
-                if ((cursor.getCount() == 1) && cursor.moveToFirst()) {
-                    mMessageUri = ContentUris.withAppendedId(Mms.Draft.CONTENT_URI,
-                                        cursor.getLong(MMS_ID_INDEX));
-                    mSubject = cursor.getString(MMS_SUBJECT_INDEX);
-                    if (!TextUtils.isEmpty(mSubject)) {
-                        updateState(HAS_SUBJECT, true);
-                    }
-                    return true;
-                }
-            } finally {
-                cursor.close();
-            }
-        }
-        return false;
-    }
-    
     private void setPresenceIcon(int iconId) {
         Drawable icon = iconId == 0 ? null : this.getResources().getDrawable(iconId);
         getWindow().setFeatureDrawable(Window.FEATURE_LEFT_ICON, icon);
@@ -1593,7 +1576,6 @@ public class ComposeMessageActivity extends Activity
 
         setContentView(R.layout.compose_message_activity);
         setProgressBarVisibility(false);
-
 
         setTitle("");
 
@@ -1623,30 +1605,6 @@ public class ComposeMessageActivity extends Activity
             // failed to deliver.
             undeliveredMessageDialog(getMessageDate(mMessageUri));
         }
-        final boolean mmsDraft = loadMmsDraftIfNeeded();
-
-        // Initialize MMS-specific stuff if we need to.
-        if ((mMessageUri != null) || requiresMms()) {
-            convertMessage(true);
-
-            if (!TextUtils.isEmpty(mSubject)) {
-                mSubjectTextEditor.setVisibility(View.VISIBLE);
-                mTopPanel.setVisibility(View.VISIBLE);
-            } else {
-                mSubjectTextEditor.setVisibility(View.GONE);
-                hideTopPanelIfNecessary();
-            }
-            
-            if (mmsDraft && !requiresMms()) {
-                // If after getting set up, we still don't think
-                // MMS should be necessary, but we loaded an MMS
-                // draft, the message must be too long.
-                updateState(LENGTH_REQUIRES_MMS, true);
-            }
-        } else if (isEmptySms()) {
-            mMsgText = readTemporarySmsMessage(mThreadId);
-        }
-        
 
         // Set up the message history ListAdapter
         initMessageList();
@@ -1654,13 +1612,13 @@ public class ComposeMessageActivity extends Activity
         // Mark the current thread as read.
         markAsRead(mThreadId);
         
-        // Show the recipients editor if we:
-        // - Don't have a valid thread OR
-        // - This conversation is marked with a failure and there is at most
-        //   one message in it (to give the user a chance to try a different
-        //   number).
-        if ((mThreadId <= 0) || (ConversationList.isFailedToDeliver(getIntent()) 
-                && mMsgListAdapter.getCount() <= 1)) {
+        // Handle send intents (e.g. share image via MMS) 
+        handleSendIntent(getIntent());
+
+        loadDraft();
+
+        // Show the recipients editor if we don't have a valid thread.
+        if (mThreadId <= 0) {
             initRecipientsEditor();
         }
         
@@ -1670,8 +1628,6 @@ public class ComposeMessageActivity extends Activity
 
         updateSendButtonState();
 
-        handleSendIntent(getIntent());
-
         drawBottomPanel(attachmentType);
 
         mTopPanel.setFocusable(false);
@@ -1680,109 +1636,20 @@ public class ComposeMessageActivity extends Activity
         mIsKeyboardOpen = config.keyboardHidden == KEYBOARDHIDDEN_NO;
         mIsLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE;
         onKeyboardStateChanged(mIsKeyboardOpen);
-        
+
         if (TRACE) {
             android.os.Debug.startMethodTracing("compose");
         }
     }
 
+    private void showSubjectEditor() {
+        mSubjectTextEditor.setVisibility(View.VISIBLE);
+        mTopPanel.setVisibility(View.VISIBLE);
+    }
+    
     private void hideTopPanelIfNecessary() {
         if (!isSubjectEditorVisible() && !isRecipientsEditorVisible()) {
             mTopPanel.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        setIntent(intent);
-
-        long oldThreadId = getThreadId();
-        boolean oldIsMms = requiresMms();
-        mMessageState = 0;
-        CharSequence oldText = mMsgText;
-
-        // Read parameters or previously saved state of this activity.
-        initActivityState(null, intent);
-
-        long newThreadId = getThreadId();
-
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "onNewIntent(): intent = " + getIntent());
-            Log.v(TAG, "onNewIntent(): threadId = " + newThreadId);
-            Log.v(TAG, "onNewIntent(): mMessageUri = " + mMessageUri);
-        }
-        cancelFailedToDeliverNotification(intent, getApplicationContext());
-
-        if (newThreadId != oldThreadId) {
-            // Save the old message as a draft.
-            if (oldIsMms) {
-                // Save the old temporary message if necessary.
-                if ((mMessageUri != null) && isPreparedForSending()) {
-                    // TODO: Do we already have the wrong mMessageUri here
-                    // from the new Intent?  Is this saving a draft to
-                    // the wrong place?
-                    asyncUpdateTemporaryMmsMessage();
-                }
-            } else {
-                if (oldThreadId <= 0) {
-                    oldThreadId = getOrCreateThreadId(mRecipientList.getToNumbers());
-                }
-                updateTemporarySmsMessage(oldThreadId, oldText.toString());
-            }
-
-            // Refresh the recipient list.
-            mRecipientList = RecipientList.from(mExternalAddress, this);
-            updateState(RECIPIENTS_REQUIRE_MMS, recipientsRequireMms());
-
-            if (newThreadId > 0L) {
-                // If we have already initialized the recipients editor, just
-                // hide it in the display.
-                if (mRecipientsEditor != null) {
-                    mRecipientsEditor.setVisibility(View.GONE);
-                    hideTopPanelIfNecessary();
-                }
-
-                markAsRead(newThreadId);
-            } else {
-                initRecipientsEditor();
-            }
-
-            boolean isMms = (mMessageUri != null) || requiresMms();
-            if (isMms != oldIsMms) {
-                convertMessage(isMms);
-            }
-
-            if (isMms) {
-                // Initialize subject editor.
-                if (!TextUtils.isEmpty(mSubject)) {
-                    mSubjectTextEditor.setText(mSubject);
-                    mSubjectTextEditor.setVisibility(View.VISIBLE);
-                    mTopPanel.setVisibility(View.VISIBLE);
-                } else {
-                    mSubjectTextEditor.setVisibility(View.GONE);
-                    hideTopPanelIfNecessary();
-                }
-
-                try {
-                    mSlideshow = createNewMessage(this);
-                    mMessageUri = createTemporaryMmsMessage();
-                    Toast.makeText(this, R.string.message_saved_as_draft,
-                            Toast.LENGTH_SHORT).show();
-                } catch (MmsException e) {
-                    Log.e(TAG, "Cannot create new slideshow and temporary message.");
-                    finish();
-                }
-            } else if (isEmptySms()) {
-                mMsgText = readTemporarySmsMessage(newThreadId);
-            }
-
-            int attachmentType = requiresMms() ? MessageUtils.getAttachmentType(mSlideshow)
-                                               : AttachmentEditor.TEXT_ONLY;
-            drawBottomPanel(attachmentType);
-
-            if (mMsgListAdapter.getCursor() != null) {
-                mMsgListAdapter.changeCursor(null);
-            }
         }
     }
 
@@ -1791,6 +1658,11 @@ public class ComposeMessageActivity extends Activity
         super.onRestart();
 
         markAsRead(mThreadId);
+        
+        // If the user added a contact from a recipient, we've got to make sure we invalidate
+        // our local contact cache so we'll go out and refresh that particular contact and
+        // get the real person_id and other info.
+        invalidateRecipientsInCache();
     }
 
     @Override
@@ -1809,7 +1681,7 @@ public class ComposeMessageActivity extends Activity
     }
     
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
         startPresencePollingRequest();
     }
@@ -1850,15 +1722,10 @@ public class ComposeMessageActivity extends Activity
                 if (LOCAL_LOGV) {
                     Log.v(TAG, "ONFREEZE: mMessageUri: " + mMessageUri);
                 }
-                asyncUpdateTemporaryMmsMessage();
                 outState.putParcelable("msg_uri", mMessageUri);
             }
         } else {
             outState.putString("sms_body", mMsgText.toString());
-            if (mThreadId <= 0) {
-                setThreadId(getOrCreateThreadId(mRecipientList.getToNumbers()));
-            }
-            updateTemporarySmsMessage(mThreadId, mMsgText.toString());
         }
 
         if (mExitOnSent) {
@@ -1894,47 +1761,17 @@ public class ComposeMessageActivity extends Activity
     protected void onPause() {
         super.onPause();
         cancelPresencePollingRequests();
-
-        if (isFinishing()) {
-            if (hasValidRecipient()) {
-                if (needSaveAsMms()) {
-                    if (mMessageUri != null) {
-                        if (isEmptyMms()) {
-                            SqliteWrapper.delete(ComposeMessageActivity.this,
-                                    mContentResolver, mMessageUri, null, null);
-                        } else {
-                            setThreadId(getOrCreateThreadId(mRecipientList.getToNumbers()));
-                            asyncUpdateTemporaryMmsMessage();
-                            Toast.makeText(this, R.string.message_saved_as_draft,
-                                           Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-                } else {
-                    if (isEmptySms()) {
-                        if (mThreadId > 0) {
-                            deleteTemporarySmsMessage(mThreadId);
-                        }
-                    } else {
-                        setThreadId(getOrCreateThreadId(mRecipientList.getToNumbers()));
-                        updateTemporarySmsMessage(mThreadId, mMsgText.toString());
-                        Toast.makeText(this, R.string.message_saved_as_draft,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                }
-            } else {
-                discardTemporaryMessage();
-            }
-        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-
+        
         if (mMsgListAdapter != null) {
             mMsgListAdapter.changeCursor(null);
         }
+
+        saveDraft();
 
         // Cleanup the BroadcastReceiver.
         unregisterReceiver(mHttpProgressReceiver);
@@ -1947,7 +1784,7 @@ public class ComposeMessageActivity extends Activity
         if (TRACE) {
             android.os.Debug.stopMethodTracing();
         }
-
+        
         super.onDestroy();
     }
 
@@ -2042,23 +1879,21 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void exitComposeMessageActivity(final Runnable exit) {
-        if (mThreadId != -1) {
-            if (isRecipientsEditorVisible()) {
-                if (hasValidRecipient()) {
-                    exit.run();
-                } else {
-                    if (isEmptyMessage()) {
-                        discardTemporaryMessage();
-                        exit.run();
-                    } else {
-                        MessageUtils.showDiscardDraftConfirmDialog(this,
-                                new DiscardDraftListener());
-                    }
-                }
-            } else {
-                exit.run();
-            }
+        // If the message is empty, just quit -- finishing the
+        // activity will cause an empty draft to be deleted.
+        if (isEmptyMessage()) {
+            exit.run();
+            return;
         }
+        
+        if (!hasValidRecipient()) {
+            MessageUtils.showDiscardDraftConfirmDialog(this,
+                    new DiscardDraftListener());
+            return;
+        }
+
+        mToastForDraftSave = true;
+        exit.run();
     }
 
     private void goToConversationList() {
@@ -2079,9 +1914,6 @@ public class ComposeMessageActivity extends Activity
     public void onAttachmentChanged(int newType, int oldType) {
         drawBottomPanel(newType);
         if (newType > AttachmentEditor.TEXT_ONLY) {
-            if (!requiresMms()) {
-                toastConvertInfo(true);
-            }
             updateState(HAS_ATTACHMENT, true);
         } else {
             convertMessageIfNeeded(HAS_ATTACHMENT, false);
@@ -2112,8 +1944,8 @@ public class ComposeMessageActivity extends Activity
         
         // Only add the "View contact" menu item when there's a single recipient and that
         // recipient is someone in contacts.
-        Recipient singleRecipient = mRecipientList.getSingleRecipient();
-        if (singleRecipient != null && singleRecipient.person_id > 0) {
+        long personId = getPersonId(mRecipientList.getSingleRecipient());
+        if (personId > 0) {
             menu.add(0, MENU_VIEW_CONTACT, 0, R.string.menu_view_contact).setIcon(
                     R.drawable.ic_menu_contact);
         }
@@ -2161,11 +1993,16 @@ public class ComposeMessageActivity extends Activity
         if (mRecipientList.hasValidRecipient()) {
             // Look for the first recipient we don't have a contact for and create a menu item to
             // add the number to contacts.
-            for (String number : mRecipientList.getToNumbers()) {
-                if (Recipient.isPhoneNumber(number) && !isNumberInContacts(number)) {
-                    Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
-                    intent.setType(Contacts.People.CONTENT_ITEM_TYPE);
-                    intent.putExtra(Insert.PHONE, number);
+            Iterator<Recipient> recipientIterator = mRecipientList.iterator();
+            while (recipientIterator.hasNext()) {
+                Recipient r = recipientIterator.next();
+                long personId = getPersonId(r);
+
+                if (personId <= 0) {
+                    Intent intent = ConversationList.createAddContactIntent(r.number);
+                    if (!TextUtils.isEmpty(r.name)) {
+                        intent.putExtra(Insert.NAME, r.name);
+                    }
 
                     menu.add(0, MENU_ADD_ADDRESS_TO_CONTACTS, 0, R.string.menu_add_to_contacts)
                         .setIcon(android.R.drawable.ic_menu_add)
@@ -2175,14 +2012,39 @@ public class ComposeMessageActivity extends Activity
             }
         }
     }
+    
+    private void invalidateRecipientsInCache() {
+        ContactInfoCache cache = ContactInfoCache.getInstance();
+        Iterator<Recipient> recipientIterator = mRecipientList.iterator();
+        while (recipientIterator.hasNext()) {
+            Recipient r = recipientIterator.next();
+            cache.invalidateContact(r.number);
+        }
+    }
 
+    private long getPersonId(Recipient r) {
+        // The recipient doesn't always have a person_id. This can happen when a user adds
+        // a contact in the middle of an activity after the recipient has already been loaded.
+        if (r == null) {
+            return -1;
+        }
+        if (r.person_id > 0) {
+            return r.person_id;
+        }
+        ContactInfoCache.CacheEntry entry = ContactInfoCache.getInstance()
+            .getContactInfo(this, r.number);
+        if (entry.person_id > 0) {
+            return entry.person_id;
+        }    
+        return -1;
+    }
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case MENU_ADD_SUBJECT:
                 convertMessageIfNeeded(HAS_SUBJECT, true);
-                mSubjectTextEditor.setVisibility(View.VISIBLE);
-                mTopPanel.setVisibility(View.VISIBLE);
+                showSubjectEditor();
                 mSubjectTextEditor.requestFocus();
                 break;
             case MENU_ADD_ATTACHMENT:
@@ -2221,9 +2083,9 @@ public class ComposeMessageActivity extends Activity
                 break;
             case MENU_VIEW_CONTACT:
                 // View the contact for the first (and only) recipient.
-                Recipient contact = mRecipientList.getSingleRecipient();
-                if (contact != null && contact.person_id != -1) {
-                    viewContact(contact.person_id);
+                long personId = getPersonId(mRecipientList.getSingleRecipient());
+                if (personId > 0) {
+                    viewContact(personId);
                 }
                 break;
             case MENU_ADD_ADDRESS_TO_CONTACTS:
@@ -2313,7 +2175,8 @@ public class ComposeMessageActivity extends Activity
             Log.v(TAG, "onActivityResult: requestCode=" + requestCode
                     + ", resultCode=" + resultCode + ", data=" + data);
         }
-
+        mWaitingForSubActivity = false;     // We're back!
+        
         if (resultCode != RESULT_OK) {
             // Make sure if there was an error that our message
             // type remains correct.
@@ -2782,6 +2645,85 @@ public class ComposeMessageActivity extends Activity
         });
     }
 
+    private void loadDraft() {
+        // Try to load an MMS draft; if one does not exist,
+        // load an SMS draft.
+        if (readTemporaryMmsMessage(mThreadId)) {
+            convertMessage(true);
+        } else {
+            mMsgText = readTemporarySmsMessage(mThreadId);
+        }
+    }
+    
+    private void asyncDelete(Uri uri, String selection, String[] selectionArgs) {
+        mBackgroundQueryHandler.startDelete(0, null, uri, selection, selectionArgs);
+    }
+    
+    private void saveDraft() {
+        // If we're in the middle of creating a slideshow or some other subactivity,
+        // don't bother to discard the draft, because that's likely to delete the draft
+        // behind the slideshow's back.
+        if (!hasValidRecipient() && !mWaitingForSubActivity) {
+            discardTemporaryMessage();
+            return;
+        }
+
+        boolean savedAsDraft = false;
+        if (needSaveAsMms()) {
+            if (isEmptyMms() && !mWaitingForSubActivity) {
+                asyncDelete(mMessageUri, null, null);
+            } else {
+                asyncUpdateTemporaryMmsMessage(mRecipientList.getToNumbers());
+                savedAsDraft = true;
+            }
+        } else {
+            if (isEmptySms()) {
+                if (mThreadId > 0) {
+                    asyncDeleteTemporarySmsMessage(mThreadId);
+                }
+            } else {
+                asyncUpdateTemporarySmsMessage(mRecipientList.getToNumbers(),
+                        mMsgText.toString());
+                savedAsDraft = true;
+            }
+        }
+
+        if (mToastForDraftSave && savedAsDraft) {
+            Toast.makeText(this, R.string.message_saved_as_draft,
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private static final String[] MMS_DRAFT_PROJECTION = {
+        Mms._ID,        // 0
+        Mms.SUBJECT     // 1
+    };
+
+    private static final int MMS_ID_INDEX       = 0;
+    private static final int MMS_SUBJECT_INDEX  = 1;
+
+    private boolean readTemporaryMmsMessage(long threadId) {
+        final String selection = Mms.THREAD_ID + " = " + threadId;
+        Cursor cursor = SqliteWrapper.query(this, mContentResolver,
+                Mms.Draft.CONTENT_URI, MMS_DRAFT_PROJECTION,
+                selection, null, null);
+        try {
+            if ((cursor.getCount() == 1) && cursor.moveToFirst()) {
+                mMessageUri = ContentUris.withAppendedId(Mms.Draft.CONTENT_URI,
+                        cursor.getLong(MMS_ID_INDEX));
+                mSubject = cursor.getString(MMS_SUBJECT_INDEX);
+                if (!TextUtils.isEmpty(mSubject)) {
+                    updateState(HAS_SUBJECT, true);
+                }
+                return true;
+            }
+        } finally {
+            cursor.close();
+        }
+        return false;
+    }
+
+
     private Uri createTemporaryMmsMessage() throws MmsException {
         SendReq sendReq = new SendReq();
         fillMessageHeaders(sendReq);
@@ -2792,7 +2734,7 @@ public class ComposeMessageActivity extends Activity
         return res;
     }
 
-    private void asyncUpdateTemporaryMmsMessage() {
+    private void asyncUpdateTemporaryMmsMessage(final String[] dests) {
         // PduPersister makes database calls and is known to ANR. Do the work on a
         // background thread.
         final SendReq sendReq = new SendReq();
@@ -2800,6 +2742,7 @@ public class ComposeMessageActivity extends Activity
 
         new Thread(new Runnable() {
             public void run() {
+                setThreadId(getOrCreateThreadId(dests));
                 updateTemporaryMmsMessage(mMessageUri, mPersister,
                         mSlideshow, sendReq);
             }
@@ -2861,12 +2804,21 @@ public class ComposeMessageActivity extends Activity
         return body;
     }
 
+    private void asyncUpdateTemporarySmsMessage(final String[] dests, final String contents) {
+        new Thread(new Runnable() {
+            public void run() {
+                setThreadId(getOrCreateThreadId(dests));
+                updateTemporarySmsMessage(mThreadId, contents);
+            }
+        }).start();
+    }
+
     private void updateTemporarySmsMessage(long thread_id, String contents) {
         // If we don't have a valid thread, there's nothing to do.
         if (thread_id <= 0) {
             return;
         }
-
+        
         // Don't bother saving an empty message.
         if (TextUtils.isEmpty(contents)) {
             // But delete the old temporary message if it's there.
@@ -2890,7 +2842,7 @@ public class ComposeMessageActivity extends Activity
                 values.put(Sms.BODY, contents);
                 values.put(Sms.TYPE, Sms.MESSAGE_TYPE_DRAFT);
                 SqliteWrapper.insert(this, mContentResolver, Sms.CONTENT_URI, values);
-                deleteTemporaryMmsMessage(thread_id);
+                asyncDeleteTemporaryMmsMessage(thread_id);
             }
         } finally {
             c.close();
@@ -2898,8 +2850,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void asyncDeleteTemporarySmsMessage(long threadId) {
-        mBackgroundQueryHandler.startDelete(0, null,
-                ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
+        asyncDelete(ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
                 SMS_DRAFT_WHERE, null);
     }
 
@@ -2909,9 +2860,20 @@ public class ComposeMessageActivity extends Activity
                 SMS_DRAFT_WHERE, null);
     }
 
-    private void deleteTemporaryMmsMessage(long threadId) {
+    private void asyncDeleteTemporaryMmsMessage(long threadId) {
         final String where = Mms.THREAD_ID + " = " + threadId;
-        SqliteWrapper.delete(this, mContentResolver, Mms.Draft.CONTENT_URI, where, null);
+        asyncDelete(Mms.Draft.CONTENT_URI, where, null);
+    }
+
+    private void abandonDraftsAndFinish() {
+        // If we are in MMS mode, first convert the message to SMS,
+        // which will cause the MMS draft to be deleted.
+        if (mMessageUri != null) {
+            convertMessage(false);
+        }
+        // Now get rid of the SMS text to inhibit saving of a draft.
+        mMsgText = "";
+        finish();
     }
 
     private String[] fillMessageHeaders(SendReq sendReq) {
@@ -2971,20 +2933,10 @@ public class ComposeMessageActivity extends Activity
         return hasRecipient() && (hasAttachment() || hasText());
     }
 
-    private String[] mLastRecipients;
-    private long mLastThreadId;
-    
     private long getOrCreateThreadId(String[] numbers) {
-        // Don't bother to hit the database if the recipient set has not
-        // changed since the last call.
-        if (Arrays.equals(numbers, mLastRecipients)) {
-            return mLastThreadId;
-        }
-        mLastRecipients = numbers;
         HashSet<String> recipients = new HashSet<String>();
         recipients.addAll(Arrays.asList(numbers));
-        mLastThreadId = Threads.getOrCreateThreadId(this, recipients);
-        return mLastThreadId;
+        return Threads.getOrCreateThreadId(this, recipients);
     }
 
 
@@ -3025,12 +2977,7 @@ public class ComposeMessageActivity extends Activity
         }
         
         if (mExitOnSent) {
-            // If we are supposed to exit after a message is sent,
-            // clear out the text and URIs to inhibit saving of any
-            // drafts and call finish().
-            mMsgText = "";
-            mMessageUri = null;
-            finish();
+            abandonDraftsAndFinish();
         } else {
             // Otherwise, reset the UI to be ready for the next message.
             resetMessage();
@@ -3113,7 +3060,7 @@ public class ComposeMessageActivity extends Activity
         
         // Convert back to SMS if necessary, or if we still need to
         // be in MMS mode, reset the MMS components.
-        if (mMessageState == 0) {
+        if (!requiresMms()) {
             // Start a new message as an SMS.
             convertMessage(false);
         } else {
@@ -3187,10 +3134,6 @@ public class ComposeMessageActivity extends Activity
         if ( !TextUtils.isEmpty(subject) ) {
             mSubject = subject;
         }
-    }
-
-    private long getThreadId() {
-        return mThreadId;
     }
 
     private void setThreadId(long threadId) {
@@ -3402,8 +3345,7 @@ public class ComposeMessageActivity extends Activity
             }
 
             if (token == DELETE_CONVERSATION_TOKEN) {
-                ComposeMessageActivity.this.discardTemporaryMessage();
-                ComposeMessageActivity.this.finish();
+                ComposeMessageActivity.this.abandonDraftsAndFinish();
             }
         }
         

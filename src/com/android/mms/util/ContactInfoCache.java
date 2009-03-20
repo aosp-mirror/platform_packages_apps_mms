@@ -192,6 +192,18 @@ public class ContactInfoCache {
             }
         }
     }
+    
+    /**
+     * invalidates a single cache entry. Can pass in an email or number.
+     */
+    public void invalidateContact(String emailOrNumber) {
+        synchronized (mCache) {
+            CacheEntry entry = mCache.get(emailOrNumber);
+            if (entry != null) {
+                entry.isStale = true;
+            }
+        }
+    }
 
     /**
      * Initialize the global instance. Should call only once.
@@ -372,16 +384,21 @@ public class ContactInfoCache {
      */
     public CacheEntry getContactInfoForEmailAddress(Context context, String email,
                                                     boolean allowQuery) {
-        CacheEntry entry = null;
         synchronized (mCache) {
             if (mCache.containsKey(email)) {
-                entry = mCache.get(email);
-            } else if (allowQuery) {
-                entry = queryEmailDisplayName(context, email);
-                mCache.put(email, entry);
+                CacheEntry entry = mCache.get(email);
+                if (!allowQuery || !entry.isStale()) {
+                    return entry;
+                }
+            } else if (!allowQuery) {
+                return null;
             }
+
+            CacheEntry entry = queryEmailDisplayName(context, email);
+            mCache.put(email, entry);
+
+            return entry;
         }
-        return entry;
     }
 
     /**
