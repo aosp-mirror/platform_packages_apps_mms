@@ -19,17 +19,20 @@
     <string name="new_message">"Створити повідомлення"</string>
     <string name="create_new_message">"Створити повідомлення"</string>
     <string name="menu_call_back">"Зателефонувати: <xliff:g id="NAME">%s</xliff:g>"</string>
+	<string name="menu_send_email">"Відправити лист, адресат: <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"Написати"</string>
     <string name="menu_preferences">"Налаштування"</string>
-    <string name="menu_send_email">"Відправити лист, адресат: <xliff:g id="NAME">%s</xliff:g>"</string>
-    <string name="menu_add_address_to_contacts">"Добавити <xliff:g id="NAME">%s</xliff:g>в контакти"</string>
-    <string name="menu_delete_all">"Видалити гілки"</string>
-    <string name="menu_delete">"Видалити"</string>
+     <string name="menu_add_address_to_contacts">"Добавити <xliff:g id="NAME">%s</xliff:g>в контакти"</string>
+   	<string name="menu_call">"Подзвонити"</string>
+	<string name="menu_delete_all">"Видалити гілки"</string>
+    <!-- no translation found for menu_delete (1851666911396479006) -->
+    <skip />
     <string name="menu_undelivered_messages">"Недоставлене повідомлення"</string>
-    <string name="menu_view">"Переглянути"</string>
+    <!-- no translation found for menu_view (7448852683948080108) -->
+    <skip />
     <string name="refreshing">"Відбувається оновлення…"</string>
     <string name="has_draft">"Чернетка"</string>
-    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
     <skip />
     <string name="anonymous_recipient">"Анонім"</string>
     <string name="no_subject_view">"(Без теми)"</string>
@@ -59,48 +62,49 @@
     <string name="move_down">"Перемістити вниз"</string>
     <string name="remove_slide">"Видалити слайд"</string>
     <string name="add_slide">"Добавити слайд"</string>
+    <string name="add_slide_hint">"Оберіть для створення слайду."</string>
     <string name="discard_slideshow">"Відмінити слайд-шоу"</string>
     <string name="remove_text">"Видалити текст"</string>
     <string name="add_picture">"Добавити малюнок"</string>
     <string name="remove_picture">"Видалити малюнок"</string>
-    <string name="add_music">"Добавити музыку"</string>
-    <string name="remove_music">"Видалити музыку"</string>
-    <string name="add_video">"Добавити відео"</string>
+    <string name="add_music">"Добавити музику"</string>
+    <string name="remove_music">"Видалити музику"</string>
+    <string name="add_video">"Додати відео"</string>
     <string name="remove_video">"Видалити відео"</string>
-    <string name="add_slide_hint">"Виберіріть для створення слайду"</string>
+	<string name="compose_title">"Написати"</string>
     <string name="to_hint">"Кому"</string>
-    <string name="compose_title">"Написати"</string>
     <string name="subject_hint">"Тема"</string>
     <string name="add_attachment">"Вкласти"</string>
     <string name="add_subject">"Добавити тему"</string>
     <string name="discard">"Закрити"</string>
-    <string name="replace">"Замінити"</string>
+    <string name="view">"Переглянути"</string>
+	<string name="replace">"Замінити"</string>
     <string name="remove">"Видалити"</string>
     <string name="send">"Відправити"</string>
     <string name="all_threads">"Всі гілки"</string>
-    <string name="type_to_compose_text_enter_to_send">"Введіть текст, натисніть Enter для відправлення"</string>
-    <string name="view">"Переглянути"</string>
+    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
+    <skip />
     <string name="open_keyboard_to_compose_message">"Відкрийте клавіатуру для введення повідомлення"</string>
     <string name="image_too_large">"Розмір повідомлення завеликий "</string>
-    <string name="ask_for_automatically_resize">"Змінити размір малюнку автоматично перед відправленням?"</string>
+    <string name="ask_for_automatically_resize">"Змінити розмір малюнку автоматично перед відправленням?"</string>
     <string name="compressing">"Відбувається стиснення…"</string>
     <string name="unsupported_media_format">"Формат не підтримується: <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="select_different_media">"Виберіть інше <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="exceed_message_size_limitation">"Максимальний розмір повідомлення."</string>
-    <string name="failed_to_add_media">"На жаль, добавити <xliff:g id="NAME">%1$s</xliff:g> до повідомлення неможливо."</string>
+    <string name="failed_to_add_media">"На жаль, додати <xliff:g id="NAME">%1$s</xliff:g> до повідомлення неможливо."</string>
     <string name="failed_to_resize_image">"Розмір малюнку не змінено."</string>
-    <string name="resize_image_error_information">"На жаль, навіть післе зміни розміру цей малюнок надто великий для відправлення."</string>
+    <string name="resize_image_error_information">"На жаль, навіть після зміни розміру цей малюнок надто великий для відправлення."</string>
     <string name="forward_prefix">"Fwd:"</string>
     <string name="discard_message">"Відмінити"</string>
     <string name="discard_message_reason">"Повідомлення буде відмінено, так як у нього немає дійсних отримувачів."</string>
     <string name="has_invalid_recipient">"Недійсний отримувач(і): &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <string name="invalid_recipient_message">"Виправлення отримувачів або вони не отримають повідомлення."</string>
+    <string name="invalid_recipient_message">"Виправте отримувачів або вони не отримають повідомлення."</string>
     <string name="cannot_send_message">"Не вдається відправити це повідомлення"</string>
     <string name="cannot_send_message_reason">"У повідомлення немає дійсних отримувачів."</string>
-    <string name="cannot_forward_drm_obj">"Переслати вкладений в повідомлення об'єкт DRM неможливо."</string>
+    <string name="cannot_forward_drm_obj">"Відправити вкладений в повідомлення об'єкт DRM неможливо."</string>
     <string name="converting_to_picture_message">"Перетворення в повідомлення MMS..."</string>
     <string name="converting_to_text_message">"Перетворення в повідомлення SMS..."</string>
-    <string name="cannot_add_slide_anymore">"Більше слайдів добавити неможливо."</string>
+    <string name="cannot_add_slide_anymore">"Більше слайдів додати неможливо."</string>
     <string name="cannot_save_message">"Не вдається зберегти повідомлення."</string>
     <string name="cannot_load_message">"Не вдалося завантажити повідомлення."</string>
     <string name="message_saved_as_draft">"Повідомлення збережено як чернетка."</string>
@@ -111,9 +115,9 @@
     <string name="duration_sec">"Тривалість (<xliff:g id="DURATION">%s</xliff:g> сек.)"</string>
     <string name="duration_selector_title">"Тривалість відображення слайду"</string>
     <string name="layout_selector_title">"Макет слайд-шоу"</string>
-    <string name="layout_top">"Макет (вверху)"</string>
-    <string name="layout_bottom">"Макет (внизу)"</string>
-    <string name="type_to_compose_text_or_leave_blank">"Введіть текст фбо залиште пустим"</string>
+    <string name="layout_top">"Макет (зверху)"</string>
+    <string name="layout_bottom">"Макет (знизу)"</string>
+    <string name="type_to_compose_text_or_leave_blank">"Введіть текст або залишіть пустим"</string>
     <string name="secs">"сек."</string>
   <string-array name="select_dialog_items">
     <item>"1 секунда"</item>
@@ -129,7 +133,7 @@
     <item>"Інша..."</item>
   </string-array>
     <string name="menu_view_contact">"Переглянути контакт"</string>
-    <string name="menu_add_to_contacts">"Добавити в контакти"</string>
+    <string name="menu_add_to_contacts">"Додати до контактів"</string>
     <string name="hidden_sender_address">"Адрес відправника приховано"</string>
     <string name="yes">"ОК"</string>
     <string name="no">"Відміна"</string>
@@ -138,13 +142,10 @@
     <string name="resize">"Змінити розмір"</string>
     <string name="try_to_send">"Спробувати відправити"</string>
     <string name="preferences_title">"Налаштування"</string>
-    <string name="restore_default">"Восстановить налаштування за замовчуванням"</string>
+    <string name="restore_default">"Відновити налаштування за замовчуванням"</string>
     <string name="pref_notification_settings_title">"Налаштування повідомлень"</string>
     <string name="pref_mms_settings_title">"Налаштування MMS"</string>
     <string name="pref_sms_settings_title">"Налаштування SMS"</string>
-    <string name="pref_default_mms_max_size">"500000"</string>
-    <string name="pref_default_mms_creation_mode">"обмежено"</string>
-    <string name="pref_default_mms_resubmission_mode">"обмежено"</string>
     <string name="pref_summary_manage_sim_messages">"Керування повідомленнями на SIM-карті"</string>
     <string name="pref_summary_mms_delivery_reports">"Звіт про доставлення кожного відправленого повідомлення"</string>
     <string name="pref_summary_mms_read_reports">"Звіт про доставлення кожного відправленого повідомлення"</string>
@@ -155,19 +156,20 @@
     <string name="pref_title_sms_delivery_reports">"Звіти про доставлення"</string>
     <string name="pref_title_notification_enabled">"Сповіщення"</string>
     <string name="pref_summary_notification_enabled">"Показувати сповіщення про повідомлення на панелі стану"</string>
-    <string name="pref_title_notification_vibrate">"Вібрація"</string>
-    <string name="pref_summary_notification_vibrate">"Вібрація при сповіщенні"</string>
+    <string name="pref_title_notification_vibrate">"Вібросигнал"</string>
+    <string name="pref_summary_notification_vibrate">"Вібрацосигнал при сповіщенні"</string>
     <string name="pref_title_notification_ringtone">"Обрати мелодію дзвінка"</string>
     <string name="pref_title_mms_auto_retrieval">"Отримувати автоматично"</string>
     <string name="pref_summary_mms_auto_retrieval">"Отримувати повідомлення автоматично"</string>
-    <string name="pref_title_mms_retrieval_during_roaming">"Отримувати в роуминге автоматично"</string>
+    <string name="pref_title_mms_retrieval_during_roaming">"Отримувати у роумінгу автоматично"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"Отримувати повідомлення у роумінгу автоматично"</string>
     <string name="to_label">"Кому"</string>
     <string name="confirm_dialog_title">"Видалення"</string>
     <string name="confirm_delete_conversation">"Вся гілка буде видалена."</string>
     <string name="confirm_delete_all_conversations">"Усі гілки будуть видалені."</string>
     <string name="confirm_delete_message">"Це повідомлення буде видалено."</string>
-    <string name="confirm_delete_all_messages">"Уся гілка буде видалена."</string>
+    <string name="confirm_delete_all_messages">"Уся гілка буде видалена."</string>,
+	<string name="confirm_delete_all_SIM_messages">"Всі повідомлення на SIM-карті будуть видалені."</string>
     <string name="cannot_get_details">"Не вдається отримати дані"</string>
     <string name="message_details_title">"Дані про повідомлення"</string>
     <string name="message_type_label">"Тип:"</string>
@@ -187,17 +189,17 @@
     <string name="priority_normal">"Нормальна"</string>
     <string name="priority_low">"Низька"</string>
     <string name="message_class_label">"Клас повідомлення:"</string>
-    <string name="menu_edit">"Правка"</string>
+    <string name="menu_edit">"Зміни"</string>
     <string name="menu_retry_sending">"Повторити відправлення"</string>
-    <string name="menu_retry_sending_all">"Повторити відправлення всіх"</string>
+    <string name="menu_retry_sending_all">"Повторити відправлення усіх"</string>
     <string name="menu_delete_messages">"Видалити повідомлення"</string>
-    <string name="retrying_dialog_body">"Повідомлення <xliff:g id="MESSAGE">%s</xliff:g> нне було відправлено через проблему з підключенням."\n"Спроба повторної відправки…"</string>
+    <string name="retrying_dialog_body">"Повідомлення <xliff:g id="MESSAGE">%s</xliff:g> не було відправлено через проблему з підключенням."\n"Спроба повторної відправки…"</string>
     <string name="sim_copy_to_phone_memory">"Копіювати в память телефону"</string>
     <string name="sim_delete">"Видалити"</string>
     <string name="sim_manage_messages_title">"SMS-повідомлення на SIM-карті"</string>
     <string name="sim_view">"Переглянути"</string>
     <string name="sim_empty">"Немає повідомлення на SIM-карте."</string>
-    <string name="delivery_header_title">"Отчет"</string>
+    <string name="delivery_header_title">"Звіт"</string>
     <string name="status_none">"(Немає)"</string>
     <string name="status_pending">"Очікує відправки"</string>
     <string name="status_read">"Прочитано"</string>
@@ -208,28 +210,27 @@
     <string name="recipient_label">"Отримувач:"</string>
     <string name="status_label">"Стан:"</string>
     <string name="attach_image">"Малюнок"</string>
-    <!-- no translation found for attach_take_photo (4280601313184373837) -->
-    <skip />
-    <!-- no translation found for attach_video (4264272693501538294) -->
-    <skip />
-    <!-- no translation found for attach_record_video (3099814114743078615) -->
-    <skip />
+    <string name="attach_take_photo">"Зробити фотографію"</string>
+    <string name="attach_video">"Відео"</string>
+    <string name="attach_record_video">"Зняти відео"</string>
     <string name="attach_sound">"Звук"</string>
     <string name="attach_record_sound">"Записати звук"</string>
-    <!-- no translation found for attach_slideshow (3497422151091037063) -->
-    <skip />
+    <string name="attach_slideshow">"Слайд-шоу"</string>
     <string name="select_bottom_text">"Текст знизу"</string>
     <string name="select_top_text">"Текст зверху"</string>
-    <string name="notification_multiple">"Непрочитані повідомлення: <xliff:g id="COUNT">%s</xliff:g>."</string>
+    <string name="notification_multiple">"Непрочитаних повідомлень: <xliff:g id="COUNT">%s</xliff:g>."</string>
     <string name="notification_multiple_title">"Нові повідомлення"</string>
+    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
+    <skip />
+    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
+    <skip />
     <string name="sim_full_title">"SIM-карта заповнена"</string>
-    <string name="sim_full_body">"Видаліть які-нибудь повідомлення, щоб звільнити місце для нових."</string>
+    <string name="sim_full_body">"Видаліть які-небудь повідомлення, щоб звільнити місце для нових."</string>
     <string name="type_audio">"звук"</string>
     <string name="type_picture">"малюнок"</string>
     <string name="type_video">"відео"</string>
     <string name="confirm">"Підтвердження"</string>
-    <string name="message_send_read_report">"Будет відправлено звіт про прочитання."</string>
-    <string name="url_list_label">"Вибрати ссилку"</string>
+    <string name="message_send_read_report">"Буде відправлено звіт про читання."</string>
     <string name="message_queued">"Не вдається відправити повідомлення.Воно буде відправлено, коли буде доступна мережа."</string>
     <string name="no_subject">"(Без теми)"</string>
     <string name="unknown_sender">"Невідомий відправник"</string>
@@ -242,7 +243,7 @@
     <string name="download_later">"Зараз завантаження неможливе. Повторіть спробу пізніше."</string>
     <string name="select_audio">"Вибрати звук"</string>
     <string name="copy_to_sdcard">"Скопіювати вкладення на карту SD"</string>
-    <string name="copy_to_sdcard_success">"Вложение скопійовано на карту SD"</string>
+    <string name="copy_to_sdcard_success">"Вкладення скопійовано на карту SD"</string>
     <string name="copy_to_sdcard_fail">"Не вдалося скопіювати вкладення на карту SD"</string>
     <string name="menu_insert_smiley">"Вставити смайлик"</string>
     <string name="select_link_title">"Вибір дій"</string>
