@@ -291,17 +291,9 @@ public class SlideEditorActivity extends Activity {
     };
 
     private void previewSlideshow() {
-        try {
-            PduBody pb = mSlideshowModel.toPduBody();
-            PduPersister.getPduPersister(SlideEditorActivity.this).updateParts(mUri, pb);
-            mSlideshowModel.sync(pb);
-
-            Intent intent = new Intent(SlideEditorActivity.this, SlideshowActivity.class);
-            intent.setData(mUri);
-            startActivity(intent);
-        } catch (MmsException e) {
-            Log.e(TAG, "Failed to save the message to storage.", e);
-        }
+        MessageUtils.viewMmsMessageAttachment(SlideEditorActivity.this,
+                mUri, mSlideshowModel,
+                PduPersister.getPduPersister(SlideEditorActivity.this));
     }
 
     private void updateTitle() {
