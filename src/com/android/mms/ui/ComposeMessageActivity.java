@@ -710,6 +710,7 @@ public class ComposeMessageActivity extends Activity
     private void discardTemporaryMessage() {
         if (requiresMms()) {
             if (mMessageUri != null) {
+                if (LOCAL_LOGV) Log.v(TAG, "discardTemporaryMessage " + mMessageUri);
                 asyncDelete(mMessageUri, null, null);
             }
         } else if (mThreadId > 0) {
@@ -2659,12 +2660,16 @@ public class ComposeMessageActivity extends Activity
         // load an SMS draft.
         if (readTemporaryMmsMessage(mThreadId)) {
             convertMessage(true);
-        } else {
+        } else if (TextUtils.isEmpty(mMsgText)) {
+            // only load the message body from draft if it's not set already. For example,
+            // it's already set in the FORWARD MESSAGE case.
             mMsgText = readTemporarySmsMessage(mThreadId);
         }
     }
     
     private void asyncDelete(Uri uri, String selection, String[] selectionArgs) {
+        if (LOCAL_LOGV) Log.v(TAG, "asyncDelete " + uri);
+
         mBackgroundQueryHandler.startDelete(0, null, uri, selection, selectionArgs);
     }
     
@@ -2679,6 +2684,11 @@ public class ComposeMessageActivity extends Activity
 
         boolean savedAsDraft = false;
         if (needSaveAsMms()) {
+            if (mMessageUri == null) {
+                // no draft to be saved
+                return;
+            }
+
             if (isEmptyMms() && !mWaitingForSubActivity) {
                 asyncDelete(mMessageUri, null, null);
             } else {
@@ -2712,14 +2722,25 @@ public class ComposeMessageActivity extends Activity
     private static final int MMS_SUBJECT_INDEX  = 1;
 
     private boolean readTemporaryMmsMessage(long threadId) {
+        Cursor cursor;
+
+        if (mMessageUri != null) {
+            if (LOCAL_LOGV) {
+                Log.v(TAG, "readTemporaryMmsMessage: already has message url " + mMessageUri);
+            }
+            return true;
+        }
+
         final String selection = Mms.THREAD_ID + " = " + threadId;
-        Cursor cursor = SqliteWrapper.query(this, mContentResolver,
+        cursor = SqliteWrapper.query(this, mContentResolver,
                 Mms.Draft.CONTENT_URI, MMS_DRAFT_PROJECTION,
                 selection, null, null);
+
         try {
             if ((cursor.getCount() == 1) && cursor.moveToFirst()) {
                 mMessageUri = ContentUris.withAppendedId(Mms.Draft.CONTENT_URI,
                         cursor.getLong(MMS_ID_INDEX));
+
                 mSubject = cursor.getString(MMS_SUBJECT_INDEX);
                 if (!TextUtils.isEmpty(mSubject)) {
                     updateState(HAS_SUBJECT, true);
@@ -2729,6 +2750,7 @@ public class ComposeMessageActivity extends Activity
         } finally {
             cursor.close();
         }
+
         return false;
     }
 
@@ -2791,9 +2813,10 @@ public class ComposeMessageActivity extends Activity
 
         Uri thread_uri = ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, thread_id);
         String body = "";
-        
+
         Cursor c = SqliteWrapper.query(this, mContentResolver,
                         thread_uri, SMS_BODY_PROJECTION, SMS_DRAFT_WHERE, null, null);
+
         if (c != null) {
             try {
                 if (c.moveToFirst()) {
@@ -2986,7 +3009,12 @@ public class ComposeMessageActivity extends Activity
         }
         
         if (mExitOnSent) {
-            abandonDraftsAndFinish();
+            // If we are supposed to exit after a message is sent,
+            // clear out the text and URIs to inhibit saving of any
+            // drafts and call finish().
+            mMsgText = "";
+            mMessageUri = null;
+            finish();
         } else {
             // Otherwise, reset the UI to be ready for the next message.
             resetMessage();
@@ -3007,7 +3035,7 @@ public class ComposeMessageActivity extends Activity
             setThreadId(threadId);
             startMsgListQuery();
         } catch (Exception e) {
-            Log.e(TAG, "Failed to send SMS message.");
+            Log.e(TAG, "Failed to send SMS message, threadId=" + threadId, e);
         }
     }
 
@@ -3016,6 +3044,8 @@ public class ComposeMessageActivity extends Activity
         // Make sure we are still using the correct thread ID for our
         // recipient set.
         long threadId = getOrCreateThreadId(dests);
+
+        if (LOCAL_LOGV) Log.v(TAG, "sendMmsWorker: update temporary MMS message " + mmsUri);
 
         // Sync the MMS message in progress to disk.
         updateTemporaryMmsMessage(mmsUri, persister, slideshow, sendReq);
@@ -3033,7 +3063,7 @@ public class ComposeMessageActivity extends Activity
             setThreadId(threadId);
             startMsgListQuery();
         } catch (Exception e) {
-            Log.e(TAG, "Failed to send message: " + mmsUri);
+            Log.e(TAG, "Failed to send message: " + mmsUri + ", threadId=" + threadId, e);
         }
     }
 
