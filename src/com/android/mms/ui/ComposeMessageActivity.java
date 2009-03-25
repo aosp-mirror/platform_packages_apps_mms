@@ -45,6 +45,7 @@ import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
 import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
+import com.android.mms.util.ContactInfoCache.CacheEntry;
 
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
@@ -1642,6 +1643,11 @@ public class ComposeMessageActivity extends Activity
         super.onRestart();
 
         markAsRead(mThreadId);
+        
+        // If the user added a contact from a recipient, we've got to make sure we invalidate
+        // our local contact cache so we'll go out and refresh that particular contact and
+        // get the real person_id and other info.
+        invalidateRecipientsInCache();
     }
 
     @Override
@@ -1929,8 +1935,8 @@ public class ComposeMessageActivity extends Activity
         
         // Only add the "View contact" menu item when there's a single recipient and that
         // recipient is someone in contacts.
-        Recipient singleRecipient = mRecipientList.getSingleRecipient();
-        if (singleRecipient != null && singleRecipient.person_id > 0) {
+        long personId = getPersonId(mRecipientList.getSingleRecipient());
+        if (personId > 0) {
             menu.add(0, MENU_VIEW_CONTACT, 0, R.string.menu_view_contact).setIcon(
                     R.drawable.ic_menu_contact);
         }
@@ -1978,11 +1984,16 @@ public class ComposeMessageActivity extends Activity
         if (mRecipientList.hasValidRecipient()) {
             // Look for the first recipient we don't have a contact for and create a menu item to
             // add the number to contacts.
-            for (String number : mRecipientList.getToNumbers()) {
-                if (Recipient.isPhoneNumber(number) && !isNumberInContacts(number)) {
-                    Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
-                    intent.setType(Contacts.People.CONTENT_ITEM_TYPE);
-                    intent.putExtra(Insert.PHONE, number);
+            Iterator<Recipient> recipientIterator = mRecipientList.iterator();
+            while (recipientIterator.hasNext()) {
+                Recipient r = recipientIterator.next();
+                long personId = getPersonId(r);
+
+                if (personId <= 0) {
+                    Intent intent = ConversationList.createAddContactIntent(r.number);
+                    if (!TextUtils.isEmpty(r.name)) {
+                        intent.putExtra(Insert.NAME, r.name);
+                    }
 
                     menu.add(0, MENU_ADD_ADDRESS_TO_CONTACTS, 0, R.string.menu_add_to_contacts)
                         .setIcon(android.R.drawable.ic_menu_add)
@@ -1992,7 +2003,33 @@ public class ComposeMessageActivity extends Activity
             }
         }
     }
+    
+    private void invalidateRecipientsInCache() {
+        ContactInfoCache cache = ContactInfoCache.getInstance();
+        Iterator<Recipient> recipientIterator = mRecipientList.iterator();
+        while (recipientIterator.hasNext()) {
+            Recipient r = recipientIterator.next();
+            cache.invalidateContact(r.number);
+        }
+    }
 
+    private long getPersonId(Recipient r) {
+        // The recipient doesn't always have a person_id. This can happen when a user adds
+        // a contact in the middle of an activity after the recipient has already been loaded.
+        if (r == null) {
+            return -1;
+        }
+        if (r.person_id > 0) {
+            return r.person_id;
+        }
+        ContactInfoCache.CacheEntry entry = ContactInfoCache.getInstance()
+            .getContactInfo(this, r.number);
+        if (entry.person_id > 0) {
+            return entry.person_id;
+        }    
+        return -1;
+    }
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -2038,9 +2075,9 @@ public class ComposeMessageActivity extends Activity
                 break;
             case MENU_VIEW_CONTACT:
                 // View the contact for the first (and only) recipient.
-                Recipient contact = mRecipientList.getSingleRecipient();
-                if (contact != null && contact.person_id != -1) {
-                    viewContact(contact.person_id);
+                long personId = getPersonId(mRecipientList.getSingleRecipient());
+                if (personId > 0) {
+                    viewContact(personId);
                 }
                 break;
             case MENU_ADD_ADDRESS_TO_CONTACTS:

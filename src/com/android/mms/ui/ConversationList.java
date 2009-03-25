@@ -19,6 +19,7 @@ package com.android.mms.ui;
 
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
+import com.android.mms.ui.RecipientList.Recipient;
 import com.android.mms.util.ContactInfoCache;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.util.SqliteWrapper;
@@ -41,6 +42,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Contacts;
 import android.provider.Contacts.People;
+import android.provider.Contacts.Intents.Insert;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Threads;
 import android.provider.Telephony.Sms.Conversations;
@@ -86,6 +88,7 @@ public class ConversationList extends ListActivity {
     public static final int MENU_DELETE                = 0;
     private static final int MENU_VIEW                 = 1;
     private static final int MENU_VIEW_CONTACT         = 2;
+    private static final int MENU_ADD_TO_CONTACTS      = 3;
 
     private Cursor mCursor;
     private ThreadListQueryHandler mQueryHandler;
@@ -350,6 +353,17 @@ public class ConversationList extends ListActivity {
         }
     }
 
+    public static Intent createAddContactIntent(String address) {
+        // address must be a single recipient
+        Intent intent = new Intent(Insert.ACTION, People.CONTENT_URI);
+        if (Recipient.isPhoneNumber(address)) {
+            intent.putExtra(Insert.PHONE, address);
+        } else {
+            intent.putExtra(Insert.EMAIL, address);
+        }
+        return intent;
+    }
+
     private final OnCreateContextMenuListener mConvListOnCreateContextMenuListener =
         new OnCreateContextMenuListener() {
         public void onCreateContextMenu(ContextMenu menu, View v,
@@ -371,8 +385,17 @@ public class ConversationList extends ListActivity {
                     menu.add(0, MENU_VIEW, 0, R.string.menu_view);
                     
                     // Only show if there's a single recipient
-                    if (!getAddress().contains(";")) {
-                        menu.add(0, MENU_VIEW_CONTACT, 0, R.string.menu_view_contact);
+                    String recipient = getAddress();
+                    if (!recipient.contains(";")) {
+                        // do we have this recipient in contacts?
+                        ContactInfoCache.CacheEntry entry = ContactInfoCache.getInstance()
+                            .getContactInfo(ConversationList.this, recipient);
+                        
+                        if (entry != null && entry.person_id > 0) {
+                            menu.add(0, MENU_VIEW_CONTACT, 0, R.string.menu_view_contact);
+                        } else {
+                            menu.add(0, MENU_ADD_TO_CONTACTS, 0, R.string.menu_add_to_contacts);
+                        }
                     }
                     menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
                 }
@@ -397,6 +420,11 @@ public class ConversationList extends ListActivity {
             case MENU_VIEW_CONTACT: {
                 String address = getAddress();
                 viewContact(address);
+                break;
+            }
+            case MENU_ADD_TO_CONTACTS: {
+                String address = getAddress();
+                startActivity(createAddContactIntent(address));
                 break;
             }
             default:
