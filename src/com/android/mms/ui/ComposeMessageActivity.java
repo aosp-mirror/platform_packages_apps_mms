@@ -43,6 +43,7 @@ import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 import com.android.mms.ui.RecipientList.Recipient;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
 import com.android.mms.util.ContactInfoCache;
+import com.android.mms.util.DraftCache;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
 import com.android.mms.util.ContactInfoCache.CacheEntry;
@@ -1235,8 +1236,8 @@ public class ComposeMessageActivity extends Activity
                     Intent intent = new Intent(ComposeMessageActivity.this,
                                                ComposeMessageActivity.class);
 
-                    intent.putExtra("compose_mode", true);
                     intent.putExtra("exit_on_sent", true);
+                    intent.putExtra("forwarded_message", true);
                     if (type.equals("sms")) {
                         intent.putExtra("sms_body", msgItem.mBody);
                     } else {
@@ -1617,12 +1618,12 @@ public class ComposeMessageActivity extends Activity
         // Mark the current thread as read.
         markAsRead(mThreadId);
         
-        // Handle send intents (e.g. share image via MMS) 
-        handleSendIntent(getIntent());
-
-        // Load the draft for this thread, if there is one.
-        loadDraft();
-
+        // Load the draft for this thread, if we aren't already handling
+        // existing data, such as a shared picture or forwarded message.
+        if (!handleSendIntent(getIntent()) && !handleForwardedMessage()) {
+            loadDraft();
+        }
+        
         // If we are still not in MMS mode, check to see if we need to convert
         // because of e-mail recipients.
         convertMessageIfNeeded(RECIPIENTS_REQUIRE_MMS, recipientsRequireMms(), false);
@@ -2400,11 +2401,26 @@ public class ComposeMessageActivity extends Activity
         }
     }
     
-    private void handleSendIntent(Intent intent) {
+    private boolean handleForwardedMessage() {
+        // If this is a forwarded message, it will have an Intent extra
+        // indicating so.  If not, bail out.
+        if (getIntent().getBooleanExtra("forwarded_message", false) == false) {
+            return false;
+        }
+
+        // If we are forwarding an MMS, mMessageUri will already be set.
+        if (mMessageUri != null) {
+            convertMessage(true);
+        }
+        
+        return true;
+    }
+    
+    private boolean handleSendIntent(Intent intent) {
         Bundle extras = intent.getExtras();
 
         if (!Intent.ACTION_SEND.equals(intent.getAction()) || (extras == null)) {
-            return;
+            return false;
         }
         
         if (extras.containsKey(Intent.EXTRA_STREAM)) {
@@ -2417,9 +2433,13 @@ public class ComposeMessageActivity extends Activity
                     addVideo(uri);
                 }
             }
+            return true;
         } else if (extras.containsKey(Intent.EXTRA_TEXT)) {
             mMsgText = extras.getString(Intent.EXTRA_TEXT);
+            return true;
         }
+        
+        return false;
     }
 
     private String getAudioString() {
@@ -2656,14 +2676,31 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void loadDraft() {
-        // Try to load an MMS draft; if one does not exist,
-        // load an SMS draft.
-        if (readTemporaryMmsMessage(mThreadId)) {
-            convertMessage(true);
-        } else if (TextUtils.isEmpty(mMsgText)) {
-            // only load the message body from draft if it's not set already. For example,
-            // it's already set in the FORWARD MESSAGE case.
-            mMsgText = readTemporarySmsMessage(mThreadId);
+        // If we have no associated thread ID, there can't be a draft.
+        if (mThreadId <= 0) {
+            return;
+        }
+       
+        // If we already have text, don't stomp on it with the draft.
+        if (!TextUtils.isEmpty(mMsgText)) {
+            return;
+        }
+        
+        // If we know there is no draft, don't bother to look for one.
+        if (!DraftCache.getInstance().hasDraft(mThreadId)) {
+            return;
+        }
+        
+        // Try to load an SMS draft; if one does not exist,
+        // load an MMS draft.
+        mMsgText = readTemporarySmsMessage(mThreadId);
+        if (TextUtils.isEmpty(mMsgText)) {
+            if (readTemporaryMmsMessage(mThreadId)) {
+                convertMessage(true);
+            } else {
+                Log.e(TAG, "no SMS or MMS drafts in thread " + mThreadId);
+                return;
+            }
         }
     }
     
@@ -2679,6 +2716,7 @@ public class ComposeMessageActivity extends Activity
         // behind the slideshow's back.
         if (!hasValidRecipient() && !mWaitingForSubActivity) {
             discardTemporaryMessage();
+            DraftCache.getInstance().setDraftState(mThreadId, false);
             return;
         }
 
@@ -2707,6 +2745,8 @@ public class ComposeMessageActivity extends Activity
             }
         }
 
+        DraftCache.getInstance().setDraftState(mThreadId, savedAsDraft);
+        
         if (mToastForDraftSave && savedAsDraft) {
             Toast.makeText(this, R.string.message_saved_as_draft,
                     Toast.LENGTH_SHORT).show();

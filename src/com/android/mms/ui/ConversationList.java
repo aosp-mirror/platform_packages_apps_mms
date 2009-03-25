@@ -21,6 +21,8 @@ import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.RecipientList.Recipient;
 import com.android.mms.util.ContactInfoCache;
+import com.android.mms.util.DraftCache;
+
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.util.SqliteWrapper;
 
@@ -171,7 +173,6 @@ public class ConversationList extends ListActivity {
         super.onResume();
 
         if (mListAdapter != null) {
-            mListAdapter.initDraftCache();  // we might have a draft now
             mListAdapter.registerObservers();
         }
 
@@ -184,6 +185,9 @@ public class ConversationList extends ListActivity {
         // info changes pretty quickly, and we can't get change notifications when presence is
         // updated in the ContactsProvider.
         ContactInfoCache.getInstance().invalidateCache();
+        
+        // Draft state might have changed as well; update the cache.
+        DraftCache.getInstance().refresh();
     }
 
     @Override

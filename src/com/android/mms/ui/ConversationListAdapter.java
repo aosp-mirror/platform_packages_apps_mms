@@ -19,6 +19,8 @@ package com.android.mms.ui;
 
 import com.android.mms.R;
 import com.android.mms.util.ContactInfoCache;
+import com.android.mms.util.DraftCache;
+
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.content.Context;
@@ -116,9 +118,6 @@ public class ConversationListAdapter extends CursorAdapter {
     private final LayoutInflater mFactory;
     private final boolean mSimpleMode;
 
-    // Null if there's no drafts
-    private HashSet<Long> mDraftSet = null;
-
     // Cache of space-separated recipient ids of a thread to the final
     // display version.
 
@@ -182,38 +181,6 @@ public class ConversationListAdapter extends CursorAdapter {
             mThreadDisplayFrom = new ConcurrentHashMap<String, String>();
             // 1 thread.  SQLite can't do better anyway.
             mAsyncLoader = new ScheduledThreadPoolExecutor(1);
-        }
-
-        // Learn all the drafts up-front.  There shouldn't be many.
-        initDraftCache();
-    }
-
-    // To be called whenever the drafts might've changed.
-    public void initDraftCache() {
-        Cursor cursor = SqliteWrapper.query(
-                mContext,
-                mContext.getContentResolver(),
-                MmsSms.CONTENT_DRAFT_URI,
-                DRAFT_PROJECTION, null, null, null);
-        if (LOCAL_LOGV) Log.v(TAG, "initDraftCache.");
-        mDraftSet = null;  // null until we have our first draft
-        if (cursor == null) {
-            Log.v(TAG, "initDraftCache -- cursor was null.");
-        }
-        try {
-            if (cursor.moveToFirst()) {
-                if (mDraftSet == null) {
-                    // low initial capacity (unlikely to be many drafts)
-                    mDraftSet = new HashSet<Long>(4);
-                }
-                for (; !cursor.isAfterLast(); cursor.moveToNext()) {
-                    long threadId = cursor.getLong(COLUMN_DRAFT_THREAD_ID);
-                    mDraftSet.add(new Long(threadId));
-                    if (LOCAL_LOGV) Log.v(TAG, "  .. threadid with a draft: " + threadId);
-                }
-            }
-        } finally {
-            cursor.close();
         }
     }
 
@@ -335,9 +302,8 @@ public class ConversationListAdapter extends CursorAdapter {
             }
 
             if (LOCAL_LOGV) Log.v(TAG, "pre-create ConversationHeader");
-            boolean hasDraft = mDraftSet != null &&
-                    mDraftSet.contains(new Long(threadId));
-
+            boolean hasDraft = DraftCache.getInstance().hasDraft(threadId);
+                
             ConversationHeader ch = new ConversationHeader(
                     threadId, from, subject, timestamp,
                     read, error, hasDraft, messageCount, hasAttachment);
@@ -455,16 +421,6 @@ public class ConversationListAdapter extends CursorAdapter {
                 // Ignore IllegalStateException.
             }
         }
-    }
-
-    private boolean hasDraft(long threadId) {
-        String selection = Conversations.THREAD_ID + "=" + threadId;
-        Cursor cursor = SqliteWrapper.query(mContext,
-                            mContext.getContentResolver(), MmsSms.CONTENT_DRAFT_URI,
-                            DRAFT_PROJECTION, selection, null, null);
-        boolean result = (null != cursor) && cursor.moveToFirst();
-        cursor.close();
-        return result;
     }
 
     @Override
