@@ -109,7 +109,7 @@
     <string name="cannot_add_slide_anymore">"スライドを追加できません。"</string>
     <string name="cannot_save_message">"メッセージを保存できません。"</string>
     <string name="cannot_load_message">"メッセージを読み込めません。"</string>
-    <string name="message_saved_as_draft">"メッセージが下書きとして保存されました。"</string>
+    <string name="message_saved_as_draft">"メッセージを下書き保存しました。"</string>
     <string name="cannot_play_audio">"オーディオを再生できません。"</string>
     <string name="preview">"プレビュー"</string>
     <string name="preview_slideshow">"プレビュー"</string>
@@ -157,7 +157,7 @@
     <string name="pref_title_mms_read_reports">"既読レポート"</string>
     <string name="pref_title_sms_delivery_reports">"配信レポート"</string>
     <string name="pref_title_notification_enabled">"通知"</string>
-    <string name="pref_summary_notification_enabled">"メール受信をステータスバーで通知する"</string>
+    <string name="pref_summary_notification_enabled">"メール受信: ステータスバーで通知"</string>
     <string name="pref_title_notification_vibrate">"バイブレーション"</string>
     <string name="pref_summary_notification_vibrate">"通知: バイブレーションON"</string>
     <string name="pref_title_notification_ringtone">"着信音を選択"</string>
@@ -214,9 +214,9 @@
     <string name="recipient_label">"宛先: "</string>
     <string name="status_label">"ステータス: "</string>
     <string name="attach_image">"画像"</string>
-    <string name="attach_take_photo">"写真をキャプチャ"</string>
+    <string name="attach_take_photo">"写真撮影"</string>
     <string name="attach_video">"動画"</string>
-    <string name="attach_record_video">"動画をキャプチャ"</string>
+    <string name="attach_record_video">"ムービー撮影"</string>
     <string name="attach_sound">"オーディオ"</string>
     <string name="attach_record_sound">"音声録音"</string>
     <string name="attach_slideshow">"スライドショー"</string>

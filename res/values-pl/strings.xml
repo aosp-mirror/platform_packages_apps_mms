@@ -25,11 +25,9 @@
     <string name="menu_add_address_to_contacts">"Dodaj <xliff:g id="NAME">%s</xliff:g> do Kontaktów"</string>
     <string name="menu_call">"Zadzwoń"</string>
     <string name="menu_delete_all">"Usuń wątki"</string>
-    <!-- no translation found for menu_delete (1851666911396479006) -->
-    <skip />
+    <string name="menu_delete">"Usuń wątek"</string>
     <string name="menu_undelivered_messages">"Niedostarczone wiadomości"</string>
-    <!-- no translation found for menu_view (7448852683948080108) -->
-    <skip />
+    <string name="menu_view">"Wyświetl wątek"</string>
     <string name="refreshing">"Odświeżanie..."</string>
     <string name="has_draft">"Wersja robocza"</string>
     <!-- no translation found for broadcast_from_to (1804605929273213017) -->
@@ -64,8 +62,7 @@
     <string name="add_slide">"Dodaj slajd"</string>
     <string name="add_slide_hint">"Wybierz, aby utworzyć nowy slajd."</string>
     <string name="discard_slideshow">"Odrzuć pokaz slajdów"</string>
-    <!-- no translation found for slide_show_part (5077675385448696846) -->
-    <skip />
+    <string name="slide_show_part">"Część <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text">"Usuń tekst"</string>
     <string name="add_picture">"Dodaj zdjęcie"</string>
     <string name="remove_picture">"Usuń zdjęcie"</string>
@@ -84,8 +81,7 @@
     <string name="remove">"Usuń"</string>
     <string name="send">"Wyślij"</string>
     <string name="all_threads">"Wszystkie wątki"</string>
-    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
-    <skip />
+    <string name="type_to_compose_text_enter_to_send">"Wpisz, aby utworzyć"</string>
     <string name="open_keyboard_to_compose_message">"Otwórz klawiaturę, aby utworzyć wiadomość"</string>
     <string name="image_too_large">"Zdjęcie jest za duże"</string>
     <string name="ask_for_automatically_resize">"Zmienić automatycznie rozmiar zdjęcia przed wysłaniem?"</string>
@@ -172,8 +168,7 @@
     <string name="confirm_delete_message">"Wiadomość zostanie usunięta."</string>
     <string name="confirm_delete_all_messages">"Cały wątek zostanie usunięty."</string>
     <string name="confirm_delete_all_SIM_messages">"Wszystkie wiadomości na karcie SIM zostaną usunięte."</string>
-    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
-    <skip />
+    <string name="confirm_delete_SIM_message">"Ta wiadomość na karcie SIM zostanie usunięta."</string>
     <string name="cannot_get_details">"Nie można uzyskać szczegółów"</string>
     <string name="message_details_title">"Szczegóły wiadomości"</string>
     <string name="message_type_label">"Typ: "</string>
@@ -224,10 +219,8 @@
     <string name="select_top_text">"Tekst na górze"</string>
     <string name="notification_multiple">"Liczba nieprzeczytanych wiadomości: <xliff:g id="COUNT">%s</xliff:g>."</string>
     <string name="notification_multiple_title">"Nowe wiadomości"</string>
-    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
-    <skip />
-    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
-    <skip />
+    <string name="notification_failed_multiple">"Nie można wysłać <xliff:g id="COUNT">%s</xliff:g> wiadomości."</string>
+    <string name="notification_failed_multiple_title">"Wiadomości nie zostały wysłane"</string>
     <string name="sim_full_title">"Karta SIM jest pełna"</string>
     <string name="sim_full_body">"Usuń część wiadomości, aby zwolnić miejsce dla nowych."</string>
     <string name="type_audio">"audio"</string>

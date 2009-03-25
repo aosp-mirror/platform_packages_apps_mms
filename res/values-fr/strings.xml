@@ -25,11 +25,9 @@
     <string name="menu_add_address_to_contacts">"Ajouter <xliff:g id="NAME">%s</xliff:g> aux contacts"</string>
     <string name="menu_call">"Appeler"</string>
     <string name="menu_delete_all">"Supprimer les fils de discussion"</string>
-    <!-- no translation found for menu_delete (1851666911396479006) -->
-    <skip />
+    <string name="menu_delete">"Supprimer la conversation"</string>
     <string name="menu_undelivered_messages">"Messages non transmis"</string>
-    <!-- no translation found for menu_view (7448852683948080108) -->
-    <skip />
+    <string name="menu_view">"Afficher la conversation"</string>
     <string name="refreshing">"Actualisation…"</string>
     <string name="has_draft">"Brouillon"</string>
     <!-- no translation found for broadcast_from_to (1804605929273213017) -->
@@ -64,8 +62,7 @@
     <string name="add_slide">"Ajouter une diapositive"</string>
     <string name="add_slide_hint">"Sélectionner cet élément pour créer une nouvelle diapositive."</string>
     <string name="discard_slideshow">"Supprimer le diaporama"</string>
-    <!-- no translation found for slide_show_part (5077675385448696846) -->
-    <skip />
+    <string name="slide_show_part">"Partie <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text">"Supprimer le texte"</string>
     <string name="add_picture">"Ajouter une image"</string>
     <string name="remove_picture">"Supprimer l\'image"</string>
@@ -84,8 +81,7 @@
     <string name="remove">"Supprimer"</string>
     <string name="send">"Envoyer"</string>
     <string name="all_threads">"Tous les fils"</string>
-    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
-    <skip />
+    <string name="type_to_compose_text_enter_to_send">"Utiliser le clavier pour rédiger un message"</string>
     <string name="open_keyboard_to_compose_message">"Ouvrez le clavier pour rédiger votre message."</string>
     <string name="image_too_large">"Image trop lourde"</string>
     <string name="ask_for_automatically_resize">"Redimensionner automatiquement l\'image avant de l\'envoyer ?"</string>
@@ -172,8 +168,7 @@
     <string name="confirm_delete_message">"Le message va être supprimé."</string>
     <string name="confirm_delete_all_messages">"L\'intégralité du fil de discussion va être supprimée."</string>
     <string name="confirm_delete_all_SIM_messages">"Tous les messages de la carte SIM seront effacés."</string>
-    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
-    <skip />
+    <string name="confirm_delete_SIM_message">"Ce message sera supprimé de la carte SIM."</string>
     <string name="cannot_get_details">"Impossible de récupérer les détails"</string>
     <string name="message_details_title">"Détails du message"</string>
     <string name="message_type_label">"Type : "</string>
@@ -224,10 +219,8 @@
     <string name="select_top_text">"Texte en haut de l\'écran"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> messages non lus."</string>
     <string name="notification_multiple_title">"Nouveaux messages"</string>
-    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
-    <skip />
-    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
-    <skip />
+    <string name="notification_failed_multiple">"<xliff:g id="COUNT">%s</xliff:g> messages n\'ont pas pu être envoyés."</string>
+    <string name="notification_failed_multiple_title">"Messages non envoyés"</string>
     <string name="sim_full_title">"La carte SIM est pleine."</string>
     <string name="sim_full_body">"Supprimez des messages pour libérer de l\'espace."</string>
     <string name="type_audio">"audio"</string>
