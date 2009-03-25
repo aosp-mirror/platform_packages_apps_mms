@@ -1528,6 +1528,9 @@ public class ComposeMessageActivity extends Activity
 
     // Get the recipients editor ready to be displayed onscreen.
     private void initRecipientsEditor() {
+        if (isRecipientsEditorVisible()) {
+            return;
+        }
         ViewStub stub = (ViewStub)findViewById(R.id.recipients_editor_stub);
         if (stub != null) {
             mRecipientsEditor = (RecipientsEditor) stub.inflate();
