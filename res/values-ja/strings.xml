@@ -25,11 +25,9 @@
     <string name="menu_add_address_to_contacts">"連絡先に<xliff:g id="NAME">%s</xliff:g>さんを追加"</string>
     <string name="menu_call">"発信"</string>
     <string name="menu_delete_all">"スレッドを削除"</string>
-    <!-- no translation found for menu_delete (1851666911396479006) -->
-    <skip />
+    <string name="menu_delete">"スレッドを削除"</string>
     <string name="menu_undelivered_messages">"未配信メッセージ"</string>
-    <!-- no translation found for menu_view (7448852683948080108) -->
-    <skip />
+    <string name="menu_view">"スレッド一覧表示"</string>
     <string name="refreshing">"更新中..."</string>
     <string name="has_draft">"下書き"</string>
     <!-- no translation found for broadcast_from_to (1804605929273213017) -->
@@ -64,8 +62,7 @@
     <string name="add_slide">"スライドを追加"</string>
     <string name="add_slide_hint">"新しいスライドを作成します。"</string>
     <string name="discard_slideshow">"スライドショーを破棄"</string>
-    <!-- no translation found for slide_show_part (5077675385448696846) -->
-    <skip />
+    <string name="slide_show_part">"<xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text">"テキストを削除"</string>
     <string name="add_picture">"画像を追加"</string>
     <string name="remove_picture">"画像を削除"</string>
@@ -84,8 +81,7 @@
     <string name="remove">"削除"</string>
     <string name="send">"送信"</string>
     <string name="all_threads">"スレッド一覧"</string>
-    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
-    <skip />
+    <string name="type_to_compose_text_enter_to_send">"メッセージを入力"</string>
     <string name="open_keyboard_to_compose_message">"キーボードを表示してメッセージを入力してください"</string>
     <string name="image_too_large">"画像が大きすぎます"</string>
     <string name="ask_for_automatically_resize">"画像のサイズを送信用に自動調整しますか？"</string>
@@ -172,8 +168,7 @@
     <string name="confirm_delete_message">"メッセージを削除します。"</string>
     <string name="confirm_delete_all_messages">"スレッド全体が削除されます。"</string>
     <string name="confirm_delete_all_SIM_messages">"SIMカードのすべてのメッセージが削除されます。"</string>
-    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
-    <skip />
+    <string name="confirm_delete_SIM_message">"SIMカードからこのメッセージが削除されます。"</string>
     <string name="cannot_get_details">"詳細を表示できません"</string>
     <string name="message_details_title">"メッセージの詳細"</string>
     <string name="message_type_label">"タイプ: "</string>
@@ -224,10 +219,8 @@
     <string name="select_top_text">"テキストを上に配置"</string>
     <string name="notification_multiple">"未読メッセージ<xliff:g id="COUNT">%s</xliff:g>通"</string>
     <string name="notification_multiple_title">"新しいメッセージ"</string>
-    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
-    <skip />
-    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
-    <skip />
+    <string name="notification_failed_multiple">"<xliff:g id="COUNT">%s</xliff:g>件のメッセージを送信できませんでした。"</string>
+    <string name="notification_failed_multiple_title">"メッセージ送信失敗"</string>
     <string name="sim_full_title">"SIMカード空き領域なし"</string>
     <string name="sim_full_body">"空き容量を増やすにはメッセージを削除します。"</string>
     <string name="type_audio">"オーディオ"</string>
