@@ -297,6 +297,8 @@ public class ComposeMessageActivity extends Activity
     private Cursor mContactInfoCursor;
     private int mPresenceStatus;
     private String[] mContactInfoSelectionArgs = new String[1];
+    
+    private boolean mWaitingForSubActivity;
 
 
     //==========================================================
@@ -506,8 +508,8 @@ public class ComposeMessageActivity extends Activity
         mAttachmentEditor.setOnAttachmentChangedListener(this);
 
         int attachmentType = MessageUtils.getAttachmentType(mSlideshow);
+        fixEmptySlideshow(mSlideshow);
         if (attachmentType == AttachmentEditor.EMPTY) {
-            fixEmptySlideshow(mSlideshow);
             attachmentType = AttachmentEditor.TEXT_ONLY;
         }
         mAttachmentEditor.setAttachment(mSlideshow, attachmentType);
@@ -517,6 +519,14 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode)
+    {
+        mWaitingForSubActivity = true;  // not ref counting. Hope we can't start more than one.
+        
+        super.startActivityForResult(intent, requestCode);
+    }
+    
     synchronized private void uninitMmsComponents() {
         // Get text from slideshow if needed.
         if (mAttachmentEditor != null && mSlideshow != null) {
@@ -611,9 +621,12 @@ public class ComposeMessageActivity extends Activity
                 mTextCounter.setVisibility(View.GONE);
             }
             initMmsComponents();
-            CharSequence mmsText = mSlideshow.get(0).getText().getText();
-            // Show or hide the counter as necessary
-            updateCounter(mmsText, 0, 0, mmsText.length());
+            TextModel textModel = mSlideshow.get(0).getText();
+            if (textModel != null) {
+                CharSequence mmsText = mSlideshow.get(0).getText().getText();
+                // Show or hide the counter as necessary
+                updateCounter(mmsText, 0, 0, mmsText.length());
+            }
         } else {
             uninitMmsComponents();
             // Show or hide the counter as necessary
@@ -1751,7 +1764,7 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onStop() {
         super.onStop();
-
+        
         if (mMsgListAdapter != null) {
             mMsgListAdapter.changeCursor(null);
         }
@@ -2161,7 +2174,8 @@ public class ComposeMessageActivity extends Activity
             Log.v(TAG, "onActivityResult: requestCode=" + requestCode
                     + ", resultCode=" + resultCode + ", data=" + data);
         }
-
+        mWaitingForSubActivity = false;     // We're back!
+        
         if (resultCode != RESULT_OK) {
             // Make sure if there was an error that our message
             // type remains correct.
@@ -2645,14 +2659,17 @@ public class ComposeMessageActivity extends Activity
     }
     
     private void saveDraft() {
-        if (!hasValidRecipient()) {
+        // If we're in the middle of creating a slideshow or some other subactivity,
+        // don't bother to discard the draft, because that's likely to delete the draft
+        // behind the slideshow's back.
+        if (!hasValidRecipient() && !mWaitingForSubActivity) {
             discardTemporaryMessage();
             return;
         }
 
         boolean savedAsDraft = false;
         if (needSaveAsMms()) {
-            if (isEmptyMms()) {
+            if (isEmptyMms() && !mWaitingForSubActivity) {
                 asyncDelete(mMessageUri, null, null);
             } else {
                 asyncUpdateTemporaryMmsMessage(mRecipientList.getToNumbers());
