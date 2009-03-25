@@ -54,6 +54,8 @@ import android.text.style.StyleSpan;
 import android.util.Log;
 
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -127,16 +129,17 @@ public class MessagingNotification {
     public static void updateNewMessageIndicator(Context context, boolean isNew) {
         SortedSet<MmsSmsNotificationInfo> accumulator =
                 new TreeSet<MmsSmsNotificationInfo>(INFO_COMPARATOR);
-
+        Set<Long> threads = new HashSet<Long>(4);
+        
         int count = 0;
         count += accumulateNotificationInfo(
-                accumulator, getMmsNewMessageNotificationInfo(context));
+                accumulator, getMmsNewMessageNotificationInfo(context, threads));
         count += accumulateNotificationInfo(
-                accumulator, getSmsNewMessageNotificationInfo(context));
+                accumulator, getSmsNewMessageNotificationInfo(context, threads));
 
         cancelNotification(context, NOTIFICATION_ID);
         if (!accumulator.isEmpty()) {
-            accumulator.first().deliver(context, isNew, count);
+            accumulator.first().deliver(context, isNew, count, threads.size());
         }
     }
 
@@ -201,10 +204,10 @@ public class MessagingNotification {
             mCount = count;
         }
 
-        public void deliver(Context context, boolean isNew, int count) {
+        public void deliver(Context context, boolean isNew, int count, int uniqueThreads) {
             updateNotification(
                     context, mClickIntent, mDescription, mIconResourceId,
-                    isNew, mTicker, mTimeMillis, mTitle, count);
+                    isNew, mTicker, mTimeMillis, mTitle, count, uniqueThreads);
         }
 
         public long getTime() {
@@ -221,60 +224,79 @@ public class MessagingNotification {
     }
 
     public static final MmsSmsNotificationInfo getMmsNewMessageNotificationInfo(
-            Context context) {
+            Context context, Set<Long> threads) {
         ContentResolver resolver = context.getContentResolver();
         Cursor cursor = SqliteWrapper.query(context, resolver, Mms.CONTENT_URI,
                             MMS_STATUS_PROJECTION, NEW_INCOMING_MM_CONSTRAINT,
                             null, Mms.DATE + " desc");
 
-        if (cursor != null) {
-            try {
-                if (cursor.moveToFirst()) {
-                    long msgId = cursor.getLong(COLUMN_MMS_ID);
-                    Uri msgUri = Mms.CONTENT_URI.buildUpon().appendPath(
-                            Long.toString(msgId)).build();
-                    String address = AddressUtils.getFrom(context, msgUri);
-                    String subject = getMmsSubject(
-                            cursor.getString(COLUMN_SUBJECT), cursor.getInt(COLUMN_SUBJECT_CS));
-                    long threadId = cursor.getLong(COLUMN_THREAD_ID);
-                    long timeMillis = cursor.getLong(COLUMN_DATE) * 1000;
-
-                    return getNewMessageNotificationInfo(
-                            address, subject, context,
-                            R.drawable.stat_notify_mms, null, threadId,
-                            timeMillis, cursor.getCount());
-                }
-            } finally {
-                cursor.close();
-            }
+        if (cursor == null) {
+            return null;
         }
-        return null;
+        
+        try {
+            if (!cursor.moveToFirst()) {
+                return null;
+            }
+            long msgId = cursor.getLong(COLUMN_MMS_ID);
+            Uri msgUri = Mms.CONTENT_URI.buildUpon().appendPath(
+                    Long.toString(msgId)).build();
+            String address = AddressUtils.getFrom(context, msgUri);
+            String subject = getMmsSubject(
+                    cursor.getString(COLUMN_SUBJECT), cursor.getInt(COLUMN_SUBJECT_CS));
+            long threadId = cursor.getLong(COLUMN_THREAD_ID);
+            long timeMillis = cursor.getLong(COLUMN_DATE) * 1000;
+
+            MmsSmsNotificationInfo info = getNewMessageNotificationInfo(
+                    address, subject, context,
+                    R.drawable.stat_notify_mms, null, threadId,
+                    timeMillis, cursor.getCount());
+
+            threads.add(threadId);
+            while (cursor.moveToNext()) {
+                threads.add(cursor.getLong(COLUMN_THREAD_ID));
+            }
+
+            return info;
+        } finally {
+            cursor.close();
+        }
     }
 
     public static final MmsSmsNotificationInfo getSmsNewMessageNotificationInfo(
-            Context context) {
+            Context context, Set<Long> threads) {
         ContentResolver resolver = context.getContentResolver();
         Cursor cursor = SqliteWrapper.query(context, resolver, Sms.CONTENT_URI,
                             SMS_STATUS_PROJECTION, NEW_INCOMING_SM_CONSTRAINT,
                             null, Sms.DATE + " desc");
 
-        if (cursor != null) {
-            try {
-                if (cursor.moveToFirst()) {
-                    String address = cursor.getString(COLUMN_SMS_ADDRESS);
-                    String body = cursor.getString(COLUMN_SMS_BODY);
-                    long threadId = cursor.getLong(COLUMN_THREAD_ID);
-                    long timeMillis = cursor.getLong(COLUMN_DATE);
-
-                    return getNewMessageNotificationInfo(
-                            address, body, context, R.drawable.stat_notify_sms,
-                            null, threadId, timeMillis, cursor.getCount());
-                }
-            } finally {
-                cursor.close();
-            }
+        if (cursor == null) {
+            return null;
         }
-        return null;
+        
+        try {
+            if (!cursor.moveToFirst()) {
+                return null;
+            }
+
+            String address = cursor.getString(COLUMN_SMS_ADDRESS);
+            String body = cursor.getString(COLUMN_SMS_BODY);
+            long threadId = cursor.getLong(COLUMN_THREAD_ID);
+            long timeMillis = cursor.getLong(COLUMN_DATE);
+
+            MmsSmsNotificationInfo info = getNewMessageNotificationInfo(
+                    address, body, context, R.drawable.stat_notify_sms,
+                    null, threadId, timeMillis, cursor.getCount());
+
+            threads.add(threadId);
+            while (cursor.moveToNext()) {
+                threads.add(cursor.getLong(COLUMN_THREAD_ID));
+            }
+
+            return info;
+        } finally {
+            cursor.close();
+        }
     }
 
     private static final MmsSmsNotificationInfo getNewMessageNotificationInfo(
@@ -327,7 +349,8 @@ public class MessagingNotification {
             CharSequence ticker,
             long timeMillis,
             String title,
-            int count) {
+            int messageCount,
+            int uniqueThreadCount) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (!sp.getBoolean(
@@ -335,29 +358,32 @@ public class MessagingNotification {
             return;
         }
 
-        Notification notification = new Notification(
-                iconRes, ticker, timeMillis);
-        PendingIntent pendingIntent;
+        Notification notification = new Notification(iconRes, ticker, timeMillis);
 
-        if (count > 1) {
-            String multiDescription = context.getString(R.string.notification_multiple,
-                    Integer.toString(count));
-            String multiTitle = context.getString(R.string.notification_multiple_title);
-
-            Intent multiIntent = getAppIntent();
-            multiIntent.setAction(Intent.ACTION_MAIN);
-            multiIntent.setType("vnd.android-dir/mms-sms");
-            pendingIntent =
-                PendingIntent.getActivity(context, 0, multiIntent, 0);
-
-            notification.setLatestEventInfo(context, multiTitle, multiDescription, pendingIntent);
-        } else {
-            pendingIntent =
-                PendingIntent.getActivity(context, 0, clickIntent, 0);
-
-            notification.setLatestEventInfo(
-                    context, title, description, pendingIntent);
+        // If we have more than one unique thread, change the title (which would
+        // normally be the contact who sent the message) to a generic one that
+        // makes sense for multiple senders, and change the Intent to take the
+        // user to the conversation list instead of the specific thread.
+        if (uniqueThreadCount > 1) {
+            title = context.getString(R.string.notification_multiple_title);
+            clickIntent = getAppIntent();
+            clickIntent.setAction(Intent.ACTION_MAIN);
+            clickIntent.setType("vnd.android-dir/mms-sms");
         }
+        
+        // If there is more than one message, change the description (which
+        // would normally be a snippet of the individual message text) to
+        // a string indicating how many unread messages there are.
+        if (messageCount > 1) {
+            description = context.getString(R.string.notification_multiple,
+                    Integer.toString(messageCount));
+        }
+
+        // Make a startActivity() PendingIntent for the notification.
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, clickIntent, 0);
+
+        // Update the notification.
+        notification.setLatestEventInfo(context, title, description, pendingIntent);
 
         if (isNew) {
             boolean vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE, true);
