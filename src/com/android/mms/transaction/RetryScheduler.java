@@ -186,7 +186,7 @@ public class RetryScheduler implements Observer {
                             readValues.put(Mms.READ, 0);
                             SqliteWrapper.update(mContext, mContext.getContentResolver(),
                                     uri, readValues, null, null);
-                            MessagingNotification.notifySendFailed(mContext);
+                            MessagingNotification.notifySendFailed(mContext, true);
                         }
                     }
 
