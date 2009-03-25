@@ -877,9 +877,6 @@ public class ComposeMessageActivity extends Activity
                 }
                 case MENU_ADD_TO_CONTACTS: {
                     Intent intent = ConversationList.createAddContactIntent(mRecipient.number);
-                    if (!TextUtils.isEmpty(mRecipient.name)) {
-                        intent.putExtra(Insert.NAME, mRecipient.name);
-                    }
                     ComposeMessageActivity.this.startActivity(intent);
                     return true;
                 }
@@ -1021,13 +1018,7 @@ public class ComposeMessageActivity extends Activity
                 addToContacts = !isNumberInContacts(uriString);
             }
             if (addToContacts) {
-                Intent intent = new Intent(Insert.ACTION, People.CONTENT_URI);
-                if (Recipient.isPhoneNumber(uriString)) {
-                    intent.putExtra(Insert.PHONE, uriString);
-                } else {
-                    intent.putExtra(Insert.EMAIL, uriString);
-                }
-
+                Intent intent = ConversationList.createAddContactIntent(uriString);
                 String addContactString = getString(
                         R.string.menu_add_address_to_contacts).replace("%s", uriString);
                 menu.add(0, MENU_ADD_ADDRESS_TO_CONTACTS, 0, addContactString)
@@ -2016,10 +2007,6 @@ public class ComposeMessageActivity extends Activity
 
                 if (personId <= 0) {
                     Intent intent = ConversationList.createAddContactIntent(r.number);
-                    if (!TextUtils.isEmpty(r.name)) {
-                        intent.putExtra(Insert.NAME, r.name);
-                    }
-
                     menu.add(0, MENU_ADD_ADDRESS_TO_CONTACTS, 0, R.string.menu_add_to_contacts)
                         .setIcon(android.R.drawable.ic_menu_add)
                         .setIntent(intent);
