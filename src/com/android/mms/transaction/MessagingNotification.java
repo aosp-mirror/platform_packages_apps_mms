@@ -418,14 +418,19 @@ public class MessagingNotification {
     }
 
     public static void notifyDownloadFailed(Context context, long threadId) {
-        notifyFailed(context, true, threadId);
+        notifyFailed(context, true, threadId, false);
     }
 
     public static void notifySendFailed(Context context) {
-        notifyFailed(context, false, 0);
+        notifyFailed(context, false, 0, false);
     }
 
-    private static void notifyFailed(Context context, boolean isDownload, long threadId) {
+    public static void notifySendFailed(Context context, boolean noisy) {
+        notifyFailed(context, false, 0, noisy);
+    }
+    
+    private static void notifyFailed(Context context, boolean isDownload, long threadId,
+                                     boolean noisy) {
         // TODO factor out common code for creating notifications
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -445,7 +450,6 @@ public class MessagingNotification {
         //    notification.If you select the 2nd undelivered one it will dismiss the notification.
         
         long[] msgThreadId = {0};
-        int failedDownloadCount = getDownloadFailedMessageCount(context);
         int totalFailedCount = getUndeliveredMessageCount(context, msgThreadId);
         
         Intent failedIntent;
@@ -480,15 +484,16 @@ public class MessagingNotification {
 
         notification.setLatestEventInfo(context, title, description, pendingIntent);
 
-        boolean vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE, true);
-        if (vibrate) {
-            notification.defaults |= Notification.DEFAULT_VIBRATE;
+        if (noisy) {
+            boolean vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE, true);
+            if (vibrate) {
+                notification.defaults |= Notification.DEFAULT_VIBRATE;
+            }
+
+            String ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE, null);
+            notification.sound = TextUtils.isEmpty(ringtoneStr) ? null : Uri.parse(ringtoneStr);
         }
-
-        String ringtoneStr = sp
-                .getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE, null);
-        notification.sound = TextUtils.isEmpty(ringtoneStr) ? null : Uri.parse(ringtoneStr);
-
+        
         if (isDownload) {
             nm.notify(DOWNLOAD_FAILED_NOTIFICATION_ID, notification);
         } else {
