@@ -164,6 +164,11 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_ATTACH_SOUND     = 14;
     public static final int REQUEST_CODE_RECORD_SOUND     = 15;
     public static final int REQUEST_CODE_CREATE_SLIDESHOW = 16;
+    
+    // REPLACE_ATTACHMENT can be OR'd into one of the REQUEST_CODEs above to replace the
+    // existing attachment with the new one, once the new one has been successfully chosen,
+    // grabbed, or selected.
+    public static final int REPLACE_ATTACHMENT            = 4096;
 
     private static final String TAG = "ComposeMessageActivity";
     private static final boolean DEBUG = false;
@@ -343,8 +348,7 @@ public class ComposeMessageActivity extends Activity
                 case AttachmentEditor.MSG_REPLACE_IMAGE:
                 case AttachmentEditor.MSG_REPLACE_VIDEO:
                 case AttachmentEditor.MSG_REPLACE_AUDIO:
-                    mAttachmentEditor.removeAttachment();
-                    showAddAttachmentDialog();
+                    showAddAttachmentDialog(true);
                     break;
 
                 default:
@@ -2060,7 +2064,7 @@ public class ComposeMessageActivity extends Activity
                 break;
             case MENU_ADD_ATTACHMENT:
                 // Launch the add-attachment list dialog
-                showAddAttachmentDialog();
+                showAddAttachmentDialog(false);
                 break;
             case MENU_DISCARD:
                 discardTemporaryMessage();
@@ -2106,35 +2110,39 @@ public class ComposeMessageActivity extends Activity
         return true;
     }
 
-    private void addAttachment(int type) {
+    private void addAttachment(int type, boolean replaceAttachment) {
+        int replaceFlag = 0;
+        if (replaceAttachment) {
+            replaceFlag = REPLACE_ATTACHMENT;
+        }
         switch (type) {
             case AttachmentTypeSelectorAdapter.ADD_IMAGE:
-                MessageUtils.selectImage(this, REQUEST_CODE_ATTACH_IMAGE);
+                MessageUtils.selectImage(this, REQUEST_CODE_ATTACH_IMAGE | replaceFlag);
                 break;
 
             case AttachmentTypeSelectorAdapter.TAKE_PICTURE: {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
+                startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE | replaceFlag);
             }
                 break;
 
             case AttachmentTypeSelectorAdapter.ADD_VIDEO:
-                MessageUtils.selectVideo(this, REQUEST_CODE_ATTACH_VIDEO);
+                MessageUtils.selectVideo(this, REQUEST_CODE_ATTACH_VIDEO | replaceFlag);
                 break;
 
             case AttachmentTypeSelectorAdapter.RECORD_VIDEO: {
                 Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
-                startActivityForResult(intent, REQUEST_CODE_TAKE_VIDEO);
+                startActivityForResult(intent, REQUEST_CODE_TAKE_VIDEO | replaceFlag);
             }
                 break;
 
             case AttachmentTypeSelectorAdapter.ADD_SOUND:
-                MessageUtils.selectAudio(this, REQUEST_CODE_ATTACH_SOUND);
+                MessageUtils.selectAudio(this, REQUEST_CODE_ATTACH_SOUND | replaceFlag);
                 break;
 
             case AttachmentTypeSelectorAdapter.RECORD_SOUND:
-                MessageUtils.recordSound(this, REQUEST_CODE_RECORD_SOUND);
+                MessageUtils.recordSound(this, REQUEST_CODE_RECORD_SOUND | replaceFlag);
                 break;
 
             case AttachmentTypeSelectorAdapter.ADD_SLIDESHOW: {
@@ -2154,7 +2162,7 @@ public class ComposeMessageActivity extends Activity
 
                 Intent intent = new Intent(this, SlideshowEditActivity.class);
                 intent.setData(mMessageUri);
-                startActivityForResult(intent, REQUEST_CODE_CREATE_SLIDESHOW);
+                startActivityForResult(intent, REQUEST_CODE_CREATE_SLIDESHOW | replaceFlag);
             }
                 break;
 
@@ -2163,7 +2171,7 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
-    private void showAddAttachmentDialog() {
+    private void showAddAttachmentDialog(final boolean replaceExistingAttachment) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.ic_dialog_attach);
         builder.setTitle(R.string.add_attachment);
@@ -2173,7 +2181,7 @@ public class ComposeMessageActivity extends Activity
 
         builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                addAttachment(which);
+                addAttachment(which, replaceExistingAttachment);
             }
         });
 
@@ -2197,6 +2205,12 @@ public class ComposeMessageActivity extends Activity
 
         if (!requiresMms()) {
             convertMessage(true);
+        }
+        
+        if ((requestCode & REPLACE_ATTACHMENT) != 0) {
+            requestCode &= ~REPLACE_ATTACHMENT;
+            
+            mAttachmentEditor.removeAttachment();
         }
 
         switch(requestCode) {
