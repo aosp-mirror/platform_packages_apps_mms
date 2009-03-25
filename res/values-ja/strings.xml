@@ -159,7 +159,7 @@
     <string name="pref_title_notification_enabled">"通知"</string>
     <string name="pref_summary_notification_enabled">"メール受信をステータスバーで通知する"</string>
     <string name="pref_title_notification_vibrate">"バイブレーション"</string>
-    <string name="pref_summary_notification_vibrate">"通知: バイブレーションもON"</string>
+    <string name="pref_summary_notification_vibrate">"通知: バイブレーションON"</string>
     <string name="pref_title_notification_ringtone">"着信音を選択"</string>
     <string name="pref_title_mms_auto_retrieval">"自動で取得"</string>
     <string name="pref_summary_mms_auto_retrieval">"メッセージを自動的に取得"</string>
