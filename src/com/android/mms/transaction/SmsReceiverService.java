@@ -50,7 +50,6 @@ import android.provider.Telephony.Sms.Outbox;
 import android.telephony.ServiceState;
 import android.telephony.gsm.SmsManager;
 import android.telephony.gsm.SmsMessage;
-import android.util.Config;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -64,7 +63,6 @@ public class SmsReceiverService extends Service {
 
     private ServiceHandler mServiceHandler;
     private Looper mServiceLooper;
-    private final Object mLock = new Object();
 
     public static final String MESSAGE_SENT_ACTION =
         "com.android.mms.transaction.MESSAGE_SENT";
@@ -233,7 +231,7 @@ public class SmsReceiverService extends Service {
             mToastHandler.sendEmptyMessage(1);
         } else {
             Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_FAILED);
-            MessagingNotification.notifySendFailed(getApplicationContext());
+            MessagingNotification.notifySendFailed(getApplicationContext(), true);
             sendFirstQueuedMessage();
         }
     }
