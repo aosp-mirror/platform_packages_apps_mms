@@ -314,8 +314,7 @@ public class MessagingNotification {
     private static Intent getAppIntent() {
         Intent appIntent = new Intent(Intent.ACTION_MAIN, Threads.CONTENT_URI);
 
-        appIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        appIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return appIntent;
    }
 
@@ -475,6 +474,7 @@ public class MessagingNotification {
             failedIntent.putExtra("undelivered_flag", true);
         }
 
+        failedIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 context, 0, failedIntent, 0);
 
