@@ -69,7 +69,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * This activity provides a list view of existing conversations.
  */
-public class ConversationList extends ListActivity {
+public class ConversationList extends ListActivity
+            implements DraftCache.OnDraftChangedListener {
     private static final String TAG = "ConversationList";
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = Config.LOGV && DEBUG;
@@ -172,6 +173,8 @@ public class ConversationList extends ListActivity {
     protected void onResume() {
         super.onResume();
 
+        DraftCache.getInstance().addOnDraftChangedListener(this);
+
         if (mListAdapter != null) {
             mListAdapter.registerObservers();
         }
@@ -185,9 +188,6 @@ public class ConversationList extends ListActivity {
         // info changes pretty quickly, and we can't get change notifications when presence is
         // updated in the ContactsProvider.
         ContactInfoCache.getInstance().invalidateCache();
-        
-        // Draft state might have changed as well; update the cache.
-        DraftCache.getInstance().refresh();
     }
 
     @Override
@@ -209,6 +209,8 @@ public class ConversationList extends ListActivity {
         if (mListAdapter != null) {
             mListAdapter.unregisterObservers();
         }
+        
+        DraftCache.getInstance().removeOnDraftChangedListener(this);
     }
 
     @Override
@@ -233,6 +235,17 @@ public class ConversationList extends ListActivity {
         }
     }
 
+    public void onDraftChanged(long threadId, boolean hasDraft) {
+        if (mListAdapter != null) {
+            // Run notifyDataSetChanged() on the main thread.
+            mQueryHandler.post(new Runnable() {
+                public void run() {
+                    mListAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+    }
+    
     private void initNormalQueryArgs() {
         Uri.Builder builder = Threads.CONTENT_URI.buildUpon();
         builder.appendQueryParameter("simple", "true");
