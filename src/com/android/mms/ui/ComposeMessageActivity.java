@@ -200,7 +200,6 @@ public class ComposeMessageActivity extends Activity
     private static final int RECIPIENTS_MAX_LENGTH = 312;
 
     private static final int MESSAGE_LIST_QUERY_TOKEN = 9527;
-    private static final int THREAD_READ_QUERY_TOKEN = 9696;
 
     private static final int DELETE_MESSAGE_TOKEN  = 9700;
     private static final int DELETE_CONVERSATION_TOKEN  = 9701;
@@ -3257,14 +3256,7 @@ public class ComposeMessageActivity extends Activity
 
     private void checkPendingNotification() {
         if (mPossiblePendingNotification && hasWindowFocus()) {
-            // start async query so as not to slow down user input
-            Uri.Builder builder = Threads.CONTENT_URI.buildUpon();
-            builder.appendQueryParameter("simple", "true");
-            mBackgroundQueryHandler.startQuery(
-                    THREAD_READ_QUERY_TOKEN, null, builder.build(),
-                    new String[] { Threads.READ },
-                    "_id=" + mThreadId, null, null);
-
+            markAsRead(mThreadId);
             mPossiblePendingNotification = false;
         }
     }
@@ -3278,9 +3270,8 @@ public class ComposeMessageActivity extends Activity
         ContentValues values = new ContentValues(1);
         values.put("read", 1);
         String where = "read = 0";
-        Long cookie = new Long(threadId);
 
-        mBackgroundQueryHandler.startUpdate(MARK_AS_READ_TOKEN, cookie,
+        mBackgroundQueryHandler.startUpdate(MARK_AS_READ_TOKEN, null,
                                             threadUri, values, where, null);
     }
     
@@ -3310,14 +3301,6 @@ public class ComposeMessageActivity extends Activity
 
                     return;
 
-                case THREAD_READ_QUERY_TOKEN:
-                    boolean isRead = (cursor.moveToFirst() && (cursor.getInt(0) == 1));
-                    if (!isRead) {
-                        markAsRead(mThreadId);
-                    }
-                    cursor.close();
-                    return;
-                    
                 case CALLER_ID_QUERY_TOKEN:
                 case EMAIL_CONTACT_QUERY_TOKEN:
                     cleanupContactInfoCursor();
@@ -3353,9 +3336,7 @@ public class ComposeMessageActivity extends Activity
         protected void onUpdateComplete(int token, Object cookie, int result) {
             switch(token) {
             case MARK_AS_READ_TOKEN:
-                long threadId = (Long)cookie;
-                MessagingNotification.updateNewMessageIndicator(
-                                        ComposeMessageActivity.this, threadId);
+                MessagingNotification.updateAllNotifications(ComposeMessageActivity.this);
                 break;
             }
         }

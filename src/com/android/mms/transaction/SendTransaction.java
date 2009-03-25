@@ -132,6 +132,7 @@ public class SendTransaction extends Transaction implements Runnable {
             values.put(Mms.RESPONSE_STATUS, respStatus);
 
             if (respStatus != PduHeaders.RESPONSE_STATUS_OK) {
+                values.put(Mms.READ, Integer.valueOf(0));
                 SqliteWrapper.update(mContext, mContext.getContentResolver(),
                                      mSendReqURI, values, null, null);
                 Log.e(TAG, "Server returned an error code: " + respStatus);
