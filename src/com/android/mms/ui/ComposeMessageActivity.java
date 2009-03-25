@@ -527,7 +527,10 @@ public class ComposeMessageActivity extends Activity
     @Override
     public void startActivityForResult(Intent intent, int requestCode)
     {
-        mWaitingForSubActivity = true;  // not ref counting. Hope we can't start more than one.
+        // requestCode >= 0 means the activity in question is a sub-activity.
+        if (requestCode >= 0) {
+            mWaitingForSubActivity = true;
+        }
         
         super.startActivityForResult(intent, requestCode);
     }
