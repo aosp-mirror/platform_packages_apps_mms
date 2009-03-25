@@ -21,6 +21,7 @@ import com.android.mms.R;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.View;
@@ -64,6 +65,10 @@ public class ImageAttachmentView extends LinearLayout implements SlideViewInterf
     }
 
     public void setImage(String name, Bitmap bitmap) {
+        if (null == bitmap) {
+            bitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.ic_missing_thumbnail_picture);
+        }
         mImageView.setImageBitmap(bitmap);
     }
 

@@ -98,9 +98,11 @@ public class BasicSlideEditorView extends LinearLayout implements
     }
 
     public void setImage(String name, Bitmap bitmap) {
-        if (bitmap != null) {
-            mImageView.setImageBitmap(bitmap);
+        if (null == bitmap) {
+            bitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.ic_missing_thumbnail_picture);
         }
+        mImageView.setImageBitmap(bitmap);
     }
 
     public void setImageRegionFit(String fit) {
@@ -127,7 +129,8 @@ public class BasicSlideEditorView extends LinearLayout implements
     public void setVideo(String name, Uri video) {
         Bitmap bitmap = VideoAttachmentView.createVideoThumbnail(mContext, video);
         if (null == bitmap) {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mms_play_btn);
+            bitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.ic_missing_thumbnail_video);
         }
         mImageView.setImageBitmap(bitmap);
     }
