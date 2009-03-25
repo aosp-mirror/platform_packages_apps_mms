@@ -482,6 +482,7 @@ public class ComposeMessageActivity extends Activity
         if (!TextUtils.isEmpty(mSubject)) {
             updateState(HAS_SUBJECT, true);
             mSubjectTextEditor.setText(mSubject);
+            mSubjectTextEditor.setVisibility(View.VISIBLE);
         }
 
         try {
@@ -621,12 +622,9 @@ public class ComposeMessageActivity extends Activity
                 mTextCounter.setVisibility(View.GONE);
             }
             initMmsComponents();
-            TextModel textModel = mSlideshow.get(0).getText();
-            if (textModel != null) {
-                CharSequence mmsText = mSlideshow.get(0).getText().getText();
-                // Show or hide the counter as necessary
-                updateCounter(mmsText, 0, 0, mmsText.length());
-            }
+            CharSequence mmsText = mSlideshow.get(0).getText().getText();
+            // Show or hide the counter as necessary
+            updateCounter(mmsText, 0, 0, mmsText.length());
         } else {
             uninitMmsComponents();
             // Show or hide the counter as necessary
