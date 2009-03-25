@@ -46,7 +46,6 @@ import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
-import com.android.mms.util.ContactInfoCache.CacheEntry;
 
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
@@ -86,7 +85,6 @@ import android.provider.Contacts.People;
 import android.provider.Contacts.Presence;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.provider.Contacts.Intents.Insert;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
@@ -165,11 +163,6 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_RECORD_SOUND     = 15;
     public static final int REQUEST_CODE_CREATE_SLIDESHOW = 16;
     
-    // REPLACE_ATTACHMENT can be OR'd into one of the REQUEST_CODEs above to replace the
-    // existing attachment with the new one, once the new one has been successfully chosen,
-    // grabbed, or selected.
-    public static final int REPLACE_ATTACHMENT            = 4096;
-
     private static final String TAG = "ComposeMessageActivity";
     private static final boolean DEBUG = false;
     private static final boolean TRACE = false;
@@ -340,7 +333,7 @@ public class ComposeMessageActivity extends Activity
                 case AttachmentEditor.MSG_REPLACE_IMAGE:
                 case AttachmentEditor.MSG_REPLACE_VIDEO:
                 case AttachmentEditor.MSG_REPLACE_AUDIO:
-                    showAddAttachmentDialog(true);
+                    showAddAttachmentDialog();
                     break;
 
                 default:
@@ -2052,7 +2045,7 @@ public class ComposeMessageActivity extends Activity
                 break;
             case MENU_ADD_ATTACHMENT:
                 // Launch the add-attachment list dialog
-                showAddAttachmentDialog(false);
+                showAddAttachmentDialog();
                 break;
             case MENU_DISCARD:
                 discardTemporaryMessage();
@@ -2098,39 +2091,35 @@ public class ComposeMessageActivity extends Activity
         return true;
     }
 
-    private void addAttachment(int type, boolean replaceAttachment) {
-        int replaceFlag = 0;
-        if (replaceAttachment) {
-            replaceFlag = REPLACE_ATTACHMENT;
-        }
+    private void addAttachment(int type) {
         switch (type) {
             case AttachmentTypeSelectorAdapter.ADD_IMAGE:
-                MessageUtils.selectImage(this, REQUEST_CODE_ATTACH_IMAGE | replaceFlag);
+                MessageUtils.selectImage(this, REQUEST_CODE_ATTACH_IMAGE);
                 break;
 
             case AttachmentTypeSelectorAdapter.TAKE_PICTURE: {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE | replaceFlag);
+                startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
             }
                 break;
 
             case AttachmentTypeSelectorAdapter.ADD_VIDEO:
-                MessageUtils.selectVideo(this, REQUEST_CODE_ATTACH_VIDEO | replaceFlag);
+                MessageUtils.selectVideo(this, REQUEST_CODE_ATTACH_VIDEO);
                 break;
 
             case AttachmentTypeSelectorAdapter.RECORD_VIDEO: {
                 Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
-                startActivityForResult(intent, REQUEST_CODE_TAKE_VIDEO | replaceFlag);
+                startActivityForResult(intent, REQUEST_CODE_TAKE_VIDEO);
             }
                 break;
 
             case AttachmentTypeSelectorAdapter.ADD_SOUND:
-                MessageUtils.selectAudio(this, REQUEST_CODE_ATTACH_SOUND | replaceFlag);
+                MessageUtils.selectAudio(this, REQUEST_CODE_ATTACH_SOUND);
                 break;
 
             case AttachmentTypeSelectorAdapter.RECORD_SOUND:
-                MessageUtils.recordSound(this, REQUEST_CODE_RECORD_SOUND | replaceFlag);
+                MessageUtils.recordSound(this, REQUEST_CODE_RECORD_SOUND);
                 break;
 
             case AttachmentTypeSelectorAdapter.ADD_SLIDESHOW: {
@@ -2150,7 +2139,7 @@ public class ComposeMessageActivity extends Activity
 
                 Intent intent = new Intent(this, SlideshowEditActivity.class);
                 intent.setData(mMessageUri);
-                startActivityForResult(intent, REQUEST_CODE_CREATE_SLIDESHOW | replaceFlag);
+                startActivityForResult(intent, REQUEST_CODE_CREATE_SLIDESHOW);
             }
                 break;
 
@@ -2159,7 +2148,7 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
-    private void showAddAttachmentDialog(final boolean replaceExistingAttachment) {
+    private void showAddAttachmentDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.ic_dialog_attach);
         builder.setTitle(R.string.add_attachment);
@@ -2169,7 +2158,7 @@ public class ComposeMessageActivity extends Activity
 
         builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                addAttachment(which, replaceExistingAttachment);
+                addAttachment(which);
             }
         });
 
@@ -2194,13 +2183,7 @@ public class ComposeMessageActivity extends Activity
         if (!requiresMms()) {
             convertMessage(true);
         }
-        
-        if ((requestCode & REPLACE_ATTACHMENT) != 0) {
-            requestCode &= ~REPLACE_ATTACHMENT;
-            
-            mAttachmentEditor.removeAttachment();
-        }
-
+ 
         switch(requestCode) {
             case REQUEST_CODE_CREATE_SLIDESHOW:
                 try {
@@ -2296,6 +2279,7 @@ public class ComposeMessageActivity extends Activity
                 // TODO
                 break;
         }
+        
         // Make sure if there was an error that our message
         // type remains correct. Excludes add image because it may be in async
         // resize process.

@@ -49,9 +49,6 @@ public class AttachmentEditor {
     public static final int VIDEO_ATTACHMENT          = 2;
     public static final int AUDIO_ATTACHMENT          = 3;
     public static final int SLIDESHOW_ATTACHMENT      = 4;
-    public static final int CAPTURED_IMAGE_ATTACHMENT = 5;
-    public static final int CAPTURED_VIDEO_ATTACHMENT = 6;
-    public static final int CAPTURED_AUDIO_ATTACHMENT = 7;
 
     static final int MSG_EDIT_SLIDESHOW   = 1;
     static final int MSG_SEND_SLIDESHOW   = 2;
@@ -247,14 +244,20 @@ public class AttachmentEditor {
     }
 
     public void changeImage(Uri uri) throws MmsException {
-        mSlideshow.get(0).add(new ImageModel(
-                mContext, uri, mSlideshow.getLayout().getImageRegion()));
+        ImageModel image = new ImageModel(mContext, uri,
+                mSlideshow.getLayout().getImageRegion());
+        SlideModel slide = mSlideshow.get(0);
+        slide.removeVideo();
+        slide.removeAudio();
+        slide.add(image);
     }
 
     public void changeVideo(Uri uri) throws MmsException {
         VideoModel video = new VideoModel(mContext, uri,
                 mSlideshow.getLayout().getImageRegion());
         SlideModel slide = mSlideshow.get(0);
+        slide.removeImage();
+        slide.removeAudio();
         slide.add(video);
         slide.updateDuration(video.getDuration());
     }
@@ -262,6 +265,8 @@ public class AttachmentEditor {
     public void changeAudio(Uri uri) throws MmsException {
         AudioModel audio = new AudioModel(mContext, uri);
         SlideModel slide = mSlideshow.get(0);
+        slide.removeImage();
+        slide.removeVideo();
         slide.add(audio);
         slide.updateDuration(audio.getDuration());
     }
