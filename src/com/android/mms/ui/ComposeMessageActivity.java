@@ -330,20 +330,12 @@ public class ComposeMessageActivity extends Activity
                     break;
                 }
                 case AttachmentEditor.MSG_VIEW_IMAGE:
-                case AttachmentEditor.MSG_PLAY_VIDEO: {
-                    // In attachment-editor mode, we only ever have one slide.
-                    MessageUtils.viewSimpleSlideshow(ComposeMessageActivity.this,
-                                                      mSlideshow);
-                    break;
-                }
+                case AttachmentEditor.MSG_PLAY_VIDEO:
                 case AttachmentEditor.MSG_PLAY_AUDIO:
-                case AttachmentEditor.MSG_PLAY_SLIDESHOW: {
-                    Intent intent = new Intent(ComposeMessageActivity.this,
-                            SlideshowActivity.class);
-                    intent.setData(mMessageUri);
-                    startActivity(intent);
+                case AttachmentEditor.MSG_PLAY_SLIDESHOW:
+                    MessageUtils.viewMmsMessageAttachment(ComposeMessageActivity.this,
+                            mMessageUri, mSlideshow, mPersister);
                     break;
-                }
 
                 case AttachmentEditor.MSG_REPLACE_IMAGE:
                 case AttachmentEditor.MSG_REPLACE_VIDEO:
@@ -1279,10 +1271,9 @@ public class ComposeMessageActivity extends Activity
                     return true;
                 }
                 case MENU_VIEW_SLIDESHOW: {
-                    Intent intent = new Intent(ComposeMessageActivity.this,
-                            SlideshowActivity.class);
-                    intent.setData(ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
-                    startActivity(intent);
+                    MessageUtils.viewMmsMessageAttachment(ComposeMessageActivity.this,
+                            ContentUris.withAppendedId(Mms.CONTENT_URI, msgId),
+                            null /* slideshow */, null /* persister */);
                     return true;
                 }
                 case MENU_VIEW_MESSAGE_DETAILS: {
@@ -2847,7 +2838,7 @@ public class ComposeMessageActivity extends Activity
         asyncDeleteTemporarySmsMessage(mThreadId);
     }
     
-    private static void updateTemporaryMmsMessage(Uri uri, PduPersister persister,
+    public static void updateTemporaryMmsMessage(Uri uri, PduPersister persister,
             SlideshowModel slideshow, SendReq sendReq) {
         persister.updateHeaders(uri, sendReq);
         final PduBody pb = slideshow.toPduBody();
