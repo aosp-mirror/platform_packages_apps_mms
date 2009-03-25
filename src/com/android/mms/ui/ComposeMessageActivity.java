@@ -1864,11 +1864,6 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void exitComposeMessageActivity(final Runnable exit) {
-        // Don't do anything if we have an invalid thread ID.
-        if (mThreadId <= 0) {
-            return;
-        }
-        
         // If the message is empty, just quit -- finishing the
         // activity will cause an empty draft to be deleted.
         if (isEmptyMessage()) {
@@ -1876,8 +1871,7 @@ public class ComposeMessageActivity extends Activity
             return;
         }
         
-        
-        if (isRecipientsEditorVisible() && !hasValidRecipient()) {
+        if (!hasValidRecipient()) {
             MessageUtils.showDiscardDraftConfirmDialog(this,
                     new DiscardDraftListener());
             return;
