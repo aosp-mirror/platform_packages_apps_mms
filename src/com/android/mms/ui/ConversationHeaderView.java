@@ -48,6 +48,7 @@ public class ConversationHeaderView extends RelativeLayout {
     private TextView mFromView;
     private TextView mDateView;
     private View mAttachmentView;
+    private View mUnreadIndicator;
     private View mErrorIndicator;
     private ImageView mPresenceView;
 
@@ -77,6 +78,7 @@ public class ConversationHeaderView extends RelativeLayout {
 
         mDateView = (TextView) findViewById(R.id.date);
         mAttachmentView = findViewById(R.id.attachment);
+        mUnreadIndicator = findViewById(R.id.unread_indicator);
         mErrorIndicator = findViewById(R.id.error);
         mPresenceView = (ImageView) findViewById(R.id.presence);
     }
@@ -204,6 +206,8 @@ public class ConversationHeaderView extends RelativeLayout {
         if (ch.getFrom() == null) {
             ch.setWaitingView(this);
         }
+
+        mUnreadIndicator.setVisibility(ch.isRead() ? INVISIBLE : VISIBLE);
 
         // Subject
         mSubjectView.setText(ch.getSubject());
