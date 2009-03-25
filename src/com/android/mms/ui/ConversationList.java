@@ -355,7 +355,8 @@ public class ConversationList extends ListActivity {
 
     public static Intent createAddContactIntent(String address) {
         // address must be a single recipient
-        Intent intent = new Intent(Insert.ACTION, People.CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
+        intent.setType(Contacts.People.CONTENT_ITEM_TYPE);
         if (Recipient.isPhoneNumber(address)) {
             intent.putExtra(Insert.PHONE, address);
         } else {
