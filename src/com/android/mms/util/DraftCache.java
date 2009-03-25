@@ -19,6 +19,7 @@ package com.android.mms.util;
 import com.google.android.mms.util.SqliteWrapper;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -37,7 +38,13 @@ public class DraftCache {
 
     private final Context mContext;
 
-    private final HashSet<Long> mDraftSet = new HashSet<Long>(4);
+    private HashSet<Long> mDraftSet = new HashSet<Long>(4);
+    private final HashSet<OnDraftChangedListener> mChangeListeners
+            = new HashSet<OnDraftChangedListener>(1);
+    
+    public interface OnDraftChangedListener {
+        void onDraftChanged(long threadId, boolean hasDraft);
+    }
     
     private DraftCache(Context context) {
         mContext = context;
@@ -64,24 +71,48 @@ public class DraftCache {
 
     /** Does the actual work of rebuilding the draft cache.
      */
-    private void rebuildCache() {
-        synchronized (mDraftSet) {
-            mDraftSet.clear();
-            Cursor cursor = SqliteWrapper.query(
-                    mContext,
-                    mContext.getContentResolver(),
-                    MmsSms.CONTENT_DRAFT_URI,
-                    DRAFT_PROJECTION, null, null, null);
+    private synchronized void rebuildCache() {
+        HashSet<Long> oldDraftSet = mDraftSet;
+        HashSet<Long> newDraftSet = new HashSet<Long>(oldDraftSet.size());
+        
+        Cursor cursor = SqliteWrapper.query(
+                mContext,
+                mContext.getContentResolver(),
+                MmsSms.CONTENT_DRAFT_URI,
+                DRAFT_PROJECTION, null, null, null);
 
-            try {
-                if (cursor.moveToFirst()) {
-                    for (; !cursor.isAfterLast(); cursor.moveToNext()) {
-                        long threadId = cursor.getLong(COLUMN_DRAFT_THREAD_ID);
-                        mDraftSet.add(threadId);
-                    }
+        try {
+            if (cursor.moveToFirst()) {
+                for (; !cursor.isAfterLast(); cursor.moveToNext()) {
+                    long threadId = cursor.getLong(COLUMN_DRAFT_THREAD_ID);
+                    newDraftSet.add(threadId);
                 }
-            } finally {
-                cursor.close();
+            }
+        } finally {
+            cursor.close();
+        }
+        
+        mDraftSet = newDraftSet;
+        
+        // If nobody's interested in finding out about changes,
+        // just bail out early.
+        if (mChangeListeners.size() < 1) {
+            return;
+        }
+        
+        // Find out which drafts were removed and added and notify
+        // listeners.
+        Set<Long> added = new HashSet<Long>(newDraftSet);
+        added.removeAll(oldDraftSet);
+        Set<Long> removed = new HashSet<Long>(oldDraftSet);
+        removed.removeAll(newDraftSet);
+
+        for (OnDraftChangedListener l : mChangeListeners) {
+            for (long threadId : added) {
+                l.onDraftChanged(threadId, true);
+            }
+            for (long threadId : removed) {
+                l.onDraftChanged(threadId, false);
             }
         }
     }
@@ -90,12 +121,18 @@ public class DraftCache {
      *  a piecemeal basis, to be called when a draft has appeared
      *  or disappeared.
      */
-    public void setDraftState(long threadId, boolean hasDraft) {
-        synchronized (mDraftSet) {
-            if (hasDraft) {
-                mDraftSet.add(threadId);
-            } else {
-                mDraftSet.remove(threadId);
+    public synchronized void setDraftState(long threadId, boolean hasDraft) {
+        boolean changed;
+        if (hasDraft) {
+            changed = mDraftSet.add(threadId);
+        } else {
+            changed = mDraftSet.remove(threadId);
+        }
+
+        // Notify listeners if there was a change.
+        if (changed) {
+            for (OnDraftChangedListener l : mChangeListeners) {
+                l.onDraftChanged(threadId, hasDraft);
             }
         }
     }
@@ -103,12 +140,18 @@ public class DraftCache {
     /** Returns true if the given thread ID has a draft associated
      *  with it, false if not.
      */
-    public boolean hasDraft(long threadId) {
-        synchronized (mDraftSet) {
-            return mDraftSet.contains(threadId);
-        }
+    public synchronized boolean hasDraft(long threadId) {
+        return mDraftSet.contains(threadId);
     }
-    
+
+    public synchronized void addOnDraftChangedListener(OnDraftChangedListener l) {
+        mChangeListeners.add(l);
+    }
+
+    public synchronized void removeOnDraftChangedListener(OnDraftChangedListener l) {
+        mChangeListeners.remove(l);
+    }
+
     /**
      * Initialize the global instance. Should call only once.
      */
