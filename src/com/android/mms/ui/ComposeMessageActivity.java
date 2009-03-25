@@ -642,6 +642,10 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void convertMessageIfNeeded(int whichState, boolean set) {
+        convertMessageIfNeeded(whichState, set, true);
+    }
+    
+    private void convertMessageIfNeeded(int whichState, boolean set, boolean toast) {
         int oldState = mMessageState;
         updateState(whichState, set);
 
@@ -669,7 +673,9 @@ public class ComposeMessageActivity extends Activity
                     "Message converted to MMS with DISABLE_MMS set");
         }
         
-        toastConvertInfo(toMms);
+        if (toast) {
+            toastConvertInfo(toMms);
+        }
         convertMessage(toMms);
     }
 
@@ -1597,7 +1603,6 @@ public class ComposeMessageActivity extends Activity
 
         // Parse the recipient list.
         mRecipientList = RecipientList.from(mExternalAddress, this);
-        updateState(RECIPIENTS_REQUIRE_MMS, recipientsRequireMms());
 
         if (cancelFailedToDeliverNotification(getIntent(), getApplicationContext())) {
             // Show a pop-up dialog to inform user the message was
@@ -1614,7 +1619,12 @@ public class ComposeMessageActivity extends Activity
         // Handle send intents (e.g. share image via MMS) 
         handleSendIntent(getIntent());
 
+        // Load the draft for this thread, if there is one.
         loadDraft();
+
+        // If we are still not in MMS mode, check to see if we need to convert
+        // because of e-mail recipients.
+        convertMessageIfNeeded(RECIPIENTS_REQUIRE_MMS, recipientsRequireMms(), false);
 
         // Show the recipients editor if we don't have a valid thread.
         if (mThreadId <= 0) {
