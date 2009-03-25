@@ -1097,8 +1097,10 @@ public class ComposeMessageActivity extends Activity
                     case Mms.MESSAGE_BOX_INBOX:
                         break;
                     case Mms.MESSAGE_BOX_OUTBOX:
-                        menu.add(0, MENU_EDIT_MESSAGE, 0, R.string.menu_edit)
-                                .setOnMenuItemClickListener(l);
+                        if (mRecipientList.size() == 1) {
+                            menu.add(0, MENU_EDIT_MESSAGE, 0, R.string.menu_edit)
+                                    .setOnMenuItemClickListener(l);
+                        }
                         break;
                 }
                 switch (msgItem.mAttachmentType) {
@@ -1122,9 +1124,10 @@ public class ComposeMessageActivity extends Activity
                         break;
                 }
             } else {
-                // Message type is sms.
-                if ((msgItem.mBoxId == Sms.MESSAGE_TYPE_OUTBOX) ||
-                        (msgItem.mBoxId == Sms.MESSAGE_TYPE_FAILED)) {
+                // Message type is sms. Only allow "edit" if the message has a single recipient
+                if (mRecipientList.size() == 1 &&
+                        (msgItem.mBoxId == Sms.MESSAGE_TYPE_OUTBOX ||
+                        msgItem.mBoxId == Sms.MESSAGE_TYPE_FAILED)) {
                     menu.add(0, MENU_EDIT_MESSAGE, 0, R.string.menu_edit)
                             .setOnMenuItemClickListener(l);
                 }
