@@ -141,6 +141,21 @@ public class MessagingNotification {
     }
 
     /**
+     * Updates all pending notifications, clearing or updating them as
+     * necessary.  This task is completed in the background on a worker
+     * thread.
+     */
+    public static void updateAllNotifications(final Context context) {
+        new Thread(new Runnable() {
+            public void run() {
+                updateNewMessageIndicator(context);
+                updateSendFailedNotification(context);
+                updateDownloadFailedNotification(context);
+            }
+        }).start();
+    }
+    
+    /**
      * Deletes any delivery report notifications for the specified
      * thread, then checks to see if there are any unread messages or
      * delivery reports.  Shows the most recent notification if there
@@ -487,7 +502,7 @@ public class MessagingNotification {
     // You can pass in a threadIdResult of size 1 to avoid the comparison of each thread id.
     private static int getUndeliveredMessageCount(Context context, long[] threadIdResult) {
         Cursor undeliveredCursor = SqliteWrapper.query(context, context.getContentResolver(),
-                UNDELIVERED_URI, new String[] { Mms.THREAD_ID }, null, null, null);
+                UNDELIVERED_URI, new String[] { Mms.THREAD_ID }, "read=0", null, null);
         if (undeliveredCursor == null) {
             return 0;
         }
