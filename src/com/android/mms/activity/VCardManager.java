@@ -16,8 +16,6 @@
  */
 package com.android.mms.activity;
 
-import com.google.android.mms.util.SqliteWrapper;
-
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -34,10 +32,12 @@ import android.syncml.pim.vcard.VCardException;
 import android.syncml.pim.vcard.VCardParser;
 import android.util.Log;
 
+import com.google.android.mms.util.SqliteWrapper;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
 
 public class VCardManager {
     static private final String TAG = "VCardManager";
@@ -150,7 +150,7 @@ public class VCardManager {
                 phoneContent.clear();
                 typeList.clear();
 
-                for (String typeStr : prop.paraMap_TYPE) {
+                for (String typeStr : prop.paramMap_TYPE) {
                     typeList.add(typeStr.toUpperCase());
                 }
                 if (typeList.contains("FAX")) {
@@ -202,7 +202,7 @@ public class VCardManager {
                 ContentValues mapContactM = new ContentValues();
                 int iType;
 
-                for (String typeName : prop.paraMap_TYPE) {
+                for (String typeName : prop.paramMap_TYPE) {
                     mapContactM.clear();
                     mapContactM.put(Contacts.ContactMethods.DATA,
                             prop.propValue.replaceAll(";", " ").trim());
@@ -225,7 +225,7 @@ public class VCardManager {
                 mapContactM.put(Contacts.ContactMethods.KIND,
                         Contacts.KIND_POSTAL);
 
-                String typeName = listToString(prop.paraMap_TYPE);
+                String typeName = setToString(prop.paramMap_TYPE);
                 int addressType = getAddressTypeByName(typeName);
                 mapContactM.put(Contacts.ContactMethods.TYPE, addressType);
                 if (addressType == Contacts.ContactMethods.TYPE_CUSTOM) {
@@ -276,9 +276,9 @@ public class VCardManager {
     }
 
 
-    private String listToString(List<String> list) {
+    private String setToString(Set<String> set) {
         StringBuilder typeListB = new StringBuilder("");
-        for (String o : list) {
+        for (String o : set) {
             typeListB.append(o).append(";");
         }
 
