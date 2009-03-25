@@ -25,11 +25,9 @@
     <string name="menu_add_address_to_contacts">"연락처에 <xliff:g id="NAME">%s</xliff:g> 추가"</string>
     <string name="menu_call">"전화걸기"</string>
     <string name="menu_delete_all">"대화 삭제"</string>
-    <!-- no translation found for menu_delete (1851666911396479006) -->
-    <skip />
+    <string name="menu_delete">"대화목록 삭제"</string>
     <string name="menu_undelivered_messages">"전송되지 않은 메시지"</string>
-    <!-- no translation found for menu_view (7448852683948080108) -->
-    <skip />
+    <string name="menu_view">"대화목록 보기"</string>
     <string name="refreshing">"새로 고치는 중..."</string>
     <string name="has_draft">"임시저장"</string>
     <!-- no translation found for broadcast_from_to (1804605929273213017) -->
@@ -64,8 +62,7 @@
     <string name="add_slide">"슬라이드 추가"</string>
     <string name="add_slide_hint">"새 슬라이드를 만드세요."</string>
     <string name="discard_slideshow">"슬라이드쇼 삭제"</string>
-    <!-- no translation found for slide_show_part (5077675385448696846) -->
-    <skip />
+    <string name="slide_show_part">"파트 <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text">"텍스트 삭제"</string>
     <string name="add_picture">"사진 추가"</string>
     <string name="remove_picture">"사진 삭제"</string>
@@ -84,8 +81,7 @@
     <string name="remove">"삭제"</string>
     <string name="send">"보내기"</string>
     <string name="all_threads">"모든 대화"</string>
-    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
-    <skip />
+    <string name="type_to_compose_text_enter_to_send">"메시지를 입력하세요."</string>
     <string name="open_keyboard_to_compose_message">"키보드를 사용하여 메시지 작성"</string>
     <string name="image_too_large">"사진 크기가 너무 큼"</string>
     <string name="ask_for_automatically_resize">"보내기 전에 사진 크기를 자동으로 조정하시겠습니까?"</string>
@@ -172,8 +168,7 @@
     <string name="confirm_delete_message">"메시지가 삭제됩니다."</string>
     <string name="confirm_delete_all_messages">"전체 대화가 삭제됩니다."</string>
     <string name="confirm_delete_all_SIM_messages">"SIM에 있는 모든 메일이 삭제됩니다."</string>
-    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
-    <skip />
+    <string name="confirm_delete_SIM_message">"SIM에서 이 메시지를 삭제합니다."</string>
     <string name="cannot_get_details">"세부정보를 가져올 수 없음"</string>
     <string name="message_details_title">"메시지 세부정보"</string>
     <string name="message_type_label">"유형: "</string>
@@ -224,10 +219,8 @@
     <string name="select_top_text">"텍스트를 위쪽에"</string>
     <string name="notification_multiple">"읽지 않은 메시지가 <xliff:g id="COUNT">%s</xliff:g>개 있습니다."</string>
     <string name="notification_multiple_title">"새 메시지"</string>
-    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
-    <skip />
-    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
-    <skip />
+    <string name="notification_failed_multiple">"<xliff:g id="COUNT">%s</xliff:g>개 메시지를 보내지 못했습니다."</string>
+    <string name="notification_failed_multiple_title">"메시지를 전송하지 못했습니다."</string>
     <string name="sim_full_title">"SIM 카드 용량이 가득 참"</string>
     <string name="sim_full_body">"저장 공간을 늘리려면 메시지를 일부 삭제하세요."</string>
     <string name="type_audio">"오디오"</string>
