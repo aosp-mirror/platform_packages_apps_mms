@@ -720,6 +720,8 @@ public class ComposeMessageActivity extends Activity
             if (mMessageUri != null) {
                 if (LOCAL_LOGV) Log.v(TAG, "discardTemporaryMessage " + mMessageUri);
                 asyncDelete(mMessageUri, null, null);
+                // Prevent the message from being re-saved in onStop().
+                mMessageUri = null;
             }
         } else if (mThreadId > 0) {
             asyncDeleteTemporarySmsMessage(mThreadId);
@@ -733,7 +735,6 @@ public class ComposeMessageActivity extends Activity
         public void onClick(DialogInterface dialog, int whichButton) {
             discardTemporaryMessage();
             goToConversationList();
-            finish();
         }
     }
 
@@ -1987,7 +1988,7 @@ public class ComposeMessageActivity extends Activity
         menu.add(0, MENU_INSERT_SMILEY, 0, R.string.menu_insert_smiley).setIcon(
                 com.android.internal.R.drawable.ic_menu_emoticons);
 
-        if (mThreadId > 0L) {
+        if (mMsgListAdapter.getCount() > 0) {
             // Removed search as part of b/1205708
             //menu.add(0, MENU_SEARCH, 0, R.string.menu_search).setIcon(
             //        R.drawable.ic_menu_search);
