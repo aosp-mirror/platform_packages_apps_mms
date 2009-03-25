@@ -1523,7 +1523,12 @@ public class ComposeMessageActivity extends Activity
                 // but avoids annoying a user who is trying to add five recipients and
                 // keeps having focus stolen away.
                 if (mRecipientList.size() == 1) {
-                    mTextEditor.requestFocus();
+                    // if we're in extract mode then don't request focus
+                    final InputMethodManager inputManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (inputManager == null || !inputManager.isFullscreenMode()) {
+                        mTextEditor.requestFocus();
+                    }
                 }
             }
         });
