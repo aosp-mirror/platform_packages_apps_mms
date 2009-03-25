@@ -855,7 +855,9 @@ public class ComposeMessageActivity extends Activity
                 String title = !TextUtils.isEmpty(r.name) ? r.name : r.number;
                 menu.setHeaderTitle(title);
 
-                if (r.person_id != -1) {
+                long personId = getPersonId(r);
+                if (personId > 0) {
+                    r.person_id = personId;     // make sure it's updated with the latest.
                     menu.add(0, MENU_VIEW_CONTACT, 0, R.string.menu_view_contact)
                             .setOnMenuItemClickListener(l);
                 } else {
@@ -881,11 +883,9 @@ public class ComposeMessageActivity extends Activity
                     return true;
                 }
                 case MENU_ADD_TO_CONTACTS: {
-                    Intent intent = new Intent(Insert.ACTION, People.CONTENT_URI);
-                    if (Recipient.isPhoneNumber(mRecipient.number)) {
-                        intent.putExtra(Insert.PHONE, mRecipient.number);
-                    } else {
-                        intent.putExtra(Insert.EMAIL, mRecipient.number);
+                    Intent intent = ConversationList.createAddContactIntent(mRecipient.number);
+                    if (!TextUtils.isEmpty(mRecipient.name)) {
+                        intent.putExtra(Insert.NAME, mRecipient.name);
                     }
                     ComposeMessageActivity.this.startActivity(intent);
                     return true;
