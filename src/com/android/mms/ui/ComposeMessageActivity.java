@@ -482,7 +482,7 @@ public class ComposeMessageActivity extends Activity
         if (!TextUtils.isEmpty(mSubject)) {
             updateState(HAS_SUBJECT, true);
             mSubjectTextEditor.setText(mSubject);
-            mSubjectTextEditor.setVisibility(View.VISIBLE);
+            showSubjectEditor();
         }
 
         try {
@@ -1185,8 +1185,7 @@ public class ComposeMessageActivity extends Activity
 
         convertMessage(true);
         if (!TextUtils.isEmpty(mSubject)) {
-            mSubjectTextEditor.setVisibility(View.VISIBLE);
-            mTopPanel.setVisibility(View.VISIBLE);
+            showSubjectEditor();
         } else {
             mSubjectTextEditor.setVisibility(View.GONE);
             hideTopPanelIfNecessary();
@@ -1643,6 +1642,11 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
+    private void showSubjectEditor() {
+        mSubjectTextEditor.setVisibility(View.VISIBLE);
+        mTopPanel.setVisibility(View.VISIBLE);
+    }
+    
     private void hideTopPanelIfNecessary() {
         if (!isSubjectEditorVisible() && !isRecipientsEditorVisible()) {
             mTopPanel.setVisibility(View.GONE);
@@ -2040,8 +2044,7 @@ public class ComposeMessageActivity extends Activity
         switch (item.getItemId()) {
             case MENU_ADD_SUBJECT:
                 convertMessageIfNeeded(HAS_SUBJECT, true);
-                mSubjectTextEditor.setVisibility(View.VISIBLE);
-                mTopPanel.setVisibility(View.VISIBLE);
+                showSubjectEditor();
                 mSubjectTextEditor.requestFocus();
                 break;
             case MENU_ADD_ATTACHMENT:
