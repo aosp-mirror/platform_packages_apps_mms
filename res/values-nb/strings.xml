@@ -62,8 +62,7 @@
     <string name="add_slide">"Legg til lysbilde"</string>
     <string name="add_slide_hint">"Velg for å lage nytt bilde"</string>
     <string name="discard_slideshow">"Forkast bildeserie"</string>
-    <!-- no translation found for slide_show_part (5077675385448696846) -->
-    <skip />
+    <string name="slide_show_part">"Del <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text">"Fjern tekst"</string>
     <string name="add_picture">"Legg til bilde"</string>
     <string name="remove_picture">"Fjern bilde"</string>
@@ -82,8 +81,7 @@
     <string name="remove">"Fjern"</string>
     <string name="send">"Send"</string>
     <string name="all_threads">"Alle tråder"</string>
-    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
-    <skip />
+    <string name="type_to_compose_text_enter_to_send">"Skriv her"</string>
     <string name="open_keyboard_to_compose_message">"Åpne tastaturet for å skrive en melding"</string>
     <string name="image_too_large">"Bildet er for stort"</string>
     <string name="ask_for_automatically_resize">"Gjør bildet mindre før sending?"</string>
@@ -168,11 +166,9 @@
     <string name="confirm_delete_conversation">"Hele tråden vil bli slettet."</string>
     <string name="confirm_delete_all_conversations">"Alle tråder vil bli slettet."</string>
     <string name="confirm_delete_message">"Denne meldingen vil bli slettet."</string>
-    <string name="confirm_delete_all_messages">"Hele tråden vil bli slettet.BREAK_0BREAK_1BREAK_265701806463341097BREAK_3Alle meldinger på SIM-kortet vil bli slettet."</string>
-    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
-    <skip />
-    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
-    <skip />
+    <string name="confirm_delete_all_messages">"Hele tråden vil bli slettet."</string>
+    <string name="confirm_delete_all_SIM_messages">"Alle meldinger på SIM-kortet vil bli slettet."</string>
+    <string name="confirm_delete_SIM_message">"Denne meldingen på SIM-kortet vil bli slettet."</string>
     <string name="cannot_get_details">"Kan ikke hente detaljer"</string>
     <string name="message_details_title">"Meldingsdetaljer"</string>
     <string name="message_type_label">"Type: "</string>
@@ -223,10 +219,8 @@
     <string name="select_top_text">"Text på toppen"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> uleste meldinger."</string>
     <string name="notification_multiple_title">"Nye meldinger"</string>
-    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
-    <skip />
-    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
-    <skip />
+    <string name="notification_failed_multiple">"<xliff:g id="COUNT">%s</xliff:g> meldinger ble ikke sendt."</string>
+    <string name="notification_failed_multiple_title">"Meldinger ikke sendt"</string>
     <string name="sim_full_title">"SIM-kort fullt"</string>
     <string name="sim_full_body">"Fjern noen meldinger for å gjøre plass til flere."</string>
     <string name="type_audio">"lyden"</string>
