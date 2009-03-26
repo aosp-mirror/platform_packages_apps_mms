@@ -181,6 +181,9 @@ public class ConversationList extends ListActivity
 
         getContentResolver().delete(Threads.OBSOLETE_THREADS_URI, null, null);
 
+        // Make sure the draft cache is up to date.
+        DraftCache.getInstance().refresh();
+
         startAsyncQuery();
 
         // force invalidate the contact info cache, so we will query for fresh info again.
