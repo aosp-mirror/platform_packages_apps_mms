@@ -298,7 +298,17 @@ public class ComposeMessageActivity extends Activity
     
     private boolean mWaitingForSubActivity;
 
-
+    private static void log(String format, Object... args) {
+        Thread current = Thread.currentThread();
+        long tid = current.getId();
+        StackTraceElement[] stack = current.getStackTrace();
+        String methodName = stack[3].getMethodName();
+        // Prepend current thread ID and name of calling method to the message.
+        format = "[" + tid + "] [" + methodName + "] " + format;
+        String logMsg = String.format(format, args);
+        Log.d(TAG, logMsg);
+    }
+    
     //==========================================================
     // Inner classes
     //==========================================================
@@ -708,7 +718,7 @@ public class ComposeMessageActivity extends Activity
                 // Prevent the message from being re-saved in onStop().
                 mMessageUri = null;
             }
-        } else if (mThreadId > 0) {
+        } else {
             asyncDeleteTemporarySmsMessage(mThreadId);
         }
 
@@ -1713,7 +1723,8 @@ public class ComposeMessageActivity extends Activity
         }
         outState.putString("address", mRecipientList.serialize());
 
-        if (needSaveAsMms()) {
+        removeSubjectIfEmpty();
+        if (requiresMms()) {
             if (isSubjectEditorVisible()) {
                 outState.putString("subject", mSubjectTextEditor.getText().toString());
             }
@@ -1748,13 +1759,11 @@ public class ComposeMessageActivity extends Activity
         return !(hasText() || hasSubject() || hasAttachment());
     }
 
-    private boolean needSaveAsMms() {
+    private void removeSubjectIfEmpty() {
         // subject editor is visible without any contents.
-        if ( (mMessageState == HAS_SUBJECT) && !hasSubject()) {
+        if ((mMessageState == HAS_SUBJECT) && !hasSubject()) {
             convertMessage(false);
-            return false;
         }
-        return requiresMms();
     }
 
     @Override
@@ -2690,11 +2699,20 @@ public class ComposeMessageActivity extends Activity
     
     private void asyncDelete(Uri uri, String selection, String[] selectionArgs) {
         if (LOCAL_LOGV) Log.v(TAG, "asyncDelete " + uri);
-
         mBackgroundQueryHandler.startDelete(0, null, uri, selection, selectionArgs);
     }
     
     private void saveDraft() {
+        // Convert back to SMS if we were only in MMS mode because there was
+        // a subject and it is empty.
+        removeSubjectIfEmpty();
+
+        // If we are in MMS mode but mMessageUri is null, the message has already
+        // been discarded.  Just bail out early.
+        if (requiresMms() && mMessageUri == null && !mWaitingForSubActivity) {
+            return;
+        }
+
         // Throw the message out if it's empty, unless we're in the middle
         // of creating a slideshow or some other subactivity -- don't discard
         // the draft behind the subactivity's back.
@@ -2713,12 +2731,7 @@ public class ComposeMessageActivity extends Activity
         }
         
         boolean savedAsDraft = false;
-        if (needSaveAsMms()) {
-            if (mMessageUri == null) {
-                // no draft to be saved
-                return;
-            }
-
+        if (requiresMms()) {
             if (isEmptyMms() && !mWaitingForSubActivity) {
                 asyncDelete(mMessageUri, null, null);
             } else {
@@ -2727,9 +2740,7 @@ public class ComposeMessageActivity extends Activity
             }
         } else {
             if (isEmptySms()) {
-                if (mThreadId > 0) {
-                    asyncDeleteTemporarySmsMessage(mThreadId);
-                }
+                asyncDeleteTemporarySmsMessage(mThreadId);
             } else {
                 asyncUpdateTemporarySmsMessage(mRecipientList.getToNumbers(),
                         mMsgText.toString());
@@ -2916,8 +2927,10 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void asyncDeleteTemporarySmsMessage(long threadId) {
-        asyncDelete(ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
+        if (threadId > 0) {
+            asyncDelete(ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
                 SMS_DRAFT_WHERE, null);
+        }
     }
 
     private void deleteTemporarySmsMessage(long threadId) {
@@ -3010,9 +3023,11 @@ public class ComposeMessageActivity extends Activity
         // Need this for both SMS and MMS.
         final String[] dests = mRecipientList.getToNumbers();
         
-        // needSaveAsMms will convert a message that is solely a Mms message because it has
-        // an empty subject back into an Sms message. Doesn't notify the user of the conversion.
-        if (needSaveAsMms()) {
+        // removeSubjectIfEmpty will convert a message that is solely an MMS
+        // message because it has an empty subject back into an SMS message.
+        // It doesn't notify the user of the conversion.
+        removeSubjectIfEmpty();
+        if (requiresMms()) {
             // Make local copies of the bits we need for sending a message,
             // because we will be doing it off of the main thread, which will
             // immediately continue on to resetting some of this state.
