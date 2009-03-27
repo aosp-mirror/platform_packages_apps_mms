@@ -380,7 +380,8 @@ public class MessagingNotification {
         }
 
         // Make a startActivity() PendingIntent for the notification.
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, clickIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, clickIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Update the notification.
         notification.setLatestEventInfo(context, title, description, pendingIntent);
@@ -502,7 +503,7 @@ public class MessagingNotification {
 
         failedIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(
-                context, 0, failedIntent, 0);
+                context, 0, failedIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         notification.icon = R.drawable.stat_notify_sms_failed;
 
