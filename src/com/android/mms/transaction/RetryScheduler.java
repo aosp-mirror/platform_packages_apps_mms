@@ -181,6 +181,11 @@ public class RetryScheduler implements Observer {
                             DownloadManager.getInstance().markState(
                                     uri, DownloadManager.STATE_PERMANENT_FAILURE);
                         } else {
+                            // Mark the failed message as unread.
+                            ContentValues readValues = new ContentValues(1);
+                            readValues.put(Mms.READ, 0);
+                            SqliteWrapper.update(mContext, mContext.getContentResolver(),
+                                    uri, readValues, null, null);
                             MessagingNotification.notifySendFailed(mContext, true);
                         }
                     }

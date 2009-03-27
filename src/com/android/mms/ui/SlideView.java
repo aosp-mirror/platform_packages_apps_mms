@@ -21,6 +21,7 @@ import com.android.mms.R;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.text.method.HideReturnsTransformationMethod;
@@ -100,6 +101,10 @@ public class SlideView extends AbsoluteLayout implements
             }
         }
 
+        if (null == bitmap) {
+            bitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.ic_missing_thumbnail_picture);
+        }
         mImageView.setImageBitmap(bitmap);
     }
 

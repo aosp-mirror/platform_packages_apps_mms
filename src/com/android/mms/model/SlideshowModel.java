@@ -569,5 +569,18 @@ public class SlideshowModel extends Model
         
         return true;
     }
+    
+    /**
+     * Make sure the text in slide 0 is no longer holding onto a reference to the text
+     * in the message text box.
+    */
+    public void prepareForSend() {
+        if (size() == 1) {
+            TextModel text = get(0).getText();
+            if (text != null) {
+                text.cloneText();
+            }
+        }
+    }
 
 }

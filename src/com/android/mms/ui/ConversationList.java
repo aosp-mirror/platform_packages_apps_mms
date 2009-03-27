@@ -19,7 +19,10 @@ package com.android.mms.ui;
 
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
+import com.android.mms.ui.RecipientList.Recipient;
 import com.android.mms.util.ContactInfoCache;
+import com.android.mms.util.DraftCache;
+
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.util.SqliteWrapper;
 
@@ -41,6 +44,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Contacts;
 import android.provider.Contacts.People;
+import android.provider.Contacts.Intents.Insert;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Threads;
 import android.provider.Telephony.Sms.Conversations;
@@ -65,7 +69,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * This activity provides a list view of existing conversations.
  */
-public class ConversationList extends ListActivity {
+public class ConversationList extends ListActivity
+            implements DraftCache.OnDraftChangedListener {
     private static final String TAG = "ConversationList";
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = Config.LOGV && DEBUG;
@@ -80,19 +85,18 @@ public class ConversationList extends ListActivity {
     private static final int MENU_SEARCH                 = 1;
     private static final int MENU_DELETE_ALL             = 3;
     private static final int MENU_PREFERENCES            = 4;
-    private static final int MENU_VIEW_BROADCAST_THREADS = 5;
 
     // IDs of the context menu items for the list of conversations.
     public static final int MENU_DELETE                = 0;
     private static final int MENU_VIEW                 = 1;
     private static final int MENU_VIEW_CONTACT         = 2;
+    private static final int MENU_ADD_TO_CONTACTS      = 3;
 
-    private Cursor mCursor;
     private ThreadListQueryHandler mQueryHandler;
     private ConversationListAdapter mListAdapter;
     private CharSequence mTitle;
     private Uri mBaseUri;
-    private String mQuery;
+    private String mSelection;
     private String[] mProjection;
     private int mQueryToken;
     private String mFilter;
@@ -132,6 +136,8 @@ public class ConversationList extends ListActivity {
 
         mCachingNameStore = new CachingNameStoreImpl(this);
 
+        initListAdapter();
+        
         if (savedInstanceState != null) {
             mBaseUri = (Uri) savedInstanceState.getParcelable("base_uri");
             mSearchFlag = savedInstanceState.getBoolean("search_flag");
@@ -142,6 +148,11 @@ public class ConversationList extends ListActivity {
         handleCreationIntent(getIntent());
     }
 
+    private void initListAdapter() {
+        mListAdapter = new ConversationListAdapter(this, null, true, mCachingNameStore);
+        setListAdapter(mListAdapter);
+    }
+    
     static public boolean isFailedToDeliver(Intent intent) {
         return (intent != null) && intent.getBooleanExtra("undelivered_flag", false);
     }
@@ -150,29 +161,23 @@ public class ConversationList extends ListActivity {
     protected void onNewIntent(Intent intent) {
         // Handle intents that occur after the activity has already been created.
         handleCreationIntent(intent);
-
-        ComposeMessageActivity.cancelFailedToDeliverNotification(intent, getApplicationContext());
     }
 
     protected void handleCreationIntent(Intent intent) {
         // Handle intents that occur upon creation of the activity.
         initNormalQueryArgs();
-        
-        // Cancel any failed message notifications
-        MessagingNotification.cancelNotification(getApplicationContext(),
-                    MessagingNotification.MESSAGE_FAILED_NOTIFICATION_ID);
    }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        if (mListAdapter != null) {
-            mListAdapter.initDraftCache();  // we might have a draft now
-            mListAdapter.registerObservers();
-        }
+        DraftCache.getInstance().addOnDraftChangedListener(this);
 
         getContentResolver().delete(Threads.OBSOLETE_THREADS_URI, null, null);
+
+        // Make sure the draft cache is up to date.
+        DraftCache.getInstance().refresh();
 
         startAsyncQuery();
 
@@ -199,38 +204,30 @@ public class ConversationList extends ListActivity {
     protected void onPause() {
         super.onPause();
 
-        if (mListAdapter != null) {
-            mListAdapter.unregisterObservers();
-        }
+        DraftCache.getInstance().removeOnDraftChangedListener(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        if (mCursor != null) {
-            if (mListAdapter != null) {
-                mListAdapter.changeCursor(null);
+        mListAdapter.changeCursor(null);
+    }
+
+    public void onDraftChanged(long threadId, boolean hasDraft) {
+        // Run notifyDataSetChanged() on the main thread.
+        mQueryHandler.post(new Runnable() {
+            public void run() {
+                mListAdapter.notifyDataSetChanged();
             }
-            mCursor.close();
-            mCursor = null;
-        }
+        });
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (mCursor != null) {
-            mCursor.close();
-        }
-    }
-
+    
     private void initNormalQueryArgs() {
         Uri.Builder builder = Threads.CONTENT_URI.buildUpon();
         builder.appendQueryParameter("simple", "true");
         mBaseUri = builder.build();
-        mQuery = null;
+        mSelection = null;
         mProjection = ConversationListAdapter.PROJECTION;
         mQueryToken = THREAD_LIST_QUERY_TOKEN;
         mTitle = getString(R.string.app_label);
@@ -242,11 +239,8 @@ public class ConversationList extends ListActivity {
             setProgressBarIndeterminateVisibility(true);
 
             mQueryHandler.cancelOperation(THREAD_LIST_QUERY_TOKEN);
-            // FIXME: I have to pass the mQueryToken as cookie since the
-            // AsyncQueryHandler.onQueryComplete() method doesn't provide
-            // the same token as what I input here.
-            mQueryHandler.startQuery(0, mQueryToken, mBaseUri, mProjection, mQuery, null,
-                    Conversations.DEFAULT_SORT_ORDER);
+            mQueryHandler.startQuery(THREAD_LIST_QUERY_TOKEN, null, mBaseUri,
+                    mProjection, mSelection, null, Conversations.DEFAULT_SORT_ORDER);
         } catch (SQLiteException e) {
             SqliteWrapper.checkSQLiteException(this, e);
         }
@@ -261,7 +255,7 @@ public class ConversationList extends ListActivity {
         // Removed search as part of b/1205708
         //menu.add(0, MENU_SEARCH, 0, R.string.menu_search).setIcon(
         //        R.drawable.ic_menu_search).setAlphabeticShortcut(SearchManager.MENU_KEY);
-        if ((mCursor != null) && (mCursor.getCount() > 0) && !mSearchFlag) {
+        if (mListAdapter.getCount() > 0 && !mSearchFlag) {
             menu.add(0, MENU_DELETE_ALL, 0, R.string.menu_delete_all).setIcon(
                     android.R.drawable.ic_menu_delete);
         }
@@ -343,21 +337,37 @@ public class ConversationList extends ListActivity {
         } else {
             info = cache.getContactInfo(this, address);
         }
-        if (info != null && info.person_id != -1) {
+        if (info != null && info.person_id > 0) {
             Uri uri = ContentUris.withAppendedId(People.CONTENT_URI, info.person_id);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);            
         }
     }
 
+    public static Intent createAddContactIntent(String address) {
+        // address must be a single recipient
+        Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
+        intent.setType(Contacts.People.CONTENT_ITEM_TYPE);
+        if (Recipient.isPhoneNumber(address)) {
+            intent.putExtra(Insert.PHONE, address);
+        } else {
+            intent.putExtra(Insert.EMAIL, address);
+        }
+        
+        intent.putExtra(Insert.NAME, address);
+        
+        return intent;
+    }
+
     private final OnCreateContextMenuListener mConvListOnCreateContextMenuListener =
         new OnCreateContextMenuListener() {
         public void onCreateContextMenu(ContextMenu menu, View v,
                 ContextMenuInfo menuInfo) {
-            if ((mCursor != null) && (mCursor.getCount() > 0) && !mSearchFlag) {
+            Cursor cursor = mListAdapter.getCursor();
+            if ((cursor != null) && (cursor.getCount() > 0) && !mSearchFlag) {
                 String address = MessageUtils.getRecipientsByIds(
                         ConversationList.this,
-                        mCursor.getString(ConversationListAdapter.COLUMN_RECIPIENTS_IDS),
+                        cursor.getString(ConversationListAdapter.COLUMN_RECIPIENTS_IDS),
                         true /* allow query */);
                 // The Recipient IDs column is separated with semicolons for some reason.
                 // We should fix this in the content provider rework.
@@ -371,8 +381,17 @@ public class ConversationList extends ListActivity {
                     menu.add(0, MENU_VIEW, 0, R.string.menu_view);
                     
                     // Only show if there's a single recipient
-                    if (!getAddress().contains(";")) {
-                        menu.add(0, MENU_VIEW_CONTACT, 0, R.string.menu_view_contact);
+                    String recipient = getAddress(cursor);
+                    if (!recipient.contains(";")) {
+                        // do we have this recipient in contacts?
+                        ContactInfoCache.CacheEntry entry = ContactInfoCache.getInstance()
+                            .getContactInfo(ConversationList.this, recipient);
+                        
+                        if (entry != null && entry.person_id > 0) {
+                            menu.add(0, MENU_VIEW_CONTACT, 0, R.string.menu_view_contact);
+                        } else {
+                            menu.add(0, MENU_ADD_TO_CONTACTS, 0, R.string.menu_add_to_contacts);
+                        }
                     }
                     menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
                 }
@@ -382,7 +401,8 @@ public class ConversationList extends ListActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        long threadId = mCursor.getLong(ConversationListAdapter.COLUMN_ID);
+        Cursor cursor = mListAdapter.getCursor();
+        long threadId = cursor.getLong(ConversationListAdapter.COLUMN_ID);
         switch (item.getItemId()) {
             case MENU_DELETE: {
                 DeleteThreadListener l = new DeleteThreadListener(threadId);
@@ -390,13 +410,18 @@ public class ConversationList extends ListActivity {
                 break;
             }
             case MENU_VIEW: {
-                String address = getAddress();
+                String address = getAddress(cursor);
                 openThread(threadId, address);
                 break;
             }
             case MENU_VIEW_CONTACT: {
-                String address = getAddress();
+                String address = getAddress(cursor);
                 viewContact(address);
+                break;
+            }
+            case MENU_ADD_TO_CONTACTS: {
+                String address = getAddress(cursor);
+                startActivity(createAddContactIntent(address));
                 break;
             }
             default:
@@ -406,18 +431,19 @@ public class ConversationList extends ListActivity {
         return super.onContextItemSelected(item);
     }
     
-    private String getAddress() {
-        long threadId = mCursor.getLong(ConversationListAdapter.COLUMN_ID);
+    private String getAddress(Cursor cursor) {
+        
+        long threadId = cursor.getLong(ConversationListAdapter.COLUMN_ID);
         String address = null;
         if (mListAdapter.isSimpleMode()) {
             address = MessageUtils.getRecipientsByIds(
                     this,
-                    mCursor.getString(ConversationListAdapter.COLUMN_RECIPIENTS_IDS),
+                    cursor.getString(ConversationListAdapter.COLUMN_RECIPIENTS_IDS),
                     true /* allow query */);
         } else {
-            String msgType = mCursor.getString(ConversationListAdapter.COLUMN_MESSAGE_TYPE);
+            String msgType = cursor.getString(ConversationListAdapter.COLUMN_MESSAGE_TYPE);
             if (msgType.equals("sms")) {
-                address = mCursor.getString(ConversationListAdapter.COLUMN_SMS_ADDRESS);
+                address = cursor.getString(ConversationListAdapter.COLUMN_SMS_ADDRESS);
             } else {
                 address = MessageUtils.getAddressByThreadId(this, threadId);
            }
@@ -514,42 +540,15 @@ public class ConversationList extends ListActivity {
 
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            if (mCursor != null) {
-                mCursor.close();
+            switch (token) {
+            case THREAD_LIST_QUERY_TOKEN:
+                mListAdapter.changeCursor(cursor);
+                setTitle(mTitle);
+                setProgressBarIndeterminateVisibility(false);
+                break;
+            default:
+                Log.e(TAG, "onQueryComplete called with unknown token " + token);
             }
-
-            if (cursor != null) {
-                mCursor = cursor;
-                switch ((Integer) cookie) {
-                    case THREAD_LIST_QUERY_TOKEN:
-                        mListAdapter = new ConversationListAdapter(
-                                ConversationList.this,
-                                cursor,
-                                true,  // simple (non-search)
-                                mListAdapter,
-                                mCachingNameStore);
-                        break;
-                    case SEARCH_TOKEN:
-                        mListAdapter = new ConversationListAdapter(
-                                ConversationList.this,
-                                cursor,
-                                false,  // non-simple (search)
-                                mListAdapter,
-                                mCachingNameStore);
-                        break;
-                    default:
-                        Log.e(TAG, "Bad query token: " + token);
-                        break;
-                }
-
-                ConversationList.this.setListAdapter(mListAdapter);
-            } else {
-                Log.e(TAG, "Cannot init the cursor for the thread list.");
-                finish();
-            }
-
-            setTitle(mTitle);
-            setProgressBarIndeterminateVisibility(false);
         }
 
         @Override

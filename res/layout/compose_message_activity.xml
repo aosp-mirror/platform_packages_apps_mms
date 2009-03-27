@@ -166,7 +166,7 @@
                         android:layout_marginLeft="5dip"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        style="?android:attr/buttonStyleSmall"
+                        style="?android:attr/buttonStyle"
                         android:layout_gravity="center_vertical"
                         android:nextFocusLeft="@+id/embedded_text_editor"
                         android:text="@string/send"

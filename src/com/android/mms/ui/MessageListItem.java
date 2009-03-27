@@ -25,6 +25,7 @@ import com.android.mms.util.DownloadManager;
 import com.android.mms.util.SmileyParser;
 
 import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mms.pdu.PduPersister;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -245,6 +246,10 @@ public class MessageListItem extends LinearLayout implements
     public void setImage(String name, Bitmap bitmap) {
         inflateMmsView();
 
+        if (null == bitmap) {
+            bitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.ic_missing_thumbnail_picture);
+        }
         mImageView.setImageBitmap(bitmap);
         mImageView.setVisibility(VISIBLE);
     }
@@ -333,14 +338,10 @@ public class MessageListItem extends LinearLayout implements
         MessageItem mi = (MessageItem) v.getTag();
         switch (mi.mAttachmentType) {
             case AttachmentEditor.VIDEO_ATTACHMENT:
-                MessageUtils.viewSimpleSlideshow(mContext, mi.mSlideshow);
-                break;
             case AttachmentEditor.AUDIO_ATTACHMENT:
             case AttachmentEditor.SLIDESHOW_ATTACHMENT:
-                Intent intent = new Intent(
-                        mContext, SlideshowActivity.class);
-                intent.setData(mi.mMessageUri);
-                mContext.startActivity(intent);
+                MessageUtils.viewMmsMessageAttachment(mContext,
+                        mi.mMessageUri, mi.mSlideshow, null /* persister */);
                 break;
         }
     }
@@ -417,7 +418,8 @@ public class MessageListItem extends LinearLayout implements
         case AttachmentEditor.VIDEO_ATTACHMENT:
             mImageView.setOnClickListener(new OnClickListener() {
                 public void onClick(View v) {
-                    MessageUtils.viewSimpleSlideshow(mContext, msgItem.mSlideshow);
+                    MessageUtils.viewMmsMessageAttachment(mContext,
+                        null /* uri */, msgItem.mSlideshow, null /* persister */);
                 }
             });
             mImageView.setOnLongClickListener(new OnLongClickListener() {
@@ -516,7 +518,8 @@ public class MessageListItem extends LinearLayout implements
         inflateMmsView();
         Bitmap bitmap = VideoAttachmentView.createVideoThumbnail(mContext, video);
         if (null == bitmap) {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mms_play_btn);
+            bitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.ic_missing_thumbnail_video);
         }
         mImageView.setImageBitmap(bitmap);
         mImageView.setVisibility(VISIBLE);

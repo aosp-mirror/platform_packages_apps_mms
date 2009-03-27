@@ -25,14 +25,12 @@
     <string name="menu_add_address_to_contacts">"将<xliff:g id="NAME">%s</xliff:g>添加到“联系人”"</string>
     <string name="menu_call">"呼叫"</string>
     <string name="menu_delete_all">"删除线程"</string>
-    <!-- no translation found for menu_delete (1851666911396479006) -->
-    <skip />
+    <string name="menu_delete">"删除会话"</string>
     <string name="menu_undelivered_messages">"未发送的信息"</string>
-    <!-- no translation found for menu_view (7448852683948080108) -->
-    <skip />
+    <string name="menu_view">"查看会话"</string>
     <string name="refreshing">"正在刷新..."</string>
     <string name="has_draft">"草稿"</string>
-    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
     <skip />
     <string name="anonymous_recipient">"匿名"</string>
     <string name="no_subject_view">"（无主题）"</string>
@@ -64,6 +62,7 @@
     <string name="add_slide">"添加幻灯片"</string>
     <string name="add_slide_hint">"选择以创建新幻灯片。"</string>
     <string name="discard_slideshow">"放弃幻灯片演示"</string>
+    <string name="slide_show_part">"第 <xliff:g id="PART">%1$s</xliff:g> 部分，共 <xliff:g id="TOTAL">%2$s</xliff:g> 部分"</string>
     <string name="remove_text">"删除文本"</string>
     <string name="add_picture">"添加图片"</string>
     <string name="remove_picture">"删除图片"</string>
@@ -82,8 +81,7 @@
     <string name="remove">"删除"</string>
     <string name="send">"发送"</string>
     <string name="all_threads">"所有线程"</string>
-    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
-    <skip />
+    <string name="type_to_compose_text_enter_to_send">"键入内容"</string>
     <string name="open_keyboard_to_compose_message">"打开键盘以撰写信息"</string>
     <string name="image_too_large">"图片太大"</string>
     <string name="ask_for_automatically_resize">"发送前自动调整图片大小？"</string>
@@ -170,6 +168,7 @@
     <string name="confirm_delete_message">"会删除此信息。"</string>
     <string name="confirm_delete_all_messages">"会删除整个线程。"</string>
     <string name="confirm_delete_all_SIM_messages">"SIM 卡上的所有信息都会删除。"</string>
+    <string name="confirm_delete_SIM_message">"SIM 卡上的这条信息会被删除。"</string>
     <string name="cannot_get_details">"无法获取详情"</string>
     <string name="message_details_title">"信息详情"</string>
     <string name="message_type_label">"类型： "</string>
@@ -220,10 +219,8 @@
     <string name="select_top_text">"顶部文本"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> 条未读信息。"</string>
     <string name="notification_multiple_title">"新信息"</string>
-    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
-    <skip />
-    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
-    <skip />
+    <string name="notification_failed_multiple">"<xliff:g id="COUNT">%s</xliff:g> 条信息无法发送。"</string>
+    <string name="notification_failed_multiple_title">"信息未发送"</string>
     <string name="sim_full_title">"SIM 卡已满"</string>
     <string name="sim_full_body">"删除某些信息以腾出空间存储更多内容。"</string>
     <string name="type_audio">"音频"</string>

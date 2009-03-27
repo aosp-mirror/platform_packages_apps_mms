@@ -110,6 +110,10 @@ public class TextModel extends RegionMediaModel {
         notifyModelChanged(true);
     }
 
+    public void cloneText() {
+        mText = new String(mText.toString());
+    }
+
     public int getCharset() {
         return mCharset;
     }

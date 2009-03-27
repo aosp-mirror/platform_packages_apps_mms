@@ -21,6 +21,7 @@ import com.android.mms.R;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -82,9 +83,11 @@ public class SlideListItemView extends LinearLayout implements SlideViewInterfac
     }
 
     public void setImage(String name, Bitmap bitmap) {
-        if (bitmap != null) {
-            mImagePreview.setImageBitmap(bitmap);
+        if (null == bitmap) {
+            bitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.ic_missing_thumbnail_picture);
         }
+        mImagePreview.setImageBitmap(bitmap);
     }
 
     public void setImageRegionFit(String fit) {

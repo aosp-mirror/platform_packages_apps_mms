@@ -21,6 +21,7 @@ import com.android.mms.drm.DrmUtils;
 import com.android.mms.layout.LayoutManager;
 import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.DownloadManager;
+import com.android.mms.util.DraftCache;
 import com.android.mms.util.SmileyParser;
 import com.android.mms.util.RateController;
 
@@ -29,6 +30,7 @@ import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 
 public class MmsApp extends Application {
+    public static final String LOG_TAG = "Mms";
 
     @Override
     public void onCreate() {
@@ -38,6 +40,7 @@ public class MmsApp extends Application {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         ContactInfoCache.init(this);
+        DraftCache.init(this);
         DownloadManager.init(this);
         RateController.init(this);
         DrmUtils.cleanupStorage(this);

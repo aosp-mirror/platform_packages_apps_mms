@@ -146,11 +146,7 @@ public class ContactInfoCache {
         }
         
         public String toString() {
-            if (null == name) {
-                return "";
-            }
-
-            StringBuilder buf = new StringBuilder(name);
+            StringBuilder buf = new StringBuilder("name=" + name);
             buf.append(", phone=" + phoneNumber);
             buf.append(", pid=" + person_id);
             buf.append(", presence=" + presenceResId);
@@ -196,6 +192,18 @@ public class ContactInfoCache {
             }
         }
     }
+    
+    /**
+     * invalidates a single cache entry. Can pass in an email or number.
+     */
+    public void invalidateContact(String emailOrNumber) {
+        synchronized (mCache) {
+            CacheEntry entry = mCache.get(emailOrNumber);
+            if (entry != null) {
+                entry.isStale = true;
+            }
+        }
+    }
 
     /**
      * Initialize the global instance. Should call only once.
@@ -229,9 +237,12 @@ public class ContactInfoCache {
     /**
      * Returns the caller info in CacheEntry.
      */
-    // TODO: rename this function to: getContactInfoForPhoneNumber
-    public CacheEntry getContactInfo(Context context, String number) {
-        return getContactInfoForPhoneNumber(context, number, true /* allow query */);
+    public CacheEntry getContactInfo(Context context, String numberOrEmail) {
+        if (Mms.isEmailAddress(numberOrEmail)) {
+            return getContactInfoForEmailAddress(context, numberOrEmail, true /* allow query */);
+        } else {
+            return getContactInfoForPhoneNumber(context, numberOrEmail, true /* allow query */);
+        }
     }
 
     /**
@@ -373,16 +384,21 @@ public class ContactInfoCache {
      */
     public CacheEntry getContactInfoForEmailAddress(Context context, String email,
                                                     boolean allowQuery) {
-        CacheEntry entry = null;
         synchronized (mCache) {
             if (mCache.containsKey(email)) {
-                entry = mCache.get(email);
-            } else if (allowQuery) {
-                entry = queryEmailDisplayName(context, email);
-                mCache.put(email, entry);
+                CacheEntry entry = mCache.get(email);
+                if (!allowQuery || !entry.isStale()) {
+                    return entry;
+                }
+            } else if (!allowQuery) {
+                return null;
             }
+
+            CacheEntry entry = queryEmailDisplayName(context, email);
+            mCache.put(email, entry);
+
+            return entry;
         }
-        return entry;
     }
 
     /**
@@ -432,11 +448,11 @@ public class ContactInfoCache {
                 while (cursor.moveToNext()) {
                     entry.presenceResId = getPresenceIconResourceId(
                             cursor.getInt(CONTACT_METHOD_STATUS_COLUMN));
+                    entry.person_id = cursor.getLong(CONTACT_METHOD_ID_COLUMN);
 
                     String name = cursor.getString(CONTACT_METHOD_NAME_COLUMN);
                     if (!TextUtils.isEmpty(name)) {
                         entry.name = name;
-                        entry.person_id = cursor.getLong(CONTACT_METHOD_ID_COLUMN);
                         if (LOCAL_DEBUG) {
                             log("queryEmailDisplayName: name=" + entry.name + ", email=" + email +
                                     ", presence=" + entry.presenceResId);

@@ -144,12 +144,14 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
     protected ContextMenuInfo getContextMenuInfo() {
         if ((mLongPressedPosition >= 0)) {
             Spanned text = getText();
-            int start = mTokenizer.findTokenStart(text, mLongPressedPosition);
-            int end = mTokenizer.findTokenEnd(text, start);
+            if (mLongPressedPosition <= text.length()) {
+                int start = mTokenizer.findTokenStart(text, mLongPressedPosition);
+                int end = mTokenizer.findTokenEnd(text, start);
 
-            if (end != start) {
-                Recipient r = getRecipientAt(getText(), start, end, mContext);
-                return new RecipientContextMenuInfo(r);
+                if (end != start) {
+                    Recipient r = getRecipientAt(getText(), start, end, mContext);
+                    return new RecipientContextMenuInfo(r);
+                }
             }
         }
         return null;

@@ -25,14 +25,12 @@
     <string name="menu_add_address_to_contacts">"Добавить <xliff:g id="NAME">%s</xliff:g>в контакты"</string>
     <string name="menu_call">"Позвонить"</string>
     <string name="menu_delete_all">"Удалить ветки"</string>
-    <!-- no translation found for menu_delete (1851666911396479006) -->
-    <skip />
+    <string name="menu_delete">"Удалить цепочку"</string>
     <string name="menu_undelivered_messages">"Недоставленные сообщения"</string>
-    <!-- no translation found for menu_view (7448852683948080108) -->
-    <skip />
+    <string name="menu_view">"Просмотреть цепочку"</string>
     <string name="refreshing">"Идет обновление…"</string>
     <string name="has_draft">"Черновик"</string>
-    <!-- no translation found for broadcast_from_to (1508520751945021904) -->
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
     <skip />
     <string name="anonymous_recipient">"Аноним"</string>
     <string name="no_subject_view">"(Без темы)"</string>
@@ -64,6 +62,7 @@
     <string name="add_slide">"Добавить слайд"</string>
     <string name="add_slide_hint">"Выберите для создания слайда."</string>
     <string name="discard_slideshow">"Отменить слайд-шоу"</string>
+    <string name="slide_show_part">"Часть <xliff:g id="PART">%1$s</xliff:g> из <xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text">"Удалить текст"</string>
     <string name="add_picture">"Добавить изображение"</string>
     <string name="remove_picture">"Убрать изображение"</string>
@@ -82,8 +81,7 @@
     <string name="remove">"Удалить"</string>
     <string name="send">"Отправить"</string>
     <string name="all_threads">"Все ветки"</string>
-    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
-    <skip />
+    <string name="type_to_compose_text_enter_to_send">"Введите текст"</string>
     <string name="open_keyboard_to_compose_message">"Откройте клавиатуру для ввода сообщения"</string>
     <string name="image_too_large">"Изображение слишком велико"</string>
     <string name="ask_for_automatically_resize">"Изменить размер изображения автоматически перед отправкой?"</string>
@@ -170,6 +168,7 @@
     <string name="confirm_delete_message">"Это сообщение будет удалено."</string>
     <string name="confirm_delete_all_messages">"Вся ветка будет удалена."</string>
     <string name="confirm_delete_all_SIM_messages">"Все сообщения на SIM-карте будут удалены."</string>
+    <string name="confirm_delete_SIM_message">"Это сообщение будет удалено с SIM-карты."</string>
     <string name="cannot_get_details">"Не удается получить сведения"</string>
     <string name="message_details_title">"Сведения о сообщении"</string>
     <string name="message_type_label">"Тип: "</string>
@@ -220,10 +219,8 @@
     <string name="select_top_text">"Текст сверху"</string>
     <string name="notification_multiple">"Непрочитанных сообщений: <xliff:g id="COUNT">%s</xliff:g>."</string>
     <string name="notification_multiple_title">"Новые сообщения"</string>
-    <!-- no translation found for notification_failed_multiple (6548564868491846210) -->
-    <skip />
-    <!-- no translation found for notification_failed_multiple_title (1781897599964634963) -->
-    <skip />
+    <string name="notification_failed_multiple">"Не удается отправить сообщения: <xliff:g id="COUNT">%s</xliff:g>"</string>
+    <string name="notification_failed_multiple_title">"Сообщения не отправлены"</string>
     <string name="sim_full_title">"SIM-карта заполнена"</string>
     <string name="sim_full_body">"Удалите какие-нибудь сообщения, чтобы освободить место для новых."</string>
     <string name="type_audio">"звук"</string>

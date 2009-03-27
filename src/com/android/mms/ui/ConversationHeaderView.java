@@ -27,6 +27,7 @@ import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -57,6 +58,8 @@ public class ConversationHeaderView extends RelativeLayout {
     // Access to mConversationHeader is guarded by mConversationHeaderLock.
     private final Object mConversationHeaderLock = new Object();
     private ConversationHeader mConversationHeader;
+    
+    private static final StyleSpan STYLE_BOLD = new StyleSpan(Typeface.BOLD);
 
     public ConversationHeaderView(Context context) {
         super(context);
@@ -118,6 +121,7 @@ public class ConversationHeaderView extends RelativeLayout {
             // TODO: evaluate a better or prettier solution for this?
             from = "...";
         }
+
         SpannableStringBuilder buf = new SpannableStringBuilder(from);
 
         if (ch.getMessageCount() > 1) {
@@ -133,6 +137,12 @@ public class ConversationHeaderView extends RelativeLayout {
             buf.setSpan(new ForegroundColorSpan(
                     mContext.getResources().getColor(R.drawable.text_color_red)),
                     before, buf.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        }
+        
+        // Unread messages are shown in bold
+        if (!ch.isRead()) {
+            buf.setSpan(STYLE_BOLD, 0, buf.length(),
+                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         return buf;
     }
@@ -197,8 +207,7 @@ public class ConversationHeaderView extends RelativeLayout {
             ch.setWaitingView(this);
         }
 
-        boolean isRead = ch.isRead();
-        mUnreadIndicator.setVisibility(isRead ? INVISIBLE : VISIBLE);
+        mUnreadIndicator.setVisibility(ch.isRead() ? INVISIBLE : VISIBLE);
 
         // Subject
         mSubjectView.setText(ch.getSubject());

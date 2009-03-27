@@ -22,6 +22,7 @@ import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
 
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.mms.R;
+import com.android.mms.MmsApp;
 import com.android.mms.ui.ClassZeroActivity;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.MmsException;
@@ -49,7 +50,6 @@ import android.provider.Telephony.Sms.Outbox;
 import android.telephony.ServiceState;
 import android.telephony.gsm.SmsManager;
 import android.telephony.gsm.SmsMessage;
-import android.util.Config;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -60,12 +60,9 @@ import android.widget.Toast;
  */
 public class SmsReceiverService extends Service {
     private static final String TAG = "SmsReceiverService";
-    private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
     private ServiceHandler mServiceHandler;
     private Looper mServiceLooper;
-    private final Object mLock = new Object();
 
     public static final String MESSAGE_SENT_ACTION =
         "com.android.mms.transaction.MESSAGE_SENT";
@@ -97,8 +94,8 @@ public class SmsReceiverService extends Service {
 
     @Override
     public void onCreate() {
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "Creating SmsReceiverService");
+        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+            Log.v(TAG, "onCreate");
         }
 
         // Start up the thread running the service.  Note that we create a
@@ -113,8 +110,8 @@ public class SmsReceiverService extends Service {
 
     @Override
     public void onStart(Intent intent, int startId) {
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "Starting #" + startId + ": " + intent.getExtras());
+        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+            Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras());
         }
 
         mResultCode = intent.getIntExtra("result", 0);
@@ -127,8 +124,8 @@ public class SmsReceiverService extends Service {
 
     @Override
     public void onDestroy() {
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "Destroying SmsReceiverService");
+        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+            Log.v(TAG, "onDestroy");
         }
         mServiceLooper.quit();
     }
@@ -150,7 +147,7 @@ public class SmsReceiverService extends Service {
          */
         @Override
         public void handleMessage(Message msg) {
-            if (LOCAL_LOGV) {
+            if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
                 Log.v(TAG, "Handling incoming message: " + msg);
             }
             int serviceId = msg.arg1;
@@ -234,7 +231,7 @@ public class SmsReceiverService extends Service {
             mToastHandler.sendEmptyMessage(1);
         } else {
             Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_FAILED);
-            MessagingNotification.notifySendFailed(getApplicationContext(), false);
+            MessagingNotification.notifySendFailed(getApplicationContext(), true);
             sendFirstQueuedMessage();
         }
     }

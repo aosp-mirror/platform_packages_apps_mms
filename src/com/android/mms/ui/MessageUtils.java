@@ -615,19 +615,6 @@ public class MessageUtils {
                         ContentUris.parseId(messageUri));
     }
 
-    public static void markAsRead(Context context, long threadId) {
-        MessageUtils.handleReadReport(context, threadId,
-                PduHeaders.READ_STATUS_READ, null);
-        
-        ContentValues values = new ContentValues(1);
-        values.put("read", READ_THREAD);
-        SqliteWrapper.update(context, context.getContentResolver(),
-                ContentUris.withAppendedId(Threads.CONTENT_URI, threadId),
-                values, "read=0", null);
-        
-        MessagingNotification.updateNewMessageIndicator(context, threadId);
-    }
-
     public static void resizeImageAsync(final Context context,
             final Uri imageUri, final Handler handler,
             final ResizeImageResultCallback cb) {
@@ -814,4 +801,35 @@ public class MessageUtils {
         return accumulator;
     }
 
+    /**
+     * Play/view the message attachments.
+     * TOOD: We need to save the draft before launching another activity to view the attachments.
+     *       This is hacky though since we will do saveDraft twice and slow down the UI.
+     *       We should pass the slideshow in intent extra to the view activity instead of
+     *       asking it to read attachments from database.
+     * @param context
+     * @param msgUri the MMS message URI in database
+     * @param slideshow the slideshow to save
+     * @param persister the PDU persister for updating the database
+     * @param sendReq the SendReq for updating the database
+     */
+    public static void viewMmsMessageAttachment(Context context, Uri msgUri,
+            SlideshowModel slideshow, PduPersister persister) {
+        boolean isSimple = (slideshow == null) ? false : slideshow.isSimple();
+        if (isSimple) {
+            // In attachment-editor mode, we only ever have one slide.
+            MessageUtils.viewSimpleSlideshow(context, slideshow);
+        } else {
+            // Save the slideshow first.
+            if (slideshow != null && persister != null) {
+                final SendReq sendReq = new SendReq();
+                ComposeMessageActivity.updateTemporaryMmsMessage(
+                        msgUri, persister, slideshow, sendReq);
+            }
+            // Launch the slideshow activity to play/view.
+            Intent intent = new Intent(context, SlideshowActivity.class);
+            intent.setData(msgUri);
+            context.startActivity(intent);
+        }
+    }
 }
