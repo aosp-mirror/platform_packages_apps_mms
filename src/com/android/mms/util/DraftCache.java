@@ -122,6 +122,10 @@ public class DraftCache {
      *  or disappeared.
      */
     public synchronized void setDraftState(long threadId, boolean hasDraft) {
+        if (threadId <= 0) {
+            return;
+        }
+        
         boolean changed;
         if (hasDraft) {
             changed = mDraftSet.add(threadId);
