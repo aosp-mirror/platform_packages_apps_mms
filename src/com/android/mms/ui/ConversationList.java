@@ -161,17 +161,11 @@ public class ConversationList extends ListActivity
     protected void onNewIntent(Intent intent) {
         // Handle intents that occur after the activity has already been created.
         handleCreationIntent(intent);
-
-        ComposeMessageActivity.cancelFailedToDeliverNotification(intent, getApplicationContext());
     }
 
     protected void handleCreationIntent(Intent intent) {
         // Handle intents that occur upon creation of the activity.
         initNormalQueryArgs();
-        
-        // Cancel any failed message notifications
-        MessagingNotification.cancelNotification(getApplicationContext(),
-                    MessagingNotification.MESSAGE_FAILED_NOTIFICATION_ID);
    }
 
     @Override
