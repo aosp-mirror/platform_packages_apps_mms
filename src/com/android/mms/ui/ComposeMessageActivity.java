@@ -297,7 +297,7 @@ public class ComposeMessageActivity extends Activity
     private String[] mContactInfoSelectionArgs = new String[1];
     
     private boolean mWaitingForSubActivity;
-
+    
     private static void log(String format, Object... args) {
         Thread current = Thread.currentThread();
         long tid = current.getId();
@@ -718,9 +718,9 @@ public class ComposeMessageActivity extends Activity
                 // Prevent the message from being re-saved in onStop().
                 mMessageUri = null;
             }
-        } else {
-            asyncDeleteTemporarySmsMessage(mThreadId);
         }
+        
+        asyncDeleteTemporarySmsMessage(mThreadId);
 
         // Don't save this message as a draft, even if it is only an SMS.
         mMsgText = "";
