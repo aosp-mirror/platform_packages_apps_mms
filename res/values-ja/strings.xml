@@ -15,8 +15,8 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label">"メッセージ"</string>
-    <string name="new_message">"新しいメッセージ"</string>
+    <string name="app_label">"SMS"</string>
+    <string name="new_message">"新規作成"</string>
     <string name="create_new_message">"新しいメッセージを作成する"</string>
     <string name="menu_call_back">"発信 <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email">"<xliff:g id="NAME">%s</xliff:g>さんにメールを送信"</string>
@@ -50,7 +50,7 @@
     <string name="menu_forward">"転送"</string>
     <string name="download">"ダウンロード"</string>
     <string name="downloading">"ダウンロード中"</string>
-    <string name="inline_subject">"&lt;件名:<xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="inline_subject">"&lt;件名: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text">"*DRM保護対象テキスト*"</string>
     <string name="insufficient_drm_rights">"DRM権限が十分ではありません。"</string>
     <string name="copy_message_text">"メッセージテキストをコピー"</string>
@@ -146,11 +146,11 @@
     <string name="pref_sms_settings_title">"SMS設定"</string>
     <string name="pref_summary_manage_sim_messages">"SIMカードに保存したメッセージを管理"</string>
     <string name="pref_summary_mms_delivery_reports">"送信する各メッセージの配信レポートを要求する"</string>
-    <string name="pref_summary_mms_read_reports">"送信する各メッセージの既読レポートを要求する"</string>
+    <string name="pref_summary_mms_read_reports">"送信する全メッセージに対して開封確認レポートを要求する"</string>
     <string name="pref_summary_sms_delivery_reports">"送信する各メッセージの配信レポートを要求する"</string>
     <string name="pref_title_manage_sim_messages">"SIMカードのメッセージを管理"</string>
     <string name="pref_title_mms_delivery_reports">"配信レポート"</string>
-    <string name="pref_title_mms_read_reports">"既読レポート"</string>
+    <string name="pref_title_mms_read_reports">"開封確認レポート"</string>
     <string name="pref_title_sms_delivery_reports">"配信レポート"</string>
     <string name="pref_title_notification_enabled">"通知"</string>
     <string name="pref_summary_notification_enabled">"メール受信: ステータスバーで通知"</string>
@@ -218,7 +218,7 @@
     <string name="select_bottom_text">"テキストを下に配置"</string>
     <string name="select_top_text">"テキストを上に配置"</string>
     <string name="notification_multiple">"未読メッセージ<xliff:g id="COUNT">%s</xliff:g>通"</string>
-    <string name="notification_multiple_title">"新しいメッセージ"</string>
+    <string name="notification_multiple_title">"新着メッセージ"</string>
     <string name="notification_failed_multiple">"<xliff:g id="COUNT">%s</xliff:g>件のメッセージを送信できませんでした。"</string>
     <string name="notification_failed_multiple_title">"メッセージ送信失敗"</string>
     <string name="sim_full_title">"SIMカード空き領域なし"</string>
@@ -227,7 +227,7 @@
     <string name="type_picture">"画像"</string>
     <string name="type_video">"動画"</string>
     <string name="confirm">"確認"</string>
-    <string name="message_send_read_report">"既読レポートが送信されます。"</string>
+    <string name="message_send_read_report">"開封確認レポートが送信されます。"</string>
     <string name="message_queued">"現在メッセージを送信できません。サービスが利用できる状態になり次第送信されます。"</string>
     <string name="no_subject">"(件名なし)"</string>
     <string name="unknown_sender">"送信者不明"</string>
