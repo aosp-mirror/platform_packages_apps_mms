@@ -2280,10 +2280,8 @@ public class ComposeMessageActivity extends Activity
                 break;
         }
         
-        // Make sure if there was an error that our message
-        // type remains correct. Excludes add image because it may be in async
-        // resize process.
-        if (!requiresMms() && (REQUEST_CODE_ATTACH_IMAGE != requestCode)) {
+        // Make sure if there was an error that our message type remains correct.
+        if (!requiresMms()) {
             convertMessage(false);
         }
     }
@@ -2697,15 +2695,23 @@ public class ComposeMessageActivity extends Activity
     }
     
     private void saveDraft() {
-        // If we're in the middle of creating a slideshow or some other subactivity,
-        // don't bother to discard the draft, because that's likely to delete the draft
-        // behind the slideshow's back.
-        if (!hasValidRecipient() && !mWaitingForSubActivity) {
+        // Throw the message out if it's empty, unless we're in the middle
+        // of creating a slideshow or some other subactivity -- don't discard
+        // the draft behind the subactivity's back.
+        if (isEmptyMessage() && !mWaitingForSubActivity) {
             discardTemporaryMessage();
             DraftCache.getInstance().setDraftState(mThreadId, false);
             return;
         }
 
+        // If the user hasn't typed in a recipient and has managed to
+        // get away from us (e.g. by pressing HOME), we don't have any
+        // choice but to save an anonymous draft.  Fall through to the
+        // normal case but set up an anonymous thread first.
+        if (!hasValidRecipient()) {
+            setThreadId(getOrCreateThreadId(new String[] {}));
+        }
+        
         boolean savedAsDraft = false;
         if (needSaveAsMms()) {
             if (mMessageUri == null) {
@@ -2800,6 +2806,7 @@ public class ComposeMessageActivity extends Activity
         new Thread(new Runnable() {
             public void run() {
                 setThreadId(getOrCreateThreadId(dests));
+                DraftCache.getInstance().setDraftState(mThreadId, true);
                 updateTemporaryMmsMessage(mMessageUri, mPersister,
                         mSlideshow, sendReq);
             }
@@ -2866,6 +2873,7 @@ public class ComposeMessageActivity extends Activity
         new Thread(new Runnable() {
             public void run() {
                 setThreadId(getOrCreateThreadId(dests));
+                DraftCache.getInstance().setDraftState(mThreadId, true);
                 updateTemporarySmsMessage(mThreadId, contents);
             }
         }).start();
