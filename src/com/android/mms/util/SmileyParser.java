@@ -21,6 +21,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 
+import com.android.internal.widget.Smileys;
 import com.android.mms.R;
 
 import java.util.HashMap;
@@ -54,23 +55,23 @@ public class SmileyParser {
     // NOTE: if you change anything about this array, you must make the corresponding change
     // to the string arrays: default_smiley_texts and default_smiley_names in res/values/arrays.xml
     public static final int[] DEFAULT_SMILEY_RES_IDS = {
-        android.R.drawable.emo_im_happy,                //  0
-        android.R.drawable.emo_im_sad,                  //  1
-        android.R.drawable.emo_im_winking,              //  2
-        android.R.drawable.emo_im_tongue_sticking_out,  //  3
-        android.R.drawable.emo_im_surprised,            //  4
-        android.R.drawable.emo_im_kissing,              //  5
-        android.R.drawable.emo_im_yelling,              //  6
-        android.R.drawable.emo_im_cool,                 //  7
-        android.R.drawable.emo_im_money_mouth,          //  8
-        android.R.drawable.emo_im_foot_in_mouth,        //  9
-        android.R.drawable.emo_im_embarrassed,          //  10
-        android.R.drawable.emo_im_angel,                //  11
-        android.R.drawable.emo_im_undecided,            //  12
-        android.R.drawable.emo_im_crying,               //  13
-        android.R.drawable.emo_im_lips_are_sealed,      //  14
-        android.R.drawable.emo_im_laughing,             //  15
-        android.R.drawable.emo_im_wtf                   //  16
+        Smileys.getSmileyResource(Smileys.HAPPY),                //  0
+        Smileys.getSmileyResource(Smileys.SAD),                  //  1
+        Smileys.getSmileyResource(Smileys.WINKING),              //  2
+        Smileys.getSmileyResource(Smileys.TONGUE_STICKING_OUT),  //  3
+        Smileys.getSmileyResource(Smileys.SURPRISED),            //  4
+        Smileys.getSmileyResource(Smileys.KISSING),              //  5
+        Smileys.getSmileyResource(Smileys.YELLING),              //  6
+        Smileys.getSmileyResource(Smileys.COOL),                 //  7
+        Smileys.getSmileyResource(Smileys.MONEY_MOUTH),          //  8
+        Smileys.getSmileyResource(Smileys.FOOT_IN_MOUTH),        //  9
+        Smileys.getSmileyResource(Smileys.EMBARRASSED),          //  10
+        Smileys.getSmileyResource(Smileys.ANGEL),                //  11
+        Smileys.getSmileyResource(Smileys.UNDECIDED),            //  12
+        Smileys.getSmileyResource(Smileys.CRYING),               //  13
+        Smileys.getSmileyResource(Smileys.LIPS_ARE_SEALED),      //  14
+        Smileys.getSmileyResource(Smileys.LAUGHING),             //  15
+        Smileys.getSmileyResource(Smileys.WTF),                   //  16
     };
     
     public static final int DEFAULT_SMILEY_TEXTS = R.array.default_smiley_texts;
