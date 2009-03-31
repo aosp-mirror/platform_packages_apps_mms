@@ -87,6 +87,19 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
             }
         });
     }
+    
+    @Override
+    public boolean enoughToFilter() {
+        // If the user is in the middle of editing an existing recipient, don't offer the 
+        // auto-complete menu. Without this, when the user selects an auto-complete menu item,
+        // it will get added to the list of recipients so we end up with the old before-editing
+        // recipient and the new post-editing recipient. As a precedent, gmail does not show
+        // the auto-complete menu when editing an existing recipient.
+        int end = getSelectionEnd();
+        int len = getText().length();
+
+        return end == len;
+    }
 
     public RecipientList getRecipientList() {
         return mTokenizer.getRecipientList();
@@ -240,7 +253,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
             Spanned sp = mList.getText();
             int len = sp.length();
             RecipientList rl = new RecipientList();
-            
+
             int start = 0;
             int i = 0;
             while (i < len + 1) {
