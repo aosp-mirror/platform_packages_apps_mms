@@ -17,8 +17,6 @@
 
 package com.android.mms.transaction;
 
-import com.google.android.mms.util.SqliteWrapper;
-
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -27,8 +25,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Telephony.Sms;
-import android.telephony.gsm.SmsMessage;
+import android.telephony.SmsMessage;
 import android.util.Log;
+
+import com.google.android.mms.util.SqliteWrapper;
 
 public class MessageStatusReceiver extends BroadcastReceiver {
     public static final String MESSAGE_STATUS_RECEIVED_ACTION =

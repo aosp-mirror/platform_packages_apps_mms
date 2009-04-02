@@ -23,10 +23,9 @@ import com.android.mms.transaction.MessagingNotification;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
+
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
@@ -38,7 +37,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
-import android.telephony.gsm.SmsManager;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -50,11 +49,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
- * Displays a list of the SMS messages stored on the SIM.
+ * Displays a list of the SMS messages stored on the ICC.
  */
 public class ManageSimMessages extends Activity
         implements View.OnCreateContextMenuListener {
-    private static final Uri SIM_URI = Uri.parse("content://sms/sim");
+    private static final Uri ICC_URI = Uri.parse("content://sms/icc");
     private static final String TAG = "ManageSimMessages";
     private static final int MENU_COPY_TO_PHONE_MEMORY = 0;
     private static final int MENU_DELETE_FROM_SIM = 1;
@@ -149,7 +148,7 @@ public class ManageSimMessages extends Activity
 
     private void startQuery() {
         try {
-            mQueryHandler.startQuery(0, null, SIM_URI, null, null, null, null);
+            mQueryHandler.startQuery(0, null, ICC_URI, null, null, null, null);
         } catch (SQLiteException e) {
             SqliteWrapper.checkSQLiteException(this, e);
         }
@@ -221,7 +220,7 @@ public class ManageSimMessages extends Activity
 
     private void registerSimChangeObserver() {
         mContentResolver.registerContentObserver(
-                SIM_URI, true, simChangeObserver);
+                ICC_URI, true, simChangeObserver);
     }
 
     private void copyToPhoneMemory(Cursor cursor) {
@@ -245,14 +244,14 @@ public class ManageSimMessages extends Activity
         int messageStatus = cursor.getInt(
                 cursor.getColumnIndexOrThrow("status"));
 
-        return (messageStatus == SmsManager.STATUS_ON_SIM_READ) ||
-               (messageStatus == SmsManager.STATUS_ON_SIM_UNREAD);
+        return (messageStatus == SmsManager.STATUS_ON_ICC_READ) ||
+               (messageStatus == SmsManager.STATUS_ON_ICC_UNREAD);
     }
 
     private void deleteFromSim(Cursor cursor) {
         String messageIndexString =
-                cursor.getString(cursor.getColumnIndexOrThrow("index_on_sim"));
-        Uri simUri = SIM_URI.buildUpon().appendPath(messageIndexString).build();
+                cursor.getString(cursor.getColumnIndexOrThrow("index_on_icc"));
+        Uri simUri = ICC_URI.buildUpon().appendPath(messageIndexString).build();
 
         SqliteWrapper.delete(this, mContentResolver, simUri, null, null);
     }
@@ -346,3 +345,4 @@ public class ManageSimMessages extends Activity
         // TODO: Add this.
     }
 }
+
