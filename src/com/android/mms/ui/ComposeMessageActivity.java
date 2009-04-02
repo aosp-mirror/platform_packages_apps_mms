@@ -88,7 +88,7 @@ import android.provider.Settings;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
-import android.telephony.gsm.SmsMessage;
+import android.telephony.SmsMessage;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -1688,6 +1688,7 @@ public class ComposeMessageActivity extends Activity
         startMsgListQuery();
         startQueryForContactInfo();
         updateSendFailedNotification();
+
     }
     
     @Override
@@ -3564,3 +3565,8 @@ public class ComposeMessageActivity extends Activity
     }
 
 }
+
+
+
+
+
