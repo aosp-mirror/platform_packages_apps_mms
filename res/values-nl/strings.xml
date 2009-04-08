@@ -130,7 +130,7 @@
     <item>"10 seconden"</item>
     <item>"Anders..."</item>
   </string-array>
-    <string name="menu_view_contact">"Contactpersoon weergeven"</string>
+    <string name="menu_view_contact">"Contact weergeven"</string>
     <string name="menu_add_to_contacts">"Toevoegen aan contacten"</string>
     <string name="hidden_sender_address">"Verborgen adres verzender"</string>
     <string name="yes">"OK"</string>

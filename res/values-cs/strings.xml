@@ -145,9 +145,9 @@
     <string name="pref_mms_settings_title">"Nastavení MMS"</string>
     <string name="pref_sms_settings_title">"Nastavení SMS"</string>
     <string name="pref_summary_manage_sim_messages">"Umožňuje spravovat zprávy uložené na kartě SIM"</string>
-    <string name="pref_summary_mms_delivery_reports">"Potvrzení o doručení je vyžadováno pro každou odeslanou zprávu"</string>
-    <string name="pref_summary_mms_read_reports">"Potvrzení o přečtení je vyžadováno pro každou odeslanou zprávu"</string>
-    <string name="pref_summary_sms_delivery_reports">"Potvrzení o doručení je vyžadováno pro každou odeslanou zprávu"</string>
+    <string name="pref_summary_mms_delivery_reports">"Požadovat potvrzení o doručení pro každou odeslanou zprávu"</string>
+    <string name="pref_summary_mms_read_reports">"Požadovat potvrzení o přečtení pro každou odeslanou zprávu"</string>
+    <string name="pref_summary_sms_delivery_reports">"Požadovat potvrzení o doručení pro každou odeslanou zprávu"</string>
     <string name="pref_title_manage_sim_messages">"Správa zpráv na kartě SIM"</string>
     <string name="pref_title_mms_delivery_reports">"Potvrzení o doručení"</string>
     <string name="pref_title_mms_read_reports">"Potvrzení o přečtení"</string>
