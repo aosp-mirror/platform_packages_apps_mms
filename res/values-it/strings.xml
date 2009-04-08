@@ -159,7 +159,7 @@
     <string name="pref_title_notification_ringtone">"Seleziona suoneria"</string>
     <string name="pref_title_mms_auto_retrieval">"Recupero automatico"</string>
     <string name="pref_summary_mms_auto_retrieval">"Recupera messaggi automaticamente"</string>
-    <string name="pref_title_mms_retrieval_during_roaming">"Recupero automatico in roaming"</string>
+    <string name="pref_title_mms_retrieval_during_roaming">"Recup. Autom. in roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"Recupera automaticamente i messaggi durante il roaming"</string>
     <string name="to_label">"A "</string>
     <string name="confirm_dialog_title">"Elimina"</string>

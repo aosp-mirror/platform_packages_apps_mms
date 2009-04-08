@@ -60,7 +60,7 @@
     <string name="move_down">"Nach unten verschieben"</string>
     <string name="remove_slide">"Dia entfernen"</string>
     <string name="add_slide">"Dia hinzufügen"</string>
-    <string name="add_slide_hint">"Wählen Sie diese Option, um ein neues Dia zu erstellen."</string>
+    <string name="add_slide_hint">"Neues Dia erstellen"</string>
     <string name="discard_slideshow">"Diashow verwerfen"</string>
     <string name="slide_show_part">"Teil <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text">"Text entfernen"</string>
