@@ -94,7 +94,7 @@
     <string name="resize_image_error_information">"この画像は大きすぎるため、サイズを変更しても送信できません。"</string>
     <string name="forward_prefix">"Fwd: "</string>
     <string name="discard_message">"破棄"</string>
-    <string name="discard_message_reason">"有効な宛先が指定されていないので、メッセージは破棄されます。"</string>
+    <string name="discard_message_reason">"宛先がありません。メッセージを破棄しますか。"</string>
     <string name="has_invalid_recipient">"不明な宛先: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_recipient_message">"宛先を修正してください。無効なアドレスがあります。"</string>
     <string name="cannot_send_message">"メッセージを送信できません"</string>
