@@ -354,8 +354,6 @@ public class ConversationList extends ListActivity
             intent.putExtra(Insert.EMAIL, address);
         }
         
-        intent.putExtra(Insert.NAME, address);
-        
         return intent;
     }
 
