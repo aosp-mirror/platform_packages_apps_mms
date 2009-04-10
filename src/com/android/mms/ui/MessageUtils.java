@@ -19,6 +19,7 @@ package com.android.mms.ui;
 
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
+import com.android.mms.data.WorkingMessage;
 import com.android.mms.model.MediaModel;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
@@ -32,6 +33,7 @@ import com.google.android.mms.pdu.CharacterSets;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.MultimediaMessagePdu;
 import com.google.android.mms.pdu.NotificationInd;
+import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
@@ -326,37 +328,37 @@ public class MessageUtils {
 
     public static int getAttachmentType(SlideshowModel model) {
         if (model == null) {
-            return AttachmentEditor.EMPTY;
+            return WorkingMessage.TEXT;
         }
 
         int numberOfSlides = model.size();
         if (numberOfSlides > 1) {
-            return AttachmentEditor.SLIDESHOW_ATTACHMENT;
+            return WorkingMessage.SLIDESHOW;
         } else if (numberOfSlides == 1) {
             // Only one slide in the slide-show.
             SlideModel slide = model.get(0);
             if (slide.hasVideo()) {
-                return AttachmentEditor.VIDEO_ATTACHMENT;
+                return WorkingMessage.VIDEO;
             }
 
             if (slide.hasAudio() && slide.hasImage()) {
-                return AttachmentEditor.SLIDESHOW_ATTACHMENT;
+                return WorkingMessage.SLIDESHOW;
             }
 
             if (slide.hasAudio()) {
-                return AttachmentEditor.AUDIO_ATTACHMENT;
+                return WorkingMessage.AUDIO;
             }
 
             if (slide.hasImage()) {
-                return AttachmentEditor.IMAGE_ATTACHMENT;
+                return WorkingMessage.IMAGE;
             }
 
             if (slide.hasText()) {
-                return AttachmentEditor.TEXT_ONLY;
+                return WorkingMessage.TEXT;
             }
         }
 
-        return AttachmentEditor.EMPTY;
+        return WorkingMessage.TEXT;
     }
     
     public static String formatTimeStampString(Context context, long when) {
@@ -784,22 +786,41 @@ public class MessageUtils {
      * @param sendReq the SendReq for updating the database
      */
     public static void viewMmsMessageAttachment(Context context, Uri msgUri,
-            SlideshowModel slideshow, PduPersister persister) {
+            SlideshowModel slideshow) {
         boolean isSimple = (slideshow == null) ? false : slideshow.isSimple();
         if (isSimple) {
             // In attachment-editor mode, we only ever have one slide.
             MessageUtils.viewSimpleSlideshow(context, slideshow);
         } else {
-            // Save the slideshow first.
-            if (slideshow != null && persister != null) {
-                final SendReq sendReq = new SendReq();
-                ComposeMessageActivity.updateTemporaryMmsMessage(
-                        msgUri, persister, slideshow, sendReq);
+            // If a slideshow was provided, save it to disk first.
+            if (slideshow != null) {
+                PduPersister persister = PduPersister.getPduPersister(context);
+                try {
+                    PduBody pb = slideshow.toPduBody();
+                    persister.updateParts(msgUri, pb);
+                    slideshow.sync(pb);
+                } catch (MmsException e) {
+                    Log.e(TAG, "Unable to save message for preview");
+                    return;
+                }
             }
             // Launch the slideshow activity to play/view.
             Intent intent = new Intent(context, SlideshowActivity.class);
             intent.setData(msgUri);
             context.startActivity(intent);
+        }
+    }
+    
+    public static void viewMmsMessageAttachment(Context context, WorkingMessage msg) {
+        SlideshowModel slideshow = msg.getSlideshow();
+        if (slideshow == null) {
+            throw new IllegalStateException("msg.getSlideshow() == null");
+        }
+        if (slideshow.isSimple()) {
+            MessageUtils.viewSimpleSlideshow(context, slideshow);
+        } else {
+            Uri uri = msg.saveAsMms();
+            viewMmsMessageAttachment(context, uri, slideshow);
         }
     }
 }

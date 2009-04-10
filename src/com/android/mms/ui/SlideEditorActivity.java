@@ -291,9 +291,7 @@ public class SlideEditorActivity extends Activity {
     };
 
     private void previewSlideshow() {
-        MessageUtils.viewMmsMessageAttachment(SlideEditorActivity.this,
-                mUri, mSlideshowModel,
-                PduPersister.getPduPersister(SlideEditorActivity.this));
+        MessageUtils.viewMmsMessageAttachment(SlideEditorActivity.this, mUri, mSlideshowModel);
     }
 
     private void updateTitle() {

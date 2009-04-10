@@ -18,6 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
+import com.android.mms.data.WorkingMessage;
 import com.android.mms.transaction.Transaction;
 import com.android.mms.transaction.TransactionBundle;
 import com.android.mms.transaction.TransactionService;
@@ -211,7 +212,7 @@ public class MessageListItem extends LinearLayout implements
                     this, msgItem.mSlideshow);
             presenter.present();
 
-            if (msgItem.mAttachmentType != AttachmentEditor.TEXT_ONLY) {
+            if (msgItem.mAttachmentType != WorkingMessage.TEXT) {
                 inflateMmsView();
                 mMmsView.setVisibility(View.VISIBLE);
                 setOnClickListener(msgItem);
@@ -317,9 +318,9 @@ public class MessageListItem extends LinearLayout implements
 
     private void drawPlaybackButton(MessageItem msgItem) {
         switch (msgItem.mAttachmentType) {
-            case AttachmentEditor.SLIDESHOW_ATTACHMENT:
-            case AttachmentEditor.AUDIO_ATTACHMENT:
-            case AttachmentEditor.VIDEO_ATTACHMENT:
+            case WorkingMessage.SLIDESHOW:
+            case WorkingMessage.AUDIO:
+            case WorkingMessage.VIDEO:
                 // Show the 'Play' button and bind message info on it.
                 mSlideShowButton.setTag(msgItem);
                 // Set call-back for the 'Play' button.
@@ -337,11 +338,10 @@ public class MessageListItem extends LinearLayout implements
     public void onClick(View v) {
         MessageItem mi = (MessageItem) v.getTag();
         switch (mi.mAttachmentType) {
-            case AttachmentEditor.VIDEO_ATTACHMENT:
-            case AttachmentEditor.AUDIO_ATTACHMENT:
-            case AttachmentEditor.SLIDESHOW_ATTACHMENT:
-                MessageUtils.viewMmsMessageAttachment(mContext,
-                        mi.mMessageUri, mi.mSlideshow, null /* persister */);
+            case WorkingMessage.VIDEO:
+            case WorkingMessage.AUDIO:
+            case WorkingMessage.SLIDESHOW:
+                MessageUtils.viewMmsMessageAttachment(mContext, mi.mMessageUri, mi.mSlideshow);
                 break;
         }
     }
@@ -414,12 +414,11 @@ public class MessageListItem extends LinearLayout implements
 
     private void setOnClickListener(final MessageItem msgItem) {
         switch(msgItem.mAttachmentType) {
-        case AttachmentEditor.IMAGE_ATTACHMENT:
-        case AttachmentEditor.VIDEO_ATTACHMENT:
+        case WorkingMessage.IMAGE:
+        case WorkingMessage.VIDEO:
             mImageView.setOnClickListener(new OnClickListener() {
                 public void onClick(View v) {
-                    MessageUtils.viewMmsMessageAttachment(mContext,
-                        null /* uri */, msgItem.mSlideshow, null /* persister */);
+                    MessageUtils.viewMmsMessageAttachment(mContext, null, msgItem.mSlideshow);
                 }
             });
             mImageView.setOnLongClickListener(new OnLongClickListener() {

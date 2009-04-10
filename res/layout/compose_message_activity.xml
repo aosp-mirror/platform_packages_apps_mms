@@ -47,6 +47,7 @@
             android:capitalize="sentences"
             android:autoText="true"
             android:singleLine="true"
+            android:maxLength="40"
             android:hint="@string/subject_hint"
             android:visibility="gone"/>
     </LinearLayout>
@@ -85,7 +86,7 @@
                 android:layout_height="fill_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <view class="com.android.mms.ui.AttachmentEditor"
                     android:id="@+id/attachment_editor"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -110,7 +111,7 @@
                         android:layout="@layout/slideshow_attachment_view"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
-                </LinearLayout>
+                </view>
   
                 <LinearLayout
                     android:id="@+id/bottom_panel"
