@@ -81,16 +81,16 @@ public class ConversationList extends ListActivity
     private static final int DELETE_CONVERSATION_TOKEN = 1801;
     
     // IDs of the main menu items.
-    private static final int MENU_COMPOSE_NEW            = 0;
-    private static final int MENU_SEARCH                 = 1;
-    private static final int MENU_DELETE_ALL             = 3;
-    private static final int MENU_PREFERENCES            = 4;
+    public static final int MENU_COMPOSE_NEW            = 0;
+    public static final int MENU_SEARCH                 = 1;
+    public static final int MENU_DELETE_ALL             = 3;
+    public static final int MENU_PREFERENCES            = 4;
 
     // IDs of the context menu items for the list of conversations.
-    public static final int MENU_DELETE                = 0;
-    private static final int MENU_VIEW                 = 1;
-    private static final int MENU_VIEW_CONTACT         = 2;
-    private static final int MENU_ADD_TO_CONTACTS      = 3;
+    public static final int MENU_DELETE               = 0;
+    public static final int MENU_VIEW                 = 1;
+    public static final int MENU_VIEW_CONTACT         = 2;
+    public static final int MENU_ADD_TO_CONTACTS      = 3;
 
     private ThreadListQueryHandler mQueryHandler;
     private ConversationListAdapter mListAdapter;

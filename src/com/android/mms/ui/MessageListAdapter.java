@@ -193,23 +193,26 @@ public class MessageListAdapter extends CursorAdapter {
         }
     }
 
-    final class ColumnsMap {
-        int mColumnMsgType;
-        int mColumnMsgId;
-        int mColumnSmsAddress;
-        int mColumnSmsBody;
-        int mColumnSmsDate;
-        int mColumnSmsType;
-        int mColumnSmsStatus;
-        int mColumnMmsSubject;
-        int mColumnMmsSubjectCharset;
-        int mColumnMmsMessageType;
-        int mColumnMmsMessageBox;
-        int mColumnMmsDeliveryReport;
-        int mColumnMmsReadReport;
-        int mColumnMmsErrorType;
+    public static class ColumnsMap {
+        public int mColumnMsgType;
+        public int mColumnMsgId;
+        public int mColumnSmsAddress;
+        public int mColumnSmsBody;
+        public int mColumnSmsDate;
+        public int mColumnSmsRead;
+        public int mColumnSmsType;
+        public int mColumnSmsStatus;
+        public int mColumnMmsSubject;
+        public int mColumnMmsSubjectCharset;
+        public int mColumnMmsDate;
+        public int mColumnMmsRead;
+        public int mColumnMmsMessageType;
+        public int mColumnMmsMessageBox;
+        public int mColumnMmsDeliveryReport;
+        public int mColumnMmsReadReport;
+        public int mColumnMmsErrorType;
 
-        ColumnsMap() {
+        public ColumnsMap() {
             mColumnMsgType            = COLUMN_MSG_TYPE;
             mColumnMsgId              = COLUMN_ID;
             mColumnSmsAddress         = COLUMN_SMS_ADDRESS;
@@ -226,7 +229,7 @@ public class MessageListAdapter extends CursorAdapter {
             mColumnMmsErrorType       = COLUMN_MMS_ERROR_TYPE;
         }
 
-        ColumnsMap(Cursor cursor) {
+        public ColumnsMap(Cursor cursor) {
             // Ignore all 'not found' exceptions since the custom columns
             // may be just a subset of the default columns.
             try {

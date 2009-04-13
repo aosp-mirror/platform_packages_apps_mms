@@ -261,4 +261,19 @@ public class MessageItem {
     public CharSequence getCachedFormattedMessage() {
         return mCachedFormattedMessage;
     }
+    
+    public int getBoxId() {
+        return mBoxId;
+    }
+    
+    @Override
+    public String toString() {
+        return "type: " + mType +
+            " box: " + mBoxId +
+            " uri: " + mMessageUri +
+            " address: " + mAddress +
+            " contact: " + mContact +
+            " read: " + mReadReport +
+            " delivery report: " + mDeliveryReport;
+    }
 }
