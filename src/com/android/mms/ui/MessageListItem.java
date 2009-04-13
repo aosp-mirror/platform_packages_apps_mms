@@ -354,6 +354,7 @@ public class MessageListItem extends LinearLayout implements
         } else if (spans.length == 1) {
             Uri uri = Uri.parse(spans[0].getURL());
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.putExtra(Browser.EXTRA_APPLICATION_ID, mContext.getPackageName());
 
             mContext.startActivity(intent);
         } else {
