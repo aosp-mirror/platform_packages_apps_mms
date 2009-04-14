@@ -959,7 +959,7 @@ public class WorkingMessage {
     private static final String SMS_DRAFT_WHERE = Sms.TYPE + "=" + Sms.MESSAGE_TYPE_DRAFT;
     private static final String[] SMS_BODY_PROJECTION = { Sms._ID, Sms.BODY };
     private static final int SMS_ID_INDEX = 0;
-    private static final int SMS_BODY_INDEX = 0;
+    private static final int SMS_BODY_INDEX = 1;
     
     /**
      * Reads a draft message for the given thread ID from the database,
@@ -1024,27 +1024,12 @@ public class WorkingMessage {
             return;
         }
         
-        Uri thread_uri = ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, thread_id);
-        Cursor c = SqliteWrapper.query(mContext, mContentResolver,
-                thread_uri, SMS_BODY_PROJECTION, SMS_DRAFT_WHERE, null, null);
-
-        try {
-            if (c.moveToFirst()) {
-                ContentValues values = new ContentValues(1);
-                values.put(Sms.BODY, contents);
-                SqliteWrapper.update(mContext, mContentResolver, thread_uri, values,
-                        SMS_DRAFT_WHERE, null);
-            } else {
-                ContentValues values = new ContentValues(3);
-                values.put(Sms.THREAD_ID, thread_id);
-                values.put(Sms.BODY, contents);
-                values.put(Sms.TYPE, Sms.MESSAGE_TYPE_DRAFT);
-                SqliteWrapper.insert(mContext, mContentResolver, Sms.CONTENT_URI, values);
-                asyncDeleteDraftMmsMessage(thread_id);
-            }
-        } finally {
-            c.close();
-        }
+        ContentValues values = new ContentValues(3);
+        values.put(Sms.THREAD_ID, thread_id);
+        values.put(Sms.BODY, contents);
+        values.put(Sms.TYPE, Sms.MESSAGE_TYPE_DRAFT);
+        SqliteWrapper.insert(mContext, mContentResolver, Sms.CONTENT_URI, values);
+        asyncDeleteDraftMmsMessage(thread_id);
     }
 
     private void asyncDelete(final Uri uri, final String selection, final String[] selectionArgs) {
