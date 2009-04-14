@@ -25,9 +25,9 @@
     <string name="menu_add_address_to_contacts">"Ajouter <xliff:g id="NAME">%s</xliff:g> aux contacts"</string>
     <string name="menu_call">"Appeler"</string>
     <string name="menu_delete_all">"Supprimer les fils"</string>
-    <string name="menu_delete">"Supprimer la conversation"</string>
+    <string name="menu_delete">"Supprimer le fil de discussion"</string>
     <string name="menu_undelivered_messages">"Messages non transmis"</string>
-    <string name="menu_view">"Afficher la conversation"</string>
+    <string name="menu_view">"Afficher le fil de discussion"</string>
     <string name="refreshing">"Actualisation…"</string>
     <string name="has_draft">"Brouillon"</string>
     <!-- no translation found for broadcast_from_to (1804605929273213017) -->
@@ -81,7 +81,7 @@
     <string name="remove">"Supprimer"</string>
     <string name="send">"Envoyer"</string>
     <string name="all_threads">"Tous les fils"</string>
-    <string name="type_to_compose_text_enter_to_send">"Utiliser le clavier pour rédiger un message"</string>
+    <string name="type_to_compose_text_enter_to_send">"Saisir votre message"</string>
     <string name="open_keyboard_to_compose_message">"Ouvrez le clavier pour rédiger votre message."</string>
     <string name="image_too_large">"Image trop lourde"</string>
     <string name="ask_for_automatically_resize">"Redimensionner automatiquement l\'image avant de l\'envoyer ?"</string>
@@ -148,7 +148,7 @@
     <string name="pref_summary_mms_delivery_reports">"Demander un accusé de réception pour chaque message envoyé"</string>
     <string name="pref_summary_mms_read_reports">"Demander une confirmation de lecture pour chaque message envoyé"</string>
     <string name="pref_summary_sms_delivery_reports">"Demander un accusé de réception pour chaque message envoyé"</string>
-    <string name="pref_title_manage_sim_messages">"Gestion des messages carte SIM"</string>
+    <string name="pref_title_manage_sim_messages">"Gestion messages carte SIM"</string>
     <string name="pref_title_mms_delivery_reports">"Accusés de réception"</string>
     <string name="pref_title_mms_read_reports">"Confirmations de lecture"</string>
     <string name="pref_title_sms_delivery_reports">"Accusés de réception"</string>
@@ -159,7 +159,7 @@
     <string name="pref_title_notification_ringtone">"Sélectionner une sonnerie"</string>
     <string name="pref_title_mms_auto_retrieval">"Récupération auto"</string>
     <string name="pref_summary_mms_auto_retrieval">"Récupérer automatiquement les messages"</string>
-    <string name="pref_title_mms_retrieval_during_roaming">"Récupération auto en itinérance"</string>
+    <string name="pref_title_mms_retrieval_during_roaming">"Réc. auto en itinérance"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"Récupérer automatiquement les messages en itinérance"</string>
     <string name="to_label">"À "</string>
     <string name="confirm_dialog_title">"Supprimer"</string>
@@ -244,33 +244,22 @@
     <string name="copy_to_sdcard_fail">"Échec de la copie de la pièce jointe sur la carte SD"</string>
     <string name="menu_insert_smiley">"Insérer une émoticône"</string>
     <string name="select_link_title">"Sélectionner un élément"</string>
-    <!-- no translation found for slide_number (1923958526266726635) -->
-    <skip />
-    <!-- no translation found for slide_duration:one (1654101988340583935) -->
-    <!-- no translation found for slide_duration:few (7887190171856293871) -->
-    <!-- no translation found for slide_duration:other (3736425355579939863) -->
-    <!-- no translation found for delivery_report_activity (2957463094232916364) -->
-    <skip />
-    <!-- no translation found for add_attachment_activity (5324811371129695320) -->
-    <skip />
-    <!-- no translation found for select_layout_activity (5041916695464513848) -->
-    <skip />
-    <!-- no translation found for change_duration_activity (7048606979485031693) -->
-    <skip />
-    <!-- no translation found for edit_text_activity (5915226413346879213) -->
-    <skip />
-    <!-- no translation found for edit_slideshow_activity (8751493388760050529) -->
-    <skip />
-    <!-- no translation found for edit_slide_activity (8752829671778696983) -->
-    <skip />
-    <!-- no translation found for pick_numbers_activity (2083330191224178637) -->
-    <skip />
-    <!-- no translation found for slideshow_activity (5658249461317434432) -->
-    <skip />
-    <!-- no translation found for class_0_message_activity (8474176218999130627) -->
-    <skip />
-    <!-- no translation found for send_using_mms_activity (6082321147663913763) -->
-    <skip />
-    <!-- no translation found for select_contact_method_activity (1743384358979323991) -->
-    <skip />
+    <string name="slide_number">"Diapositive <xliff:g id="NUMBER">%s</xliff:g>"</string>
+  <plurals name="slide_duration">
+    <item quantity="one">"<xliff:g id="NUMBER">%s</xliff:g> sec"</item>
+    <item quantity="few">"<xliff:g id="NUMBER">%s</xliff:g> sec"</item>
+    <item quantity="other">"<xliff:g id="NUMBER">%s</xliff:g> sec"</item>
+  </plurals>
+    <string name="delivery_report_activity">"Accusé de reception"</string>
+    <string name="add_attachment_activity">"Ajouter une pièce jointe :"</string>
+    <string name="select_layout_activity">"Sélectionner la mise en page"</string>
+    <string name="change_duration_activity">"Changer la durée"</string>
+    <string name="edit_text_activity">"Modifier texte"</string>
+    <string name="edit_slideshow_activity">"Modifier diaporama"</string>
+    <string name="edit_slide_activity">"Modifier diapositive"</string>
+    <string name="pick_numbers_activity">"Sélectionner nombres"</string>
+    <string name="slideshow_activity">"Diaporama"</string>
+    <string name="class_0_message_activity">"Message catégorie 0"</string>
+    <string name="send_using_mms_activity">"Envoyer sous forme de MMS…"</string>
+    <string name="select_contact_method_activity">"Selectionner méthode de contact"</string>
 </resources>
