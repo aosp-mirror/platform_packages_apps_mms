@@ -146,7 +146,7 @@
     <string name="pref_sms_settings_title">"Ustawienia wiadomości SMS"</string>
     <string name="pref_summary_manage_sim_messages">"Zarządzanie wiadomościami zapisanymi na karcie SIM"</string>
     <string name="pref_summary_mms_delivery_reports">"Żądaj potwierdzenia dostarczenia każdej wysłanej wiadomości"</string>
-    <string name="pref_summary_mms_read_reports">"Żądanie raportu przeczytania każdej wysłanej wiadomości."</string>
+    <string name="pref_summary_mms_read_reports">"Żądanie raportu przeczytania każdej wysłanej wiadomości"</string>
     <string name="pref_summary_sms_delivery_reports">"Żądaj potwierdzenia dostarczenia każdej wysłanej wiadomości"</string>
     <string name="pref_title_manage_sim_messages">"Zarządzanie wiadomościami na karcie SIM"</string>
     <string name="pref_title_mms_delivery_reports">"Raporty dostarczenia"</string>
@@ -155,11 +155,11 @@
     <string name="pref_title_notification_enabled">"Powiadomienia"</string>
     <string name="pref_summary_notification_enabled">"Wyświetlaj powiadomienie o wiadomości na pasku stanu"</string>
     <string name="pref_title_notification_vibrate">"Wibracje"</string>
-    <string name="pref_summary_notification_vibrate">"Wibracje również przy powiadomieniu"</string>
+    <string name="pref_summary_notification_vibrate">"Przy powiadomieniu również wibruj"</string>
     <string name="pref_title_notification_ringtone">"Wybierz dzwonek"</string>
     <string name="pref_title_mms_auto_retrieval">"Autoodbieranie"</string>
     <string name="pref_summary_mms_auto_retrieval">"Odbierz wiadomości automatycznie"</string>
-    <string name="pref_title_mms_retrieval_during_roaming">"Autoodbieranie roaming"</string>
+    <string name="pref_title_mms_retrieval_during_roaming">"Autoodbieranie w roamingu"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"Odbierz wiadomości automatycznie w roamingu"</string>
     <string name="to_label">"Do "</string>
     <string name="confirm_dialog_title">"Usuń"</string>

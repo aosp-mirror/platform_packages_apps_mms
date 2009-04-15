@@ -25,11 +25,9 @@
     <string name="menu_add_address_to_contacts">"<xliff:g id="NAME">%s</xliff:g> zu Kontakten hinzufügen"</string>
     <string name="menu_call">"Anrufen"</string>
     <string name="menu_delete_all">"Threads löschen"</string>
-    <!-- no translation found for menu_delete (1851666911396479006) -->
-    <skip />
+    <string name="menu_delete">"Thread löschen"</string>
     <string name="menu_undelivered_messages">"Nicht gelieferte Nachrichten"</string>
-    <!-- no translation found for menu_view (7448852683948080108) -->
-    <skip />
+    <string name="menu_view">"Thread anzeigen"</string>
     <string name="refreshing">"Aktualisierung wird ausgeführt..."</string>
     <string name="has_draft">"Entwurf"</string>
     <!-- no translation found for broadcast_from_to (1804605929273213017) -->
@@ -62,10 +60,9 @@
     <string name="move_down">"Nach unten verschieben"</string>
     <string name="remove_slide">"Dia entfernen"</string>
     <string name="add_slide">"Dia hinzufügen"</string>
-    <string name="add_slide_hint">"Wählen Sie diese Option, um ein neues Dia zu erstellen."</string>
+    <string name="add_slide_hint">"Neues Dia erstellen"</string>
     <string name="discard_slideshow">"Diashow verwerfen"</string>
-    <!-- no translation found for slide_show_part (5077675385448696846) -->
-    <skip />
+    <string name="slide_show_part">"Teil <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text">"Text entfernen"</string>
     <string name="add_picture">"Bild hinzufügen"</string>
     <string name="remove_picture">"Bild entfernen"</string>
@@ -84,8 +81,7 @@
     <string name="remove">"Entfernen"</string>
     <string name="send">"Senden"</string>
     <string name="all_threads">"Alle Threads"</string>
-    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
-    <skip />
+    <string name="type_to_compose_text_enter_to_send">"Zum Erstellen eingeben"</string>
     <string name="open_keyboard_to_compose_message">"Tastatur herausziehen, um Nachricht zu schreiben"</string>
     <string name="image_too_large">"Bild zu groß"</string>
     <string name="ask_for_automatically_resize">"Bildgröße vor dem Senden automatisch anpassen?"</string>
@@ -154,7 +150,7 @@
     <string name="pref_summary_sms_delivery_reports">"Zustellbestätigung für jede gesendete Nachricht anfordern"</string>
     <string name="pref_title_manage_sim_messages">"Nachrichten auf SIM-Karte"</string>
     <string name="pref_title_mms_delivery_reports">"Zustellberichte"</string>
-    <string name="pref_title_mms_read_reports">"Berichte lesen"</string>
+    <string name="pref_title_mms_read_reports">"Leseberichte"</string>
     <string name="pref_title_sms_delivery_reports">"Zustellberichte"</string>
     <string name="pref_title_notification_enabled">"Benachrichtigungen"</string>
     <string name="pref_summary_notification_enabled">"Bei Nachrichteneingang Benachrichtigung in Statuszeile anzeigen"</string>
@@ -172,8 +168,7 @@
     <string name="confirm_delete_message">"Die Nachricht wird gelöscht."</string>
     <string name="confirm_delete_all_messages">"Der gesamte Thread wird gelöscht."</string>
     <string name="confirm_delete_all_SIM_messages">"Alle Nachrichten auf der SIM werden gelöscht."</string>
-    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
-    <skip />
+    <string name="confirm_delete_SIM_message">"Diese Nachricht auf der SIM wird gelöscht."</string>
     <string name="cannot_get_details">"Details nicht abrufbar"</string>
     <string name="message_details_title">"Nachrichtendetails"</string>
     <string name="message_type_label">"Typ: "</string>
@@ -224,10 +219,8 @@
     <string name="select_top_text">"Text oben"</string>
     <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> ungelesene Nachrichten"</string>
     <string name="notification_multiple_title">"Neue Nachrichten"</string>
-    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
-    <skip />
-    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
-    <skip />
+    <string name="notification_failed_multiple">"<xliff:g id="COUNT">%s</xliff:g> Nachrichten wurden nicht gesendet."</string>
+    <string name="notification_failed_multiple_title">"Nachrichten nicht gesendet"</string>
     <string name="sim_full_title">"SIM-Karte ist voll."</string>
     <string name="sim_full_body">"Löschen Sie einige Nachrichten, um Platz für weitere Nachrichten zu schaffen."</string>
     <string name="type_audio">"Audio"</string>

@@ -25,11 +25,9 @@
     <string name="menu_add_address_to_contacts">"Přidat <xliff:g id="NAME">%s</xliff:g> mezi Kontakty"</string>
     <string name="menu_call">"Volat"</string>
     <string name="menu_delete_all">"Smazat konverzace"</string>
-    <!-- no translation found for menu_delete (1851666911396479006) -->
-    <skip />
+    <string name="menu_delete">"Smazat konverzaci"</string>
     <string name="menu_undelivered_messages">"Nedoručené zprávy"</string>
-    <!-- no translation found for menu_view (7448852683948080108) -->
-    <skip />
+    <string name="menu_view">"Zobrazit konverzaci"</string>
     <string name="refreshing">"Obnovování..."</string>
     <string name="has_draft">"Koncept"</string>
     <!-- no translation found for broadcast_from_to (1804605929273213017) -->
@@ -64,8 +62,7 @@
     <string name="add_slide">"Přidat snímek"</string>
     <string name="add_slide_hint">"Umožňuje vytvořit nový snímek."</string>
     <string name="discard_slideshow">"Zahodit prezentaci"</string>
-    <!-- no translation found for slide_show_part (5077675385448696846) -->
-    <skip />
+    <string name="slide_show_part">"Část <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text">"Odstranit text"</string>
     <string name="add_picture">"Přidat fotografii"</string>
     <string name="remove_picture">"Odstranit fotografii"</string>
@@ -84,8 +81,7 @@
     <string name="remove">"Odstranit"</string>
     <string name="send">"Odeslat"</string>
     <string name="all_threads">"Všechny konverzace"</string>
-    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
-    <skip />
+    <string name="type_to_compose_text_enter_to_send">"Sem zadejte zprávu"</string>
     <string name="open_keyboard_to_compose_message">"Otevřete klávesnici a napište zprávu."</string>
     <string name="image_too_large">"Fotografie je příliš velká"</string>
     <string name="ask_for_automatically_resize">"Přizpůsobit velikost fotografie před odesláním?"</string>
@@ -149,9 +145,9 @@
     <string name="pref_mms_settings_title">"Nastavení MMS"</string>
     <string name="pref_sms_settings_title">"Nastavení SMS"</string>
     <string name="pref_summary_manage_sim_messages">"Umožňuje spravovat zprávy uložené na kartě SIM"</string>
-    <string name="pref_summary_mms_delivery_reports">"Potvrzení o doručení je vyžadováno pro každou odeslanou zprávu"</string>
-    <string name="pref_summary_mms_read_reports">"Potvrzení o přečtení je vyžadováno pro každou odeslanou zprávu"</string>
-    <string name="pref_summary_sms_delivery_reports">"Potvrzení o doručení je vyžadováno pro každou odeslanou zprávu"</string>
+    <string name="pref_summary_mms_delivery_reports">"Požadovat potvrzení o doručení pro každou odeslanou zprávu"</string>
+    <string name="pref_summary_mms_read_reports">"Požadovat potvrzení o přečtení pro každou odeslanou zprávu"</string>
+    <string name="pref_summary_sms_delivery_reports">"Požadovat potvrzení o doručení pro každou odeslanou zprávu"</string>
     <string name="pref_title_manage_sim_messages">"Správa zpráv na kartě SIM"</string>
     <string name="pref_title_mms_delivery_reports">"Potvrzení o doručení"</string>
     <string name="pref_title_mms_read_reports">"Potvrzení o přečtení"</string>
@@ -172,8 +168,7 @@
     <string name="confirm_delete_message">"Zpráva bude smazána."</string>
     <string name="confirm_delete_all_messages">"Celá konverzace bude smazána."</string>
     <string name="confirm_delete_all_SIM_messages">"Všechny zprávy na kartě SIM budou smazány."</string>
-    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
-    <skip />
+    <string name="confirm_delete_SIM_message">"Tato zpráva na kartě SIM bude smazána."</string>
     <string name="cannot_get_details">"Podrobnosti se nepodařilo zobrazit."</string>
     <string name="message_details_title">"Podrobnosti zprávy"</string>
     <string name="message_type_label">"Typ: "</string>
@@ -224,10 +219,8 @@
     <string name="select_top_text">"Horní text"</string>
     <string name="notification_multiple">"Nepřečtené zprávy: <xliff:g id="COUNT">%s</xliff:g>."</string>
     <string name="notification_multiple_title">"Nové zprávy"</string>
-    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
-    <skip />
-    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
-    <skip />
+    <string name="notification_failed_multiple">"Několik zpráv nelze odeslat (počet: <xliff:g id="COUNT">%s</xliff:g>)."</string>
+    <string name="notification_failed_multiple_title">"Zprávy nebyly odeslány"</string>
     <string name="sim_full_title">"Paměť karty SIM je plná"</string>
     <string name="sim_full_body">"Smažte některé zprávy a vytvořte tak místo pro nové."</string>
     <string name="type_audio">"zvuk"</string>

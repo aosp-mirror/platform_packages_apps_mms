@@ -24,7 +24,7 @@
     <string name="menu_preferences">"Paramètres"</string>
     <string name="menu_add_address_to_contacts">"Ajouter <xliff:g id="NAME">%s</xliff:g> aux contacts"</string>
     <string name="menu_call">"Appeler"</string>
-    <string name="menu_delete_all">"Supprimer les fils de discussion"</string>
+    <string name="menu_delete_all">"Supprimer les fils"</string>
     <string name="menu_delete">"Supprimer la conversation"</string>
     <string name="menu_undelivered_messages">"Messages non transmis"</string>
     <string name="menu_view">"Afficher la conversation"</string>
@@ -46,7 +46,7 @@
     <string name="undelivered_msg_dialog_title">"Message non transmis"</string>
     <string name="undelivered_msg_dialog_body">"Impossible d\'envoyer ce message."\n"Dernière tentative :<xliff:g id="MESSAGE">%s</xliff:g>"</string>
     <string name="undelivered_sms_dialog_body">"Impossible d\'envoyer ce message."</string>
-    <string name="delete_thread">"Suppr. fil de discussion"</string>
+    <string name="delete_thread">"Supprimer le fil"</string>
     <string name="menu_forward">"Transférer"</string>
     <string name="download">"Télécharger"</string>
     <string name="downloading">"Téléchargement…"</string>
@@ -73,7 +73,7 @@
     <string name="compose_title">"Nouveau message"</string>
     <string name="to_hint">"À"</string>
     <string name="subject_hint">"Objet"</string>
-    <string name="add_attachment">"Joindre"</string>
+    <string name="add_attachment">"Pièce jointe"</string>
     <string name="add_subject">"Ajouter un objet"</string>
     <string name="discard">"Supprimer"</string>
     <string name="view">"Afficher"</string>

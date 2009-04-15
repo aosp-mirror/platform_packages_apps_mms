@@ -94,7 +94,7 @@
     <string name="resize_image_error_information">"この画像は大きすぎるため、サイズを変更しても送信できません。"</string>
     <string name="forward_prefix">"Fwd: "</string>
     <string name="discard_message">"破棄"</string>
-    <string name="discard_message_reason">"有効な宛先が指定されていないので、メッセージは破棄されます。"</string>
+    <string name="discard_message_reason">"宛先がありません。メッセージを破棄しますか。"</string>
     <string name="has_invalid_recipient">"不明な宛先: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_recipient_message">"宛先を修正してください。無効なアドレスがあります。"</string>
     <string name="cannot_send_message">"メッセージを送信できません"</string>
@@ -145,15 +145,15 @@
     <string name="pref_mms_settings_title">"MMS設定"</string>
     <string name="pref_sms_settings_title">"SMS設定"</string>
     <string name="pref_summary_manage_sim_messages">"SIMカードに保存したメッセージを管理"</string>
-    <string name="pref_summary_mms_delivery_reports">"送信する各メッセージの配信レポートを要求する"</string>
+    <string name="pref_summary_mms_delivery_reports">"送信するメッセージの受取確認を毎回要求する"</string>
     <string name="pref_summary_mms_read_reports">"送信する全メッセージに対して開封確認レポートを要求する"</string>
-    <string name="pref_summary_sms_delivery_reports">"送信する各メッセージの配信レポートを要求する"</string>
-    <string name="pref_title_manage_sim_messages">"SIMカードのメッセージを管理"</string>
-    <string name="pref_title_mms_delivery_reports">"配信レポート"</string>
+    <string name="pref_summary_sms_delivery_reports">"送信するメッセージの受取確認を毎回要求する"</string>
+    <string name="pref_title_manage_sim_messages">"SIMカードのメッセージ"</string>
+    <string name="pref_title_mms_delivery_reports">"受取確認通知"</string>
     <string name="pref_title_mms_read_reports">"開封確認レポート"</string>
-    <string name="pref_title_sms_delivery_reports">"配信レポート"</string>
+    <string name="pref_title_sms_delivery_reports">"受取確認通知"</string>
     <string name="pref_title_notification_enabled">"通知"</string>
-    <string name="pref_summary_notification_enabled">"メール受信: ステータスバーで通知"</string>
+    <string name="pref_summary_notification_enabled">"メッセージ受信: ステータスバーで通知"</string>
     <string name="pref_title_notification_vibrate">"バイブレーション"</string>
     <string name="pref_summary_notification_vibrate">"通知: バイブレーションON"</string>
     <string name="pref_title_notification_ringtone">"着信音を選択"</string>

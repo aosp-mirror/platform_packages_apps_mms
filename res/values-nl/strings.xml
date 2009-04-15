@@ -130,7 +130,7 @@
     <item>"10 seconden"</item>
     <item>"Anders..."</item>
   </string-array>
-    <string name="menu_view_contact">"Contactpersoon weergeven"</string>
+    <string name="menu_view_contact">"Contact weergeven"</string>
     <string name="menu_add_to_contacts">"Toevoegen aan contacten"</string>
     <string name="hidden_sender_address">"Verborgen adres verzender"</string>
     <string name="yes">"OK"</string>
@@ -240,7 +240,7 @@
     <string name="download_later">"Kan momenteel niet downloaden. Probeer het later opnieuw."</string>
     <string name="select_audio">"Audio selecteren"</string>
     <string name="copy_to_sdcard">"Bijlage kopiëren naar SD-kaart"</string>
-    <string name="copy_to_sdcard_success">"Bijlage gekopiërd naar SD-kaart"</string>
+    <string name="copy_to_sdcard_success">"Bijlage gekopieerd naar SD-kaart"</string>
     <string name="copy_to_sdcard_fail">"Kan de bijlage niet kopiëren naar de SD-kaart"</string>
     <string name="menu_insert_smiley">"Smiley invoegen"</string>
     <string name="select_link_title">"Actie selecteren"</string>
