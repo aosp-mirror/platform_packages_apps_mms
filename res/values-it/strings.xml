@@ -24,10 +24,10 @@
     <string name="menu_preferences">"Impostazioni"</string>
     <string name="menu_add_address_to_contacts">"Aggiungi <xliff:g id="NAME">%s</xliff:g> a Contatti"</string>
     <string name="menu_call">"Chiama"</string>
-    <string name="menu_delete_all">"Elimina conversazioni"</string>
-    <string name="menu_delete">"Elimina conversazione"</string>
+    <string name="menu_delete_all">"Elimina thread"</string>
+    <string name="menu_delete">"Elimina thread"</string>
     <string name="menu_undelivered_messages">"Messaggi non consegnati"</string>
-    <string name="menu_view">"Visualizza conversazione"</string>
+    <string name="menu_view">"Visualizza thread"</string>
     <string name="refreshing">"Aggiornamento..."</string>
     <string name="has_draft">"Bozza"</string>
     <!-- no translation found for broadcast_from_to (1804605929273213017) -->
@@ -37,7 +37,7 @@
     <string name="messagelist_sender_self">"Io"</string>
     <string name="view_picture">"Visualizza immagine"</string>
     <string name="view_slideshow">"Visualizza presentazione"</string>
-    <string name="view_message_details">"Visualizza dettagli messaggio"</string>
+    <string name="view_message_details">"Dettagli messaggio"</string>
     <string name="view_delivery_report">"Visualizza rapporto"</string>
     <string name="delete_message">"Elimina messaggio"</string>
     <string name="sent_on">"Inviato: <xliff:g id="DATE">%s</xliff:g>"</string>
@@ -46,7 +46,7 @@
     <string name="undelivered_msg_dialog_title">"Messaggio non consegnato"</string>
     <string name="undelivered_msg_dialog_body">"Impossibile inviare il messaggio."\n"Tentativo eseguito: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body">"Impossibile inviare il messaggio."</string>
-    <string name="delete_thread">"Elimina conversazione"</string>
+    <string name="delete_thread">"Elimina thread"</string>
     <string name="menu_forward">"Inoltra"</string>
     <string name="download">"Scarica"</string>
     <string name="downloading">"Download in corso"</string>
@@ -80,7 +80,7 @@
     <string name="replace">"Sostituisci"</string>
     <string name="remove">"Rimuovi"</string>
     <string name="send">"Invia"</string>
-    <string name="all_threads">"Tutte le conversazioni"</string>
+    <string name="all_threads">"Tutti i thread"</string>
     <string name="type_to_compose_text_enter_to_send">"Digita per comporre"</string>
     <string name="open_keyboard_to_compose_message">"Apri tastiera per scrivere il messaggio"</string>
     <string name="image_too_large">"Immagine troppo grande"</string>
@@ -145,28 +145,28 @@
     <string name="pref_mms_settings_title">"Impostazioni MMS"</string>
     <string name="pref_sms_settings_title">"Impostazioni SMS"</string>
     <string name="pref_summary_manage_sim_messages">"Gestisci i messaggi memorizzati nella SIM"</string>
-    <string name="pref_summary_mms_delivery_reports">"Richiedi un rapporto di consegna per ogni messaggio inviato"</string>
-    <string name="pref_summary_mms_read_reports">"Richiedi un rapporto di lettura per ogni messaggio inviato"</string>
-    <string name="pref_summary_sms_delivery_reports">"Richiedi un rapporto di consegna per ogni messaggio inviato"</string>
+    <string name="pref_summary_mms_delivery_reports">"Richiedi una conferma di consegna per ogni messaggio inviato"</string>
+    <string name="pref_summary_mms_read_reports">"Richiedi una conferma di lettura per ogni messaggio inviato"</string>
+    <string name="pref_summary_sms_delivery_reports">"Richiedi una conferma di consegna per ogni messaggio inviato"</string>
     <string name="pref_title_manage_sim_messages">"Gestisci messaggi della SIM"</string>
-    <string name="pref_title_mms_delivery_reports">"Rapporti consegna"</string>
-    <string name="pref_title_mms_read_reports">"Rapporti lettura"</string>
+    <string name="pref_title_mms_delivery_reports">"Conferme di recapito"</string>
+    <string name="pref_title_mms_read_reports">"Conferme di lettura"</string>
     <string name="pref_title_sms_delivery_reports">"Rapporti consegna"</string>
     <string name="pref_title_notification_enabled">"Notifiche"</string>
     <string name="pref_summary_notification_enabled">"Visualizza notifiche messaggi nella barra di stato"</string>
     <string name="pref_title_notification_vibrate">"Vibrazione"</string>
-    <string name="pref_summary_notification_vibrate">"Anche vibrazione alla notifica"</string>
+    <string name="pref_summary_notification_vibrate">"Vibrazione alla notifica"</string>
     <string name="pref_title_notification_ringtone">"Seleziona suoneria"</string>
     <string name="pref_title_mms_auto_retrieval">"Recupero automatico"</string>
     <string name="pref_summary_mms_auto_retrieval">"Recupera messaggi automaticamente"</string>
-    <string name="pref_title_mms_retrieval_during_roaming">"Recup. autom. in roaming"</string>
+    <string name="pref_title_mms_retrieval_during_roaming">"Recupero in roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"Recupera automaticamente i messaggi durante il roaming"</string>
     <string name="to_label">"A "</string>
     <string name="confirm_dialog_title">"Elimina"</string>
-    <string name="confirm_delete_conversation">"Verrà eliminata l\'intera conversazione."</string>
-    <string name="confirm_delete_all_conversations">"Verranno eliminate tutte le conversazioni."</string>
+    <string name="confirm_delete_conversation">"Verrà eliminato l\'intero thread."</string>
+    <string name="confirm_delete_all_conversations">"Verranno eliminati tutti i thread."</string>
     <string name="confirm_delete_message">"Il messaggio verrà eliminato."</string>
-    <string name="confirm_delete_all_messages">"Verrà eliminata l\'intera conversazione."</string>
+    <string name="confirm_delete_all_messages">"Verrà eliminato l\'intero thread."</string>
     <string name="confirm_delete_all_SIM_messages">"Verranno eliminati tutti i messaggi nella SIM."</string>
     <string name="confirm_delete_SIM_message">"Questo messaggio nella SIM verrà eliminato."</string>
     <string name="cannot_get_details">"Impossibile ottenere i dettagli"</string>
@@ -227,7 +227,7 @@
     <string name="type_picture">"immagine"</string>
     <string name="type_video">"video"</string>
     <string name="confirm">"Conferma"</string>
-    <string name="message_send_read_report">"Verrà inviato un rapporto di lettura."</string>
+    <string name="message_send_read_report">"Verra inviata una conferma di lettura."</string>
     <string name="message_queued">"Al momento è impossibile inviare il messaggio. Il messaggio verrà inviato non appena il servizio diventa disponibile."</string>
     <string name="no_subject">"(Nessun oggetto)"</string>
     <string name="unknown_sender">"Mittente sconosciuto"</string>
@@ -242,22 +242,22 @@
     <string name="copy_to_sdcard">"Copia allegato in scheda SD"</string>
     <string name="copy_to_sdcard_success">"Allegato copiato in scheda SD"</string>
     <string name="copy_to_sdcard_fail">"Copia dell\'allegato nella scheda SD non riuscita"</string>
-    <string name="menu_insert_smiley">"Inserisci smile"</string>
+    <string name="menu_insert_smiley">"Inserisci emoticon"</string>
     <string name="select_link_title">"Seleziona azione"</string>
-    <string name="slide_number">"<xliff:g id="NUMBER">%s</xliff:g> diapositiva"</string>
+    <string name="slide_number">"Diapositiva <xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
     <item quantity="one">"<xliff:g id="NUMBER">%s</xliff:g> sec"</item>
     <item quantity="few">"<xliff:g id="NUMBER">%s</xliff:g> secondi"</item>
     <item quantity="other">"<xliff:g id="NUMBER">%s</xliff:g> sec"</item>
   </plurals>
-    <string name="delivery_report_activity">"Rapporto di consegna"</string>
+    <string name="delivery_report_activity">"Conferma di recapito"</string>
     <string name="add_attachment_activity">"Aggiungi allegato:"</string>
     <string name="select_layout_activity">"Seleziona layout"</string>
     <string name="change_duration_activity">"Modifica durata"</string>
     <string name="edit_text_activity">"Modifica testo"</string>
     <string name="edit_slideshow_activity">"Modifica presentazione"</string>
     <string name="edit_slide_activity">"Modifica diapositiva"</string>
-    <string name="pick_numbers_activity">"Selettore numeri"</string>
+    <string name="pick_numbers_activity">"Seleziona numeri"</string>
     <string name="slideshow_activity">"Presentazione"</string>
     <string name="class_0_message_activity">"Messaggio classe 0"</string>
     <string name="send_using_mms_activity">"Invia per MMS…"</string>

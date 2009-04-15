@@ -81,7 +81,7 @@
     <string name="remove">"Supprimer"</string>
     <string name="send">"Envoyer"</string>
     <string name="all_threads">"Tous les fils"</string>
-    <string name="type_to_compose_text_enter_to_send">"Saisir votre message"</string>
+    <string name="type_to_compose_text_enter_to_send">"Saisissez votre message"</string>
     <string name="open_keyboard_to_compose_message">"Ouvrez le clavier pour rédiger votre message."</string>
     <string name="image_too_large">"Image trop lourde"</string>
     <string name="ask_for_automatically_resize">"Redimensionner automatiquement l\'image avant de l\'envoyer ?"</string>

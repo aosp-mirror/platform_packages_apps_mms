@@ -24,7 +24,7 @@
     <string name="menu_preferences">"Ajustes"</string>
     <string name="menu_add_address_to_contacts">"Añadir <xliff:g id="NAME">%s</xliff:g> a contactos"</string>
     <string name="menu_call">"Llamar"</string>
-    <string name="menu_delete_all">"Eliminar cadenas"</string>
+    <string name="menu_delete_all">"Eliminar conversaciones"</string>
     <string name="menu_delete">"Eliminar cadena"</string>
     <string name="menu_undelivered_messages">"Mensajes no entregados"</string>
     <string name="menu_view">"Ver cadena"</string>
