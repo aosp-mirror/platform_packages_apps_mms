@@ -300,16 +300,7 @@ public class ConversationList extends ListActivity
         } else if (v instanceof ConversationHeaderView) {
             ConversationHeaderView headerView = (ConversationHeaderView) v;
             ConversationHeader ch = headerView.getConversationHeader();
-
-            // TODO: The 'from' view of the ConversationHeader was
-            // repurposed to be the cached display value, rather than
-            // the old raw value, which openThread() wanted.  But it
-            // turns out openThread() doesn't need it:
-            // ComposeMessageActivity will load it.  That's not ideal,
-            // though, as it's an SQLite query.  So fix this later to
-            // save some latency on starting ComposeMessageActivity.
-            String somethingDelimitedAddresses = null;
-            openThread(ch.getThreadId(), somethingDelimitedAddresses);
+            openThread(ch.getThreadId());
         }
     }
 
@@ -318,12 +309,9 @@ public class ConversationList extends ListActivity
         startActivity(intent);
     }
 
-    private void openThread(long threadId, String address) {
+    private void openThread(long threadId) {
         Intent intent = new Intent(this, ComposeMessageActivity.class);
         intent.putExtra("thread_id", threadId);
-        if (!TextUtils.isEmpty(address)) {
-            intent.putExtra("address", address);
-        }
         startActivity(intent);
     }
 
@@ -408,8 +396,7 @@ public class ConversationList extends ListActivity
                 break;
             }
             case MENU_VIEW: {
-                String address = getAddress(cursor);
-                openThread(threadId, address);
+                openThread(threadId);
                 break;
             }
             case MENU_VIEW_CONTACT: {
