@@ -47,7 +47,7 @@
     <string name="undelivered_msg_dialog_body">"Senden der Nachricht nicht möglich."\n"Anzahl bisheriger Versuche: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body">"Nachricht kann nicht gesendet werden."</string>
     <string name="delete_thread">"Thread löschen"</string>
-    <string name="menu_forward">"Senden"</string>
+    <string name="menu_forward">"Weiterleiten"</string>
     <string name="download">"Herunterladen"</string>
     <string name="downloading">"Ladevorgang wird ausgeführt"</string>
     <string name="inline_subject">"&lt;Betreff: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
