@@ -81,7 +81,7 @@
     <string name="remove">"Entfernen"</string>
     <string name="send">"Senden"</string>
     <string name="all_threads">"Alle Threads"</string>
-    <string name="type_to_compose_text_enter_to_send">"Zum Erstellen eingeben"</string>
+    <string name="type_to_compose_text_enter_to_send">"Zum Schreiben eintippen"</string>
     <string name="open_keyboard_to_compose_message">"Tastatur herausziehen, um Nachricht zu schreiben"</string>
     <string name="image_too_large">"Bild zu groß"</string>
     <string name="ask_for_automatically_resize">"Bildgröße vor dem Senden automatisch anpassen?"</string>
