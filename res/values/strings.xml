@@ -535,5 +535,53 @@
     chat in the chat history view if there are links in the chat message. The dialog displays the
     links if there are any -->
     <string name="select_link_title">Select action</string>
+
+    <!-- Name of the Nth slide, shown in the list in the slideshow editor. -->
+    <string name="slide_number">Slide <xliff:g id="number" example="5">%s</xliff:g></string>
+    <!-- Duration of the slide, shown in the list in the slideshow editor -->
+    <plurals name="slide_duration">
+        <!-- Case of 1-second duration. -->
+        <item quantity="one"><xliff:g id="number" example="1">%s</xliff:g> sec</item>
+        <!-- Case of "few" (small number of) seconds of duration. -->
+        <item quantity="few"><xliff:g id="number" example="2">%s</xliff:g> secs</item>
+        <!-- Case of multiple-second duration. -->
+        <item quantity="other"><xliff:g id="number" example="15">%s</xliff:g> secs</item>
+    </plurals>
+
+    <!-- Title of the delivery report activity. -->
+    <string name="delivery_report_activity">Delivery report</string>
+
+    <!-- Title of the add-attachment activity. -->
+    <string name="add_attachment_activity">Add attachment:</string>
+
+    <!-- Title of the layout-selector activity. -->
+    <string name="select_layout_activity">Select layout</string>
+
+    <!-- Title of the slide duration editor activity. -->
+    <string name="change_duration_activity">Change duration</string>
+
+    <!-- Title of the slide text editor activity. -->
+    <string name="edit_text_activity">Edit text</string>
+
+    <!-- Title of the slideshow editor activity. -->
+    <string name="edit_slideshow_activity">Edit slideshow</string>
+
+    <!-- Title of the slide editor activity. -->
+    <string name="edit_slide_activity">Edit slide</string>
+
+    <!-- Title of the number picker activity. -->
+    <string name="pick_numbers_activity">Pick Numbers</string>
+
+    <!-- Title of the slideshow activity. -->
+    <string name="slideshow_activity">Slideshow</string>
+
+    <!-- Title of the class-0 message activity. -->
+    <string name="class_0_message_activity">Class 0 Message</string>
+
+    <!-- Title of the send-using-MMS activity. -->
+    <string name="send_using_mms_activity">Send using MMS\u2026</string>
+
+    <!-- Title of the select-contact-method activity. -->
+    <string name="select_contact_method_activity">Select Contact Method</string>
 </resources>
 
