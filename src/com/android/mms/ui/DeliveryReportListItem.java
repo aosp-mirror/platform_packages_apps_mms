@@ -56,10 +56,10 @@ public class DeliveryReportListItem extends LinearLayout {
         ContactInfoCache cache = ContactInfoCache.getInstance();
         Context context = getContext();
         // Recipient
-        mRecipientView.setText(cache.getContactName(context, recipient));
+        mRecipientView.setText(cache.getContactName(recipient));
 
         // Status text
-        mStatusView.setText(cache.getContactName(context, status));
+        mStatusView.setText(cache.getContactName(status));
 
         // Status icon
         String receivedStr = context.getString(R.string.status_received);

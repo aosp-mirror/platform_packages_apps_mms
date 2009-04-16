@@ -229,7 +229,7 @@ public class RecipientList {
                  * to help with ui responsiveness, instead of running the query
                  * directly from the UI thread
                  */
-                ContactInfoCache.CacheEntry entry = cache.getContactInfo(context, number);
+                ContactInfoCache.CacheEntry entry = cache.getContactInfo(number);
                 recipient.person_id = entry.person_id;
                 if (TextUtils.isEmpty(entry.name)) {
                     if (MessageUtils.isLocalNumber(entry.phoneNumber)) {
@@ -243,7 +243,7 @@ public class RecipientList {
                 
                 if (Mms.isEmailAddress(number)) {
                     recipient.number = number;
-                    recipient.name = cache.getDisplayName(context, number);
+                    recipient.name = cache.getDisplayName(number);
                 } else {
                     recipient.label = entry.phoneLabel;
                     recipient.number = (entry.phoneNumber == null) ? "" : entry.phoneNumber;

@@ -410,8 +410,7 @@ public class MessagingNotification {
 
     protected static CharSequence buildTickerMessage(
             Context context, String address, String subject, String body) {
-        String displayAddress = ContactInfoCache.getInstance()
-                .getContactName(context, address);
+        String displayAddress = ContactInfoCache.getInstance().getContactName(address);
         
         StringBuilder buf = new StringBuilder(
                 displayAddress == null

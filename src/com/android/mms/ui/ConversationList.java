@@ -318,13 +318,7 @@ public class ConversationList extends ListActivity
     private void viewContact(String address) {
         // address must be a single recipient
         ContactInfoCache cache = ContactInfoCache.getInstance();
-        ContactInfoCache.CacheEntry info;
-        if (Mms.isEmailAddress(address)) {
-            info = cache.getContactInfoForEmailAddress(getApplicationContext(), address,
-                    true /* allow query */);
-        } else {
-            info = cache.getContactInfo(this, address);
-        }
+        ContactInfoCache.CacheEntry info = cache.getContactInfo(address);
         if (info != null && info.person_id > 0) {
             Uri uri = ContentUris.withAppendedId(People.CONTENT_URI, info.person_id);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -357,8 +351,8 @@ public class ConversationList extends ListActivity
                         true /* allow query */);
                 // The Recipient IDs column is separated with semicolons for some reason.
                 // We should fix this in the content provider rework.
-                CharSequence from = (ContactInfoCache.getInstance().getContactName(
-                        ConversationList.this, address)).replace(';', ',');
+                ContactInfoCache cache = ContactInfoCache.getInstance();
+                CharSequence from = cache.getContactName(address).replace(';', ',');
                 menu.setHeaderTitle(from);
 
                 AdapterView.AdapterContextMenuInfo info =
@@ -370,8 +364,7 @@ public class ConversationList extends ListActivity
                     String recipient = getAddress(cursor);
                     if (!recipient.contains(";")) {
                         // do we have this recipient in contacts?
-                        ContactInfoCache.CacheEntry entry = ContactInfoCache.getInstance()
-                            .getContactInfo(ConversationList.this, recipient);
+                        ContactInfoCache.CacheEntry entry = cache.getContactInfo(recipient);
                         
                         if (entry != null && entry.person_id > 0) {
                             menu.add(0, MENU_VIEW_CONTACT, 0, R.string.menu_view_contact);
@@ -595,7 +588,7 @@ public class ConversationList extends ListActivity
             if (values.length < 2) {
                 if (DEBUG) Log.v(TAG, "Looking up name: " + addresses);
                 ContactInfoCache cache = ContactInfoCache.getInstance();
-                value = (cache.getContactName(mContext, addresses)).replace(';', ',');
+                value = (cache.getContactName(addresses)).replace(';', ',');
             } else {
                 int length = 0;
                 for (int i = 0; i < values.length; ++i) {
