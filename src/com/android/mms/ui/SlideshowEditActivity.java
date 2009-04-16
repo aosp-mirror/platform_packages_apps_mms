@@ -363,12 +363,13 @@ public class SlideshowEditActivity extends ListActivity {
             // Show slide number.
             TextView text;
             text = (TextView) slideListItemView.findViewById(R.id.slide_number_text);
-            text.setText("Slide " + (position + 1));
+            text.setText(mContext.getString(R.string.slide_number, position + 1));
 
             SlideModel slide = getItem(position);
             int dur = slide.getDuration() / 1000;
             text = (TextView) slideListItemView.findViewById(R.id.duration_text);
-            text.setText(dur + " secs");
+            text.setText(mContext.getResources().
+                         getQuantityString(R.plurals.slide_duration, dur, dur));
 
             Presenter presenter = PresenterFactory.getPresenter(
                     "SlideshowPresenter", mContext, slideListItemView, mSlideshow);
