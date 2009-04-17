@@ -30,8 +30,6 @@ import com.android.mms.transaction.MessageSender;
 import com.android.mms.transaction.MmsMessageSender;
 import com.android.mms.transaction.SmsMessageSender;
 import com.android.mms.ui.ComposeMessageActivity;
-import com.android.mms.ui.RecipientList;
-import com.android.mms.util.DraftCache;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -39,9 +37,6 @@ import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendReq;
 import com.google.android.mms.util.SqliteWrapper;
-
-import java.util.Arrays;
-import java.util.HashSet;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -52,7 +47,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -95,10 +89,8 @@ public class WorkingMessage {
     // Current attachment type of the message; one of the above values.
     private int mAttachmentType;
     
-    // Current recipient set for this message.
-    private String[] mRecipients;
-    // ID in the threads table for the conversation this message is in.
-    private long mThreadId;
+    // Conversation this message is targeting.
+    private Conversation mConversation;
     
     // Text of the message.
     private CharSequence mText;
@@ -138,10 +130,8 @@ public class WorkingMessage {
          * Called once the process of sending a message, triggered by
          * {@link send} has completed. This doesn't mean the send succeeded,
          * just that it has been dispatched to the network.
-         *
-         * @param threadId Thread ID the message was stored to
          */
-        void onMessageSent(long threadId);
+        void onMessageSent();
     }
     
     private WorkingMessage(ComposeMessageActivity activity) {
@@ -226,20 +216,26 @@ public class WorkingMessage {
     }
     
     /**
-     * Load the draft message for the specified ID, or a new empty message if
+     * Load the draft message for the specified conversation, or a new empty message if
      * none exists.
      */
-    public static WorkingMessage loadDraft(ComposeMessageActivity activity, long threadId) {
+    public static WorkingMessage loadDraft(ComposeMessageActivity activity,
+                                           Conversation conv) {
         WorkingMessage msg = new WorkingMessage(activity);
-        if (msg.loadFromConversation(threadId)) {
+        if (msg.loadFromConversation(conv)) {
             return msg;
         } else {
             return createEmpty(activity);
         }
     }
     
-    private boolean loadFromConversation(long threadId) {
-        if (DEBUG) debug("loadFromConversation %d", threadId);
+    private boolean loadFromConversation(Conversation conv) {
+        if (DEBUG) debug("loadFromConversation %s", conv);
+        
+        long threadId = conv.getThreadId();
+        if (threadId <= 0) {
+            return false;
+        }
         
         // Look for an SMS draft first.
         mText = readDraftSmsMessage(mContext, threadId);
@@ -515,7 +511,7 @@ public class WorkingMessage {
      * Typically used when handing a message off to another activity.
      */
     public Uri saveAsMms() {
-        if (DEBUG) debug("save mRecipients=%s", (Object)mRecipients);
+        if (DEBUG) debug("save mConversation=%s", mConversation);
         
         if (mDiscarded) {
             throw new IllegalStateException("save() called after discard()");
@@ -530,13 +526,13 @@ public class WorkingMessage {
         // Collect our state to be written to disk.
         prepareForSave();
         
-        PduPersister persister = PduPersister.getPduPersister(mContext);
-        SendReq sendReq = makeSendReq(mRecipients, mSubject);
-
         // Make sure we are saving to the correct thread ID.
-        mThreadId = getOrCreateThreadId(mRecipients);
-        DraftCache.getInstance().setDraftState(mThreadId, true);
+        mConversation.ensureThreadId();
+        mConversation.setDraftState(true);
         
+        PduPersister persister = PduPersister.getPduPersister(mContext);
+        SendReq sendReq = makeSendReq(mConversation, mSubject);
+
         // If we don't already have a Uri lying around, make a new one.  If we do
         // have one already, make sure it is synced to disk.
         if (mMessageUri == null) {
@@ -561,21 +557,21 @@ public class WorkingMessage {
         }
         
         // Make sure setConversation was called.
-        if (mRecipients == null) {
-            throw new IllegalStateException("saveDraft() called with no recipients");
+        if (mConversation == null) {
+            throw new IllegalStateException("saveDraft() called with no conversation");
         }
 
         // Get ready to write to disk.
         prepareForSave();
 
         if (requiresMms()) {
-            asyncUpdateDraftMmsMessage(mRecipients);
+            asyncUpdateDraftMmsMessage(mConversation);
         } else {
-            asyncUpdateDraftSmsMessage(mRecipients, mText.toString());
+            asyncUpdateDraftSmsMessage(mConversation, mText.toString());
         }
         
         // Update state of the draft cache.
-        DraftCache.getInstance().setDraftState(mThreadId, true);
+        mConversation.setDraftState(true);
     }
 
     public void discard() {
@@ -597,10 +593,10 @@ public class WorkingMessage {
         } 
         
         // Delete any draft messages associated with this conversation.
-        asyncDeleteDraftSmsMessage(mThreadId);
+        asyncDeleteDraftSmsMessage(mConversation);
         
         // Update state of the draft cache.
-        DraftCache.getInstance().setDraftState(mThreadId, false);
+        mConversation.setDraftState(false);
     }
     
     /**
@@ -653,24 +649,15 @@ public class WorkingMessage {
     
     /**
      * Set the conversation associated with this message.
-     * 
-     * @param threadId ID in the threads table for the conversation or 0 if unknown
-     * @param recipients List of recipients for the conversation
      */
-    public void setConversation(long threadId, RecipientList recipients) {
-        if (DEBUG) debug("setConversation %d/%s -> %d/%s", mThreadId, mRecipients, threadId, recipients.getToNumbers());
+    public void setConversation(Conversation conv) {
+        if (DEBUG) debug("setConversation %s -> %s", mConversation, conv);
 
-        // Just stash local copies of the data for now.  We will use them
-        // to hit the disk later when we actually need to.  This method can
-        // be called a lot if the user is thrashing around in the
-        // recipients editor.
-        mThreadId = threadId;
-        mRecipients = recipients.getToNumbers();
-        
+        mConversation = conv;
+     
         // Convert to MMS if there are any email addresses in the recipient list.
-        updateState(RECIPIENTS_REQUIRE_MMS, recipients.containsEmail(), true);
+        updateState(RECIPIENTS_REQUIRE_MMS, conv.getRecipients().containsEmail(), true);
     }
-
 
     /**
      * Returns true if this message would require MMS to send.
@@ -756,7 +743,7 @@ public class WorkingMessage {
         prepareForSave();
         
         // We need the recipient list for both SMS and MMS.
-        final String[] dests = mRecipients;
+        final Conversation conv = mConversation;
 
         if (requiresMms()) {
             // Make local copies of the bits we need for sending a message,
@@ -766,7 +753,7 @@ public class WorkingMessage {
             final PduPersister persister = PduPersister.getPduPersister(mContext);
 
             final SlideshowModel slideshow = mSlideshow;
-            final SendReq sendReq = makeSendReq(dests, mSubject);
+            final SendReq sendReq = makeSendReq(conv, mSubject);
             
             // Make sure the text in slide 0 is no longer holding onto a reference to the text
             // in the message text box.
@@ -775,7 +762,7 @@ public class WorkingMessage {
             // Do the dirty work of sending the message off of the main UI thread.
             new Thread(new Runnable() {
                 public void run() {
-                    sendMmsWorker(dests, mmsUri, persister, slideshow, sendReq);
+                    sendMmsWorker(conv, mmsUri, persister, slideshow, sendReq);
                 }
             }).start();
         } else {
@@ -783,7 +770,7 @@ public class WorkingMessage {
             final String msgText = mText.toString();
             new Thread(new Runnable() {
                 public void run() {
-                    sendSmsWorker(dests, msgText);
+                    sendSmsWorker(conv, msgText);
                 }
             }).start();
         }
@@ -795,11 +782,12 @@ public class WorkingMessage {
 
     // Message sending stuff
     
-    private void sendSmsWorker(String[] dests, String msgText) {
+    private void sendSmsWorker(Conversation conv, String msgText) {
         // Make sure we are still using the correct thread ID for our
         // recipient set.
-        long threadId = getOrCreateThreadId(dests);
-
+        long threadId = conv.ensureThreadId();
+        String[] dests = conv.getRecipients().getToNumbers();
+        
         MessageSender sender = new SmsMessageSender(mContext, dests, msgText, threadId);
         try {
             sender.sendMessage(threadId);
@@ -807,14 +795,14 @@ public class WorkingMessage {
             Log.e(TAG, "Failed to send SMS message, threadId=" + threadId, e);
         }
         
-        mStatusListener.onMessageSent(threadId);
+        mStatusListener.onMessageSent();
     }
 
-    private void sendMmsWorker(String[] dests, Uri mmsUri, PduPersister persister,
+    private void sendMmsWorker(Conversation conv, Uri mmsUri, PduPersister persister,
                                SlideshowModel slideshow, SendReq sendReq) {
         // Make sure we are still using the correct thread ID for our
         // recipient set.
-        long threadId = getOrCreateThreadId(dests);
+        long threadId = conv.ensureThreadId();
 
         if (DEBUG) debug("sendMmsWorker: update draft MMS message " + mmsUri);
 
@@ -840,7 +828,7 @@ public class WorkingMessage {
             Log.e(TAG, "Failed to send message: " + mmsUri + ", threadId=" + threadId, e);
         }
         
-        mStatusListener.onMessageSent(threadId);
+        mStatusListener.onMessageSent();
     }
    
     // Draft message stuff
@@ -881,15 +869,8 @@ public class WorkingMessage {
         return null;
     }
 
-    private long getOrCreateThreadId(String[] numbers) {
-        HashSet<String> recipients = new HashSet<String>();
-        recipients.addAll(Arrays.asList(numbers));
-        long threadId = Threads.getOrCreateThreadId(mContext, recipients);
-        if (DEBUG) debug("getOrCreateThreadId mThreadId=%d, numbers=%s, result=%d", mThreadId, numbers, threadId);
-        return threadId;
-    }
-
-    private static SendReq makeSendReq(String[] dests, CharSequence subject) {
+    private static SendReq makeSendReq(Conversation conv, CharSequence subject) {
+        String[] dests = conv.getRecipients().getToNumbers();
         SendReq req = new SendReq();
         EncodedStringValue[] encodedNumbers = EncodedStringValue.encodeStrings(dests);
         if (encodedNumbers != null) {
@@ -918,17 +899,17 @@ public class WorkingMessage {
         }
     }
 
-    private void asyncUpdateDraftMmsMessage(final String[] dests) {
-        if (DEBUG) debug("asyncUpdateDraftMmsMessage dests=%s mMessageUri=%s", dests, mMessageUri);
+    private void asyncUpdateDraftMmsMessage(final Conversation conv) {
+        if (DEBUG) debug("asyncUpdateDraftMmsMessage conv=%s mMessageUri=%s", conv, mMessageUri);
         // PduPersister makes database calls and is known to ANR. Do the work on a
         // background thread.
         final PduPersister persister = PduPersister.getPduPersister(mContext);
-        final SendReq sendReq = makeSendReq(dests, mSubject);
+        final SendReq sendReq = makeSendReq(conv, mSubject);
 
         new Thread(new Runnable() {
             public void run() {
-                mThreadId = getOrCreateThreadId(dests);
-                DraftCache.getInstance().setDraftState(mThreadId, true);
+                conv.ensureThreadId();
+                conv.setDraftState(true);
                 if (mMessageUri == null) {
                     mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow);
                 } else {
@@ -938,7 +919,7 @@ public class WorkingMessage {
         }).start();
 
         // Be paranoid and delete any SMS drafts that might be lying around.
-        asyncDeleteDraftSmsMessage(mThreadId);
+        asyncDeleteDraftSmsMessage(conv);
     }
     
     private static void updateDraftMmsMessage(Uri uri, PduPersister persister,
@@ -997,14 +978,12 @@ public class WorkingMessage {
         return body;
     }
     
-    private void asyncUpdateDraftSmsMessage(final String[] dests, final String contents) {
+    private void asyncUpdateDraftSmsMessage(final Conversation conv, final String contents) {
         new Thread(new Runnable() {
             public void run() {
-                long oldThreadId = mThreadId;
-                mThreadId = getOrCreateThreadId(dests);
-                if (DEBUG) debug("asyncUpdateDraftSmsMessage old=%d tid=%d dests=%s", oldThreadId, mThreadId, dests);
-                DraftCache.getInstance().setDraftState(mThreadId, true);
-                updateDraftSmsMessage(mThreadId, contents);
+                long threadId = conv.ensureThreadId();
+                conv.setDraftState(true);
+                updateDraftSmsMessage(threadId, contents);
             }
         }).start();
     }
@@ -1041,7 +1020,8 @@ public class WorkingMessage {
         }).start();
     }
 
-    private void asyncDeleteDraftSmsMessage(long threadId) {
+    private void asyncDeleteDraftSmsMessage(Conversation conv) {
+        long threadId = conv.getThreadId();
         if (threadId > 0) {
             asyncDelete(ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
                 SMS_DRAFT_WHERE, null);
