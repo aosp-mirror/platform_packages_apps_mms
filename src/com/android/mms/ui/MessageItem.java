@@ -105,12 +105,11 @@ public class MessageItem {
                 } else {
                     mContact = String.format(
                             context.getString(R.string.broadcast_from_to),
-                            meString,
-                            infoCache.getContactName(context, mAddress));
+                            meString, infoCache.getContactName(mAddress));
                 }
             } else {
                 // For incoming messages, the ADDRESS field contains the sender.
-                mContact = infoCache.getContactName(context, mAddress);
+                mContact = infoCache.getContactName(mAddress);
             }
             mBody = cursor.getString(columnsMap.mColumnSmsBody);
 
@@ -214,7 +213,7 @@ public class MessageItem {
     private void interpretFrom(EncodedStringValue from) {
         if (from != null) {
             mAddress = from.getString();
-            mContact = ContactInfoCache.getInstance().getContactName(mContext, mAddress);
+            mContact = ContactInfoCache.getInstance().getContactName(mAddress);
         } else {
             mContact = mAddress = mContext.getString(
                     R.string.anonymous_recipient);

@@ -237,25 +237,27 @@ public class ContactInfoCache {
     /**
      * Returns the caller info in CacheEntry.
      */
-    public CacheEntry getContactInfo(Context context, String numberOrEmail) {
+    public CacheEntry getContactInfo(String numberOrEmail, boolean allowQuery) {
         if (Mms.isEmailAddress(numberOrEmail)) {
-            return getContactInfoForEmailAddress(context, numberOrEmail, true /* allow query */);
+            return getContactInfoForEmailAddress(numberOrEmail, allowQuery);
         } else {
-            return getContactInfoForPhoneNumber(context, numberOrEmail, true /* allow query */);
+            return getContactInfoForPhoneNumber(numberOrEmail, allowQuery);
         }
+    }
+    
+    public CacheEntry getContactInfo(String numberOrEmail) {
+        return getContactInfo(numberOrEmail, true);
     }
 
     /**
      * Returns the caller info in a CacheEntry. If 'noQuery' is set to true, then this
      * method only checks in the cache and makes no content provider query.
      *
-     * @param context the Context.
      * @param number the phone number for the contact.
      * @param allowQuery allow (potentially blocking) query the content provider if true.
      * @return the CacheEntry containing the contact info.
      */
-    public CacheEntry getContactInfoForPhoneNumber(Context context, String number,
-                                                   boolean allowQuery) {
+    public CacheEntry getContactInfoForPhoneNumber(String number, boolean allowQuery) {
         // TODO: numbers like "6501234567" and "+16501234567" are equivalent.
         // we should convert them into a uniform format so that we don't cache
         // them twice.
@@ -274,7 +276,7 @@ public class ContactInfoCache {
                 return null;
             }
 
-            CacheEntry entry = queryContactInfoByNumber(context, number);
+            CacheEntry entry = queryContactInfoByNumber(number);
             mCache.put(number, entry);
 
             return entry;
@@ -285,7 +287,7 @@ public class ContactInfoCache {
      * Queries the caller id info with the phone number.
      * @return a CacheEntry containing the caller id info corresponding to the number.
      */
-    private CacheEntry queryContactInfoByNumber(Context context, String number) {
+    private CacheEntry queryContactInfoByNumber(String number) {
         CacheEntry entry = new CacheEntry();
         entry.phoneNumber = number;
 
@@ -293,7 +295,7 @@ public class ContactInfoCache {
 
         mContactInfoSelectionArgs[0] = number;
 
-        Cursor cursor = context.getContentResolver().query(
+        Cursor cursor = mContext.getContentResolver().query(
                 PHONES_WITH_PRESENCE_URI,
                 CALLER_ID_PROJECTION,
                 CALLER_ID_SELECTION,
@@ -323,11 +325,10 @@ public class ContactInfoCache {
      * Get the display names of contacts. Contacts can be either email address or
      * phone number.
      *
-     * @param context the context to use
      * @param address the addresses to lookup, separated by ";"
      * @return a nicely formatted version of the contact names to display
      */
-    public String getContactName(Context context, String address) {
+    public String getContactName(String address) {
         if (TextUtils.isEmpty(address)) {
             return "";
         }
@@ -337,11 +338,11 @@ public class ContactInfoCache {
             if (value.length() > 0) {
                 result.append(SEPARATOR);
                 if (MessageUtils.isLocalNumber(value)) {
-                    result.append(context.getString(com.android.internal.R.string.me));
+                    result.append(mContext.getString(com.android.internal.R.string.me));
                 } else if (Mms.isEmailAddress(value)) {
-                    result.append(getDisplayName(context, value));
+                    result.append(getDisplayName(value));
                 } else {
-                    result.append(getCallerId(context, value));
+                    result.append(getCallerId(value));
                 }
             }
         }
@@ -359,14 +360,14 @@ public class ContactInfoCache {
      * the name, parse and return it. Otherwise, query the contact database. Cache
      * query results for repeated queries.
      */
-    public String getDisplayName(Context context, String email) {
+    public String getDisplayName(String email) {
         Matcher match = Mms.NAME_ADDR_EMAIL_PATTERN.matcher(email);
         if (match.matches()) {
             // email has display name
             return getEmailDisplayName(match.group(1));
         }
 
-        CacheEntry entry = getContactInfoForEmailAddress(context, email, true /* allow query */);
+        CacheEntry entry = getContactInfoForEmailAddress(email, true /* allow query */);
         if (entry != null && entry.name != null) {
             return entry.name;
         }
@@ -377,13 +378,11 @@ public class ContactInfoCache {
     /**
      * Returns the contact info for a given email address
      *
-     * @param context the context.
      * @param email the email address.
      * @param allowQuery allow making (potentially blocking) content provider queries if true.
      * @return a CacheEntry if the contact is found.
      */
-    public CacheEntry getContactInfoForEmailAddress(Context context, String email,
-                                                    boolean allowQuery) {
+    public CacheEntry getContactInfoForEmailAddress(String email, boolean allowQuery) {
         synchronized (mCache) {
             if (mCache.containsKey(email)) {
                 CacheEntry entry = mCache.get(email);
@@ -394,7 +393,7 @@ public class ContactInfoCache {
                 return null;
             }
 
-            CacheEntry entry = queryEmailDisplayName(context, email);
+            CacheEntry entry = queryEmailDisplayName(email);
             mCache.put(email, entry);
 
             return entry;
@@ -404,8 +403,8 @@ public class ContactInfoCache {
     /**
      * A cached version of CallerInfo.getCallerId().
      */
-    private String getCallerId(Context context, String number) {
-        ContactInfoCache.CacheEntry entry = getContactInfo(context, number);
+    private String getCallerId(String number) {
+        ContactInfoCache.CacheEntry entry = getContactInfo(number);
         if (entry != null && !TextUtils.isEmpty(entry.name)) {
             return entry.name;
         }
@@ -432,11 +431,11 @@ public class ContactInfoCache {
     /**
      * Query the contact email table to get the name of an email address.
      */
-    private CacheEntry queryEmailDisplayName(Context context, String email) {
+    private CacheEntry queryEmailDisplayName(String email) {
         CacheEntry entry = new CacheEntry();
 
         mContactInfoSelectionArgs[0] = email;
-        Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
+        Cursor cursor = SqliteWrapper.query(mContext, mContext.getContentResolver(),
                 CONTACT_METHOD_WITH_PRESENCE_URI,
                 CONTACT_METHOD_PROJECTION,
                 CONTACT_METHOD_SELECTION,
@@ -545,7 +544,7 @@ public class ContactInfoCache {
                 if (LOCAL_DEBUG) log("rebuild cache for phone numbers...");
                 for (String phone : phones) {
                     synchronized (mCache) {
-                        CacheEntry entry = queryContactInfoByNumber(mContext, phone);
+                        CacheEntry entry = queryContactInfoByNumber(phone);
                         mCache.put(phone, entry);
                     }
                 }
@@ -554,7 +553,7 @@ public class ContactInfoCache {
                 if (LOCAL_DEBUG) log("rebuild cache for emails...");
                 for (String email : emails) {
                     synchronized (mCache) {
-                        CacheEntry entry = queryEmailDisplayName(mContext, email);
+                        CacheEntry entry = queryEmailDisplayName(email);
                         mCache.put(email, entry);
                     }
                 }

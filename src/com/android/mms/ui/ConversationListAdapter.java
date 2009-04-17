@@ -228,14 +228,7 @@ public class ConversationListAdapter extends CursorAdapter {
                 if (!TextUtils.isEmpty(address)) {
                     ContactInfoCache.CacheEntry entry = null;
                     ContactInfoCache cache = ContactInfoCache.getInstance();
-
-                    if (Mms.isEmailAddress(address)) {
-                        entry = cache.getContactInfoForEmailAddress(context, address,
-                                false /* no query */);
-                    } else {
-                        entry = cache.getContactInfoForPhoneNumber(context, address,
-                                false /* no query */);
-                    }
+                    entry = cache.getContactInfo(address, false);
                     
                     if (entry != null) {
                         presenceIconResId = entry.presenceResId;
@@ -323,13 +316,7 @@ public class ConversationListAdapter extends CursorAdapter {
                             ContactInfoCache cache = ContactInfoCache.getInstance();
                             String address = addresses;
 
-                            if (Mms.isEmailAddress(address)) {
-                                entry = cache.getContactInfoForEmailAddress(context, address,
-                                        true /* allow query */);
-                            } else {
-                                entry = cache.getContactInfoForPhoneNumber(context, address,
-                                        true /* allow query */);
-                            }
+                            entry = cache.getContactInfo(address, true);
 
                             if (entry != null) {
                                 presenceIconResId = entry.presenceResId;

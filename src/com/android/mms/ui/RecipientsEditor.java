@@ -187,7 +187,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         
         if (TextUtils.isEmpty(r.name) && Mms.isEmailAddress(r.number)) {
             ContactInfoCache cache = ContactInfoCache.getInstance();
-            r.name = cache.getDisplayName(context, r.number);
+            r.name = cache.getDisplayName(r.number);
         }
 
         r.nameAndNumber = Recipient.buildNameAndNumber(r.name, r.number);

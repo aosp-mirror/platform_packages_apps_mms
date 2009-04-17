@@ -830,7 +830,7 @@ public class ComposeMessageActivity extends Activity
 
     private boolean isNumberInContacts(String phoneNumber) {
         ContactInfoCache.CacheEntry entry =
-                ContactInfoCache.getInstance().getContactInfo(this, phoneNumber);
+                ContactInfoCache.getInstance().getContactInfo(phoneNumber);
         return !TextUtils.isEmpty(entry.name);
     }
 
@@ -1740,7 +1740,7 @@ public class ComposeMessageActivity extends Activity
             return r.person_id;
         }
         ContactInfoCache.CacheEntry entry = ContactInfoCache.getInstance()
-            .getContactInfo(this, r.number);
+            .getContactInfo(r.number);
         if (entry.person_id > 0) {
             return entry.person_id;
         }    
@@ -2406,7 +2406,7 @@ public class ComposeMessageActivity extends Activity
         if (values.length > 0) {
             sb.append("Bcc: ");
             for (String v : values) {
-                sb.append(cache.getContactName(this, v)).append(", ");
+                sb.append(cache.getContactName(v)).append(", ");
             }
         }
 
