@@ -149,7 +149,7 @@ public class ConversationList extends ListActivity
     }
 
     private void initListAdapter() {
-        mListAdapter = new ConversationListAdapter(this, null, true, mCachingNameStore);
+        mListAdapter = new ConversationListAdapter(this, null, mCachingNameStore);
         setListAdapter(mListAdapter);
     }
     
@@ -410,22 +410,11 @@ public class ConversationList extends ListActivity
     }
     
     private String getAddress(Cursor cursor) {
-        
-        long threadId = cursor.getLong(ConversationListAdapter.COLUMN_ID);
         String address = null;
-        if (mListAdapter.isSimpleMode()) {
-            address = MessageUtils.getRecipientsByIds(
-                    this,
-                    cursor.getString(ConversationListAdapter.COLUMN_RECIPIENTS_IDS),
-                    true /* allow query */);
-        } else {
-            String msgType = cursor.getString(ConversationListAdapter.COLUMN_MESSAGE_TYPE);
-            if (msgType.equals("sms")) {
-                address = cursor.getString(ConversationListAdapter.COLUMN_SMS_ADDRESS);
-            } else {
-                address = MessageUtils.getAddressByThreadId(this, threadId);
-           }
-        }
+        address = MessageUtils.getRecipientsByIds(
+                this,
+                cursor.getString(ConversationListAdapter.COLUMN_RECIPIENTS_IDS),
+                true /* allow query */);
         return address;
     }
 

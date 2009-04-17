@@ -113,28 +113,13 @@ public class RetryScheduler implements Observer {
                     int msgType = cursor.getInt(cursor.getColumnIndexOrThrow(
                             PendingMessages.MSG_TYPE));
 
-                    int direction;
-                    switch (msgType) {
-                        case PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND:
-                            direction = AbstractRetryScheme.INCOMING;
-                            break;
-                        case PduHeaders.MESSAGE_TYPE_SEND_REQ:
-                        case PduHeaders.MESSAGE_TYPE_READ_REC_IND:
-                            direction = AbstractRetryScheme.OUTGOING;
-                            break;
-                        default:
-                            Log.w(TAG, "Bad message type found: " + msgType);
-                            return;
-                    }
-
                     int retryIndex = cursor.getInt(cursor.getColumnIndexOrThrow(
                             PendingMessages.RETRY_INDEX)) + 1; // Count this time.
 
                     // TODO Should exactly understand what was happened.
                     int errorType = MmsSms.ERR_TYPE_GENERIC;
 
-                    DefaultRetryScheme scheme = new DefaultRetryScheme(
-                            mContext, direction, retryIndex, errorType);
+                    DefaultRetryScheme scheme = new DefaultRetryScheme(mContext, retryIndex);
 
                     ContentValues values = new ContentValues(4);
                     long current = System.currentTimeMillis();

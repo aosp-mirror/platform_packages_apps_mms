@@ -111,20 +111,6 @@ public class TransactionService extends Service implements Observer {
      */
     public static final String STATE_URI = "uri";
 
-    /**
-     * Used as extra key in notification intents broadcasted by the TransactionService
-     * when a Transaction is completed (TRANSACTION_COMPLETED_ACTION intents).
-     * Allowed values for this key  are the Uri's of stored messages relevant
-     * for the completed  Transaction,
-     * i.e.: Uri of DeliveryInd for DeliveryTransaction,
-     * NotificationInd for NotificationTransaction,
-     * ReadOrigInd for  ReadOrigTransaction,
-     * null for ReadRecTransaction,
-     * RetrieveConf for  RetrieveTransaction,
-     * SendReq for SendTransaction.
-     */
-    public static final String CONTENT_URI = "content_uri";
-
     private static final int EVENT_TRANSACTION_REQUEST = 1;
     private static final int EVENT_DATA_STATE_CHANGED = 2;
     private static final int EVENT_CONTINUE_MMS_CONNECTIVITY = 3;

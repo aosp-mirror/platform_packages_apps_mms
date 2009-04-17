@@ -93,18 +93,6 @@ public class TransactionBundle {
     }
 
     /**
-     * Constructor of a bundle used for TransactionBundle instances of type
-     * TYPE_PUSH_TRANSACTION.
-     *
-     * @param transactionType must be TYPE_PUSH_TRANSACTION
-     * @param pushData contains the body of the push-data
-     */
-    public TransactionBundle(int transactionType, byte[] pushData) {
-        this(transactionType);
-        mBundle.putByteArray(PUSH_DATA, pushData);
-    }
-
-    /**
      * Constructor of a transaction bundle used for incoming bundle instances.
      *
      * @param bundle The incoming bundle

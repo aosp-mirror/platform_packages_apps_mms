@@ -97,8 +97,6 @@ public class MessageUtils {
     private static final Map<String, String> sRecipientAddress =
             new ConcurrentHashMap<String, String>(20 /* initial capacity */);
 
-    public static final int READ_THREAD   = 1;
-
     private MessageUtils() {
         // Forbidden being instantiated.
     }

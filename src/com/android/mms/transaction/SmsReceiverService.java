@@ -269,9 +269,6 @@ public class SmsReceiverService extends Service {
     }
 
     public static final String CLASS_ZERO_BODY_KEY = "CLASS_ZERO_BODY";
-    public static final String CLASS_ZERO_TITLE_KEY = "CLASS_ZERO_TITLE";
-
-    public static final int NOTIFICATION_NEW_MESSAGE = 1;
 
     // This must match the column IDs below.
     private final static String[] REPLACE_PROJECTION = new String[] {

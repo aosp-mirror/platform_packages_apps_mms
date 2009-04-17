@@ -30,8 +30,4 @@ public final class UnsupportContentTypeException extends ContentRestrictionExcep
     public UnsupportContentTypeException(String msg) {
         super(msg);
     }
-
-    public UnsupportContentTypeException(Exception cause) {
-        super(cause);
-    }
 }

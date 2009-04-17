@@ -199,13 +199,10 @@ public class MessageListAdapter extends CursorAdapter {
         int mColumnSmsAddress;
         int mColumnSmsBody;
         int mColumnSmsDate;
-        int mColumnSmsRead;
         int mColumnSmsType;
         int mColumnSmsStatus;
         int mColumnMmsSubject;
         int mColumnMmsSubjectCharset;
-        int mColumnMmsDate;
-        int mColumnMmsRead;
         int mColumnMmsMessageType;
         int mColumnMmsMessageBox;
         int mColumnMmsDeliveryReport;
@@ -218,13 +215,10 @@ public class MessageListAdapter extends CursorAdapter {
             mColumnSmsAddress         = COLUMN_SMS_ADDRESS;
             mColumnSmsBody            = COLUMN_SMS_BODY;
             mColumnSmsDate            = COLUMN_SMS_DATE;
-            mColumnSmsRead            = COLUMN_SMS_READ;
             mColumnSmsType            = COLUMN_SMS_TYPE;
             mColumnSmsStatus          = COLUMN_SMS_STATUS;
             mColumnMmsSubject         = COLUMN_MMS_SUBJECT;
             mColumnMmsSubjectCharset  = COLUMN_MMS_SUBJECT_CHARSET;
-            mColumnMmsDate            = COLUMN_MMS_DATE;
-            mColumnMmsRead            = COLUMN_MMS_READ;
             mColumnMmsMessageType     = COLUMN_MMS_MESSAGE_TYPE;
             mColumnMmsMessageBox      = COLUMN_MMS_MESSAGE_BOX;
             mColumnMmsDeliveryReport  = COLUMN_MMS_DELIVERY_REPORT;
@@ -267,12 +261,6 @@ public class MessageListAdapter extends CursorAdapter {
             }
 
             try {
-                mColumnSmsRead = cursor.getColumnIndexOrThrow(Sms.READ);
-            } catch (IllegalArgumentException e) {
-                Log.w("colsMap", e.getMessage());
-            }
-
-            try {
                 mColumnSmsType = cursor.getColumnIndexOrThrow(Sms.TYPE);
             } catch (IllegalArgumentException e) {
                 Log.w("colsMap", e.getMessage());
@@ -292,18 +280,6 @@ public class MessageListAdapter extends CursorAdapter {
 
             try {
                 mColumnMmsSubjectCharset = cursor.getColumnIndexOrThrow(Mms.SUBJECT_CHARSET);
-            } catch (IllegalArgumentException e) {
-                Log.w("colsMap", e.getMessage());
-            }
-
-            try {
-                mColumnMmsDate = cursor.getColumnIndexOrThrow(Mms.DATE);
-            } catch (IllegalArgumentException e) {
-                Log.w("colsMap", e.getMessage());
-            }
-
-            try {
-                mColumnMmsRead = cursor.getColumnIndexOrThrow(Mms.READ);
             } catch (IllegalArgumentException e) {
                 Log.w("colsMap", e.getMessage());
             }

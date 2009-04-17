@@ -65,8 +65,6 @@ import java.util.TreeSet;
  * otherwise, hide the indicator.
  */
 public class MessagingNotification {
-    public static final String NOTIFICATION_CLICK_RECEIVER =
-            "com.android.mms.transaction.NotificationClickReceiver";
     private static final String TAG = "MessagingNotification";
 
     private static final int NOTIFICATION_ID = 123;
@@ -158,20 +156,6 @@ public class MessagingNotification {
         }).start();
     }
     
-    /**
-     * Deletes any delivery report notifications for the specified
-     * thread, then checks to see if there are any unread messages or
-     * delivery reports.  Shows the most recent notification if there
-     * is one.
-     *
-     * @param context the context to use
-     * @param threadId the thread for which to clear delivery notifications
-     */
-    public static void updateNewMessageIndicator(
-            Context context, long threadId) {
-        updateNewMessageIndicator(context);
-    }
-
     private static final int accumulateNotificationInfo(
             SortedSet set, MmsSmsNotificationInfo info) {
         if (info != null) {

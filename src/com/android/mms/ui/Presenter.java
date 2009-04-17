@@ -27,16 +27,12 @@ import com.android.mms.model.Model;
  */
 public abstract class Presenter implements IModelChangedObserver {
     protected final Context mContext;
-    protected final int mViewWidth;
-    protected final int mViewHeight;
     protected ViewInterface mView;
     protected Model mModel;
 
     public Presenter(Context context, ViewInterface view, Model model) {
         mContext = context;
         mView = view;
-        mViewWidth = view.getWidth();
-        mViewHeight = view.getHeight();
 
         mModel = model;
         mModel.registerModelChangedObserver(this);

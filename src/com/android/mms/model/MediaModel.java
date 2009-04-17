@@ -62,10 +62,6 @@ public abstract class MediaModel extends Model implements EventListener {
         SEEK,
     }
 
-    public MediaModel(Context context, String tag, Uri uri) throws MmsException{
-        this(context, tag, null, null, uri);
-    }
-
     public MediaModel(Context context, String tag, String contentType,
             String src, Uri uri) throws MmsException {
         mContext = context;

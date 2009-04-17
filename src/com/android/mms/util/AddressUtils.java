@@ -36,15 +36,6 @@ public class AddressUtils {
         // Forbidden being instantiated.
     }
 
-    public static boolean containsEmailAddress(String[] addresses) {
-        for (String address : addresses) {
-            if (Mms.isEmailAddress(address)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static String getFrom(Context context, Uri uri) {
         String msgId = uri.getLastPathSegment();
         Uri.Builder builder = Mms.CONTENT_URI.buildUpon();

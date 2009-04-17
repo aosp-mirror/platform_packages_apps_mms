@@ -75,48 +75,7 @@ public class ConversationListAdapter extends CursorAdapter {
     static final int COLUMN_ERROR          = 7;
     static final int COLUMN_HAS_ATTACHMENT = 8;
 
-    static final String[] DRAFT_PROJECTION = new String[] {
-        Threads._ID,                      // 0
-        Conversations.THREAD_ID           // 1
-    };
-
-    static final int COLUMN_DRAFT_THREAD_ID = 1;
-
-    static final String[] SEARCH_PROJECTION = new String[] {
-        MmsSms.TYPE_DISCRIMINATOR_COLUMN, // 0
-        BaseColumns._ID,                  // 1
-        Conversations.THREAD_ID,          // 2
-        // For SMS
-        Sms.ADDRESS,                      // 3
-        Sms.BODY,                         // 4
-        Sms.DATE,                         // 5
-        Sms.READ,                         // 6
-        Sms.TYPE,                         // 7
-        // For MMS
-        Mms.SUBJECT,                      // 8
-        Mms.SUBJECT_CHARSET,              // 9
-        Mms.DATE,                         // 10
-        Mms.READ,                         // 11
-        //Additional columns for searching
-        Part.FILENAME,                    // 12
-        Part.NAME,                        // 13
-    };
-
-    static final int COLUMN_MESSAGE_TYPE   = 0;
-    static final int COLUMN_MESSAGE_ID     = 1;
-    static final int COLUMN_THREAD_ID      = 2;
-    static final int COLUMN_SMS_ADDRESS    = 3;
-    static final int COLUMN_SMS_BODY       = 4;
-    static final int COLUMN_SMS_DATE       = 5;
-    static final int COLUMN_SMS_READ       = 6;
-    static final int COLUMN_SMS_TYPE       = 7;
-    static final int COLUMN_MMS_SUBJECT    = 8;
-    static final int COLUMN_MMS_SUBJECT_CHARSET = 9;
-    static final int COLUMN_MMS_DATE       = 10;
-    static final int COLUMN_MMS_READ       = 11;
-
     private final LayoutInflater mFactory;
-    private final boolean mSimpleMode;
 
     // Cache of space-separated recipient ids of a thread to the final
     // display version.
@@ -149,10 +108,9 @@ public class ConversationListAdapter extends CursorAdapter {
 
     private final ConversationList.CachingNameStore mCachingNameStore;
 
-    public ConversationListAdapter(Context context, Cursor cursor, boolean simple,
+    public ConversationListAdapter(Context context, Cursor cursor,
                                    ConversationList.CachingNameStore nameStore) {
         super(context, cursor, true /* auto-requery */);
-        mSimpleMode = simple;
         mFactory = LayoutInflater.from(context);
         mCachingNameStore = nameStore;
         
@@ -206,61 +164,36 @@ public class ConversationListAdapter extends CursorAdapter {
             boolean cacheEntryInvalid = false;
             boolean hasAttachment = false;
 
-            if (mSimpleMode) {
-                threadId = cursor.getLong(COLUMN_ID);
-                spaceSeparatedRcptIds = cursor.getString(COLUMN_RECIPIENTS_IDS);
-                from = getFromTextFromMessageThread(spaceSeparatedRcptIds);
-                subject = MessageUtils.extractEncStrFromCursor(
-                        cursor, COLUMN_SNIPPET, COLUMN_SNIPPET_CHARSET);
-                date = cursor.getLong(COLUMN_DATE);
-                read = cursor.getInt(COLUMN_READ) != 0;
-                error = cursor.getInt(COLUMN_ERROR) != 0;
-                messageCount = cursor.getInt(COLUMN_MESSAGE_COUNT);
-                hasAttachment = cursor.getInt(COLUMN_HAS_ATTACHMENT) != 0;
-                
-                cacheEntryInvalid = true;
+            threadId = cursor.getLong(COLUMN_ID);
+            spaceSeparatedRcptIds = cursor.getString(COLUMN_RECIPIENTS_IDS);
+            from = getFromTextFromMessageThread(spaceSeparatedRcptIds);
+            subject = MessageUtils.extractEncStrFromCursor(
+                    cursor, COLUMN_SNIPPET, COLUMN_SNIPPET_CHARSET);
+            date = cursor.getLong(COLUMN_DATE);
+            read = cursor.getInt(COLUMN_READ) != 0;
+            error = cursor.getInt(COLUMN_ERROR) != 0;
+            messageCount = cursor.getInt(COLUMN_MESSAGE_COUNT);
+            hasAttachment = cursor.getInt(COLUMN_HAS_ATTACHMENT) != 0;
 
-                // display the presence from the cache. The cache entry could be invalidated
-                // in the activity's onResume(), but display the info anyways if it's in the cache.
-                // If it's invalid, we'll force a refresh in the async thread.
-                String address = MessageUtils.getRecipientsByIds(
-                        context, spaceSeparatedRcptIds, false /* no query */);
-                if (!TextUtils.isEmpty(address)) {
-                    ContactInfoCache.CacheEntry entry = null;
-                    ContactInfoCache cache = ContactInfoCache.getInstance();
-                    entry = cache.getContactInfo(address, false);
-                    
-                    if (entry != null) {
-                        presenceIconResId = entry.presenceResId;
-                        cacheEntryInvalid = entry.isStale();
-                        if (LOCAL_LOGV) {
-                            Log.d(TAG, "ConvListAdapter.bindView: " + entry.name + ", presence=" +
+            cacheEntryInvalid = true;
+
+            // display the presence from the cache. The cache entry could be invalidated
+            // in the activity's onResume(), but display the info anyways if it's in the cache.
+            // If it's invalid, we'll force a refresh in the async thread.
+            String address = MessageUtils.getRecipientsByIds(
+                    context, spaceSeparatedRcptIds, false /* no query */);
+            if (!TextUtils.isEmpty(address)) {
+                ContactInfoCache.CacheEntry entry = null;
+                ContactInfoCache cache = ContactInfoCache.getInstance();
+                entry = cache.getContactInfo(address, false);
+
+                if (entry != null) {
+                    presenceIconResId = entry.presenceResId;
+                    cacheEntryInvalid = entry.isStale();
+                    if (LOCAL_LOGV) {
+                        Log.d(TAG, "ConvListAdapter.bindView: " + entry.name + ", presence=" +
                                 presenceIconResId + ", cache invalid=" + cacheEntryInvalid);
-                        }
                     }
-                }
-            } else {
-                threadId = cursor.getLong(COLUMN_THREAD_ID);
-                String msgType = cursor.getString(COLUMN_MESSAGE_TYPE);
-                if (msgType.equals("sms")) {
-                    from = cursor.getString(COLUMN_SMS_ADDRESS);
-                    subject = cursor.getString(COLUMN_SMS_BODY);
-                    date = cursor.getLong(COLUMN_SMS_DATE);
-                    // FIXME: This is wrong! We cannot determine whether a
-                    // thread is read or not by the read flag of the latest
-                    // message in the thread.
-                    read = cursor.getInt(COLUMN_SMS_READ) != 0;
-                } else {
-                    from = MessageUtils.getAddressByThreadId(
-                            context, threadId);
-                    subject = MessageUtils.extractEncStrFromCursor(
-                            cursor, COLUMN_MMS_SUBJECT, COLUMN_MMS_SUBJECT_CHARSET);
-                    date = cursor.getLong(COLUMN_MMS_DATE) * 1000;
-                    read = cursor.getInt(COLUMN_MMS_READ) != 0;
-                }
-                error = false;
-                if (TextUtils.isEmpty(from)) {
-                    from = mContext.getString(R.string.anonymous_recipient);
                 }
             }
 
@@ -341,10 +274,6 @@ public class ConversationListAdapter extends CursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         if (LOCAL_LOGV) Log.v(TAG, "inflating new view");
         return mFactory.inflate(R.layout.conversation_header, parent, false);
-    }
-
-    public boolean isSimpleMode() {
-        return mSimpleMode;
     }
 
     @Override

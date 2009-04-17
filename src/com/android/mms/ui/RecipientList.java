@@ -288,16 +288,6 @@ public class RecipientList {
         return first.number;
     }
 
-    public boolean containsBcc() {
-        int count = mRecipients.size();
-        for (int i = 0; i < count; i++) {
-            if (mRecipients.get(i).bcc) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean containsEmail() {
         int count = mRecipients.size();
         for (int i = 0; i < count; i++) {
