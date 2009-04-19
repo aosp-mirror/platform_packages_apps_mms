@@ -15,7 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label">"SMS"</string>
+    <string name="app_label">"SMS/MMS"</string>
     <string name="new_message">"Nouveau message"</string>
     <string name="create_new_message">"Rédiger un message"</string>
     <string name="menu_call_back">"Appeler <xliff:g id="NAME">%s</xliff:g>"</string>
