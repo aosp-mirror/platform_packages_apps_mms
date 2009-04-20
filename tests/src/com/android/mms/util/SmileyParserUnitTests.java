@@ -28,7 +28,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.util.Log;
 
-import java.lang.reflect.*;
+import com.android.internal.widget.Smileys;
 
 /**
  * This is a series of unit tests for the SmileyParser class.
@@ -52,59 +52,18 @@ public class SmileyParserUnitTests extends AndroidTestCase {
         SmileyParser parser = SmileyParser.getInstance();
         SpannableStringBuilder buf = new SpannableStringBuilder();
         
-        // Use reflection to get at the resource ids of the smiley resources because we cannot
-        // import the internal com.android.internal.widget.Smileys into this test code.
-        Class<?> smileys = null;
-        try {
-            Class<?> resources = Class.forName("com.android.internal.R");
-            Class<?>[] classes = resources.getClasses();
-            for (int i = 0; i < classes.length; i++) {
-                if (classes[i].toString().contains("drawable")) {
-                    smileys = classes[i];
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        assertTrue(smileys != null);
-        
-        int emo_im_happy = 0;
-        int emo_im_sad = 0;
-        try {
-            Field emo_im_happyField = smileys.getField("emo_im_happy");
-            emo_im_happy = emo_im_happyField.getInt(null);
-
-            Field emo_im_sadField = smileys.getField("emo_im_sad");
-            emo_im_sad = emo_im_sadField.getInt(null);
-        } catch (SecurityException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        assertTrue(emo_im_happy != 0);
-        assertTrue(emo_im_sad != 0);
-       
-        // The REAL test begins here.
         // Put a string that looks kind of like a smiley in between two valid smileys.
         buf.append(parser.addSmileySpans(":-):-:-("));
 
         ImageSpan[] spans = buf.getSpans(0, buf.length(), ImageSpan.class);
 
         assertTrue("Smiley (happy) bitmaps aren't equal",
-                compareImageSpans(new ImageSpan(mContext, emo_im_happy), spans[0]));
+                compareImageSpans(new ImageSpan(mContext,
+                        Smileys.getSmileyResource(Smileys.HAPPY)), spans[0]));
 
         assertTrue("Smiley (sad) bitmaps aren't equal",
-                compareImageSpans(new ImageSpan(mContext, emo_im_sad), spans[1]));
+                compareImageSpans(new ImageSpan(mContext,
+                        Smileys.getSmileyResource(Smileys.SAD)), spans[1]));
     }
     
     private boolean compareImageSpans(ImageSpan span1, ImageSpan span2) {
