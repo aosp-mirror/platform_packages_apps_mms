@@ -45,10 +45,8 @@ import android.os.Handler;
 import android.provider.Contacts;
 import android.provider.Contacts.People;
 import android.provider.Contacts.Intents.Insert;
-import android.provider.Telephony.Mms;
 import android.provider.Telephony.Threads;
 import android.provider.Telephony.Sms.Conversations;
-import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -81,17 +79,17 @@ public class ConversationList extends ListActivity
     private static final int DELETE_CONVERSATION_TOKEN = 1801;
     
     // IDs of the main menu items.
-    public static final int MENU_COMPOSE_NEW            = 0;
-    public static final int MENU_SEARCH                 = 1;
-    public static final int MENU_DELETE_ALL             = 3;
-    public static final int MENU_PREFERENCES            = 4;
+    public static final int MENU_COMPOSE_NEW          = 0;
+    public static final int MENU_SEARCH               = 1;
+    public static final int MENU_DELETE_ALL           = 3;
+    public static final int MENU_PREFERENCES          = 4;
 
     // IDs of the context menu items for the list of conversations.
     public static final int MENU_DELETE               = 0;
     public static final int MENU_VIEW                 = 1;
     public static final int MENU_VIEW_CONTACT         = 2;
     public static final int MENU_ADD_TO_CONTACTS      = 3;
-
+    
     private ThreadListQueryHandler mQueryHandler;
     private ConversationListAdapter mListAdapter;
     private CharSequence mTitle;
@@ -112,6 +110,8 @@ public class ConversationList extends ListActivity
         // given a semicolon-delimited string of canonical phone
         // numbers.
         public String getContactNames(String addresses);
+        
+        public void invalidateCache();
     }
 
     @Override
@@ -544,23 +544,22 @@ public class ConversationList extends ListActivity
      * share a common, reused cached between activity resumes, not
      * having to hit the Contacts providers all the time.
      */
-    private static final class CachingNameStoreImpl implements CachingNameStore {
+    private final class CachingNameStoreImpl implements CachingNameStore {
         private static final String TAG = "ConversationList/CachingNameStoreImpl";
         private final ConcurrentHashMap<String, String> mCachedNames =
                 new ConcurrentHashMap<String, String>();
         private final ContentObserver mPhonesObserver;
-        private final Context mContext;
 
         public CachingNameStoreImpl(Context ctxt) {
-            mContext = ctxt;
             mPhonesObserver = new ContentObserver(new Handler()) {
                     @Override
                     public void onChange(boolean selfUpdate) {
                         mCachedNames.clear();
+                        mListAdapter.invalidateAddressCache();
                     }
                 };
             ctxt.getContentResolver().registerContentObserver(
-                    Contacts.Phones.CONTENT_URI,
+                    People.CONTENT_URI,
                     true, mPhonesObserver);
         }
 
@@ -571,7 +570,7 @@ public class ConversationList extends ListActivity
         public String getContactNames(String addresses) {
             String value = mCachedNames.get(addresses);
             if (value != null) {
-                return value;
+               return value;
             }
             String[] values = addresses.split(";");
             if (values.length < 2) {
@@ -594,6 +593,10 @@ public class ConversationList extends ListActivity
             }
             mCachedNames.put(addresses, value);
             return value;
+        }
+
+        public void invalidateCache() {
+            mCachedNames.clear();
         }
 
     }
