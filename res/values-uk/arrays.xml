@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ * Copyright (C) 2008 Esmertec AG.
+ * Copyright (C) 2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ -->
+<resources>
+    <!-- NOTE: if you change anything about this array, you must make the corresponding change
+         to the array DEFAULT_SMILEY_RES_IDS in MessageListItem.java and to default_smiley_names
+         below. -->
+    <string-array name="default_smiley_texts">
+      <item>:-)</item>   <!-- 0: Happy -->
+      <item>:-(</item>   <!-- 1: Sad -->
+      <item>;-)</item>   <!-- 2: Winking -->
+      <item>:-P</item>   <!-- 3: Tongue sticking out -->
+      <item>=-O</item>   <!-- 4: Surprised -->
+      <item>:-*</item>   <!-- 5: Kissing -->
+      <item>:O</item>    <!-- 6: Yelling -->
+      <item>B-)</item>   <!-- 7: Cool -->
+      <item>:-$</item>   <!-- 8: Money mouth -->
+      <item>:-!</item>   <!-- 9: Foot in mouth -->
+      <item>:-[</item>   <!-- 10: Embarrassed -->
+      <item>O:-)</item>  <!-- 11: Angel -->
+      <item>:-\\</item>  <!-- 12: Undecided -->
+      <item>:\'(</item>  <!-- 13: Crying -->
+      <item>:-X</item>   <!-- 14: Lips are sealed -->
+      <item>:-D</item>   <!-- 15: Laughing -->
+      <item>o_O</item>   <!-- 16: Confused -->
+    </string-array>
+
+    <!-- NOTE: if you change anything about this array, you must make the corresponding change
+         to the array DEFAULT_SMILEY_RES_IDS in MessageListItem.java and to default_smiley_texts
+         above. -->
+    <string-array name="default_smiley_names">
+        <item>"Щастя"</item>                 <!-- 0: :-) -->
+        <item>"Сумно"</item>                 <!-- 1: :-( -->
+        <item>"Пiдморгую"</item>             <!-- 2: ;-) -->
+        <item>"Висунутий язик"</item>        <!-- 3: :-P -->
+        <item>"Здивування"</item>            <!-- 4: =-O -->
+        <item>"Цiлую"</item>                 <!-- 5: :-* -->
+        <item>"Кричу"</item>                 <!-- 6: :O -->
+        <item>"Круто"</item>                 <!-- 7: B-) -->
+        <item>"Знаю, що говорю"</item>       <!-- 8: :-$ -->
+        <item>"Мовчу"</item>                 <!-- 9: :-! -->
+        <item>"Засоромлений"</item>          <!-- 10: :-[ -->
+        <item>"Ангел"</item>                 <!-- 11: O:-) -->
+        <item>"Сумнiваючись"</item>          <!-- 12: :-\\ -->
+        <item>"Плачу"</item>                 <!-- 13: :\'( -->
+        <item>"Нiкому не скажу"</item>       <!-- 14: :-X -->
+        <item>"Смiшно"</item>                <!-- 15: :-D -->
+        <item>"Розгублений"</item>           <!-- 16: o_O -->
+    </string-array>
+</resources>
