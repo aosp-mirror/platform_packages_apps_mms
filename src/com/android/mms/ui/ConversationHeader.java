@@ -17,6 +17,10 @@
 
 package com.android.mms.ui;
 
+import android.content.Context;
+
+import com.android.mms.data.Conversation;
+
 /**
  * A holder class for a conversation header.
  */
@@ -45,33 +49,18 @@ public class ConversationHeader {
     // with the header using setOnFromChanged() below.
     private ConversationHeaderView mViewWaitingForFromChange;
 
-    // Needed because it's Parcelable
-    public ConversationHeader() {
-    }
-
-    public ConversationHeader(
-            long threadId,
-            String from,  // may be null to signal async loading
-            String subject,
-            String date,
-            boolean isRead,
-            boolean hasError,
-            boolean hasDraft,
-            int messageCount,
-            boolean hasAttachment)
-    {
-        mThreadId = threadId;
-        mFrom = from;  // may be null
+    public ConversationHeader(Context context, Conversation conv, String from) {
+        mThreadId = conv.getThreadId();
+        mFrom = from;
         mPresenceResId = 0;
-        mSubject = subject != null ? subject : "";
-        mDate = date != null ? date : "";
-        mIsRead = isRead;
-        mHasError = hasError;
-        mHasDraft = hasDraft;
-        mMessageCount = messageCount;
-        mHasAttachment = hasAttachment;
+        mSubject = conv.getSnippet();
+        mDate = MessageUtils.formatTimeStampString(context, conv.getDate());
+        mIsRead = !conv.hasUnreadMessages();
+        mHasError = conv.hasError();
+        mHasDraft = conv.hasDraft();
+        mMessageCount = conv.getMessageCount();
+        mHasAttachment = conv.hasAttachment();
     }
-
     /**
      * @return Returns the ID of the thread.
      */

@@ -209,6 +209,21 @@ public class RecipientList {
                 return formattedNumber;
             }            
         }
+        
+        @Override
+        public boolean equals(Object obj) {
+            try {
+                Recipient other = (Recipient)obj;
+                return number.equals(other.number);
+            } catch (ClassCastException e) {
+                return false;
+            }
+        }
+        
+        @Override
+        public int hashCode() {
+            return number.hashCode();
+        }
     }
 
     public static RecipientList from(String address, Context context) {
@@ -359,5 +374,24 @@ public class RecipientList {
             sb.append(recipient.number);
         }
         return sb.toString();
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            RecipientList other = (RecipientList)obj;
+            return mRecipients.equals(other.mRecipients);
+        } catch (ClassCastException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int code = 0;
+        for (Recipient r : mRecipients) {
+            code += r.hashCode();
+        }
+        return code;
     }
 }

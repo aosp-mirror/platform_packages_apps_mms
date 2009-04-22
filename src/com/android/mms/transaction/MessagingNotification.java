@@ -21,6 +21,7 @@ import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IN
 import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
 
 import com.android.mms.R;
+import com.android.mms.data.Conversation;
 import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.ConversationList;
 import com.android.mms.ui.MessagingPreferenceActivity;
@@ -46,12 +47,10 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
-import android.util.Log;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -293,9 +292,7 @@ public class MessagingNotification {
             long timeMillis,
             int count) {
         Intent clickIntent = getAppIntent();
-        clickIntent.setData(
-                Uri.withAppendedPath(
-                        clickIntent.getData(), Long.toString(threadId)));
+        clickIntent.setData(Conversation.getUri(threadId));
         clickIntent.setAction(Intent.ACTION_VIEW);
 
         String senderInfo = buildTickerMessage(
@@ -318,7 +315,7 @@ public class MessagingNotification {
     }
 
     private static Intent getAppIntent() {
-        Intent appIntent = new Intent(Intent.ACTION_MAIN, Threads.CONTENT_URI);
+        Intent appIntent = new Intent(Intent.ACTION_MAIN);
 
         appIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return appIntent;

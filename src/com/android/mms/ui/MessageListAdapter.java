@@ -100,14 +100,12 @@ public class MessageListAdapter extends CursorAdapter {
     private final LinkedHashMap<Long, MessageItem> mMessageItemCache;
     private final ColumnsMap mColumnsMap;
     private OnDataSetChangedListener mOnDataSetChangedListener;
-    private final int mThreadType;
     private Handler mMsgListItemHandler;
 
     public MessageListAdapter(
             Context context, Cursor c, ListView listView,
-            boolean useDefaultColumnsMap, int threadType) {
+            boolean useDefaultColumnsMap) {
         super(context, c);
-        mThreadType = threadType;
         mInflater = (LayoutInflater) context.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
         mListView = listView;
@@ -176,7 +174,7 @@ public class MessageListAdapter extends CursorAdapter {
         MessageItem item = mMessageItemCache.get(getKey(type, msgId));
         if (item == null) {
             try {
-                item = new MessageItem(mContext, type, c, mColumnsMap, mThreadType);
+                item = new MessageItem(mContext, type, c, mColumnsMap);
                 mMessageItemCache.put(getKey(item.mType, item.mMsgId), item);
             } catch (MmsException e) {
                 Log.e(TAG, e.getMessage());

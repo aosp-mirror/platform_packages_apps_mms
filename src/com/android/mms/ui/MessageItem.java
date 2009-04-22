@@ -38,7 +38,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -78,13 +77,11 @@ public class MessageItem {
     SlideshowModel mSlideshow;
     int mMessageSize;
     int mErrorType;
-    int mThreadType;
 
     MessageItem(
             Context context, String type, Cursor cursor,
-            ColumnsMap columnsMap, int threadType) throws MmsException {
+            ColumnsMap columnsMap) throws MmsException {
         mContext = context;
-        mThreadType = threadType;
         mMsgId = cursor.getLong(columnsMap.mColumnMsgId);
         
         if ("sms".equals(type)) {
@@ -100,13 +97,7 @@ public class MessageItem {
                 String meString = context.getString(
                         R.string.messagelist_sender_self);
 
-                if (mThreadType == Threads.COMMON_THREAD) {
-                    mContact = meString;
-                } else {
-                    mContact = String.format(
-                            context.getString(R.string.broadcast_from_to),
-                            meString, infoCache.getContactName(mAddress));
-                }
+                mContact = meString;
             } else {
                 // For incoming messages, the ADDRESS field contains the sender.
                 mContact = infoCache.getContactName(mAddress);
