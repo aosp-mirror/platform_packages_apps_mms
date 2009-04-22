@@ -36,16 +36,16 @@
   </string-array>
   <string-array name="default_smiley_names">
     <item>"Zadowolenie"</item>
-    <item>"Smutek"</item>
-    <item>"Mrugnięcie"</item>
-    <item>"Wystający język"</item>
+    <item>"Smutny"</item>
+    <item>"Mruga"</item>
+    <item>"Pokazuje język"</item>
     <item>"Zdziwienie"</item>
     <item>"Całus"</item>
-    <item>"Krzyk"</item>
+    <item>"Krzyczy"</item>
     <item>"Super"</item>
     <item>"Pazerność"</item>
     <item>"Gafa"</item>
-    <item>"Zakłopotanie"</item>
+    <item>"Zakłopotany"</item>
     <item>"Anioł"</item>
     <item>"Niezdecydowanie"</item>
     <item>"Płacz"</item>

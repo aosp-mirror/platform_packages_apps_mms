@@ -19,7 +19,7 @@
     <string name="new_message">"Nowa wiadomość"</string>
     <string name="create_new_message">"Utwórz nową wiadomość"</string>
     <string name="menu_call_back">"Zadzwoń do: <xliff:g id="NAME">%s</xliff:g>"</string>
-    <string name="menu_send_email">"Wyślij e-mail do: <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email">"Wyślij e-mail: <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"Utwórz"</string>
     <string name="menu_preferences">"Ustawienia"</string>
     <string name="menu_add_address_to_contacts">"Dodaj <xliff:g id="NAME">%s</xliff:g> do Kontaktów"</string>
@@ -148,7 +148,7 @@
     <string name="pref_summary_mms_delivery_reports">"Żądaj potwierdzenia dostarczenia każdej wysłanej wiadomości"</string>
     <string name="pref_summary_mms_read_reports">"Żądanie raportu przeczytania każdej wysłanej wiadomości"</string>
     <string name="pref_summary_sms_delivery_reports">"Żądaj potwierdzenia dostarczenia każdej wysłanej wiadomości"</string>
-    <string name="pref_title_manage_sim_messages">"Zarządzanie wiadomościami na karcie SIM"</string>
+    <string name="pref_title_manage_sim_messages">"Wiadomości na karcie SIM"</string>
     <string name="pref_title_mms_delivery_reports">"Raporty dostarczenia"</string>
     <string name="pref_title_mms_read_reports">"Raporty odczytu"</string>
     <string name="pref_title_sms_delivery_reports">"Raporty dostarczenia"</string>
