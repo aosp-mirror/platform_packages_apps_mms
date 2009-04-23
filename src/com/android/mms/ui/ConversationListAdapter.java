@@ -287,4 +287,8 @@ public class ConversationListAdapter extends CursorAdapter {
  
         super.changeCursor(cursor);
     }
+    
+    public void invalidateAddressCache() {
+        mThreadDisplayFrom.clear();
+    }
 }
