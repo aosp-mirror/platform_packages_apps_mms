@@ -22,7 +22,7 @@
     <string name="menu_send_email">"傳送電子郵件給 <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"撰寫"</string>
     <string name="menu_preferences">"設定"</string>
-    <string name="menu_add_address_to_contacts">"新增 <xliff:g id="NAME">%s</xliff:g> 至 [通訊錄]"</string>
+    <string name="menu_add_address_to_contacts">"新增 <xliff:g id="NAME">%s</xliff:g> 至 [聯絡人]"</string>
     <string name="menu_call">"撥打"</string>
     <string name="menu_delete_all">"刪除會話群組"</string>
     <string name="menu_delete">"刪除串連"</string>
@@ -131,7 +131,7 @@
     <item>"其他..."</item>
   </string-array>
     <string name="menu_view_contact">"檢視聯絡人"</string>
-    <string name="menu_add_to_contacts">"新增至 [通訊錄]"</string>
+    <string name="menu_add_to_contacts">"新增至 [聯絡人]"</string>
     <string name="hidden_sender_address">"隱藏寄件者地址"</string>
     <string name="yes">"確定"</string>
     <string name="no">"取消"</string>
