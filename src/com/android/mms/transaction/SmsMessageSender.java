@@ -22,7 +22,6 @@ import com.google.android.mms.MmsException;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.app.PendingIntent;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,13 +30,9 @@ import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
-import android.provider.Telephony.Sms.Conversations;
 import android.telephony.SmsManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 
 public class SmsMessageSender implements MessageSender {
     private final Context mContext;
@@ -56,10 +51,6 @@ public class SmsMessageSender implements MessageSender {
         Sms.Conversations.SERVICE_CENTER,
     };
 
-    private static final String[] DATE_PROJECTION = new String[] {
-        Sms.DATE
-    };
-    
     private static final int COLUMN_REPLY_PATH_PRESENT = 0;
     private static final int COLUMN_SERVICE_CENTER     = 1;
 
@@ -71,9 +62,7 @@ public class SmsMessageSender implements MessageSender {
         mDests = new String[mNumberOfDests];
         System.arraycopy(dests, 0, mDests, 0, mNumberOfDests);
         mTimestamp = System.currentTimeMillis();
-        mThreadId = threadId > 0 ? threadId
-                        : Threads.getOrCreateThreadId(context,
-                                    new HashSet<String>(Arrays.asList(dests)));
+        mThreadId = threadId;
         mServiceCenter = getOutgoingServiceCenter(mThreadId);
     }
 

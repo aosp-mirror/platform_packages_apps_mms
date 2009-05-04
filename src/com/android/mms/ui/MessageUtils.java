@@ -17,14 +17,12 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.model.MediaModel;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.CarrierContentRestriction;
-import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.transaction.MmsMessageSender;
 import com.android.mms.util.AddressUtils;
 import com.google.android.mms.ContentType;
@@ -45,7 +43,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -58,10 +55,8 @@ import android.graphics.Bitmap.CompressFormat;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
-import android.provider.Settings;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -461,31 +456,6 @@ public class MessageUtils {
         }
 
         return (addressBuf.length() == 0) ? null : addressBuf;
-    }
-
-    public static String getAddressByThreadId(Context context, long threadId) {
-        String[] projection = new String[] { Threads.RECIPIENT_IDS };
-
-        Uri.Builder builder = Threads.CONTENT_URI.buildUpon();
-        builder.appendQueryParameter("simple", "true");
-        Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
-                            builder.build(), projection,
-                            Threads._ID + "=" + threadId, null, null);
-
-        if (cursor != null) {
-            try {
-                if ((cursor.getCount() == 1) && cursor.moveToFirst()) {
-                    String address = getRecipientsByIds(context,
-                            cursor.getString(0), true /* allow query */);
-                    if (!TextUtils.isEmpty(address)) {
-                        return address;
-                    }
-                }
-            } finally {
-                cursor.close();
-            }
-        }
-        return null;
     }
 
     public static void selectAudio(Context context, int requestCode) {

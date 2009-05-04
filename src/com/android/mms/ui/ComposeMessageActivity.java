@@ -79,7 +79,6 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
 import android.telephony.SmsMessage;
 import android.text.ClipboardManager;
 import android.text.Editable;
@@ -2215,8 +2214,7 @@ public class ComposeMessageActivity extends Activity
         }
         
         // Initialize the list adapter with a null cursor.
-        mMsgListAdapter = new MessageListAdapter(
-                this, null, mMsgListView, true, Threads.COMMON_THREAD);
+        mMsgListAdapter = new MessageListAdapter(this, null, mMsgListView, true);
         mMsgListAdapter.setOnDataSetChangedListener(mDataSetChangedListener);
         mMsgListAdapter.setMsgListItemHandler(mMessageListItemHandler);
         mMsgListView.setAdapter(mMsgListAdapter);
@@ -2366,11 +2364,7 @@ public class ComposeMessageActivity extends Activity
     private void initActivityState(Bundle bundle, Intent intent) {
         if (bundle != null) {
             String recipients = bundle.getString("recipients");
-            if (recipients != null) {
-                mConversation = Conversation.get(this, RecipientList.from(recipients, this));
-            } else {
-                mConversation = Conversation.createNew(this);
-            }
+            mConversation = Conversation.get(this, RecipientList.from(recipients, this));
             mExitOnSent = bundle.getBoolean("exit_on_sent", false);
             mWorkingMessage.readStateFromBundle(bundle);
             return;

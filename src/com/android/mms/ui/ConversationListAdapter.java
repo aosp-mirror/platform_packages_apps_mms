@@ -18,20 +18,11 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
+import com.android.mms.data.Conversation;
 import com.android.mms.util.ContactInfoCache;
-import com.android.mms.util.DraftCache;
-
-import com.google.android.mms.util.SqliteWrapper;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.provider.BaseColumns;
-import android.provider.Telephony.Mms;
-import android.provider.Telephony.MmsSms;
-import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
-import android.provider.Telephony.Mms.Part;
-import android.provider.Telephony.Sms.Conversations;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
@@ -52,28 +42,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 public class ConversationListAdapter extends CursorAdapter {
     private static final String TAG = "ConversationListAdapter";
     private static final boolean LOCAL_LOGV = false;
-
-    static final String[] PROJECTION = new String[] {
-        Threads._ID,                      // 0
-        Threads.MESSAGE_COUNT,            // 1
-        Threads.RECIPIENT_IDS,            // 2
-        Threads.DATE,                     // 3
-        Threads.READ,                     // 4
-        Threads.SNIPPET,                  // 5
-        Threads.SNIPPET_CHARSET,          // 6
-        Threads.ERROR,                    // 7
-        Threads.HAS_ATTACHMENT            // 8
-    };
-
-    static final int COLUMN_ID             = 0;
-    static final int COLUMN_MESSAGE_COUNT  = 1;
-    static final int COLUMN_RECIPIENTS_IDS = 2;
-    static final int COLUMN_DATE           = 3;
-    static final int COLUMN_READ           = 4;
-    static final int COLUMN_SNIPPET        = 5;
-    static final int COLUMN_SNIPPET_CHARSET = 6;
-    static final int COLUMN_ERROR          = 7;
-    static final int COLUMN_HAS_ATTACHMENT = 8;
 
     private final LayoutInflater mFactory;
 
@@ -143,86 +111,45 @@ public class ConversationListAdapter extends CursorAdapter {
         // recipients (if latest threadid was deleted and new
         // auto-increment was assigned), so our cache key is the
         // space-separated list of recipients IDs instead:
-        String value = mThreadDisplayFrom.get(spaceSeparatedRcptIds);
-        if (value != null) {
-            return value;
-        }
-
-        return null;
+        return mThreadDisplayFrom.get(spaceSeparatedRcptIds);
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        if (view instanceof ConversationHeaderView) {
-            ConversationHeaderView headerView = (ConversationHeaderView) view;
-            String from, subject;
-            long threadId, date;
-            boolean read, error;
-            int messageCount = 0;
-            String spaceSeparatedRcptIds = null;
-            int presenceIconResId = 0;
-            boolean cacheEntryInvalid = false;
-            boolean hasAttachment = false;
-
-            threadId = cursor.getLong(COLUMN_ID);
-            spaceSeparatedRcptIds = cursor.getString(COLUMN_RECIPIENTS_IDS);
-            from = getFromTextFromMessageThread(spaceSeparatedRcptIds);
-            subject = MessageUtils.extractEncStrFromCursor(
-                    cursor, COLUMN_SNIPPET, COLUMN_SNIPPET_CHARSET);
-            date = cursor.getLong(COLUMN_DATE);
-            read = cursor.getInt(COLUMN_READ) != 0;
-            error = cursor.getInt(COLUMN_ERROR) != 0;
-            messageCount = cursor.getInt(COLUMN_MESSAGE_COUNT);
-            hasAttachment = cursor.getInt(COLUMN_HAS_ATTACHMENT) != 0;
-
-            cacheEntryInvalid = true;
-
-            // display the presence from the cache. The cache entry could be invalidated
-            // in the activity's onResume(), but display the info anyways if it's in the cache.
-            // If it's invalid, we'll force a refresh in the async thread.
-            String address = MessageUtils.getRecipientsByIds(
-                    context, spaceSeparatedRcptIds, false /* no query */);
-            if (!TextUtils.isEmpty(address)) {
-                ContactInfoCache.CacheEntry entry = null;
-                ContactInfoCache cache = ContactInfoCache.getInstance();
-                entry = cache.getContactInfo(address, false);
-
-                if (entry != null) {
-                    presenceIconResId = entry.presenceResId;
-                    cacheEntryInvalid = entry.isStale();
-                    if (LOCAL_LOGV) {
-                        Log.d(TAG, "ConvListAdapter.bindView: " + entry.name + ", presence=" +
-                                presenceIconResId + ", cache invalid=" + cacheEntryInvalid);
-                    }
-                }
-            }
-
-            String timestamp = MessageUtils.formatTimeStampString(
-                    context, date);
-
-            if (TextUtils.isEmpty(subject)) {
-                subject = mContext.getString(R.string.no_subject_view);
-            }
-
-            if (LOCAL_LOGV) Log.v(TAG, "pre-create ConversationHeader");
-            boolean hasDraft = DraftCache.getInstance().hasDraft(threadId);
-                
-            ConversationHeader ch = new ConversationHeader(
-                    threadId, from, subject, timestamp,
-                    read, error, hasDraft, messageCount, hasAttachment);
-
-            headerView.bind(context, ch);
-            headerView.setPresenceIcon(presenceIconResId);
-
-            // if the cache entry is invalid, or if we can't find the "from" field,
-            // kick off an async op to refresh the name and presence
-            if (cacheEntryInvalid || (from == null && spaceSeparatedRcptIds != null)) {
-                startAsyncDisplayFromLoad(context, ch, headerView, spaceSeparatedRcptIds);
-            }
-            if (LOCAL_LOGV) Log.v(TAG, "post-bind ConversationHeader");
-        } else {
+        if (!(view instanceof ConversationHeaderView)) {
             Log.e(TAG, "Unexpected bound view: " + view);
+            return;
         }
+        
+        ConversationHeaderView headerView = (ConversationHeaderView) view;
+        Conversation conv = Conversation.from(context, cursor);
+
+        boolean cacheEntryInvalid = true;
+        int presenceIconResId = 0;
+        String spaceSeparatedRcptIds = conv.getRecipientIds();
+        String from = getFromTextFromMessageThread(spaceSeparatedRcptIds);
+        
+        // display the presence from the cache. The cache entry could be invalidated
+        // in the activity's onResume(), but display the info anyways if it's in the cache.
+        // If it's invalid, we'll force a refresh in the async thread.
+        ContactInfoCache.CacheEntry entry = conv.getContactInfo(false);
+        if (entry != null) {
+            presenceIconResId = entry.presenceResId;
+            cacheEntryInvalid = entry.isStale();
+        }
+
+        if (LOCAL_LOGV) Log.v(TAG, "pre-create ConversationHeader");
+                
+        ConversationHeader ch = new ConversationHeader(context, conv, from);
+        headerView.bind(context, ch);
+        headerView.setPresenceIcon(presenceIconResId);
+
+        // if the cache entry is invalid, or if we can't find the "from" field,
+        // kick off an async op to refresh the name and presence
+        if (cacheEntryInvalid || (from == null && spaceSeparatedRcptIds != null)) {
+            startAsyncDisplayFromLoad(context, ch, headerView, spaceSeparatedRcptIds);
+        }
+        if (LOCAL_LOGV) Log.v(TAG, "post-bind ConversationHeader");
     }
 
     private void startAsyncDisplayFromLoad(final Context context,

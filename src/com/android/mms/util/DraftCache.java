@@ -24,7 +24,6 @@ import java.util.Set;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.Telephony.MmsSms;
-import android.provider.Telephony.Threads;
 import android.provider.Telephony.Sms.Conversations;
 import android.util.Log;
 
@@ -52,11 +51,10 @@ public class DraftCache {
     }
 
     static final String[] DRAFT_PROJECTION = new String[] {
-        Threads._ID,                      // 0
-        Conversations.THREAD_ID           // 1
+        Conversations.THREAD_ID           // 0
     };
 
-    static final int COLUMN_DRAFT_THREAD_ID = 1;
+    static final int COLUMN_DRAFT_THREAD_ID = 0;
 
     /** To be called whenever the draft state might have changed.
      *  Dispatches work to a thread and returns immediately.
