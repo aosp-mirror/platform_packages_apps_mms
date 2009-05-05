@@ -177,11 +177,16 @@ public class WorkingMessage {
     }
    
     private void correctAttachmentState() {
-        if (mSlideshow == null || mSlideshow.size() == 0) {
-            throw new IllegalStateException("corrrectState() called with no slideshow");
-        }
+        int slideCount = mSlideshow.size();
         
-        if (mSlideshow.size() > 1) {
+        // If we get an empty slideshow, tear down all MMS
+        // state and discard the unnecessary message Uri.
+        if (slideCount == 0) {
+            mAttachmentType = TEXT;
+            mSlideshow = null;
+            asyncDelete(mMessageUri, null, null);
+            mMessageUri = null;
+        } else if (slideCount > 1) {
             mAttachmentType = SLIDESHOW;
         } else {
             SlideModel slide = mSlideshow.get(0);
