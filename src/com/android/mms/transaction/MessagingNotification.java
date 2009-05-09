@@ -79,7 +79,7 @@ public class MessagingNotification {
 
     // This must be consistent with the column constants below.
     private static final String[] SMS_STATUS_PROJECTION = new String[] {
-        Sms.THREAD_ID, Sms.DATE, Sms.ADDRESS, Sms.SUBJECT, Sms.BODY };
+        Sms.THREAD_ID, Sms.DATE, Sms.ADDRESS, Sms.SUBJECT, Sms.BODY, Sms.STATUS };
 
     // These must be consistent with MMS_STATUS_PROJECTION and
     // SMS_STATUS_PROJECTION.
@@ -90,6 +90,7 @@ public class MessagingNotification {
     private static final int COLUMN_SUBJECT     = 3;
     private static final int COLUMN_SUBJECT_CS  = 4;
     private static final int COLUMN_SMS_BODY    = 4;
+    private static final int COLUMN_SMS_STATUS  = 5;
 
     private static final String NEW_INCOMING_SM_CONSTRAINT =
             "(" + Sms.TYPE + " = " + Sms.MESSAGE_TYPE_INBOX
@@ -170,6 +171,13 @@ public class MessagingNotification {
     public static void updateNewMessageIndicator(
             Context context, long threadId) {
         updateNewMessageIndicator(context);
+    }
+
+    public static void showSmsDeliveryReportIndicator(Context context, Long messageId) {
+        MmsSmsNotificationInfo info = getSmsDeliveryReportNotificationInfo(context, messageId);
+        if (info != null) {
+            info.deliver(context, true, 1, 1);
+        }
     }
 
     private static final int accumulateNotificationInfo(
@@ -292,6 +300,39 @@ public class MessagingNotification {
             while (cursor.moveToNext()) {
                 threads.add(cursor.getLong(COLUMN_THREAD_ID));
             }
+
+            return info;
+        } finally {
+            cursor.close();
+        }
+    }
+
+    public static final MmsSmsNotificationInfo getSmsDeliveryReportNotificationInfo(
+            Context context, Long messageId) {
+        ContentResolver resolver = context.getContentResolver();
+        String selection = "_id = " + messageId;
+
+        Cursor cursor = SqliteWrapper.query(context, resolver, Sms.CONTENT_URI,
+                            SMS_STATUS_PROJECTION, selection,
+                            null, null);
+
+        if (cursor == null) {
+            return null;
+        }
+
+        try {
+            if (!cursor.moveToFirst()) {
+                return null;
+            }
+
+            String address = cursor.getString(COLUMN_SMS_ADDRESS);
+            String body = getSmsStatusText(context, cursor.getInt(COLUMN_SMS_STATUS));
+            long threadId = cursor.getLong(COLUMN_THREAD_ID);
+            long timeMillis = cursor.getLong(COLUMN_DATE);
+
+            MmsSmsNotificationInfo info = getNewMessageNotificationInfo(
+                    address, body, context, R.drawable.stat_notify_sms,
+                    null, threadId, timeMillis, cursor.getCount());
 
             return info;
         } finally {
@@ -604,6 +645,22 @@ public class MessagingNotification {
     public static void updateDownloadFailedNotification(Context context) {
         if (getDownloadFailedMessageCount(context) < 1) {
             cancelNotification(context, DOWNLOAD_FAILED_NOTIFICATION_ID);
+        }
+    }
+
+    private static String getSmsStatusText(Context context, int status) {
+        if (status == Sms.STATUS_NONE) {
+            // No delivery report requested
+            return context.getString(R.string.status_none);
+        } else if (status >= Sms.STATUS_FAILED) {
+            // Failure
+            return context.getString(R.string.status_failed);
+        } else if (status >= Sms.STATUS_PENDING) {
+            // Pending
+            return context.getString(R.string.status_pending);
+        } else {
+            // Success
+            return context.getString(R.string.status_received);
         }
     }
 }
