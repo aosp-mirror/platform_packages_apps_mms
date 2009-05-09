@@ -47,32 +47,43 @@ public class MessageStatusReceiver extends BroadcastReceiver {
             Uri messageUri = intent.getData();
             byte[] pdu = (byte[]) intent.getExtra("pdu");
 
-            updateMessageStatus(context, messageUri, pdu);
-            MessagingNotification.updateNewMessageIndicator(context, true);
+            SmsMessage message = SmsMessage.createFromPdu(pdu);
+            if (message.isStatusReportMessage()) {
+                Long messageId = getMessageId(context, messageUri);
+                if (messageId == -1) {
+                    error("Can't find message for status update: " + messageUri);
+                } else {
+                    updateMessageStatus(context, messageId, message);
+                    MessagingNotification.showSmsDeliveryReportIndicator(context, messageId);
+                }
+            } else {  //  this should not happen
+                MessagingNotification.updateNewMessageIndicator(context, true);
+            }
        }
     }
 
-    private void updateMessageStatus(Context context, Uri messageUri, byte[] pdu) {
+    private void updateMessageStatus(Context context, Long messageId, SmsMessage message) {
         // Create a "status/#" URL and use it to update the
         // message's status in the database.
+        Uri updateUri = ContentUris.withAppendedId(STATUS_URI, messageId);
+        int status = message.getStatus();
+        ContentValues contentValues = new ContentValues(1);
+
+        contentValues.put(Sms.STATUS, status);
+        SqliteWrapper.update(context, context.getContentResolver(),
+                            updateUri, contentValues, null, null);
+    }
+
+    private Long getMessageId(Context context, Uri messageUri) {
+        Long result = Long.valueOf(-1);
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
-                            messageUri, ID_PROJECTION, null, null, null);
+                messageUri, ID_PROJECTION, null, null, null);
+
         if ((cursor != null) && cursor.moveToFirst()) {
-            int messageId = cursor.getInt(0);
-
+            result = cursor.getLong(0);
             cursor.close();
-
-            Uri updateUri = ContentUris.withAppendedId(STATUS_URI, messageId);
-            SmsMessage message = SmsMessage.createFromPdu(pdu);
-            int status = message.getStatus();
-            ContentValues contentValues = new ContentValues(1);
-
-            contentValues.put(Sms.STATUS, status);
-            SqliteWrapper.update(context, context.getContentResolver(),
-                                updateUri, contentValues, null, null);
-        } else {
-            error("Can't find message for status update: " + messageUri);
         }
+        return result;
     }
 
     private void error(String message) {
