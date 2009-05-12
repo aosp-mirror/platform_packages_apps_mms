@@ -277,10 +277,11 @@ public class MessageListItem extends LinearLayout implements
 
     private CharSequence formatMessage(String contact, String body, String subject,
                                        String timestamp) {
-        SpannableStringBuilder buf = new SpannableStringBuilder(contact);
-        buf.append(": ");
-        buf.setSpan(STYLE_BOLD, 0, buf.length(),
-                Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        CharSequence template = mContext.getResources().getText(R.string.name_colon);
+        SpannableStringBuilder buf = 
+            new SpannableStringBuilder(TextUtils.replace(template,
+                new String[] { "%s" },
+                new CharSequence[] { contact }));
 
         boolean hasSubject = !TextUtils.isEmpty(subject);
         if (hasSubject) {
