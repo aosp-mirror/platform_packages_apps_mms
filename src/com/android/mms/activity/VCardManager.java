@@ -301,11 +301,12 @@ public class VCardManager {
         // Get people info.
         contactStruct.name = contactC.getString(
                 contactC.getColumnIndexOrThrow(Contacts.People.NAME));
-        contactStruct.notes = contactC.getString(
-                contactC.getColumnIndexOrThrow(Contacts.People.NOTES));
+        contactStruct.notes.add(contactC.getString(
+                contactC.getColumnIndexOrThrow(Contacts.People.NOTES)));
 
         // Get phone list.
-        String data, type, label, kind;
+        String data, label;
+        int kind, type;
 
         Cursor orgC = SqliteWrapper.query(mContext, mResolver,
                             Uri.withAppendedPath(uri, "organizations"),
@@ -331,7 +332,7 @@ public class VCardManager {
             while (phoneC.moveToNext()) {
                 data = phoneC.getString(phoneC.getColumnIndexOrThrow(
                         Contacts.Phones.NUMBER));
-                type = phoneC.getString(phoneC.getColumnIndexOrThrow(
+                type = phoneC.getInt(phoneC.getColumnIndexOrThrow(
                         Contacts.Phones.TYPE));
                 label = phoneC.getString(phoneC.getColumnIndexOrThrow(
                         Contacts.Phones.LABEL));
@@ -347,15 +348,15 @@ public class VCardManager {
 
         if (contactMethodC != null) {
             while (contactMethodC.moveToNext()) {
-                kind = contactMethodC.getString(contactMethodC.getColumnIndexOrThrow(
+                kind = contactMethodC.getInt(contactMethodC.getColumnIndexOrThrow(
                         Contacts.ContactMethods.KIND));
                 data = contactMethodC.getString(contactMethodC.getColumnIndexOrThrow(
                         Contacts.ContactMethods.DATA));
-                type = contactMethodC.getString(contactMethodC.getColumnIndexOrThrow(
+                type = contactMethodC.getInt(contactMethodC.getColumnIndexOrThrow(
                         Contacts.ContactMethods.TYPE));
                 label = contactMethodC.getString(contactMethodC.getColumnIndexOrThrow(
                         Contacts.ContactMethods.LABEL));
-                contactStruct.addContactmethod(kind, data, type, label);
+                contactStruct.addContactmethod(kind, type, data, label, false);
             }
             contactMethodC.close();
         }
