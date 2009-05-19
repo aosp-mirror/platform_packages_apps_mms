@@ -1660,7 +1660,7 @@ public class ComposeMessageActivity extends Activity
                     R.drawable.ic_menu_contact);
         }
 
-        if (!MmsConfig.DISABLE_MMS) {
+        if (MmsConfig.getMmsEnabled()) {
             if (!isSubjectEditorVisible()) {
                 menu.add(0, MENU_ADD_SUBJECT, 0, R.string.add_subject).setIcon(
                         com.android.internal.R.drawable.ic_menu_edit);

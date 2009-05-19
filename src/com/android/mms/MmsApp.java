@@ -25,6 +25,7 @@ import com.android.mms.util.DownloadManager;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.SmileyParser;
 import com.android.mms.util.RateController;
+import com.android.mms.MmsConfig;
 
 import android.app.Application;
 import android.content.res.Configuration;
@@ -40,6 +41,7 @@ public class MmsApp extends Application {
         // Load the default preference values
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
+        MmsConfig.init(this);
         ContactInfoCache.init(this);
         DraftCache.init(this);
         Conversation.init(this);
