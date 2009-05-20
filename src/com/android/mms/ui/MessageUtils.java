@@ -17,6 +17,7 @@
 
 package com.android.mms.ui;
 
+import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.model.MediaModel;
@@ -585,8 +586,8 @@ public class MessageUtils {
                 try {
                     UriImage image = new UriImage(context, imageUri);
                     part = image.getResizedImageAsPart(
-                        CarrierContentRestriction.IMAGE_WIDTH_LIMIT,
-                        CarrierContentRestriction.IMAGE_HEIGHT_LIMIT);
+                        MmsConfig.getMaxImageWidth(),
+                        MmsConfig.getMaxImageHeight());
                 } finally {
                     // Cancel pending show of the progress dialog if necessary.
                     handler.removeCallbacks(showProgress);
