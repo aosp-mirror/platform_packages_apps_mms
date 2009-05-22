@@ -17,7 +17,11 @@
 
 package com.android.mms.ui;
 
+import java.util.List;
+
 import com.android.mms.R;
+import com.android.mms.data.Contact;
+import com.android.mms.data.ContactList;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -40,7 +44,7 @@ import android.widget.TextView;
 /**
  * This class manages the view for given conversation.
  */
-public class ConversationHeaderView extends RelativeLayout {
+public class ConversationHeaderView extends RelativeLayout implements Contact.UpdateListener {
     private static final String TAG = "ConversationHeaderView";
     private static final boolean DEBUG = false;
 
@@ -55,8 +59,6 @@ public class ConversationHeaderView extends RelativeLayout {
     // For posting UI update Runnables from other threads:
     private Handler mHandler = new Handler();
 
-    // Access to mConversationHeader is guarded by mConversationHeaderLock.
-    private final Object mConversationHeaderLock = new Object();
     private ConversationHeader mConversationHeader;
     
     private static final StyleSpan STYLE_BOLD = new StyleSpan(Typeface.BOLD);
@@ -93,15 +95,11 @@ public class ConversationHeaderView extends RelativeLayout {
     }
 
     public ConversationHeader getConversationHeader() {
-        synchronized (mConversationHeaderLock) {
-            return mConversationHeader;
-        }
+        return mConversationHeader;
     }
 
     private void setConversationHeader(ConversationHeader header) {
-        synchronized (mConversationHeaderLock) {
-            mConversationHeader = header;
-        }
+        mConversationHeader = header;
     }
 
     /**
@@ -116,11 +114,6 @@ public class ConversationHeaderView extends RelativeLayout {
         final int size = android.R.style.TextAppearance_Small;
         final int color = android.R.styleable.Theme_textColorSecondary;
         String from = ch.getFrom();
-        if (from == null) {
-            // The temporary text users see while the names of contacts are loading.
-            // TODO: evaluate a better or prettier solution for this?
-            from = "...";
-        }
 
         SpannableStringBuilder buf = new SpannableStringBuilder(from);
 
@@ -147,38 +140,24 @@ public class ConversationHeaderView extends RelativeLayout {
         return buf;
     }
 
-    // Called by another thread that loaded an updated
-    // ConversationHeader for us.  Note, however, that this view
-    // might've been re-used for a different header in the meantime,
-    // so we have to double-check that we still want this header.
-    public void onHeaderLoaded(final ConversationHeader newHeader) {
-        synchronized (mConversationHeaderLock) {
-            if (mConversationHeader != newHeader) {
-                // The user scrolled away before the item loaded and
-                // this view has been repurposed.
-                return;
+    private void updateFromView() {
+        ConversationHeader ch = mConversationHeader;
+        ch.updateRecipients();
+        mFromView.setText(formatMessage(ch));
+        setPresenceIcon(ch.getContacts().getPresenceResId());
+    }
+
+    public void onUpdate(Contact updated) {
+        mHandler.post(new Runnable() {
+            public void run() {
+                updateFromView();
             }
-
-            // TODO: as an optimization, send a message to mHandler instead
-            // of posting a Runnable.
-            mHandler.post(new Runnable() {
-                    public void run() {
-                        synchronized (mConversationHeaderLock) {
-                            if (mConversationHeader == newHeader) {
-                                mFromView.setText(formatMessage(newHeader));
-                                setPresenceIcon(newHeader.getPresenceResourceId());
-
-                            }
-                        }
-                    }
-                });
-        }
+        });
     }
 
     public final void bind(Context context, final ConversationHeader ch) {
         if (DEBUG) Log.v(TAG, "bind()");
 
-        ConversationHeader oldHeader = getConversationHeader();
         setConversationHeader(ch);
 
         LayoutParams attachmentLayout = (LayoutParams)mAttachmentView.getLayoutParams();
@@ -201,11 +180,10 @@ public class ConversationHeaderView extends RelativeLayout {
         // From.
         mFromView.setText(formatMessage(ch));
 
-        // The From above may be incomplete (still loading), so we register ourselves
-        // as a callback later to get woken up in onHeaderLoaded() when it changes.
-        if (ch.getFrom() == null) {
-            ch.setWaitingView(this);
-        }
+        // Register for updates in changes of any of the contacts in this conversation.
+        ContactList contacts = ch.getContacts();
+        contacts.addListeners(this);
+        setPresenceIcon(contacts.getPresenceResId());
 
         mUnreadIndicator.setVisibility(ch.isRead() ? INVISIBLE : VISIBLE);
 
@@ -218,5 +196,10 @@ public class ConversationHeaderView extends RelativeLayout {
 
         // Transmission error indicator.
         mErrorIndicator.setVisibility(hasError ? VISIBLE : GONE);
+    }
+
+    public final void unbind() {
+        // Unregister contact update callbacks.
+        mConversationHeader.getContacts().removeListeners(this);
     }
 }

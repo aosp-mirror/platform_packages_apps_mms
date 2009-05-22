@@ -19,12 +19,14 @@ package com.android.mms.ui;
 
 import android.content.Context;
 
+import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
 
 /**
  * A holder class for a conversation header.
  */
 public class ConversationHeader {
+    private Conversation mConversation;
     private long mThreadId;
     private String mSubject;
     private String mDate;
@@ -34,24 +36,16 @@ public class ConversationHeader {
     private boolean mHasDraft;
     private int mMessageCount;
 
-    // Guards access to both mViewWaitingForFromChange and mFrom:
-    private final Object mFromLock = new Object();
-
-    // The formatted "from" display that the user sees.  May be null
-    // if the contact name(s) aren't loaded yet.
-    private String mFrom;
+    // The recipients in this conversation
+    private ContactList mRecipients;
+    private String mRecipientString;
 
     // the presence icon resource id displayed for the conversation thread.
     private int mPresenceResId;
 
-    // Optional callback to run when mFrom changes.  This is used to
-    // update ConversationHeaderView asynchronously.  The view registers
-    // with the header using setOnFromChanged() below.
-    private ConversationHeaderView mViewWaitingForFromChange;
-
-    public ConversationHeader(Context context, Conversation conv, String from) {
+    public ConversationHeader(Context context, Conversation conv) {
+        mConversation = conv;
         mThreadId = conv.getThreadId();
-        mFrom = from;
         mPresenceResId = 0;
         mSubject = conv.getSnippet();
         mDate = MessageUtils.formatTimeStampString(context, conv.getDate());
@@ -60,7 +54,14 @@ public class ConversationHeader {
         mHasDraft = conv.hasDraft();
         mMessageCount = conv.getMessageCount();
         mHasAttachment = conv.hasAttachment();
+        updateRecipients();
     }
+
+    public void updateRecipients() {
+        mRecipients = mConversation.getRecipients();
+        mRecipientString = mRecipients.formatNames(", ");
+    }
+
     /**
      * @return Returns the ID of the thread.
      */
@@ -79,51 +80,15 @@ public class ConversationHeader {
      * @return Returns the from.  (formatted for display)
      */
     public String getFrom() {
-        synchronized (mFromLock) {
-            return mFrom;
-        }
+        return mRecipientString;
     }
 
-    public void setFrom(String from) {
-        synchronized (mFromLock) {
-            mFrom = from;
-            conditionallyRunFromChangedCallback();
-        }
+    public ContactList getContacts() {
+        return mRecipients;
     }
 
     public int getPresenceResourceId() {
-        synchronized (mFromLock) {
-            return mPresenceResId;
-        }
-    }
-
-    public void setFromAndPresence(String from, int presenceResId) {
-        synchronized (mFromLock) {
-            mFrom = from;
-            mPresenceResId = presenceResId;
-            conditionallyRunFromChangedCallback();
-        }
-    }
-
-    /**
-     * Called by the {@link ConversationHeaderView} when it wants to
-     * register for updates to the model (only the from name of which
-     * is mutable.
-     */
-    public void setWaitingView(ConversationHeaderView headerView) {
-        synchronized (mFromLock) {
-            mViewWaitingForFromChange = headerView;
-            conditionallyRunFromChangedCallback();
-        }
-    }
-
-    private void conditionallyRunFromChangedCallback() {
-        synchronized (mFromLock) {
-            if (mViewWaitingForFromChange != null && mFrom != null) {
-                mViewWaitingForFromChange.onHeaderLoaded(this);
-                mViewWaitingForFromChange = null;
-            }
-        }
+        return mPresenceResId;
     }
 
     /**

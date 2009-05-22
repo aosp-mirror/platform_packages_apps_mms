@@ -18,6 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
+import com.android.mms.data.Contact;
 import com.android.mms.data.Conversation;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.RecipientList.Recipient;
@@ -32,17 +33,14 @@ import android.app.ListActivity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentUris;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Configuration;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Contacts;
 import android.provider.Contacts.People;
 import android.provider.Contacts.Intents.Insert;
@@ -60,8 +58,6 @@ import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This activity provides a list view of existing conversations.
@@ -91,7 +87,6 @@ public class ConversationList extends ListActivity
     private ThreadListQueryHandler mQueryHandler;
     private ConversationListAdapter mListAdapter;
     private CharSequence mTitle;
-    private CachingNameStore mCachingNameStore;
 
     /**
      * An interface that's passed down to ListAdapters to use
@@ -126,15 +121,13 @@ public class ConversationList extends ListActivity
         listView.setOnCreateContextMenuListener(mConvListOnCreateContextMenuListener);
         listView.setOnKeyListener(mThreadListKeyListener);
 
-        mCachingNameStore = new CachingNameStoreImpl(this);
-
         initListAdapter();
         
         handleCreationIntent(getIntent());
     }
 
     private void initListAdapter() {
-        mListAdapter = new ConversationListAdapter(this, null, mCachingNameStore);
+        mListAdapter = new ConversationListAdapter(this, null);
         setListAdapter(mListAdapter);
     }
     
@@ -166,11 +159,7 @@ public class ConversationList extends ListActivity
 
         startAsyncQuery();
 
-        // force invalidate the contact info cache, so we will query for fresh info again.
-        // This is so we can get fresh presence info again on the screen, since the presence
-        // info changes pretty quickly, and we can't get change notifications when presence is
-        // updated in the ContactsProvider.
-        ContactInfoCache.getInstance().invalidateCache();
+        Contact.invalidateCache();
     }
 
     @Override
@@ -481,68 +470,5 @@ public class ConversationList extends ListActivity
                 break;
             }
         }
-    }
-
-    /**
-     * This implements the CachingNameStore interface defined above
-     * which we pass down to each newly-created ListAdapater, so they
-     * share a common, reused cached between activity resumes, not
-     * having to hit the Contacts providers all the time.
-     */
-    private final class CachingNameStoreImpl implements CachingNameStore {
-        private static final String TAG = "ConversationList/CachingNameStoreImpl";
-        private final ConcurrentHashMap<String, String> mCachedNames =
-                new ConcurrentHashMap<String, String>();
-        private final ContentObserver mPhonesObserver;
-
-        public CachingNameStoreImpl(Context ctxt) {
-            mPhonesObserver = new ContentObserver(new Handler()) {
-                    @Override
-                    public void onChange(boolean selfUpdate) {
-                        mCachedNames.clear();
-                        mListAdapter.invalidateAddressCache();
-                    }
-                };
-            ctxt.getContentResolver().registerContentObserver(
-                    People.CONTENT_URI,
-                    true, mPhonesObserver);
-        }
-
-        // Returns comma-separated list of contact's display names
-        // given a semicolon-delimited string of canonical phone
-        // numbers, getting data either from cache or via a blocking
-        // call to a provider.
-        public String getContactNames(String addresses) {
-            String value = mCachedNames.get(addresses);
-            if (value != null) {
-               return value;
-            }
-            String[] values = addresses.split(";");
-            if (values.length < 2) {
-                if (DEBUG) Log.v(TAG, "Looking up name: " + addresses);
-                ContactInfoCache cache = ContactInfoCache.getInstance();
-                value = (cache.getContactName(addresses)).replace(';', ',');
-            } else {
-                int length = 0;
-                for (int i = 0; i < values.length; ++i) {
-                    values[i] = getContactNames(values[i]);
-                    length += values[i].length() + 2;  // 2 for ", "
-                }
-                StringBuilder sb = new StringBuilder(length);
-                sb.append(values[0]);
-                for (int i = 1; i < values.length; ++i) {
-                    sb.append(", ");
-                    sb.append(values[i]);
-                }
-                value = sb.toString();
-            }
-            mCachedNames.put(addresses, value);
-            return value;
-        }
-
-        public void invalidateCache() {
-            mCachedNames.clear();
-        }
-
     }
 }

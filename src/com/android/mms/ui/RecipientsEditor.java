@@ -17,29 +17,31 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.ui.RecipientList.Recipient;
-import com.android.mms.util.ContactInfoCache;
+import com.android.mms.MmsConfig;
+import com.android.mms.data.Contact;
+import com.android.mms.data.ContactList;
 
 import android.content.Context;
 import android.provider.Telephony.Mms;
+import android.telephony.PhoneNumberUtils;
 import android.text.Annotation;
 import android.text.Editable;
 import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ListAdapter;
 import android.widget.MultiAutoCompleteTextView;
-import android.util.Log;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Provide UI for editing the recipients of multi-media messages.
@@ -101,21 +103,96 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         return end == len;
     }
 
-    public RecipientList getRecipientList() {
-        return mTokenizer.getRecipientList();
+    public int getRecipientCount() {
+        return mTokenizer.getNumbers().size();
     }
 
-    public void populate(RecipientList list) {
+    public List<String> getNumbers() {
+        return mTokenizer.getNumbers();
+    }
+
+    public ContactList getContacts() {
+        List<String> numbers = mTokenizer.getNumbers();
+        ContactList list = new ContactList();
+        for (String number : numbers) {
+            list.add(Contact.get(number, false));
+        }
+        return list;
+    }
+
+    private boolean isValid(String number) {
+        if (!MmsConfig.getMmsEnabled()) {
+            return PhoneNumberUtils.isWellFormedSmsAddress(number);
+        }
+
+        return PhoneNumberUtils.isWellFormedSmsAddress(number)
+            || Mms.isEmailAddress(number);
+    }
+
+    public boolean hasValidRecipient() {
+        for (String number : mTokenizer.getNumbers()) {
+            if (isValid(number))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean hasInvalidRecipient() {
+        for (String number : mTokenizer.getNumbers()) {
+            if (!isValid(number))
+                return true;
+        }
+        return false;
+    }
+
+    public String formatInvalidNumbers() {
+        StringBuilder sb = new StringBuilder();
+        for (String number : mTokenizer.getNumbers()) {
+            if (!isValid(number)) {
+                if (sb.length() != 0) {
+                    sb.append(", ");
+                }
+                sb.append(number);
+            }
+        }
+        return sb.toString();
+    }
+
+    public boolean containsEmail() {
+        if (TextUtils.indexOf(getText(), '@') == -1)
+            return false;
+
+        List<String> numbers = mTokenizer.getNumbers();
+        for (String number : numbers) {
+            if (Mms.isEmailAddress(number))
+                return true;
+        }
+        return false;
+    }
+
+    public static CharSequence contactToToken(Contact c) {
+        SpannableString s = new SpannableString(c.getNameAndNumber());
+        int len = s.length();
+
+        if (len == 0) {
+            return s;
+        }
+
+        s.setSpan(new Annotation("number", c.getNumber()), 0, len,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return s;
+    }
+
+    public void populate(ContactList list) {
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
-        Iterator<Recipient> iter = list.iterator();
-        while (iter.hasNext()) {
+        for (Contact c : list) {
             if (sb.length() != 0) {
                 sb.append(", ");
             }
 
-            Recipient r = iter.next();
-            sb.append(r.toToken());
+            sb.append(contactToToken(c));
         }
 
         setText(sb);
@@ -162,43 +239,23 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
                 int end = mTokenizer.findTokenEnd(text, start);
 
                 if (end != start) {
-                    Recipient r = getRecipientAt(getText(), start, end, mContext);
-                    return new RecipientContextMenuInfo(r);
+                    String number = getNumberAt(getText(), start, end, mContext);
+                    Contact c = Contact.get(number, true);
+                    return new RecipientContextMenuInfo(c);
                 }
             }
         }
         return null;
     }
 
-    private static Recipient getRecipientAt(Spanned sp, int start, int end, Context context) {
+    private static String getNumberAt(Spanned sp, int start, int end, Context context) {
         Annotation[] a = sp.getSpans(start, end, Annotation.class);
-        String person_id = getAnnotation(a, "person_id");
-        String name = getAnnotation(a, "name");
-        String label = getAnnotation(a, "label");
-        String bcc = getAnnotation(a, "bcc");
         String number = getAnnotation(a, "number");
-
-        Recipient r = new Recipient();
-
-        r.name = name;
-        r.label = label;
-        r.bcc = bcc.equals("true");
-        r.number = TextUtils.isEmpty(number) ? TextUtils.substring(sp, start, end) : number;
-        
-        if (TextUtils.isEmpty(r.name) && Mms.isEmailAddress(r.number)) {
-            ContactInfoCache cache = ContactInfoCache.getInstance();
-            r.name = cache.getDisplayName(r.number);
+        if (TextUtils.isEmpty(number)) {
+            number = TextUtils.substring(sp, start, end);
         }
-
-        r.nameAndNumber = Recipient.buildNameAndNumber(r.name, r.number);
+        return number;
         
-        if (person_id.length() > 0) {
-            r.person_id = Long.parseLong(person_id);
-        } else {
-            r.person_id = -1;
-        }
-
-        return r;
     }
 
     private static String getAnnotation(Annotation[] a, String key) {
@@ -233,35 +290,24 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
             extends MultiAutoCompleteTextView.CommaTokenizer
             implements MultiAutoCompleteTextView.Tokenizer {
         private final MultiAutoCompleteTextView mList;
-        private final LayoutInflater mInflater;
-        private final TextAppearanceSpan mLabelSpan;
-        private final TextAppearanceSpan mTypeSpan;
         private final Context mContext;
 
         RecipientsEditorTokenizer(Context context, MultiAutoCompleteTextView list) {
-            mInflater = LayoutInflater.from(context);
             mList = list;
             mContext = context;
-
-            final int size = android.R.style.TextAppearance_Small;
-            final int color = android.R.styleable.Theme_textColorSecondary;
-            mLabelSpan = new TextAppearanceSpan(context, size, color);
-            mTypeSpan = new TextAppearanceSpan(context, size, color);
         }
 
-        public RecipientList getRecipientList() {
+        public List<String> getNumbers() {
             Spanned sp = mList.getText();
             int len = sp.length();
-            RecipientList rl = new RecipientList();
+            List<String> list = new ArrayList<String>();
 
             int start = 0;
             int i = 0;
             while (i < len + 1) {
                 if ((i == len) || (sp.charAt(i) == ',')) {
                     if (i > start) {
-                        Recipient r = getRecipientAt(sp, start, i, mContext);
-
-                        rl.add(r);
+                        list.add(getNumberAt(sp, start, i, mContext));
                     }
 
                     i++;
@@ -276,14 +322,14 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
                 }
             }
 
-            return rl;
+            return list;
         }
     }
 
     static class RecipientContextMenuInfo implements ContextMenuInfo {
-        final Recipient recipient;
+        final Contact recipient;
 
-        RecipientContextMenuInfo(Recipient r) {
+        RecipientContextMenuInfo(Contact r) {
             recipient = r;
         }
     }

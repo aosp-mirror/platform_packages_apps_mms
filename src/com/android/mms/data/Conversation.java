@@ -2,6 +2,7 @@ package com.android.mms.data;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import android.content.AsyncQueryHandler;
@@ -20,8 +21,6 @@ import android.util.Log;
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageUtils;
-import com.android.mms.ui.RecipientList;
-import com.android.mms.ui.RecipientList.Recipient;
 import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.DraftCache;
 
@@ -57,7 +56,7 @@ public class Conversation {
     // types and we have not hit the database yet to create a thread.
     private long mThreadId;
    
-    private RecipientList mRecipients;  // The current set of recipients.
+    private ContactList mRecipients;    // The current set of recipients.
     private long mDate;                 // The last update time.
     private int mMessageCount;          // Number of messages.
     private String mSnippet;            // Text of the most recent message.
@@ -68,7 +67,7 @@ public class Conversation {
 
     private Conversation(Context context) {
         mContext = context;
-        mRecipients = new RecipientList();
+        mRecipients = new ContactList();
         mThreadId = 0;
     }
     
@@ -108,7 +107,7 @@ public class Conversation {
      * Find the conversation matching the provided recipient set.
      * When called with an empty recipient list, equivalent to {@link createEmpty}.
      */
-    public static Conversation get(Context context, RecipientList recipients) {
+    public static Conversation get(Context context, ContactList recipients) {
         // If there are no recipients in the list, make a new conversation.
         if (recipients.size() < 1) {
             return createNew(context);
@@ -147,8 +146,7 @@ public class Conversation {
         }
         
         String recipient = uri.getSchemeSpecificPart();
-        RecipientList list = RecipientList.from(recipient, context);
-        return get(context, list);
+        return get(context, ContactList.getByNumbers(recipient, false));
     }
 
     /**
@@ -240,7 +238,7 @@ public class Conversation {
      * operation that depends on this conversation existing in the
      * database (e.g. storing a draft message to it).
      */
-    public synchronized void setRecipients(RecipientList list) {
+    public synchronized void setRecipients(ContactList list) {
         mRecipients = list;
 
         // Invalidate thread ID because the recipient set has changed.
@@ -250,17 +248,10 @@ public class Conversation {
     /**
      * Returns the recipient set of this conversation.
      */
-    public synchronized RecipientList getRecipients() {
+    public synchronized ContactList getRecipients() {
         return mRecipients;
     }
     
-    /**
-     * Returns true if this conversation has only one recipient.
-     */
-    public synchronized boolean isSingleRecipient() {
-        return mRecipients.size() == 1;
-    }
-
     /**
      * Returns true if a draft message exists in this conversation.
      */
@@ -354,14 +345,10 @@ public class Conversation {
         return cache.getContactInfo(rawNumber, allowQuery);
     }
 
-    private static long getOrCreateThreadId(Context context, RecipientList list) {
+    private static long getOrCreateThreadId(Context context, ContactList list) {
         HashSet<String> recipients = new HashSet<String>();
-        Iterator<Recipient> iter = list.iterator();
-        while (iter.hasNext()) {
-            Recipient r = iter.next();
-            if (!TextUtils.isEmpty(r.number)) {
-                recipients.add(r.number);
-            }
+        for (Contact c : list) {
+            recipients.add(c.getNumber());
         }
         return Threads.getOrCreateThreadId(context, recipients);
     }
@@ -462,8 +449,7 @@ public class Conversation {
             conv.mHasAttachment = (c.getInt(HAS_ATTACHMENT) != 0);
 
             String recipientIds = c.getString(RECIPIENT_IDS);
-            String recipients = MessageUtils.getRecipientsByIds(context, recipientIds, allowQuery);
-            conv.mRecipients = RecipientList.from(recipients, context);
+            conv.mRecipients = ContactList.getByIds(recipientIds, allowQuery);
             conv.mRecipientIds = recipientIds;
         }
     }
@@ -498,10 +484,10 @@ public class Conversation {
          * Return the conversation with the specified recipient
          * list, or null if it's not in cache.
          */
-        static Conversation get(RecipientList list) {
+        static Conversation get(ContactList list) {
             synchronized (sInstance) {
                 for (Conversation c : sInstance.mCache) {
-                    if (c.getRecipients() == list) {
+                    if (c.getRecipients().equals(list)) {
                         return c;
                     }
                 }
@@ -547,29 +533,13 @@ public class Conversation {
      * startup time.
      */
     public static void init(final Context context) {
-        // TODO: Rebuilding the entire cache every time something changes on
-        // disk causes a lot of thrashing.  But because so many operations
-        // update the threads table via triggers, we can't really operate
-        // a write-through cache.  We'll be able to stop doing this with
-        // new DB schema.
-        ContentObserver observer = new ContentObserver(new Handler()) {
-            @Override
-            public void onChange(boolean selfUpdate) {
-                Conversation.rebuildCache(context);
-            }
-        };
-        context.getContentResolver().registerContentObserver(Threads.CONTENT_URI, true, observer);
-        Conversation.rebuildCache(context);
-    }
-
-    private static void rebuildCache(final Context context) {
         new Thread(new Runnable() {
             public void run() {
                 cacheAllThreads(context);
             }
         }).start();
     }
-    
+
     private static void cacheAllThreads(Context context) {
         synchronized (Cache.getInstance()) {
             // Keep track of what threads are now on disk so we
