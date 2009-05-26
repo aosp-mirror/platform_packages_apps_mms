@@ -21,7 +21,6 @@ import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.Conversation;
 import com.android.mms.transaction.MessagingNotification;
-import com.android.mms.ui.RecipientList.Recipient;
 import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.DraftCache;
 
@@ -44,6 +43,7 @@ import android.os.Bundle;
 import android.provider.Contacts;
 import android.provider.Contacts.People;
 import android.provider.Contacts.Intents.Insert;
+import android.provider.Telephony.Mms;
 import android.util.Config;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -284,10 +284,10 @@ public class ConversationList extends ListActivity
         // address must be a single recipient
         Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
         intent.setType(Contacts.People.CONTENT_ITEM_TYPE);
-        if (Recipient.isPhoneNumber(address)) {
-            intent.putExtra(Insert.PHONE, address);
-        } else {
+        if (Mms.isEmailAddress(address)) {
             intent.putExtra(Insert.EMAIL, address);
+        } else {
+            intent.putExtra(Insert.PHONE, address);
         }
         
         return intent;

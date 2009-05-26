@@ -18,7 +18,6 @@
 package com.android.mms.util;
 
 import com.android.mms.ui.MessageUtils;
-import com.android.mms.ui.RecipientList.Recipient;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.content.Context;
@@ -28,6 +27,7 @@ import android.database.Cursor;
 import android.os.Handler;
 import android.provider.Contacts;
 import android.provider.Telephony.Mms;
+import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.net.Uri;
 import android.util.Log;
@@ -261,7 +261,7 @@ public class ContactInfoCache {
         // TODO: numbers like "6501234567" and "+16501234567" are equivalent.
         // we should convert them into a uniform format so that we don't cache
         // them twice.
-        number = Recipient.filterPhoneNumber(number);
+        number = PhoneNumberUtils.stripSeparators(number);
         synchronized (mCache) {
             if (mCache.containsKey(number)) {
                 CacheEntry entry = mCache.get(number);

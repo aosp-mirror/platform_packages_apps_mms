@@ -18,7 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
-import com.android.mms.ui.RecipientList.Recipient;
+import com.android.mms.data.Contact;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.content.ContentResolver;
@@ -28,7 +28,6 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.MergeCursor;
 import android.provider.Contacts;
-import android.provider.Contacts.ContactMethods;
 import android.provider.Contacts.Phones;
 import android.telephony.PhoneNumberUtils;
 import android.text.Annotation;
@@ -89,7 +88,7 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
             name = "";
         }
         
-        String nameAndNumber = Recipient.buildNameAndNumber(name, number);
+        String nameAndNumber = Contact.formatNameAndNumber(name, number);
 
         SpannableString out = new SpannableString(nameAndNumber);
         int len = out.length();
@@ -129,7 +128,6 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
     @Override
     public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
         String wherePhone = null;
-        String whereEmail = null;
         String phone = "";
         String cons = null;
 

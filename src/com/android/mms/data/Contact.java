@@ -20,7 +20,7 @@ import com.android.mms.util.TaskStack;
 
 public class Contact {
     private static final String TAG = "Contact";
-    private static final boolean V = true; // XXX turn off before submit
+    private static final boolean V = false;
 
     private static final TaskStack sTaskStack = new TaskStack();
 
@@ -54,7 +54,7 @@ public class Contact {
     private Contact(String number) {
         mNumber = number;
         mName = "";
-        mNameAndNumber = buildNameAndNumber(mName, mNumber);
+        mNameAndNumber = formatNameAndNumber(mName, mNumber);
         mLabel = "";
         mPersonId = 0;
         mPresenceResId = 0;
@@ -165,7 +165,7 @@ public class Contact {
                     if (contactChanged(c, entry)) {
                         //c.mNumber = entry.phoneNumber;
                         c.mName = entry.name;
-                        c.mNameAndNumber = buildNameAndNumber(c.mName, c.mNumber);
+                        c.mNameAndNumber = formatNameAndNumber(c.mName, c.mNumber);
                         c.mLabel = entry.phoneLabel;
                         c.mPersonId = entry.person_id;
                         c.mPresenceResId = entry.presenceResId;
@@ -186,7 +186,7 @@ public class Contact {
         }
     }
 
-    private static String buildNameAndNumber(String name, String number) {
+    public static String formatNameAndNumber(String name, String number) {
         // Format like this: Mike Cleron <(650) 555-1234>
         //                   Erick Tseng <(650) 555-1212>
         //                   Tutankhamun <tutank1341@gmail.com>
