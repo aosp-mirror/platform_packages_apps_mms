@@ -18,11 +18,11 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
+import com.android.mms.data.Contact;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.TextModel;
 import com.android.mms.ui.MessageListAdapter.ColumnsMap;
-import com.android.mms.util.ContactInfoCache;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.MultimediaMessagePdu;
@@ -85,7 +85,6 @@ public class MessageItem {
         mMsgId = cursor.getLong(columnsMap.mColumnMsgId);
         
         if ("sms".equals(type)) {
-            ContactInfoCache infoCache = ContactInfoCache.getInstance();
             mReadReport = false; // No read reports in sms
             mDeliveryReport = (cursor.getLong(columnsMap.mColumnSmsStatus)
                     != Sms.STATUS_NONE);
@@ -100,7 +99,7 @@ public class MessageItem {
                 mContact = meString;
             } else {
                 // For incoming messages, the ADDRESS field contains the sender.
-                mContact = infoCache.getContactName(mAddress);
+                mContact = Contact.get(mAddress, true).getName();
             }
             mBody = cursor.getString(columnsMap.mColumnSmsBody);
 
@@ -204,7 +203,7 @@ public class MessageItem {
     private void interpretFrom(EncodedStringValue from) {
         if (from != null) {
             mAddress = from.getString();
-            mContact = ContactInfoCache.getInstance().getContactName(mAddress);
+            mContact = Contact.get(mAddress, true).getName();
         } else {
             mContact = mAddress = mContext.getString(
                     R.string.anonymous_recipient);

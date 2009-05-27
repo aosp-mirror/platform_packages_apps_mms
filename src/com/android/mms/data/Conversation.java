@@ -2,17 +2,14 @@ package com.android.mms.data;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Handler;
 import android.provider.Telephony.Threads;
 import android.provider.Telephony.Sms.Conversations;
 import android.text.TextUtils;
@@ -21,7 +18,6 @@ import android.util.Log;
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageUtils;
-import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.DraftCache;
 
 /**
@@ -316,35 +312,6 @@ public class Conversation {
         return mHasError;
     }
     
-    /**
-     * Returns the space-separated recipient IDs for this conversation.
-     * @deprecated
-     */
-    public synchronized String getRecipientIds() {
-        // TODO: Make recipient IDs go away
-        return mRecipientIds;
-    }
-    
-    /**
-     * Returns an entry from the ContactInfoCache for this conversation's recipient.
-     * Returns null if there is more than one recipient.  Also can return null if
-     * {@value allowQuery} is false and the recipient is not in the cache.
-     */
-    public synchronized ContactInfoCache.CacheEntry getContactInfo(boolean allowQuery) {
-        // TODO: The code this method usurped seemed to accept a multi-recipient
-        // string, but only dealt with one recipient.  Sort this out when the
-        // contact cache and Recipient are unified.
-        if (mRecipientIds.indexOf(' ') != -1)
-            return null;
-        
-        String rawNumber = MessageUtils.getRecipientsByIds(mContext, mRecipientIds, allowQuery);
-        if (TextUtils.isEmpty(rawNumber))
-            return null;
-        
-        ContactInfoCache cache = ContactInfoCache.getInstance();
-        return cache.getContactInfo(rawNumber, allowQuery);
-    }
-
     private static long getOrCreateThreadId(Context context, ContactList list) {
         HashSet<String> recipients = new HashSet<String>();
         for (Contact c : list) {

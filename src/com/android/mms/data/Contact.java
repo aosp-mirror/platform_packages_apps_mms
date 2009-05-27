@@ -15,6 +15,7 @@ import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.mms.ui.MessageUtils;
 import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.TaskStack;
 
@@ -150,17 +151,36 @@ public class Contact {
         return false;
     }
 
+    /**
+     * Handles the special case where the local ("Me") number is being looked up.
+     * Updates the contact with the "me" name and returns true if it is the
+     * local number, no-ops and returns false if it is not.
+     */
+    private static boolean handleLocalNumber(Contact c) {
+        if (MessageUtils.isLocalNumber(c.mNumber)) {
+            c.mName = Cache.getContext().getString(com.android.internal.R.string.me);
+            c.mNameAndNumber = formatNameAndNumber(c.mName, c.mNumber);
+            return true;
+        }
+        return false;
+    }
+
     private static void updateContact(final String number, boolean canBlock) {
         Runnable r = new Runnable() {
             public void run() {
                 // TODO: move the querying into this file from ContactInfoCache
-                ContactInfoCache cache = ContactInfoCache.getInstance();
-                ContactInfoCache.CacheEntry entry = cache.getContactInfo(number);
                 Contact c = Cache.get(number);
                 if (c == null) {
                     Log.w(TAG, "updateContact: contact not in cache");
                     return;
                 }
+
+                // Check to see if this is the local ("me") number.
+                if (handleLocalNumber(c))
+                    return;
+
+                ContactInfoCache cache = ContactInfoCache.getInstance();
+                ContactInfoCache.CacheEntry entry = cache.getContactInfo(number);
                 synchronized (Cache.getInstance()) {
                     if (contactChanged(c, entry)) {
                         //c.mNumber = entry.phoneNumber;
@@ -248,6 +268,7 @@ public class Contact {
     }
 
     public static void init(final Context context) {
+        Cache.init(context);
         RecipientIdCache.init(context);
         context.getContentResolver().registerContentObserver(
                 People.CONTENT_URI, true, sContactsObserver);
@@ -258,11 +279,21 @@ public class Contact {
     }
 
     private static class Cache {
-        private static Cache sInstance = new Cache();
+        private static Cache sInstance;
         static Cache getInstance() { return sInstance; }
         private final List<Contact> mCache;
-        private Cache() {
+        private final Context mContext;
+        private Cache(Context context) {
             mCache = new ArrayList<Contact>();
+            mContext = context;
+        }
+
+        static void init(Context context) {
+            sInstance = new Cache(context);
+        }
+
+        static Context getContext() {
+            return sInstance.mContext;
         }
 
         static void dump() {

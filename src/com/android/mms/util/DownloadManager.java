@@ -20,6 +20,7 @@ package com.android.mms.util;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.TelephonyProperties;
 import com.android.mms.R;
+import com.android.mms.data.Contact;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -216,7 +217,7 @@ public class DownloadManager {
 
         v = ind.getFrom();
         String from = (v != null)
-                ? ContactInfoCache.getInstance().getContactName(v.getString())
+                ? Contact.get(v.getString(), true).getName()
                 : mContext.getString(R.string.unknown_sender);
 
         return mContext.getString(R.string.dl_failure_notification, subject, from);

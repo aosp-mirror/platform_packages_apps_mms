@@ -37,7 +37,6 @@ import com.android.mms.model.SlideshowModel;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
-import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
 
@@ -103,7 +102,6 @@ import android.view.ViewStub;
 import android.view.Window;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.View.OnKeyListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -123,7 +121,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -803,9 +800,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     private boolean isNumberInContacts(String phoneNumber) {
-        ContactInfoCache.CacheEntry entry =
-                ContactInfoCache.getInstance().getContactInfo(phoneNumber);
-        return !TextUtils.isEmpty(entry.name);
+        return Contact.get(phoneNumber, true).existsInDatabase();
     }
 
     private final OnCreateContextMenuListener mMsgListMenuCreateListener =

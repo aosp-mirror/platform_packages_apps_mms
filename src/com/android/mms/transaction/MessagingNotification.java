@@ -21,12 +21,12 @@ import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IN
 import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
 
 import com.android.mms.R;
+import com.android.mms.data.Contact;
 import com.android.mms.data.Conversation;
 import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.ConversationList;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.AddressUtils;
-import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.DownloadManager;
 
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -391,7 +391,7 @@ public class MessagingNotification {
 
     protected static CharSequence buildTickerMessage(
             Context context, String address, String subject, String body) {
-        String displayAddress = ContactInfoCache.getInstance().getContactName(address);
+        String displayAddress = Contact.get(address, true).getName();
         
         StringBuilder buf = new StringBuilder(
                 displayAddress == null
