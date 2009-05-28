@@ -41,7 +41,6 @@ import android.os.Bundle;
 import android.provider.Contacts;
 import android.provider.Contacts.Intents.Insert;
 import android.provider.Telephony.Mms;
-import android.util.Config;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -63,7 +62,7 @@ public class ConversationList extends ListActivity
             implements DraftCache.OnDraftChangedListener {
     private static final String TAG = "ConversationList";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = Config.LOGV && DEBUG;
+    private static final boolean LOCAL_LOGV = DEBUG;
 
     private static final int THREAD_LIST_QUERY_TOKEN = 1701;
 
@@ -84,19 +83,6 @@ public class ConversationList extends ListActivity
     private ThreadListQueryHandler mQueryHandler;
     private ConversationListAdapter mListAdapter;
     private CharSequence mTitle;
-
-    /**
-     * An interface that's passed down to ListAdapters to use
-     * for looking up the names of contact numbers.
-     */
-    public static interface CachingNameStore {
-        // Returns comma-separated list of contact's display names
-        // given a semicolon-delimited string of canonical phone
-        // numbers.
-        public String getContactNames(String addresses);
-
-        public void invalidateCache();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

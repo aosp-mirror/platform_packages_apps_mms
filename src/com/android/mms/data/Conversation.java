@@ -28,7 +28,7 @@ public class Conversation {
 
     private static final Uri sAllThreadsUri =
         Threads.CONTENT_URI.buildUpon().appendQueryParameter("simple", "true").build();
-    
+
     private static final String[] ALL_THREADS_PROJECTION = {
         Threads._ID, Threads.DATE, Threads.MESSAGE_COUNT, Threads.RECIPIENT_IDS,
         Threads.SNIPPET, Threads.SNIPPET_CHARSET, Threads.READ, Threads.ERROR,
@@ -43,7 +43,7 @@ public class Conversation {
     private static final int READ           = 6;
     private static final int ERROR          = 7;
     private static final int HAS_ATTACHMENT = 8;
-    
+
 
     private final Context mContext;
 
@@ -51,7 +51,7 @@ public class Conversation {
     // new conversation where the recipient set is changing as the user
     // types and we have not hit the database yet to create a thread.
     private long mThreadId;
-   
+
     private ContactList mRecipients;    // The current set of recipients.
     private long mDate;                 // The last update time.
     private int mMessageCount;          // Number of messages.
@@ -59,14 +59,13 @@ public class Conversation {
     private boolean mHasUnreadMessages; // True if there are unread messages.
     private boolean mHasAttachment;     // True if any message has an attachment.
     private boolean mHasError;          // True if any message is in an error state.
-    private String mRecipientIds;       // Space separated keys into canonical_addresses
 
     private Conversation(Context context) {
         mContext = context;
         mRecipients = new ContactList();
         mThreadId = 0;
     }
-    
+
     private Conversation(Context context, long threadId) {
         mContext = context;
         loadFromThreadId(threadId);
@@ -76,7 +75,7 @@ public class Conversation {
         mContext = context;
         fillFromCursor(context, this, cursor, allowQuery);
     }
-    
+
     /**
      * Create a new conversation with no recipients.  {@link setRecipients} can
      * be called as many times as you like; the conversation will not be
@@ -90,15 +89,17 @@ public class Conversation {
      * Find the conversation matching the provided thread ID.
      */
     public static Conversation get(Context context, long threadId) {
-        Conversation conv = Cache.get(threadId);
-        if (conv != null)
+        synchronized (Cache.getInstance()) {
+            Conversation conv = Cache.get(threadId);
+            if (conv != null)
+                return conv;
+
+            conv = new Conversation(context, threadId);
+            Cache.put(conv);
             return conv;
-        
-        conv = new Conversation(context, threadId);
-        Cache.put(conv);
-        return conv;
+        }
     }
-    
+
     /**
      * Find the conversation matching the provided recipient set.
      * When called with an empty recipient list, equivalent to {@link createEmpty}.
@@ -109,17 +110,19 @@ public class Conversation {
             return createNew(context);
         }
 
-        Conversation conv = Cache.get(recipients);
-        if (conv != null)
-            return conv;
-        
-        long threadId = getOrCreateThreadId(context, recipients);
-        conv = new Conversation(context, threadId);
+        synchronized (Cache.getInstance()) {
+            Conversation conv = Cache.get(recipients);
+            if (conv != null)
+                return conv;
 
-        Cache.put(conv);
-        return conv;
+            long threadId = getOrCreateThreadId(context, recipients);
+            conv = new Conversation(context, threadId);
+
+            Cache.put(conv);
+            return conv;
+        }
     }
-    
+
     /**
      * Find the conversation matching in the specified Uri.  Example
      * forms: {@value content://mms-sms/conversations/3} or
@@ -130,7 +133,7 @@ public class Conversation {
         if (uri == null) {
             return createNew(context);
         }
-        
+
         // Handle a conversation URI
         if (uri.getPathSegments().size() >= 2) {
             try {
@@ -140,7 +143,7 @@ public class Conversation {
                 Log.e(TAG, "Invalid URI: " + uri);
             }
         }
-        
+
         String recipient = uri.getSchemeSpecificPart();
         return get(context, ContactList.getByNumbers(recipient, false));
     }
@@ -155,7 +158,7 @@ public class Conversation {
     public static Conversation from(Context context, Cursor cursor) {
         return new Conversation(context, cursor, false);
     }
-    
+
     /**
      * Marks all messages in this conversation as read and updates
      * relevant notifications.  This method returns immediately;
@@ -166,13 +169,13 @@ public class Conversation {
         if (!hasUnreadMessages()) {
             return;
         }
-        
+
         // If we have no Uri to mark (as in the case of a conversation that
         // has not yet made its way to disk), there's nothing to do.
         final Uri threadUri = getUri();
         if (threadUri == null)
             return;
-        
+
         // TODO: make this once as a static?
         final ContentValues values = new ContentValues(1);
         values.put("read", 1);
@@ -184,7 +187,7 @@ public class Conversation {
             }
         }).start();
     }
-    
+
     /**
      * Returns a content:// URI referring to this conversation,
      * or null if it does not exist on disk yet.
@@ -192,10 +195,10 @@ public class Conversation {
     public synchronized Uri getUri() {
         if (mThreadId <= 0)
             return null;
-        
+
         return ContentUris.withAppendedId(Threads.CONTENT_URI, mThreadId);
     }
-    
+
     /**
      * Return the Uri for all messages in the given thread ID.
      * @deprecated
@@ -205,7 +208,7 @@ public class Conversation {
         // and call getUri() on it, but this guarantees no blocking.
         return ContentUris.withAppendedId(Threads.CONTENT_URI, threadId);
     }
-    
+
     /**
      * Returns the thread ID of this conversation.  Can be zero if
      * {@link ensureThreadId} has not been called yet.
@@ -217,17 +220,17 @@ public class Conversation {
     /**
      * Guarantees that the conversation has been created in the database.
      * This will make a blocking database call if it hasn't.
-     * 
+     *
      * @return The thread ID of this conversation in the database
      */
     public synchronized long ensureThreadId() {
         if (mThreadId <= 0) {
             mThreadId = getOrCreateThreadId(mContext, mRecipients);
         }
-        
+
         return mThreadId;
     }
-    
+
     /**
      * Sets the list of recipients associated with this conversation.
      * If called, {@link ensureThreadId} must be called before the next
@@ -240,34 +243,34 @@ public class Conversation {
         // Invalidate thread ID because the recipient set has changed.
         mThreadId = 0;
     }
-    
+
     /**
      * Returns the recipient set of this conversation.
      */
     public synchronized ContactList getRecipients() {
         return mRecipients;
     }
-    
+
     /**
      * Returns true if a draft message exists in this conversation.
      */
     public synchronized boolean hasDraft() {
         if (mThreadId <= 0)
             return false;
-        
+
         return DraftCache.getInstance().hasDraft(mThreadId);
     }
-    
+
     /**
      * Sets whether or not this conversation has a draft message.
      */
     public synchronized void setDraftState(boolean hasDraft) {
         if (mThreadId <= 0)
             return;
-        
+
         DraftCache.getInstance().setDraftState(mThreadId, hasDraft);
     }
-    
+
     /**
      * Returns the time of the last update to this conversation in milliseconds,
      * on the {@link System.currentTimeMillis} timebase.
@@ -275,7 +278,7 @@ public class Conversation {
     public synchronized long getDate() {
         return mDate;
     }
-    
+
     /**
      * Returns the number of messages in this conversation, excluding the draft
      * (if it exists).
@@ -283,14 +286,14 @@ public class Conversation {
     public synchronized int getMessageCount() {
         return mMessageCount;
     }
-    
+
     /**
-     * Returns a snippet of text from the most recent message in the conversation. 
+     * Returns a snippet of text from the most recent message in the conversation.
      */
     public synchronized String getSnippet() {
         return mSnippet;
     }
-    
+
     /**
      * Returns true if there are any unread messages in the conversation.
      */
@@ -311,7 +314,7 @@ public class Conversation {
     public synchronized boolean hasError() {
         return mHasError;
     }
-    
+
     private static long getOrCreateThreadId(Context context, ContactList list) {
         HashSet<String> recipients = new HashSet<String>();
         for (Contact c : list) {
@@ -334,17 +337,17 @@ public class Conversation {
             return false;
         }
     }
-    
+
     @Override
     public synchronized int hashCode() {
         return mRecipients.hashCode();
     }
-    
+
     @Override
     public synchronized String toString() {
         return String.format("[%s] (tid %d)", mRecipients.serialize(), mThreadId);
     }
-    
+
     /**
      * Remove any obsolete conversations sitting around on disk.
      * @deprecated
@@ -353,11 +356,11 @@ public class Conversation {
         // TODO: Get rid of this awful hack.
         context.getContentResolver().delete(Threads.OBSOLETE_THREADS_URI, null, null);
     }
-    
+
     /**
      * Start a query for all conversations in the database on the specified
      * AsyncQueryHandler.
-     * 
+     *
      * @param handler An AsyncQueryHandler that will receive onQueryComplete
      *                upon completion of the query
      * @param token   The token that will be passed to onQueryComplete
@@ -367,7 +370,7 @@ public class Conversation {
         handler.startQuery(token, null, sAllThreadsUri,
                 ALL_THREADS_PROJECTION, null, null, Conversations.DEFAULT_SORT_ORDER);
     }
-    
+
     /**
      * Start a delete of the conversation with the specified thread ID.
      *
@@ -390,7 +393,7 @@ public class Conversation {
     public static void startDeleteAll(AsyncQueryHandler handler, int token) {
         handler.startDelete(token, null, Threads.CONTENT_URI, null, null);
     }
-    
+
     /**
      * Fill the specified conversation with the values from the specified
      * cursor, possibly setting recipients to empty if {@value allowQuery}
@@ -417,7 +420,6 @@ public class Conversation {
 
             String recipientIds = c.getString(RECIPIENT_IDS);
             conv.mRecipients = ContactList.getByIds(recipientIds, allowQuery);
-            conv.mRecipientIds = recipientIds;
         }
     }
 
@@ -431,7 +433,7 @@ public class Conversation {
         private Cache() {
             mCache = new HashSet<Conversation>(10);
         }
-        
+
         /**
          * Return the conversation with the specified thread ID, or
          * null if it's not in cache.
@@ -446,7 +448,7 @@ public class Conversation {
             }
             return null;
         }
-        
+
         /**
          * Return the conversation with the specified recipient
          * list, or null if it's not in cache.
@@ -461,7 +463,7 @@ public class Conversation {
             }
             return null;
         }
-        
+
         /**
          * Put the specified conversation in the cache.  The caller
          * should not place an already-existing conversation in the
@@ -477,7 +479,7 @@ public class Conversation {
                 sInstance.mCache.add(c);
             }
         }
-        
+
         /**
          * Remove all conversations from the cache that are not in
          * the provided set of thread IDs.
@@ -494,7 +496,7 @@ public class Conversation {
             }
         }
     }
-    
+
     /**
      * Set up the conversation cache.  To be called once at application
      * startup time.
@@ -512,7 +514,7 @@ public class Conversation {
             // Keep track of what threads are now on disk so we
             // can discard anything removed from the cache.
             HashSet<Long> threadsOnDisk = new HashSet<Long>();
-            
+
             // Query for all conversations.
             Cursor c = context.getContentResolver().query(sAllThreadsUri,
                     ALL_THREADS_PROJECTION, null, null, null);
@@ -520,7 +522,7 @@ public class Conversation {
                 while (c.moveToNext()) {
                     long threadId = c.getLong(ID);
                     threadsOnDisk.add(threadId);
-                    
+
                     // Try to find this thread ID in the cache.
                     Conversation conv = Cache.get(threadId);
                     if (conv == null) {
@@ -542,7 +544,7 @@ public class Conversation {
             Cache.keepOnly(threadsOnDisk);
         }
     }
-    
+
     private void loadFromThreadId(long threadId) {
         Cursor c = mContext.getContentResolver().query(sAllThreadsUri, ALL_THREADS_PROJECTION,
                 "_id=" + Long.toString(threadId), null, null);
