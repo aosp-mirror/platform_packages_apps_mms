@@ -24,6 +24,10 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import com.android.mms.util.Recycler;
 
 /**
  * With this activity, users can set preferences for MMS and SMS and
@@ -41,6 +45,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
     public static final String NOTIFICATION_RINGTONE    = "pref_key_ringtone";
     public static final String AUTO_RETRIEVAL           = "pref_key_mms_auto_retrieval";
     public static final String RETRIEVAL_DURING_ROAMING = "pref_key_mms_retrieval_during_roaming";
+    public static final String AUTO_DELETE              = "pref_key_auto_delete";
 
     // Menu entries
     private static final int MENU_RESTORE_DEFAULTS    = 1;
@@ -49,6 +54,12 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.preferences);
+        
+        // Fix up the recycler's summary with the correct values
+        findPreference("pref_key_auto_delete").setSummary(
+                getString(R.string.pref_summary_auto_delete, 
+            Recycler.getSmsRecycler().getMessageLimit(this),
+            Recycler.getMmsRecycler().getMessageLimit(this)));
     }
 
     @Override

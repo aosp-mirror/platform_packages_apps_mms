@@ -23,7 +23,10 @@ import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
 
 
 import com.android.mms.MmsApp;
+import com.android.mms.MmsConfig;
 import com.android.mms.ui.ClassZeroActivity;
+import com.android.mms.ui.MessagingPreferenceActivity;
+import com.android.mms.util.Recycler;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.util.SqliteWrapper;
@@ -35,6 +38,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
@@ -43,7 +47,10 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
+import android.preference.PreferenceManager;
 import android.provider.Telephony.Sms;
+import android.provider.Telephony.Threads;
+import android.provider.Telephony.Sms.Conversations;
 import android.provider.Telephony.Sms.Inbox;
 import android.provider.Telephony.Sms.Intents;
 import android.provider.Telephony.Sms.Outbox;
@@ -55,10 +62,6 @@ import android.widget.Toast;
 
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.mms.R;
-import com.android.mms.ui.ClassZeroActivity;
-import com.android.mms.util.SendingProgressTokenManager;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.util.SqliteWrapper;
 
 /**
  * This service essentially plays the role of a "worker thread", allowing us to store
@@ -98,7 +101,7 @@ public class SmsReceiverService extends Service {
     private static final int SEND_COLUMN_BODY       = 3;
 
     private int mResultCode;
-
+    
     @Override
     public void onCreate() {
         if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
@@ -250,6 +253,9 @@ public class SmsReceiverService extends Service {
         if (messageUri != null) {
             MessagingNotification.updateNewMessageIndicator(this, true);
         }
+        // We don't get back the threadId when inserting a message so for now, run
+        // the recycler on everything.
+        Recycler.getSmsRecycler().deleteOldMessages(getApplicationContext());
     }
 
     private void handleBootCompleted() {
@@ -411,7 +417,6 @@ public class SmsReceiverService extends Service {
 
         context.startActivity(smsDialogIntent);
     }
-
 
 }
 

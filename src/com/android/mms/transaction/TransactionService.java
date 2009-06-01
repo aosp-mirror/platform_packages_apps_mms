@@ -21,6 +21,7 @@ import com.android.internal.telephony.Phone;
 import com.android.mms.R;
 import com.android.mms.MmsApp;
 import com.android.mms.util.RateController;
+import com.android.mms.util.Recycler;
 import com.google.android.mms.pdu.GenericPdu;
 import com.google.android.mms.pdu.NotificationInd;
 import com.google.android.mms.pdu.PduHeaders;
@@ -302,6 +303,9 @@ public class TransactionService extends Service implements Observer {
             Log.v(TAG, "Sending: " + msg);
         }
         mServiceHandler.sendMessage(msg);
+
+        // TODO: switch this to the call that takes a threadid
+        Recycler.getMmsRecycler().deleteOldMessages(getApplicationContext());
     }
 
     private void onNetworkUnavailable(int serviceId, int transactionType) {

@@ -30,4 +30,10 @@
     <!-- Maximum width for an attached image -->
     <int name="maxImageWidth">640</int>
     
+    <!-- Maximum number of SMS message to save per thread before auto-delete kicks in -->
+    <int name="maxSMSMessagesPerThread">200</int>
+    
+    <!-- Maximum number of MMS message to save per thread before auto-delete kicks in -->
+    <int name="maxMMSMessagesPerThread">10</int>
+    
 </mms_config>
