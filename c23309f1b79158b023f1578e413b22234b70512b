@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAWX///+Q\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000492
+      },
+      "writtenOn": "2009-06-03T05:12:21Z",
+      "side": 1,
+      "message": "Please name \"data\" something more descriptive, like \"handle\" or \"name\".",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAWH///4E\u003d",
         "filename": "src/com/android/mms/ui/ConversationList.java",
         "patchSetId": 1
@@ -53,6 +70,40 @@
     },
     {
       "key": {
+        "uuid": "AAAAWX///+g\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1000492
+      },
+      "writtenOn": "2009-06-03T05:12:21Z",
+      "side": 1,
+      "message": "I\u0027m OK with hardcoding this string here.  What else would it ever be set to?",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWX///+Y\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1000492
+      },
+      "writtenOn": "2009-06-03T05:12:21Z",
+      "side": 1,
+      "message": "You don\u0027t appear to actually be using PRESENCE_STATUS, why is it in your projection?",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAWX////4\u003d",
         "filename": "src/com/android/mms/ui/ConversationList.java",
         "patchSetId": 1
@@ -70,6 +121,40 @@
     },
     {
       "key": {
+        "uuid": "AAAAWX///+c\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1000492
+      },
+      "writtenOn": "2009-06-03T05:12:21Z",
+      "side": 1,
+      "message": "query() never actually returns null in practice.  Checking for it here will just result in a no-op if it does, but even that is overly paranoid IMO.",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWX///+M\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1000492
+      },
+      "writtenOn": "2009-06-03T05:12:21Z",
+      "side": 1,
+      "message": "See above re: \"data\" as a variable name.",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAWX////0\u003d",
         "filename": "src/com/android/mms/ui/ConversationList.java",
         "patchSetId": 1
@@ -81,6 +166,23 @@
       "writtenOn": "2009-06-03T02:30:23Z",
       "side": 1,
       "message": "Why 1? Please use column names and request their indices instead",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWX///+U\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1000492
+      },
+      "writtenOn": "2009-06-03T05:12:21Z",
+      "side": 1,
+      "message": "The standard pattern for this in the MMS app is:\n\nstatic final String[] projection \u003d { Presence.IM_HANDLE, Presence.IM_PROTOCOL };\n\nstatic final int HANDLE_COLUMN \u003d 0;\n\nstatic final int PROTOCOL_COLUMN \u003d 1;\n\nString handle \u003d cursor.getString(HANDLE_COLUMN);",
       "revId": "c23309f1b79158b023f1578e413b22234b70512b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -132,6 +234,23 @@
       "writtenOn": "2009-06-03T02:30:23Z",
       "side": 1,
       "message": "Wrong indent",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWX///+k\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1000492
+      },
+      "writtenOn": "2009-06-03T05:12:21Z",
+      "side": 1,
+      "message": "More tabs here.",
       "revId": "c23309f1b79158b023f1578e413b22234b70512b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
