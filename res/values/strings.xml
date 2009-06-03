@@ -297,6 +297,8 @@
     <string name="pref_mms_settings_title">MMS settings</string>
     <!-- Settings screen, section heading for SMS-specific settings -->
     <string name="pref_sms_settings_title">SMS settings</string>
+    <!-- Settings screen, section heading for storage-specific settings -->
+    <string name="pref_sms_storage_title">Storage settings</string>
 
     <!-- Settings item description for entering SIM card message screen -->
     <string name="pref_summary_manage_sim_messages">Manage messages stored on your SIM card</string>
@@ -306,6 +308,8 @@
     <string name="pref_summary_mms_read_reports">Request a read report for each message you send</string>
     <!-- Settings item description for boolean SMS delivery report setting -->
     <string name="pref_summary_sms_delivery_reports">Request a delivery report for each message you send</string>
+    <!-- Settings item description for boolean auto-delete messages setting -->
+    <string name="pref_summary_auto_delete">Auto-delete messages when there are more than <xliff:g id="sms_message_count">%d</xliff:g> SMS or <xliff:g id="mms_message_count">%d</xliff:g> MMS messages</string>
     <!-- Settings item for entering SIM card message screen -->
     <string name="pref_title_manage_sim_messages">Manage SIM card messages</string>
     <!-- Settings item for boolean option to enable/disable MMS delivery reports -->
@@ -314,6 +318,8 @@
     <string name="pref_title_mms_read_reports">Read reports</string>
     <!-- Settings item for boolean option to enable/disable SMS delivery reports -->
     <string name="pref_title_sms_delivery_reports">Delivery reports</string>
+    <!-- Settings item for boolean option to enable/disable auto-deletion of messages -->
+    <string name="pref_title_auto_delete">Auto-delete old messages</string>
     <!-- Settings item for boolean option to display message notifications -->
     <string name="pref_title_notification_enabled">Notifications</string>
     <!-- Settings item description for boolean message notification option -->

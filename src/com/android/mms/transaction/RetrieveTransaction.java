@@ -18,6 +18,7 @@
 package com.android.mms.transaction;
 
 import com.android.mms.util.DownloadManager;
+import com.android.mms.util.Recycler;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.AcknowledgeInd;
 import com.google.android.mms.pdu.PduComposer;
@@ -147,6 +148,7 @@ public class RetrieveTransaction extends Transaction implements Runnable {
             // MM successfully.
             // Don't mark the transaction as failed if we failed to send it.
             sendAcknowledgeInd(retrieveConf);
+            Recycler.getMmsRecycler().deleteOldMessages(mContext);
         } catch (Throwable t) {
             Log.e(TAG, Log.getStackTraceString(t));
         } finally {

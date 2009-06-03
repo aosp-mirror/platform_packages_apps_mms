@@ -30,6 +30,7 @@ import com.android.mms.model.TextModel;
 import com.android.mms.model.VideoModel;
 import com.android.mms.transaction.MessageSender;
 import com.android.mms.transaction.MmsMessageSender;
+import com.android.mms.util.Recycler;
 import com.android.mms.transaction.SmsMessageSender;
 import com.android.mms.ui.ComposeMessageActivity;
 import com.google.android.mms.ContentType;
@@ -831,7 +832,10 @@ public class WorkingMessage {
         MessageSender sender = new SmsMessageSender(mContext, dests, msgText, threadId);
         try {
             sender.sendMessage(threadId);
-        } catch (Exception e) {
+            
+            // Make sure this thread isn't over the limits in message count
+            Recycler.getSmsRecycler().deleteOldMessagesByThreadId(mContext, threadId);
+       } catch (Exception e) {
             Log.e(TAG, "Failed to send SMS message, threadId=" + threadId, e);
         }
 
