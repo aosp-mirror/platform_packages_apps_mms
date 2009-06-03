@@ -371,8 +371,7 @@ public class ConversationList extends ListActivity
         ContactInfoCache cache = ContactInfoCache.getInstance();
         ContactInfoCache.CacheEntry info;
         if (Mms.isEmailAddress(address)) {
-            info = cache.getContactInfoForEmailAddress(getApplicationContext(), address,
-                    true /* allow query */);
+            info = cache.getContactInfoForEmailAddress(getApplicationContext(), address, true);
         } else {
             info = cache.getContactInfo(this, address);
         }
