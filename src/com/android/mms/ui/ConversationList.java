@@ -43,7 +43,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Contacts;
+import android.provider.Contacts.ContactMethods;
 import android.provider.Contacts.People;
+import android.provider.Contacts.Presence;
 import android.provider.Contacts.Intents.Insert;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Threads;
@@ -91,6 +93,7 @@ public class ConversationList extends ListActivity
     private static final int MENU_VIEW                 = 1;
     private static final int MENU_VIEW_CONTACT         = 2;
     private static final int MENU_ADD_TO_CONTACTS      = 3;
+    private static final int MENU_SEND_IM 			   = 4;
 
     private ThreadListQueryHandler mQueryHandler;
     private ConversationListAdapter mListAdapter;
@@ -343,6 +346,58 @@ public class ConversationList extends ListActivity
             startActivity(intent);            
         }
     }
+    
+    private Uri constructImToUrl(String host, String data) {
+	    // don't encode the url, because the Activity Manager can't find using the encoded url
+        StringBuilder buf = new StringBuilder("imto://");
+        buf.append(host);
+        buf.append('/');
+        buf.append(data);
+        return Uri.parse(buf.toString());
+    }
+    
+    private void sendIm(String address) {
+    	// address must be a single recipient
+        ContactInfoCache cache = ContactInfoCache.getInstance();
+        ContactInfoCache.CacheEntry info;
+        if (Mms.isEmailAddress(address)) {
+            info = cache.getContactInfoForEmailAddress(getApplicationContext(), address,
+                    true /* allow query */);
+        } else {
+            info = cache.getContactInfo(this, address);
+        }
+        if (info != null && info.person_id > 0) {
+            String[] projection = new String[] {
+                    Presence.IM_HANDLE, // 0
+                    Presence.IM_PROTOCOL, // 1
+                    Presence.PRESENCE_STATUS, // 2
+            };
+            Cursor presenceCursor = getContentResolver().query(Presence.CONTENT_URI, projection,
+                    Presence.PERSON_ID + "=" + info.person_id, null, null);    
+            
+            //Just grab the first presense provider
+            if(presenceCursor != null && presenceCursor.moveToNext()) {
+            	// Find the display info for the provider
+                String data = presenceCursor.getString(0);
+                Object protocolObj = ContactMethods.decodeImProtocol(
+                        presenceCursor.getString(1));
+                String host;
+                if (protocolObj instanceof Number) {
+                    int protocol = ((Number) protocolObj).intValue();
+                    host = ContactMethods.lookupProviderNameFromId(protocol).toLowerCase();
+                } else {
+                    String providerName = (String) protocolObj;
+                    host = providerName.toLowerCase();
+                }
+
+                if (!TextUtils.isEmpty(host)) {
+                    // A valid provider name is required
+                	Intent intent = new Intent(Intent.ACTION_SENDTO, constructImToUrl(host, data));
+                    startActivity(intent); 
+                }
+            }
+        }
+    }
 
     public static Intent createAddContactIntent(String address) {
         // address must be a single recipient
@@ -390,6 +445,10 @@ public class ConversationList extends ListActivity
                         } else {
                             menu.add(0, MENU_ADD_TO_CONTACTS, 0, R.string.menu_add_to_contacts);
                         }
+                        
+                        if(entry.presenceResId != 0) {
+                        	menu.add(0, MENU_SEND_IM, 0, R.string.menu_send_im);
+                        }
                     }
                     menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
                 }
@@ -421,6 +480,11 @@ public class ConversationList extends ListActivity
                 String address = getAddress(cursor);
                 startActivity(createAddContactIntent(address));
                 break;
+            }
+            case MENU_SEND_IM: {
+            	String address = getAddress(cursor);
+            	sendIm(address);
+            	break;
             }
             default:
                 break;
