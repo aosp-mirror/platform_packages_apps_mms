@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAWH///4I\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-06-03T02:30:23Z",
+      "side": 1,
+      "message": "Do not use tabs",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWH///4E\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-06-03T02:30:23Z",
+      "side": 1,
+      "message": "Do not use tabs",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWX////8\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-06-03T02:30:23Z",
+      "side": 1,
+      "message": "Use a constant for the string",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWX////4\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-06-03T02:30:23Z",
+      "side": 1,
+      "message": "Space between if and (\nWhat if the Cursor is null?",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWX////0\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-06-03T02:30:23Z",
+      "side": 1,
+      "message": "Why 1? Please use column names and request their indices instead",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWX////w\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-06-03T02:30:23Z",
+      "side": 1,
+      "message": "Wrong indent",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWX////o\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-06-03T02:30:23Z",
+      "side": 1,
+      "message": "Space between if and (",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWX////s\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-06-03T02:30:23Z",
+      "side": 1,
+      "message": "Wrong indent",
+      "revId": "c23309f1b79158b023f1578e413b22234b70512b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
