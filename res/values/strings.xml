@@ -410,6 +410,10 @@
    <string name="menu_delete_messages">Delete messages</string>
    <!-- Dialog text displayed when trying to resend an unsent message. -->
    <string name="retrying_dialog_body">This message <xliff:g id="message">%s</xliff:g> was not sent due to a connection problem.\r\nRetrying to send\u2026</string>
+   <!-- Menu title for locking a message -->
+   <string name="menu_lock">Lock message</string>
+   <!-- Menu title for unlocking a message -->
+   <string name="menu_unlock">Unlock message</string>
 
     <!-- Manage SIM Messages -->
     <!-- Menu title to copy a selected message from the SIM card to the phone. -->

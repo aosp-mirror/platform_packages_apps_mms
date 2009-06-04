@@ -60,6 +60,7 @@ public class MessageListAdapter extends CursorAdapter {
         Sms.READ,
         Sms.TYPE,
         Sms.STATUS,
+        Sms.LOCKED,
         // For MMS
         Mms.SUBJECT,
         Mms.SUBJECT_CHARSET,
@@ -69,7 +70,8 @@ public class MessageListAdapter extends CursorAdapter {
         Mms.MESSAGE_BOX,
         Mms.DELIVERY_REPORT,
         Mms.READ_REPORT,
-        PendingMessages.ERROR_TYPE
+        PendingMessages.ERROR_TYPE,
+        Mms.LOCKED
     };
 
     // The indexes of the default columns which must be consistent
@@ -83,17 +85,19 @@ public class MessageListAdapter extends CursorAdapter {
     static final int COLUMN_SMS_READ            = 6;
     static final int COLUMN_SMS_TYPE            = 7;
     static final int COLUMN_SMS_STATUS          = 8;
-    static final int COLUMN_MMS_SUBJECT         = 9;
-    static final int COLUMN_MMS_SUBJECT_CHARSET = 10;
-    static final int COLUMN_MMS_DATE            = 11;
-    static final int COLUMN_MMS_READ            = 12;
-    static final int COLUMN_MMS_MESSAGE_TYPE    = 13;
-    static final int COLUMN_MMS_MESSAGE_BOX     = 14;
-    static final int COLUMN_MMS_DELIVERY_REPORT = 15;
-    static final int COLUMN_MMS_READ_REPORT     = 16;
-    static final int COLUMN_MMS_ERROR_TYPE      = 17;
+    static final int COLUMN_SMS_LOCKED          = 9;
+    static final int COLUMN_MMS_SUBJECT         = 10;
+    static final int COLUMN_MMS_SUBJECT_CHARSET = 11;
+    static final int COLUMN_MMS_DATE            = 12;
+    static final int COLUMN_MMS_READ            = 13;
+    static final int COLUMN_MMS_MESSAGE_TYPE    = 14;
+    static final int COLUMN_MMS_MESSAGE_BOX     = 15;
+    static final int COLUMN_MMS_DELIVERY_REPORT = 16;
+    static final int COLUMN_MMS_READ_REPORT     = 17;
+    static final int COLUMN_MMS_ERROR_TYPE      = 18;
+    static final int COLUMN_MMS_LOCKED          = 19;
 
-    private static final int CACHE_SIZE            = 50;
+    private static final int CACHE_SIZE         = 50;
     
     protected LayoutInflater mInflater;
     private final ListView mListView;
@@ -200,6 +204,7 @@ public class MessageListAdapter extends CursorAdapter {
         public int mColumnSmsRead;
         public int mColumnSmsType;
         public int mColumnSmsStatus;
+        public int mColumnSmsLocked;
         public int mColumnMmsSubject;
         public int mColumnMmsSubjectCharset;
         public int mColumnMmsDate;
@@ -209,6 +214,7 @@ public class MessageListAdapter extends CursorAdapter {
         public int mColumnMmsDeliveryReport;
         public int mColumnMmsReadReport;
         public int mColumnMmsErrorType;
+        public int mColumnMmsLocked;
 
         public ColumnsMap() {
             mColumnMsgType            = COLUMN_MSG_TYPE;
@@ -218,6 +224,7 @@ public class MessageListAdapter extends CursorAdapter {
             mColumnSmsDate            = COLUMN_SMS_DATE;
             mColumnSmsType            = COLUMN_SMS_TYPE;
             mColumnSmsStatus          = COLUMN_SMS_STATUS;
+            mColumnSmsLocked          = COLUMN_SMS_LOCKED;
             mColumnMmsSubject         = COLUMN_MMS_SUBJECT;
             mColumnMmsSubjectCharset  = COLUMN_MMS_SUBJECT_CHARSET;
             mColumnMmsMessageType     = COLUMN_MMS_MESSAGE_TYPE;
@@ -225,6 +232,7 @@ public class MessageListAdapter extends CursorAdapter {
             mColumnMmsDeliveryReport  = COLUMN_MMS_DELIVERY_REPORT;
             mColumnMmsReadReport      = COLUMN_MMS_READ_REPORT;
             mColumnMmsErrorType       = COLUMN_MMS_ERROR_TYPE;
+            mColumnMmsLocked          = COLUMN_MMS_LOCKED;
         }
 
         public ColumnsMap(Cursor cursor) {
@@ -274,6 +282,12 @@ public class MessageListAdapter extends CursorAdapter {
             }
 
             try {
+                mColumnSmsLocked = cursor.getColumnIndexOrThrow(Sms.LOCKED);
+            } catch (IllegalArgumentException e) {
+                Log.w("colsMap", e.getMessage());
+            }
+
+            try {
                 mColumnMmsSubject = cursor.getColumnIndexOrThrow(Mms.SUBJECT);
             } catch (IllegalArgumentException e) {
                 Log.w("colsMap", e.getMessage());
@@ -311,6 +325,12 @@ public class MessageListAdapter extends CursorAdapter {
 
             try {
                 mColumnMmsErrorType = cursor.getColumnIndexOrThrow(PendingMessages.ERROR_TYPE);
+            } catch (IllegalArgumentException e) {
+                Log.w("colsMap", e.getMessage());
+            }
+            
+            try {
+                mColumnMmsLocked = cursor.getColumnIndexOrThrow(Mms.LOCKED);
             } catch (IllegalArgumentException e) {
                 Log.w("colsMap", e.getMessage());
             }

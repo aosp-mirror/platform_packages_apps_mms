@@ -55,6 +55,7 @@ import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -181,6 +182,8 @@ public class ComposeMessageActivity extends Activity
     private static final int MENU_COPY_TO_SDCARD        = 25;
     private static final int MENU_INSERT_SMILEY         = 26;
     private static final int MENU_ADD_ADDRESS_TO_CONTACTS = 27;
+    private static final int MENU_LOCK_MESSAGE          = 28;
+    private static final int MENU_UNLOCK_MESSAGE        = 29;
 
     private static final int RECIPIENTS_MAX_LENGTH = 312;
 
@@ -822,6 +825,15 @@ public class ComposeMessageActivity extends Activity
             menu.setHeaderTitle(R.string.message_options);
 
             MsgListMenuClickListener l = new MsgListMenuClickListener();
+            
+            if (msgItem.mLocked) {
+                menu.add(0, MENU_UNLOCK_MESSAGE, 0, R.string.menu_unlock)
+                    .setOnMenuItemClickListener(l);
+            } else {
+                menu.add(0, MENU_LOCK_MESSAGE, 0, R.string.menu_lock)
+                    .setOnMenuItemClickListener(l);
+            }
+            
             if (msgItem.isMms()) {
                 switch (msgItem.mBoxId) {
                     case Mms.MESSAGE_BOX_INBOX:
@@ -1026,11 +1038,41 @@ public class ComposeMessageActivity extends Activity
                     Toast.makeText(ComposeMessageActivity.this, resId, Toast.LENGTH_SHORT).show();
                     return true;
                 }
+                
+                case MENU_LOCK_MESSAGE: {
+                    lockMessage(msgItem, true);
+                    return true;
+                }
+
+                case MENU_UNLOCK_MESSAGE: {
+                    lockMessage(msgItem, false);
+                    return true;
+                }
 
                 default:
                     return false;
             }
         }
+    }
+
+    private void lockMessage(MessageItem msgItem, boolean locked) {
+        Uri uri;
+        if ("sms".equals(msgItem.mType)) {
+            uri = Sms.CONTENT_URI;
+        } else {
+            uri = Mms.CONTENT_URI;
+        }
+        final Uri lockUri = ContentUris.withAppendedId(uri, msgItem.mMsgId);;
+
+        final ContentValues values = new ContentValues(1);
+        values.put("locked", locked ? 1 : 0);
+
+        new Thread(new Runnable() {
+            public void run() {
+                getContentResolver().update(lockUri,
+                        values, null, null);
+            }
+        }).start();
     }
 
     /**

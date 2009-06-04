@@ -165,11 +165,10 @@ public abstract class Recycler {
                 Log.v(TAG, "SMS: deleteMessagesForThread");
             }
             ContentResolver resolver = context.getContentResolver();
-            // TODO: add check for locked column when added
             Cursor cursor = SqliteWrapper.query(context, resolver,
                     ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
                     SMS_MESSAGE_PROJECTION,
-                    "read=1",
+                    "read=1 AND locked=0",
                     null, "date DESC");     // get in newest to oldest order
 
             int count = cursor.getCount();
@@ -187,10 +186,9 @@ public abstract class Recycler {
                 cursor.move(keep);
                 long latestDate = cursor.getLong(COLUMN_SMS_DATE);
 
-                // TODO: add check for locked column when added
                 long cntDeleted = SqliteWrapper.delete(context, resolver, 
                         ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
-                        "read=1 AND date<" + latestDate,
+                        "read=1 AND locked=0 AND date<" + latestDate,
                         null);
                 if (LOCAL_DEBUG) {
                     Log.v(TAG, "SMS: deleteMessagesForThread cntDeleted: " + cntDeleted);
@@ -261,11 +259,10 @@ public abstract class Recycler {
                 Log.v(TAG, "MMS: deleteMessagesForThread");
             }
             ContentResolver resolver = context.getContentResolver();
-            // TODO: add check for locked column when added
             Cursor cursor = SqliteWrapper.query(context, resolver,
                     Telephony.Mms.CONTENT_URI,
                     MMS_MESSAGE_PROJECTION,
-                    "thread_id=" + threadId + " AND read=1",
+                    "thread_id=" + threadId + " AND read=1 AND locked=0",
                     null, "date DESC");     // get in newest to oldest order
 
             int count = cursor.getCount();
@@ -283,10 +280,9 @@ public abstract class Recycler {
                 cursor.move(keep);
                 long latestDate = cursor.getLong(COLUMN_MMS_DATE);
 
-                // TODO: add check for locked column when added
                 long cntDeleted = SqliteWrapper.delete(context, resolver, 
                         Telephony.Mms.CONTENT_URI,
-                        "thread_id=" + threadId + " AND read=1 AND date<" + latestDate,
+                        "thread_id=" + threadId + " AND read=1 AND locked=0 AND date<" + latestDate,
                         null);
                 if (LOCAL_DEBUG) {
                     Log.v(TAG, "MMS: deleteMessagesForThread cntDeleted: " + cntDeleted);

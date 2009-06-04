@@ -57,6 +57,7 @@ public class MessageItem {
 
     boolean mDeliveryReport;
     boolean mReadReport;
+    boolean mLocked;            // locked to prevent auto-deletion
 
     String mTimestamp;
     String mAddress;
@@ -107,6 +108,8 @@ public class MessageItem {
             long date = cursor.getLong(columnsMap.mColumnSmsDate);
             mTimestamp = String.format(context.getString(R.string.sent_on),
                     MessageUtils.formatTimeStampString(context, date));
+            
+            mLocked = cursor.getInt(columnsMap.mColumnSmsLocked) != 0;
         } else if ("mms".equals(type)) {
             mMessageUri = ContentUris.withAppendedId(Mms.CONTENT_URI, mMsgId);
             mBoxId = cursor.getInt(columnsMap.mColumnMmsMessageBox);
@@ -119,6 +122,7 @@ public class MessageItem {
                         PduPersister.getBytes(subject));
                 mSubject = v.getString();
             }
+            mLocked = cursor.getInt(columnsMap.mColumnMmsLocked) != 0;
 
             long timestamp = 0L;
             PduPersister p = PduPersister.getPduPersister(mContext);

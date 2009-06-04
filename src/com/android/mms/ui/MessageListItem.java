@@ -26,7 +26,6 @@ import com.android.mms.util.DownloadManager;
 import com.android.mms.util.SmileyParser;
 
 import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduPersister;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -34,12 +33,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -53,9 +48,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.style.AbsoluteSizeSpan;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.LineBackgroundSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
@@ -70,7 +63,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -136,7 +128,7 @@ public class MessageListItem extends LinearLayout implements
     public void setMsgListItemHandler(Handler handler) {
         mHandler = handler;
     }
-
+    
     private void bindNotifInd(final MessageItem msgItem) {
         hideMmsViewIfNeeded();
 
@@ -493,6 +485,9 @@ public class MessageListItem extends LinearLayout implements
             mRightStatusIndicator.setVisibility(View.VISIBLE);
         } else if (msgItem.mDeliveryReport || msgItem.mReadReport) {
             mRightStatusIndicator.setImageResource(R.drawable.ic_mms_message_details);
+            mRightStatusIndicator.setVisibility(View.VISIBLE);
+        } else if (msgItem.mLocked) {
+            mRightStatusIndicator.setImageResource(R.drawable.lock);
             mRightStatusIndicator.setVisibility(View.VISIBLE);
         } else {
             mRightStatusIndicator.setVisibility(View.GONE);
