@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAW3///+g\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000492
+      },
+      "writtenOn": "2009-06-05T19:00:31Z",
+      "side": 1,
+      "message": "If you\u0027re going to move this away from the method into a field, it needs to be called mPresenceProjection.  But I would rather you just put this stuff all back in sendIm() where you started it, since it\u0027s only ever used there.",
+      "revId": "2ef30b0066ffd682c04baa980ebb7690f421a435",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
