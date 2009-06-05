@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAW3///+E\u003d",
+        "filename": "src/com/android/mms/ui/ConversationList.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000492
+      },
+      "writtenOn": "2009-06-05T19:17:36Z",
+      "side": 1,
+      "message": "You fixed the tabs but left the COLUMN_ constants far away from the projection.  Please read my comments thoroughly before doing an iteration.",
+      "revId": "38cc733b450ebca2fb96d9e372667c438a1bf01f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
