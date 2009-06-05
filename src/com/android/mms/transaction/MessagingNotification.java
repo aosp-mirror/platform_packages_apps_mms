@@ -474,11 +474,15 @@ public class MessagingNotification {
                         context.getString(R.string.message_send_failed_title);
             
             description = context.getString(R.string.message_failed_body);
-            threadId = (msgThreadId[0] != 0 ? msgThreadId[0] : 0);
-            
             failedIntent = new Intent(context, ComposeMessageActivity.class);
+            if (isDownload) {
+                // When isDownload is true, the valid threadId is passed into this function.
+                failedIntent.putExtra("failed_download_flag", true);
+            } else {
+                threadId = (msgThreadId[0] != 0 ? msgThreadId[0] : 0);
+                failedIntent.putExtra("undelivered_flag", true);
+            }            
             failedIntent.putExtra("thread_id", threadId);         
-            failedIntent.putExtra("undelivered_flag", true);
         }
 
         failedIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -586,4 +590,14 @@ public class MessagingNotification {
             cancelNotification(context, DOWNLOAD_FAILED_NOTIFICATION_ID);
         }
     }
+    
+    public static boolean isFailedToDeliver(Intent intent) {
+        return (intent != null) && intent.getBooleanExtra("undelivered_flag", false);
+    }
+
+    public static boolean isFailedToDownload(Intent intent) {
+        return (intent != null) && intent.getBooleanExtra("failed_download_flag", false);
+    }
+
+
 }

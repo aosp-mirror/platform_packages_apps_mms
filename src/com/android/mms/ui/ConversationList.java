@@ -114,10 +114,6 @@ public class ConversationList extends ListActivity
         setListAdapter(mListAdapter);
     }
 
-    static public boolean isFailedToDeliver(Intent intent) {
-        return (intent != null) && intent.getBooleanExtra("undelivered_flag", false);
-    }
-
     @Override
     protected void onNewIntent(Intent intent) {
         // Handle intents that occur after the activity has already been created.

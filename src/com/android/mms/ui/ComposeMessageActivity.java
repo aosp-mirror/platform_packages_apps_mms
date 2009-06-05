@@ -1322,11 +1322,21 @@ public class ComposeMessageActivity extends Activity
         getWindow().setFeatureDrawable(Window.FEATURE_LEFT_ICON, icon);
     }
 
-    static public boolean cancelFailedToDeliverNotification(Intent intent, Context context) {
-        if (ConversationList.isFailedToDeliver(intent)) {
+    public static boolean cancelFailedToDeliverNotification(Intent intent, Context context) {
+        if (MessagingNotification.isFailedToDeliver(intent)) {
             // Cancel any failed message notifications
             MessagingNotification.cancelNotification(context,
                         MessagingNotification.MESSAGE_FAILED_NOTIFICATION_ID);
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean cancelFailedDownloadNotification(Intent intent, Context context) {
+        if (MessagingNotification.isFailedToDownload(intent)) {
+            // Cancel any failed download notifications
+            MessagingNotification.cancelNotification(context,
+                        MessagingNotification.DOWNLOAD_FAILED_NOTIFICATION_ID);
             return true;
         }
         return false;
@@ -1360,12 +1370,13 @@ public class ComposeMessageActivity extends Activity
             Log.v(TAG, "onCreate(): intent = " + getIntent());
         }
 
-        if (cancelFailedToDeliverNotification(getIntent(), getApplicationContext())) {
+        if (cancelFailedToDeliverNotification(getIntent(), this)) {
             // Show a pop-up dialog to inform user the message was
             // failed to deliver.
             undeliveredMessageDialog(getMessageDate(null));
         }
-
+        cancelFailedDownloadNotification(getIntent(), this);
+        
         // Set up the message history ListAdapter
         initMessageList();
 
