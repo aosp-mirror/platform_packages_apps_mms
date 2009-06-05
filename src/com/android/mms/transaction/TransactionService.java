@@ -303,9 +303,6 @@ public class TransactionService extends Service implements Observer {
             Log.v(TAG, "Sending: " + msg);
         }
         mServiceHandler.sendMessage(msg);
-
-        // TODO: switch this to the call that takes a threadid
-        Recycler.getMmsRecycler().deleteOldMessages(getApplicationContext());
     }
 
     private void onNetworkUnavailable(int serviceId, int transactionType) {

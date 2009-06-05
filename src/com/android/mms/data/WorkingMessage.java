@@ -868,6 +868,9 @@ public class WorkingMessage {
                 // delete the copy which was previously saved in MMS drafts.
                 SqliteWrapper.delete(mContext, mContentResolver, mmsUri, null, null);
             }
+            
+            // Make sure this thread isn't over the limits in message count
+            Recycler.getMmsRecycler().deleteOldMessagesByThreadId(mContext, threadId);
         } catch (Exception e) {
             Log.e(TAG, "Failed to send message: " + mmsUri + ", threadId=" + threadId, e);
         }

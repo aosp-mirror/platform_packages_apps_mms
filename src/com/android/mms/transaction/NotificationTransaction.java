@@ -26,6 +26,7 @@ import static com.google.android.mms.pdu.PduHeaders.STATUS_RETRIEVED;
 import static com.google.android.mms.pdu.PduHeaders.STATUS_UNRECOGNIZED;
 
 import com.android.mms.util.DownloadManager;
+import com.android.mms.util.Recycler;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.GenericPdu;
 import com.google.android.mms.pdu.NotificationInd;
@@ -37,7 +38,9 @@ import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Inbox;
 import android.util.Config;
 import android.util.Log;
@@ -194,7 +197,20 @@ public class NotificationTransaction extends Transaction implements Runnable {
             }
 
             sendNotifyRespInd(status);
-
+            
+            // Make sure this thread isn't over the limits in message count. In order to do
+            // that, we've got to retrieve the message's thread id first.
+            Cursor cursor = SqliteWrapper.query(mContext, mContext.getContentResolver(),
+                    mUri, new String[] {Mms.THREAD_ID},
+                    null, null, null);
+            try {
+                if ((cursor.getCount() == 1) && cursor.moveToFirst()) {
+                    long threadId = cursor.getLong(0);
+                    Recycler.getMmsRecycler().deleteOldMessagesByThreadId(mContext, threadId);
+                }
+            } finally {
+                cursor.close();
+            }
         } catch (Throwable t) {
             Log.e(TAG, Log.getStackTraceString(t));
         } finally {

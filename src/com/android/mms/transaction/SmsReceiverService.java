@@ -23,9 +23,7 @@ import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
 
 
 import com.android.mms.MmsApp;
-import com.android.mms.MmsConfig;
 import com.android.mms.ui.ClassZeroActivity;
-import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.Recycler;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.MmsException;
@@ -38,7 +36,6 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
@@ -47,10 +44,8 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
-import android.preference.PreferenceManager;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
-import android.provider.Telephony.Sms.Conversations;
 import android.provider.Telephony.Sms.Inbox;
 import android.provider.Telephony.Sms.Intents;
 import android.provider.Telephony.Sms.Outbox;
@@ -253,9 +248,6 @@ public class SmsReceiverService extends Service {
         if (messageUri != null) {
             MessagingNotification.updateNewMessageIndicator(this, true);
         }
-        // We don't get back the threadId when inserting a message so for now, run
-        // the recycler on everything.
-        Recycler.getSmsRecycler().deleteOldMessages(getApplicationContext());
     }
 
     private void handleBootCompleted() {
@@ -372,10 +364,27 @@ public class SmsReceiverService extends Service {
             }
             values.put(Inbox.BODY, body.toString());
         }
+        
+        // Make sure we've got a thread id so after the insert we'll be able to delete
+        // excess messages.
+        Long threadId = values.getAsLong(Sms.THREAD_ID);
+        String address = values.getAsString(Sms.ADDRESS);
+
+        if (((threadId == null) || (threadId == 0)) && (address != null)) {
+            values.put(Sms.THREAD_ID, Threads.getOrCreateThreadId(
+                               context, address));
+        }
 
         ContentResolver resolver = context.getContentResolver();
 
-        return SqliteWrapper.insert(context, resolver, Inbox.CONTENT_URI, values);
+        Uri insertedUri = SqliteWrapper.insert(context, resolver, Inbox.CONTENT_URI, values);
+        
+        // Now make sure we're not over the limit in stored messages
+        threadId = values.getAsLong(Sms.THREAD_ID);
+        Recycler.getSmsRecycler().deleteOldMessagesByThreadId(getApplicationContext(),
+                threadId);  
+
+        return insertedUri;
     }
 
     /**
