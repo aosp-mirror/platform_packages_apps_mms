@@ -583,5 +583,8 @@
 
     <!-- Title of the select-contact-method activity. -->
     <string name="select_contact_method_activity">Select Contact Method</string>
+    
+    <!-- Title for the option from MMS to send an IM -->
+    <string name="menu_send_im">Send IM</string>
 </resources>
 
