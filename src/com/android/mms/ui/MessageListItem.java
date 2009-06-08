@@ -17,15 +17,7 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.R;
-import com.android.mms.data.WorkingMessage;
-import com.android.mms.transaction.Transaction;
-import com.android.mms.transaction.TransactionBundle;
-import com.android.mms.transaction.TransactionService;
-import com.android.mms.util.DownloadManager;
-import com.android.mms.util.SmileyParser;
-
-import com.google.android.mms.pdu.PduHeaders;
+import java.util.Map;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -33,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -48,14 +41,15 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.style.AbsoluteSizeSpan;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -63,7 +57,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.Map;
+import com.android.mms.R;
+import com.android.mms.data.WorkingMessage;
+import com.android.mms.transaction.Transaction;
+import com.android.mms.transaction.TransactionBundle;
+import com.android.mms.transaction.TransactionService;
+import com.android.mms.util.DownloadManager;
+import com.android.mms.util.SmileyParser;
+import com.google.android.mms.pdu.PduHeaders;
 
 /**
  * This class provides view of a message in the messages list.
@@ -124,11 +125,11 @@ public class MessageListItem extends LinearLayout implements
     public MessageItem getMessageItem() {
         return mMessageItem;
     }
-    
+
     public void setMsgListItemHandler(Handler handler) {
         mHandler = handler;
     }
-    
+
     private void bindNotifInd(final MessageItem msgItem) {
         hideMmsViewIfNeeded();
 
@@ -137,7 +138,8 @@ public class MessageListItem extends LinearLayout implements
                                 + mContext.getString(R.string.kilobyte);
 
         mBodyTextView.setText(formatMessage(msgItem.mContact, null, msgItem.mSubject,
-                                            msgSizeText + "\n" + msgItem.mTimestamp));
+                                            msgSizeText + "\n" + msgItem.mTimestamp,
+                                            msgItem.mHighlight));
 
         int state = DownloadManager.getInstance().getState(msgItem.mMessageUri);
         switch (state) {
@@ -191,7 +193,8 @@ public class MessageListItem extends LinearLayout implements
         CharSequence formattedMessage = msgItem.getCachedFormattedMessage();
         if (formattedMessage == null) {
             formattedMessage = formatMessage(msgItem.mContact, msgItem.mBody,
-                                             msgItem.mSubject, msgItem.mTimestamp);
+                                             msgItem.mSubject, msgItem.mTimestamp,
+                                             msgItem.mHighlight);
             msgItem.setCachedFormattedMessage(formattedMessage);
         }
         mBodyTextView.setText(formattedMessage);
@@ -257,7 +260,7 @@ public class MessageListItem extends LinearLayout implements
             mSlideShowButton = (ImageButton) findViewById(R.id.play_slideshow_button);
         }
     }
-    
+
     private void inflateDownloadControls() {
         if (mDownloadButton == null) {
             //inflate the download controls
@@ -268,9 +271,9 @@ public class MessageListItem extends LinearLayout implements
     }
 
     private CharSequence formatMessage(String contact, String body, String subject,
-                                       String timestamp) {
+                                       String timestamp, String highlight) {
         CharSequence template = mContext.getResources().getText(R.string.name_colon);
-        SpannableStringBuilder buf = 
+        SpannableStringBuilder buf =
             new SpannableStringBuilder(TextUtils.replace(template,
                 new String[] { "%s" },
                 new CharSequence[] { contact }));
@@ -306,6 +309,21 @@ public class MessageListItem extends LinearLayout implements
         buf.setSpan(new ForegroundColorSpan(color), startOffset, buf.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
+        if (highlight != null) {
+            int highlightLen = highlight.length();
+
+            String s = buf.toString().toLowerCase();
+            int prev = 0;
+            while (true) {
+                int index = s.indexOf(highlight, prev);
+                if (index == -1) {
+                    break;
+                }
+                // todo move to resource file
+                buf.setSpan(new BackgroundColorSpan(Color.YELLOW), index, index + highlightLen, 0);
+                prev = index + highlightLen;
+            }
+        }
         return buf;
     }
 
@@ -353,7 +371,7 @@ public class MessageListItem extends LinearLayout implements
         } else {
             final java.util.ArrayList<String> urls = MessageUtils.extractUris(spans);
 
-            ArrayAdapter<String> adapter = 
+            ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(mContext, android.R.layout.select_dialog_item, urls) {
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
@@ -390,7 +408,7 @@ public class MessageListItem extends LinearLayout implements
                     }
                 }
             };
-                
+
             b.setTitle(R.string.select_link_title);
             b.setCancelable(true);
             b.setAdapter(adapter, click);
@@ -421,7 +439,7 @@ public class MessageListItem extends LinearLayout implements
                 }
             });
             break;
-            
+
         default:
             mImageView.setOnClickListener(null);
             break;

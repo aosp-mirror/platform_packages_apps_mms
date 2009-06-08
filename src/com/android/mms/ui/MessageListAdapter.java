@@ -98,18 +98,21 @@ public class MessageListAdapter extends CursorAdapter {
     static final int COLUMN_MMS_LOCKED          = 19;
 
     private static final int CACHE_SIZE         = 50;
-    
+
     protected LayoutInflater mInflater;
     private final ListView mListView;
     private final LinkedHashMap<Long, MessageItem> mMessageItemCache;
     private final ColumnsMap mColumnsMap;
     private OnDataSetChangedListener mOnDataSetChangedListener;
     private Handler mMsgListItemHandler;
+    private String mHighlight;
 
     public MessageListAdapter(
             Context context, Cursor c, ListView listView,
-            boolean useDefaultColumnsMap) {
+            boolean useDefaultColumnsMap, String highlight) {
         super(context, c);
+        mHighlight = highlight != null ? highlight.toLowerCase() : null;
+
         mInflater = (LayoutInflater) context.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
         mListView = listView;
@@ -133,7 +136,7 @@ public class MessageListAdapter extends CursorAdapter {
         if (view instanceof MessageListItem) {
             String type = cursor.getString(mColumnsMap.mColumnMsgType);
             long msgId = cursor.getLong(mColumnsMap.mColumnMsgId);
-            
+
             MessageItem msgItem = getCachedMessageItem(type, msgId, cursor);
             if (msgItem != null) {
                 ((MessageListItem) view).bind(msgItem);
@@ -178,7 +181,7 @@ public class MessageListAdapter extends CursorAdapter {
         MessageItem item = mMessageItemCache.get(getKey(type, msgId));
         if (item == null) {
             try {
-                item = new MessageItem(mContext, type, c, mColumnsMap);
+                item = new MessageItem(mContext, type, c, mColumnsMap, mHighlight);
                 mMessageItemCache.put(getKey(item.mType, item.mMsgId), item);
             } catch (MmsException e) {
                 Log.e(TAG, e.getMessage());
@@ -328,7 +331,7 @@ public class MessageListAdapter extends CursorAdapter {
             } catch (IllegalArgumentException e) {
                 Log.w("colsMap", e.getMessage());
             }
-            
+
             try {
                 mColumnMmsLocked = cursor.getColumnIndexOrThrow(Mms.LOCKED);
             } catch (IllegalArgumentException e) {

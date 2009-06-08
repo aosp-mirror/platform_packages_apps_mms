@@ -839,7 +839,7 @@ public class ComposeMessageActivity extends Activity
             menu.setHeaderTitle(R.string.message_options);
 
             MsgListMenuClickListener l = new MsgListMenuClickListener();
-            
+
             if (msgItem.mLocked) {
                 menu.add(0, MENU_UNLOCK_MESSAGE, 0, R.string.menu_unlock)
                     .setOnMenuItemClickListener(l);
@@ -847,7 +847,7 @@ public class ComposeMessageActivity extends Activity
                 menu.add(0, MENU_LOCK_MESSAGE, 0, R.string.menu_lock)
                     .setOnMenuItemClickListener(l);
             }
-            
+
             if (msgItem.isMms()) {
                 switch (msgItem.mBoxId) {
                     case Mms.MESSAGE_BOX_INBOX:
@@ -1052,7 +1052,7 @@ public class ComposeMessageActivity extends Activity
                     Toast.makeText(ComposeMessageActivity.this, resId, Toast.LENGTH_SHORT).show();
                     return true;
                 }
-                
+
                 case MENU_LOCK_MESSAGE: {
                     lockMessage(msgItem, true);
                     return true;
@@ -2238,8 +2238,10 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
+        String highlight = getIntent().getStringExtra("highlight");
+
         // Initialize the list adapter with a null cursor.
-        mMsgListAdapter = new MessageListAdapter(this, null, mMsgListView, true);
+        mMsgListAdapter = new MessageListAdapter(this, null, mMsgListView, true, highlight);
         mMsgListAdapter.setOnDataSetChangedListener(mDataSetChangedListener);
         mMsgListAdapter.setMsgListItemHandler(mMessageListItemHandler);
         mMsgListView.setAdapter(mMsgListAdapter);
@@ -2472,7 +2474,23 @@ public class ComposeMessageActivity extends Activity
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch(token) {
                 case MESSAGE_LIST_QUERY_TOKEN:
+                    int newSelectionPos = -1;
+                    long targetMsgId = getIntent().getLongExtra("select_id", -1);
+                    if (targetMsgId != -1) {
+                        cursor.moveToPosition(-1);
+                        while (cursor.moveToNext()) {
+                            long msgId = cursor.getLong(COLUMN_ID);
+                            if (msgId == targetMsgId) {
+                                newSelectionPos = cursor.getPosition();
+                                break;
+                            }
+                        }
+                    }
+
                     mMsgListAdapter.changeCursor(cursor);
+                    if (newSelectionPos != -1) {
+                        mMsgListView.setSelection(newSelectionPos);
+                    }
 
                     // Once we have completed the query for the message history, if
                     // there is nothing in the cursor and we are not composing a new

@@ -63,6 +63,7 @@ public class MessageItem {
     String mAddress;
     String mContact;
     String mBody; // Body of SMS, first text of MMS.
+    String mHighlight; // portion of message to highlight (from search)
 
     // The only non-immutable field.  Not synchronized, as access will
     // only be from the main GUI thread.  Worst case if accessed from
@@ -81,9 +82,10 @@ public class MessageItem {
 
     MessageItem(
             Context context, String type, Cursor cursor,
-            ColumnsMap columnsMap) throws MmsException {
+            ColumnsMap columnsMap, String highlight) throws MmsException {
         mContext = context;
         mMsgId = cursor.getLong(columnsMap.mColumnMsgId);
+        mHighlight = highlight != null ? highlight.toLowerCase() : null;
         
         if ("sms".equals(type)) {
             mReadReport = false; // No read reports in sms

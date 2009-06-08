@@ -130,7 +130,7 @@ public class ManageSimMessages extends Activity
                     updateState(SHOW_EMPTY);
                 } else if (mListAdapter == null) {
                     mListAdapter = new MessageListAdapter(
-                            mParent, mCursor, mSimList, false);
+                            mParent, mCursor, mSimList, false, null);
                     mSimList.setAdapter(mListAdapter);
                     mSimList.setOnCreateContextMenuListener(mParent);
                     updateState(SHOW_LIST);

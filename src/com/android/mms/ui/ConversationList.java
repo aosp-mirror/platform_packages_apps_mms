@@ -185,9 +185,7 @@ public class ConversationList extends ListActivity
 
         menu.add(0, MENU_COMPOSE_NEW, 0, R.string.menu_compose_new).setIcon(
                 com.android.internal.R.drawable.ic_menu_compose);
-        // Removed search as part of b/1205708
-        //menu.add(0, MENU_SEARCH, 0, R.string.menu_search).setIcon(
-        //        R.drawable.ic_menu_search).setAlphabeticShortcut(SearchManager.MENU_KEY);
+
         if (mListAdapter.getCount() > 0) {
             menu.add(0, MENU_DELETE_ALL, 0, R.string.menu_delete_all).setIcon(
                     android.R.drawable.ic_menu_delete);
@@ -196,6 +194,16 @@ public class ConversationList extends ListActivity
         menu.add(0, MENU_PREFERENCES, 0, R.string.menu_preferences).setIcon(
                 android.R.drawable.ic_menu_preferences);
 
+        menu.add(0, MENU_SEARCH, 0, android.R.string.search_go).
+                setIcon(android.R.drawable.ic_menu_search).
+                setAlphabeticShortcut(android.app.SearchManager.MENU_KEY);
+
+        return true;
+    }
+
+    @Override
+    public boolean onSearchRequested() {
+        startSearch(null, false, null /*appData*/, false);
         return true;
     }
 
