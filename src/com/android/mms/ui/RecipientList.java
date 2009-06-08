@@ -77,7 +77,7 @@ public class RecipientList {
         private static final String PHONE_NUMBER_SEPARATORS = " ()-./";
 
         public static boolean isValid(String recipient) {
-            if (MmsConfig.DISABLE_MMS) {
+            if (!MmsConfig.getMmsEnabled()) {
                 return isPhoneNumber(recipient);
             }
             

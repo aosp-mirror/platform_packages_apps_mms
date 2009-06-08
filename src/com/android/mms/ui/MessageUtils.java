@@ -615,8 +615,8 @@ public class MessageUtils {
                 try {
                     UriImage image = new UriImage(context, imageUri);
                     part = image.getResizedImageAsPart(
-                        CarrierContentRestriction.IMAGE_WIDTH_LIMIT,
-                        CarrierContentRestriction.IMAGE_HEIGHT_LIMIT);
+                        MmsConfig.getMaxImageWidth(),
+                        MmsConfig.getMaxImageHeight());
                 } finally {
                     // Cancel pending show of the progress dialog if necessary.
                     handler.removeCallbacks(showProgress);
