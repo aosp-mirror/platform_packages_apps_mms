@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label">"Mensagem"</string>
+    <string name="new_message">"Nova mensagem"</string>
+    <string name="create_new_message">"Escrever nova mensagem"</string>
+    <string name="menu_call_back">"Chamar <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email">"Enviar e-mail para <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_compose_new">"Escrever"</string>
+    <string name="menu_preferences">"Configurações"</string>
+    <string name="menu_add_address_to_contacts">"Adicionar <xliff:g id="NAME">%s</xliff:g> aos contatos"</string>
+    <!-- no translation found for menu_call (5877123227307074690) -->
+    <skip />
+    <string name="menu_delete_all">"Excluir segmentos"</string>
+    <!-- no translation found for menu_delete (1851666911396479006) -->
+    <skip />
+    <string name="menu_undelivered_messages">"Mensagens não entregues"</string>
+    <!-- no translation found for menu_view (7448852683948080108) -->
+    <skip />
+    <string name="refreshing">"Atualizando…"</string>
+    <string name="has_draft">"Rascunho"</string>
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <skip />
+    <string name="anonymous_recipient">"Anônimo"</string>
+    <string name="no_subject_view">"(Sem assunto)"</string>
+    <string name="messagelist_sender_self">"Eu"</string>
+    <string name="view_picture">"Exibir imagem"</string>
+    <string name="view_slideshow">"Exibir apresentação de slides"</string>
+    <string name="view_message_details">"Exibir detalhes da mensagem"</string>
+    <string name="view_delivery_report">"Exibir relatório"</string>
+    <string name="delete_message">"Excluir mensagem"</string>
+    <string name="sent_on">"Enviada: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="expire_on">"Expira: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="kilobyte">"KB"</string>
+    <string name="undelivered_msg_dialog_title">"Mensagem não entregue"</string>
+    <string name="undelivered_msg_dialog_body">"Não é possível enviar esta mensagem."\n"Tentativa realizada: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_sms_dialog_body">"Não é possível enviar esta mensagem."</string>
+    <string name="delete_thread">"Excluir segmento"</string>
+    <string name="menu_forward">"Transferir"</string>
+    <string name="download">"Download"</string>
+    <string name="downloading">"Fazendo download"</string>
+    <string name="inline_subject">"&lt;Assunto: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="drm_protected_text">"* Texto DRM protegido *"</string>
+    <string name="insufficient_drm_rights">"Direitos DRM insuficientes detectados."</string>
+    <string name="copy_message_text">"Copiar texto da mensagem"</string>
+    <string name="message_options">"Opções de mensagem"</string>
+    <string name="done">"Concluído"</string>
+    <string name="move_up">"Mover para cima"</string>
+    <string name="move_down">"Mover para baixo"</string>
+    <string name="remove_slide">"Remover slide"</string>
+    <string name="add_slide">"Adicionar slide"</string>
+    <string name="add_slide_hint">"Selecione para criar um novo slide."</string>
+    <string name="discard_slideshow">"Descartar apresentação de slides"</string>
+    <!-- no translation found for slide_show_part (5077675385448696846) -->
+    <skip />
+    <string name="remove_text">"Remover o texto"</string>
+    <string name="add_picture">"Adicionar imagem"</string>
+    <string name="remove_picture">"Remover imagem"</string>
+    <string name="add_music">"Adicionar música"</string>
+    <string name="remove_music">"Remover música"</string>
+    <string name="add_video">"Adicionar vídeo"</string>
+    <string name="remove_video">"Remover vídeo"</string>
+    <string name="compose_title">"Escrever"</string>
+    <string name="to_hint">"Para"</string>
+    <string name="subject_hint">"Assunto"</string>
+    <string name="add_attachment">"Anexar"</string>
+    <string name="add_subject">"Adicionar assunto"</string>
+    <string name="discard">"Descartar"</string>
+    <string name="view">"Exibir"</string>
+    <string name="replace">"Substituir"</string>
+    <string name="remove">"Remover"</string>
+    <string name="send">"Enviar"</string>
+    <string name="all_threads">"Todos os segmentos"</string>
+    <!-- no translation found for type_to_compose_text_enter_to_send (7553404984078924360) -->
+    <skip />
+    <string name="open_keyboard_to_compose_message">"Abra o teclado para escrever uma mensagem"</string>
+    <string name="image_too_large">"Imagem muito grande"</string>
+    <string name="ask_for_automatically_resize">"Redimensionar a imagem automaticamente antes de enviá-la?"</string>
+    <string name="compressing">"Compactando…"</string>
+    <string name="unsupported_media_format">"Formato <xliff:g id="NAME">%1$s</xliff:g> não suportado"</string>
+    <string name="select_different_media">"Selecione um <xliff:g id="NAME">%1$s</xliff:g> diferente."</string>
+    <string name="exceed_message_size_limitation">"O limite de tamanho da mensagem foi atingido."</string>
+    <string name="failed_to_add_media">"Desculpe, não é possível adicionar esse <xliff:g id="NAME">%1$s</xliff:g> à sua mensagem."</string>
+    <string name="failed_to_resize_image">"Imagem não redimensionada."</string>
+    <string name="resize_image_error_information">"Desculpe, mesmo após redimensionamento esta imagem está muito grande para ser enviada."</string>
+    <string name="forward_prefix">"Enc: "</string>
+    <string name="discard_message">"Descartar"</string>
+    <string name="discard_message_reason">"Sua mensagem será descartada, pois não possui destinatários válidos."</string>
+    <string name="has_invalid_recipient">"Destinatários inválidos: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
+    <string name="invalid_recipient_message">"Corrija os destinatários ou eles não receberão a mensagem."</string>
+    <string name="cannot_send_message">"Não é possível enviar esta mensagem"</string>
+    <string name="cannot_send_message_reason">"Sua mensagem não tem destinatários válidos."</string>
+    <string name="cannot_forward_drm_obj">"O objeto DRM incluído na mensagem não pode ser transferido."</string>
+    <string name="converting_to_picture_message">"Convertendo para mensagem MMS…"</string>
+    <string name="converting_to_text_message">"Convertendo para mensagem SMS…"</string>
+    <string name="cannot_add_slide_anymore">"Não é possível adicionar mais slides."</string>
+    <string name="cannot_save_message">"Não é possível salvar a mensagem."</string>
+    <string name="cannot_load_message">"Não é possível carregar a mensagem."</string>
+    <string name="message_saved_as_draft">"Mensagem salva como rascunho."</string>
+    <string name="cannot_play_audio">"Não é possível reproduzir áudio."</string>
+    <string name="preview">"Visualização"</string>
+    <string name="preview_slideshow">"Visualização"</string>
+    <string name="replace_image">"Substituir imagem"</string>
+    <string name="duration_sec">"Duração (<xliff:g id="DURATION">%s</xliff:g> s)"</string>
+    <string name="duration_selector_title">"Duração do slide "</string>
+    <string name="layout_selector_title">"Layout da apresentação de slides "</string>
+    <string name="layout_top">"Layout (parte superior)"</string>
+    <string name="layout_bottom">"Layout (parte inferior)"</string>
+    <string name="type_to_compose_text_or_leave_blank">"Digite para escrever o texto ou deixe em branco"</string>
+    <string name="secs">"segundos"</string>
+  <string-array name="select_dialog_items">
+    <item>"1 segundo"</item>
+    <item>"2 segundos"</item>
+    <item>"3 segundos"</item>
+    <item>"4 segundos"</item>
+    <item>"5 segundos"</item>
+    <item>"6 segundos"</item>
+    <item>"7 segundos"</item>
+    <item>"8 segundos"</item>
+    <item>"9 segundos"</item>
+    <item>"10 segundos"</item>
+    <item>"Outro…"</item>
+  </string-array>
+    <string name="menu_view_contact">"Exibir contato"</string>
+    <string name="menu_add_to_contacts">"Adicionar aos contatos"</string>
+    <string name="hidden_sender_address">"Endereço de remetente oculto"</string>
+    <string name="yes">"OK"</string>
+    <string name="no">"Cancelar"</string>
+    <string name="play">"Reproduzir"</string>
+    <string name="edit">"Editar"</string>
+    <string name="resize">"Redimensionar"</string>
+    <string name="try_to_send">"Tentar enviar"</string>
+    <string name="preferences_title">"Configurações"</string>
+    <string name="restore_default">"Restaurar configurações padrão"</string>
+    <string name="pref_notification_settings_title">"Configurações de notificação"</string>
+    <string name="pref_mms_settings_title">"Configurações de MMS"</string>
+    <string name="pref_sms_settings_title">"Configurações de SMS"</string>
+    <string name="pref_summary_manage_sim_messages">"Gerenciar mensagens armazenadas no seu cartão SIM"</string>
+    <string name="pref_summary_mms_delivery_reports">"Solicitar um relatório de entrega para cada mensagem enviada"</string>
+    <string name="pref_summary_mms_read_reports">"Solicitar um relatório de leitura para cada mensagem enviada"</string>
+    <string name="pref_summary_sms_delivery_reports">"Solicitar um relatório de entrega para cada mensagem enviada"</string>
+    <string name="pref_title_manage_sim_messages">"Gerenciar mensagens do cartão SIM"</string>
+    <string name="pref_title_mms_delivery_reports">"Relatórios de entrega"</string>
+    <string name="pref_title_mms_read_reports">"Ler relatórios"</string>
+    <string name="pref_title_sms_delivery_reports">"Relatórios de entrega"</string>
+    <string name="pref_title_notification_enabled">"Notificações"</string>
+    <string name="pref_summary_notification_enabled">"Exibir notificações de mensagem na barra de status"</string>
+    <string name="pref_title_notification_vibrate">"Vibrar"</string>
+    <string name="pref_summary_notification_vibrate">"Também vibra quando notificado"</string>
+    <string name="pref_title_notification_ringtone">"Selecionar ringtone"</string>
+    <string name="pref_title_mms_auto_retrieval">"Recuperação automática"</string>
+    <string name="pref_summary_mms_auto_retrieval">"Recuperar mensagens automaticamente"</string>
+    <string name="pref_title_mms_retrieval_during_roaming">"Recuperação automática de roaming"</string>
+    <string name="pref_summary_mms_retrieval_during_roaming">"Recupera as mensagens automaticamente enquanto estiver em roaming"</string>
+    <string name="to_label">"Para "</string>
+    <string name="confirm_dialog_title">"Excluir"</string>
+    <string name="confirm_delete_conversation">"Todo o segmento será excluído."</string>
+    <string name="confirm_delete_all_conversations">"Todos os segmentos serão excluídos."</string>
+    <string name="confirm_delete_message">"A mensagem será excluída."</string>
+    <string name="confirm_delete_all_messages">"Todo o segmento será excluído."</string>
+    <!-- no translation found for confirm_delete_all_SIM_messages (65701806463341097) -->
+    <skip />
+    <!-- no translation found for confirm_delete_SIM_message (767624259182679915) -->
+    <skip />
+    <string name="cannot_get_details">"Não é possível obter detalhes"</string>
+    <string name="message_details_title">"Detalhes da mensagem"</string>
+    <string name="message_type_label">"Tipo: "</string>
+    <string name="text_message">"Mensagem SMS"</string>
+    <string name="multimedia_message">"Mensagem MMS"</string>
+    <string name="multimedia_notification">"Notificação MMS"</string>
+    <string name="from_label">"De: "</string>
+    <string name="to_address_label">"Para: "</string>
+    <string name="bcc_label">"Cco: "</string>
+    <string name="sent_label">"Enviada: "</string>
+    <string name="received_label">"Recebida: "</string>
+    <string name="saved_label">"Salva: "</string>
+    <string name="subject_label">"Assunto: "</string>
+    <string name="message_size_label">"Tamanho da mensagem: "</string>
+    <string name="priority_label">"Prioridade: "</string>
+    <string name="priority_high">"Alto"</string>
+    <string name="priority_normal">"Normal"</string>
+    <string name="priority_low">"Baixo"</string>
+    <string name="message_class_label">"Classe da mensagem: "</string>
+    <string name="menu_edit">"Editar"</string>
+    <string name="menu_retry_sending">"Tentar enviar novamente"</string>
+    <string name="menu_retry_sending_all">"Tentar enviar tudo novamente"</string>
+    <string name="menu_delete_messages">"Excluir mensagens"</string>
+    <string name="retrying_dialog_body">"Essa mensagem <xliff:g id="MESSAGE">%s</xliff:g> não foi enviada devido a um problema de conexão."\n"Tentando enviar novamente…"</string>
+    <string name="sim_copy_to_phone_memory">"Copiar para a memória do telefone"</string>
+    <string name="sim_delete">"Excluir"</string>
+    <string name="sim_manage_messages_title">"Mensagens SMS no cartão SIM"</string>
+    <string name="sim_view">"Exibir"</string>
+    <string name="sim_empty">"Não há mensagens no cartão SIM."</string>
+    <string name="delivery_header_title">"Relatório"</string>
+    <string name="status_none">"(Nenhum)"</string>
+    <string name="status_pending">"Pendente"</string>
+    <string name="status_read">"Ler"</string>
+    <string name="status_received">"Recebido"</string>
+    <string name="status_failed">"Sem êxito"</string>
+    <string name="status_unread">"Não lida"</string>
+    <string name="status_rejected">"Rejeitado"</string>
+    <string name="recipient_label">"Destinatário: "</string>
+    <string name="status_label">"Status: "</string>
+    <string name="attach_image">"Imagens"</string>
+    <!-- no translation found for attach_take_photo (4280601313184373837) -->
+    <skip />
+    <!-- no translation found for attach_video (4264272693501538294) -->
+    <skip />
+    <!-- no translation found for attach_record_video (3099814114743078615) -->
+    <skip />
+    <string name="attach_sound">"Áudio"</string>
+    <string name="attach_record_sound">"Gravar áudio"</string>
+    <!-- no translation found for attach_slideshow (3497422151091037063) -->
+    <skip />
+    <string name="select_bottom_text">"Texto na parte inferior"</string>
+    <string name="select_top_text">"Texto na parte superior"</string>
+    <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> mensagens não lidas."</string>
+    <string name="notification_multiple_title">"Novas mensagens"</string>
+    <!-- no translation found for notification_failed_multiple (4081781748475686236) -->
+    <skip />
+    <!-- no translation found for notification_failed_multiple_title (1112032024904397126) -->
+    <skip />
+    <string name="sim_full_title">"Cartão SIM cheio"</string>
+    <string name="sim_full_body">"Exclua algumas mensagens para gerar mais espaço."</string>
+    <string name="type_audio">"áudio"</string>
+    <string name="type_picture">"imagem"</string>
+    <string name="type_video">"vídeo"</string>
+    <string name="confirm">"Confirmar"</string>
+    <string name="message_send_read_report">"Um relatório de leitura será enviado."</string>
+    <string name="message_queued">"No momento, não é possível enviar sua mensagem. Ela será enviada quando o serviço ficar disponível."</string>
+    <string name="no_subject">"(Sem assunto)"</string>
+    <string name="unknown_sender">"Remetente desconhecido"</string>
+    <string name="dl_failure_notification">"O download da mensagem <xliff:g id="SUBJECT">%s</xliff:g> de <xliff:g id="FROM">%s</xliff:g> não teve êxito."</string>
+    <string name="rate_limit_surpassed">"Confirmar"</string>
+    <string name="confirm_rate_limit">"Uma grande quantidade de mensagens multimídia está sendo enviada. Isso está certo?"</string>
+    <string name="message_download_failed_title">"O download da mensagem não foi feito"</string>
+    <string name="message_send_failed_title">"Mensagem não enviada"</string>
+    <string name="message_failed_body">"Selecione para analisar a mensagem e tente novamente."</string>
+    <string name="download_later">"No momento, não é possível fazer download. Tente novamente mais tarde."</string>
+    <string name="select_audio">"Selecionar áudio"</string>
+    <string name="copy_to_sdcard">"Copiar anexo para cartão SD"</string>
+    <string name="copy_to_sdcard_success">"Anexo copiado para cartão SD"</string>
+    <string name="copy_to_sdcard_fail">"Falha ao copiar anexo para o cartão SD"</string>
+    <string name="menu_insert_smiley">"Inserir emoticon"</string>
+    <string name="select_link_title">"Selecionar ação"</string>
+    <!-- no translation found for slide_number (1923958526266726635) -->
+    <skip />
+    <!-- no translation found for slide_duration:one (1654101988340583935) -->
+    <!-- no translation found for slide_duration:few (7887190171856293871) -->
+    <!-- no translation found for slide_duration:other (3736425355579939863) -->
+    <!-- no translation found for delivery_report_activity (2957463094232916364) -->
+    <skip />
+    <!-- no translation found for add_attachment_activity (5324811371129695320) -->
+    <skip />
+    <!-- no translation found for select_layout_activity (5041916695464513848) -->
+    <skip />
+    <!-- no translation found for change_duration_activity (7048606979485031693) -->
+    <skip />
+    <!-- no translation found for edit_text_activity (5915226413346879213) -->
+    <skip />
+    <!-- no translation found for edit_slideshow_activity (8751493388760050529) -->
+    <skip />
+    <!-- no translation found for edit_slide_activity (8752829671778696983) -->
+    <skip />
+    <!-- no translation found for pick_numbers_activity (2083330191224178637) -->
+    <skip />
+    <!-- no translation found for slideshow_activity (5658249461317434432) -->
+    <skip />
+    <!-- no translation found for class_0_message_activity (8474176218999130627) -->
+    <skip />
+    <!-- no translation found for send_using_mms_activity (6082321147663913763) -->
+    <skip />
+    <!-- no translation found for select_contact_method_activity (1743384358979323991) -->
+    <skip />
+</resources>
