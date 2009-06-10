@@ -63,6 +63,7 @@ import android.content.IntentFilter;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteException;
@@ -142,7 +143,7 @@ import android.webkit.MimeTypeMap;
  */
 public class ComposeMessageActivity extends Activity
         implements View.OnClickListener, TextView.OnEditorActionListener,
-        MessageStatusListener {
+        MessageStatusListener, Contact.UpdateListener {
     public static final int REQUEST_CODE_ATTACH_IMAGE     = 10;
     public static final int REQUEST_CODE_TAKE_PICTURE     = 11;
     public static final int REQUEST_CODE_ATTACH_VIDEO     = 12;
@@ -351,15 +352,6 @@ public class ComposeMessageActivity extends Activity
             if (msgItem != null) {
                 editMessageItem(msgItem);
                 drawBottomPanel();
-            }
-        }
-    };
-
-    private final Handler mPresencePollingHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == REFRESH_PRESENCE) {
-                startQueryForContactInfo();
             }
         }
     };
@@ -1407,7 +1399,7 @@ public class ComposeMessageActivity extends Activity
         mIsKeyboardOpen = config.keyboardHidden == KEYBOARDHIDDEN_NO;
         mIsLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE;
         onKeyboardStateChanged(mIsKeyboardOpen);
-
+        
         if (TRACE) {
             android.os.Debug.startMethodTracing("compose");
         }
@@ -1460,7 +1452,9 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onResume() {
         super.onResume();
-        startPresencePollingRequest();
+        // Register to get notified of presence changes so we can update the presence indicator.
+        Contact.startPresenceObserver();
+        addRecipientsListeners();
     }
 
     private void updateSendFailedNotification() {
@@ -1494,7 +1488,8 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onPause() {
         super.onPause();
-        cancelPresencePollingRequests();
+        Contact.stopPresenceObserver();
+        removeRecipientsListeners();
     }
 
     @Override
@@ -2252,7 +2247,6 @@ public class ComposeMessageActivity extends Activity
             mWorkingMessage.discard();
             return;
         }
-
         mWorkingMessage.saveDraft();
 
         if (mToastForDraftSave) {
@@ -2278,7 +2272,11 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void sendMessage() {
+        // send can change the recipients. Make sure we remove the listeners first and then add
+        // them back once the recipient list has settled.
+        removeRecipientsListeners();
         mWorkingMessage.send();
+        addRecipientsListeners();
 
         // Reset the UI to be ready for the next message.
         resetMessage();
@@ -2469,7 +2467,6 @@ public class ComposeMessageActivity extends Activity
                     cleanupContactInfoCursor();
                     mContactInfoCursor = cursor;
                     updateContactInfo();
-                    startPresencePollingRequest();
                     return;
 
             }
@@ -2583,21 +2580,11 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
-    private void cancelPresencePollingRequests() {
-        mPresencePollingHandler.removeMessages(REFRESH_PRESENCE);
-    }
-
-    private void startPresencePollingRequest() {
-        mPresencePollingHandler.sendEmptyMessageDelayed(REFRESH_PRESENCE,
-                60 * 1000); // refresh every minute
-    }
-
     private void startQueryForContactInfo() {
         ContactList recipients = getRecipients();
-        cancelPresencePollingRequests();    // make sure there are no outstanding polling requests
+
         if (recipients.size() != 1) {
             setPresenceIcon(0);
-            startPresencePollingRequest();
             return;
         }
 
@@ -2642,6 +2629,24 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
+    public void onUpdate(final Contact updated) {
+        // Using an existing handler for the post, rather than conjuring up a new one.
+        mMessageListItemHandler.post(new Runnable() {
+            public void run() {
+                setPresenceIcon(updated.getPresenceResId());
+            }
+        });
+    }
+    
+    private void addRecipientsListeners() {
+        ContactList recipients = getRecipients();
+        recipients.addListeners(this);       
+    }
+    
+    private void removeRecipientsListeners() {
+        ContactList recipients = getRecipients();
+        recipients.removeListeners(this);       
+    }
 }
 
 

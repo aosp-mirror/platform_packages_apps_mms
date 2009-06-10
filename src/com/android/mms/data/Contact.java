@@ -10,6 +10,7 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.Contacts.People;
+import android.provider.Contacts.Presence;
 import android.provider.Telephony.Mms;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -26,7 +27,15 @@ public class Contact {
     private static final TaskStack sTaskStack = new TaskStack();
 
     private static final ContentObserver sContactsObserver
-        = new ContentObserver(new Handler()) {
+            = new ContentObserver(new Handler()) {
+        @Override
+        public void onChange(boolean selfUpdate) {
+            invalidateCache();
+        }
+    };
+
+    private static final ContentObserver sPresenceObserver
+            = new ContentObserver(new Handler()) {
         @Override
         public void onChange(boolean selfUpdate) {
             invalidateCache();
@@ -276,6 +285,15 @@ public class Contact {
 
     public static void dump() {
         Cache.dump();
+    }
+
+    public static void startPresenceObserver() {
+        Cache.getContext().getContentResolver().registerContentObserver(
+                Presence.CONTENT_URI, true, sPresenceObserver);
+    }
+
+    public static void stopPresenceObserver() {
+        Cache.getContext().getContentResolver().unregisterContentObserver(sPresenceObserver);
     }
 
     private static class Cache {
