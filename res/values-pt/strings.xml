@@ -53,6 +53,8 @@
     <string name="menu_forward">"Transferir"</string>
     <string name="download">"Download"</string>
     <string name="downloading">"Fazendo download"</string>
+    <!-- no translation found for name_colon (7069560650889479120) -->
+    <skip />
     <string name="inline_subject">"&lt;Assunto: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text">"* Texto DRM protegido *"</string>
     <string name="insufficient_drm_rights">"Direitos DRM insuficientes detectados."</string>
