@@ -1270,6 +1270,10 @@ public class ComposeMessageActivity extends Activity
         if (isRecipientsEditorVisible()) {
             return;
         }
+        // Must grab the recipients before the view is made visible because getRecipients()
+        // returns empty recipients when the editor is visible.
+        ContactList recipients = getRecipients();
+        
         ViewStub stub = (ViewStub)findViewById(R.id.recipients_editor_stub);
         if (stub != null) {
             mRecipientsEditor = (RecipientsEditor) stub.inflate();
@@ -1279,7 +1283,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         mRecipientsEditor.setAdapter(new RecipientsAdapter(this));
-        mRecipientsEditor.populate(getRecipients());
+        mRecipientsEditor.populate(recipients);
         mRecipientsEditor.setOnCreateContextMenuListener(mRecipientsMenuCreateListener);
         mRecipientsEditor.addTextChangedListener(mRecipientsWatcher);
         mRecipientsEditor.setFilters(new InputFilter[] {
@@ -1358,8 +1362,9 @@ public class ComposeMessageActivity extends Activity
         initActivityState(savedInstanceState, getIntent());
 
         if (LOCAL_LOGV) {
-            Log.v(TAG, "onCreate(): savedInstanceState = " + savedInstanceState);
-            Log.v(TAG, "onCreate(): intent = " + getIntent());
+            Log.v(TAG, "onCreate(): savedInstanceState = " + savedInstanceState +
+                    " intent = " + getIntent() +
+                    " recipients = " + getRecipients());
         }
 
         if (cancelFailedToDeliverNotification(getIntent(), this)) {
