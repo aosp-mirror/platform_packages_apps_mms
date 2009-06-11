@@ -601,7 +601,7 @@ public class ComposeMessageActivity extends Activity
                 if (c.existsInDatabase()) {
                     menu.add(0, MENU_VIEW_CONTACT, 0, R.string.menu_view_contact)
                             .setOnMenuItemClickListener(l);
-                } else {
+                } else if (canAddToContacts(c)){
                     menu.add(0, MENU_ADD_TO_CONTACTS, 0, R.string.menu_add_to_contacts)
                             .setOnMenuItemClickListener(l);
                 }
@@ -635,6 +635,28 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
+    private boolean canAddToContacts(Contact contact) {
+        // There are some kind of automated messages, like STK messages, that we don't want
+        // to add to contacts. These names begin with special characters, like, "*Info".
+        if (!TextUtils.isEmpty(contact.getNumber())) {
+            char c = contact.getNumber().charAt(0);
+            if (isSpecialChar(c)) {
+                return false;
+            }
+        }
+        if (!TextUtils.isEmpty(contact.getName())) {
+            char c = contact.getName().charAt(0);
+            if (isSpecialChar(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean isSpecialChar(char c) {
+        return c == '*' || c == '%' || c == '$';
+    }
+    
     private void addPositionBasedMenuItems(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         AdapterView.AdapterContextMenuInfo info;
 
@@ -1737,7 +1759,7 @@ public class ComposeMessageActivity extends Activity
         // Look for the first recipient we don't have a contact for and create a menu item to
         // add the number to contacts.
         for (Contact c : getRecipients()) {
-            if (!c.existsInDatabase()) {
+            if (!c.existsInDatabase() && canAddToContacts(c)) {
                 Intent intent = ConversationList.createAddContactIntent(c.getNumber());
                 menu.add(0, MENU_ADD_ADDRESS_TO_CONTACTS, 0, R.string.menu_add_to_contacts)
                     .setIcon(android.R.drawable.ic_menu_add)
