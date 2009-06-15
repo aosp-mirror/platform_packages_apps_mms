@@ -155,9 +155,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.ANY_DATA_STATE" />
-            </intent-filter>
         </receiver>
 
         <activity android:name=".ui.ManageSimMessages"

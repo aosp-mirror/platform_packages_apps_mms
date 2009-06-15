@@ -22,6 +22,7 @@ import com.google.android.mms.util.PduCache;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.util.Config;
@@ -43,6 +44,7 @@ import com.android.mms.MmsApp;
  */
 public class MmsSystemEventReceiver extends BroadcastReceiver {
     private static final String TAG = "MmsSystemEventReceiver";
+    private static MmsSystemEventReceiver sMmsSystemEventReceiver;
 
     private static void wakeUpService(Context context) {
         if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
@@ -76,6 +78,34 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
             // We should check whether there are unread incoming
             // messages in the Inbox and then update the notification icon.
             MessagingNotification.updateNewMessageIndicator(context);
+        }
+    }
+    
+    public static void registerForConnectionStateChanges(Context context) {
+        unRegisterForConnectionStateChanges(context);
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED);
+        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+            Log.v(TAG, "registerForConnectionStateChanges");
+        }
+        if (sMmsSystemEventReceiver == null) {
+            sMmsSystemEventReceiver = new MmsSystemEventReceiver();
+        }
+
+        context.registerReceiver(sMmsSystemEventReceiver, intentFilter);
+    }
+
+    public static void unRegisterForConnectionStateChanges(Context context) {
+        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+            Log.v(TAG, "unRegisterForConnectionStateChanges");
+        }
+        if (sMmsSystemEventReceiver != null) {
+            try {
+                context.unregisterReceiver(sMmsSystemEventReceiver);
+            } catch (IllegalArgumentException e) {
+                // Allow un-matched register-unregister calls
+            }
         }
     }
 }

@@ -18,10 +18,10 @@
 package com.android.mms.transaction;
 
 import com.android.internal.telephony.Phone;
-import com.android.mms.R;
+import com.android.internal.telephony.TelephonyIntents;
 import com.android.mms.MmsApp;
+import com.android.mms.R;
 import com.android.mms.util.RateController;
-import com.android.mms.util.Recycler;
 import com.google.android.mms.pdu.GenericPdu;
 import com.google.android.mms.pdu.NotificationInd;
 import com.google.android.mms.pdu.PduHeaders;
@@ -32,6 +32,7 @@ import android.app.Service;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkConnectivityListener;
@@ -47,7 +48,6 @@ import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.MmsSms.PendingMessages;
 import android.text.TextUtils;
-import android.util.Config;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -133,7 +133,7 @@ public class TransactionService extends Service implements Observer {
     private ConnectivityManager mConnMgr;
     private NetworkConnectivityListener mConnectivityListener;
     private PowerManager.WakeLock mWakeLock;
-    
+
     public Handler mToastHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -171,16 +171,17 @@ public class TransactionService extends Service implements Observer {
         mConnectivityListener.registerHandler(mServiceHandler, EVENT_DATA_STATE_CHANGED);
         mConnectivityListener.startListening(this);
     }
-
+    
     @Override
     public void onStart(Intent intent, int startId) {
         if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
-            Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras());
+            Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras() + " action =" +
+                    intent.getAction());
         }
 
         mConnMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         boolean noNetwork = !isNetworkAvailable();
-
+        
         if (ACTION_ONALARM.equals(intent.getAction()) || (intent.getExtras() == null)) {
             // Scan database to find all pending operations.
             Cursor cursor = PduPersister.getPduPersister(this).getPendingMessages(
@@ -202,6 +203,15 @@ public class TransactionService extends Service implements Observer {
                     int columnIndexOfMsgType = cursor.getColumnIndexOrThrow(
                             PendingMessages.MSG_TYPE);
                     
+                    if (noNetwork) {
+                        // Make sure we register for connection state changes.
+                        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+                            Log.v(TAG, "onStart: registerForConnectionStateChanges");
+                        }
+                        MmsSystemEventReceiver.registerForConnectionStateChanges(
+                                getApplicationContext());
+                    }
+
                     while (cursor.moveToNext()) {
                         int msgType = cursor.getInt(columnIndexOfMsgType);
                         int transactionType = getTransactionType(msgType);
@@ -261,6 +271,12 @@ public class TransactionService extends Service implements Observer {
                 if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
                     Log.v(TAG, "stopSelfIfIdle: STOP!");
                 }
+                // Make sure we're no longer listening for connection state changes.
+                if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+                    Log.v(TAG, "stopSelfIfIdle: unRegisterForConnectionStateChanges");
+                }
+                MmsSystemEventReceiver.unRegisterForConnectionStateChanges(getApplicationContext());
+
                 stopSelf(startId);
             }
         }
@@ -403,6 +419,7 @@ public class TransactionService extends Service implements Observer {
             sendBroadcast(intent);
         } finally {
             transaction.detach(this);
+            MmsSystemEventReceiver.unRegisterForConnectionStateChanges(getApplicationContext());
             stopSelf(serviceId);
         }
     }
@@ -416,7 +433,6 @@ public class TransactionService extends Service implements Observer {
         }
     }
     
-
     private void acquireWakeLock() {
         // It's okay to double-acquire this because we are not using it
         // in reference-counted mode.
