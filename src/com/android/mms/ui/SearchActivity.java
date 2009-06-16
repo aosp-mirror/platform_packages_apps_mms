@@ -186,13 +186,24 @@ public class SearchActivity extends ListActivity
                 setListAdapter(new CursorAdapter(SearchActivity.this, c) {
                     @Override
                     public void bindView(View view, Context context, Cursor cursor) {
-                        TextView title = (TextView)(view.findViewById(R.id.title));
-                        TextViewSnippet snippet = (TextViewSnippet)(view.findViewById(R.id.subtitle));
+                        final TextView title = (TextView)(view.findViewById(R.id.title));
+                        final TextViewSnippet snippet = (TextViewSnippet)(view.findViewById(R.id.subtitle));
 
                         String address = cursor.getString(addressPos);
-                        Contact contact = Contact.get(address, true);
+                        Contact contact = Contact.get(address, false);
 
-                        title.setText(contact.getNameAndNumber());
+                        contact.addListener(new Contact.UpdateListener() {
+                            public void onUpdate(final Contact updated) {
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        title.setText(updated.getNameAndNumber());
+                                    }
+                                });
+                            }
+                        });
+
+                        String titleString = contact.getNameAndNumber();
+                        title.setText(titleString);
 
                         snippet.setText(cursor.getString(bodyPos), searchString);
 
