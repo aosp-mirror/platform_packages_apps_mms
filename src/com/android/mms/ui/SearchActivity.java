@@ -175,7 +175,7 @@ public class SearchActivity extends ListActivity
         final String searchString = getIntent().getStringExtra(SearchManager.QUERY);
         ContentResolver cr = getContentResolver();
 
-        // When the query completes cons up a new adapter and set our list adapter tot that.
+        // When the query completes cons up a new adapter and set our list adapter to that.
         mQueryHandler = new AsyncQueryHandler(cr) {
             protected void onQueryComplete(int token, Object cookie, Cursor c) {
                 final int threadIdPos = c.getColumnIndex("thread_id");
@@ -240,7 +240,7 @@ public class SearchActivity extends ListActivity
         Uri uri = Telephony.MmsSms.SEARCH_URI.buildUpon().appendQueryParameter("pattern", searchString).build();
 
         // kick off a query for the threads which match the search string
-        mQueryHandler.startQuery(0, null, uri, new String[]{ "body" }, null, null, null);
+        mQueryHandler.startQuery(0, null, uri, null, null, null, null);
 
     }
 }
