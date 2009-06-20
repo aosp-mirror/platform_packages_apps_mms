@@ -38,7 +38,11 @@ public class MmsConfig {
      */
     private static int mMmsEnabled = -1;        // an int so we can tell whether it's been inited
     private static int mMaxMessageSize = 0;
+    private static String mUserAgent = null;
+    private static String mUaProfTagName = null;
     private static String mUaProfUrl = null;
+    private static String mHttpParams = null;
+    private static String mHttpParamsLine1Key = null;
     private static int mMaxImageHeight = 0;
     private static int mMaxImageWidth = 0;
    
@@ -58,8 +62,24 @@ public class MmsConfig {
         return mMaxMessageSize;
     }
     
+    public static String getUserAgent() {
+        return mUserAgent;
+    }
+
+    public static String getUaProfTagName() {
+        return mUaProfTagName;
+    }
+
     public static String getUaProfUrl() {
         return mUaProfUrl;
+    }
+
+    public static String getHttpParams() {
+        return mHttpParams;
+    }
+
+    public static String getHttpParamsLine1Key() {
+        return mHttpParamsLine1Key;
     }
 
     public static int getMaxImageHeight() {
@@ -107,8 +127,16 @@ public class MmsConfig {
                         }
                     } else if ("string".equals(tag)) {
                         // string config tags go here
-                        if ("uaProfUrl".equalsIgnoreCase(value)) {
+                        if ("userAgent".equalsIgnoreCase(value)) {
+                            mUserAgent = text;
+                        } else if ("uaProfTagName".equalsIgnoreCase(value)) {
+                            mUaProfTagName = text;
+                        } else if ("uaProfUrl".equalsIgnoreCase(value)) {
                             mUaProfUrl = text;
+                        } else if ("httpParams".equalsIgnoreCase(value)) {
+                            mHttpParams = text;
+                        } else if ("httpParamsLine1Key".equalsIgnoreCase(value)) {
+                            mHttpParamsLine1Key = text;
                         }
                     }
                 }
@@ -131,6 +159,12 @@ public class MmsConfig {
         }
         if (mMaxImageWidth == 0) {
             errorStr = "maxImageWidth";
+        }
+        if (mUserAgent == null) {
+            errorStr = "userAgent";
+        }
+        if (mUaProfTagName == null) {
+            errorStr = "uaProfTagName";
         }
         if (mUaProfUrl == null) {
             errorStr = "uaProfUrl";

@@ -33,6 +33,8 @@ import com.android.mms.MmsConfig;
 import android.content.Context;
 import android.net.http.AndroidHttpClient;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
 
@@ -64,7 +66,6 @@ public class HttpUtils {
     // Definition for necessary HTTP headers.
     private static final String HDR_KEY_ACCEPT = "Accept";
     private static final String HDR_KEY_ACCEPT_LANGUAGE = "Accept-Language";
-    private static final String HDR_KEY_X_WAP_PROFILE = "x-wap-profile";
 
     private static final String HDR_VALUE_ACCEPT =
         "*/*, application/vnd.wap.mms-message, application/vnd.wap.sic";
@@ -150,10 +151,42 @@ public class HttpUtils {
             // Set necessary HTTP headers for MMS transmission.
             req.addHeader(HDR_KEY_ACCEPT, HDR_VALUE_ACCEPT);
             {
+                String xWapProfileTagName = MmsConfig.getUaProfTagName();
                 String xWapProfileUrl = MmsConfig.getUaProfUrl();
 
                 if (xWapProfileUrl != null) {
-                    req.addHeader(HDR_KEY_X_WAP_PROFILE, xWapProfileUrl);
+                    req.addHeader(xWapProfileTagName, xWapProfileUrl);
+                }
+            }
+
+            // Extra http parameters. Split by '|' to get a list of value pairs.
+            // Separate each pair by the first occurrence of ':' to obtain a name and
+            // value. Replace the occurrence of the string returned by
+            // MmsConfig.getHttpParamsLine1Key() with the users telephone number inside
+            // the value.
+            String extraHttpParams = MmsConfig.getHttpParams();
+
+            if (extraHttpParams != null) {
+                String line1Number = ((TelephonyManager)context
+                        .getSystemService(Context.TELEPHONY_SERVICE))
+                        .getLine1Number();
+                String line1Key = MmsConfig.getHttpParamsLine1Key();
+                String paramList[] = extraHttpParams.split("\\|");
+
+                for (String paramPair : paramList) {
+                    String splitPair[] = paramPair.split(":", 2);
+
+                    if (splitPair.length == 2) {
+                        String name = splitPair[0].trim();
+                        String value = splitPair[1].trim();
+
+                        if (line1Key != null) {
+                            value = value.replace(line1Key, line1Number);
+                        }
+                        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(value)) {
+                            req.addHeader(name, value);
+                        }
+                    }
                 }
             }
             req.addHeader(HDR_KEY_ACCEPT_LANGUAGE, HDR_VALUE_ACCEPT_LANGUAGE);
@@ -216,7 +249,7 @@ public class HttpUtils {
 
     private static AndroidHttpClient createHttpClient() {
         AndroidHttpClient client
-                = AndroidHttpClient.newInstance("Android-Mms/0.1");
+                = AndroidHttpClient.newInstance(MmsConfig.getUserAgent());
         HttpParams params = client.getParams();
         HttpProtocolParams.setContentCharset(params, "UTF-8");
         return client;
