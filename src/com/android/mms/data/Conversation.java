@@ -385,7 +385,7 @@ public class Conversation {
      */
     public static void startDelete(AsyncQueryHandler handler, int token, long threadId) {
         Uri uri = ContentUris.withAppendedId(Threads.CONTENT_URI, threadId);
-        handler.startDelete(token, null, uri, null, null);
+        handler.startDelete(token, null, uri, "locked=0", null);
     }
 
     /**
@@ -395,7 +395,7 @@ public class Conversation {
      * @param token   The token that will be passed to onDeleteComplete
      */
     public static void startDeleteAll(AsyncQueryHandler handler, int token) {
-        handler.startDelete(token, null, Threads.CONTENT_URI, null, null);
+        handler.startDelete(token, null, Threads.CONTENT_URI, "locked=0", null);
     }
 
     /**

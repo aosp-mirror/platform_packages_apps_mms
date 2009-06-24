@@ -480,7 +480,7 @@ public class ComposeMessageActivity extends Activity
             int token = mDeleteAll ? DELETE_CONVERSATION_TOKEN
                                    : DELETE_MESSAGE_TOKEN;
             mBackgroundQueryHandler.startDelete(token,
-                    null, mDeleteUri, null, null);
+                    null, mDeleteUri, "locked=0", null);
         }
     }
 
@@ -1037,9 +1037,14 @@ public class ComposeMessageActivity extends Activity
                     return true;
                 }
                 case MENU_DELETE_MESSAGE: {
-                    DeleteMessageListener l = new DeleteMessageListener(
-                            msgItem.mMessageUri, false);
-                    confirmDeleteDialog(l, false);
+                    if (!msgItem.mLocked) {
+                        DeleteMessageListener l = new DeleteMessageListener(
+                                msgItem.mMessageUri, false);
+                        confirmDeleteDialog(l, false);
+                    } else {
+                        Toast.makeText(ComposeMessageActivity.this,
+                             R.string.locked_message_cannot_be_deleted, Toast.LENGTH_SHORT).show();
+                    }
                     return true;
                 }
                 case MENU_DELIVERY_REPORT:
