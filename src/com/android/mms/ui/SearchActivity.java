@@ -151,7 +151,7 @@ public class SearchActivity extends ListActivity
                 if (index == -1) {
                     break;
                 }
-                spannable.setSpan(new ForegroundColorSpan(sHighlightColor), index, index+searchStringLength, 0);
+//              spannable.setSpan(new ForegroundColorSpan(sHighlightColor), index, index+searchStringLength, 0);
                 spannable.setSpan(new StyleSpan(sTypefaceHighlight), index, index+searchStringLength, 0);
                 start = index + searchStringLength;
             }
@@ -171,6 +171,7 @@ public class SearchActivity extends ListActivity
     public void onCreate(Bundle icicle)
     {
         super.onCreate(icicle);
+        setContentView(R.layout.search_activity);
 
         final String searchString = getIntent().getStringExtra(SearchManager.QUERY);
         ContentResolver cr = getContentResolver();

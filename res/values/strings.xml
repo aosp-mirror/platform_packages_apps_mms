@@ -604,5 +604,8 @@
 
     <!-- Search activity name -->
     <string name="search">Messaging Search</string>
+    
+    <!--  Search empty results -->
+    <string name="search_empty">No matches</string>
 </resources>
 
