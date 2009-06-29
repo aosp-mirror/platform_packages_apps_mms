@@ -249,6 +249,9 @@ public class WorkingMessage {
         // Look for an SMS draft first.
         mText = readDraftSmsMessage(mContext, threadId);
         if (!TextUtils.isEmpty(mText)) {
+            // We found a draft. That means we deleted the thread, too.
+            // Must reset the thread id so we'll eventually create a new thread.
+            conv.clearThreadId();
             return true;
         }
 

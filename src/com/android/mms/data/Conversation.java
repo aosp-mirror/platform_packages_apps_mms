@@ -230,6 +230,10 @@ public class Conversation {
 
         return mThreadId;
     }
+    
+    public synchronized void clearThreadId() {
+        mThreadId = 0;
+    }    
 
     /**
      * Sets the list of recipients associated with this conversation.
