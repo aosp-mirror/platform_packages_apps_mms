@@ -21,35 +21,47 @@
     <!-- Maximum message size in bytes for a MMS message -->
     <int name="maxMessageSize">1048576</int>
 
-    <!-- User-Agent parameter used in MMS http request -->
-    <string name="userAgent">Android-Mms/0.1</string>
+    <!-- Maximum height for an attached image -->
+    <int name="maxImageHeight">480</int>
 
-    <!-- UAProf parameter tag name -->
-    <string name="uaProfTagName">x-wap-profile</string>
+    <!-- Maximum width for an attached image -->
+    <int name="maxImageWidth">640</int>
+
+    <!-- Maximum number of SMS message to save per thread before auto-delete kicks in -->
+    <int name="maxSMSMessagesPerThread">200</int>
+
+    <!-- Maximum number of MMS message to save per thread before auto-delete kicks in -->
+    <int name="maxMMSMessagesPerThread">10</int>
 
     <!-- UAProf URL -->
     <string name="uaProfUrl">http://www.google.com/oha/rdf/ua-profile-kila.xml</string>
 
-    <!-- Additional http parameters used in MMS http request.
+    <!-- User-Agent parameter used in MMS http request -->
+    <!-- this is default to "Android-Mms/0.1". Override if necessary. Optional -->
+    <!--
+    <string name="userAgent">Android-Mms/0.1</string>
+    -->
+
+    <!-- UAProf parameter tag name -->
+    <!-- this is default to "x-wap-profile". Override if necessary. Optional -->
+    <!--
+    <string name="uaProfTagName">x-wap-profile</string>
+    -->
+
+    <!-- Reference for additional http parameters used in MMS http request.
          Parameters are seperated by '|'. Optional.
     -->
-    <string name="httpParams">x-up-calling-line-id: ##LINE1##|x-carrier-magic: http://magic.google.com</string>
-
-    <!-- Substitution key to be used when adding the users telephone number (Line1) to the
-         httpPrams at runtime. Optional.
+    <!--
+    <string name="httpParams">
+        x-up-calling-line-id: ##LINE1##|x-carrier-magic: http://magic.google.com
+    </string>
     -->
+
+    <!-- Reference for the substitution key to be used when adding the users telephone number
+         (Line1) to the httpPrams at runtime. Optional.
+    -->
+    <!--
     <string name="httpParamsLine1Key">##LINE1##</string>
-    
-    <!-- Maximum height for an attached image -->
-    <int name="maxImageHeight">480</int>
-    
-    <!-- Maximum width for an attached image -->
-    <int name="maxImageWidth">640</int>
-    
-    <!-- Maximum number of SMS message to save per thread before auto-delete kicks in -->
-    <int name="maxSMSMessagesPerThread">200</int>
-    
-    <!-- Maximum number of MMS message to save per thread before auto-delete kicks in -->
-    <int name="maxMMSMessagesPerThread">10</int>
-    
+    -->
+
 </mms_config>

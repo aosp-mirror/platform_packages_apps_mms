@@ -33,6 +33,10 @@ public class MmsConfig {
     private static final String TAG = "MmsConfig";
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+
+    private static final String DEFAULT_HTTP_KEY_X_WAP_PROFILE = "x-wap-profile";
+    private static final String DEFAULT_USER_AGENT = "Android-Mms/0.1";
+
     /**
      * Whether to hide MMS functionality from the user (i.e. SMS only).
      */
@@ -147,7 +151,9 @@ public class MmsConfig {
         } finally {
             parser.close();
         }
+
         String errorStr = null;
+
         if (mMmsEnabled == -1) {
             errorStr = "enableMMS";
         }
@@ -160,15 +166,16 @@ public class MmsConfig {
         if (mMaxImageWidth == 0) {
             errorStr = "maxImageWidth";
         }
-        if (mUserAgent == null) {
-            errorStr = "userAgent";
-        }
-        if (mUaProfTagName == null) {
-            errorStr = "uaProfTagName";
-        }
         if (mUaProfUrl == null) {
             errorStr = "uaProfUrl";
         }
+        if (mUaProfTagName == null) {
+            mUaProfTagName = DEFAULT_HTTP_KEY_X_WAP_PROFILE;
+        }
+        if (mUserAgent == null) {
+            mUserAgent = DEFAULT_USER_AGENT;
+        }
+
         if (errorStr != null) {
             String err =
                 String.format("MmsConfig.loadMmsSettings mms_config.xml missing %s setting", 
