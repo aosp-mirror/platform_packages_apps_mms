@@ -21,8 +21,24 @@
     <!-- Maximum message size in bytes for a MMS message -->
     <int name="maxMessageSize">1048576</int>
 
+    <!-- User-Agent parameter used in MMS http request -->
+    <string name="userAgent">Android-Mms/0.1</string>
+
+    <!-- UAProf parameter tag name -->
+    <string name="uaProfTagName">x-wap-profile</string>
+
     <!-- UAProf URL -->
     <string name="uaProfUrl">http://www.google.com/oha/rdf/ua-profile-kila.xml</string>
+
+    <!-- Additional http parameters used in MMS http request.
+         Parameters are seperated by '|'. Optional.
+    -->
+    <string name="httpParams">x-up-calling-line-id: ##LINE1##|x-carrier-magic: http://magic.google.com</string>
+
+    <!-- Substitution key to be used when adding the users telephone number (Line1) to the
+         httpPrams at runtime. Optional.
+    -->
+    <string name="httpParamsLine1Key">##LINE1##</string>
     
     <!-- Maximum height for an attached image -->
     <int name="maxImageHeight">480</int>
