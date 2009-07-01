@@ -8,6 +8,7 @@ import java.util.Map;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.mms.util.SqliteWrapper;
@@ -66,8 +67,12 @@ public class RecipientIdCache {
                     dump();
                     fill();
                     number = sInstance.mCache.get(id);
+                } 
+                if (TextUtils.isEmpty(number)) {
+                    Log.w(TAG, "Recipient ID " + id + " has empty number!");
+                } else {
+                    numbers.add(number);
                 }
-                numbers.add(number);
             }
             return numbers;
         }
