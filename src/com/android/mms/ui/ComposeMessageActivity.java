@@ -1994,7 +1994,7 @@ public class ComposeMessageActivity extends Activity
         switch(error) {
         case WorkingMessage.UNKNOWN_ERROR:
             message = res.getString(R.string.failed_to_add_media, mediaType);
-            Toast.makeText(this, message, Toast.LENGTH_SHORT);
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             return;
         case WorkingMessage.UNSUPPORTED_TYPE:
             title = res.getString(R.string.unsupported_media_format, mediaType);
