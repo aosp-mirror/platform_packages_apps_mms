@@ -222,6 +222,8 @@
     <string name="cannot_load_message">Cannot load message.</string>
     <!-- Brief message that appears when a message has automatically been saved as a draft -->
     <string name="message_saved_as_draft">Message saved as draft.</string>
+    <!-- Brief message that appears when an attempt is made to delete a locked message -->
+    <string name="locked_message_cannot_be_deleted">Locked message cannot be deleted.</string>
 
     <!-- Error message indicating that an audio attachment cannot be played -->
     <string name="cannot_play_audio">Cannot play audio.</string>
