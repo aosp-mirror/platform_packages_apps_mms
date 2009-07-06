@@ -166,7 +166,7 @@ public class MmsConfig {
         if (mMaxImageWidth == 0) {
             errorStr = "maxImageWidth";
         }
-        if (mUaProfUrl == null) {
+        if (getMmsEnabled() && mUaProfUrl == null) {
             errorStr = "uaProfUrl";
         }
         if (mUaProfTagName == null) {
