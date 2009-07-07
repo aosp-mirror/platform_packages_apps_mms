@@ -18,6 +18,7 @@ package com.android.mms.data;
 
 import java.util.List;
 
+import com.android.mms.MmsConfig;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.ResolutionException;
 import com.android.mms.UnsupportContentTypeException;
@@ -50,6 +51,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
+import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -701,7 +703,11 @@ public class WorkingMessage {
      * an email address.
      */
     public void setHasEmail(boolean hasEmail) {
-        updateState(RECIPIENTS_REQUIRE_MMS, hasEmail, true);
+        if (MmsConfig.getEmailGateway() != null) {
+            updateState(RECIPIENTS_REQUIRE_MMS, false, true);
+        } else {
+            updateState(RECIPIENTS_REQUIRE_MMS, hasEmail, true);
+        }
     }
 
     /**
@@ -789,8 +795,9 @@ public class WorkingMessage {
 
         // We need the recipient list for both SMS and MMS.
         final Conversation conv = mConversation;
+        String msgTxt = mText.toString();
 
-        if (requiresMms()) {
+        if (requiresMms() || addressContainsEmailToMms(conv, msgTxt)) {
             // Make local copies of the bits we need for sending a message,
             // because we will be doing it off of the main thread, which will
             // immediately continue on to resetting some of this state.
@@ -822,6 +829,24 @@ public class WorkingMessage {
 
         // Mark the message as discarded because it is "off the market" after being sent.
         mDiscarded = true;
+    }
+
+    private boolean addressContainsEmailToMms(Conversation conv, String text) {
+        if (MmsConfig.getEmailGateway() != null) {
+            String[] dests = conv.getRecipients().getNumbers();
+            int length = dests.length;
+            for (int i = 0; i < length; i++) {
+                if (Mms.isEmailAddress(dests[i])) {
+                    String mtext = dests[i] + " " + text;
+                    int[] params = SmsMessage.calculateLength(mtext, false);
+                    if (params[0] > 1) {
+                        updateState(RECIPIENTS_REQUIRE_MMS, true, true);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     // Message sending stuff

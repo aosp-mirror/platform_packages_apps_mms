@@ -47,6 +47,7 @@ public class MmsConfig {
     private static String mUaProfUrl = null;
     private static String mHttpParams = null;
     private static String mHttpParamsLine1Key = null;
+    private static String mEmailGateway = null;
     private static int mMaxImageHeight = 0;
     private static int mMaxImageWidth = 0;
    
@@ -84,6 +85,10 @@ public class MmsConfig {
 
     public static String getHttpParamsLine1Key() {
         return mHttpParamsLine1Key;
+    }
+
+    public static String getEmailGateway() {
+        return mEmailGateway;
     }
 
     public static int getMaxImageHeight() {
@@ -141,6 +146,8 @@ public class MmsConfig {
                             mHttpParams = text;
                         } else if ("httpParamsLine1Key".equalsIgnoreCase(value)) {
                             mHttpParamsLine1Key = text;
+                        } else if ("emailGatewayNumber".equalsIgnoreCase(value)) {
+                            mEmailGateway = text;
                         }
                     }
                 }

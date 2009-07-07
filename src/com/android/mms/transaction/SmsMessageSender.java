@@ -17,6 +17,7 @@
 
 package com.android.mms.transaction;
 
+import com.android.mms.MmsConfig;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.util.SqliteWrapper;
@@ -29,6 +30,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.SmsManager;
 
@@ -75,7 +77,15 @@ public class SmsMessageSender implements MessageSender {
         SmsManager smsManager = SmsManager.getDefault();
 
         for (int i = 0; i < mNumberOfDests; i++) {
-            ArrayList<String> messages = smsManager.divideMessage(mMessageText);
+            ArrayList<String> messages = null;
+            if ((MmsConfig.getEmailGateway() != null) && Mms.isEmailAddress(mDests[i])) {
+                String msgText;
+                msgText = mDests[i] + " " + mMessageText;
+                mDests[i] = MmsConfig.getEmailGateway();
+                messages = smsManager.divideMessage(msgText);
+            } else {
+               messages = smsManager.divideMessage(mMessageText);
+            }
             int messageCount = messages.size();
             ArrayList<PendingIntent> deliveryIntents =
                     new ArrayList<PendingIntent>(messageCount);
