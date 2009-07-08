@@ -188,6 +188,8 @@
     <string name="select_different_media">Please select a different <xliff:g id="name">%1$s</xliff:g>.</string>
     <!-- Message indicating that the message size limit has been reached -->
     <string name="exceed_message_size_limitation">Message size limit reached.</string>
+    <!-- Message indicating that the message is too big and there is no space to attach a video -->
+    <string name="message_too_big_for_video">The message is too big to attach a video.</string>
     <!-- Error message indicating that the item trying to be attached could not be added -->
     <string name="failed_to_add_media">Sorry, you cannot add this <xliff:g id="name">%1$s</xliff:g> to your message.</string>
     <!-- Error message indicating that the picture being attached and resized could not be resized -->
