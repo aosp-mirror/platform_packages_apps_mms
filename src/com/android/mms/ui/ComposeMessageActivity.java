@@ -40,6 +40,9 @@ import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
 
+import com.android.internal.telephony.TelephonyProperties;
+import com.android.internal.telephony.TelephonyIntents;
+
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -51,6 +54,7 @@ import com.google.android.mms.util.SqliteWrapper;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -73,6 +77,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemProperties;
 import android.provider.Contacts;
 import android.provider.Contacts.People;
 import android.provider.Contacts.Presence;
@@ -124,6 +129,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.lang.Boolean;
 
 import android.webkit.MimeTypeMap;
 
@@ -150,6 +156,7 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_ATTACH_SOUND     = 14;
     public static final int REQUEST_CODE_RECORD_SOUND     = 15;
     public static final int REQUEST_CODE_CREATE_SLIDESHOW = 16;
+    public static final int REQUEST_CODE_ECM_EXIT_DIALOG  = 17;
 
     private static final String TAG = "ComposeMessageActivity";
     private static final boolean DEBUG = false;
@@ -229,7 +236,7 @@ public class ComposeMessageActivity extends Activity
     private static final Uri METHOD_WITH_PRESENCE_URI =
             Uri.withAppendedPath(Contacts.ContactMethods.CONTENT_URI, "with_presence");
 
-
+    private static final String EXIT_ECM_RESULT = "exit_ecm_result";
 
     private ContentResolver mContentResolver;
 
@@ -503,7 +510,7 @@ public class ComposeMessageActivity extends Activity
 
     private class SendIgnoreInvalidRecipientListener implements OnClickListener {
         public void onClick(DialogInterface dialog, int whichButton) {
-            sendMessage();
+            sendMessage(true);
         }
     }
 
@@ -517,7 +524,7 @@ public class ComposeMessageActivity extends Activity
 
     private void confirmSendMessageIfNeeded() {
         if (!isRecipientsEditorVisible()) {
-            sendMessage();
+            sendMessage(true);
             return;
         }
 
@@ -542,7 +549,7 @@ public class ComposeMessageActivity extends Activity
                     .show();
             }
         } else {
-            sendMessage();
+            sendMessage(true);
         }
     }
 
@@ -1992,6 +1999,13 @@ public class ComposeMessageActivity extends Activity
                 addAudio(data.getData());
                 break;
 
+            case REQUEST_CODE_ECM_EXIT_DIALOG:
+                boolean outOfEmergencyMode = data.getBooleanExtra(EXIT_ECM_RESULT, false);
+                if (outOfEmergencyMode) {
+                    sendMessage(false);
+                }
+                break;
+
             default:
                 // TODO
                 break;
@@ -2167,7 +2181,7 @@ public class ComposeMessageActivity extends Activity
         if (event != null) {
             if (!event.isShiftPressed()) {
                 if (isPreparedForSending()) {
-                    sendMessage();
+                    sendMessage(true);
                 }
                 return true;
             }
@@ -2364,7 +2378,22 @@ public class ComposeMessageActivity extends Activity
         return recipientCount;
     }
 
-    private void sendMessage() {
+    private void sendMessage(boolean bCheckEcmMode) {
+        if (bCheckEcmMode) {
+            String inEcm = SystemProperties.get(TelephonyProperties.PROPERTY_INECM_MODE);
+            if (Boolean.parseBoolean(inEcm)) {
+                try {
+                    startActivityForResult(
+                            new Intent(TelephonyIntents.ACTION_SHOW_NOTICE_ECM_BLOCK_OTHERS, null),
+                            REQUEST_CODE_ECM_EXIT_DIALOG);
+                    return;
+                } catch (ActivityNotFoundException e) {
+                    // continue to send message
+                    Log.e(TAG, "Cannot find EmergencyCallbackModeExitDialog", e);
+                }
+            }
+        }
+
         // send can change the recipients. Make sure we remove the listeners first and then add
         // them back once the recipient list has settled.
         removeRecipientsListeners();
