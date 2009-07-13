@@ -15,11 +15,11 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label">"Wiadomości"</string>
+    <string name="app_label">"SMS/MMS"</string>
     <string name="new_message">"Nowa wiadomość"</string>
     <string name="create_new_message">"Utwórz nową wiadomość"</string>
     <string name="menu_call_back">"Zadzwoń do: <xliff:g id="NAME">%s</xliff:g>"</string>
-    <string name="menu_send_email">"Wyślij wiadomość e-mail do: <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email">"Wyślij e-mail: <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"Utwórz"</string>
     <string name="menu_preferences">"Ustawienia"</string>
     <string name="menu_add_address_to_contacts">"Dodaj <xliff:g id="NAME">%s</xliff:g> do Kontaktów"</string>
@@ -50,6 +50,7 @@
     <string name="menu_forward">"Prześlij dalej"</string>
     <string name="download">"Pobierz"</string>
     <string name="downloading">"Pobieranie"</string>
+    <string name="name_colon"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject">"&lt;Temat: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text">"* tekst chroniony przez DRM *"</string>
     <string name="insufficient_drm_rights">"Wykryto niewystarczające uprawnienia DRM."</string>
@@ -89,6 +90,8 @@
     <string name="unsupported_media_format">"Nieobsługiwany format elementu <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="select_different_media">"Wybierz inny element <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="exceed_message_size_limitation">"Osiągnięto maksymalny rozmiar wiadomości."</string>
+    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
+    <skip />
     <string name="failed_to_add_media">"Niestety, nie można dodać: <xliff:g id="NAME">%1$s</xliff:g> do wiadomości."</string>
     <string name="failed_to_resize_image">"Nie zmieniono rozmiaru zdjęcia."</string>
     <string name="resize_image_error_information">"Niestety, nawet po zmianie rozmiaru zdjęcie jest zbyt duże, aby je wysłać."</string>
@@ -146,20 +149,20 @@
     <string name="pref_sms_settings_title">"Ustawienia wiadomości SMS"</string>
     <string name="pref_summary_manage_sim_messages">"Zarządzanie wiadomościami zapisanymi na karcie SIM"</string>
     <string name="pref_summary_mms_delivery_reports">"Żądaj potwierdzenia dostarczenia każdej wysłanej wiadomości"</string>
-    <string name="pref_summary_mms_read_reports">"Żądanie raportu przeczytania każdej wysłanej wiadomości."</string>
+    <string name="pref_summary_mms_read_reports">"Żądanie raportu przeczytania każdej wysłanej wiadomości"</string>
     <string name="pref_summary_sms_delivery_reports">"Żądaj potwierdzenia dostarczenia każdej wysłanej wiadomości"</string>
-    <string name="pref_title_manage_sim_messages">"Zarządzanie wiadomościami na karcie SIM"</string>
+    <string name="pref_title_manage_sim_messages">"Wiadomości na karcie SIM"</string>
     <string name="pref_title_mms_delivery_reports">"Raporty dostarczenia"</string>
     <string name="pref_title_mms_read_reports">"Raporty odczytu"</string>
     <string name="pref_title_sms_delivery_reports">"Raporty dostarczenia"</string>
     <string name="pref_title_notification_enabled">"Powiadomienia"</string>
     <string name="pref_summary_notification_enabled">"Wyświetlaj powiadomienie o wiadomości na pasku stanu"</string>
     <string name="pref_title_notification_vibrate">"Wibracje"</string>
-    <string name="pref_summary_notification_vibrate">"Wibracje również przy powiadomieniu"</string>
+    <string name="pref_summary_notification_vibrate">"Przy powiadomieniu również wibruj"</string>
     <string name="pref_title_notification_ringtone">"Wybierz dzwonek"</string>
     <string name="pref_title_mms_auto_retrieval">"Autoodbieranie"</string>
     <string name="pref_summary_mms_auto_retrieval">"Odbierz wiadomości automatycznie"</string>
-    <string name="pref_title_mms_retrieval_during_roaming">"Autoodbieranie roaming"</string>
+    <string name="pref_title_mms_retrieval_during_roaming">"Autoodbieranie w roamingu"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"Odbierz wiadomości automatycznie w roamingu"</string>
     <string name="to_label">"Do "</string>
     <string name="confirm_dialog_title">"Usuń"</string>
@@ -236,12 +239,30 @@
     <string name="confirm_rate_limit">"Wysyłanych jest wiele wiadomości multimedialnych. Czy to jest OK?"</string>
     <string name="message_download_failed_title">"Wiadomość nie została pobrana"</string>
     <string name="message_send_failed_title">"Wiadomość nie została wysłana"</string>
-    <string name="message_failed_body">"Ponownie wyświetl wiadomość i spróbuj jeszcze raz."</string>
+    <string name="message_failed_body">"Wyświetl wiadomość i spróbuj ponownie."</string>
     <string name="download_later">"Nie można pobrać w tej chwili. Spróbuj ponownie później."</string>
     <string name="select_audio">"Wybierz plik audio"</string>
     <string name="copy_to_sdcard">"Kopiuj załącznik na kartę SD"</string>
     <string name="copy_to_sdcard_success">"Załącznik został skopiowany na kartę SD"</string>
     <string name="copy_to_sdcard_fail">"Kopiowanie załącznika na kartę SD nie powiodło się"</string>
-    <string name="menu_insert_smiley">"Wstaw buźkę"</string>
+    <string name="menu_insert_smiley">"Wstaw emotikon"</string>
     <string name="select_link_title">"Wybierz akcję"</string>
+    <string name="slide_number">"Slajd nr <xliff:g id="NUMBER">%s</xliff:g>"</string>
+  <plurals name="slide_duration">
+    <item quantity="one">"<xliff:g id="NUMBER">%s</xliff:g> s"</item>
+    <item quantity="few">"<xliff:g id="NUMBER">%s</xliff:g> s"</item>
+    <item quantity="other">"<xliff:g id="NUMBER">%s</xliff:g> s"</item>
+  </plurals>
+    <string name="delivery_report_activity">"Raport o dostawie"</string>
+    <string name="add_attachment_activity">"Dodaj załącznik:"</string>
+    <string name="select_layout_activity">"Wybierz układ"</string>
+    <string name="change_duration_activity">"Zmień czas trwania"</string>
+    <string name="edit_text_activity">"Edytuj tekst"</string>
+    <string name="edit_slideshow_activity">"Edytuj pokaz slajdów"</string>
+    <string name="edit_slide_activity">"Edytuj slajd"</string>
+    <string name="pick_numbers_activity">"Wybierz numery"</string>
+    <string name="slideshow_activity">"Pokaz slajdów"</string>
+    <string name="class_0_message_activity">"Wiadomość klasy 0"</string>
+    <string name="send_using_mms_activity">"Wyślij w wiadomości MMS…"</string>
+    <string name="select_contact_method_activity">"Wybierz metodę kontaktu"</string>
 </resources>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label">"Meddelanden"</string>
+    <string name="new_message">"Nytt meddelande"</string>
+    <string name="create_new_message">"Skriv nytt meddelande"</string>
+    <string name="menu_call_back">"Ring <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email">"Skicka e-post till <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_compose_new">"Skriv"</string>
+    <string name="menu_preferences">"Inställningar"</string>
+    <string name="menu_add_address_to_contacts">"Lägg till <xliff:g id="NAME">%s</xliff:g> i Kontakter"</string>
+    <string name="menu_call">"Ring"</string>
+    <string name="menu_delete_all">"Ta bort trådar"</string>
+    <string name="menu_delete">"Ta bort tråd"</string>
+    <string name="menu_undelivered_messages">"Meddelanden som inte levererats"</string>
+    <string name="menu_view">"Visa tråd"</string>
+    <string name="refreshing">"Uppdaterar…"</string>
+    <string name="has_draft">"Utkast"</string>
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <skip />
+    <string name="anonymous_recipient">"Anonym"</string>
+    <string name="no_subject_view">"(Inget ämne)"</string>
+    <string name="messagelist_sender_self">"Jag"</string>
+    <string name="view_picture">"Visa bild"</string>
+    <string name="view_slideshow">"Visa bildspel"</string>
+    <string name="view_message_details">"Visa meddelandeinfo"</string>
+    <string name="view_delivery_report">"Visa rapport"</string>
+    <string name="delete_message">"Ta bort meddelande"</string>
+    <string name="sent_on">"Skickat: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="expire_on">"Upphör att gälla: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="kilobyte">"kB"</string>
+    <string name="undelivered_msg_dialog_title">"Meddelande som inte levererats"</string>
+    <string name="undelivered_msg_dialog_body">"Det gick inte att skicka meddelandet."\n"Försökte: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_sms_dialog_body">"Det gick inte att skicka meddelandet."</string>
+    <string name="delete_thread">"Ta bort tråd"</string>
+    <string name="menu_forward">"Vidarebefordra"</string>
+    <string name="download">"Hämta"</string>
+    <string name="downloading">"Hämtar"</string>
+    <!-- no translation found for name_colon (7069560650889479120) -->
+    <skip />
+    <string name="inline_subject">"&lt;Ämne: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="drm_protected_text">"* DRM-skyddad text *"</string>
+    <string name="insufficient_drm_rights">"Otillräckliga DRM-rättigheter upptäcktes."</string>
+    <string name="copy_message_text">"Kopiera text i meddelandet"</string>
+    <string name="message_options">"Meddelandealternativ"</string>
+    <string name="done">"Färdig"</string>
+    <string name="move_up">"Flytta upp"</string>
+    <string name="move_down">"Flytta ned"</string>
+    <string name="remove_slide">"Ta bort bild"</string>
+    <string name="add_slide">"Lägg till bild"</string>
+    <string name="add_slide_hint">"Välj om du vill skapa en ny bild."</string>
+    <string name="discard_slideshow">"Ignorera bildspel"</string>
+    <string name="slide_show_part">"Del <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
+    <string name="remove_text">"Ta bort text"</string>
+    <string name="add_picture">"Lägg till bild"</string>
+    <string name="remove_picture">"Ta bort bild"</string>
+    <string name="add_music">"Lägg till musik"</string>
+    <string name="remove_music">"Ta bort musik"</string>
+    <string name="add_video">"Lägg till video"</string>
+    <string name="remove_video">"Ta bort video"</string>
+    <string name="compose_title">"Skriv"</string>
+    <string name="to_hint">"Till"</string>
+    <string name="subject_hint">"Ämne"</string>
+    <string name="add_attachment">"Bifoga"</string>
+    <string name="add_subject">"Lägg till ämne"</string>
+    <string name="discard">"Släng"</string>
+    <string name="view">"Visa"</string>
+    <string name="replace">"Ersätt"</string>
+    <string name="remove">"Ta bort"</string>
+    <string name="send">"Skicka"</string>
+    <string name="all_threads">"Alla trådar"</string>
+    <string name="type_to_compose_text_enter_to_send">"Börja skriva"</string>
+    <string name="open_keyboard_to_compose_message">"Öppna tangentbordet om du vill skriva meddelanden"</string>
+    <string name="image_too_large">"Bilden är för stor"</string>
+    <string name="ask_for_automatically_resize">"Ändra automatiskt storlek på bilden innan du skickar?"</string>
+    <string name="compressing">"Komprimerar…"</string>
+    <string name="unsupported_media_format">"Formatet för <xliff:g id="NAME">%1$s</xliff:g> stöds inte"</string>
+    <string name="select_different_media">"Välj annan <xliff:g id="NAME">%1$s</xliff:g>."</string>
+    <string name="exceed_message_size_limitation">"Meddelandet överskrider storleksgränsen."</string>
+    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
+    <skip />
+    <string name="failed_to_add_media">"Du kan tyvärr inte lägga till <xliff:g id="NAME">%1$s</xliff:g> i ditt meddelande."</string>
+    <string name="failed_to_resize_image">"Du har inte ändrat storlek på bilden."</string>
+    <string name="resize_image_error_information">"Den här bilden är för stor för att skickas, trots att du har gjort den mindre."</string>
+    <string name="forward_prefix">"Vidarebefordra: "</string>
+    <string name="discard_message">"Släng"</string>
+    <string name="discard_message_reason">"Ditt meddelande slängs eftersom det inte finns några giltiga mottagare."</string>
+    <string name="has_invalid_recipient">"Ogiltiga mottagare: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
+    <string name="invalid_recipient_message">"Ange giltiga mottagare, annars kommer inte meddelandena fram."</string>
+    <string name="cannot_send_message">"Det går inte att skicka meddelandet"</string>
+    <string name="cannot_send_message_reason">"Du har inte angett några giltiga mottagare för meddelandet."</string>
+    <string name="cannot_forward_drm_obj">"Det går inte att vidarebefordra DRM-objektet som ingår i meddelandet."</string>
+    <string name="converting_to_picture_message">"Konverterar till MMS…"</string>
+    <string name="converting_to_text_message">"Konverterar till SMS…"</string>
+    <string name="cannot_add_slide_anymore">"Det går inte att lägga till fler bilder."</string>
+    <string name="cannot_save_message">"Det går inte att spara meddelandet."</string>
+    <string name="cannot_load_message">"Det går inte att visa meddelandet."</string>
+    <string name="message_saved_as_draft">"Meddelande sparat som utkast."</string>
+    <string name="cannot_play_audio">"Det går inte att spela upp ljudet."</string>
+    <string name="preview">"Förhandsgranskning"</string>
+    <string name="preview_slideshow">"Förhandsgranskning"</string>
+    <string name="replace_image">"Ersätt bild"</string>
+    <string name="duration_sec">"Varaktighet (<xliff:g id="DURATION">%s</xliff:g> sekunder)"</string>
+    <string name="duration_selector_title">"Varaktighet för bild "</string>
+    <string name="layout_selector_title">"Layout för bildspel "</string>
+    <string name="layout_top">"Layout (överst)"</string>
+    <string name="layout_bottom">"Layout (nederkant)"</string>
+    <string name="type_to_compose_text_or_leave_blank">"Börja skriva eller lämna tomt"</string>
+    <string name="secs">"sekunder"</string>
+  <string-array name="select_dialog_items">
+    <item>"1 sekund"</item>
+    <item>"2 sekunder"</item>
+    <item>"3 sekunder"</item>
+    <item>"4 sekunder"</item>
+    <item>"5 sekunder"</item>
+    <item>"6 sekunder"</item>
+    <item>"7 sekunder"</item>
+    <item>"8 sekunder"</item>
+    <item>"8 sekunder"</item>
+    <item>"10 sekunder"</item>
+    <item>"Annan…"</item>
+  </string-array>
+    <string name="menu_view_contact">"Visa kontakt"</string>
+    <string name="menu_add_to_contacts">"Lägg till i Kontakter"</string>
+    <string name="hidden_sender_address">"Avsändaradress dold"</string>
+    <string name="yes">"OK"</string>
+    <string name="no">"Avbryt"</string>
+    <string name="play">"Spela"</string>
+    <string name="edit">"Redigera"</string>
+    <string name="resize">"Ändra storlek"</string>
+    <string name="try_to_send">"Försök skicka"</string>
+    <string name="preferences_title">"Inställningar"</string>
+    <string name="restore_default">"Återställ standardinställn."</string>
+    <string name="pref_notification_settings_title">"Aviseringsinställningar"</string>
+    <string name="pref_mms_settings_title">"MMS-inställningar"</string>
+    <string name="pref_sms_settings_title">"SMS-inställningar"</string>
+    <string name="pref_summary_manage_sim_messages">"Hantera meddelanden som sparats på SIM-kortet"</string>
+    <string name="pref_summary_mms_delivery_reports">"Begär en leveransrapport för varje meddelande du skickar"</string>
+    <string name="pref_summary_mms_read_reports">"Begär en läsrapport för varje meddelande du skickar"</string>
+    <string name="pref_summary_sms_delivery_reports">"Begär en leveransrapport för varje meddelande du skickar"</string>
+    <string name="pref_title_manage_sim_messages">"Hantera medd. på SIM-kortet"</string>
+    <string name="pref_title_mms_delivery_reports">"Leveransrapporter"</string>
+    <string name="pref_title_mms_read_reports">"Läsrapporter"</string>
+    <string name="pref_title_sms_delivery_reports">"Leveransrapporter"</string>
+    <string name="pref_title_notification_enabled">"Aviseringar"</string>
+    <string name="pref_summary_notification_enabled">"Visa meddelandeaviseringar i statusfältet"</string>
+    <string name="pref_title_notification_vibrate">"Vibrera"</string>
+    <string name="pref_summary_notification_vibrate">"Vibrera även vid aviseringar"</string>
+    <string name="pref_title_notification_ringtone">"Välj ringsignal"</string>
+    <string name="pref_title_mms_auto_retrieval">"Automatisk hämtning"</string>
+    <string name="pref_summary_mms_auto_retrieval">"Hämta meddelanden automatiskt"</string>
+    <string name="pref_title_mms_retrieval_during_roaming">"Auto. hämtning vid roam."</string>
+    <string name="pref_summary_mms_retrieval_during_roaming">"Hämta meddelanden automatiskt vid roaming"</string>
+    <string name="to_label">"Till "</string>
+    <string name="confirm_dialog_title">"Ta bort"</string>
+    <string name="confirm_delete_conversation">"Hela tråden tas bort."</string>
+    <string name="confirm_delete_all_conversations">"Alla trådar tas bort."</string>
+    <string name="confirm_delete_message">"Meddelandet tas bort."</string>
+    <string name="confirm_delete_all_messages">"Hela tråden tas bort."</string>
+    <string name="confirm_delete_all_SIM_messages">"Alla meddelanden på SIM-kortet tas bort."</string>
+    <string name="confirm_delete_SIM_message">"Meddelandet tas bort från SIM-kortet."</string>
+    <string name="cannot_get_details">"Det går inte att hämta info"</string>
+    <string name="message_details_title">"Meddelandeinfo"</string>
+    <string name="message_type_label">"Typ: "</string>
+    <string name="text_message">"SMS"</string>
+    <string name="multimedia_message">"MMS"</string>
+    <string name="multimedia_notification">"MMS-avisering"</string>
+    <string name="from_label">"Från: "</string>
+    <string name="to_address_label">"Till: "</string>
+    <string name="bcc_label">"Hemlig kopia: "</string>
+    <string name="sent_label">"Skickat: "</string>
+    <string name="received_label">"Mottaget: "</string>
+    <string name="saved_label">"Sparat: "</string>
+    <string name="subject_label">"Ämne: "</string>
+    <string name="message_size_label">"Meddelandestorlek: "</string>
+    <string name="priority_label">"Prioritet: "</string>
+    <string name="priority_high">"Hög"</string>
+    <string name="priority_normal">"Normal"</string>
+    <string name="priority_low">"Låg"</string>
+    <string name="message_class_label">"Meddelandeklass: "</string>
+    <string name="menu_edit">"Redigera"</string>
+    <string name="menu_retry_sending">"Försök skicka igen"</string>
+    <string name="menu_retry_sending_all">"Försök skicka alla igen"</string>
+    <string name="menu_delete_messages">"Ta bort meddelanden"</string>
+    <string name="retrying_dialog_body">"Meddelandet <xliff:g id="MESSAGE">%s</xliff:g> skickades inte på grund av ett anslutningsproblem. "\n"Försöker skicka igen…"</string>
+    <string name="sim_copy_to_phone_memory">"Kopiera till telefonens minne"</string>
+    <string name="sim_delete">"Ta bort"</string>
+    <string name="sim_manage_messages_title">"SMS på SIM-kortet"</string>
+    <string name="sim_view">"Visa"</string>
+    <string name="sim_empty">"Inga meddelanden på SIM-kortet."</string>
+    <string name="delivery_header_title">"Rapport"</string>
+    <string name="status_none">"(Ingen)"</string>
+    <string name="status_pending">"Väntar"</string>
+    <string name="status_read">"Lästa"</string>
+    <string name="status_received">"Mottagna"</string>
+    <string name="status_failed">"Misslyckades"</string>
+    <string name="status_unread">"Olästa"</string>
+    <string name="status_rejected">"Avvisad"</string>
+    <string name="recipient_label">"Mottagare: "</string>
+    <string name="status_label">"Status: "</string>
+    <string name="attach_image">"Bilder"</string>
+    <string name="attach_take_photo">"Fota"</string>
+    <string name="attach_video">"Videor"</string>
+    <string name="attach_record_video">"Filma video"</string>
+    <string name="attach_sound">"Ljud"</string>
+    <string name="attach_record_sound">"Spela in ljud"</string>
+    <string name="attach_slideshow">"Bildspel"</string>
+    <string name="select_bottom_text">"Text i nederkant"</string>
+    <string name="select_top_text">"Text i överkant"</string>
+    <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> olästa meddelanden."</string>
+    <string name="notification_multiple_title">"Nya meddelanden"</string>
+    <string name="notification_failed_multiple">"Det gick inte att skicka <xliff:g id="COUNT">%s</xliff:g> meddelanden."</string>
+    <string name="notification_failed_multiple_title">"Meddelandena har inte skickats"</string>
+    <string name="sim_full_title">"SIM-kortet är fullt"</string>
+    <string name="sim_full_body">"Ta bort några meddelanden om du vill ha plats för nya."</string>
+    <string name="type_audio">"ljud"</string>
+    <string name="type_picture">"bild"</string>
+    <string name="type_video">"video"</string>
+    <string name="confirm">"Bekräfta"</string>
+    <string name="message_send_read_report">"En läsrapport skickas."</string>
+    <string name="message_queued">"Det går inte att skicka meddelandet just nu. Det skickas så snart tjänsten blir tillgänglig."</string>
+    <string name="no_subject">"(Inget ämne)"</string>
+    <string name="unknown_sender">"Okänd avsändare"</string>
+    <string name="dl_failure_notification">"Det gick inte att hämta meddelandet <xliff:g id="SUBJECT">%s</xliff:g> från <xliff:g id="FROM">%s</xliff:g>."</string>
+    <string name="rate_limit_surpassed">"Bekräfta"</string>
+    <string name="confirm_rate_limit">"Du håller på att skicka ett stort antal MMS. Vill du fortsätta?"</string>
+    <string name="message_download_failed_title">"Meddelandet har inte hämtats"</string>
+    <string name="message_send_failed_title">"Meddelandet har inte skickats"</string>
+    <string name="message_failed_body">"Välj om du vill granska meddelandet och försöka igen."</string>
+    <string name="download_later">"Det går inte att hämta just nu. Försök igen senare."</string>
+    <string name="select_audio">"Välja ljud"</string>
+    <string name="copy_to_sdcard">"Kopia bifogad till SD-kort"</string>
+    <string name="copy_to_sdcard_success">"Bilaga kopierad till SD-kort"</string>
+    <string name="copy_to_sdcard_fail">"Det gick inte att kopiera bilagorna till SD-kortet"</string>
+    <string name="menu_insert_smiley">"Infoga känsloikon"</string>
+    <string name="select_link_title">"Välj åtgärd"</string>
+    <string name="slide_number">"Bild <xliff:g id="NUMBER">%s</xliff:g>"</string>
+  <plurals name="slide_duration">
+    <item quantity="one">"<xliff:g id="NUMBER">%s</xliff:g> sekunder"</item>
+    <item quantity="few">"<xliff:g id="NUMBER">%s</xliff:g> sekunder"</item>
+    <item quantity="other">"<xliff:g id="NUMBER">%s</xliff:g> sekunder"</item>
+  </plurals>
+    <string name="delivery_report_activity">"Leveransrapport"</string>
+    <string name="add_attachment_activity">"Lägg till bilaga:"</string>
+    <string name="select_layout_activity">"Välj layout"</string>
+    <string name="change_duration_activity">"Ändra varaktighet"</string>
+    <string name="edit_text_activity">"Redigera"</string>
+    <string name="edit_slideshow_activity">"Redigera bildspel"</string>
+    <string name="edit_slide_activity">"Redigera bild"</string>
+    <string name="pick_numbers_activity">"Välj nummer"</string>
+    <string name="slideshow_activity">"Bildspel"</string>
+    <string name="class_0_message_activity">"Meddelande, klass 0"</string>
+    <string name="send_using_mms_activity">"Skicka med MMS…"</string>
+    <string name="select_contact_method_activity">"Välj kontaktmetod"</string>
+</resources>

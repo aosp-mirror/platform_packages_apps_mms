@@ -50,6 +50,7 @@
     <string name="menu_forward">"Předat dál"</string>
     <string name="download">"Stáhnout"</string>
     <string name="downloading">"Stahování"</string>
+    <string name="name_colon"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject">"&lt;Předmět: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text">"* Text je chráněn DRM *"</string>
     <string name="insufficient_drm_rights">"Nemáte dostatečná práva DRM."</string>
@@ -89,6 +90,8 @@
     <string name="unsupported_media_format">"<xliff:g id="NAME">%1$s</xliff:g> je v nepodporovaném formátu."</string>
     <string name="select_different_media">"Zvolte jinou položku <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="exceed_message_size_limitation">"Byl dosažen limit velikosti zprávy."</string>
+    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
+    <skip />
     <string name="failed_to_add_media">"Tuto položku (<xliff:g id="NAME">%1$s</xliff:g>) nelze do zprávy přidat."</string>
     <string name="failed_to_resize_image">"Velikost fotografie se nepodařilo přizpůsobit."</string>
     <string name="resize_image_error_information">"Velikost fotografie byla přizpůsobena. Přesto je příliš velká a nelze ji odeslat."</string>
@@ -244,4 +247,22 @@
     <string name="copy_to_sdcard_fail">"Přílohu se na kartu SD nepodařilo zkopírovat"</string>
     <string name="menu_insert_smiley">"Vložit smajlík"</string>
     <string name="select_link_title">"Výběr akce"</string>
+    <string name="slide_number">"Snímek <xliff:g id="NUMBER">%s</xliff:g>"</string>
+  <plurals name="slide_duration">
+    <item quantity="one">"<xliff:g id="NUMBER">%s</xliff:g> s"</item>
+    <item quantity="few">"<xliff:g id="NUMBER">%s</xliff:g> s"</item>
+    <item quantity="other">"<xliff:g id="NUMBER">%s</xliff:g> s"</item>
+  </plurals>
+    <string name="delivery_report_activity">"Potvrzení o doručení"</string>
+    <string name="add_attachment_activity">"Přidat přílohu:"</string>
+    <string name="select_layout_activity">"Vybrat rozložení"</string>
+    <string name="change_duration_activity">"Změnit trvání"</string>
+    <string name="edit_text_activity">"Upravit text"</string>
+    <string name="edit_slideshow_activity">"Upravit prezentaci"</string>
+    <string name="edit_slide_activity">"Upravit snímek"</string>
+    <string name="pick_numbers_activity">"Vybrat čísla"</string>
+    <string name="slideshow_activity">"Prezentace"</string>
+    <string name="class_0_message_activity">"Zpráva třídy 0"</string>
+    <string name="send_using_mms_activity">"Odeslat pomocí MMS…"</string>
+    <string name="select_contact_method_activity">"Metoda výběru kontaktu"</string>
 </resources>

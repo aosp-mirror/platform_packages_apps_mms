@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label">"Mesajlaşma"</string>
+    <string name="new_message">"Yeni ileti"</string>
+    <string name="create_new_message">"Yeni ileti oluştur"</string>
+    <string name="menu_call_back">"<xliff:g id="NAME">%s</xliff:g> kişisini ara"</string>
+    <string name="menu_send_email">"<xliff:g id="NAME">%s</xliff:g> kişisine e-posta gönder"</string>
+    <string name="menu_compose_new">"Oluştur"</string>
+    <string name="menu_preferences">"Ayarlar"</string>
+    <string name="menu_add_address_to_contacts">"<xliff:g id="NAME">%s</xliff:g> Kişilere eklensin mi?"</string>
+    <string name="menu_call">"Çağrı"</string>
+    <string name="menu_delete_all">"İleti dizilerini sil"</string>
+    <string name="menu_delete">"İleti dizisini sil"</string>
+    <string name="menu_undelivered_messages">"Teslim edilmemiş iletiler"</string>
+    <string name="menu_view">"İleti dizisini görüntüle"</string>
+    <string name="refreshing">"Yenileniyor..."</string>
+    <string name="has_draft">"Taslak"</string>
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <skip />
+    <string name="anonymous_recipient">"İsimsiz"</string>
+    <string name="no_subject_view">"(Konu yok)"</string>
+    <string name="messagelist_sender_self">"Ben"</string>
+    <string name="view_picture">"Resmi görüntüle"</string>
+    <string name="view_slideshow">"Slayt gösterisini görüntüle"</string>
+    <string name="view_message_details">"İleti ayrıntılarını görüntüle"</string>
+    <string name="view_delivery_report">"Raporu görüntüle"</string>
+    <string name="delete_message">"İletiyi sil"</string>
+    <string name="sent_on">"Gönderildi: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="expire_on">"Sona erme tarihi: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="kilobyte">"KB"</string>
+    <string name="undelivered_msg_dialog_title">"Teslim edilmemiş ileti"</string>
+    <string name="undelivered_msg_dialog_body">"Bu ileti gönderilemiyor."\n"Deneme zamanı: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_sms_dialog_body">"Bu ileti gönderilemiyor."</string>
+    <string name="delete_thread">"İleti dizisini sil"</string>
+    <string name="menu_forward">"Yönlendir"</string>
+    <string name="download">"İndir"</string>
+    <string name="downloading">"İndiriliyor"</string>
+    <!-- no translation found for name_colon (7069560650889479120) -->
+    <skip />
+    <string name="inline_subject">"&lt;Konu: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="drm_protected_text">"* DRM korumalı metin *"</string>
+    <string name="insufficient_drm_rights">"Yetersiz DRM hakları tespit edildi."</string>
+    <string name="copy_message_text">"İleti metnini kopyala"</string>
+    <string name="message_options">"İleti seçenekleri"</string>
+    <string name="done">"Bitti"</string>
+    <string name="move_up">"Yukarı taşı"</string>
+    <string name="move_down">"Aşağı taşı"</string>
+    <string name="remove_slide">"Slaydı kaldır"</string>
+    <string name="add_slide">"Slayt ekle"</string>
+    <string name="add_slide_hint">"Yeni slayt oluşturmak için seçin."</string>
+    <string name="discard_slideshow">"Slayt gösterisini sil"</string>
+    <string name="slide_show_part">"Bölüm <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
+    <string name="remove_text">"Metni kaldır"</string>
+    <string name="add_picture">"Resim ekle"</string>
+    <string name="remove_picture">"Resmi kaldır"</string>
+    <string name="add_music">"Müzik ekle"</string>
+    <string name="remove_music">"Müziği kaldır"</string>
+    <string name="add_video">"Video ekle"</string>
+    <string name="remove_video">"Videoyu kaldır"</string>
+    <string name="compose_title">"Oluştur"</string>
+    <string name="to_hint">"Alıcı"</string>
+    <string name="subject_hint">"Konu"</string>
+    <string name="add_attachment">"Ekle"</string>
+    <string name="add_subject">"Konu ekle"</string>
+    <string name="discard">"Sil"</string>
+    <string name="view">"Görünüm"</string>
+    <string name="replace">"Değiştir"</string>
+    <string name="remove">"Kaldır"</string>
+    <string name="send">"Gönder"</string>
+    <string name="all_threads">"Tüm ileti dizileri"</string>
+    <string name="type_to_compose_text_enter_to_send">"İleti oluşturmak için yazın"</string>
+    <string name="open_keyboard_to_compose_message">"İletiyi oluşturmak için tuş takımını aç"</string>
+    <string name="image_too_large">"Resim çok büyük"</string>
+    <string name="ask_for_automatically_resize">"Resim gönderilmeden önce otomatik olarak yeniden boyutlandırılsın mı?"</string>
+    <string name="compressing">"Sıkıştırılıyor..."</string>
+    <string name="unsupported_media_format">"Desteklenmeyen <xliff:g id="NAME">%1$s</xliff:g> biçimi"</string>
+    <string name="select_different_media">"Lütfen başka bir <xliff:g id="NAME">%1$s</xliff:g> seçin."</string>
+    <string name="exceed_message_size_limitation">"İleti boyutu sınırına ulaşıldı."</string>
+    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
+    <skip />
+    <string name="failed_to_add_media">"Maalesef, <xliff:g id="NAME">%1$s</xliff:g> öğesini iletinize ekleyemezsiniz."</string>
+    <string name="failed_to_resize_image">"Resim yeniden boyutlandırılmadı."</string>
+    <string name="resize_image_error_information">"Maalesef, yeniden boyutlandırılsa bile bu resim gönderilemeyecek kadar büyük."</string>
+    <string name="forward_prefix">"Yön: "</string>
+    <string name="discard_message">"Sil"</string>
+    <string name="discard_message_reason">"İletiniz geçerli alıcısı olmadığı için silinecek."</string>
+    <string name="has_invalid_recipient">"Geçersiz alıcılar: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
+    <string name="invalid_recipient_message">"Lütfen alıcıları düzeltin, aksi takdirde iletiyi almayacaklar."</string>
+    <string name="cannot_send_message">"Bu ileti gönderilemiyor"</string>
+    <string name="cannot_send_message_reason">"İletinizin geçerli alıcısı yok."</string>
+    <string name="cannot_forward_drm_obj">"İletideki DRM nesnesi yönlendirilemiyor."</string>
+    <string name="converting_to_picture_message">"MMS iletisine dönüştürülüyor..."</string>
+    <string name="converting_to_text_message">"SMS iletisine dönüştürülüyor..."</string>
+    <string name="cannot_add_slide_anymore">"Daha fazla slayt eklenemiyor."</string>
+    <string name="cannot_save_message">"İleti kaydedilemiyor."</string>
+    <string name="cannot_load_message">"İleti yüklenemiyor."</string>
+    <string name="message_saved_as_draft">"İleti taslak olarak kaydedildi."</string>
+    <string name="cannot_play_audio">"Ses yürütülemiyor."</string>
+    <string name="preview">"Önizleme"</string>
+    <string name="preview_slideshow">"Önizleme"</string>
+    <string name="replace_image">"Resmi değiştir"</string>
+    <string name="duration_sec">"Süre (<xliff:g id="DURATION">%s</xliff:g> sn)"</string>
+    <string name="duration_selector_title">"Slayt süresi "</string>
+    <string name="layout_selector_title">"Slayt gösterisi düzeni "</string>
+    <string name="layout_top">"Düzen (üst)"</string>
+    <string name="layout_bottom">"Düzen (alt)"</string>
+    <string name="type_to_compose_text_or_leave_blank">"İleti oluşturmak için yazın veya boş bırakın"</string>
+    <string name="secs">"saniye"</string>
+  <string-array name="select_dialog_items">
+    <item>"1 saniye"</item>
+    <item>"2 saniye"</item>
+    <item>"3 saniye"</item>
+    <item>"4 saniye"</item>
+    <item>"5 saniye"</item>
+    <item>"6 saniye"</item>
+    <item>"7 saniye"</item>
+    <item>"8 saniye"</item>
+    <item>"9 saniye"</item>
+    <item>"10 saniye"</item>
+    <item>"Diğer..."</item>
+  </string-array>
+    <string name="menu_view_contact">"Kişiyi görüntüle"</string>
+    <string name="menu_add_to_contacts">"Kişilere Ekle"</string>
+    <string name="hidden_sender_address">"Gizli gönderen adresi"</string>
+    <string name="yes">"Tamam"</string>
+    <string name="no">"İptal"</string>
+    <string name="play">"Yürüt"</string>
+    <string name="edit">"Düzenle"</string>
+    <string name="resize">"Yeniden Boyutlandır"</string>
+    <string name="try_to_send">"Göndermeyi dene"</string>
+    <string name="preferences_title">"Ayarlar"</string>
+    <string name="restore_default">"Varsayılan ayarları geri yükle"</string>
+    <string name="pref_notification_settings_title">"Bildirim ayarları"</string>
+    <string name="pref_mms_settings_title">"MMS ayarları"</string>
+    <string name="pref_sms_settings_title">"SMS ayarları"</string>
+    <string name="pref_summary_manage_sim_messages">"SIM kartınızda depolanan iletileri yönetin"</string>
+    <string name="pref_summary_mms_delivery_reports">"Gönderdiğiniz her ileti için bir iletim raporu iste"</string>
+    <string name="pref_summary_mms_read_reports">"Gönderdiğiniz her ileti için bir okundu raporu iste"</string>
+    <string name="pref_summary_sms_delivery_reports">"Gönderdiğiniz her ileti için bir iletim raporu iste"</string>
+    <string name="pref_title_manage_sim_messages">"SIM kart iletilerini yönet"</string>
+    <string name="pref_title_mms_delivery_reports">"İletim raporları"</string>
+    <string name="pref_title_mms_read_reports">"Okundu raporları"</string>
+    <string name="pref_title_sms_delivery_reports">"İletim raporları"</string>
+    <string name="pref_title_notification_enabled">"Bildirimler"</string>
+    <string name="pref_summary_notification_enabled">"Durum çubuğunda ileti bildirimleri görüntüle"</string>
+    <string name="pref_title_notification_vibrate">"Titreşim"</string>
+    <string name="pref_summary_notification_vibrate">"Bildirildiğinde aynı zamanda titret"</string>
+    <string name="pref_title_notification_ringtone">"Zil sesini seç"</string>
+    <string name="pref_title_mms_auto_retrieval">"Otomatik al"</string>
+    <string name="pref_summary_mms_auto_retrieval">"İletileri otomatik olarak al"</string>
+    <string name="pref_title_mms_retrieval_during_roaming">"Dolaşımda otomatik al"</string>
+    <string name="pref_summary_mms_retrieval_during_roaming">"Dolaşırken iletileri otomatik olarak al"</string>
+    <string name="to_label">"Alıcı "</string>
+    <string name="confirm_dialog_title">"Sil"</string>
+    <string name="confirm_delete_conversation">"İleti dizisinin tamamı silinecek."</string>
+    <string name="confirm_delete_all_conversations">"Tüm ileti dizileri silinecek."</string>
+    <string name="confirm_delete_message">"İleti silinecek."</string>
+    <string name="confirm_delete_all_messages">"İleti dizisinin tamamı silinecek."</string>
+    <string name="confirm_delete_all_SIM_messages">"SIM karttaki tüm iletiler silinecek."</string>
+    <string name="confirm_delete_SIM_message">"SIM kart üzerindeki bu ileti silinecek."</string>
+    <string name="cannot_get_details">"Ayrıntılar alınamıyor"</string>
+    <string name="message_details_title">"İleti ayrıntıları"</string>
+    <string name="message_type_label">"Tür: "</string>
+    <string name="text_message">"SMS iletisi"</string>
+    <string name="multimedia_message">"MMS iletisi"</string>
+    <string name="multimedia_notification">"MMS bildirimi"</string>
+    <string name="from_label">"Gönderen: "</string>
+    <string name="to_address_label">"Alıcı: "</string>
+    <string name="bcc_label">"Bcc: "</string>
+    <string name="sent_label">"Gönderildi: "</string>
+    <string name="received_label">"Alındı: "</string>
+    <string name="saved_label">"Kaydedildi: "</string>
+    <string name="subject_label">"Konu: "</string>
+    <string name="message_size_label">"İleti boyutu: "</string>
+    <string name="priority_label">"Öncelik: "</string>
+    <string name="priority_high">"Yüksek"</string>
+    <string name="priority_normal">"Normal"</string>
+    <string name="priority_low">"Düşük"</string>
+    <string name="message_class_label">"İleti sınıfı: "</string>
+    <string name="menu_edit">"Düzenle"</string>
+    <string name="menu_retry_sending">"Göndermeyi tekrar dene"</string>
+    <string name="menu_retry_sending_all">"Tümünü göndermeyi tekrar dene"</string>
+    <string name="menu_delete_messages">"İletileri sil"</string>
+    <string name="retrying_dialog_body">"Bu ileti <xliff:g id="MESSAGE">%s</xliff:g> bir bağlantı sorunu nedeniyle gönderilmedi."\n"Tekrar gönderilmeye çalışılıyor…"</string>
+    <string name="sim_copy_to_phone_memory">"Telefon hafızasına kopyala"</string>
+    <string name="sim_delete">"Sil"</string>
+    <string name="sim_manage_messages_title">"SIM karttaki SMS iletileri"</string>
+    <string name="sim_view">"Görünüm"</string>
+    <string name="sim_empty">"SIM kartta hiçbir ileti yok."</string>
+    <string name="delivery_header_title">"Rapor"</string>
+    <string name="status_none">"(Yok)"</string>
+    <string name="status_pending">"Beklemede"</string>
+    <string name="status_read">"Oku"</string>
+    <string name="status_received">"Alındı"</string>
+    <string name="status_failed">"Başarısız"</string>
+    <string name="status_unread">"Okunmamış"</string>
+    <string name="status_rejected">"Reddedildi"</string>
+    <string name="recipient_label">"Alıcı: "</string>
+    <string name="status_label">"Durum: "</string>
+    <string name="attach_image">"Resimler"</string>
+    <string name="attach_take_photo">"Resim çek"</string>
+    <string name="attach_video">"Videolar"</string>
+    <string name="attach_record_video">"Video çek"</string>
+    <string name="attach_sound">"Ses"</string>
+    <string name="attach_record_sound">"Ses kaydet"</string>
+    <string name="attach_slideshow">"Slayt Gösterisi"</string>
+    <string name="select_bottom_text">"Metin altta"</string>
+    <string name="select_top_text">"Metin üstte"</string>
+    <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> okunmamış ileti."</string>
+    <string name="notification_multiple_title">"Yeni iletiler"</string>
+    <string name="notification_failed_multiple">"<xliff:g id="COUNT">%s</xliff:g> ileti gönderilemedi."</string>
+    <string name="notification_failed_multiple_title">"İletiler gönderilmedi"</string>
+    <string name="sim_full_title">"SIM kart dolu"</string>
+    <string name="sim_full_body">"Daha fazla yer açmak için bazı iletileri silin."</string>
+    <string name="type_audio">"ses"</string>
+    <string name="type_picture">"resim"</string>
+    <string name="type_video">"video"</string>
+    <string name="confirm">"Doğrula"</string>
+    <string name="message_send_read_report">"Okundu raporu gönderilecek."</string>
+    <string name="message_queued">"Şu an için iletiniz gönderilemiyor. Hizmet kullanılabilir olduğunda gönderilecektir."</string>
+    <string name="no_subject">"(Konu yok)"</string>
+    <string name="unknown_sender">"Bilinmeyen gönderen"</string>
+    <string name="dl_failure_notification">"<xliff:g id="FROM">%s</xliff:g> adlı gönderenden gelen <xliff:g id="SUBJECT">%s</xliff:g> konulu ileti indirilemedi."</string>
+    <string name="rate_limit_surpassed">"Doğrula"</string>
+    <string name="confirm_rate_limit">"Çok sayıda multimedya iletisi gönderiliyor. Onaylıyor musunuz?"</string>
+    <string name="message_download_failed_title">"İleti indirilmedi"</string>
+    <string name="message_send_failed_title">"İleti gönderilmedi"</string>
+    <string name="message_failed_body">"İletiyi incelemek üzere seçin ve tekrar deneyin."</string>
+    <string name="download_later">"Şu an için indirilemiyor. Lütfen daha sonra tekrar deneyin."</string>
+    <string name="select_audio">"Sesi seç"</string>
+    <string name="copy_to_sdcard">"Kopya SD karta eklendi"</string>
+    <string name="copy_to_sdcard_success">"Ek SD karta kopyalandı"</string>
+    <string name="copy_to_sdcard_fail">"Ek SD karta kopyalanamadı"</string>
+    <string name="menu_insert_smiley">"İfade ekle"</string>
+    <string name="select_link_title">"İşlemi seçin"</string>
+    <string name="slide_number">"Slayt <xliff:g id="NUMBER">%s</xliff:g>"</string>
+  <plurals name="slide_duration">
+    <item quantity="one">"<xliff:g id="NUMBER">%s</xliff:g> saniye"</item>
+    <item quantity="few">"<xliff:g id="NUMBER">%s</xliff:g> saniye"</item>
+    <item quantity="other">"<xliff:g id="NUMBER">%s</xliff:g> saniye"</item>
+  </plurals>
+    <string name="delivery_report_activity">"İletim raporu"</string>
+    <string name="add_attachment_activity">"Ek ekle:"</string>
+    <string name="select_layout_activity">"Düzeni seç"</string>
+    <string name="change_duration_activity">"Süreyi değiştir"</string>
+    <string name="edit_text_activity">"Metin düzenle"</string>
+    <string name="edit_slideshow_activity">"Slayt gösterisini düzenle"</string>
+    <string name="edit_slide_activity">"Slaydı düzenle"</string>
+    <string name="pick_numbers_activity">"Numaraları Seç"</string>
+    <string name="slideshow_activity">"Slayt Gösterisi"</string>
+    <string name="class_0_message_activity">"Sınıf 0 İletisi"</string>
+    <string name="send_using_mms_activity">"MMS kullanarak gönder..."</string>
+    <string name="select_contact_method_activity">"İletişim Yöntemini Seç"</string>
+</resources>

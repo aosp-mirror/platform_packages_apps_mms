@@ -50,6 +50,7 @@
     <string name="menu_forward">"轉寄"</string>
     <string name="download">"下載"</string>
     <string name="downloading">"下載中"</string>
+    <string name="name_colon"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>"： "</string>
     <string name="inline_subject">"(主旨：<xliff:g id="SUBJECT">%s</xliff:g>)"</string>
     <string name="drm_protected_text">"* 受 DRM 保護的文字 *"</string>
     <string name="insufficient_drm_rights">"DRM 授權權限不足。"</string>
@@ -89,6 +90,8 @@
     <string name="unsupported_media_format">"不支援 <xliff:g id="NAME">%1$s</xliff:g> 格式"</string>
     <string name="select_different_media">"請選取不同的 <xliff:g id="NAME">%1$s</xliff:g>。"</string>
     <string name="exceed_message_size_limitation">"已達最大簡訊長度。"</string>
+    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
+    <skip />
     <string name="failed_to_add_media">"很抱歉，無法在簡訊中新增 <xliff:g id="NAME">%1$s</xliff:g>。"</string>
     <string name="failed_to_resize_image">"圖片大小未改變。"</string>
     <string name="resize_image_error_information">"很抱歉，縮小後的圖片仍然太大、無法傳送。"</string>
@@ -154,8 +157,8 @@
     <string name="pref_title_sms_delivery_reports">"傳送回條"</string>
     <string name="pref_title_notification_enabled">"通知"</string>
     <string name="pref_summary_notification_enabled">"在狀態列顯示簡訊通知"</string>
-    <string name="pref_title_notification_vibrate">"振動"</string>
-    <string name="pref_summary_notification_vibrate">"同時開啟振動提醒"</string>
+    <string name="pref_title_notification_vibrate">"震動"</string>
+    <string name="pref_summary_notification_vibrate">"收到通知時震動提醒"</string>
     <string name="pref_title_notification_ringtone">"選取鈴聲"</string>
     <string name="pref_title_mms_auto_retrieval">"自動擷取"</string>
     <string name="pref_summary_mms_auto_retrieval">"自動擷取簡訊"</string>
@@ -175,7 +178,7 @@
     <string name="text_message">"SMS 簡訊"</string>
     <string name="multimedia_message">"MMS 簡訊"</string>
     <string name="multimedia_notification">"MMS 通知"</string>
-    <string name="from_label">"從： "</string>
+    <string name="from_label">"寄件者： "</string>
     <string name="to_address_label">"收件者： "</string>
     <string name="bcc_label">"密件副本： "</string>
     <string name="sent_label">"傳送： "</string>
@@ -243,5 +246,23 @@
     <string name="copy_to_sdcard_success">"已將附件儲存至 SD 卡"</string>
     <string name="copy_to_sdcard_fail">"無法將附件複製到 SD 卡"</string>
     <string name="menu_insert_smiley">"插入表情符號"</string>
-    <string name="select_link_title">"選取動作"</string>
+    <string name="select_link_title">"選取操作"</string>
+    <string name="slide_number">"投影片 <xliff:g id="NUMBER">%s</xliff:g>"</string>
+  <plurals name="slide_duration">
+    <item quantity="one">"<xliff:g id="NUMBER">%s</xliff:g> 秒"</item>
+    <item quantity="few">"<xliff:g id="NUMBER">%s</xliff:g> 秒"</item>
+    <item quantity="other">"<xliff:g id="NUMBER">%s</xliff:g> 秒"</item>
+  </plurals>
+    <string name="delivery_report_activity">"遞送報告"</string>
+    <string name="add_attachment_activity">"新增附件："</string>
+    <string name="select_layout_activity">"選取版面配置"</string>
+    <string name="change_duration_activity">"變更長度"</string>
+    <string name="edit_text_activity">"編輯文字"</string>
+    <string name="edit_slideshow_activity">"編輯投影播放"</string>
+    <string name="edit_slide_activity">"編輯投影片"</string>
+    <string name="pick_numbers_activity">"選擇號碼"</string>
+    <string name="slideshow_activity">"投影播放"</string>
+    <string name="class_0_message_activity">"等級 0 訊息"</string>
+    <string name="send_using_mms_activity">"透過 MMS 傳送..."</string>
+    <string name="select_contact_method_activity">"選取聯絡方式"</string>
 </resources>
