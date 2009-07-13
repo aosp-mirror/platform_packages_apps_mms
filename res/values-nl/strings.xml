@@ -50,6 +50,7 @@
     <string name="menu_forward">"Doorsturen"</string>
     <string name="download">"Downloaden"</string>
     <string name="downloading">"Downloaden"</string>
+    <string name="name_colon"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject">"&lt;Onderwerp: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text">"* DRM-beschermde tekst *"</string>
     <string name="insufficient_drm_rights">"Onvoldoende DRM-rechten gedetecteerd."</string>
@@ -89,6 +90,8 @@
     <string name="unsupported_media_format">"Niet-ondersteunde indeling voor <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="select_different_media">"Selecteer een ander item (<xliff:g id="NAME">%1$s</xliff:g>)."</string>
     <string name="exceed_message_size_limitation">"Limiet berichtgrootte bereikt."</string>
+    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
+    <skip />
     <string name="failed_to_add_media">"U kunt dit item (<xliff:g id="NAME">%1$s</xliff:g>) niet aan uw bericht toevoegen."</string>
     <string name="failed_to_resize_image">"Formaat van foto is niet aangepast."</string>
     <string name="resize_image_error_information">"Zelfs nadat het formaat is aangepast, is deze foto te groot voor verzending."</string>
@@ -240,8 +243,26 @@
     <string name="download_later">"Kan momenteel niet downloaden. Probeer het later opnieuw."</string>
     <string name="select_audio">"Audio selecteren"</string>
     <string name="copy_to_sdcard">"Bijlage kopiëren naar SD-kaart"</string>
-    <string name="copy_to_sdcard_success">"Bijlage gekopiërd naar SD-kaart"</string>
+    <string name="copy_to_sdcard_success">"Bijlage gekopieerd naar SD-kaart"</string>
     <string name="copy_to_sdcard_fail">"Kan de bijlage niet kopiëren naar de SD-kaart"</string>
     <string name="menu_insert_smiley">"Smiley invoegen"</string>
     <string name="select_link_title">"Actie selecteren"</string>
+    <string name="slide_number">"Dia <xliff:g id="NUMBER">%s</xliff:g>"</string>
+  <plurals name="slide_duration">
+    <item quantity="one">"<xliff:g id="NUMBER">%s</xliff:g> seconde"</item>
+    <item quantity="few">"<xliff:g id="NUMBER">%s</xliff:g> seconden"</item>
+    <item quantity="other">"<xliff:g id="NUMBER">%s</xliff:g> seconden"</item>
+  </plurals>
+    <string name="delivery_report_activity">"Leveringsrapport"</string>
+    <string name="add_attachment_activity">"Bijlage toevoegen:"</string>
+    <string name="select_layout_activity">"Indeling selecteren"</string>
+    <string name="change_duration_activity">"Duur wijzigen"</string>
+    <string name="edit_text_activity">"Tekst bewerken"</string>
+    <string name="edit_slideshow_activity">"Diavoorstelling bewerken"</string>
+    <string name="edit_slide_activity">"Dia bewerken"</string>
+    <string name="pick_numbers_activity">"Nummers kiezen"</string>
+    <string name="slideshow_activity">"Diavoorstelling"</string>
+    <string name="class_0_message_activity">"Berichtklasse 0"</string>
+    <string name="send_using_mms_activity">"Verzenden via MMS…"</string>
+    <string name="select_contact_method_activity">"Contactmethode selecteren"</string>
 </resources>

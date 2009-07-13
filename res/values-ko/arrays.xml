@@ -35,22 +35,22 @@
     <item>"o_O"</item>
   </string-array>
   <string-array name="default_smiley_names">
-    <item>"행복"</item>
-    <item>"슬픔"</item>
+    <item>"행복해"</item>
+    <item>"슬퍼요"</item>
     <item>"윙크"</item>
     <item>"메롱"</item>
-    <item>"놀람"</item>
+    <item>"헉!"</item>
     <item>"키스"</item>
-    <item>"소리 지름"</item>
-    <item>"멋짐"</item>
-    <item>"욕심"</item>
-    <item>"부끄러움"</item>
+    <item>"아악"</item>
+    <item>"멋지네"</item>
+    <item>"으이구"</item>
+    <item>"실수했네"</item>
     <item>"당황"</item>
     <item>"천사"</item>
-    <item>"우유부단"</item>
-    <item>"울음"</item>
-    <item>"입막음"</item>
-    <item>"웃음"</item>
+    <item>"결정하기 어렵군"</item>
+    <item>"엉엉엉"</item>
+    <item>"비밀로 할게"</item>
+    <item>"하하하"</item>
     <item>"어리둥절"</item>
   </string-array>
 </resources>

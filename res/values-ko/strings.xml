@@ -17,19 +17,19 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label">"메시지"</string>
     <string name="new_message">"새 메시지"</string>
-    <string name="create_new_message">"새 메시지 작성"</string>
-    <string name="menu_call_back">"<xliff:g id="NAME">%s</xliff:g>에게 전화하기"</string>
+    <string name="create_new_message">"새 메시지 쓰기"</string>
+    <string name="menu_call_back">"<xliff:g id="NAME">%s</xliff:g>님에게 전화"</string>
     <string name="menu_send_email">"<xliff:g id="NAME">%s</xliff:g>에게 이메일 보내기"</string>
-    <string name="menu_compose_new">"메시지 작성"</string>
+    <string name="menu_compose_new">"편지쓰기"</string>
     <string name="menu_preferences">"설정"</string>
-    <string name="menu_add_address_to_contacts">"연락처에 <xliff:g id="NAME">%s</xliff:g> 추가"</string>
+    <string name="menu_add_address_to_contacts">"주소록에 <xliff:g id="NAME">%s</xliff:g>님을 추가"</string>
     <string name="menu_call">"전화걸기"</string>
-    <string name="menu_delete_all">"대화 삭제"</string>
+    <string name="menu_delete_all">"대화목록 삭제"</string>
     <string name="menu_delete">"대화목록 삭제"</string>
     <string name="menu_undelivered_messages">"전송되지 않은 메시지"</string>
     <string name="menu_view">"대화목록 보기"</string>
     <string name="refreshing">"새로 고치는 중..."</string>
-    <string name="has_draft">"임시저장"</string>
+    <string name="has_draft">"임시보관함"</string>
     <!-- no translation found for broadcast_from_to (1804605929273213017) -->
     <skip />
     <string name="anonymous_recipient">"익명"</string>
@@ -38,18 +38,20 @@
     <string name="view_picture">"사진 보기"</string>
     <string name="view_slideshow">"슬라이드쇼 보기"</string>
     <string name="view_message_details">"메시지 세부정보 보기"</string>
-    <string name="view_delivery_report">"보고 보기"</string>
+    <string name="view_delivery_report">"보고서 보기"</string>
     <string name="delete_message">"메시지 삭제"</string>
-    <string name="sent_on">"보낸날짜: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="sent_on">"보낸 날짜: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on">"만료 날짜: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte">"KB"</string>
     <string name="undelivered_msg_dialog_title">"전송되지 않은 메시지"</string>
-    <string name="undelivered_msg_dialog_body">"메시지를 보낼 수 없습니다."\n"마지막으로 시도한 시각은<xliff:g id="MESSAGE">%s</xliff:g>입니다."</string>
+    <string name="undelivered_msg_dialog_body">"메시지를 보낼 수 없습니다."\n"마지막으로 시도한 시각: <xliff:g id="MESSAGE">%s</xliff:g>"</string>
     <string name="undelivered_sms_dialog_body">"메시지를 보낼 수 없습니다."</string>
-    <string name="delete_thread">"대화 삭제"</string>
+    <string name="delete_thread">"대화목록 삭제"</string>
     <string name="menu_forward">"전달"</string>
     <string name="download">"다운로드"</string>
     <string name="downloading">"다운로드 중"</string>
+    <!-- no translation found for name_colon (7069560650889479120) -->
+    <skip />
     <string name="inline_subject">"&lt;제목: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text">"* DRM 보호된 텍스트 *"</string>
     <string name="insufficient_drm_rights">"DRM 권한이 충분하지 않습니다."</string>
@@ -60,7 +62,7 @@
     <string name="move_down">"아래로 이동"</string>
     <string name="remove_slide">"슬라이드 삭제"</string>
     <string name="add_slide">"슬라이드 추가"</string>
-    <string name="add_slide_hint">"새 슬라이드를 만드세요."</string>
+    <string name="add_slide_hint">"새 슬라이드를 만들려면 선택하세요."</string>
     <string name="discard_slideshow">"슬라이드쇼 삭제"</string>
     <string name="slide_show_part">"파트 <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text">"텍스트 삭제"</string>
@@ -70,7 +72,7 @@
     <string name="remove_music">"음악 삭제"</string>
     <string name="add_video">"동영상 추가"</string>
     <string name="remove_video">"동영상 삭제"</string>
-    <string name="compose_title">"메시지 작성"</string>
+    <string name="compose_title">"편지쓰기"</string>
     <string name="to_hint">"받는사람"</string>
     <string name="subject_hint">"제목"</string>
     <string name="add_attachment">"첨부"</string>
@@ -79,33 +81,35 @@
     <string name="view">"보기"</string>
     <string name="replace">"바꾸기"</string>
     <string name="remove">"삭제"</string>
-    <string name="send">"보내기"</string>
-    <string name="all_threads">"모든 대화"</string>
+    <string name="send">"전송"</string>
+    <string name="all_threads">"전체 대화목록"</string>
     <string name="type_to_compose_text_enter_to_send">"메시지를 입력하세요."</string>
-    <string name="open_keyboard_to_compose_message">"키보드를 사용하여 메시지 작성"</string>
-    <string name="image_too_large">"사진 크기가 너무 큼"</string>
-    <string name="ask_for_automatically_resize">"보내기 전에 사진 크기를 자동으로 조정하시겠습니까?"</string>
+    <string name="open_keyboard_to_compose_message">"키보드를 사용하여 메시지 쓰기"</string>
+    <string name="image_too_large">"사진이 너무 큼"</string>
+    <string name="ask_for_automatically_resize">"사진 크기를 자동 조정하여 전송하겠습니까?"</string>
     <string name="compressing">"압축하는 중..."</string>
     <string name="unsupported_media_format">"지원되지 않는 <xliff:g id="NAME">%1$s</xliff:g> 형식"</string>
     <string name="select_different_media">"다른 <xliff:g id="NAME">%1$s</xliff:g>을(를) 선택하세요."</string>
-    <string name="exceed_message_size_limitation">"허용된 최대 메시지 크기에 도달했습니다."</string>
-    <string name="failed_to_add_media">"<xliff:g id="NAME">%1$s</xliff:g>은(는) 메시지에 추가할 수 없습니다."</string>
+    <string name="exceed_message_size_limitation">"메시지 크기 한도에 도달했습니다."</string>
+    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
+    <skip />
+    <string name="failed_to_add_media">"죄송합니다. <xliff:g id="NAME">%1$s</xliff:g>님은 메시지에 추가할 수 없습니다."</string>
     <string name="failed_to_resize_image">"사진 크기가 조정되지 않았습니다."</string>
-    <string name="resize_image_error_information">"사진의 크기를 조정했지만 아직도 전송할 수 없습니다."</string>
-    <string name="forward_prefix">"Fwd: "</string>
+    <string name="resize_image_error_information">"죄송합니다. 사진의 크기를 조정했지만 사진이 너무 커 아직도 전송할 수 없습니다."</string>
+    <string name="forward_prefix">"전달: "</string>
     <string name="discard_message">"삭제"</string>
     <string name="discard_message_reason">"유효한 수신자가 없으므로 메시지가 삭제됩니다."</string>
     <string name="has_invalid_recipient">"유효하지 않은 수신자: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <string name="invalid_recipient_message">"받는사람을 올바르게 지정하세요. 그렇지 않으면 메시지가 제대로 전송되지 않습니다."</string>
+    <string name="invalid_recipient_message">"수신자를 바르게 설정해야 메시지를 수신할 수 있습니다."</string>
     <string name="cannot_send_message">"메시지를 보낼 수 없음"</string>
-    <string name="cannot_send_message_reason">"메시지 받는사람이 올바르지 않습니다."</string>
+    <string name="cannot_send_message_reason">"메시지의 유효한 수신자가 없습니다."</string>
     <string name="cannot_forward_drm_obj">"메시지에 포함된 DRM 개체는 전달할 수 없습니다."</string>
-    <string name="converting_to_picture_message">"MMS 메시지로 변환 중…"</string>
+    <string name="converting_to_picture_message">"MMS 메시지로 변환 중..."</string>
     <string name="converting_to_text_message">"SMS 메시지로 변환 중..."</string>
     <string name="cannot_add_slide_anymore">"슬라이드를 더 이상 추가할 수 없습니다."</string>
     <string name="cannot_save_message">"메시지를 저장할 수 없습니다."</string>
     <string name="cannot_load_message">"메시지를 로드할 수 없습니다."</string>
-    <string name="message_saved_as_draft">"메시지가 임시저장되었습니다."</string>
+    <string name="message_saved_as_draft">"메일이 임시보관함에 저장되었습니다."</string>
     <string name="cannot_play_audio">"오디오를 재생할 수 없습니다."</string>
     <string name="preview">"미리보기"</string>
     <string name="preview_slideshow">"미리보기"</string>
@@ -113,9 +117,9 @@
     <string name="duration_sec">"표시 시간(<xliff:g id="DURATION">%s</xliff:g>초)"</string>
     <string name="duration_selector_title">"슬라이드 표시 시간 "</string>
     <string name="layout_selector_title">"슬라이드쇼 레이아웃 "</string>
-    <string name="layout_top">"레이아웃(위)"</string>
-    <string name="layout_bottom">"레이아웃(아래)"</string>
-    <string name="type_to_compose_text_or_leave_blank">"텍스트를 입력하거나 비워 두세요."</string>
+    <string name="layout_top">"레이아웃(상단)"</string>
+    <string name="layout_bottom">"레이아웃(하단)"</string>
+    <string name="type_to_compose_text_or_leave_blank">"텍스트를 입력하거나 빈 칸으로 둡니다."</string>
     <string name="secs">"초"</string>
   <string-array name="select_dialog_items">
     <item>"1초"</item>
@@ -131,14 +135,14 @@
     <item>"기타..."</item>
   </string-array>
     <string name="menu_view_contact">"연락처 보기"</string>
-    <string name="menu_add_to_contacts">"연락처에 추가"</string>
+    <string name="menu_add_to_contacts">"주소록에 추가"</string>
     <string name="hidden_sender_address">"숨은 발신자 주소"</string>
     <string name="yes">"확인"</string>
     <string name="no">"취소"</string>
     <string name="play">"재생"</string>
     <string name="edit">"수정"</string>
-    <string name="resize">"크기조정"</string>
-    <string name="try_to_send">"보내기 시도"</string>
+    <string name="resize">"크기 조정"</string>
+    <string name="try_to_send">"전송 시도"</string>
     <string name="preferences_title">"설정"</string>
     <string name="restore_default">"기본 설정값 복원"</string>
     <string name="pref_notification_settings_title">"알림 설정"</string>
@@ -153,21 +157,21 @@
     <string name="pref_title_mms_read_reports">"읽음 여부 보고"</string>
     <string name="pref_title_sms_delivery_reports">"전송 여부 보고"</string>
     <string name="pref_title_notification_enabled">"알림"</string>
-    <string name="pref_summary_notification_enabled">"상태표시줄에 메시지 알림 표시"</string>
+    <string name="pref_summary_notification_enabled">"상태 표시줄에 메시지 알림 표시"</string>
     <string name="pref_title_notification_vibrate">"진동"</string>
     <string name="pref_summary_notification_vibrate">"알림 시 진동도 함께 작동"</string>
     <string name="pref_title_notification_ringtone">"벨소리 선택"</string>
     <string name="pref_title_mms_auto_retrieval">"자동 검색"</string>
-    <string name="pref_summary_mms_auto_retrieval">"자동으로 메시지 검색"</string>
+    <string name="pref_summary_mms_auto_retrieval">"메시지를 자동으로 검색"</string>
     <string name="pref_title_mms_retrieval_during_roaming">"로밍 중에 자동 검색"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"로밍 중에 메시지를 자동으로 검색"</string>
-    <string name="to_label">"받는 사람 "</string>
+    <string name="to_label">"받는사람 "</string>
     <string name="confirm_dialog_title">"삭제"</string>
-    <string name="confirm_delete_conversation">"전체 대화가 삭제됩니다."</string>
+    <string name="confirm_delete_conversation">"전체 대화목록이 삭제됩니다."</string>
     <string name="confirm_delete_all_conversations">"대화목록이 모두 삭제됩니다."</string>
     <string name="confirm_delete_message">"메시지가 삭제됩니다."</string>
-    <string name="confirm_delete_all_messages">"전체 대화가 삭제됩니다."</string>
-    <string name="confirm_delete_all_SIM_messages">"SIM에 있는 모든 메일이 삭제됩니다."</string>
+    <string name="confirm_delete_all_messages">"전체 대화목록이 삭제됩니다."</string>
+    <string name="confirm_delete_all_SIM_messages">"SIM에 있는 모든 메시지가 삭제됩니다."</string>
     <string name="confirm_delete_SIM_message">"SIM에서 이 메시지를 삭제합니다."</string>
     <string name="cannot_get_details">"세부정보를 가져올 수 없음"</string>
     <string name="message_details_title">"메시지 세부정보"</string>
@@ -188,38 +192,38 @@
     <string name="priority_normal">"보통"</string>
     <string name="priority_low">"낮음"</string>
     <string name="message_class_label">"메시지 클래스: "</string>
-    <string name="menu_edit">"편집"</string>
-    <string name="menu_retry_sending">"보내기 재시도"</string>
-    <string name="menu_retry_sending_all">"모두 보내기 재시도"</string>
+    <string name="menu_edit">"수정"</string>
+    <string name="menu_retry_sending">"재전송 시도"</string>
+    <string name="menu_retry_sending_all">"모두 재전송 시도"</string>
     <string name="menu_delete_messages">"메시지 삭제"</string>
-    <string name="retrying_dialog_body">"연결 문제로 인해 <xliff:g id="MESSAGE">%s</xliff:g> 메시지가  전송되지 않았습니다."\n"재전송 시도 중..."</string>
-    <string name="sim_copy_to_phone_memory">"전화 메모리에 복사"</string>
+    <string name="retrying_dialog_body">"연결 문제로 인해 <xliff:g id="MESSAGE">%s</xliff:g> 메시지가 전송되지 않았습니다."\n"재전송 시도 중..."</string>
+    <string name="sim_copy_to_phone_memory">"휴대전화 메모리에 복사"</string>
     <string name="sim_delete">"삭제"</string>
     <string name="sim_manage_messages_title">"SIM 카드에 저장된 SMS 메시지"</string>
     <string name="sim_view">"보기"</string>
     <string name="sim_empty">"SIM 카드에 메시지가 없습니다."</string>
-    <string name="delivery_header_title">"보고"</string>
+    <string name="delivery_header_title">"보고서"</string>
     <string name="status_none">"(없음)"</string>
     <string name="status_pending">"대기 중"</string>
     <string name="status_read">"읽음"</string>
-    <string name="status_received">"받음"</string>
+    <string name="status_received">"수신됨"</string>
     <string name="status_failed">"실패"</string>
     <string name="status_unread">"읽지않음"</string>
-    <string name="status_rejected">"거부"</string>
+    <string name="status_rejected">"거부됨"</string>
     <string name="recipient_label">"받는사람: "</string>
     <string name="status_label">"상태: "</string>
     <string name="attach_image">"사진"</string>
-    <string name="attach_take_photo">"사진촬영"</string>
+    <string name="attach_take_photo">"사진 캡처"</string>
     <string name="attach_video">"동영상"</string>
     <string name="attach_record_video">"동영상 캡처"</string>
     <string name="attach_sound">"오디오"</string>
-    <string name="attach_record_sound">"음성 메시지"</string>
+    <string name="attach_record_sound">"오디오 녹음"</string>
     <string name="attach_slideshow">"슬라이드쇼"</string>
     <string name="select_bottom_text">"텍스트를 아래쪽에"</string>
     <string name="select_top_text">"텍스트를 위쪽에"</string>
     <string name="notification_multiple">"읽지 않은 메시지가 <xliff:g id="COUNT">%s</xliff:g>개 있습니다."</string>
     <string name="notification_multiple_title">"새 메시지"</string>
-    <string name="notification_failed_multiple">"<xliff:g id="COUNT">%s</xliff:g>개 메시지를 보내지 못했습니다."</string>
+    <string name="notification_failed_multiple">"메시지 <xliff:g id="COUNT">%s</xliff:g>개를 보내지 못했습니다."</string>
     <string name="notification_failed_multiple_title">"메시지를 전송하지 못했습니다."</string>
     <string name="sim_full_title">"SIM 카드 용량이 가득 참"</string>
     <string name="sim_full_body">"저장 공간을 늘리려면 메시지를 일부 삭제하세요."</string>
@@ -230,18 +234,36 @@
     <string name="message_send_read_report">"읽음 여부 보고가 전송됩니다."</string>
     <string name="message_queued">"메시지를 보낼 수 없습니다. 서비스가 복구되면 전송됩니다."</string>
     <string name="no_subject">"(제목 없음)"</string>
-    <string name="unknown_sender">"보낸사람을 알 수 없음"</string>
-    <string name="dl_failure_notification">"<xliff:g id="FROM">%s</xliff:g>이(가) 보낸 <xliff:g id="SUBJECT">%s</xliff:g> 메시지를 다운로드하지 못했습니다."</string>
+    <string name="unknown_sender">"알 수 없는 발신자"</string>
+    <string name="dl_failure_notification">"<xliff:g id="FROM">%s</xliff:g>에서 <xliff:g id="SUBJECT">%s</xliff:g> 메시지를 다운로드하지 못했습니다."</string>
     <string name="rate_limit_surpassed">"확인"</string>
-    <string name="confirm_rate_limit">"많은 수의 멀티미디어 메시지를 보내려고 합니다. 계속하시겠습니까?"</string>
+    <string name="confirm_rate_limit">"여러 개의 멀티미디어 메시지를 전송 중입니다. 계속하시겠습니까?"</string>
     <string name="message_download_failed_title">"메시지를 다운로드하지 못했습니다."</string>
     <string name="message_send_failed_title">"메시지를 보내지 못함"</string>
     <string name="message_failed_body">"메시지를 검토한 다음 다시 시도해 보세요."</string>
-    <string name="download_later">"메시지를 다운로드할 수 없습니다. 잠시 후 다시 시도해 주세요."</string>
+    <string name="download_later">"다운로드할 수 없습니다. 잠시 후에 다시 시도해 주세요."</string>
     <string name="select_audio">"오디오 선택"</string>
     <string name="copy_to_sdcard">"SD 카드에 첨부파일 복사"</string>
-    <string name="copy_to_sdcard_success">"SD 카드에 첨부파일이 복사되었습니다."</string>
-    <string name="copy_to_sdcard_fail">"SD 카드에 첨부물을 복사하지 못했습니다."</string>
+    <string name="copy_to_sdcard_success">"SD 카드에 첨부 파일이 복사되었습니다."</string>
+    <string name="copy_to_sdcard_fail">"SD 카드에 첨부파일을 복사하지 못했습니다."</string>
     <string name="menu_insert_smiley">"이모티콘 삽입"</string>
-    <string name="select_link_title">"동작 선택"</string>
+    <string name="select_link_title">"작업 선택"</string>
+    <string name="slide_number">"<xliff:g id="NUMBER">%s</xliff:g>번 슬라이드"</string>
+  <plurals name="slide_duration">
+    <item quantity="one">"<xliff:g id="NUMBER">%s</xliff:g>초"</item>
+    <item quantity="few">"<xliff:g id="NUMBER">%s</xliff:g>초"</item>
+    <item quantity="other">"<xliff:g id="NUMBER">%s</xliff:g>초"</item>
+  </plurals>
+    <string name="delivery_report_activity">"전송 여부 보고"</string>
+    <string name="add_attachment_activity">"첨부파일 추가:"</string>
+    <string name="select_layout_activity">"레이아웃 선택"</string>
+    <string name="change_duration_activity">"표시 기간 변경"</string>
+    <string name="edit_text_activity">"텍스트 수정"</string>
+    <string name="edit_slideshow_activity">"슬라이드쇼 편집"</string>
+    <string name="edit_slide_activity">"슬라이드 편집"</string>
+    <string name="pick_numbers_activity">"번호 선택"</string>
+    <string name="slideshow_activity">"슬라이드쇼"</string>
+    <string name="class_0_message_activity">"클래스 0 메시지"</string>
+    <string name="send_using_mms_activity">"MMS를 사용하여 보내기..."</string>
+    <string name="select_contact_method_activity">"연락처 선택 방법"</string>
 </resources>

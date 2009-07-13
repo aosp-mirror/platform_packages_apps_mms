@@ -50,6 +50,7 @@
     <string name="menu_forward">"Weiterleiten"</string>
     <string name="download">"Herunterladen"</string>
     <string name="downloading">"Ladevorgang wird ausgeführt"</string>
+    <string name="name_colon"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject">"&lt;Betreff: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text">"* DRM-geschützter Text *"</string>
     <string name="insufficient_drm_rights">"Nicht ausreichende DRM-Rechte ermittelt."</string>
@@ -60,7 +61,7 @@
     <string name="move_down">"Nach unten verschieben"</string>
     <string name="remove_slide">"Dia entfernen"</string>
     <string name="add_slide">"Dia hinzufügen"</string>
-    <string name="add_slide_hint">"Wählen Sie diese Option, um ein neues Dia zu erstellen."</string>
+    <string name="add_slide_hint">"Neues Dia erstellen"</string>
     <string name="discard_slideshow">"Diashow verwerfen"</string>
     <string name="slide_show_part">"Teil <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text">"Text entfernen"</string>
@@ -81,7 +82,7 @@
     <string name="remove">"Entfernen"</string>
     <string name="send">"Senden"</string>
     <string name="all_threads">"Alle Threads"</string>
-    <string name="type_to_compose_text_enter_to_send">"Zum Erstellen eingeben"</string>
+    <string name="type_to_compose_text_enter_to_send">"Zum Schreiben eintippen"</string>
     <string name="open_keyboard_to_compose_message">"Tastatur herausziehen, um Nachricht zu schreiben"</string>
     <string name="image_too_large">"Bild zu groß"</string>
     <string name="ask_for_automatically_resize">"Bildgröße vor dem Senden automatisch anpassen?"</string>
@@ -89,6 +90,8 @@
     <string name="unsupported_media_format">"Format von <xliff:g id="NAME">%1$s</xliff:g> wird nicht unterstützt."</string>
     <string name="select_different_media">"Wählen Sie ein anderes Element als <xliff:g id="NAME">%1$s</xliff:g> aus."</string>
     <string name="exceed_message_size_limitation">"Maximale Nachrichtengröße erreicht"</string>
+    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
+    <skip />
     <string name="failed_to_add_media">"<xliff:g id="NAME">%1$s</xliff:g> kann nicht zur Nachricht hinzugefügt werden."</string>
     <string name="failed_to_resize_image">"Bildgröße nicht angepasst."</string>
     <string name="resize_image_error_information">"Das Bild ist trotz Größenanpassung zu groß zum Senden."</string>
@@ -244,4 +247,22 @@
     <string name="copy_to_sdcard_fail">"Kopieren von Anhang auf SD-Karte fehlgeschlagen"</string>
     <string name="menu_insert_smiley">"Smiley einfügen"</string>
     <string name="select_link_title">"Aktion auswählen"</string>
+    <string name="slide_number">"Dia <xliff:g id="NUMBER">%s</xliff:g>"</string>
+  <plurals name="slide_duration">
+    <item quantity="one">"<xliff:g id="NUMBER">%s</xliff:g> Sek."</item>
+    <item quantity="few">"<xliff:g id="NUMBER">%s</xliff:g> Sek."</item>
+    <item quantity="other">"<xliff:g id="NUMBER">%s</xliff:g> Sek."</item>
+  </plurals>
+    <string name="delivery_report_activity">"Zustellbericht"</string>
+    <string name="add_attachment_activity">"Anhang hinzufügen:"</string>
+    <string name="select_layout_activity">"Layout auswählen"</string>
+    <string name="change_duration_activity">"Dauer ändern"</string>
+    <string name="edit_text_activity">"Text bearbeiten"</string>
+    <string name="edit_slideshow_activity">"Diashow bearbeiten"</string>
+    <string name="edit_slide_activity">"Dia bearbeiten"</string>
+    <string name="pick_numbers_activity">"Nummern auswählen"</string>
+    <string name="slideshow_activity">"Diashow"</string>
+    <string name="class_0_message_activity">"Nachricht Klasse 0"</string>
+    <string name="send_using_mms_activity">"Per MMS senden..."</string>
+    <string name="select_contact_method_activity">"Kontaktmethode auswählen"</string>
 </resources>

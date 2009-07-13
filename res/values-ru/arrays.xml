@@ -35,22 +35,22 @@
     <item>"o_O"</item>
   </string-array>
   <string-array name="default_smiley_names">
-    <item>"Счастье"</item>
-    <item>"Грустно"</item>
-    <item>"Подмигиваю"</item>
-    <item>"Высунутый язык"</item>
+    <item>"Радость"</item>
+    <item>"Грустный"</item>
+    <item>"Подмигивает"</item>
+    <item>"Показывает язык"</item>
     <item>"Удивление"</item>
-    <item>"Целую"</item>
-    <item>"Кричу"</item>
-    <item>"Круто"</item>
-    <item>"Знаю, что говорю"</item>
-    <item>"Молчок"</item>
-    <item>"В смущении"</item>
-    <item>"Ангел"</item>
-    <item>"В нерешительности"</item>
-    <item>"Плачу"</item>
-    <item>"Никому не скажу"</item>
-    <item>"Смешно"</item>
+    <item>"Поцелуй"</item>
+    <item>"Кричит"</item>
+    <item>"Крутой"</item>
+    <item>"Не болтай попусту"</item>
     <item>"В замешательстве"</item>
+    <item>"Смущение"</item>
+    <item>"Ангел"</item>
+    <item>"Нерешительный"</item>
+    <item>"Плачет"</item>
+    <item>"Не скажу"</item>
+    <item>"Смех"</item>
+    <item>"Озадаченный"</item>
   </string-array>
 </resources>
