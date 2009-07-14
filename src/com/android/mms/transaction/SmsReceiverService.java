@@ -420,7 +420,7 @@ public class SmsReceiverService extends Service {
         // Using NEW_TASK here is necessary because we're calling
         // startActivity from outside an activity.
         Intent smsDialogIntent = new Intent(context, ClassZeroActivity.class)
-                .putExtra(CLASS_ZERO_BODY_KEY, sms.getMessageBody())
+                .putExtra("pdu", sms.getPdu())
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                           | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
