@@ -230,10 +230,10 @@ public class Conversation {
 
         return mThreadId;
     }
-    
+
     public synchronized void clearThreadId() {
         mThreadId = 0;
-    }    
+    }
 
     /**
      * Sets the list of recipients associated with this conversation.
@@ -407,7 +407,7 @@ public class Conversation {
     private static void fillFromCursor(Context context, Conversation conv,
                                        Cursor c, boolean allowQuery) {
         synchronized (conv) {
-            conv.mThreadId = c.getInt(ID);
+            conv.mThreadId = c.getLong(ID);
             conv.mDate = c.getLong(DATE);
             conv.mMessageCount = c.getInt(MESSAGE_COUNT);
 
@@ -478,7 +478,8 @@ public class Conversation {
                 // We update cache entries in place so people with long-
                 // held references get updated.
                 if (sInstance.mCache.contains(c)) {
-                    throw new IllegalStateException("cache already contains" + c);
+                    throw new IllegalStateException("cache already contains " + c +
+                            " threadId: " + c.mThreadId);
                 }
                 sInstance.mCache.add(c);
             }
