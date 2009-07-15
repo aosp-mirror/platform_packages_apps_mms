@@ -652,11 +652,11 @@ public class ComposeMessageActivity extends Activity
         }
         return true;
     }
-    
+
     private boolean isSpecialChar(char c) {
         return c == '*' || c == '%' || c == '$';
     }
-    
+
     private void addPositionBasedMenuItems(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         AdapterView.AdapterContextMenuInfo info;
 
@@ -1300,7 +1300,7 @@ public class ComposeMessageActivity extends Activity
         // Must grab the recipients before the view is made visible because getRecipients()
         // returns empty recipients when the editor is visible.
         ContactList recipients = getRecipients();
-        
+
         ViewStub stub = (ViewStub)findViewById(R.id.recipients_editor_stub);
         if (stub != null) {
             mRecipientsEditor = (RecipientsEditor) stub.inflate();
@@ -1400,7 +1400,7 @@ public class ComposeMessageActivity extends Activity
             undeliveredMessageDialog(getMessageDate(null));
         }
         cancelFailedDownloadNotification(getIntent(), this);
-        
+
         // Set up the message history ListAdapter
         initMessageList();
 
@@ -1431,7 +1431,7 @@ public class ComposeMessageActivity extends Activity
         mIsKeyboardOpen = config.keyboardHidden == KEYBOARDHIDDEN_NO;
         mIsLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE;
         onKeyboardStateChanged(mIsKeyboardOpen);
-        
+
         if (TRACE) {
             android.os.Debug.startMethodTracing("compose");
         }
@@ -1849,11 +1849,24 @@ public class ComposeMessageActivity extends Activity
                 break;
 
             case AttachmentTypeSelectorAdapter.RECORD_VIDEO: {
-                Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
-                startActivityForResult(intent, REQUEST_CODE_TAKE_VIDEO);
+                // Set video size limit. Subtract 1K for some text.
+                long sizeLimit = MmsConfig.getMaxMessageSize() - 1024;
+                if (mWorkingMessage.getSlideshow() != null) {
+                    sizeLimit -= mWorkingMessage.getSlideshow().getCurrentMessageSize();
+                }
+                if (sizeLimit > 0) {
+                    Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+                    intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, sizeLimit);
+                    startActivityForResult(intent, REQUEST_CODE_TAKE_VIDEO);
+                }
+                else {
+                    Toast.makeText(this,
+                            getString(R.string.message_too_big_for_video),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
-                break;
+            break;
 
             case AttachmentTypeSelectorAdapter.ADD_SOUND:
                 MessageUtils.selectAudio(this, REQUEST_CODE_ATTACH_SOUND);
@@ -2687,15 +2700,15 @@ public class ComposeMessageActivity extends Activity
             }
         });
     }
-    
+
     private void addRecipientsListeners() {
         ContactList recipients = getRecipients();
-        recipients.addListeners(this);       
+        recipients.addListeners(this);
     }
-    
+
     private void removeRecipientsListeners() {
         ContactList recipients = getRecipients();
-        recipients.removeListeners(this);       
+        recipients.removeListeners(this);
     }
 }
 

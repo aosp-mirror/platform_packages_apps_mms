@@ -188,6 +188,8 @@
     <string name="select_different_media">Please select a different <xliff:g id="name">%1$s</xliff:g>.</string>
     <!-- Message indicating that the message size limit has been reached -->
     <string name="exceed_message_size_limitation">Message size limit reached.</string>
+    <!-- Message indicating that the message is too big and there is no space to attach a video -->
+    <string name="message_too_big_for_video">The message is too big to attach a video.</string>
     <!-- Error message indicating that the item trying to be attached could not be added -->
     <string name="failed_to_add_media">Sorry, you cannot add this <xliff:g id="name">%1$s</xliff:g> to your message.</string>
     <!-- Error message indicating that the picture being attached and resized could not be resized -->
@@ -452,7 +454,7 @@
     <string name="recipient_label">Recipient:\u0020</string>
     <!-- Label in "Report" window -->
     <string name="status_label">Status:\u0020</string>
-    
+
 
     <!-- Attachment Type Selector Adapter. This string is an option in the "Attach" dialog, "Add music" dialog -->
     <string name="attach_image">Pictures</string>
@@ -515,7 +517,7 @@
     <!-- When an error occurs downloading a new message and the sender is unknown, substitute
          this default text. -->
     <string name="unknown_sender">Unknown sender</string>
-    <!-- When an error occurs downloading a new message, display this message. 
+    <!-- When an error occurs downloading a new message, display this message.
          An example: Download of message Wanna get pizza from dorkman was unsuccessful. -->
     <string name="dl_failure_notification">Download of message <xliff:g id="subject">%s</xliff:g> from <xliff:g id="from">%s</xliff:g> was unsuccessful.</string>
 
@@ -606,7 +608,7 @@
 
     <!-- Search activity name -->
     <string name="search">Messaging Search</string>
-    
+
     <!--  Search empty results -->
     <string name="search_empty">No matches</string>
 
