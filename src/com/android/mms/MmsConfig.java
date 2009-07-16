@@ -50,7 +50,8 @@ public class MmsConfig {
     private static String mEmailGateway = null;
     private static int mMaxImageHeight = 0;
     private static int mMaxImageWidth = 0;
-   
+    private static int mRecipientLimit = Integer.MAX_VALUE;
+
     public static void init(Context context) {
         if (LOCAL_LOGV) {
             Log.v(TAG, "MmsConfig.init()");
@@ -58,15 +59,15 @@ public class MmsConfig {
 
         loadMmsSettings(context);
     }
-    
+
     public static boolean getMmsEnabled() {
         return mMmsEnabled == 1 ? true : false;
     }
-    
+
     public static int getMaxMessageSize() {
         return mMaxMessageSize;
     }
-    
+
     public static String getUserAgent() {
         return mUserAgent;
     }
@@ -94,9 +95,13 @@ public class MmsConfig {
     public static int getMaxImageHeight() {
         return mMaxImageHeight;
     }
-    
+
     public static int getMaxImageWidth() {
         return mMaxImageWidth;
+    }
+
+    public static int getRecipientLimit() {
+        return mRecipientLimit;
     }
 
     private static void loadMmsSettings(Context context) {
@@ -105,7 +110,7 @@ public class MmsConfig {
 
         try {
             XmlUtils.beginDocument(parser, "mms_config");
-            
+
             while (true) {
                 XmlUtils.nextElement(parser);
                 String tag = parser.getName();
@@ -119,6 +124,9 @@ public class MmsConfig {
                     text = parser.getText();
                 }
 
+                if (DEBUG) {
+                    Log.v(TAG, "tag: " + tag + " value: " + value);
+                }
                 if ("name".equalsIgnoreCase(name)) {
                     if ("bool".equals(tag)) {
                         // bool config tags go here
@@ -133,6 +141,11 @@ public class MmsConfig {
                             mMaxImageHeight = Integer.parseInt(text);
                         } else if ("maxImageWidth".equalsIgnoreCase(value)) {
                             mMaxImageWidth = Integer.parseInt(text);
+                        } else if ("recipientLimit".equalsIgnoreCase(value)) {
+                            mRecipientLimit = Integer.parseInt(text);
+                            if (mRecipientLimit < 0) {
+                                mRecipientLimit = Integer.MAX_VALUE;
+                            }
                         }
                     } else if ("string".equals(tag)) {
                         // string config tags go here
@@ -185,7 +198,7 @@ public class MmsConfig {
 
         if (errorStr != null) {
             String err =
-                String.format("MmsConfig.loadMmsSettings mms_config.xml missing %s setting", 
+                String.format("MmsConfig.loadMmsSettings mms_config.xml missing %s setting",
                         errorStr);
             Log.e(TAG, err);
             throw new ContentRestrictionException(err);

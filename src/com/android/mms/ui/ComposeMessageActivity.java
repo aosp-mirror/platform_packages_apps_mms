@@ -270,6 +270,7 @@ public class ComposeMessageActivity extends Activity
     private String[] mContactInfoSelectionArgs = new String[1];
 
     private boolean mWaitingForSubActivity;
+    private int mLastRecipientCount;            // Used for warning the user on too many recipients.
 
     @SuppressWarnings("unused")
     private static void log(String format, Object... args) {
@@ -569,6 +570,8 @@ public class ComposeMessageActivity extends Activity
             mWorkingMessage.setWorkingRecipients(mRecipientsEditor.getNumbers());
             mWorkingMessage.setHasEmail(mRecipientsEditor.containsEmail());
 
+            checkForTooManyRecipients();
+
             // Walk backwards in the text box, skipping spaces.  If the last
             // character is a comma, update the title bar.
             for (int pos = s.length() - 1; pos >= 0; pos--) {
@@ -587,6 +590,26 @@ public class ComposeMessageActivity extends Activity
             updateSendButtonState();
         }
     };
+
+    private void checkForTooManyRecipients() {
+        final int recipientLimit = MmsConfig.getRecipientLimit();
+        if (recipientLimit != Integer.MAX_VALUE) {
+            final int recipientCount = recipientCount();
+            boolean tooMany = recipientCount > recipientLimit;
+
+            if (recipientCount != mLastRecipientCount) {
+                // Don't warn the user on every character they type when they're over the limit,
+                // only when the actual # of recipients changes.
+                mLastRecipientCount = recipientCount;
+                if (tooMany) {
+                    String tooManyMsg = getString(R.string.too_many_recipients, recipientCount,
+                            recipientLimit);
+                    Toast.makeText(ComposeMessageActivity.this,
+                            tooManyMsg, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
 
     private final OnCreateContextMenuListener mRecipientsMenuCreateListener =
         new OnCreateContextMenuListener() {
@@ -2303,19 +2326,25 @@ public class ComposeMessageActivity extends Activity
     }
 
     private boolean isPreparedForSending() {
-        boolean hasRecipient;
+        int recipientCount = recipientCount();
+
+        return recipientCount > 0 && recipientCount <= MmsConfig.getRecipientLimit() &&
+            (mWorkingMessage.hasAttachment() || mWorkingMessage.hasText());
+    }
+
+    private int recipientCount() {
+        int recipientCount;
 
         // To avoid creating a bunch of invalid Contacts when the recipients
-        // editor is  in flux, we keep the recipients list empty.  So if the
+        // editor is in flux, we keep the recipients list empty.  So if the
         // recipients editor is showing, see if there is anything in it rather
         // than consulting the empty recipient list.
         if (isRecipientsEditorVisible()) {
-            hasRecipient = mRecipientsEditor.getText().length() > 0;
+            recipientCount = mRecipientsEditor.getRecipientCount();
         } else {
-            hasRecipient = getRecipients().size() > 0;
+            recipientCount = getRecipients().size();
         }
-
-        return hasRecipient && (mWorkingMessage.hasAttachment() || mWorkingMessage.hasText());
+        return recipientCount;
     }
 
     private void sendMessage() {
@@ -2379,6 +2408,8 @@ public class ComposeMessageActivity extends Activity
 
             inputMethodManager.hideSoftInputFromWindow(mTextEditor.getWindowToken(), 0);
         }
+
+        mLastRecipientCount = 0;
    }
 
     private void updateSendButtonState() {

@@ -226,6 +226,8 @@
     <string name="message_saved_as_draft">Message saved as draft.</string>
     <!-- Brief message that appears when an attempt is made to delete a locked message -->
     <string name="locked_message_cannot_be_deleted">Locked message cannot be deleted.</string>
+    <!-- Brief message that appears when too many recipients have been added -->
+    <string name="too_many_recipients">This message has too many recipients (<xliff:g id="currentCount">%1$s</xliff:g>). There is a limit of <xliff:g id="maxLimit">%2$s</xliff:g> recipients.</string>
 
     <!-- Error message indicating that an audio attachment cannot be played -->
     <string name="cannot_play_audio">Cannot play audio.</string>
