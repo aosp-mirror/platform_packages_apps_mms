@@ -25,6 +25,7 @@ import com.android.mms.util.DraftCache;
  */
 public class Conversation {
     private static final String TAG = "Conversation";
+    private static final boolean DEBUG = false;
 
     private static final Uri sAllThreadsUri =
         Threads.CONTENT_URI.buildUpon().appendQueryParameter("simple", "true").build();
@@ -134,10 +135,16 @@ public class Conversation {
             return createNew(context);
         }
 
+        if (DEBUG) {
+            Log.v(TAG, "Conversation get URI: " + uri);
+        }
         // Handle a conversation URI
         if (uri.getPathSegments().size() >= 2) {
             try {
                 long threadId = Long.parseLong(uri.getPathSegments().get(1));
+                if (DEBUG) {
+                    Log.v(TAG, "Conversation get threadId: " + threadId);
+                }
                 return get(context, threadId);
             } catch (NumberFormatException exception) {
                 Log.e(TAG, "Invalid URI: " + uri);
@@ -224,14 +231,23 @@ public class Conversation {
      * @return The thread ID of this conversation in the database
      */
     public synchronized long ensureThreadId() {
+        if (DEBUG) {
+            Log.v("TAG", "ensureThreadId before: " + mThreadId);
+        }
         if (mThreadId <= 0) {
             mThreadId = getOrCreateThreadId(mContext, mRecipients);
+        }
+        if (DEBUG) {
+            Log.v("TAG", "ensureThreadId after: " + mThreadId);
         }
 
         return mThreadId;
     }
 
     public synchronized void clearThreadId() {
+        // remove ourself from the cache
+        Cache.remove(mThreadId);
+
         mThreadId = 0;
     }
 
@@ -444,7 +460,15 @@ public class Conversation {
          */
         static Conversation get(long threadId) {
             synchronized (sInstance) {
+                if (DEBUG) {
+                    Log.v(TAG, "Conversation get with threadId: " + threadId);
+                }
+                dumpCache();
                 for (Conversation c : sInstance.mCache) {
+                    if (DEBUG) {
+                        Log.v(TAG, "Conversation get() threadId: " + threadId +
+                                " c.getThreadId(): " + c.getThreadId());
+                    }
                     if (c.getThreadId() == threadId) {
                         return c;
                     }
@@ -459,6 +483,10 @@ public class Conversation {
          */
         static Conversation get(ContactList list) {
             synchronized (sInstance) {
+                if (DEBUG) {
+                    Log.v(TAG, "Conversation get with ContactList: " + list);
+                    dumpCache();
+                }
                 for (Conversation c : sInstance.mCache) {
                     if (c.getRecipients().equals(list)) {
                         return c;
@@ -477,11 +505,41 @@ public class Conversation {
             synchronized (sInstance) {
                 // We update cache entries in place so people with long-
                 // held references get updated.
+                if (DEBUG) {
+                    Log.v(TAG, "Conversation c: " + c + " put with threadid: " + c.getThreadId() +
+                            " c.hash: " + c.hashCode());
+                    dumpCache();
+                }
+
                 if (sInstance.mCache.contains(c)) {
                     throw new IllegalStateException("cache already contains " + c +
                             " threadId: " + c.mThreadId);
                 }
                 sInstance.mCache.add(c);
+            }
+        }
+
+        static void remove(long threadId) {
+            if (DEBUG) {
+                Log.v(TAG, "remove threadid: " + threadId);
+                dumpCache();
+            }
+            for (Conversation c : sInstance.mCache) {
+                if (c.getThreadId() == threadId) {
+                    sInstance.mCache.remove(c);
+                    return;
+                }
+            }
+        }
+
+        static void dumpCache() {
+            if (DEBUG) {
+                synchronized (sInstance) {
+                    Log.v(TAG, "Conversation dumpCache: ");
+                    for (Conversation c : sInstance.mCache) {
+                        Log.v(TAG, "   c: " + c + " c.getThreadId(): " + c.getThreadId() + " hash: " + c.hashCode());
+                    }
+                }
             }
         }
 
@@ -516,6 +574,9 @@ public class Conversation {
 
     private static void cacheAllThreads(Context context) {
         synchronized (Cache.getInstance()) {
+            if (DEBUG) {
+                Log.v(TAG, "cacheAllThreads called");
+            }
             // Keep track of what threads are now on disk so we
             // can discard anything removed from the cache.
             HashSet<Long> threadsOnDisk = new HashSet<Long>();
@@ -530,6 +591,7 @@ public class Conversation {
 
                     // Try to find this thread ID in the cache.
                     Conversation conv = Cache.get(threadId);
+
                     if (conv == null) {
                         // Make a new Conversation and put it in
                         // the cache if necessary.

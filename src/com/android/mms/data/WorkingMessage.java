@@ -249,14 +249,8 @@ public class WorkingMessage {
         }
 
         // Look for an SMS draft first.
-        mText = readDraftSmsMessage(mContext, threadId);
+        mText = readDraftSmsMessage(mContext, threadId, conv);
         if (!TextUtils.isEmpty(mText)) {
-            // We found a draft, and if there are no messages in the conversation,
-            // that means we deleted the thread, too. Must reset the thread id
-            // so we'll eventually create a new thread.
-            if (conv.getMessageCount() == 0) {
-                conv.clearThreadId();
-            }
             return true;
         }
 
@@ -863,7 +857,7 @@ public class WorkingMessage {
         MessageSender sender = new SmsMessageSender(mContext, dests, msgText, threadId);
         try {
             sender.sendMessage(threadId);
-            
+
             // Make sure this thread isn't over the limits in message count
             Recycler.getSmsRecycler().deleteOldMessagesByThreadId(mContext, threadId);
        } catch (Exception e) {
@@ -899,7 +893,7 @@ public class WorkingMessage {
                 // delete the copy which was previously saved in MMS drafts.
                 SqliteWrapper.delete(mContext, mContentResolver, mmsUri, null, null);
             }
-            
+
             // Make sure this thread isn't over the limits in message count
             Recycler.getMmsRecycler().deleteOldMessagesByThreadId(mContext, threadId);
         } catch (Exception e) {
@@ -1023,7 +1017,7 @@ public class WorkingMessage {
      * if there is one, deletes it from the database, and returns it.
      * @return The draft message or an empty string.
      */
-    private static String readDraftSmsMessage(Context context, long thread_id) {
+    private static String readDraftSmsMessage(Context context, long thread_id, Conversation conv) {
         if (DEBUG) debug("readDraftSmsMessage tid=%d", thread_id);
         ContentResolver cr = context.getContentResolver();
 
@@ -1050,6 +1044,14 @@ public class WorkingMessage {
         // it later.  The message will be re-saved if necessary upon exit of
         // the activity.
         SqliteWrapper.delete(context, cr, thread_uri, SMS_DRAFT_WHERE, null);
+
+        // We found a draft, and if there are no messages in the conversation,
+        // that means we deleted the thread, too. Must reset the thread id
+        // so we'll eventually create a new thread.
+        if (conv.getMessageCount() == 0) {
+            if (DEBUG) debug("readDraftSmsMessage calling clearThreadId");
+            conv.clearThreadId();
+        }
 
         return body;
     }

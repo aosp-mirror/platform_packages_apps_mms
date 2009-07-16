@@ -420,6 +420,9 @@ public class ConversationList extends ListActivity
         protected void onDeleteComplete(int token, Object cookie, int result) {
             switch (token) {
             case DELETE_CONVERSATION_TOKEN:
+                // Make sure the conversation cache reflects the threads in the DB.
+                Conversation.init(ConversationList.this);
+
                 // Update the notification for new messages since they
                 // may be deleted.
                 MessagingNotification.updateNewMessageIndicator(ConversationList.this);
