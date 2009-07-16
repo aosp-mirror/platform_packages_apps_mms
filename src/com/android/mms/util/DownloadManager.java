@@ -183,6 +183,26 @@ public class DownloadManager {
     }
 
     public void markState(final Uri uri, int state) {
+        // Notify user if the message has expired.
+        try {
+            NotificationInd nInd = (NotificationInd) PduPersister.getPduPersister(mContext)
+                    .load(uri);
+            if ((nInd.getExpiry() < System.currentTimeMillis()/1000L)
+                && (state == STATE_DOWNLOADING)) {
+                mHandler.post(new Runnable() {
+                    public void run() {
+                        Toast.makeText(mContext, R.string.dl_expired_notification,
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+                SqliteWrapper.delete(mContext, mContext.getContentResolver(), uri, null, null);
+                return;
+            }
+        } catch(MmsException e) {
+            Log.e(TAG, e.getMessage(), e);
+            return;
+        }
+
         // Notify user if downloading permanently failed.
         if (state == STATE_PERMANENT_FAILURE) {
             mHandler.post(new Runnable() {
