@@ -319,8 +319,7 @@ public class MessageListItem extends LinearLayout implements
                 if (index == -1) {
                     break;
                 }
-                // todo move to resource file
-                buf.setSpan(new BackgroundColorSpan(Color.YELLOW), index, index + highlightLen, 0);
+                buf.setSpan(new StyleSpan(Typeface.BOLD), index, index + highlightLen, 0);
                 prev = index + highlightLen;
             }
         }

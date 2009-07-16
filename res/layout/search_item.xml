@@ -17,31 +17,52 @@
  */
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:paddingRight="15dip"
-    android:paddingLeft="15dip" >
+    android:paddingLeft="15dip">
 
-    <TextView android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:paddingTop="2dip"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/stat_notify_sms"
+            android:scaleType="fitXY"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="5dip"
+            android:paddingTop="2dip" />
+
+        <TextView
+            android:id="@+id/title"
+            android:textAppearance="?android:attr/textAppearanceMediumInverse"
+            android:layout_width="wrap_content"
+            android:paddingTop="2dip"
+            android:maxLines="1"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <view
+        class="com.android.mms.ui.SearchActivity$TextViewSnippet"
+        android:id="@+id/subtitle"
+        android:textAppearance="?android:attr/textAppearanceSmallInverse"
+        android:layout_width="fill_parent"
+        android:textSize="12sp"
         android:maxLines="1"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:singleLine="true" />
-
-    <view class="com.android.mms.ui.SearchActivity$TextViewSnippet"
-        android:id="@+id/subtitle"
-        android:layout_width="fill_parent"
-        android:textSize="12sp"
-        android:maxLines="1" android:layout_height="wrap_content"
-        android:ellipsize="end"
         android:singleLine="true"
-        android:textColor="?android:attr/textColorSecondary"  />
+        android:textColor="?android:attr/textColorSecondary" />
 
 </LinearLayout>

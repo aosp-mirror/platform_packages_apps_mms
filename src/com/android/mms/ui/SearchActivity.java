@@ -38,6 +38,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.mms.data.Contact;
@@ -61,9 +62,7 @@ public class SearchActivity extends ListActivity
      */
     public static class TextViewSnippet extends TextView {
         private static String sEllipsis = "\u2026";
-        
-        // todo move to resource file
-        private static int sHighlightColor = Color.MAGENTA;
+
         private static int sTypefaceHighlight = Typeface.BOLD;
 
         private String mFullText;
@@ -176,6 +175,12 @@ public class SearchActivity extends ListActivity
         final String searchString = getIntent().getStringExtra(SearchManager.QUERY);
         ContentResolver cr = getContentResolver();
 
+        final ListView listView = getListView();
+        listView.setSelector(android.R.drawable.list_selector_background);
+        listView.setItemsCanFocus(true);
+        listView.setFocusable(true);
+        listView.setClickable(true);
+
         // When the query completes cons up a new adapter and set our list adapter to that.
         mQueryHandler = new AsyncQueryHandler(cr) {
             protected void onQueryComplete(int token, Object cookie, Cursor c) {
@@ -229,7 +234,7 @@ public class SearchActivity extends ListActivity
                     @Override
                     public View newView(Context context, Cursor cursor, ViewGroup parent) {
                         LayoutInflater inflater = LayoutInflater.from(context);
-                        View v = inflater.inflate(R.layout.search_item, null);
+                        View v = inflater.inflate(R.layout.search_item, parent, false);
                         return v;
                     }
 
