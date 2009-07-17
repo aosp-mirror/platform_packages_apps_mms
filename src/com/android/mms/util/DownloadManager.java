@@ -227,6 +227,19 @@ public class DownloadManager {
                     uri, values, null, null);
     }
 
+    public void showErrorCodeToast(int errorStr) {
+        final int errStr = errorStr;
+        mHandler.post(new Runnable() {
+            public void run() {
+                try {
+                    Toast.makeText(mContext, errStr, Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Log.e(TAG,"Caught an exception in showErrorCodeToast");
+                }
+            }
+        });
+    }
+
     private String getMessage(Uri uri) throws MmsException {
         NotificationInd ind = (NotificationInd) PduPersister
                 .getPduPersister(mContext).load(uri);

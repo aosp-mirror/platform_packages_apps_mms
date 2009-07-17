@@ -204,6 +204,8 @@
     <string name="discard_message_reason">Your message will be discarded because it has no valid recipients.</string>
     <!-- Dialog box title indicating which recipients are invalid when the user tries to send a message with invalid recipients -->
     <string name="has_invalid_recipient">Invalid recipient(s): &lt;<xliff:g id="name">%1$s</xliff:g>&gt;</string>
+    <!-- While sending a message, if it has invalid recipient, display this message. -->
+    <string name="invalid_destination">You have entered an invalid address.</string>
     <!-- Dialog message text when the user tries to send a message with invalid recipients -->
     <string name="invalid_recipient_message">Please correct the recipient(s) or they will not receive the message.</string>
     <!-- Dialog box title indicating the message cannot be sent because there are no valid recipients -->

@@ -17,6 +17,7 @@
 
 package com.android.mms.transaction;
 
+import com.android.mms.R;
 import com.android.mms.util.DownloadManager;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPersister;
@@ -125,7 +126,14 @@ public class RetryScheduler implements Observer {
                     long current = System.currentTimeMillis();
                     boolean isRetryDownloading =
                             (msgType == PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND);
-                    if (retryIndex < scheme.getRetryLimit()) {
+                    boolean retry = true;
+                    int respStatus = getResponseStatus(msgId);
+                    if (respStatus == PduHeaders.RESPONSE_STATUS_ERROR_SENDING_ADDRESS_UNRESOLVED) {
+                        DownloadManager.getInstance().showErrorCodeToast(R.string.invalid_destination);
+                        retry = false;
+                    }
+
+                    if ((retryIndex < scheme.getRetryLimit()) && retry) {
                         long retryAt = current + scheme.getWaitingInterval();
 
                         if (LOCAL_LOGV) {
@@ -192,6 +200,23 @@ public class RetryScheduler implements Observer {
                 cursor.close();
             }
         }
+    }
+
+    private int getResponseStatus(long msgID) {
+        int respStatus = 0;
+        Cursor cursor = SqliteWrapper.query(mContext, mContentResolver,
+                Mms.Outbox.CONTENT_URI, null, "m_id =" + msgID, null, null);
+        try {
+            if (cursor.moveToFirst()) {
+                respStatus = cursor.getInt(cursor.getColumnIndexOrThrow(Mms.RESPONSE_STATUS));
+            }
+        } finally {
+            cursor.close();
+        }
+        if (respStatus != 0) {
+            Log.e(TAG, "Response status is: " + respStatus);
+        }
+        return respStatus;
     }
 
     public static void setRetryAlarm(Context context) {
