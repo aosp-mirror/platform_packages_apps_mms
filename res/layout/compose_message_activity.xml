@@ -23,6 +23,8 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
+    <include layout="@layout/titlebar"/>
+
     <LinearLayout
         android:id="@+id/recipients_subject_linear"
         android:layout_width="fill_parent"

@@ -210,8 +210,10 @@ public class ComposeMessageActivity extends Activity
     // caller id query params
     private static final String[] CALLER_ID_PROJECTION = new String[] {
             People.PRESENCE_STATUS,     // 0
+            People.PRESENCE_CUSTOM_STATUS,  // 1
     };
     private static final int PRESENCE_STATUS_COLUMN = 0;
+    private static final int PRESENCE_CUSTOM_STATUS_COLUMN = 1;
 
     private static final String NUMBER_LOOKUP = "PHONE_NUMBERS_EQUAL("
         + Contacts.Phones.NUMBER + ",?)";
@@ -220,7 +222,8 @@ public class ComposeMessageActivity extends Activity
 
     // email contact query params
     private static final String[] EMAIL_QUERY_PROJECTION = new String[] {
-            Contacts.People.PRESENCE_STATUS,     // 0
+        Contacts.People.PRESENCE_STATUS,     // 0
+        Contacts.People.PRESENCE_CUSTOM_STATUS,     // 1
     };
 
     private static final String METHOD_LOOKUP = Contacts.ContactMethods.DATA + "=?";
@@ -271,6 +274,13 @@ public class ComposeMessageActivity extends Activity
 
     private boolean mWaitingForSubActivity;
     private int mLastRecipientCount;            // Used for warning the user on too many recipients.
+
+    private TextView mTitle;
+    private TextView mPresenceText;
+    private ImageView mAvatar;
+    private ImageView mPresenceIcon;
+
+    Drawable mGenericAvatar;
 
     @SuppressWarnings("unused")
     private static void log(String format, Object... args) {
@@ -1364,8 +1374,11 @@ public class ComposeMessageActivity extends Activity
     //==========================================================
 
     private void setPresenceIcon(int iconId) {
-        Drawable icon = iconId == 0 ? null : this.getResources().getDrawable(iconId);
-        getWindow().setFeatureDrawable(Window.FEATURE_LEFT_ICON, icon);
+        mPresenceIcon.setImageResource(iconId);
+    }
+
+    private void setAvatar(Drawable d) {
+        mAvatar.setImageDrawable(d);
     }
 
     public static boolean cancelFailedToDeliverNotification(Intent intent, Context context) {
@@ -1391,16 +1404,14 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_PROGRESS);
-        requestWindowFeature(Window.FEATURE_LEFT_ICON);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.compose_message_activity);
         setProgressBarVisibility(false);
 
-        setTitle("");
-
         // Initialize members for UI elements.
         initResourceRefs();
+        mGenericAvatar = getResources().getDrawable(R.drawable.ic_contact_picture);
 
         mContentResolver = getContentResolver();
         mBackgroundQueryHandler = new BackgroundQueryHandler(mContentResolver);
@@ -2220,6 +2231,10 @@ public class ComposeMessageActivity extends Activity
         mTopPanel.setFocusable(false);
         mAttachmentEditor = (AttachmentEditor) findViewById(R.id.attachment_editor);
         mAttachmentEditor.setHandler(mAttachmentEditorHandler);
+        mTitle = (TextView) findViewById(R.id.contact_name);
+        mPresenceText = (TextView) findViewById(R.id.presence);
+        mAvatar = (ImageView) findViewById(R.id.avatar);
+        mPresenceIcon = (ImageView) findViewById(R.id.presence_icon);
     }
 
     private void confirmDeleteDialog(OnClickListener listener, boolean allMessages) {
@@ -2476,9 +2491,9 @@ public class ComposeMessageActivity extends Activity
     private void updateWindowTitle() {
         ContactList recipients = getRecipients();
         if (recipients.size() > 0) {
-            setTitle(recipients.formatNamesAndNumbers(", "));
+            mTitle.setText(recipients.formatNamesAndNumbers(", "));
         } else {
-            setTitle(getString(R.string.compose_title));
+            mTitle.setText(getString(R.string.compose_title));
         }
     }
 
@@ -2679,6 +2694,7 @@ public class ComposeMessageActivity extends Activity
 
         if (recipients.size() != 1) {
             setPresenceIcon(0);
+            setAvatar(mGenericAvatar);
             return;
         }
 
@@ -2712,14 +2728,16 @@ public class ComposeMessageActivity extends Activity
         boolean updated = false;
         if (mContactInfoCursor != null && mContactInfoCursor.moveToFirst()) {
             mPresenceStatus = mContactInfoCursor.getInt(PRESENCE_STATUS_COLUMN);
-            if (mPresenceStatus != Contacts.People.OFFLINE) {
-                int presenceIcon = Presence.getPresenceIconResourceId(mPresenceStatus);
-                setPresenceIcon(presenceIcon);
-                updated = true;
-            }
+            setPresenceIcon(Presence.getPresenceIconResourceId(mPresenceStatus));
+            String status = mContactInfoCursor.getString(PRESENCE_CUSTOM_STATUS_COLUMN);
+            mPresenceText.setText(status);
+
+            setAvatar(mGenericAvatar);  // TODO get the actual avatar
+            updated = true;
         }
         if (!updated) {
             setPresenceIcon(0);
+            setAvatar(mGenericAvatar);
         }
     }
 
