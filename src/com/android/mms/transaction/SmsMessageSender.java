@@ -44,7 +44,7 @@ public class SmsMessageSender implements MessageSender {
     private final String mServiceCenter;
     private final long mThreadId;
     private long mTimestamp;
-    
+
     // Default preference values
     private static final boolean DEFAULT_DELIVERY_REPORT_MODE  = false;
 
@@ -87,6 +87,12 @@ public class SmsMessageSender implements MessageSender {
                messages = smsManager.divideMessage(mMessageText);
             }
             int messageCount = messages.size();
+
+            if (messageCount == 0) {
+                // Don't try to send an empty message.
+                throw new MmsException("Zero messages after divideMessage. Original message: \"" +
+                        mMessageText + "\"");
+            }
             ArrayList<PendingIntent> deliveryIntents =
                     new ArrayList<PendingIntent>(messageCount);
             ArrayList<PendingIntent> sentIntents =
