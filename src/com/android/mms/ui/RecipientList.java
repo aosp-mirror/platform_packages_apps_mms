@@ -61,6 +61,7 @@ public class RecipientList {
         public String number;           // often filtered from 800-892-1212 to 8008921212
         public String nameAndNumber;    // Fred Flintstone <670-782-1123>
         public boolean bcc;
+        public int displayEnd;          // ending index of span in RecipientsEditor
 
         @Override
         public String toString() {
