@@ -39,6 +39,7 @@ public class MmsConfig {
     /**
      * Whether to hide MMS functionality from the user (i.e. SMS only).
      */
+    private static boolean mTransIdEnabled = false;
     private static int mMmsEnabled = -1;        // an int so we can tell whether it's been inited
     private static int mMaxMessageSize = 0;
     private static String mUserAgent = null;
@@ -69,6 +70,15 @@ public class MmsConfig {
 
     public static int getMaxMessageSize() {
         return mMaxMessageSize;
+    }
+
+    /**
+     * This function returns the value of "enabledTransID" present in mms_config file.
+     * In case of single segment wap push message, this "enabledTransID" indicates whether
+     * TransactionID should be appended to URI or not.
+     */
+    public static boolean getTransIdEnabled() {
+        return mTransIdEnabled;
     }
 
     public static String getUserAgent() {
@@ -151,6 +161,8 @@ public class MmsConfig {
                         // bool config tags go here
                         if ("enabledMMS".equalsIgnoreCase(value)) {
                             mMmsEnabled = "true".equalsIgnoreCase(text) ? 1 : 0;
+                        } else if ("enabledTransID".equalsIgnoreCase(value)) {
+                            mTransIdEnabled = "true".equalsIgnoreCase(text);
                         }
                     } else if ("int".equals(tag)) {
                         // int config tags go here
