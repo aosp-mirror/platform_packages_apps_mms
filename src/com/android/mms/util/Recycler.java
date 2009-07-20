@@ -16,6 +16,7 @@
 
 package com.android.mms.util;
 
+import com.android.mms.MmsConfig;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.google.android.mms.util.SqliteWrapper;
@@ -46,7 +47,7 @@ public abstract class Recycler {
 
     private static Recycler sSmsRecycler;
     private static Recycler sMmsRecycler;
-    
+
     public static Recycler getSmsRecycler() {
         if (sSmsRecycler == null) {
             sSmsRecycler = new SmsRecycler();
@@ -60,7 +61,7 @@ public abstract class Recycler {
         }
         return sMmsRecycler;
     }
-    
+
     public void deleteOldMessages(Context context) {
         if (LOCAL_DEBUG) {
             Log.v(TAG, "Recycler.deleteOldMessages this: " + this);
@@ -80,7 +81,7 @@ public abstract class Recycler {
             cursor.close();
         }
     }
-    
+
     public void deleteOldMessagesByThreadId(Context context, long threadId) {
         if (LOCAL_DEBUG) {
             Log.v(TAG, "Recycler.deleteOldMessagesByThreadId this: " + this +
@@ -89,7 +90,7 @@ public abstract class Recycler {
         if (!isAutoDeleteEnabled(context)) {
             return;
         }
-        
+
         deleteMessagesForThread(context, threadId, getMessageLimit(context));
     }
 
@@ -101,12 +102,22 @@ public abstract class Recycler {
 
     abstract public int getMessageLimit(Context context);
 
+    abstract public void setMessageLimit(Context context, int limit);
+
+    public int getMessageMinLimit() {
+        return MmsConfig.getMinMessageCountPerThread();
+    }
+
+    public int getMessageMaxLimit() {
+        return MmsConfig.getMaxMessageCountPerThread();
+    }
+
     abstract protected long getThreadId(Cursor cursor);
 
     abstract protected Cursor getAllThreads(Context context);
-    
+
     abstract protected void deleteMessagesForThread(Context context, long threadId, int keep);
-    
+
     abstract protected void dumpMessage(Cursor cursor, Context context);
 
     static class SmsRecycler extends Recycler {
@@ -140,17 +151,24 @@ public abstract class Recycler {
         static private final int COLUMN_SMS_STATUS          = 7;
 
         private final String MAX_SMS_MESSAGES_PER_THREAD = "MaxSmsMessagesPerThread";
-        private final int MAX_SMS_MESSAGES_PER_THREAD_DEFAULT = 200;
 
         public int getMessageLimit(Context context) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            return prefs.getInt(MAX_SMS_MESSAGES_PER_THREAD, MAX_SMS_MESSAGES_PER_THREAD_DEFAULT);   
+            return prefs.getInt(MAX_SMS_MESSAGES_PER_THREAD,
+                    MmsConfig.getDefaultSMSMessagesPerThread());
+        }
+
+        public void setMessageLimit(Context context, int limit) {
+            SharedPreferences.Editor editPrefs =
+                PreferenceManager.getDefaultSharedPreferences(context).edit();
+            editPrefs.putInt(MAX_SMS_MESSAGES_PER_THREAD, limit);
+            editPrefs.commit();
         }
 
         protected long getThreadId(Cursor cursor) {
             return cursor.getLong(ID);
         }
-        
+
         protected Cursor getAllThreads(Context context) {
             ContentResolver resolver = context.getContentResolver();
             Cursor cursor = SqliteWrapper.query(context, resolver,
@@ -186,7 +204,7 @@ public abstract class Recycler {
                 cursor.move(keep);
                 long latestDate = cursor.getLong(COLUMN_SMS_DATE);
 
-                long cntDeleted = SqliteWrapper.delete(context, resolver, 
+                long cntDeleted = SqliteWrapper.delete(context, resolver,
                         ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
                         "read=1 AND locked=0 AND date<" + latestDate,
                         null);
@@ -234,17 +252,24 @@ public abstract class Recycler {
         static private final int COLUMN_MMS_READ            = 3;
 
         private final String MAX_MMS_MESSAGES_PER_THREAD = "MaxMmsMessagesPerThread";
-        private final int MAX_MMS_MESSAGES_PER_THREAD_DEFAULT = 10;
 
         public int getMessageLimit(Context context) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            return prefs.getInt(MAX_MMS_MESSAGES_PER_THREAD, MAX_MMS_MESSAGES_PER_THREAD_DEFAULT);   
+            return prefs.getInt(MAX_MMS_MESSAGES_PER_THREAD,
+                    MmsConfig.getDefaultMMSMessagesPerThread());
+        }
+
+        public void setMessageLimit(Context context, int limit) {
+            SharedPreferences.Editor editPrefs =
+                PreferenceManager.getDefaultSharedPreferences(context).edit();
+            editPrefs.putInt(MAX_MMS_MESSAGES_PER_THREAD, limit);
+            editPrefs.commit();
         }
 
         protected long getThreadId(Cursor cursor) {
             return cursor.getLong(ID);
         }
-        
+
         protected Cursor getAllThreads(Context context) {
             ContentResolver resolver = context.getContentResolver();
             Cursor cursor = SqliteWrapper.query(context, resolver,
@@ -280,7 +305,7 @@ public abstract class Recycler {
                 cursor.move(keep);
                 long latestDate = cursor.getLong(COLUMN_MMS_DATE);
 
-                long cntDeleted = SqliteWrapper.delete(context, resolver, 
+                long cntDeleted = SqliteWrapper.delete(context, resolver,
                         Telephony.Mms.CONTENT_URI,
                         "thread_id=" + threadId + " AND read=1 AND locked=0 AND date<" + latestDate,
                         null);
@@ -291,7 +316,7 @@ public abstract class Recycler {
                 cursor.close();
             }
         }
-        
+
         protected void dumpMessage(Cursor cursor, Context context) {
             long id = cursor.getLong(COLUMN_ID);
             if (LOCAL_DEBUG) {

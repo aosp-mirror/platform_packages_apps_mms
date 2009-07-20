@@ -17,9 +17,10 @@
 <!-- Version History
         version 1 - initial version.
         version 2 - added recipientLimit.
+        version 3 - added min/max recycler values.
 -->
 
-<mms_config version="2">
+<mms_config version="3">
     <!-- Flag indicating whether MMS should be enabled -->
     <bool name="enabledMMS">true</bool>
 
@@ -32,11 +33,21 @@
     <!-- Maximum width for an attached image -->
     <int name="maxImageWidth">640</int>
 
-    <!-- Maximum number of SMS message to save per thread before auto-delete kicks in -->
-    <int name="maxSMSMessagesPerThread">200</int>
+    <!-- Maximum number of SMS message to save per thread before auto-delete kicks in.
+         This is the default value. -->
+    <int name="defaultSMSMessagesPerThread">200</int>
 
-    <!-- Maximum number of MMS message to save per thread before auto-delete kicks in -->
-    <int name="maxMMSMessagesPerThread">10</int>
+    <!-- Maximum number of MMS message to save per thread before auto-delete kicks in.
+         This is the default value. -->
+    <int name="defaultMMSMessagesPerThread">20</int>
+
+    <!-- Minimum value for the number of messages kept per conversation. The user can never
+         set the limit below this value. -->
+    <int name="minMessageCountPerThread">10</int>
+
+    <!-- Maximum value for the number of messages kept per conversation. The user can never
+         set the limit above this value. -->
+    <int name="maxMessageCountPerThread">5000</int>
 
     <!-- UAProf URL -->
     <string name="uaProfUrl">http://www.google.com/oha/rdf/ua-profile-kila.xml</string>

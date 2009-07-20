@@ -17,15 +17,16 @@
 
 package com.android.mms.ui;
 
+import com.android.internal.widget.NumberPicker;
 import com.android.mms.R;
 
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.android.mms.util.Recycler;
 
@@ -50,19 +51,41 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
     // Menu entries
     private static final int MENU_RESTORE_DEFAULTS    = 1;
 
+    private Preference mSmsLimitPref;
+    private Preference mMmsLimitPref;
+    private NumberPicker mSmsNumberPicker;
+    private NumberPicker mMmsNumberPicker;
+    private Recycler mSmsRecycler;
+    private Recycler mMmsRecycler;
+
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.preferences);
-        
+
+        mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
+        mMmsLimitPref = findPreference("pref_key_mms_delete_limit");
+
+        mSmsRecycler = Recycler.getSmsRecycler();
+        mMmsRecycler = Recycler.getMmsRecycler();
+
         // Fix up the recycler's summary with the correct values
-        findPreference("pref_key_auto_delete").setSummary(
-                getString(R.string.pref_summary_auto_delete, 
-            Recycler.getSmsRecycler().getMessageLimit(this),
-            Recycler.getMmsRecycler().getMessageLimit(this)));
+        setSmsDisplayLimit();
+        setMmsDisplayLimit();
     }
 
-    @Override
+    private void setSmsDisplayLimit() {
+        mSmsLimitPref.setSummary(
+                getString(R.string.pref_summary_delete_limit,
+                        mSmsRecycler.getMessageLimit(this)));
+    }
+
+    private void setMmsDisplayLimit() {
+        mMmsLimitPref.setSummary(
+                getString(R.string.pref_summary_delete_limit,
+                        mMmsRecycler.getMessageLimit(this)));
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         menu.clear();
@@ -79,11 +102,50 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         }
         return false;
     }
-    
+
+    @Override
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
+            Preference preference) {
+        if (preference == mSmsLimitPref) {
+            new NumberPickerDialog(this,
+                    mSmsLimitListener,
+                    mSmsRecycler.getMessageLimit(this),
+                    mSmsRecycler.getMessageMinLimit(),
+                    mSmsRecycler.getMessageMaxLimit(),
+                    R.string.pref_title_sms_delete).show();
+        } else if (preference == mMmsLimitPref) {
+            new NumberPickerDialog(this,
+                    mMmsLimitListener,
+                    mMmsRecycler.getMessageLimit(this),
+                    mMmsRecycler.getMessageMinLimit(),
+                    mMmsRecycler.getMessageMaxLimit(),
+                    R.string.pref_title_mms_delete).show();
+        }
+
+        return super.onPreferenceTreeClick(preferenceScreen, preference);
+    }
+
+
     private void restoreDefaultPreferences() {
         PreferenceManager.getDefaultSharedPreferences(this)
                 .edit().clear().commit();
         setPreferenceScreen(null);
         addPreferencesFromResource(R.xml.preferences);
     }
+
+    NumberPickerDialog.OnNumberSetListener mSmsLimitListener =
+        new NumberPickerDialog.OnNumberSetListener() {
+            public void onNumberSet(int limit) {
+                mSmsRecycler.setMessageLimit(MessagingPreferenceActivity.this, limit);
+                setSmsDisplayLimit();
+            }
+    };
+
+    NumberPickerDialog.OnNumberSetListener mMmsLimitListener =
+        new NumberPickerDialog.OnNumberSetListener() {
+            public void onNumberSet(int limit) {
+                mMmsRecycler.setMessageLimit(MessagingPreferenceActivity.this, limit);
+                setMmsDisplayLimit();
+            }
+    };
 }
