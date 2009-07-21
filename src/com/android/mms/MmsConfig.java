@@ -23,7 +23,6 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
 import android.content.res.XmlResourceParser;
-import android.net.Uri;
 import android.util.Config;
 import android.util.Log;
 
@@ -50,7 +49,11 @@ public class MmsConfig {
     private static String mEmailGateway = null;
     private static int mMaxImageHeight = 0;
     private static int mMaxImageWidth = 0;
-    private static int mRecipientLimit = Integer.MAX_VALUE;
+    private static int mRecipientLimit = Integer.MAX_VALUE;     // default value
+    private static int mDefaultSMSMessagesPerThread = 200;      // default value
+    private static int mDefaultMMSMessagesPerThread = 20;       // default value
+    private static int mMinMessageCountPerThread = 10;          // default value
+    private static int mMaxMessageCountPerThread = 5000;        // default value
 
     public static void init(Context context) {
         if (LOCAL_LOGV) {
@@ -104,6 +107,22 @@ public class MmsConfig {
         return mRecipientLimit;
     }
 
+    public static int getDefaultSMSMessagesPerThread() {
+        return mDefaultSMSMessagesPerThread;
+    }
+
+    public static int getDefaultMMSMessagesPerThread() {
+        return mDefaultMMSMessagesPerThread;
+    }
+
+    public static int getMinMessageCountPerThread() {
+        return mMinMessageCountPerThread;
+    }
+
+    public static int getMaxMessageCountPerThread() {
+        return mMaxMessageCountPerThread;
+    }
+
     private static void loadMmsSettings(Context context) {
         XmlResourceParser parser = context.getResources()
                 .getXml(R.xml.mms_config);
@@ -141,6 +160,14 @@ public class MmsConfig {
                             mMaxImageHeight = Integer.parseInt(text);
                         } else if ("maxImageWidth".equalsIgnoreCase(value)) {
                             mMaxImageWidth = Integer.parseInt(text);
+                        } else if ("defaultSMSMessagesPerThread".equalsIgnoreCase(value)) {
+                            mDefaultSMSMessagesPerThread = Integer.parseInt(text);
+                        } else if ("defaultMMSMessagesPerThread".equalsIgnoreCase(value)) {
+                            mDefaultMMSMessagesPerThread = Integer.parseInt(text);
+                        } else if ("minMessageCountPerThread".equalsIgnoreCase(value)) {
+                            mMinMessageCountPerThread = Integer.parseInt(text);
+                        } else if ("maxMessageCountPerThread".equalsIgnoreCase(value)) {
+                            mMaxMessageCountPerThread = Integer.parseInt(text);
                         } else if ("recipientLimit".equalsIgnoreCase(value)) {
                             mRecipientLimit = Integer.parseInt(text);
                             if (mRecipientLimit < 0) {

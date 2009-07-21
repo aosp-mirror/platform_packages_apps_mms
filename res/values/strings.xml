@@ -281,6 +281,8 @@
     <string name="yes">OK</string>
     <!-- Text to be used for negative response button in dialog boxes -->
     <string name="no">Cancel</string>
+    <!-- Text to be used for affirmative response button in setting SMS limits dialog box -->
+    <string name="set">Set</string>
 
     <!-- Button text used for playing an attachment or slideshow (imperative verb) -->
     <string name="play">Play</string>
@@ -315,7 +317,9 @@
     <!-- Settings item description for boolean SMS delivery report setting -->
     <string name="pref_summary_sms_delivery_reports">Request a delivery report for each message you send</string>
     <!-- Settings item description for boolean auto-delete messages setting -->
-    <string name="pref_summary_auto_delete">Auto-delete messages when there are more than <xliff:g id="sms_message_count">%d</xliff:g> SMS or <xliff:g id="mms_message_count">%d</xliff:g> MMS messages</string>
+    <string name="pref_summary_auto_delete">Auto-delete messages when the number exceeds these limits:</string>
+    <!-- Settings item description for integer auto-delete sms message limit -->
+    <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> messages per conversation</string>
     <!-- Settings item for entering SIM card message screen -->
     <string name="pref_title_manage_sim_messages">Manage SIM card messages</string>
     <!-- Settings item for boolean option to enable/disable MMS delivery reports -->
@@ -326,6 +330,10 @@
     <string name="pref_title_sms_delivery_reports">Delivery reports</string>
     <!-- Settings item for boolean option to enable/disable auto-deletion of messages -->
     <string name="pref_title_auto_delete">Auto-delete old messages</string>
+    <!-- Settings item for integer option to set SMS delete limit -->
+    <string name="pref_title_sms_delete">Save SMS messages</string>
+    <!-- Settings item for integer option to set MMS delete limit -->
+    <string name="pref_title_mms_delete">Save MMS messages</string>
     <!-- Settings item for boolean option to display message notifications -->
     <string name="pref_title_notification_enabled">Notifications</string>
     <!-- Settings item description for boolean message notification option -->
@@ -336,6 +344,8 @@
     <string name="pref_summary_notification_vibrate">Also vibrate when notified</string>
     <!-- Settings item for entering ringtone selection screen -->
     <string name="pref_title_notification_ringtone">Select ringtone</string>
+    <!-- Settings item for setting the number of message to save for each conversation -->
+    <string name="pref_messages_to_save">Set number of messages to save</string>
 
     <!-- Settings item for boolean option to auto-retrieve incoming MMS messages -->
     <string name="pref_title_mms_auto_retrieval">Auto-retrieve</string>
