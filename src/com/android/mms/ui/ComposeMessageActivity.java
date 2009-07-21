@@ -2232,7 +2232,7 @@ public class ComposeMessageActivity extends Activity
         mAttachmentEditor = (AttachmentEditor) findViewById(R.id.attachment_editor);
         mAttachmentEditor.setHandler(mAttachmentEditorHandler);
         mTitle = (TextView) findViewById(R.id.contact_name);
-        mPresenceText = (TextView) findViewById(R.id.presence);
+        mPresenceText = (TextView) findViewById(R.id.contact_status);
         mAvatar = (ImageView) findViewById(R.id.avatar);
         mPresenceIcon = (ImageView) findViewById(R.id.presence_icon);
     }
