@@ -626,6 +626,12 @@ public class WorkingMessage {
         mConversation.setDraftState(false);
     }
 
+    public void unDiscard() {
+        if (DEBUG) debug("unDiscard");
+
+        mDiscarded = false;
+    }
+
     /**
      * Returns true if discard() has been called on this message.
      */

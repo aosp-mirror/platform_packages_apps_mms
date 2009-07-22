@@ -63,7 +63,6 @@ import android.content.IntentFilter;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteException;
@@ -1496,6 +1495,9 @@ public class ComposeMessageActivity extends Activity
     protected void onRestart() {
         super.onRestart();
 
+        if (mWorkingMessage.isDiscarded()) {
+            mWorkingMessage.unDiscard();    // it was discarded in onStop().
+        }
         mConversation.markAsRead();
     }
 
