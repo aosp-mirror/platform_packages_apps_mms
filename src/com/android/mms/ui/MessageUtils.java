@@ -221,7 +221,7 @@ public class MessageUtils {
         else {
             Log.w(TAG, "recipient list is empty!");
         }
-            
+
 
         // Bcc: ***
         if (msg instanceof SendReq) {
@@ -354,7 +354,7 @@ public class MessageUtils {
 
         return WorkingMessage.TEXT;
     }
-    
+
     public static String formatTimeStampString(Context context, long when) {
         return formatTimeStampString(context, when, false);
     }
@@ -438,7 +438,7 @@ public class MessageUtils {
                     try {
                         if (c.moveToFirst()) {
                             value = c.getString(0);
-                            sRecipientAddress.put(recipientId, value);                            
+                            sRecipientAddress.put(recipientId, value);
                         }
                     } finally {
                         c.close();
@@ -464,7 +464,7 @@ public class MessageUtils {
             Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
             intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
             intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
-            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, 
+            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE,
                     context.getString(R.string.select_audio));
             ((Activity) context).startActivityForResult(intent, requestCode);
         }
@@ -515,14 +515,20 @@ public class MessageUtils {
         } else if (slide.hasVideo()) {
             mm = slide.getVideo();
         }
-        
+
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setType(mm.getContentType());
-        intent.setData(mm.getUri());
+
+        String contentType;
+        if (mm.isDrmProtected()) {
+            contentType = mm.getDrmObject().getContentType();
+        } else {
+            contentType = mm.getContentType();
+        }
+        intent.setDataAndType(mm.getUri(), contentType);
         context.startActivity(intent);
     }
-    
+
     public static void showErrorDialog(Context context,
             String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -569,7 +575,7 @@ public class MessageUtils {
         progressDialog.setMessage(context.getText(R.string.compressing));
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
-        
+
         // Stash the runnable for showing it away so we can cancel
         // it later if the resize completes ahead of the deadline.
         final Runnable showProgress = new Runnable() {
@@ -579,7 +585,7 @@ public class MessageUtils {
         };
         // Schedule it for one second from now.
         handler.postDelayed(showProgress, 1000);
-        
+
         new Thread(new Runnable() {
             public void run() {
                 final PduPart part;
@@ -731,7 +737,7 @@ public class MessageUtils {
             return "";
         }
     }
-    
+
     public static ArrayList<String> extractUris(URLSpan[] spans) {
         int size = spans.length;
         ArrayList<String> accumulator = new ArrayList<String>();
@@ -779,7 +785,7 @@ public class MessageUtils {
             context.startActivity(intent);
         }
     }
-    
+
     public static void viewMmsMessageAttachment(Context context, WorkingMessage msg) {
         SlideshowModel slideshow = msg.getSlideshow();
         if (slideshow == null) {
