@@ -274,6 +274,9 @@ public class ConversationList extends ListActivity
         public void onCreateContextMenu(ContextMenu menu, View v,
                 ContextMenuInfo menuInfo) {
             Cursor cursor = mListAdapter.getCursor();
+            if (cursor.getPosition() < 0) {
+                return;
+            }
             Conversation conv = Conversation.from(ConversationList.this, cursor);
             ContactList recipients = conv.getRecipients();
             menu.setHeaderTitle(recipients.formatNames(","));
@@ -300,9 +303,10 @@ public class ConversationList extends ListActivity
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         Cursor cursor = mListAdapter.getCursor();
-        Conversation conv = Conversation.from(ConversationList.this, cursor);
-        long threadId = conv.getThreadId();
-        switch (item.getItemId()) {
+        if (cursor.getPosition() >= 0) {
+            Conversation conv = Conversation.from(ConversationList.this, cursor);
+            long threadId = conv.getThreadId();
+            switch (item.getItemId()) {
             case MENU_DELETE: {
                 DeleteThreadListener l = new DeleteThreadListener(threadId);
                 confirmDeleteDialog(l, false);
@@ -325,8 +329,8 @@ public class ConversationList extends ListActivity
             }
             default:
                 break;
+            }
         }
-
         return super.onContextItemSelected(item);
     }
 
