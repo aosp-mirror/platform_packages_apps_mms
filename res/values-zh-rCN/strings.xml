@@ -244,33 +244,4 @@
     <string name="copy_to_sdcard_fail">"无法将附件复制到 SD 卡"</string>
     <string name="menu_insert_smiley">"插入表情符号"</string>
     <string name="select_link_title">"选择操作"</string>
-    <!-- no translation found for slide_number (1923958526266726635) -->
-    <skip />
-    <!-- no translation found for slide_duration:one (1654101988340583935) -->
-    <!-- no translation found for slide_duration:few (7887190171856293871) -->
-    <!-- no translation found for slide_duration:other (3736425355579939863) -->
-    <!-- no translation found for delivery_report_activity (2957463094232916364) -->
-    <skip />
-    <!-- no translation found for add_attachment_activity (5324811371129695320) -->
-    <skip />
-    <!-- no translation found for select_layout_activity (5041916695464513848) -->
-    <skip />
-    <!-- no translation found for change_duration_activity (7048606979485031693) -->
-    <skip />
-    <!-- no translation found for edit_text_activity (5915226413346879213) -->
-    <skip />
-    <!-- no translation found for edit_slideshow_activity (8751493388760050529) -->
-    <skip />
-    <!-- no translation found for edit_slide_activity (8752829671778696983) -->
-    <skip />
-    <!-- no translation found for pick_numbers_activity (2083330191224178637) -->
-    <skip />
-    <!-- no translation found for slideshow_activity (5658249461317434432) -->
-    <skip />
-    <!-- no translation found for class_0_message_activity (8474176218999130627) -->
-    <skip />
-    <!-- no translation found for send_using_mms_activity (6082321147663913763) -->
-    <skip />
-    <!-- no translation found for select_contact_method_activity (1743384358979323991) -->
-    <skip />
 </resources>

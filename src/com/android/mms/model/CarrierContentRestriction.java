@@ -24,14 +24,11 @@ import android.provider.Settings;
 import com.google.android.mms.ContentType;
 import com.android.mms.ContentRestrictionException;
 import com.android.mms.ExceedMessageSizeException;
+import com.android.mms.MmsConfig;
 import com.android.mms.ResolutionException;
 import com.android.mms.UnsupportContentTypeException;
 
 public class CarrierContentRestriction implements ContentRestriction {
-    public static final int IMAGE_WIDTH_LIMIT  = 640;
-    public static final int IMAGE_HEIGHT_LIMIT = 480;
-    public static final int MESSAGE_SIZE_LIMIT = 300 * 1024;
-
     private static final ArrayList<String> sSupportedImageTypes;
     private static final ArrayList<String> sSupportedAudioTypes;
     private static final ArrayList<String> sSupportedVideoTypes;
@@ -51,24 +48,14 @@ public class CarrierContentRestriction implements ContentRestriction {
             throw new ContentRestrictionException("Negative message size"
                     + " or increase size");
         }
-        int messageSizeLimit;
-        try {
-            // Don't cache the max message size. Grab it each time so we'll dynamically
-            // respond to changes made on the server.
-            messageSizeLimit = Integer.parseInt(
-                    Settings.Gservices.getString(resolver,
-                            Settings.Gservices.MMS_MAXIMUM_MESSAGE_SIZE));
-        } catch (java.lang.NumberFormatException e) {
-            messageSizeLimit = MESSAGE_SIZE_LIMIT;
-        }
         int newSize = messageSize + increaseSize;
-        if ( (newSize < 0) || (newSize > messageSizeLimit) ) {
+        if ( (newSize < 0) || (newSize > MmsConfig.getMaxMessageSize()) ) {
             throw new ExceedMessageSizeException("Exceed message size limitation");
         }
     }
 
     public void checkResolution(int width, int height) throws ContentRestrictionException {
-        if ( (width > IMAGE_WIDTH_LIMIT) || (height > IMAGE_HEIGHT_LIMIT) ) {
+        if ( (width > MmsConfig.getMaxImageWidth()) || (height > MmsConfig.getMaxImageHeight()) ) {
             throw new ResolutionException("content resolution exceeds restriction.");
         }
     }

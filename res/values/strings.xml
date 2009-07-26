@@ -95,6 +95,8 @@
     <!-- Message displayed in place of the "download message" button once it has been pressed,
          indicating that the download is in progress -->
     <string name="downloading">Downloading</string>
+    <!-- Formatting for prepending MMS message text with sender's name. -->
+    <string name="name_colon"><b><xliff:g id="name" example="Me">%s</xliff:g></b>": "</string>
     <!-- Formatting for subject displayed inline, prepended to MMS message text -->
     <string name="inline_subject">"&lt;Subject: <xliff:g id="subject">%s</xliff:g>&gt;"</string>
     <!-- Text to display when the actual text is inaccessible due to DRM protection -->

@@ -22,7 +22,7 @@
     <string name="menu_send_email">"傳送電子郵件給 <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"撰寫"</string>
     <string name="menu_preferences">"設定"</string>
-    <string name="menu_add_address_to_contacts">"新增 <xliff:g id="NAME">%s</xliff:g> 至 [通訊錄]"</string>
+    <string name="menu_add_address_to_contacts">"新增 <xliff:g id="NAME">%s</xliff:g> 至 [聯絡人]"</string>
     <string name="menu_call">"撥打"</string>
     <string name="menu_delete_all">"刪除會話群組"</string>
     <string name="menu_delete">"刪除串連"</string>
@@ -38,7 +38,7 @@
     <string name="view_picture">"檢視圖片"</string>
     <string name="view_slideshow">"檢視投影片"</string>
     <string name="view_message_details">"檢視簡訊細節"</string>
-    <string name="view_delivery_report">"檢視報告"</string>
+    <string name="view_delivery_report">"檢視回條"</string>
     <string name="delete_message">"刪除簡訊"</string>
     <string name="sent_on">"傳送時間：<xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on">"期限終止：<xliff:g id="DATE">%s</xliff:g>"</string>
@@ -64,14 +64,14 @@
     <string name="discard_slideshow">"放棄投影片"</string>
     <string name="slide_show_part">"第 <xliff:g id="PART">%1$s</xliff:g> 部分，共 <xliff:g id="TOTAL">%2$s</xliff:g> 部分"</string>
     <string name="remove_text">"移除文字"</string>
-    <string name="add_picture">"新增圖片"</string>
+    <string name="add_picture">"新增相片"</string>
     <string name="remove_picture">"移除圖片"</string>
     <string name="add_music">"新增音樂"</string>
     <string name="remove_music">"移除音樂"</string>
     <string name="add_video">"新增影片"</string>
     <string name="remove_video">"移除影片"</string>
     <string name="compose_title">"撰寫"</string>
-    <string name="to_hint">"給"</string>
+    <string name="to_hint">"傳送到"</string>
     <string name="subject_hint">"主旨"</string>
     <string name="add_attachment">"附加"</string>
     <string name="add_subject">"新增主旨"</string>
@@ -84,17 +84,17 @@
     <string name="type_to_compose_text_enter_to_send">"輸入內容"</string>
     <string name="open_keyboard_to_compose_message">"開啟鍵盤以撰寫簡訊"</string>
     <string name="image_too_large">"圖片太大"</string>
-    <string name="ask_for_automatically_resize">"傳送前是否自動重新調整圖片大小？"</string>
+    <string name="ask_for_automatically_resize">"傳送前是否自動重新調整相片大小？"</string>
     <string name="compressing">"壓縮中..."</string>
     <string name="unsupported_media_format">"不支援 <xliff:g id="NAME">%1$s</xliff:g> 格式"</string>
     <string name="select_different_media">"請選取不同的 <xliff:g id="NAME">%1$s</xliff:g>。"</string>
     <string name="exceed_message_size_limitation">"已達最大簡訊長度。"</string>
-    <string name="failed_to_add_media">"抱歉，無法在簡訊中新增 <xliff:g id="NAME">%1$s</xliff:g>。"</string>
+    <string name="failed_to_add_media">"很抱歉，無法在簡訊中新增 <xliff:g id="NAME">%1$s</xliff:g>。"</string>
     <string name="failed_to_resize_image">"圖片大小未改變。"</string>
-    <string name="resize_image_error_information">"抱歉，縮小後的圖片仍然太大、無法傳送。"</string>
+    <string name="resize_image_error_information">"很抱歉，縮小後的圖片仍然太大、無法傳送。"</string>
     <string name="forward_prefix">"轉寄： "</string>
     <string name="discard_message">"放棄"</string>
-    <string name="discard_message_reason">"由於沒有有效的收件者，您的簡訊將被捨棄。"</string>
+    <string name="discard_message_reason">"由於收件者地址無效，您的訊息將被捨棄。"</string>
     <string name="has_invalid_recipient">"無效收件者：(<xliff:g id="NAME">%1$s</xliff:g>)"</string>
     <string name="invalid_recipient_message">"請修改收件者，否則他們收不到簡訊。"</string>
     <string name="cannot_send_message">"無法傳送此簡訊"</string>
@@ -131,7 +131,7 @@
     <item>"其他..."</item>
   </string-array>
     <string name="menu_view_contact">"檢視聯絡人"</string>
-    <string name="menu_add_to_contacts">"新增至 [通訊錄]"</string>
+    <string name="menu_add_to_contacts">"新增至 [聯絡人]"</string>
     <string name="hidden_sender_address">"隱藏寄件者地址"</string>
     <string name="yes">"確定"</string>
     <string name="no">"取消"</string>
@@ -145,17 +145,17 @@
     <string name="pref_mms_settings_title">"MMS 設定"</string>
     <string name="pref_sms_settings_title">"SMS 設定"</string>
     <string name="pref_summary_manage_sim_messages">"管理 SIM 卡上的簡訊"</string>
-    <string name="pref_summary_mms_delivery_reports">"傳送簡訊後要求傳送報告"</string>
-    <string name="pref_summary_mms_read_reports">"傳送簡訊後要求讀取報告"</string>
-    <string name="pref_summary_sms_delivery_reports">"傳送簡訊後要求傳送報告"</string>
+    <string name="pref_summary_mms_delivery_reports">"傳送簡訊後要求傳送回條"</string>
+    <string name="pref_summary_mms_read_reports">"傳送簡訊後要求讀取回條"</string>
+    <string name="pref_summary_sms_delivery_reports">"傳送簡訊後要求傳送回條"</string>
     <string name="pref_title_manage_sim_messages">"管理 SIM 卡上的簡訊"</string>
-    <string name="pref_title_mms_delivery_reports">"傳送報告"</string>
-    <string name="pref_title_mms_read_reports">"閱讀報告"</string>
-    <string name="pref_title_sms_delivery_reports">"傳送報告"</string>
+    <string name="pref_title_mms_delivery_reports">"傳送回條"</string>
+    <string name="pref_title_mms_read_reports">"讀取回條"</string>
+    <string name="pref_title_sms_delivery_reports">"傳送回條"</string>
     <string name="pref_title_notification_enabled">"通知"</string>
     <string name="pref_summary_notification_enabled">"在狀態列顯示簡訊通知"</string>
-    <string name="pref_title_notification_vibrate">"震動"</string>
-    <string name="pref_summary_notification_vibrate">"同時開啟震動提示"</string>
+    <string name="pref_title_notification_vibrate">"振動"</string>
+    <string name="pref_summary_notification_vibrate">"同時開啟振動提醒"</string>
     <string name="pref_title_notification_ringtone">"選取鈴聲"</string>
     <string name="pref_title_mms_auto_retrieval">"自動擷取"</string>
     <string name="pref_summary_mms_auto_retrieval">"自動擷取簡訊"</string>
@@ -163,10 +163,10 @@
     <string name="pref_summary_mms_retrieval_during_roaming">"漫遊時自動擷取簡訊"</string>
     <string name="to_label">"給 "</string>
     <string name="confirm_dialog_title">"刪除"</string>
-    <string name="confirm_delete_conversation">"將刪除整個會話群組。"</string>
-    <string name="confirm_delete_all_conversations">"所有會話群組都會被刪除。"</string>
-    <string name="confirm_delete_message">"此簡訊將被刪除。"</string>
-    <string name="confirm_delete_all_messages">"將刪除整個會話群組。"</string>
+    <string name="confirm_delete_conversation">"刪除整個會話群組？"</string>
+    <string name="confirm_delete_all_conversations">"刪除所有會話群組？"</string>
+    <string name="confirm_delete_message">"刪除此簡訊？"</string>
+    <string name="confirm_delete_all_messages">"刪除整個會話群組？"</string>
     <string name="confirm_delete_all_SIM_messages">"即將刪除 SIM 卡上的所有訊息。"</string>
     <string name="confirm_delete_SIM_message">"系統將刪除這則在 SIM 卡的訊息。"</string>
     <string name="cannot_get_details">"無法取得細節"</string>
@@ -227,7 +227,7 @@
     <string name="type_picture">"圖片"</string>
     <string name="type_video">"影片"</string>
     <string name="confirm">"確認"</string>
-    <string name="message_send_read_report">"即將傳送讀取報告。"</string>
+    <string name="message_send_read_report">"讀取回條將要送出。"</string>
     <string name="message_queued">"目前無法傳送簡訊。服務恢復後會自動傳送。"</string>
     <string name="no_subject">"(沒有主旨)"</string>
     <string name="unknown_sender">"未知的寄件者"</string>
@@ -244,33 +244,4 @@
     <string name="copy_to_sdcard_fail">"無法將附件複製到 SD 卡"</string>
     <string name="menu_insert_smiley">"插入表情符號"</string>
     <string name="select_link_title">"選取動作"</string>
-    <!-- no translation found for slide_number (1923958526266726635) -->
-    <skip />
-    <!-- no translation found for slide_duration:one (1654101988340583935) -->
-    <!-- no translation found for slide_duration:few (7887190171856293871) -->
-    <!-- no translation found for slide_duration:other (3736425355579939863) -->
-    <!-- no translation found for delivery_report_activity (2957463094232916364) -->
-    <skip />
-    <!-- no translation found for add_attachment_activity (5324811371129695320) -->
-    <skip />
-    <!-- no translation found for select_layout_activity (5041916695464513848) -->
-    <skip />
-    <!-- no translation found for change_duration_activity (7048606979485031693) -->
-    <skip />
-    <!-- no translation found for edit_text_activity (5915226413346879213) -->
-    <skip />
-    <!-- no translation found for edit_slideshow_activity (8751493388760050529) -->
-    <skip />
-    <!-- no translation found for edit_slide_activity (8752829671778696983) -->
-    <skip />
-    <!-- no translation found for pick_numbers_activity (2083330191224178637) -->
-    <skip />
-    <!-- no translation found for slideshow_activity (5658249461317434432) -->
-    <skip />
-    <!-- no translation found for class_0_message_activity (8474176218999130627) -->
-    <skip />
-    <!-- no translation found for send_using_mms_activity (6082321147663913763) -->
-    <skip />
-    <!-- no translation found for select_contact_method_activity (1743384358979323991) -->
-    <skip />
 </resources>

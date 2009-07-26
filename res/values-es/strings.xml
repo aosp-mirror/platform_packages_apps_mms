@@ -24,7 +24,7 @@
     <string name="menu_preferences">"Ajustes"</string>
     <string name="menu_add_address_to_contacts">"Añadir <xliff:g id="NAME">%s</xliff:g> a contactos"</string>
     <string name="menu_call">"Llamar"</string>
-    <string name="menu_delete_all">"Eliminar conversaciones"</string>
+    <string name="menu_delete_all">"Eliminar cadenas"</string>
     <string name="menu_delete">"Eliminar cadena"</string>
     <string name="menu_undelivered_messages">"Mensajes no entregados"</string>
     <string name="menu_view">"Ver cadena"</string>
@@ -148,18 +148,18 @@
     <string name="pref_summary_mms_delivery_reports">"Solicitar un informe de entrega cada vez que se envíe un mensaje"</string>
     <string name="pref_summary_mms_read_reports">"Solicitar un informe de mensaje leído cada vez que se envíe un mensaje"</string>
     <string name="pref_summary_sms_delivery_reports">"Solicitar un informe de entrega cada vez que se envíe un mensaje"</string>
-    <string name="pref_title_manage_sim_messages">"Administrar mensajes de SIM"</string>
+    <string name="pref_title_manage_sim_messages">"Administrar mensajes de tarjeta SIM"</string>
     <string name="pref_title_mms_delivery_reports">"Informes de entrega"</string>
-    <string name="pref_title_mms_read_reports">"Informes de leídos"</string>
+    <string name="pref_title_mms_read_reports">"Informes de mensajes leídos"</string>
     <string name="pref_title_sms_delivery_reports">"Informes de entrega"</string>
     <string name="pref_title_notification_enabled">"Notificaciones"</string>
     <string name="pref_summary_notification_enabled">"Mostrar notificación de mensajes en la barra de estado"</string>
     <string name="pref_title_notification_vibrate">"Vibración"</string>
     <string name="pref_summary_notification_vibrate">"Vibrar también al notificar"</string>
     <string name="pref_title_notification_ringtone">"Seleccionar tono"</string>
-    <string name="pref_title_mms_auto_retrieval">"Recuperación auto."</string>
+    <string name="pref_title_mms_auto_retrieval">"Recuperación automática"</string>
     <string name="pref_summary_mms_auto_retrieval">"Recuperar mensajes automáticamente"</string>
-    <string name="pref_title_mms_retrieval_during_roaming">"Recup. auto. en itinerancia"</string>
+    <string name="pref_title_mms_retrieval_during_roaming">"Recuperación automática en itinerancia"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"Recuperar automáticamente mensajes en itinerancia"</string>
     <string name="to_label">"Para "</string>
     <string name="confirm_dialog_title">"Suprimir"</string>
@@ -244,22 +244,4 @@
     <string name="copy_to_sdcard_fail">"Error al copiar archivo adjunto en tarjeta SD"</string>
     <string name="menu_insert_smiley">"Insertar emoticono"</string>
     <string name="select_link_title">"Seleccionar acción"</string>
-    <string name="slide_number">"Diapositiva <xliff:g id="NUMBER">%s</xliff:g>"</string>
-  <plurals name="slide_duration">
-    <item quantity="one">"<xliff:g id="NUMBER">%s</xliff:g> s"</item>
-    <item quantity="few">"<xliff:g id="NUMBER">%s</xliff:g> s"</item>
-    <item quantity="other">"<xliff:g id="NUMBER">%s</xliff:g> s"</item>
-  </plurals>
-    <string name="delivery_report_activity">"Informe de entrega"</string>
-    <string name="add_attachment_activity">"Añadir adjunto:"</string>
-    <string name="select_layout_activity">"Seleccionar diseño"</string>
-    <string name="change_duration_activity">"Cambiar duración"</string>
-    <string name="edit_text_activity">"Editar texto"</string>
-    <string name="edit_slideshow_activity">"Editar diapositiva"</string>
-    <string name="edit_slide_activity">"Editar diapositiva"</string>
-    <string name="pick_numbers_activity">"Seleccionar números"</string>
-    <string name="slideshow_activity">"Presentación"</string>
-    <string name="class_0_message_activity">"Mensaje de clase 0"</string>
-    <string name="send_using_mms_activity">"Enviar a través de MMS…"</string>
-    <string name="select_contact_method_activity">"Seleccionar método de contacto"</string>
 </resources>

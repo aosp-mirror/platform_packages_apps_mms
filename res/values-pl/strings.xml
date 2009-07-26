@@ -15,11 +15,11 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label">"SMS/MMS"</string>
+    <string name="app_label">"Wiadomości"</string>
     <string name="new_message">"Nowa wiadomość"</string>
     <string name="create_new_message">"Utwórz nową wiadomość"</string>
     <string name="menu_call_back">"Zadzwoń do: <xliff:g id="NAME">%s</xliff:g>"</string>
-    <string name="menu_send_email">"Wyślij e-mail do: <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email">"Wyślij wiadomość e-mail do: <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new">"Utwórz"</string>
     <string name="menu_preferences">"Ustawienia"</string>
     <string name="menu_add_address_to_contacts">"Dodaj <xliff:g id="NAME">%s</xliff:g> do Kontaktów"</string>
@@ -146,7 +146,7 @@
     <string name="pref_sms_settings_title">"Ustawienia wiadomości SMS"</string>
     <string name="pref_summary_manage_sim_messages">"Zarządzanie wiadomościami zapisanymi na karcie SIM"</string>
     <string name="pref_summary_mms_delivery_reports">"Żądaj potwierdzenia dostarczenia każdej wysłanej wiadomości"</string>
-    <string name="pref_summary_mms_read_reports">"Żądanie raportu przeczytania każdej wysłanej wiadomości"</string>
+    <string name="pref_summary_mms_read_reports">"Żądanie raportu przeczytania każdej wysłanej wiadomości."</string>
     <string name="pref_summary_sms_delivery_reports">"Żądaj potwierdzenia dostarczenia każdej wysłanej wiadomości"</string>
     <string name="pref_title_manage_sim_messages">"Zarządzanie wiadomościami na karcie SIM"</string>
     <string name="pref_title_mms_delivery_reports">"Raporty dostarczenia"</string>
@@ -155,11 +155,11 @@
     <string name="pref_title_notification_enabled">"Powiadomienia"</string>
     <string name="pref_summary_notification_enabled">"Wyświetlaj powiadomienie o wiadomości na pasku stanu"</string>
     <string name="pref_title_notification_vibrate">"Wibracje"</string>
-    <string name="pref_summary_notification_vibrate">"Przy powiadomieniu również wibruj"</string>
+    <string name="pref_summary_notification_vibrate">"Wibracje również przy powiadomieniu"</string>
     <string name="pref_title_notification_ringtone">"Wybierz dzwonek"</string>
     <string name="pref_title_mms_auto_retrieval">"Autoodbieranie"</string>
     <string name="pref_summary_mms_auto_retrieval">"Odbierz wiadomości automatycznie"</string>
-    <string name="pref_title_mms_retrieval_during_roaming">"Autoodbieranie w roamingu"</string>
+    <string name="pref_title_mms_retrieval_during_roaming">"Autoodbieranie roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming">"Odbierz wiadomości automatycznie w roamingu"</string>
     <string name="to_label">"Do "</string>
     <string name="confirm_dialog_title">"Usuń"</string>
@@ -242,35 +242,6 @@
     <string name="copy_to_sdcard">"Kopiuj załącznik na kartę SD"</string>
     <string name="copy_to_sdcard_success">"Załącznik został skopiowany na kartę SD"</string>
     <string name="copy_to_sdcard_fail">"Kopiowanie załącznika na kartę SD nie powiodło się"</string>
-    <string name="menu_insert_smiley">"Wstaw emotikon"</string>
+    <string name="menu_insert_smiley">"Wstaw buźkę"</string>
     <string name="select_link_title">"Wybierz akcję"</string>
-    <!-- no translation found for slide_number (1923958526266726635) -->
-    <skip />
-    <!-- no translation found for slide_duration:one (1654101988340583935) -->
-    <!-- no translation found for slide_duration:few (7887190171856293871) -->
-    <!-- no translation found for slide_duration:other (3736425355579939863) -->
-    <!-- no translation found for delivery_report_activity (2957463094232916364) -->
-    <skip />
-    <!-- no translation found for add_attachment_activity (5324811371129695320) -->
-    <skip />
-    <!-- no translation found for select_layout_activity (5041916695464513848) -->
-    <skip />
-    <!-- no translation found for change_duration_activity (7048606979485031693) -->
-    <skip />
-    <!-- no translation found for edit_text_activity (5915226413346879213) -->
-    <skip />
-    <!-- no translation found for edit_slideshow_activity (8751493388760050529) -->
-    <skip />
-    <!-- no translation found for edit_slide_activity (8752829671778696983) -->
-    <skip />
-    <!-- no translation found for pick_numbers_activity (2083330191224178637) -->
-    <skip />
-    <!-- no translation found for slideshow_activity (5658249461317434432) -->
-    <skip />
-    <!-- no translation found for class_0_message_activity (8474176218999130627) -->
-    <skip />
-    <!-- no translation found for send_using_mms_activity (6082321147663913763) -->
-    <skip />
-    <!-- no translation found for select_contact_method_activity (1743384358979323991) -->
-    <skip />
 </resources>

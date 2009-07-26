@@ -28,6 +28,8 @@ import org.apache.http.conn.params.ConnRouteParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 
+import com.android.mms.MmsConfig;
+
 import android.content.Context;
 import android.net.http.AndroidHttpClient;
 import android.provider.Settings;
@@ -148,7 +150,7 @@ public class HttpUtils {
             // Set necessary HTTP headers for MMS transmission.
             req.addHeader(HDR_KEY_ACCEPT, HDR_VALUE_ACCEPT);
             {
-                String xWapProfileUrl = getXWapProfileHeaderValue(context);
+                String xWapProfileUrl = MmsConfig.getUaProfUrl();
 
                 if (xWapProfileUrl != null) {
                     req.addHeader(HDR_KEY_X_WAP_PROFILE, xWapProfileUrl);
@@ -203,12 +205,6 @@ public class HttpUtils {
             }
         }
         return null;
-    }
-
-    private static String getXWapProfileHeaderValue(Context context) {
-        return Settings.Gservices.getString(
-                context.getContentResolver(),
-                Settings.Gservices.MMS_X_WAP_PROFILE_URL);
     }
 
     private static void handleHttpConnectionException(Exception exception)
