@@ -96,7 +96,11 @@ public class Conversation {
                 return conv;
 
             conv = new Conversation(context, threadId);
-            Cache.put(conv);
+            try {
+                Cache.put(conv);
+            } catch (IllegalStateException e) {
+                Log.e(TAG, "Tried to add duplicate Conversation to Cache");
+            }
             return conv;
         }
     }
@@ -337,8 +341,14 @@ public class Conversation {
 
     private static long getOrCreateThreadId(Context context, ContactList list) {
         HashSet<String> recipients = new HashSet<String>();
+        Contact cacheContact = null;
         for (Contact c : list) {
-            recipients.add(c.getNumber());
+            cacheContact = Contact.get(c.getNumber(),true);
+            if (cacheContact != null) {
+                recipients.add(cacheContact.getNumber());
+            } else {
+                recipients.add(c.getNumber());
+            }
         }
         return Threads.getOrCreateThreadId(context, recipients);
     }
@@ -596,7 +606,11 @@ public class Conversation {
                         // Make a new Conversation and put it in
                         // the cache if necessary.
                         conv = new Conversation(context, c, true);
-                        Cache.put(conv);
+                        try {
+                            Cache.put(conv);
+                        } catch (IllegalStateException e) {
+                            Log.e(TAG, "Tried to add duplicate Conversation to Cache");
+                        }
                     } else {
                         // Or update in place so people with references
                         // to conversations get updated too.

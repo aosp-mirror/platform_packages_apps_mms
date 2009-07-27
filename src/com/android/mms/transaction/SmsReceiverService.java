@@ -21,7 +21,7 @@ import static android.content.Intent.ACTION_BOOT_COMPLETED;
 import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
 
 
-
+import com.android.mms.data.Contact;
 import com.android.mms.MmsApp;
 import com.android.mms.ui.ClassZeroActivity;
 import com.android.mms.util.Recycler;
@@ -369,6 +369,10 @@ public class SmsReceiverService extends Service {
         // excess messages.
         Long threadId = values.getAsLong(Sms.THREAD_ID);
         String address = values.getAsString(Sms.ADDRESS);
+        Contact cacheContact = Contact.get(address,true);
+        if (cacheContact != null) {
+            address = cacheContact.getNumber();
+        }
 
         if (((threadId == null) || (threadId == 0)) && (address != null)) {
             values.put(Sms.THREAD_ID, Threads.getOrCreateThreadId(
