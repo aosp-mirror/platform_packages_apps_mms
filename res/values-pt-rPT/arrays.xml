@@ -35,22 +35,22 @@
     <item>"o_O"</item>
   </string-array>
   <string-array name="default_smiley_names">
-    <item>"Felice"</item>
+    <item>"Feliz"</item>
     <item>"Triste"</item>
-    <item>"Occhiolino"</item>
-    <item>"Linguaccia"</item>
-    <item>"Sorpreso"</item>
-    <item>"Bacio"</item>
-    <item>"Urlo"</item>
-    <item>"Fico"</item>
-    <item>"Fatti, non parole"</item>
-    <item>"Gaffe"</item>
-    <item>"Imbarazzato"</item>
-    <item>"Angelo"</item>
+    <item>"A piscar o olho"</item>
+    <item>"Língua de fora"</item>
+    <item>"Surpreendido"</item>
+    <item>"Beijoqueiro"</item>
+    <item>"A gritar"</item>
+    <item>"Fixe"</item>
+    <item>"Interesseiro"</item>
+    <item>"Arrependido"</item>
+    <item>"Envergonhado"</item>
+    <item>"Anjo"</item>
     <item>"Indeciso"</item>
-    <item>"Piango"</item>
-    <item>"Labbra cucite"</item>
-    <item>"Risata"</item>
+    <item>"Chorão"</item>
+    <item>"Boca fechada"</item>
+    <item>"Risonho"</item>
     <item>"Confuso"</item>
   </string-array>
 </resources>

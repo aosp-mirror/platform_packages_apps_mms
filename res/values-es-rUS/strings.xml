@@ -50,6 +50,8 @@
     <string name="menu_forward">"Reenviar"</string>
     <string name="download">"Descargar"</string>
     <string name="downloading">"Descargando"</string>
+    <!-- no translation found for name_colon (7069560650889479120) -->
+    <skip />
     <string name="inline_subject">"&lt;Asunto: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text">"* Texto protegido por DRM *"</string>
     <string name="insufficient_drm_rights">"Se detectaron derechos de DRM insuficientes."</string>
@@ -89,6 +91,8 @@
     <string name="unsupported_media_format">"Formato de <xliff:g id="NAME">%1$s</xliff:g> no admitido"</string>
     <string name="select_different_media">"Selecciona un <xliff:g id="NAME">%1$s</xliff:g> diferente."</string>
     <string name="exceed_message_size_limitation">"Se alcanzó el límite de tamaño del mensaje."</string>
+    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
+    <skip />
     <string name="failed_to_add_media">"Lo sentimos, pero no puedes agregar este nombre <xliff:g id="NAME">%1$s</xliff:g> a tu mensaje."</string>
     <string name="failed_to_resize_image">"El tamaño de la imagen no se ajustó."</string>
     <string name="resize_image_error_information">"Lo sentimos, pero aunque se ajuste el tamaño, esta imagen es demasiado grande para enviarse."</string>
@@ -244,4 +248,22 @@
     <string name="copy_to_sdcard_fail">"Error al copiar adjuntos a la tarjeta SD"</string>
     <string name="menu_insert_smiley">"Insertar ícono gestual"</string>
     <string name="select_link_title">"Seleccionar acción"</string>
+    <string name="slide_number">"Diapositiva <xliff:g id="NUMBER">%s</xliff:g>"</string>
+  <plurals name="slide_duration">
+    <item quantity="one">"<xliff:g id="NUMBER">%s</xliff:g>segundo"</item>
+    <item quantity="few">"<xliff:g id="NUMBER">%s</xliff:g>segundos"</item>
+    <item quantity="other">"<xliff:g id="NUMBER">%s</xliff:g>segundos"</item>
+  </plurals>
+    <string name="delivery_report_activity">"Informe de entrega"</string>
+    <string name="add_attachment_activity">"Agregar archivo adjunto:"</string>
+    <string name="select_layout_activity">"Seleccionar diseño"</string>
+    <string name="change_duration_activity">"Cambiar duración"</string>
+    <string name="edit_text_activity">"Editar texto"</string>
+    <string name="edit_slideshow_activity">"Editar presentación de diapositivas"</string>
+    <string name="edit_slide_activity">"Editar diapositiva"</string>
+    <string name="pick_numbers_activity">"Elegir números"</string>
+    <string name="slideshow_activity">"Presentación de diapositivas"</string>
+    <string name="class_0_message_activity">"Mensaje clase 0"</string>
+    <string name="send_using_mms_activity">"Enviar usando MMS…"</string>
+    <string name="select_contact_method_activity">"Seleccionar método de contacto"</string>
 </resources>

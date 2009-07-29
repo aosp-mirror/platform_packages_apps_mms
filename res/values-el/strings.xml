@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label">"Ανταλλαγή μηνυμάτων"</string>
+    <string name="new_message">"Νέο μήνυμα"</string>
+    <string name="create_new_message">"Σύνθεση νέου μηνύματος"</string>
+    <string name="menu_call_back">"Κλήση <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email">"Αποστολή μηνύματος ηλεκτρονικού ταχυδρομείου προς <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_compose_new">"Σύνθεση"</string>
+    <string name="menu_preferences">"Ρυθμίσεις"</string>
+    <string name="menu_add_address_to_contacts">"Προσθήκη <xliff:g id="NAME">%s</xliff:g> στις επαφές"</string>
+    <string name="menu_call">"Κλήση"</string>
+    <string name="menu_delete_all">"Διαγραφή νημάτων"</string>
+    <string name="menu_delete">"Διαγραφή νήματος"</string>
+    <string name="menu_undelivered_messages">"Μηνύματα που δεν έχουν παραδοθεί"</string>
+    <string name="menu_view">"Προβολή νήματος"</string>
+    <string name="refreshing">"Ανανέωση..."</string>
+    <string name="has_draft">"Πρόχειρο"</string>
+    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <skip />
+    <string name="anonymous_recipient">"Ανώνυμος"</string>
+    <string name="no_subject_view">"(Χωρίς θέμα)"</string>
+    <string name="messagelist_sender_self">"Εγώ"</string>
+    <string name="view_picture">"Προβολή εικόνας"</string>
+    <string name="view_slideshow">"Προβολή διαφανειών (slideshow)"</string>
+    <string name="view_message_details">"Προβολή λεπτομερειών μηνύματος"</string>
+    <string name="view_delivery_report">"Προβολή αναφοράς"</string>
+    <string name="delete_message">"Διαγραφή μηνύματος"</string>
+    <string name="sent_on">"Ημερομηνία αποστολής: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="expire_on">"Λήγει: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="kilobyte">"KB"</string>
+    <string name="undelivered_msg_dialog_title">"Μήνυμα που δεν παραδόθηκε"</string>
+    <string name="undelivered_msg_dialog_body">"Δεν είναι δυνατή η αποστολή αυτού του μηνύματος."\n"Έγινε προσπάθεια στις: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_sms_dialog_body">"Δεν ήταν δυνατή η αποστολή αυτού του μηνύματος."</string>
+    <string name="delete_thread">"Διαγραφή νήματος"</string>
+    <string name="menu_forward">"Προώθηση"</string>
+    <string name="download">"Λήψη"</string>
+    <string name="downloading">"Λήψη"</string>
+    <!-- no translation found for name_colon (7069560650889479120) -->
+    <skip />
+    <string name="inline_subject">"&lt;Θέμα: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="drm_protected_text">"* Κείμενο με προστασία DRM *"</string>
+    <string name="insufficient_drm_rights">"Ανιχνεύτηκαν ανεπαρκή δικαιώματα DRM."</string>
+    <string name="copy_message_text">"Αντιγραφή κειμένου μηνύματος"</string>
+    <string name="message_options">"Επιλογές μηνύματος"</string>
+    <string name="done">"Ολοκληρώθηκε"</string>
+    <string name="move_up">"Μετακίνηση προς τα επάνω"</string>
+    <string name="move_down">"Μετακίνηση προς τα κάτω"</string>
+    <string name="remove_slide">"Κατάργηση διαφάνειας"</string>
+    <string name="add_slide">"Προσθήκη διαφάνειας"</string>
+    <string name="add_slide_hint">"Επιλέξτε για να δημιουργήσετε νέα διαφάνεια."</string>
+    <string name="discard_slideshow">"Απόρριψη προβολής διαφανειών (slideshow)"</string>
+    <string name="slide_show_part">"Τμήμα <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
+    <string name="remove_text">"Κατάργηση κειμένου"</string>
+    <string name="add_picture">"Προσθήκη εικόνας"</string>
+    <string name="remove_picture">"Κατάργηση εικόνας"</string>
+    <string name="add_music">"Προσθήκη μουσικής"</string>
+    <string name="remove_music">"Κατάργηση μουσικής"</string>
+    <string name="add_video">"Προσθήκη βίντεο"</string>
+    <string name="remove_video">"Κατάργηση βίντεο"</string>
+    <string name="compose_title">"Σύνθεση"</string>
+    <string name="to_hint">"Προς"</string>
+    <string name="subject_hint">"Θέμα"</string>
+    <string name="add_attachment">"Επισύναψη"</string>
+    <string name="add_subject">"Προσθήκη θέματος"</string>
+    <string name="discard">"Απόρριψη"</string>
+    <string name="view">"Προβολή"</string>
+    <string name="replace">"Αντικατάσταση"</string>
+    <string name="remove">"Κατάργηση"</string>
+    <string name="send">"Αποστολή"</string>
+    <string name="all_threads">"Όλα τα νήματα"</string>
+    <string name="type_to_compose_text_enter_to_send">"Για σύνθεση κειμένου, πληκτρολογήστε"</string>
+    <string name="open_keyboard_to_compose_message">"Ανοίξτε το πληκτρολόγιο για να συνθέσετε το μήνυμα"</string>
+    <string name="image_too_large">"Η εικόνα είναι υπερβολικά μεγάλη"</string>
+    <string name="ask_for_automatically_resize">"Αυτόματη προσαρμογή μεγέθους εικόνας πριν την αποστολή;"</string>
+    <string name="compressing">"Συμπίεση..."</string>
+    <string name="unsupported_media_format">"Άγνωστη μορφή <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="select_different_media">"Επιλέξτε διαφορετικό (διαφορετική) <xliff:g id="NAME">%1$s</xliff:g>."</string>
+    <string name="exceed_message_size_limitation">"Συμπληρώθηκε το όριο μεγέθους μηνυμάτων."</string>
+    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
+    <skip />
+    <string name="failed_to_add_media">"Λυπούμαστε, δεν μπορείτε να προσθέσετε το <xliff:g id="NAME">%1$s</xliff:g> στο μήνυμά σας."</string>
+    <string name="failed_to_resize_image">"Δεν έγινε προσαρμογή του μεγέθους της εικόνας."</string>
+    <string name="resize_image_error_information">"Λυπούμαστε, αλλά ακόμα και μετά την προσαρμογή του μεγέθους της, η εικόνα παραμένει υπερβολικά μεγάλη για αποστολή."</string>
+    <string name="forward_prefix">"Προωθ.: "</string>
+    <string name="discard_message">"Απόρριψη"</string>
+    <string name="discard_message_reason">"Θα γίνει απόρριψη του μηνύματός σας επειδή δεν έχει έγκυρους παραλήπτες."</string>
+    <string name="has_invalid_recipient">"Μη έγκυρος (έγκυροι) παραλήπτης (παραλήπτες): &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
+    <string name="invalid_recipient_message">"Διορθώστε τον παραλήπτη (παραλήπτες), γιατί δεν θα λάβει το μήνυμα."</string>
+    <string name="cannot_send_message">"Δεν είναι δυνατή η αποστολή αυτού του μηνύματος"</string>
+    <string name="cannot_send_message_reason">"Το μήνυμά σας δεν έχει έγκυρους παραλήπτες."</string>
+    <string name="cannot_forward_drm_obj">"Δεν ήταν δυνατή η προώθηση του αντικειμένου DRM που περιλαμβάνεται στο μήνυμα."</string>
+    <string name="converting_to_picture_message">"Μετατροπή σε μήνυμα MMS..."</string>
+    <string name="converting_to_text_message">"Μετατροπή σε μήνυμα SMS..."</string>
+    <string name="cannot_add_slide_anymore">"Δεν είναι δυνατή η προσθήκη περισσότερων διαφανειών."</string>
+    <string name="cannot_save_message">"Δεν είναι δυνατή η αποθήκευση του μηνύματος."</string>
+    <string name="cannot_load_message">"Δεν είναι δυνατή η φόρτωση του μηνύματος."</string>
+    <string name="message_saved_as_draft">"Το μήνυμα αποθηκεύτηκε ως πρόχειρο."</string>
+    <string name="cannot_play_audio">"Δεν είναι δυνατή η αναπαραγωγή ήχου."</string>
+    <string name="preview">"Προεπισκόπηση"</string>
+    <string name="preview_slideshow">"Προεπισκόπηση"</string>
+    <string name="replace_image">"Αντικατάσταση εικόνας"</string>
+    <string name="duration_sec">"Διάρκεια (<xliff:g id="DURATION">%s</xliff:g> δευτερόλεπτα)"</string>
+    <string name="duration_selector_title">"Διάρκεια διαφάνειας "</string>
+    <string name="layout_selector_title">"Διάταξη προβολής διαφανειών (slideshow) "</string>
+    <string name="layout_top">"Διάταξη (στην κορυφή)"</string>
+    <string name="layout_bottom">"Διάταξη (στο κάτω μέρος)"</string>
+    <string name="type_to_compose_text_or_leave_blank">"Πληκτρολογήστε για να συνθέσετε ένα κείμενο ή αφήστε το κενό"</string>
+    <string name="secs">"δευτερόλεπτα"</string>
+  <string-array name="select_dialog_items">
+    <item>"1 δευτερόλεπτο"</item>
+    <item>"2 δευτερόλεπτα"</item>
+    <item>"3 δευτερόλεπτα"</item>
+    <item>"4 δευτερόλεπτα"</item>
+    <item>"5 δευτερόλεπτα"</item>
+    <item>"6 δευτερόλεπτα"</item>
+    <item>"7 δευτερόλεπτα"</item>
+    <item>"8 δευτερόλεπτα"</item>
+    <item>"9 δευτερόλεπτα"</item>
+    <item>"10 δευτερόλεπτα"</item>
+    <item>"Άλλη..."</item>
+  </string-array>
+    <string name="menu_view_contact">"Προβολή επαφής"</string>
+    <string name="menu_add_to_contacts">"Προσθήκη στις επαφές"</string>
+    <string name="hidden_sender_address">"Διεύθυνση κρυφού αποστολέα"</string>
+    <string name="yes">"OK"</string>
+    <string name="no">"Ακύρωση"</string>
+    <string name="play">"Αναπαραγωγή"</string>
+    <string name="edit">"Επεξεργασία"</string>
+    <string name="resize">"Προσαρμογή μεγέθους"</string>
+    <string name="try_to_send">"Προσπάθεια αποστολής"</string>
+    <string name="preferences_title">"Ρυθμίσεις"</string>
+    <string name="restore_default">"Επαναφορά προεπιλεγμένων ρυθμίσεων"</string>
+    <string name="pref_notification_settings_title">"Ρυθμίσεις ειδοποιήσεων"</string>
+    <string name="pref_mms_settings_title">"Ρυθμίσεις MMS"</string>
+    <string name="pref_sms_settings_title">"Ρυθμίσεις SMS"</string>
+    <string name="pref_summary_manage_sim_messages">"Διαχείριση μηνυμάτων που είναι αποθηκευμένα στην κάρτα SIM"</string>
+    <string name="pref_summary_mms_delivery_reports">"Αίτηση αναφοράς παράδοσης για κάθε μήνυμα που στέλνετε"</string>
+    <string name="pref_summary_mms_read_reports">"Αίτηση αναφοράς ανάγνωσης για κάθε μήνυμα που στέλνετε"</string>
+    <string name="pref_summary_sms_delivery_reports">"Αίτηση αναφοράς παράδοσης για κάθε μήνυμα που στέλνετε"</string>
+    <string name="pref_title_manage_sim_messages">"Διαχείριση μηνυμάτων της κάρτας SIM"</string>
+    <string name="pref_title_mms_delivery_reports">"Αναφορές παράδοσης"</string>
+    <string name="pref_title_mms_read_reports">"Αναφορές ανάγνωσης"</string>
+    <string name="pref_title_sms_delivery_reports">"Αναφορές παράδοσης"</string>
+    <string name="pref_title_notification_enabled">"Ειδοποιήσεις"</string>
+    <string name="pref_summary_notification_enabled">"Προβολή ειδοποιήσεων μηνύματος στη γραμμή κατάστασης"</string>
+    <string name="pref_title_notification_vibrate">"Δόνηση"</string>
+    <string name="pref_summary_notification_vibrate">"Δόνηση κατά την ειδοποίηση"</string>
+    <string name="pref_title_notification_ringtone">"Επιλογή ήχου κλήσης"</string>
+    <string name="pref_title_mms_auto_retrieval">"Αυτόματη ανάκτηση"</string>
+    <string name="pref_summary_mms_auto_retrieval">"Αυτόματη ανάκτηση μηνυμάτων"</string>
+    <string name="pref_title_mms_retrieval_during_roaming">"Αυτόματη ανάκτηση περιαγωγής"</string>
+    <string name="pref_summary_mms_retrieval_during_roaming">"Αυτόματη ανάκτηση μηνυμάτων κατά την περιαγωγή"</string>
+    <string name="to_label">"Προς "</string>
+    <string name="confirm_dialog_title">"Διαγραφή"</string>
+    <string name="confirm_delete_conversation">"Θα διαγραφεί ολόκληρο το νήμα."</string>
+    <string name="confirm_delete_all_conversations">"Όλα τα νήματα θα διαγραφούν."</string>
+    <string name="confirm_delete_message">"Το μήνυμα θα διαγραφεί."</string>
+    <string name="confirm_delete_all_messages">"Θα διαγραφεί ολόκληρο το νήμα."</string>
+    <string name="confirm_delete_all_SIM_messages">"Όλα τα μηνύματα στην κάρτα SIM θα διαγραφούν."</string>
+    <string name="confirm_delete_SIM_message">"Αυτό το μήνυμα στην κάρτα SIM θα διαγραφεί."</string>
+    <string name="cannot_get_details">"Δεν είναι δυνατή η λήψη λεπτομερειών"</string>
+    <string name="message_details_title">"Λεπτομέρειες μηνύματος"</string>
+    <string name="message_type_label">"Τύπος: "</string>
+    <string name="text_message">"Μήνυμα SMS"</string>
+    <string name="multimedia_message">"Μήνυμα MMS"</string>
+    <string name="multimedia_notification">"Ειδοποίηση MMS"</string>
+    <string name="from_label">"Από: "</string>
+    <string name="to_address_label">"Προς: "</string>
+    <string name="bcc_label">"Κρυφή κοιν.: "</string>
+    <string name="sent_label">"Ημερομηνία αποστολής: "</string>
+    <string name="received_label">"Ληφθέντα: "</string>
+    <string name="saved_label">"Αποθηκεύτηκε: "</string>
+    <string name="subject_label">"Θέμα: "</string>
+    <string name="message_size_label">"Μέγεθος μηνύματος: "</string>
+    <string name="priority_label">"Προτεραιότητα: "</string>
+    <string name="priority_high">"Υψηλή"</string>
+    <string name="priority_normal">"Κανονική"</string>
+    <string name="priority_low">"Χαμηλή"</string>
+    <string name="message_class_label">"Κλάση μηνύματος: "</string>
+    <string name="menu_edit">"Επεξεργασία"</string>
+    <string name="menu_retry_sending">"Επανάληψη αποστολής"</string>
+    <string name="menu_retry_sending_all">"Επανάληψη αποστολής όλων"</string>
+    <string name="menu_delete_messages">"Διαγραφή μηνυμάτων"</string>
+    <string name="retrying_dialog_body">"Δεν έγινε αποστολή του μηνύματος <xliff:g id="MESSAGE">%s</xliff:g> λόγω προβλήματος σύνδεσης."\n"Επανάληψη αποστολής..."</string>
+    <string name="sim_copy_to_phone_memory">"Αντιγραφή στη μνήμη τηλεφώνου"</string>
+    <string name="sim_delete">"Διαγραφή"</string>
+    <string name="sim_manage_messages_title">"Μηνύματα SMS στην κάρτα SIM"</string>
+    <string name="sim_view">"Προβολή"</string>
+    <string name="sim_empty">"Δεν υπάρχουν μηνύματα στην κάρτα SIM."</string>
+    <string name="delivery_header_title">"Αναφορά"</string>
+    <string name="status_none">"(Καμία)"</string>
+    <string name="status_pending">"Εκκρεμεί"</string>
+    <string name="status_read">"Αναγνωσμένο"</string>
+    <string name="status_received">"Ληφθέντα"</string>
+    <string name="status_failed">"Ανεπιτυχής"</string>
+    <string name="status_unread">"Μη αναγνωσμένα"</string>
+    <string name="status_rejected">"Απορρίφθηκε"</string>
+    <string name="recipient_label">"Παραλήπτης: "</string>
+    <string name="status_label">"Κατάσταση: "</string>
+    <string name="attach_image">"Εικόνες"</string>
+    <string name="attach_take_photo">"Λήψη εικόνας"</string>
+    <string name="attach_video">"Βίντεο"</string>
+    <string name="attach_record_video">"Λήψη βίντεο"</string>
+    <string name="attach_sound">"Ήχος"</string>
+    <string name="attach_record_sound">"Ηχογράφηση"</string>
+    <string name="attach_slideshow">"Προβολή διαφανειών (slideshow)"</string>
+    <string name="select_bottom_text">"Το κείμενο στο κάτω μέρος"</string>
+    <string name="select_top_text">"Το κείμενο στην κορυφή"</string>
+    <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> μη αναγνωσμένα μηνύματα."</string>
+    <string name="notification_multiple_title">"Νέα μηνύματα"</string>
+    <string name="notification_failed_multiple">"Δεν ήταν δυνατή η αποστολή <xliff:g id="COUNT">%s</xliff:g> μηνυμάτων."</string>
+    <string name="notification_failed_multiple_title">"Μη απεσταλμένα μηνύματα"</string>
+    <string name="sim_full_title">"Πλήρης κάρτα SIM"</string>
+    <string name="sim_full_body">"Διαγράψτε μερικά μηνύματα για να απελευθερώσετε χώρο για άλλα."</string>
+    <string name="type_audio">"ήχος"</string>
+    <string name="type_picture">"εικόνα"</string>
+    <string name="type_video">"βίντεο"</string>
+    <string name="confirm">"Επιβεβαίωση"</string>
+    <string name="message_send_read_report">"Θα γίνει αποστολή αναφοράς ανάγνωσης."</string>
+    <string name="message_queued">"Δεν είναι δυνατή η αποστολή του μηνύματός σας αυτήν τη στιγμή. Η αποστολή θα πραγματοποιηθεί όταν η υπηρεσία θα είναι διαθέσιμη."</string>
+    <string name="no_subject">"(Χωρίς θέμα)"</string>
+    <string name="unknown_sender">"Άγνωστος αποστολέας"</string>
+    <string name="dl_failure_notification">"Η λήψη του μηνύματος <xliff:g id="SUBJECT">%s</xliff:g> από <xliff:g id="FROM">%s</xliff:g> απέτυχε."</string>
+    <string name="rate_limit_surpassed">"Επιβεβαίωση"</string>
+    <string name="confirm_rate_limit">"Γίνεται αποστολή μεγάλου αριθμού μηνυμάτων πολυμέσων. OK;"</string>
+    <string name="message_download_failed_title">"Δεν έγινε λήψη του μηνύματος"</string>
+    <string name="message_send_failed_title">"Δεν έγινε αποστολή του μηνύματος"</string>
+    <string name="message_failed_body">"Επιλέξτε να ελέγξετε το μήνυμα και δοκιμάστε ξανά."</string>
+    <string name="download_later">"Δεν είναι δυνατή η λήψη αυτήν τη στιγμή. Δοκιμάστε ξανά αργότερα."</string>
+    <string name="select_audio">"Επιλογή ήχου"</string>
+    <string name="copy_to_sdcard">"Αντιγραφή επισύναψης στην κάρτα SD"</string>
+    <string name="copy_to_sdcard_success">"Έγινε αντιγραφή της επισύναψης στην κάρτα SD"</string>
+    <string name="copy_to_sdcard_fail">"Η αντιγραφή της επισύναψης στην κάρτα SD απέτυχε"</string>
+    <string name="menu_insert_smiley">"Εισαγωγή εικονιδίου smiley"</string>
+    <string name="select_link_title">"Επιλογή ενέργειας"</string>
+    <string name="slide_number">"Διαφάνεια <xliff:g id="NUMBER">%s</xliff:g>"</string>
+  <plurals name="slide_duration">
+    <item quantity="one">"<xliff:g id="NUMBER">%s</xliff:g> δευτερόλεπτα"</item>
+    <item quantity="few">"<xliff:g id="NUMBER">%s</xliff:g> δευτερόλεπτα"</item>
+    <item quantity="other">"<xliff:g id="NUMBER">%s</xliff:g> δευτερόλεπτα"</item>
+  </plurals>
+    <string name="delivery_report_activity">"Αναφορά παράδοσης"</string>
+    <string name="add_attachment_activity">"Προσθήκη επισύναψης:"</string>
+    <string name="select_layout_activity">"Επιλογή διάταξης"</string>
+    <string name="change_duration_activity">"Αλλαγή διάρκειας"</string>
+    <string name="edit_text_activity">"Επεξεργασία κειμένου"</string>
+    <string name="edit_slideshow_activity">"Επεξεργασία προβολής διαφανειών (slideshow)"</string>
+    <string name="edit_slide_activity">"Επεξεργασία διαφάνειας"</string>
+    <string name="pick_numbers_activity">"Επιλογή αριθμών"</string>
+    <string name="slideshow_activity">"Προβολή διαφανειών (slideshow)"</string>
+    <string name="class_0_message_activity">"Μήνυμα κλάσης 0"</string>
+    <string name="send_using_mms_activity">"Αποστολή με χρήση MMS..."</string>
+    <string name="select_contact_method_activity">"Επιλογή μεθόδου επικοινωνίας"</string>
+</resources>

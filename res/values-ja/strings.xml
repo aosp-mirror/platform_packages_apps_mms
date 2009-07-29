@@ -15,10 +15,10 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label">"SMS"</string>
+    <string name="app_label">"メッセージ"</string>
     <string name="new_message">"新規作成"</string>
     <string name="create_new_message">"新しいメッセージを作成する"</string>
-    <string name="menu_call_back">"発信 <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_call_back">"<xliff:g id="NAME">%s</xliff:g>に発信"</string>
     <string name="menu_send_email">"<xliff:g id="NAME">%s</xliff:g>さんにメールを送信"</string>
     <string name="menu_compose_new">"作成"</string>
     <string name="menu_preferences">"設定"</string>
@@ -50,6 +50,8 @@
     <string name="menu_forward">"転送"</string>
     <string name="download">"ダウンロード"</string>
     <string name="downloading">"ダウンロード中"</string>
+    <!-- no translation found for name_colon (7069560650889479120) -->
+    <skip />
     <string name="inline_subject">"&lt;件名: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text">"*DRM保護対象テキスト*"</string>
     <string name="insufficient_drm_rights">"DRM権限が十分ではありません。"</string>
@@ -89,6 +91,8 @@
     <string name="unsupported_media_format">"対応していない<xliff:g id="NAME">%1$s</xliff:g>形式です"</string>
     <string name="select_different_media">"別の<xliff:g id="NAME">%1$s</xliff:g>を選択してください。"</string>
     <string name="exceed_message_size_limitation">"メッセージサイズの上限に達しました。"</string>
+    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
+    <skip />
     <string name="failed_to_add_media">"この<xliff:g id="NAME">%1$s</xliff:g>はメッセージに追加できません。"</string>
     <string name="failed_to_resize_image">"画像のサイズを変更できません。"</string>
     <string name="resize_image_error_information">"この画像は大きすぎるため、サイズを変更しても送信できません。"</string>
@@ -101,7 +105,7 @@
     <string name="cannot_send_message_reason">"メッセージに有効な宛先が指定されていません。"</string>
     <string name="cannot_forward_drm_obj">"メッセージ内のDRM対象は転送できません。"</string>
     <string name="converting_to_picture_message">"MMSメッセージに変換中..."</string>
-    <string name="converting_to_text_message">"SMSメッセージに変換中..."</string>
+    <string name="converting_to_text_message">"メッセージに変換中..."</string>
     <string name="cannot_add_slide_anymore">"スライドを追加できません。"</string>
     <string name="cannot_save_message">"メッセージを保存できません。"</string>
     <string name="cannot_load_message">"メッセージを読み込めません。"</string>
@@ -143,7 +147,7 @@
     <string name="restore_default">"初期設定に戻す"</string>
     <string name="pref_notification_settings_title">"通知設定"</string>
     <string name="pref_mms_settings_title">"MMS設定"</string>
-    <string name="pref_sms_settings_title">"SMS設定"</string>
+    <string name="pref_sms_settings_title">"メッセージ設定"</string>
     <string name="pref_summary_manage_sim_messages">"SIMカードに保存したメッセージを管理"</string>
     <string name="pref_summary_mms_delivery_reports">"送信するメッセージの受取確認を毎回要求する"</string>
     <string name="pref_summary_mms_read_reports">"送信する全メッセージに対して開封確認レポートを要求する"</string>
@@ -155,7 +159,7 @@
     <string name="pref_title_notification_enabled">"通知"</string>
     <string name="pref_summary_notification_enabled">"メッセージ受信: ステータスバーで通知"</string>
     <string name="pref_title_notification_vibrate">"バイブレーション"</string>
-    <string name="pref_summary_notification_vibrate">"通知: バイブレーションON"</string>
+    <string name="pref_summary_notification_vibrate">"メッセージ受信を通知する際にバイブレーションさせます。"</string>
     <string name="pref_title_notification_ringtone">"着信音を選択"</string>
     <string name="pref_title_mms_auto_retrieval">"自動で取得"</string>
     <string name="pref_summary_mms_auto_retrieval">"メッセージを自動的に取得"</string>
@@ -172,7 +176,7 @@
     <string name="cannot_get_details">"詳細を表示できません"</string>
     <string name="message_details_title">"メッセージの詳細"</string>
     <string name="message_type_label">"タイプ: "</string>
-    <string name="text_message">"SMSメッセージ"</string>
+    <string name="text_message">"メッセージ"</string>
     <string name="multimedia_message">"MMSメッセージ"</string>
     <string name="multimedia_notification">"MMS通知"</string>
     <string name="from_label">"From: "</string>
@@ -195,7 +199,7 @@
     <string name="retrying_dialog_body">"接続エラーのためメッセージ「<xliff:g id="MESSAGE">%s</xliff:g>」を送信できませんでした。"\n"再送信しています..."</string>
     <string name="sim_copy_to_phone_memory">"携帯電話のメモリにコピー"</string>
     <string name="sim_delete">"削除"</string>
-    <string name="sim_manage_messages_title">"SIMカード内のSMSメッセージ"</string>
+    <string name="sim_manage_messages_title">"SIMカード内のメッセージ"</string>
     <string name="sim_view">"表示"</string>
     <string name="sim_empty">"SIMカードにメッセージがありません。"</string>
     <string name="delivery_header_title">"レポート"</string>
@@ -244,4 +248,33 @@
     <string name="copy_to_sdcard_fail">"添付ファイルをSDカードにコピーできませんでした"</string>
     <string name="menu_insert_smiley">"絵文字を挿入"</string>
     <string name="select_link_title">"操作を選択"</string>
+    <!-- no translation found for slide_number (1923958526266726635) -->
+    <skip />
+    <!-- no translation found for slide_duration:one (1654101988340583935) -->
+    <!-- no translation found for slide_duration:few (7887190171856293871) -->
+    <!-- no translation found for slide_duration:other (3736425355579939863) -->
+    <!-- no translation found for delivery_report_activity (2957463094232916364) -->
+    <skip />
+    <!-- no translation found for add_attachment_activity (5324811371129695320) -->
+    <skip />
+    <!-- no translation found for select_layout_activity (5041916695464513848) -->
+    <skip />
+    <!-- no translation found for change_duration_activity (7048606979485031693) -->
+    <skip />
+    <!-- no translation found for edit_text_activity (5915226413346879213) -->
+    <skip />
+    <!-- no translation found for edit_slideshow_activity (8751493388760050529) -->
+    <skip />
+    <!-- no translation found for edit_slide_activity (8752829671778696983) -->
+    <skip />
+    <!-- no translation found for pick_numbers_activity (2083330191224178637) -->
+    <skip />
+    <!-- no translation found for slideshow_activity (5658249461317434432) -->
+    <skip />
+    <!-- no translation found for class_0_message_activity (8474176218999130627) -->
+    <skip />
+    <!-- no translation found for send_using_mms_activity (6082321147663913763) -->
+    <skip />
+    <!-- no translation found for select_contact_method_activity (1743384358979323991) -->
+    <skip />
 </resources>
