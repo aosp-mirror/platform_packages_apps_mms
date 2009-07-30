@@ -31,6 +31,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
+import android.view.inputmethod.EditorInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -52,6 +53,8 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         super(context, attrs, android.R.attr.autoCompleteTextViewStyle);
         mTokenizer = new RecipientsEditorTokenizer(context, this);
         setTokenizer(mTokenizer);
+        // For the focus to move to the message body when soft Next is pressed
+        setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
         /*
          * The point of this TextWatcher is that when the user chooses
