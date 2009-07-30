@@ -61,6 +61,9 @@ public class Conversation {
     private boolean mHasAttachment;     // True if any message has an attachment.
     private boolean mHasError;          // True if any message is in an error state.
 
+    private static ContentValues mReadContentValues;
+
+
     private Conversation(Context context) {
         mContext = context;
         mRecipients = new ContactList();
@@ -170,30 +173,32 @@ public class Conversation {
         return new Conversation(context, cursor, false);
     }
 
+    private void buildReadContentValues() {
+        if (mReadContentValues == null) {
+            mReadContentValues = new ContentValues(1);
+            mReadContentValues.put("read", 1);
+        }
+    }
+
     /**
      * Marks all messages in this conversation as read and updates
      * relevant notifications.  This method returns immediately;
      * work is dispatched to a background thread.
      */
     public synchronized void markAsRead() {
-        // If this thread has no unread messages, there's nothing to do.
-        if (!hasUnreadMessages()) {
-            return;
-        }
-
         // If we have no Uri to mark (as in the case of a conversation that
         // has not yet made its way to disk), there's nothing to do.
         final Uri threadUri = getUri();
-        if (threadUri == null)
-            return;
-
-        // TODO: make this once as a static?
-        final ContentValues values = new ContentValues(1);
-        values.put("read", 1);
 
         new Thread(new Runnable() {
             public void run() {
-                mContext.getContentResolver().update(threadUri, values, "read=0", null);
+                if (threadUri != null) {
+                    buildReadContentValues();
+                    mContext.getContentResolver().update(threadUri, mReadContentValues,
+                            "read=0", null);
+                    mHasUnreadMessages = false;
+                }
+                // Always update notifications regardless of the read state.
                 MessagingNotification.updateAllNotifications(mContext);
             }
         }).start();
