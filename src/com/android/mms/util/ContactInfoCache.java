@@ -20,18 +20,25 @@ package com.android.mms.util;
 import com.android.mms.ui.MessageUtils;
 import com.google.android.mms.util.SqliteWrapper;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.ContentResolver;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.provider.Contacts;
+import android.provider.Contacts.People;
 import android.provider.Telephony.Mms;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.net.Uri;
 import android.util.Log;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,12 +73,14 @@ public class ContactInfoCache {
             Contacts.People.NAME,               // 2
             Contacts.Phones.PERSON_ID,          // 3
             Contacts.People.PRESENCE_STATUS,    // 4
+            Contacts.People.PRESENCE_CUSTOM_STATUS,  // 5
     };
     private static final int PHONE_NUMBER_COLUMN = 0;
     private static final int PHONE_LABEL_COLUMN = 1;
     private static final int CONTACT_NAME_COLUMN = 2;
     private static final int CONTACT_ID_COLUMN = 3;
     private static final int CONTACT_PRESENCE_COLUMN = 4;
+    private static final int PRESENCE_CUSTOM_STATUS_COLUMN = 5;
 
     // query params for contact lookup by email
     private static final String CONTACT_METHOD_SELECTION = Contacts.ContactMethods.DATA + "=?";
@@ -128,6 +137,15 @@ public class ContactInfoCache {
          * the presence icon resource id
          */
         public int presenceResId;
+        /*
+         * custom presence
+         */
+        public String presenceText;
+        /**
+         * Avatar image for this contact.
+         */
+        public BitmapDrawable mAvatar;
+
         /**
          * If true, it indicates the CacheEntry has old info. We want to give the user of this
          * class a chance to use the old info, as it can still be useful for displaying something
@@ -309,9 +327,32 @@ public class ContactInfoCache {
                 entry.person_id = cursor.getLong(CONTACT_ID_COLUMN);
                 entry.presenceResId = getPresenceIconResourceId(
                         cursor.getInt(CONTACT_PRESENCE_COLUMN));
+                entry.presenceText = cursor.getString(PRESENCE_CUSTOM_STATUS_COLUMN);
                 if (LOCAL_DEBUG) {
                     log("queryContactInfoByNumber: name=" + entry.name + ", number=" + number +
                             ", presence=" + entry.presenceResId);
+                }
+
+                Uri contactUri = ContentUris.withAppendedId(
+                        People.CONTENT_URI,
+                        cursor.getLong(CONTACT_ID_COLUMN));
+
+                InputStream avatarDataStream =
+                    Contacts.People.openContactPhotoInputStream(
+                            mContext.getContentResolver(),
+                            contactUri);
+                if (avatarDataStream != null) {
+                    Bitmap b = BitmapFactory.decodeStream(avatarDataStream);
+
+                    BitmapDrawable bd =
+                        new BitmapDrawable(mContext.getResources(), b);
+
+                    entry.mAvatar = bd;
+                    try {
+                        avatarDataStream.close();
+                    } catch (IOException e) {
+                        entry.mAvatar = null;
+                    }
                 }
             }
         } finally {
@@ -498,7 +539,7 @@ public class ContactInfoCache {
                     }
                 }
             }
-        } 
+        }
     }
 
     /**

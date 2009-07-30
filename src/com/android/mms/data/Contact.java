@@ -7,8 +7,11 @@ import java.util.List;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.ContentObserver;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
+import android.provider.Contacts;
 import android.provider.Contacts.People;
 import android.provider.Contacts.Presence;
 import android.provider.Telephony.Mms;
@@ -50,6 +53,8 @@ public class Contact {
     private String mLabel;
     private long mPersonId;
     private int mPresenceResId;      // TODO: make this a state instead of a res ID
+    private String mPresenceText;
+    private BitmapDrawable mAvatar;
 
     @Override
     public synchronized String toString() {
@@ -198,7 +203,8 @@ public class Contact {
                         c.mLabel = entry.phoneLabel;
                         c.mPersonId = entry.person_id;
                         c.mPresenceResId = entry.presenceResId;
-
+                        c.mPresenceText = entry.presenceText;
+                        c.mAvatar = entry.mAvatar;
                         for (UpdateListener l : c.mListeners) {
                             if (V) Log.d(TAG, "updating " + l);
                             l.onUpdate(c);
@@ -274,6 +280,14 @@ public class Contact {
 
     public synchronized boolean isEmail() {
         return Mms.isEmailAddress(mNumber);
+    }
+
+    public String getPresenceText() {
+        return mPresenceText;
+    }
+
+    public Drawable getAvatar(Drawable defaultValue) {
+        return mAvatar != null ? mAvatar : defaultValue;
     }
 
     public static void init(final Context context) {

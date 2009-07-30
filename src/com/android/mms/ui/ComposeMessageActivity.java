@@ -80,7 +80,6 @@ import android.os.Message;
 import android.os.SystemProperties;
 import android.provider.Contacts;
 import android.provider.Contacts.People;
-import android.provider.Contacts.Presence;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.Telephony.Mms;
@@ -199,9 +198,6 @@ public class ComposeMessageActivity extends Activity
     private static final int DELETE_MESSAGE_TOKEN  = 9700;
     private static final int DELETE_CONVERSATION_TOKEN  = 9701;
 
-    private static final int CALLER_ID_QUERY_TOKEN = 9800;
-    private static final int EMAIL_CONTACT_QUERY_TOKEN = 9801;
-
     private static final int MARK_AS_READ_TOKEN = 9900;
 
     private static final int MMS_THRESHOLD = 4;
@@ -209,32 +205,6 @@ public class ComposeMessageActivity extends Activity
     private static final int CHARS_REMAINING_BEFORE_COUNTER_SHOWN = 10;
 
     private static final long NO_DATE_FOR_DIALOG = -1L;
-
-    private static final int REFRESH_PRESENCE = 45236;
-
-
-    // caller id query params
-    private static final String[] CALLER_ID_PROJECTION = new String[] {
-            People.PRESENCE_STATUS,     // 0
-            People.PRESENCE_CUSTOM_STATUS,  // 1
-    };
-    private static final int PRESENCE_STATUS_COLUMN = 0;
-    private static final int PRESENCE_CUSTOM_STATUS_COLUMN = 1;
-
-    private static final String NUMBER_LOOKUP = "PHONE_NUMBERS_EQUAL("
-        + Contacts.Phones.NUMBER + ",?)";
-    private static final Uri PHONES_WITH_PRESENCE_URI
-        = Uri.parse(Contacts.Phones.CONTENT_URI + "_with_presence");
-
-    // email contact query params
-    private static final String[] EMAIL_QUERY_PROJECTION = new String[] {
-        Contacts.People.PRESENCE_STATUS,     // 0
-        Contacts.People.PRESENCE_CUSTOM_STATUS,     // 1
-    };
-
-    private static final String METHOD_LOOKUP = Contacts.ContactMethods.DATA + "=?";
-    private static final Uri METHOD_WITH_PRESENCE_URI =
-            Uri.withAppendedPath(Contacts.ContactMethods.CONTENT_URI, "with_presence");
 
     private static final String EXIT_ECM_RESULT = "exit_ecm_result";
 
@@ -272,11 +242,6 @@ public class ComposeMessageActivity extends Activity
     private WorkingMessage mWorkingMessage;         // The message currently being composed.
 
     private AlertDialog mSmileyDialog;
-
-    // Everything needed to deal with presence
-    private Cursor mContactInfoCursor;
-    private int mPresenceStatus;
-    private String[] mContactInfoSelectionArgs = new String[1];
 
     private boolean mWaitingForSubActivity;
     private int mLastRecipientCount;            // Used for warning the user on too many recipients.
@@ -597,7 +562,7 @@ public class ComposeMessageActivity extends Activity
 
                 if (c == ',') {
                     updateWindowTitle();
-                    startQueryForContactInfo();
+                    initializeContactInfo();
                 }
                 break;
             }
@@ -1519,7 +1484,7 @@ public class ComposeMessageActivity extends Activity
         registerReceiver(mHttpProgressReceiver, mHttpProgressFilter);
 
         startMsgListQuery();
-        startQueryForContactInfo();
+        initializeContactInfo();
         updateSendFailedNotification();
 
     }
@@ -1579,8 +1544,6 @@ public class ComposeMessageActivity extends Activity
 
         // Cleanup the BroadcastReceiver.
         unregisterReceiver(mHttpProgressReceiver);
-
-        cleanupContactInfoCursor();
     }
 
     @Override
@@ -2601,14 +2564,6 @@ public class ComposeMessageActivity extends Activity
                     mTextEditor.requestFocus();
 
                     return;
-
-                case CALLER_ID_QUERY_TOKEN:
-                case EMAIL_CONTACT_QUERY_TOKEN:
-                    cleanupContactInfoCursor();
-                    mContactInfoCursor = cursor;
-                    updateContactInfo();
-                    return;
-
             }
         }
 
@@ -2716,61 +2671,25 @@ public class ComposeMessageActivity extends Activity
         mSmileyDialog.show();
     }
 
-    private void cleanupContactInfoCursor() {
-        if (mContactInfoCursor != null) {
-            mContactInfoCursor.close();
+    private void updatePresence(Contact updated) {
+        if (updated != null){
+            setPresenceIcon(updated.getPresenceResId());
+            setAvatar(updated.getAvatar(mGenericAvatar));
+            mPresenceText.setText(updated.getPresenceText());
+        } else {
+            setPresenceIcon(0);
+            setAvatar(mGenericAvatar);
+            mPresenceText.setText("");
         }
     }
 
-    private void startQueryForContactInfo() {
+    private void initializeContactInfo() {
         ContactList recipients = getRecipients();
 
         if (recipients.size() != 1) {
-            setPresenceIcon(0);
-            setAvatar(mGenericAvatar);
-            return;
-        }
-
-        String number = recipients.get(0).getNumber();
-        mContactInfoSelectionArgs[0] = number;
-
-        if (Mms.isEmailAddress(number)) {
-            // Cancel any pending queries
-            mBackgroundQueryHandler.cancelOperation(EMAIL_CONTACT_QUERY_TOKEN);
-
-            mBackgroundQueryHandler.startQuery(EMAIL_CONTACT_QUERY_TOKEN, null,
-                    METHOD_WITH_PRESENCE_URI,
-                    EMAIL_QUERY_PROJECTION,
-                    METHOD_LOOKUP,
-                    mContactInfoSelectionArgs,
-                    null);
+            updatePresence(null);
         } else {
-            // Cancel any pending queries
-            mBackgroundQueryHandler.cancelOperation(CALLER_ID_QUERY_TOKEN);
-
-            mBackgroundQueryHandler.startQuery(CALLER_ID_QUERY_TOKEN, null,
-                    PHONES_WITH_PRESENCE_URI,
-                    CALLER_ID_PROJECTION,
-                    NUMBER_LOOKUP,
-                    mContactInfoSelectionArgs,
-                    null);
-        }
-    }
-
-    private void updateContactInfo() {
-        boolean updated = false;
-        if (mContactInfoCursor != null && mContactInfoCursor.moveToFirst()) {
-            mPresenceStatus = mContactInfoCursor.getInt(PRESENCE_STATUS_COLUMN);
-            setPresenceIcon(Presence.getPresenceIconResourceId(mPresenceStatus));
-            String status = mContactInfoCursor.getString(PRESENCE_CUSTOM_STATUS_COLUMN);
-            mPresenceText.setText(status);
-
-            setAvatar(mGenericAvatar);  // TODO get the actual avatar
-            updated = true;
-        }
-        if (!updated) {
-            setPresenceIcon(0);
-            setAvatar(mGenericAvatar);
+            updatePresence(recipients.get(0));
         }
     }
 
@@ -2778,7 +2697,12 @@ public class ComposeMessageActivity extends Activity
         // Using an existing handler for the post, rather than conjuring up a new one.
         mMessageListItemHandler.post(new Runnable() {
             public void run() {
-                setPresenceIcon(updated.getPresenceResId());
+                ContactList recipients = getRecipients();
+                if (recipients.size() == 1) {
+                    updatePresence(recipients.get(0));
+                } else {
+                    updatePresence(null);
+                }
             }
         });
     }
