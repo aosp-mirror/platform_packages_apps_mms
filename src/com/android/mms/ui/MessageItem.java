@@ -86,7 +86,7 @@ public class MessageItem {
         mContext = context;
         mMsgId = cursor.getLong(columnsMap.mColumnMsgId);
         mHighlight = highlight != null ? highlight.toLowerCase() : null;
-        
+
         if ("sms".equals(type)) {
             mReadReport = false; // No read reports in sms
             mDeliveryReport = (cursor.getLong(columnsMap.mColumnSmsStatus)
@@ -110,7 +110,7 @@ public class MessageItem {
             long date = cursor.getLong(columnsMap.mColumnSmsDate);
             mTimestamp = String.format(context.getString(R.string.sent_on),
                     MessageUtils.formatTimeStampString(context, date));
-            
+
             mLocked = cursor.getInt(columnsMap.mColumnSmsLocked) != 0;
         } else if ("mms".equals(type)) {
             mMessageUri = ContentUris.withAppendedId(Mms.CONTENT_URI, mMsgId);
@@ -211,8 +211,7 @@ public class MessageItem {
             mAddress = from.getString();
             mContact = Contact.get(mAddress, true).getName();
         } else {
-            mContact = mAddress = mContext.getString(
-                    R.string.anonymous_recipient);
+            mContact = mAddress = "";
         }
     }
 
@@ -257,11 +256,11 @@ public class MessageItem {
     public CharSequence getCachedFormattedMessage() {
         return mCachedFormattedMessage;
     }
-    
+
     public int getBoxId() {
         return mBoxId;
     }
-    
+
     @Override
     public String toString() {
         return "type: " + mType +
