@@ -205,7 +205,7 @@ public class RetryScheduler implements Observer {
     private int getResponseStatus(long msgID) {
         int respStatus = 0;
         Cursor cursor = SqliteWrapper.query(mContext, mContentResolver,
-                Mms.Outbox.CONTENT_URI, null, "m_id =" + msgID, null, null);
+                Mms.Outbox.CONTENT_URI, null, Mms._ID + "=" + msgID, null, null);
         try {
             if (cursor.moveToFirst()) {
                 respStatus = cursor.getInt(cursor.getColumnIndexOrThrow(Mms.RESPONSE_STATUS));
