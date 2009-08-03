@@ -2676,6 +2676,8 @@ public class ComposeMessageActivity extends Activity
                 public final void onClick(DialogInterface dialog, int which) {
                     HashMap<String, Object> item = (HashMap<String, Object>) a.getItem(which);
                     mTextEditor.append((String)item.get("text"));
+
+                    dialog.dismiss();
                 }
             });
 
