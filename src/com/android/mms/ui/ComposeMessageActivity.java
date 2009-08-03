@@ -26,6 +26,7 @@ import static com.android.mms.ui.MessageListAdapter.COLUMN_ID;
 import static com.android.mms.ui.MessageListAdapter.COLUMN_MSG_TYPE;
 import static com.android.mms.ui.MessageListAdapter.PROJECTION;
 
+import com.android.internal.widget.ContactHeaderWidget;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
@@ -243,13 +244,7 @@ public class ComposeMessageActivity extends Activity
 
     private boolean mWaitingForSubActivity;
     private int mLastRecipientCount;            // Used for warning the user on too many recipients.
-
-    private TextView mTitle;
-    private TextView mPresenceText;
-    private ImageView mAvatar;
-    private ImageView mPresenceIcon;
-
-    Drawable mGenericAvatar;
+    private ContactHeaderWidget mContactHeader;
 
     @SuppressWarnings("unused")
     private static void log(String format, Object... args) {
@@ -1342,14 +1337,6 @@ public class ComposeMessageActivity extends Activity
     // Activity methods
     //==========================================================
 
-    private void setPresenceIcon(int iconId) {
-        mPresenceIcon.setImageResource(iconId);
-    }
-
-    private void setAvatar(Drawable d) {
-        mAvatar.setImageDrawable(d);
-    }
-
     public static boolean cancelFailedToDeliverNotification(Intent intent, Context context) {
         if (MessagingNotification.isFailedToDeliver(intent)) {
             // Cancel any failed message notifications
@@ -1380,7 +1367,6 @@ public class ComposeMessageActivity extends Activity
 
         // Initialize members for UI elements.
         initResourceRefs();
-        mGenericAvatar = getResources().getDrawable(R.drawable.ic_contact_picture);
 
         mContentResolver = getContentResolver();
         mBackgroundQueryHandler = new BackgroundQueryHandler(mContentResolver);
@@ -1435,6 +1421,9 @@ public class ComposeMessageActivity extends Activity
         mIsLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE;
         onKeyboardStateChanged(mIsKeyboardOpen);
 
+        if (getRecipients().size() == 1) {
+            mContactHeader.bindFromPhoneNumber(getRecipients().get(0).getNumber());
+        }
         if (TRACE) {
             android.os.Debug.startMethodTracing("compose");
         }
@@ -2211,10 +2200,7 @@ public class ComposeMessageActivity extends Activity
         mTopPanel.setFocusable(false);
         mAttachmentEditor = (AttachmentEditor) findViewById(R.id.attachment_editor);
         mAttachmentEditor.setHandler(mAttachmentEditorHandler);
-        mTitle = (TextView) findViewById(R.id.contact_name);
-        mPresenceText = (TextView) findViewById(R.id.contact_status);
-        mAvatar = (ImageView) findViewById(R.id.avatar);
-        mPresenceIcon = (ImageView) findViewById(R.id.presence_icon);
+        mContactHeader = (ContactHeaderWidget) findViewById(R.id.contact_header);
     }
 
     private void confirmDeleteDialog(OnClickListener listener, boolean allMessages) {
@@ -2484,12 +2470,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void updateWindowTitle() {
-        ContactList recipients = getRecipients();
-        if (recipients.size() > 0) {
-            mTitle.setText(recipients.formatNamesAndNumbers(", "));
-        } else {
-            mTitle.setText(getString(R.string.compose_title));
-        }
+        // this is now a no-op (TODO remove
     }
 
     private void initFocus() {
@@ -2674,15 +2655,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void updatePresence(Contact updated) {
-        if (updated != null){
-            setPresenceIcon(updated.getPresenceResId());
-            setAvatar(updated.getAvatar(mGenericAvatar));
-            mPresenceText.setText(updated.getPresenceText());
-        } else {
-            setPresenceIcon(0);
-            setAvatar(mGenericAvatar);
-            mPresenceText.setText("");
-        }
+        // this is a noop now (TODO: remove this and callers)
     }
 
     private void initializeContactInfo() {

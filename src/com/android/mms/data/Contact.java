@@ -262,6 +262,10 @@ public class Contact {
         return ContentUris.withAppendedId(People.CONTENT_URI, mPersonId);
     }
 
+    public long getPersonId() {
+        return mPersonId;
+    }
+
     public synchronized int getPresenceResId() {
         return mPresenceResId;
     }

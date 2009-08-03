@@ -23,7 +23,10 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/titlebar"/>
+    <com.android.internal.widget.ContactHeaderWidget
+        android:id="@+id/contact_header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:id="@+id/recipients_subject_linear"
@@ -78,7 +81,7 @@
             android:layout_marginBottom="1dip"
             android:cacheColorHint="@android:color/white"
         />
-    
+
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
@@ -98,23 +101,23 @@
                         android:layout="@layout/image_attachment_view"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
-    
+
                     <ViewStub android:id="@+id/video_attachment_view_stub"
                         android:layout="@layout/video_attachment_view"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
-  
+
                     <ViewStub android:id="@+id/audio_attachment_view_stub"
                         android:layout="@layout/audio_attachment_view"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
-  
+
                     <ViewStub android:id="@+id/slideshow_attachment_view_stub"
                         android:layout="@layout/slideshow_attachment_view"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
                 </view>
-  
+
                 <LinearLayout
                     android:id="@+id/bottom_panel"
                     android:orientation="horizontal"
@@ -148,7 +151,7 @@
                             android:background="@null"
                             android:maxLength="1000"
                         />
-    
+
                         <TextView
                             android:id="@+id/text_counter"
                             android:layout_width="wrap_content"
