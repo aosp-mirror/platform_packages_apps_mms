@@ -21,6 +21,4 @@
     android:label="@string/search_label"
     android:hint="@string/search_hint"
     android:searchMode="showSearchLabelAsBadge"
-
-    android:includeInGlobalSearch="true"
 />
