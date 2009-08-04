@@ -1929,6 +1929,7 @@ public class ComposeMessageActivity extends Activity
                     mWorkingMessage.setConversation(mConversation);
                     mAttachmentEditor.update(mWorkingMessage);
                     drawTopPanel();
+                    updateSendButtonState();
                 }
                 break;
 
