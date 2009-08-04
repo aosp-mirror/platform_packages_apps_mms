@@ -844,6 +844,8 @@ public class WorkingMessage {
                     int[] params = SmsMessage.calculateLength(mtext, false);
                     if (params[0] > 1) {
                         updateState(RECIPIENTS_REQUIRE_MMS, true, true);
+                        ensureSlideshow();
+                        syncTextToSlideshow();
                         return true;
                     }
                 }
