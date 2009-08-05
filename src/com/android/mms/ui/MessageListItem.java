@@ -504,7 +504,7 @@ public class MessageListItem extends LinearLayout implements
             mRightStatusIndicator.setImageResource(R.drawable.ic_mms_message_details);
             mRightStatusIndicator.setVisibility(View.VISIBLE);
         } else if (msgItem.mLocked) {
-            mRightStatusIndicator.setImageResource(R.drawable.lock);
+            mRightStatusIndicator.setImageResource(R.drawable.ic_lock_message_sms);
             mRightStatusIndicator.setVisibility(View.VISIBLE);
         } else {
             mRightStatusIndicator.setVisibility(View.GONE);
