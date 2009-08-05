@@ -18,9 +18,10 @@
         version 1 - initial version.
         version 2 - added recipientLimit.
         version 3 - added min/max recycler values.
+        version 4 - added sms to mms text threshold.
 -->
 
-<mms_config version="3">
+<mms_config version="4">
     <!-- Flag indicating whether MMS should be enabled -->
     <bool name="enabledMMS">true</bool>
 
@@ -55,6 +56,10 @@
     <!-- Maximum number of recipients allowed per message. Use a value of -1
          to indicate no limit. -->
     <int name="recipientLimit">-1</int>
+
+    <!-- Maximum number of SMS message segments in a long text message before converting
+         the SMS message to an MMS message. -->
+    <int name="smsToMmsTextThreshold">4</int>
 
     <!-- User-Agent parameter used in MMS http request -->
     <!-- this is default to "Android-Mms/0.1". Override if necessary. Optional -->

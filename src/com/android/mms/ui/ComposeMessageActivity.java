@@ -200,8 +200,6 @@ public class ComposeMessageActivity extends Activity
 
     private static final int MARK_AS_READ_TOKEN = 9900;
 
-    private static final int MMS_THRESHOLD = 4;
-
     private static final int CHARS_REMAINING_BEFORE_COUNTER_SHOWN = 10;
 
     private static final long NO_DATE_FOR_DIALOG = -1L;
@@ -400,8 +398,8 @@ public class ComposeMessageActivity extends Activity
         int msgCount = params[0];
         int remainingInCurrentMessage = params[2];
 
-        // Force send as MMS once the number of SMSes required reaches MMS_THRESHOLD.
-        mWorkingMessage.setLengthRequiresMms(msgCount >= MMS_THRESHOLD);
+        // Force send as MMS once the number of SMSes required reaches a configurable threshold.
+        mWorkingMessage.setLengthRequiresMms(msgCount >= MmsConfig.getSmsToMmsTextThreshold());
 
         // Show the counter only if:
         // - We are not in MMS mode

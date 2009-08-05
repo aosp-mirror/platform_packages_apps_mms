@@ -55,6 +55,7 @@ public class MmsConfig {
     private static int mDefaultMMSMessagesPerThread = 20;       // default value
     private static int mMinMessageCountPerThread = 10;          // default value
     private static int mMaxMessageCountPerThread = 5000;        // default value
+    private static int mSmsToMmsTextThreshold = 4;              // default value
 
     public static void init(Context context) {
         if (LOCAL_LOGV) {
@@ -133,6 +134,10 @@ public class MmsConfig {
         return mMaxMessageCountPerThread;
     }
 
+    public static int getSmsToMmsTextThreshold() {
+        return mSmsToMmsTextThreshold;
+    }
+
     private static void loadMmsSettings(Context context) {
         XmlResourceParser parser = context.getResources()
                 .getXml(R.xml.mms_config);
@@ -180,6 +185,8 @@ public class MmsConfig {
                             mMinMessageCountPerThread = Integer.parseInt(text);
                         } else if ("maxMessageCountPerThread".equalsIgnoreCase(value)) {
                             mMaxMessageCountPerThread = Integer.parseInt(text);
+                        } else if ("smsToMmsTextThreshold".equalsIgnoreCase(value)) {
+                            mSmsToMmsTextThreshold = Integer.parseInt(text);
                         } else if ("recipientLimit".equalsIgnoreCase(value)) {
                             mRecipientLimit = Integer.parseInt(text);
                             if (mRecipientLimit < 0) {
