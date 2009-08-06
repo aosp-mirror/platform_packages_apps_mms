@@ -50,6 +50,7 @@ import java.util.List;
 public class RecipientsEditor extends MultiAutoCompleteTextView {
     private int mLongPressedPosition = -1;
     private final RecipientsEditorTokenizer mTokenizer;
+    private char mLastSeparator;
 
     public RecipientsEditor(Context context, AttributeSet attrs) {
         super(context, attrs, android.R.attr.autoCompleteTextViewStyle);
@@ -71,14 +72,21 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
             private Annotation[] mAffected;
 
             public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
+                    int count, int after) {
                 mAffected = ((Spanned) s).getSpans(start, start + count,
-                                                   Annotation.class);
+                        Annotation.class);
             }
 
             public void onTextChanged(CharSequence s, int start,
-                                      int before, int after) {
-
+                    int before, int after) {
+                if (before == 0 && after == 1) {    // inserting a character
+                    char c = s.charAt(start);
+                    if (c == ',' || c == ';') {
+                        // Remember the delimiter the user typed to end this recipient. We'll
+                        // need it shortly in terminateToken().
+                        mLastSeparator = c;
+                    }
+                }
             }
 
             public void afterTextChanged(Editable s) {
@@ -92,10 +100,10 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
             }
         });
     }
-    
+
     @Override
     public boolean enoughToFilter() {
-        // If the user is in the middle of editing an existing recipient, don't offer the 
+        // If the user is in the middle of editing an existing recipient, don't offer the
         // auto-complete menu. Without this, when the user selects an auto-complete menu item,
         // it will get added to the list of recipients so we end up with the old before-editing
         // recipient and the new post-editing recipient. As a precedent, gmail does not show
@@ -258,7 +266,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
             number = TextUtils.substring(sp, start, end);
         }
         return number;
-        
+
     }
 
     private static String getAnnotation(Annotation[] a, String key) {
@@ -271,26 +279,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         return "";
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (isPopupShowing()) {
-            switch (keyCode) {
-                case KeyEvent.KEYCODE_COMMA:
-                    ListAdapter adapter = getAdapter();
-                    // There is at least one item in the dropdown list
-                    // when isPopupShowing() is true.
-                    Object selectedItem = adapter.getItem(0);
-                    replaceText(convertSelectionToString(selectedItem));
-                    dismissDropDown();
-                    return true;
-            }
-        }
-
-        return super.onKeyDown(keyCode, event);
-    }
-
     private class RecipientsEditorTokenizer
-            extends MultiAutoCompleteTextView.CommaTokenizer
             implements MultiAutoCompleteTextView.Tokenizer {
         private final MultiAutoCompleteTextView mList;
         private final Context mContext;
@@ -298,6 +287,76 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         RecipientsEditorTokenizer(Context context, MultiAutoCompleteTextView list) {
             mList = list;
             mContext = context;
+        }
+
+        /**
+         * Returns the start of the token that ends at offset
+         * <code>cursor</code> within <code>text</code>.
+         * It is a method from the MultiAutoCompleteTextView.Tokenizer interface.
+         */
+        public int findTokenStart(CharSequence text, int cursor) {
+            int i = cursor;
+            char c;
+
+            while (i > 0 && (c = text.charAt(i - 1)) != ',' && c != ';') {
+                i--;
+            }
+            while (i < cursor && text.charAt(i) == ' ') {
+                i++;
+            }
+
+            return i;
+        }
+
+        /**
+         * Returns the end of the token (minus trailing punctuation)
+         * that begins at offset <code>cursor</code> within <code>text</code>.
+         * It is a method from the MultiAutoCompleteTextView.Tokenizer interface.
+         */
+        public int findTokenEnd(CharSequence text, int cursor) {
+            int i = cursor;
+            int len = text.length();
+            char c;
+
+            while (i < len) {
+                if ((c = text.charAt(i)) == ',' || c == ';') {
+                    return i;
+                } else {
+                    i++;
+                }
+            }
+
+            return len;
+        }
+
+        /**
+         * Returns <code>text</code>, modified, if necessary, to ensure that
+         * it ends with a token terminator (for example a space or comma).
+         * It is a method from the MultiAutoCompleteTextView.Tokenizer interface.
+         */
+        public CharSequence terminateToken(CharSequence text) {
+            int i = text.length();
+
+            while (i > 0 && text.charAt(i - 1) == ' ') {
+                i--;
+            }
+
+            char c;
+            if (i > 0 && ((c = text.charAt(i - 1)) == ',' || c == ';')) {
+                return text;
+            } else {
+                // Use the same delimiter the user just typed.
+                // This lets them have a mixture of commas and semicolons in their list.
+                String separator = mLastSeparator + " ";
+                if (text instanceof Spanned) {
+                    SpannableString sp = new SpannableString(text + separator);
+                    TextUtils.copySpansFrom((Spanned) text, 0, text.length(),
+                                            Object.class, sp, 0);
+                    return sp;
+                } else {
+                    return text + separator;
+                }
+            }
         }
 
         public List<String> getNumbers() {
@@ -308,7 +367,8 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
             int start = 0;
             int i = 0;
             while (i < len + 1) {
-                if ((i == len) || (sp.charAt(i) == ',')) {
+                char c;
+                if ((i == len) || ((c = sp.charAt(i)) == ',') || (c == ';')) {
                     if (i > start) {
                         list.add(getNumberAt(sp, start, i, mContext));
                     }
