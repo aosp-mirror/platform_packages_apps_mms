@@ -240,46 +240,21 @@ public abstract class MediaModel extends Model implements EventListener {
             throw new IllegalArgumentException("Uri may not be null.");
         }
 
-        // We probably should simply retrieve such information from
-        // the media database. If that is not easy or possible,
-        // we probably should use MediaMetadataRetriever class
-        // to retireve the duration information as we did in the
-        // Gallery application. But to reduce the risk, we only use
-        // it to retrieve the duration when prepare() fails.
-        MediaPlayer mediaPlayer = new MediaPlayer();
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setMode(MediaMetadataRetriever.MODE_GET_METADATA_ONLY);
+        int duration = 0;
         try {
-            mediaPlayer.setDataSource(mContext, mUri);
-            // No video display is set before prepare() call.
-            // If the data source does not contain valid audio samples,
-            // even if it contains valid video samples, the prepare()
-            // call below will still fail because only the audio data path
-            // is validated.
-            mediaPlayer.prepare();
-            mDuration = mediaPlayer.getDuration();
-        } catch (IOException e) {
-            Log.w(TAG, "Unexpected IOException from MediaPlayer.prepare() call. Try again using MediaMetadataRetriever");
-            // Normally, this should not happen since MMS launches the
-            // Gallery application to select videos. But when an edge case
-            // as mentioned above occurs, we can try it again with
-            // MediaMetadataRetriever to retrieve the duration.
-            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-            retriever.setMode(MediaMetadataRetriever.MODE_GET_METADATA_ONLY);
-            int duration = 0;
-            try {
-                retriever.setDataSource(mContext, mUri);
-                String dur = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-                if (dur != null) {
-                    duration = Integer.parseInt(dur);
-                }
-                mDuration = duration;
-            } catch (Exception ex) {
-                Log.e(TAG, "MediaMetadataRetriever failed to retrieve duration from the media", ex);
-                throw new MmsException(ex);
-            } finally {
-                retriever.release();
+            retriever.setDataSource(mContext, mUri);
+            String dur = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            if (dur != null) {
+                duration = Integer.parseInt(dur);
             }
+            mDuration = duration;
+        } catch (Exception ex) {
+            Log.e(TAG, "MediaMetadataRetriever failed to retrieve duration from the media", ex);
+            throw new MmsException(ex);
         } finally {
-            mediaPlayer.release();
+            retriever.release();
         }
     }
 

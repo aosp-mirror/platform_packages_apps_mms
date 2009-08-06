@@ -71,6 +71,8 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteException;
+import android.drm.mobile1.DrmException;
+import android.drm.mobile1.DrmRawContent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
@@ -80,7 +82,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemProperties;
 import android.provider.Contacts;
-import android.provider.Contacts.People;
+import android.provider.DrmStore;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.Telephony.Mms;
@@ -191,6 +193,7 @@ public class ComposeMessageActivity extends Activity
     private static final int MENU_ADD_ADDRESS_TO_CONTACTS = 27;
     private static final int MENU_LOCK_MESSAGE          = 28;
     private static final int MENU_UNLOCK_MESSAGE        = 29;
+    private static final int MENU_COPY_TO_DRM_PROVIDER  = 30;
 
     private static final int RECIPIENTS_MAX_LENGTH = 312;
 
@@ -877,6 +880,11 @@ public class ComposeMessageActivity extends Activity
                             menu.add(0, MENU_COPY_TO_SDCARD, 0, R.string.copy_to_sdcard)
                             .setOnMenuItemClickListener(l);
                         }
+                        if (haveSomethingToCopyToDrmProvider(msgItem.mMsgId)) {
+                            menu.add(0, MENU_COPY_TO_DRM_PROVIDER, 0,
+                                    getDrmMimeMenuStringRsrc(msgItem.mMsgId))
+                            .setOnMenuItemClickListener(l);
+                        }
                         break;
                 }
             } else {
@@ -1055,6 +1063,12 @@ public class ComposeMessageActivity extends Activity
                     return true;
                 }
 
+                case MENU_COPY_TO_DRM_PROVIDER: {
+                    int resId = getDrmMimeSavedStringRsrc(msgId, copyToDrmProvider(msgId));
+                    Toast.makeText(ComposeMessageActivity.this, resId, Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
                 case MENU_LOCK_MESSAGE: {
                     lockMessage(msgItem, true);
                     return true;
@@ -1096,12 +1110,9 @@ public class ComposeMessageActivity extends Activity
      * @param msgId
      */
     private boolean haveSomethingToCopyToSDCard(long msgId) {
-        PduBody body;
-        try {
-           body = SlideshowModel.getPduBody(this,
-                   ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
-        } catch (MmsException e) {
-            Log.e(TAG, e.getMessage(), e);
+        PduBody body = PduBodyCache.getPduBody(this,
+                ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
+        if (body == null) {
             return false;
         }
 
@@ -1111,9 +1122,8 @@ public class ComposeMessageActivity extends Activity
             PduPart part = body.getPart(i);
             String type = new String(part.getContentType());
 
-            if ((ContentType.isImageType(type) || ContentType.isVideoType(type) ||
-                    ContentType.isAudioType(type))) {
-                result = true;
+            if (ContentType.isImageType(type) || ContentType.isVideoType(type) ||
+                    ContentType.isAudioType(type)) {
                 break;
             }
         }
@@ -1121,16 +1131,46 @@ public class ComposeMessageActivity extends Activity
     }
 
     /**
-     * Copies media from an Mms to the "download" directory on the SD card
+     * Looks to see if there are any drm'd parts of the attachment that can be copied to the
+     * DrmProvider. Right now we only support saving audio (e.g. ringtones).
      * @param msgId
      */
-    private boolean copyMedia(long msgId) {
-        PduBody body;
+    private boolean haveSomethingToCopyToDrmProvider(long msgId) {
+        String mimeType = getDrmMimeType(msgId);
+        return isAudioMimeType(mimeType);
+    }
+
+    /**
+     * Simple cache to prevent having to load the same PduBody again and again for the same uri.
+     */
+    private static class PduBodyCache {
+        private static PduBody mLastPduBody;
+        private static Uri mLastUri;
+
+        static public PduBody getPduBody(Context context, Uri contentUri) {
+            if (contentUri.equals(mLastUri)) {
+                return mLastPduBody;
+            }
+            try {
+                mLastPduBody = SlideshowModel.getPduBody(context, contentUri);
+                mLastUri = contentUri;
+             } catch (MmsException e) {
+                 Log.e(TAG, e.getMessage(), e);
+                 return null;
+             }
+             return mLastPduBody;
+        }
+    };
+
+    /**
+     * Copies media from an Mms to the DrmProvider
+     * @param msgId
+     */
+    private boolean copyToDrmProvider(long msgId) {
         boolean result = true;
-        try {
-           body = SlideshowModel.getPduBody(this, ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
-        } catch (MmsException e) {
-            Log.e(TAG, e.getMessage(), e);
+        PduBody body = PduBodyCache.getPduBody(this,
+                ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
+        if (body == null) {
             return false;
         }
 
@@ -1139,8 +1179,165 @@ public class ComposeMessageActivity extends Activity
             PduPart part = body.getPart(i);
             String type = new String(part.getContentType());
 
-            if ((ContentType.isImageType(type) || ContentType.isVideoType(type) ||
-                    ContentType.isAudioType(type))) {
+            if (ContentType.isDrmType(type)) {
+                // All parts (but there's probably only a single one) have to be successful
+                // for a valid result.
+                result &= copyPartToDrmProvider(part);
+            }
+        }
+        return result;
+    }
+
+    private String mimeTypeOfDrmPart(PduPart part) {
+        Uri uri = part.getDataUri();
+        InputStream input = null;
+        try {
+            input = mContentResolver.openInputStream(uri);
+            if (input instanceof FileInputStream) {
+                FileInputStream fin = (FileInputStream) input;
+
+                DrmRawContent content = new DrmRawContent(fin, (int) fin.available(),
+                        DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING);
+                String mimeType = content.getContentType();
+                return mimeType;
+            }
+        } catch (IOException e) {
+            // Ignore
+            Log.e(TAG, "IOException caught while opening or reading stream", e);
+        } catch (DrmException e) {
+            Log.e(TAG, "DrmException caught ", e);
+        } finally {
+            if (null != input) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    // Ignore
+                    Log.e(TAG, "IOException caught while closing stream", e);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the type of the first drm'd pdu part.
+     * @param msgId
+     */
+    private String getDrmMimeType(long msgId) {
+        PduBody body = PduBodyCache.getPduBody(this,
+                ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
+        if (body == null) {
+            return null;
+        }
+
+        int partNum = body.getPartsNum();
+        for(int i = 0; i < partNum; i++) {
+            PduPart part = body.getPart(i);
+            String type = new String(part.getContentType());
+
+            if (ContentType.isDrmType(type)) {
+                return mimeTypeOfDrmPart(part);
+            }
+        }
+        return null;
+    }
+
+    private int getDrmMimeMenuStringRsrc(long msgId) {
+        String mimeType = getDrmMimeType(msgId);
+        if (isAudioMimeType(mimeType)) {
+            return R.string.save_ringtone;
+        }
+        return 0;
+    }
+
+    private int getDrmMimeSavedStringRsrc(long msgId, boolean success) {
+        String mimeType = getDrmMimeType(msgId);
+        if (isAudioMimeType(mimeType)) {
+            return success ? R.string.saved_ringtone : R.string.saved_ringtone_fail;
+        }
+        return 0;
+    }
+
+    private boolean isAudioMimeType(String mimeType) {
+        return mimeType != null && mimeType.startsWith("audio/");
+    }
+
+    private boolean isImageMimeType(String mimeType) {
+        return mimeType != null && mimeType.startsWith("image/");
+    }
+
+    private boolean copyPartToDrmProvider(PduPart part) {
+        Uri uri = part.getDataUri();
+
+        InputStream input = null;
+        try {
+            input = mContentResolver.openInputStream(uri);
+            if (input instanceof FileInputStream) {
+                FileInputStream fin = (FileInputStream) input;
+
+                // Build a nice title
+                byte[] location = part.getName();
+                if (location == null) {
+                    location = part.getFilename();
+                }
+                if (location == null) {
+                    location = part.getContentLocation();
+                }
+
+                // Depending on the location, there may be an
+                // extension already on the name or not
+                String title = new String(location);
+                int index;
+                if ((index = title.indexOf(".")) == -1) {
+                    String type = new String(part.getContentType());
+                } else {
+                    title = title.substring(0, index);
+                }
+
+                // transfer the file to the DRM content provider
+                Intent item = DrmStore.addDrmFile(mContentResolver, fin, title);
+                if (item == null) {
+                    Log.w(TAG, "unable to add file " + uri + " to DrmProvider");
+                    return false;
+                }
+            }
+        } catch (IOException e) {
+            // Ignore
+            Log.e(TAG, "IOException caught while opening or reading stream", e);
+            return false;
+        } finally {
+            if (null != input) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    // Ignore
+                    Log.e(TAG, "IOException caught while closing stream", e);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Copies media from an Mms to the "download" directory on the SD card
+     * @param msgId
+     */
+    private boolean copyMedia(long msgId) {
+        boolean result = true;
+        PduBody body = PduBodyCache.getPduBody(this,
+                ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
+        if (body == null) {
+            return false;
+        }
+
+        int partNum = body.getPartsNum();
+        for(int i = 0; i < partNum; i++) {
+            PduPart part = body.getPart(i);
+            String type = new String(part.getContentType());
+
+            if (ContentType.isImageType(type) || ContentType.isVideoType(type) ||
+                    ContentType.isAudioType(type)) {
                 result &= copyPart(part);   // all parts have to be successful for a valid result.
             }
         }

@@ -561,6 +561,12 @@
     <string name="copy_to_sdcard_success">Attachment copied to SD card</string>
     <!-- Toast message on failed copy to SD card -->
     <string name="copy_to_sdcard_fail">Copying attachment to SD card failed</string>
+    <!-- Menu title to save a sound as a ringtone -->
+    <string name="save_ringtone">Save as ringtone</string>
+    <!-- Toast message on successful copying ringtone to drm provider -->
+    <string name="saved_ringtone">Ringtone saved</string>
+    <!-- Toast message on failed copying ringtone to drm provider -->
+    <string name="saved_ringtone_fail">Saving ringtone failed</string>
     <!-- Menu item -->
     <string name="menu_insert_smiley">Insert smiley</string>
 
