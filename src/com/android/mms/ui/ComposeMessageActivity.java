@@ -2052,8 +2052,10 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void addVideo(Uri uri) {
-        int result = mWorkingMessage.setAttachment(WorkingMessage.VIDEO, uri);
-        handleAddAttachmentError(result, R.string.type_video);
+        if (uri != null) {
+            int result = mWorkingMessage.setAttachment(WorkingMessage.VIDEO, uri);
+            handleAddAttachmentError(result, R.string.type_video);
+        }
     }
 
     private void addAudio(Uri uri) {
