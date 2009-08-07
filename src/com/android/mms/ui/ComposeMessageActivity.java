@@ -2587,6 +2587,7 @@ public class ComposeMessageActivity extends Activity
             // our current working message and bail.
             if (token == DELETE_CONVERSATION_TOKEN) {
                 mWorkingMessage.discard();
+                Conversation.init(ComposeMessageActivity.this);
                 finish();
             }
         }
