@@ -33,6 +33,7 @@ import android.os.SystemClock;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Sms.Inbox;
 import android.telephony.SmsMessage;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Config;
 import android.view.Window;
@@ -47,6 +48,8 @@ import com.google.android.mms.util.SqliteWrapper;
  * it.
  */
 public class ClassZeroActivity extends Activity {
+    private static final String BUFFER = "         ";
+    private static final int BUFFER_OFFSET = BUFFER.length() * 2;
     private static final String TAG = "display_00";
     private static final int ON_AUTO_SAVE = 1;
     private static final String[] REPLACE_PROJECTION = new String[] { Sms._ID,
@@ -99,6 +102,16 @@ public class ClassZeroActivity extends Activity {
         byte[] pdu = getIntent().getByteArrayExtra("pdu");
         mMessage = SmsMessage.createFromPdu(pdu);
         CharSequence messageChars = mMessage.getMessageBody();
+        String message = messageChars.toString();
+        if (TextUtils.isEmpty(message)) {
+            finish();
+            return;
+        }
+        // TODO: The following line adds an emptry string before and after a message.
+        // This is not the correct way to layout a message. This is more of a hack
+        // to work-around a bug in AlertDialog. This needs to be fixed later when
+        // Android fixes the bug in AlertDialog.
+        if (message.length() < BUFFER_OFFSET) messageChars = BUFFER + message + BUFFER;
         long now = SystemClock.uptimeMillis();
         mDialog = new AlertDialog.Builder(this).setMessage(messageChars)
                 .setPositiveButton(R.string.save, mSaveListener)
