@@ -23,6 +23,7 @@ import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.util.DraftCache;
+import com.android.mms.util.Recycler;
 
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.util.SqliteWrapper;
@@ -33,11 +34,14 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.Contacts;
 import android.provider.Contacts.Intents.Insert;
 import android.provider.Telephony.Mms;
@@ -83,6 +87,10 @@ public class ConversationList extends ListActivity
     private ThreadListQueryHandler mQueryHandler;
     private ConversationListAdapter mListAdapter;
     private CharSequence mTitle;
+    private SharedPreferences mPrefs;
+    private Handler mHandler;
+
+    static private final String CHECKED_MESSAGE_LIMITS = "checked_message_limits";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,11 +115,79 @@ public class ConversationList extends ListActivity
         initListAdapter();
 
         handleCreationIntent(getIntent());
+
+        mHandler = new Handler();
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean checkedMessageLimits = mPrefs.getBoolean(CHECKED_MESSAGE_LIMITS, false);
+        if (DEBUG) Log.v(TAG, "checkedMessageLimits: " + checkedMessageLimits);
+        if (!checkedMessageLimits || DEBUG) {
+            runOneTimeStorageLimitCheckForLegacyMessages();
+        }
     }
 
     private void initListAdapter() {
         mListAdapter = new ConversationListAdapter(this, null);
         setListAdapter(mListAdapter);
+    }
+
+    /**
+     * Checks to see if the number of MMS and SMS messages are under the limits for the
+     * recycler. If so, it will automatically turn on the recycler setting. If not, it
+     * will prompt the user with a message and point them to the setting to manually
+     * turn on the recycler.
+     */
+    public synchronized void runOneTimeStorageLimitCheckForLegacyMessages() {
+        if (Recycler.isAutoDeleteEnabled(this)) {
+            if (DEBUG) Log.v(TAG, "recycler is already turned on");
+            // The recycler is already turned on. We don't need to check anything or warn
+            // the user, just remember that we've made the check.
+            markCheckedMessageLimit();
+            return;
+        }
+        new Thread(new Runnable() {
+            public void run() {
+                if (Recycler.checkForThreadsOverLimit(ConversationList.this)) {
+                    if (DEBUG) Log.v(TAG, "checkForThreadsOverLimit TRUE");
+                    // Dang, one or more of the threads are over the limit. Show an activity
+                    // that'll encourage the user to manually turn on the setting. Delay showing
+                    // this activity until a couple of seconds after the conversation list appears.
+                    mHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            Intent intent = new Intent(ConversationList.this,
+                                    WarnOfStorageLimitsActivity.class);
+                            startActivity(intent);
+                        }
+                    }, 2000);
+                } else {
+                    if (DEBUG) Log.v(TAG, "checkForThreadsOverLimit silently turning on recycler");
+                    // No threads were over the limit. Turn on the recycler by default.
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            SharedPreferences.Editor editor = mPrefs.edit();
+                            editor.putBoolean(MessagingPreferenceActivity.AUTO_DELETE, true);
+                            editor.commit();
+                        }
+                    });
+                }
+                // Remember that we don't have to do the check anymore when starting MMS.
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        markCheckedMessageLimit();
+                    }
+                });
+            }
+        }).start();
+    }
+
+    /**
+     * Mark in preferences that we've checked the user's message limits. Once checked, we'll
+     * never check them again, unless the user wipe-data or resets the device.
+     */
+    private void markCheckedMessageLimit() {
+        if (DEBUG) Log.v(TAG, "markCheckedMessageLimit");
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putBoolean(CHECKED_MESSAGE_LIMITS, true);
+        editor.commit();
     }
 
     @Override

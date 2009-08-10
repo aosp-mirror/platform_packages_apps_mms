@@ -62,6 +62,13 @@ public abstract class Recycler {
         return sMmsRecycler;
     }
 
+    public static boolean checkForThreadsOverLimit(Context context) {
+        Recycler smsRecycler = getSmsRecycler();
+        Recycler mmsRecycler = getMmsRecycler();
+
+        return smsRecycler.anyThreadOverLimit(context) || mmsRecycler.anyThreadOverLimit(context);
+    }
+
     public void deleteOldMessages(Context context) {
         if (LOCAL_DEBUG) {
             Log.v(TAG, "Recycler.deleteOldMessages this: " + this);
@@ -94,7 +101,7 @@ public abstract class Recycler {
         deleteMessagesForThread(context, threadId, getMessageLimit(context));
     }
 
-    private boolean isAutoDeleteEnabled(Context context) {
+    public static boolean isAutoDeleteEnabled(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getBoolean(MessagingPreferenceActivity.AUTO_DELETE,
                 DEFAULT_AUTO_DELETE);
@@ -119,6 +126,8 @@ public abstract class Recycler {
     abstract protected void deleteMessagesForThread(Context context, long threadId, int keep);
 
     abstract protected void dumpMessage(Cursor cursor, Context context);
+
+    abstract protected boolean anyThreadOverLimit(Context context);
 
     static class SmsRecycler extends Recycler {
         private static final String[] ALL_SMS_THREADS_PROJECTION = {
@@ -228,6 +237,30 @@ public abstract class Recycler {
                         "\n    read: " + cursor.getInt(COLUMN_SMS_READ));
             }
         }
+
+        @Override
+        protected boolean anyThreadOverLimit(Context context) {
+            Cursor cursor = getAllThreads(context);
+            int limit = getMessageLimit(context);
+            try {
+                while (cursor.moveToNext()) {
+                    long threadId = getThreadId(cursor);
+                    ContentResolver resolver = context.getContentResolver();
+                    Cursor msgs = SqliteWrapper.query(context, resolver,
+                            ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
+                            SMS_MESSAGE_PROJECTION,
+                            "read=1 AND locked=0",
+                            null, "date DESC");     // get in newest to oldest order
+
+                    if (msgs.getCount() >= limit) {
+                        return true;
+                    }
+                }
+            } finally {
+                cursor.close();
+            }
+            return false;
+        }
     }
 
     static class MmsRecycler extends Recycler {
@@ -324,6 +357,30 @@ public abstract class Recycler {
                         "\n    id: " + id
                 );
             }
+        }
+
+        @Override
+        protected boolean anyThreadOverLimit(Context context) {
+            Cursor cursor = getAllThreads(context);
+            int limit = getMessageLimit(context);
+            try {
+                while (cursor.moveToNext()) {
+                    long threadId = getThreadId(cursor);
+                    ContentResolver resolver = context.getContentResolver();
+                    Cursor msgs = SqliteWrapper.query(context, resolver,
+                            Telephony.Mms.CONTENT_URI,
+                            MMS_MESSAGE_PROJECTION,
+                            "thread_id=" + threadId + " AND read=1 AND locked=0",
+                            null, "date DESC");     // get in newest to oldest order
+
+                    if (msgs.getCount() >= limit) {
+                        return true;
+                    }
+                }
+            } finally {
+                cursor.close();
+            }
+            return false;
         }
     }
 

@@ -319,7 +319,7 @@
     <!-- Settings item description for boolean SMS delivery report setting -->
     <string name="pref_summary_sms_delivery_reports">Request a delivery report for each message you send</string>
     <!-- Settings item description for boolean auto-delete messages setting -->
-    <string name="pref_summary_auto_delete">Auto-delete messages when the number exceeds these limits:</string>
+    <string name="pref_summary_auto_delete">Delete old messages as limits are reached</string>
     <!-- Settings item description for integer auto-delete sms message limit -->
     <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> messages per conversation</string>
     <!-- Settings item for entering SIM card message screen -->
@@ -331,11 +331,11 @@
     <!-- Settings item for boolean option to enable/disable SMS delivery reports -->
     <string name="pref_title_sms_delivery_reports">Delivery reports</string>
     <!-- Settings item for boolean option to enable/disable auto-deletion of messages -->
-    <string name="pref_title_auto_delete">Auto-delete old messages</string>
+    <string name="pref_title_auto_delete">Delete old messages</string>
     <!-- Settings item for integer option to set SMS delete limit -->
-    <string name="pref_title_sms_delete">Save SMS messages</string>
+    <string name="pref_title_sms_delete">SMS message limit</string>
     <!-- Settings item for integer option to set MMS delete limit -->
-    <string name="pref_title_mms_delete">Save MMS messages</string>
+    <string name="pref_title_mms_delete">MMS message limit</string>
     <!-- Settings item for boolean option to display message notifications -->
     <string name="pref_title_notification_enabled">Notifications</string>
     <!-- Settings item description for boolean message notification option -->
@@ -584,6 +584,9 @@
     <!-- Title of the delivery report activity. -->
     <string name="delivery_report_activity">Delivery report</string>
 
+    <!-- Title of the activity that tells the user about storage limits. -->
+    <string name="storage_limits_activity">Storage limits</string>
+
     <!-- Title of the add-attachment activity. -->
     <string name="add_attachment_activity">Add attachment:</string>
 
@@ -631,5 +634,18 @@
 
     <!-- Dialog text for display mode save dialog. -->
     <string name="save">Save</string>
+
+    <!-- Dialog title for dialog that informs user about new storage settings. -->
+    <string name="storage_limits_title">Limit messages</string>
+
+    <!-- Dialog message for dialog that informs user about new storage settings. -->
+    <string name="storage_limits_message">Do you want to limit the number of messages you save per conversation?</string>
+
+    <!-- Button title for dialog that informs user about new storage settings. -->
+    <string name="storage_limits_setting">Set limits</string>
+
+    <!-- Button title to dismiss dialog that informs user about new storage settings. -->
+    <string name="storage_limits_setting_dismiss">No limits</string>
+
 </resources>
 
