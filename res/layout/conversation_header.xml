@@ -23,10 +23,21 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:paddingRight="10dip" >
 
+    <ImageView android:id="@+id/avatar"
+        android:layout_alignParentLeft="true"
+        android:layout_width="64dip"
+        android:layout_height="64dip"
+        android:layout_marginRight="7dip"
+        android:layout_marginLeft="2dip"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:background="@drawable/contact_picture_bg"
+    />
+
     <ImageView android:id="@+id/unread_indicator"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
+        android:layout_toRightOf="@id/avatar"
         android:visibility="invisible"
         android:src="@drawable/ic_sms_unread_msg_indicator" />
 
@@ -52,9 +63,9 @@
         android:layout_alignTop="@id/unread_indicator"
         android:layout_toRightOf="@id/unread_indicator"
         android:layout_toLeftOf="@id/presence"
-        android:layout_alignWithParentIfMissing="true" 
+        android:layout_alignWithParentIfMissing="true"
         android:ellipsize="marquee"  />
-    
+
     <TextView android:id="@+id/date"
         android:layout_marginTop="2dip"
         android:layout_marginBottom="10dip"
@@ -89,7 +100,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:singleLine="true" 
+        android:singleLine="true"
         android:layout_marginBottom="10dip"
         android:layout_marginLeft="5dip"
         android:layout_alignBottom="@id/unread_indicator"

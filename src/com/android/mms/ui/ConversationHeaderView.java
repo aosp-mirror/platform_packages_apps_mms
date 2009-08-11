@@ -55,12 +55,15 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
     private View mUnreadIndicator;
     private View mErrorIndicator;
     private ImageView mPresenceView;
+    private ImageView mAvatarView;
+
+    static private Drawable sDefaultContactImage;
 
     // For posting UI update Runnables from other threads:
     private Handler mHandler = new Handler();
 
     private ConversationHeader mConversationHeader;
-    
+
     private static final StyleSpan STYLE_BOLD = new StyleSpan(Typeface.BOLD);
 
     public ConversationHeaderView(Context context) {
@@ -69,6 +72,10 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
 
     public ConversationHeaderView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        if (sDefaultContactImage == null) {
+            sDefaultContactImage = context.getResources().getDrawable(R.drawable.ic_contact_picture);
+        }
     }
 
     @Override
@@ -83,11 +90,12 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
         mUnreadIndicator = findViewById(R.id.unread_indicator);
         mErrorIndicator = findViewById(R.id.error);
         mPresenceView = (ImageView) findViewById(R.id.presence);
+        mAvatarView = (ImageView) findViewById(R.id.avatar);
     }
 
     public void setPresenceIcon(int iconId) {
         if (iconId == 0) {
-            mPresenceView.setVisibility(View.GONE);            
+            mPresenceView.setVisibility(View.GONE);
         } else {
             mPresenceView.setImageResource(iconId);
             mPresenceView.setVisibility(View.VISIBLE);
@@ -131,7 +139,7 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
                     mContext.getResources().getColor(R.drawable.text_color_red)),
                     before, buf.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         }
-        
+
         // Unread messages are shown in bold
         if (!ch.isRead()) {
             buf.setSpan(STYLE_BOLD, 0, buf.length(),
@@ -140,11 +148,26 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
         return buf;
     }
 
+    private void updateAvatarView() {
+        ConversationHeader ch = mConversationHeader;
+
+        Drawable avatarDrawable;
+        if (ch.getContacts().size() == 1) {
+            avatarDrawable = ch.getContacts().get(0).getAvatar(sDefaultContactImage);
+        } else {
+            // TODO get a multiple recipients asset (or do something else)
+            avatarDrawable = sDefaultContactImage;
+        }
+        mAvatarView.setImageDrawable(avatarDrawable);
+        mAvatarView.setVisibility(View.VISIBLE);
+    }
+
     private void updateFromView() {
         ConversationHeader ch = mConversationHeader;
         ch.updateRecipients();
         mFromView.setText(formatMessage(ch));
         setPresenceIcon(ch.getContacts().getPresenceResId());
+        updateAvatarView();
     }
 
     public void onUpdate(Contact updated) {
@@ -196,6 +219,8 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
 
         // Transmission error indicator.
         mErrorIndicator.setVisibility(hasError ? VISIBLE : GONE);
+
+        updateAvatarView();
     }
 
     public final void unbind() {
