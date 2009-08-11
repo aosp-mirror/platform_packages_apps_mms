@@ -146,7 +146,8 @@
 
         <activity android:name=".ui.ClassZeroActivity"
             android:label="@string/class_0_message_activity"
-            android:theme="@android:style/Theme.Dialog">
+            android:theme="@android:style/Theme.Translucent"
+            android:excludeFromRecents="true">
         </activity>
 
         <activity android:name=".ui.MessagingPreferenceActivity"
