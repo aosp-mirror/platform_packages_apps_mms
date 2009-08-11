@@ -47,7 +47,7 @@
         <service android:name=".transaction.TransactionService"
                  android:exported="true" />
 
-        <service android:name=".transaction.SmsReceiverService" 
+        <service android:name=".transaction.SmsReceiverService"
                  android:exported="true" />
 
         <activity android:name=".ui.ConversationList"
@@ -117,6 +117,12 @@
             android:theme="@android:style/Theme.Dialog">
         </activity>
 
+        <activity android:name=".ui.WarnOfStorageLimitsActivity"
+                android:theme="@android:style/Theme.Dialog"
+                android:label="@string/storage_limits_activity"
+                android:excludeFromRecents="true">
+        </activity>
+
         <activity android:name=".ui.EditSlideDurationActivity"
             android:label="@string/change_duration_activity"
             android:theme="@android:style/Theme.Dialog">
@@ -173,7 +179,7 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        
+
         <!-- Catch-all receiver for broadcasts that don't have associated security -->
         <receiver android:name=".transaction.SmsReceiver">
             <intent-filter>
@@ -182,7 +188,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.SERVICE_STATE" />
             </intent-filter>
-            <intent-filter>                
+            <intent-filter>
                 <action android:name="com.android.mms.transaction.MESSAGE_SENT" />
                 <!-- TODO Do a better data match here. -->
                 <data android:scheme="content" />
