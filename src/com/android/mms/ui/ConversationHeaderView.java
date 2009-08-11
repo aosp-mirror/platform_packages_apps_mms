@@ -24,10 +24,13 @@ import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 
 import android.os.Handler;
+import android.provider.ContactsContract.Intents;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -91,6 +94,34 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
         mErrorIndicator = findViewById(R.id.error);
         mPresenceView = (ImageView) findViewById(R.id.presence);
         mAvatarView = (ImageView) findViewById(R.id.avatar);
+
+        mAvatarView.setOnClickListener(new OnClickListener() {
+            private Rect getTargetRect(View anchor) {
+                final int[] location = new int[2];
+                anchor.getLocationOnScreen(location);
+
+                final Rect rect = new Rect();
+                rect.left = location[0];
+                rect.top = location[1];
+                rect.right = rect.left + anchor.getWidth();
+                rect.bottom = rect.top + anchor.getHeight();
+                return rect;
+            }
+
+           public void onClick(View v) {
+                // Photo launches contact detail action
+                ContactList list = mConversationHeader.getContacts();
+                if (list.size() != 1) {
+                    return;
+                }
+
+                final Intent intent = new Intent(Intents.SHOW_OR_CREATE_CONTACT, list.get(0).getUri());
+                final Rect target = getTargetRect(ConversationHeaderView.this);
+                intent.putExtra(Intents.EXTRA_TARGET_RECT, target);
+                intent.putExtra(Intents.EXTRA_MODE, Intents.MODE_SMALL);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     public void setPresenceIcon(int iconId) {
