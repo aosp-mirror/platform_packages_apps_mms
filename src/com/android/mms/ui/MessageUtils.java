@@ -77,7 +77,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MessageUtils {
     interface ResizeImageResultCallback {
-        void onResizeResult(PduPart part);
+        void onResizeResult(PduPart part, boolean append);
     }
 
     private static final String TAG = "MessageUtils";
@@ -564,7 +564,8 @@ public class MessageUtils {
 
     public static void resizeImageAsync(final Context context,
             final Uri imageUri, final Handler handler,
-            final ResizeImageResultCallback cb) {
+            final ResizeImageResultCallback cb,
+            final boolean append) {
 
         // Show a progress dialog if the resize hasn't finished
         // within one second.
@@ -603,7 +604,7 @@ public class MessageUtils {
 
                 handler.post(new Runnable() {
                     public void run() {
-                        cb.onResizeResult(part);
+                        cb.onResizeResult(part, append);
                     }
                 });
             }

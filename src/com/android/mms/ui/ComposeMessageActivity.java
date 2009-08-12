@@ -80,6 +80,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.os.SystemProperties;
 import android.provider.Contacts;
 import android.provider.DrmStore;
@@ -301,7 +302,7 @@ public class ComposeMessageActivity extends Activity
                     break;
 
                 case AttachmentEditor.MSG_REMOVE_ATTACHMENT:
-                    mWorkingMessage.setAttachment(WorkingMessage.TEXT, null);
+                    mWorkingMessage.setAttachment(WorkingMessage.TEXT, null, false);
                     break;
 
                 default:
@@ -2127,12 +2128,12 @@ public class ComposeMessageActivity extends Activity
                 break;
 
             case REQUEST_CODE_ATTACH_IMAGE:
-                addImage(data.getData());
+                addImage(data.getData(), false);
                 break;
 
             case REQUEST_CODE_TAKE_VIDEO:
             case REQUEST_CODE_ATTACH_VIDEO:
-                addVideo(data.getData());
+                addVideo(data.getData(), false);
                 break;
 
             case REQUEST_CODE_ATTACH_SOUND:
@@ -2163,7 +2164,7 @@ public class ComposeMessageActivity extends Activity
     private void addImage(Bitmap bitmap) {
         try {
             Uri messageUri = mWorkingMessage.saveAsMms();
-            addImage(MessageUtils.saveBitmapAsPart(this, messageUri, bitmap));
+            addImage(MessageUtils.saveBitmapAsPart(this, messageUri, bitmap), false);
         } catch (MmsException e) {
             handleAddAttachmentError(WorkingMessage.UNKNOWN_ERROR, R.string.type_picture);
         }
@@ -2171,7 +2172,7 @@ public class ComposeMessageActivity extends Activity
 
     private final ResizeImageResultCallback mResizeImageCallback = new ResizeImageResultCallback() {
         // TODO: make this produce a Uri, that's what we want anyway
-        public void onResizeResult(PduPart part) {
+        public void onResizeResult(PduPart part, boolean append) {
             if (part == null) {
                 handleAddAttachmentError(WorkingMessage.UNKNOWN_ERROR, R.string.type_picture);
                 return;
@@ -2184,7 +2185,7 @@ public class ComposeMessageActivity extends Activity
             Uri messageUri = mWorkingMessage.saveAsMms();
             try {
                 Uri dataUri = persister.persistPart(part, ContentUris.parseId(messageUri));
-                result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, dataUri);
+                result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, dataUri, append);
             } catch (MmsException e) {
                 result = WorkingMessage.UNKNOWN_ERROR;
             }
@@ -2226,26 +2227,26 @@ public class ComposeMessageActivity extends Activity
         MessageUtils.showErrorDialog(this, title, message);
     }
 
-    private void addImage(Uri uri) {
-        int result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, uri);
+    private void addImage(Uri uri, boolean append) {
+        int result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, uri, append);
 
         if (result == WorkingMessage.IMAGE_TOO_LARGE) {
             MessageUtils.resizeImageAsync(this,
-                    uri, mAttachmentEditorHandler, mResizeImageCallback);
+                    uri, mAttachmentEditorHandler, mResizeImageCallback, append);
             return;
         }
         handleAddAttachmentError(result, R.string.type_picture);
     }
 
-    private void addVideo(Uri uri) {
+    private void addVideo(Uri uri, boolean append) {
         if (uri != null) {
-            int result = mWorkingMessage.setAttachment(WorkingMessage.VIDEO, uri);
+            int result = mWorkingMessage.setAttachment(WorkingMessage.VIDEO, uri, append);
             handleAddAttachmentError(result, R.string.type_video);
         }
     }
 
     private void addAudio(Uri uri) {
-        int result = mWorkingMessage.setAttachment(WorkingMessage.AUDIO, uri);
+        int result = mWorkingMessage.setAttachment(WorkingMessage.AUDIO, uri, false);
         handleAddAttachmentError(result, R.string.type_audio);
     }
 
@@ -2271,27 +2272,41 @@ public class ComposeMessageActivity extends Activity
 
     private boolean handleSendIntent(Intent intent) {
         Bundle extras = intent.getExtras();
-
-        if (!Intent.ACTION_SEND.equals(intent.getAction()) || (extras == null)) {
+        if (extras == null) {
             return false;
         }
 
-        if (extras.containsKey(Intent.EXTRA_STREAM)) {
-            Uri uri = (Uri)extras.getParcelable(Intent.EXTRA_STREAM);
-            if (uri != null) {
-                if (intent.getType().startsWith("image/")) {
-                    addImage(uri);
-                } else if (intent.getType().startsWith("video/")) {
-                    addVideo(uri);
-                }
+        String mimeType = intent.getType();
+        String action = intent.getAction();
+        if (Intent.ACTION_SEND.equals(action)) {
+            if (extras.containsKey(Intent.EXTRA_STREAM)) {
+                Uri uri = (Uri)extras.getParcelable(Intent.EXTRA_STREAM);
+                addAttachment(mimeType, (Uri) uri, false);
+                return true;
+            } else if (extras.containsKey(Intent.EXTRA_TEXT)) {
+                mWorkingMessage.setText(extras.getString(Intent.EXTRA_TEXT));
+                return true;
             }
-            return true;
-        } else if (extras.containsKey(Intent.EXTRA_TEXT)) {
-            mWorkingMessage.setText(extras.getString(Intent.EXTRA_TEXT));
+        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) &&
+                extras.containsKey(Intent.EXTRA_STREAM)) {
+            ArrayList<Parcelable> uris = extras.getParcelableArrayList(Intent.EXTRA_STREAM);
+            for (Parcelable uri : uris) {
+                addAttachment(mimeType, (Uri) uri, true);
+            }
             return true;
         }
 
         return false;
+    }
+
+    private void addAttachment(String type, Uri uri, boolean append) {
+        if (uri != null) {
+            if (type.startsWith("image/")) {
+                addImage(uri, append);
+            } else if (type.startsWith("video/")) {
+                addVideo(uri, append);
+            }
+        }
     }
 
     private String getResourcesString(int id, String mediaName) {

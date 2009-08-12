@@ -153,7 +153,7 @@ public class SlideEditorActivity extends Activity {
             mSlideshowEditor = new SlideshowEditor(this, mSlideshowModel);
             mPresenter = (SlideshowPresenter) PresenterFactory.getPresenter(
                     "SlideshowPresenter", this, mSlideView, mSlideshowModel);
-            
+
             // Sanitize mPosition
             if (mPosition >= mSlideshowModel.size()) {
                 mPosition = Math.max(0, mSlideshowModel.size() - 1);
@@ -536,7 +536,8 @@ public class SlideEditorActivity extends Activity {
                             getResourcesString(R.string.unsupported_media_format, getPictureString()),
                             getResourcesString(R.string.select_different_media, getPictureString()));
                 } catch (ResolutionException e) {
-                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(), mResizeImageCallback);
+                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(),
+                            mResizeImageCallback, false);
                 } catch (ExceedMessageSizeException e) {
                     MessageUtils.showErrorDialog(SlideEditorActivity.this,
                             getResourcesString(R.string.exceed_message_size_limitation),
@@ -559,7 +560,8 @@ public class SlideEditorActivity extends Activity {
                             getResourcesString(R.string.unsupported_media_format, getPictureString()),
                             getResourcesString(R.string.select_different_media, getPictureString()));
                 } catch (ResolutionException e) {
-                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(), mResizeImageCallback);
+                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(),
+                            mResizeImageCallback, false);
                 } catch (ExceedMessageSizeException e) {
                     MessageUtils.showErrorDialog(SlideEditorActivity.this,
                             getResourcesString(R.string.exceed_message_size_limitation),
@@ -626,7 +628,7 @@ public class SlideEditorActivity extends Activity {
     }
 
     private final ResizeImageResultCallback mResizeImageCallback = new ResizeImageResultCallback() {
-        public void onResizeResult(PduPart part) {
+        public void onResizeResult(PduPart part, boolean append) {
             Context context = SlideEditorActivity.this;
             if (part == null) {
                 Toast.makeText(SlideEditorActivity.this,

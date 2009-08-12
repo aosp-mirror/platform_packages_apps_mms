@@ -34,6 +34,7 @@ import com.android.mms.transaction.MmsMessageSender;
 import com.android.mms.util.Recycler;
 import com.android.mms.transaction.SmsMessageSender;
 import com.android.mms.ui.ComposeMessageActivity;
+import com.android.mms.ui.SlideshowEditor;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -297,9 +298,10 @@ public class WorkingMessage {
      * Adds an attachment to the message, replacing an old one if it existed.
      * @param type Type of this attachment, such as {@link IMAGE}
      * @param dataUri Uri containing the attachment data (or null for {@link TEXT})
+     * @param append true if we should add the attachment to a new slide
      * @return An error code such as {@link UNKNOWN_ERROR} or {@link OK} if successful
      */
-    public int setAttachment(int type, Uri dataUri) {
+    public int setAttachment(int type, Uri dataUri, boolean append) {
         if (DEBUG) debug("setAttachment type=%d uri %s", type, dataUri);
         int result = OK;
 
@@ -309,7 +311,11 @@ public class WorkingMessage {
         // Change the attachment and translate the various underlying
         // exceptions into useful error codes.
         try {
-            changeMedia(type, dataUri);
+            if (append) {
+                appendMedia(type, dataUri);
+            } else {
+                changeMedia(type, dataUri);
+            }
         } catch (MmsException e) {
             result = UNKNOWN_ERROR;
         } catch (UnsupportContentTypeException e) {
@@ -386,6 +392,54 @@ public class WorkingMessage {
         }
 
         // Make a correct MediaModel for the type of attachment.
+        if (type == IMAGE) {
+            media = new ImageModel(mContext, uri, mSlideshow.getLayout().getImageRegion());
+        } else if (type == VIDEO) {
+            media = new VideoModel(mContext, uri, mSlideshow.getLayout().getImageRegion());
+        } else if (type == AUDIO) {
+            media = new AudioModel(mContext, uri);
+        } else {
+            throw new IllegalArgumentException("changeMedia type=" + type + ", uri=" + uri);
+        }
+
+        // Add it to the slide.
+        slide.add(media);
+
+        // For video and audio, set the duration of the slide to
+        // that of the attachment.
+        if (type == VIDEO || type == AUDIO) {
+            slide.updateDuration(media.getDuration());
+        }
+    }
+
+    /**
+     * Add the message's attachment to the data in the specified Uri to a new slide.
+     */
+    private void appendMedia(int type, Uri uri) throws MmsException {
+
+        // If we're changing to text, just bail out.
+        if (type == TEXT) {
+            return;
+        }
+
+        // The first time this method is called, mSlideshow.size() is going to be
+        // one (a newly initialized slideshow has one empty slide). The first time we
+        // attach the picture/video to that first empty slide. From then on when this
+        // function is called, we've got to create a new slide and add the picture/video
+        // to that new slide.
+        boolean addNewSlide = true;
+        if (mSlideshow.size() == 1 && !mSlideshow.isSimple()) {
+            addNewSlide = false;
+        }
+        if (addNewSlide) {
+            SlideshowEditor slideShowEditor = new SlideshowEditor(mContext, mSlideshow);
+            if (!slideShowEditor.addNewSlide()) {
+                return;
+            }
+        }
+        // Make a correct MediaModel for the type of attachment.
+        MediaModel media;
+        SlideModel slide = mSlideshow.get(mSlideshow.size() - 1);
         if (type == IMAGE) {
             media = new ImageModel(mContext, uri, mSlideshow.getLayout().getImageRegion());
         } else if (type == VIDEO) {
