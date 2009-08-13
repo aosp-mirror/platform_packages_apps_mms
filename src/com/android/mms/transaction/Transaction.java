@@ -23,6 +23,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.net.NetworkUtils;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -186,7 +187,8 @@ public abstract class Transaction extends Observable {
             if (inetAddr == -1) {
                 throw new IOException("Cannot establish route for " + url + ": Unknown host");
             } else {
-                if (!connMgr.requestRouteToHost(ConnectivityManager.TYPE_MOBILE, inetAddr)) {
+                if (!connMgr.requestRouteToHost(
+                        ConnectivityManager.TYPE_MOBILE_MMS, inetAddr)) {
                     throw new IOException("Cannot establish route to proxy " + inetAddr);
                 }
             }
@@ -196,7 +198,8 @@ public abstract class Transaction extends Observable {
             if (inetAddr == -1) {
                 throw new IOException("Cannot establish route for " + url + ": Unknown host");
             } else {
-                if (!connMgr.requestRouteToHost(ConnectivityManager.TYPE_MOBILE, inetAddr)) {
+                if (!connMgr.requestRouteToHost(
+                        ConnectivityManager.TYPE_MOBILE_MMS, inetAddr)) {
                     throw new IOException("Cannot establish route to " + inetAddr + " for " + url);
                 }
             }

@@ -65,9 +65,9 @@ public class RetryScheduler implements Observer {
 
     private boolean isConnected() {
         ConnectivityManager mConnMgr = (ConnectivityManager)
-                    mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        return networkInfo.isConnected();
+                mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return (mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS).
+                isConnected());
     }
 
     public void update(Observable observable) {

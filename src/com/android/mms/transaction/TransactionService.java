@@ -287,10 +287,10 @@ public class TransactionService extends Service implements Observer {
     }
 
     private boolean isNetworkAvailable() {
-        NetworkInfo networkInfo = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        return networkInfo.isAvailable();
+        return mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS).
+                isAvailable();
     }
-    
+
     private int getTransactionType(int msgType) {
         switch (msgType) {
             case PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND:
@@ -452,7 +452,6 @@ public class TransactionService extends Service implements Observer {
         
         int result = mConnMgr.startUsingNetworkFeature(
                 ConnectivityManager.TYPE_MOBILE, Phone.FEATURE_ENABLE_MMS);
-
         switch (result) {
         case Phone.APN_ALREADY_ACTIVE:
         case Phone.APN_REQUEST_STARTED:
@@ -469,7 +468,8 @@ public class TransactionService extends Service implements Observer {
             mServiceHandler.removeMessages(EVENT_CONTINUE_MMS_CONNECTIVITY);
             if (mConnMgr != null) {
                 mConnMgr.stopUsingNetworkFeature(
-                        ConnectivityManager.TYPE_MOBILE, Phone.FEATURE_ENABLE_MMS);
+                        ConnectivityManager.TYPE_MOBILE,
+                        Phone.FEATURE_ENABLE_MMS);
             }
         } finally {
             releaseWakeLock();
@@ -544,7 +544,8 @@ public class TransactionService extends Service implements Observer {
                     }
 
                     // Check availability of the mobile network.
-                    if ((info == null) || (info.getType() != ConnectivityManager.TYPE_MOBILE)) {
+                    if ((info == null) || (info.getType() !=
+                            ConnectivityManager.TYPE_MOBILE_MMS)) {
                         return;
                     }
 
@@ -563,7 +564,6 @@ public class TransactionService extends Service implements Observer {
                     // Set a timer to keep renewing our "lease" on the MMS connection
                     sendMessageDelayed(obtainMessage(EVENT_CONTINUE_MMS_CONNECTIVITY),
                                        APN_EXTENSION_WAIT);
-
                     processPendingTransaction(transaction, settings);
                     return;
                 
