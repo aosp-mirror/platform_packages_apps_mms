@@ -23,6 +23,7 @@ import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -119,7 +120,11 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
                 final Rect target = getTargetRect(ConversationHeaderView.this);
                 intent.putExtra(Intents.EXTRA_TARGET_RECT, target);
                 intent.putExtra(Intents.EXTRA_MODE, Intents.MODE_SMALL);
-                mContext.startActivity(intent);
+                try {
+                    mContext.startActivity(intent);
+                } catch (ActivityNotFoundException ex) {
+                    // ignore
+                }
             }
         });
     }
