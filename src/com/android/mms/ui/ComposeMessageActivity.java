@@ -344,7 +344,7 @@ public class ComposeMessageActivity extends Activity
             // When the subject editor is empty, press "DEL" to hide the input field.
             if ((keyCode == KeyEvent.KEYCODE_DEL) && (mSubjectTextEditor.length() == 0)) {
                 showSubjectEditor(false);
-                mWorkingMessage.setSubject(null);
+                mWorkingMessage.setSubject(null, true);
                 return true;
             }
 
@@ -1971,7 +1971,7 @@ public class ComposeMessageActivity extends Activity
         switch (item.getItemId()) {
             case MENU_ADD_SUBJECT:
                 showSubjectEditor(true);
-                mWorkingMessage.setSubject("");
+                mWorkingMessage.setSubject("", true);
                 mSubjectTextEditor.requestFocus();
                 break;
             case MENU_ADD_ATTACHMENT:
@@ -2263,7 +2263,7 @@ public class ComposeMessageActivity extends Activity
         Uri uri = intent.getParcelableExtra("msg_uri");
         if (uri != null) {
             mWorkingMessage = WorkingMessage.load(this, uri);
-            mWorkingMessage.setSubject(intent.getStringExtra("subject"));
+            mWorkingMessage.setSubject(intent.getStringExtra("subject"), false);
         } else {
             mWorkingMessage.setText(intent.getStringExtra("sms_body"));
         }
@@ -2386,7 +2386,7 @@ public class ComposeMessageActivity extends Activity
         public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mWorkingMessage.setSubject(s);
+            mWorkingMessage.setSubject(s, true);
         }
 
         public void afterTextChanged(Editable s) { }
@@ -2679,7 +2679,7 @@ public class ComposeMessageActivity extends Activity
 
         mExitOnSent = intent.getBooleanExtra("exit_on_sent", false);
         mWorkingMessage.setText(intent.getStringExtra("sms_body"));
-        mWorkingMessage.setSubject(intent.getStringExtra("subject"));
+        mWorkingMessage.setSubject(intent.getStringExtra("subject"), false);
     }
 
     private void updateWindowTitle() {

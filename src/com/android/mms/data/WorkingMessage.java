@@ -263,7 +263,7 @@ public class WorkingMessage {
                 // If there was an MMS message, readDraftMmsMessage
                 // will put the subject in our supplied StringBuilder.
                 if (sb.length() > 0) {
-                    setSubject(sb.toString());
+                    setSubject(sb.toString(), false);
                 }
                 return true;
             }
@@ -490,9 +490,9 @@ public class WorkingMessage {
      * MMS when the user adds a subject.  An empty subject will be removed
      * before saving to disk or sending, however.
      */
-    public void setSubject(CharSequence s) {
+    public void setSubject(CharSequence s, boolean notify) {
         mSubject = s;
-        updateState(HAS_SUBJECT, (s != null), true);
+        updateState(HAS_SUBJECT, (s != null), notify);
     }
 
     /**
@@ -555,7 +555,7 @@ public class WorkingMessage {
      */
     private void removeSubjectIfEmpty() {
         if (!hasSubject()) {
-            setSubject(null);
+            setSubject(null, true);
         }
     }
 
@@ -722,7 +722,7 @@ public class WorkingMessage {
         }
 
         String subject = bundle.getString("subject");
-        setSubject(subject);
+        setSubject(subject, false);
 
         Uri uri = (Uri)bundle.getParcelable("msg_uri");
         if (uri != null) {
