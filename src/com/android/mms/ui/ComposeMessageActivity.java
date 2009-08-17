@@ -1125,6 +1125,7 @@ public class ComposeMessageActivity extends Activity
 
             if (ContentType.isImageType(type) || ContentType.isVideoType(type) ||
                     ContentType.isAudioType(type)) {
+                result = true;
                 break;
             }
         }
