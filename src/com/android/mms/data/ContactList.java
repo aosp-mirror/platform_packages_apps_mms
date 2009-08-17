@@ -88,8 +88,16 @@ public class ContactList extends ArrayList<Contact>  {
 
     public String[] getNumbers() {
         List<String> numbers = new ArrayList<String>();
+        String number;
         for (Contact c : this) {
-            numbers.add(c.getNumber());
+            number = c.getNumber();
+            // Don't add duplicate numbers. This can happen if a contact name has a comma.
+            // Since we use a comma as a delimiter between contacts, the code will consider
+            // the same recipient has been added twice. The recipients UI still works correctly.
+            // It's easiest to just make sure we only send to the same recipient once.
+            if (!numbers.contains(number)) {
+                numbers.add(number);
+            }
         }
         return numbers.toArray(new String[numbers.size()]);
     }
