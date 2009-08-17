@@ -1672,7 +1672,7 @@ public class ComposeMessageActivity extends Activity
         startMsgListQuery();
         initializeContactInfo();
         updateSendFailedNotification();
-
+        drawBottomPanel();
     }
 
     @Override
