@@ -51,12 +51,14 @@ import android.util.Log;
 public class MessageItem {
     private static String TAG = "MessageItem";
 
+    public enum DeliveryStatus  { NONE, INFO, FAILED, PENDING, RECEIVED }
+
     final Context mContext;
     final String mType;
     final long mMsgId;
     final int mBoxId;
 
-    boolean mDeliveryReport;
+    DeliveryStatus mDeliveryStatus;
     boolean mReadReport;
 
     String mTimestamp;
@@ -86,12 +88,26 @@ public class MessageItem {
         mContext = context;
         mThreadType = threadType;
         mMsgId = cursor.getLong(columnsMap.mColumnMsgId);
-        
+
         if ("sms".equals(type)) {
             ContactInfoCache infoCache = ContactInfoCache.getInstance();
             mReadReport = false; // No read reports in sms
-            mDeliveryReport = (cursor.getLong(columnsMap.mColumnSmsStatus)
-                    != Sms.STATUS_NONE);
+
+            long status = cursor.getLong(columnsMap.mColumnSmsStatus);
+            if (status == Sms.STATUS_NONE) {
+                // No delivery report requested
+                mDeliveryStatus = DeliveryStatus.NONE;
+            } else if (status >= Sms.STATUS_FAILED) {
+                // Failure
+                mDeliveryStatus = DeliveryStatus.FAILED;
+            } else if (status >= Sms.STATUS_PENDING) {
+                // Pending
+                mDeliveryStatus = DeliveryStatus.PENDING;
+            } else {
+                // Success
+                mDeliveryStatus = DeliveryStatus.RECEIVED;
+            }
+
             mMessageUri = ContentUris.withAppendedId(Sms.CONTENT_URI, mMsgId);
             // Set contact and message body
             mBoxId = cursor.getInt(columnsMap.mColumnSmsType);
@@ -134,7 +150,7 @@ public class MessageItem {
             long timestamp = 0L;
             PduPersister p = PduPersister.getPduPersister(mContext);
             if (PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND == mMessageType) {
-                mDeliveryReport = false;
+                mDeliveryStatus = DeliveryStatus.NONE;
                 NotificationInd notifInd = (NotificationInd) p.load(mMessageUri);
                 interpretFrom(notifInd.getFrom());
                 // Borrow the mBody to hold the URL of the message.
@@ -161,16 +177,19 @@ public class MessageItem {
                 String report = cursor.getString(columnsMap.mColumnMmsDeliveryReport);
                 if ((report == null) || !mAddress.equals(context.getString(
                         R.string.messagelist_sender_self))) {
-                    mDeliveryReport = false;
+                    mDeliveryStatus = DeliveryStatus.NONE;
                 } else {
                     int reportInt;
                     try {
                         reportInt = Integer.parseInt(report);
-                        mDeliveryReport =
-                            (reportInt == PduHeaders.VALUE_YES);
+                        if (reportInt == PduHeaders.VALUE_YES) {
+                            mDeliveryStatus = DeliveryStatus.INFO;
+                        } else {
+                            mDeliveryStatus = DeliveryStatus.NONE;
+                        }
                     } catch (NumberFormatException nfe) {
                         Log.e(TAG, "Value for delivery report was invalid.");
-                        mDeliveryReport = false;
+                        mDeliveryStatus = DeliveryStatus.NONE;
                     }
                 }
 
