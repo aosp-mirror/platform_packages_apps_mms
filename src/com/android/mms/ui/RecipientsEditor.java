@@ -103,6 +103,9 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
 
     @Override
     public boolean enoughToFilter() {
+        if (!super.enoughToFilter()) {
+            return false;
+        }
         // If the user is in the middle of editing an existing recipient, don't offer the
         // auto-complete menu. Without this, when the user selects an auto-complete menu item,
         // it will get added to the list of recipients so we end up with the old before-editing
@@ -112,6 +115,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         int len = getText().length();
 
         return end == len;
+
     }
 
     public int getRecipientCount() {
