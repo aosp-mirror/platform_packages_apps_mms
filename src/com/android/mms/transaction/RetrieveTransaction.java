@@ -17,12 +17,10 @@
 
 package com.android.mms.transaction;
 
-import com.android.mms.MmsConfig;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.Recycler;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.AcknowledgeInd;
-import com.google.android.mms.pdu.NotificationInd;
 import com.google.android.mms.pdu.PduComposer;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduParser;
@@ -60,7 +58,7 @@ public class RetrieveTransaction extends Transaction implements Runnable {
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
     private final Uri mUri;
-    private String mContentLocation;
+    private final String mContentLocation;
 
     public RetrieveTransaction(Context context, int serviceId,
             TransactionSettings connectionSettings, String uri)
@@ -114,22 +112,6 @@ public class RetrieveTransaction extends Transaction implements Runnable {
             // Change the downloading state of the M-Notification.ind.
             DownloadManager.getInstance().markState(
                     mUri, DownloadManager.STATE_DOWNLOADING);
-
-            if (MmsConfig.getTransIdEnabled()) {
-                if (mContentLocation.endsWith("=")) {
-                    NotificationInd notifInd = (NotificationInd) PduPersister.getPduPersister(
-                            mContext).load(mUri);
-                    String mTransactionID = null;
-                    mTransactionID = new String(notifInd.getTransactionId());
-
-                    if ( mTransactionID != null) {
-                        mContentLocation += mTransactionID;
-                    }
-                }
-            }
-            if (LOCAL_LOGV) {
-                Log.v(TAG, "mContentLocation" + mContentLocation);
-            }
 
             // Send GET request to MMSC and retrieve the response data.
             byte[] resp = getPdu(mContentLocation);
