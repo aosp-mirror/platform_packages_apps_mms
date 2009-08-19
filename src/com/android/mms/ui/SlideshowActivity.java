@@ -224,6 +224,18 @@ public class SlideshowActivity extends Activity implements EventListener {
                 mPlayer.start();
             }
         }
+
+        public boolean canPause() {
+            return true;
+        }
+
+        public boolean canSeekBackward() {
+            return true;
+        }
+
+        public boolean canSeekForward() {
+            return true;
+        }
     }
 
     public void handleEvent(Event evt) {
