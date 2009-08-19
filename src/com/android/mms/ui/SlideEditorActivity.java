@@ -485,11 +485,11 @@ public class SlideEditorActivity extends Activity {
         builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
-                    case 0: // Bottom text.
-                        mSlideshowEditor.changeLayout(LayoutModel.LAYOUT_BOTTOM_TEXT);
-                        break;
-                    case 1: // Top text.
+                    case 0: // Top text.
                         mSlideshowEditor.changeLayout(LayoutModel.LAYOUT_TOP_TEXT);
+                        break;
+                    case 1: // Bottom text.
+                        mSlideshowEditor.changeLayout(LayoutModel.LAYOUT_BOTTOM_TEXT);
                         break;
                 }
             }
