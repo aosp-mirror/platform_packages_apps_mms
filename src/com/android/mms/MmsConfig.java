@@ -56,6 +56,7 @@ public class MmsConfig {
     private static int mMinMessageCountPerThread = 10;          // default value
     private static int mMaxMessageCountPerThread = 5000;        // default value
     private static int mSmsToMmsTextThreshold = 4;              // default value
+    private static int mHttpSocketTimeout = 60*1000;            // default to 1 min
 
     public static void init(Context context) {
         if (LOCAL_LOGV) {
@@ -138,6 +139,10 @@ public class MmsConfig {
         return mSmsToMmsTextThreshold;
     }
 
+    public static int getHttpSocketTimeout() {
+        return mHttpSocketTimeout;
+    }
+
     private static void loadMmsSettings(Context context) {
         XmlResourceParser parser = context.getResources()
                 .getXml(R.xml.mms_config);
@@ -192,6 +197,8 @@ public class MmsConfig {
                             if (mRecipientLimit < 0) {
                                 mRecipientLimit = Integer.MAX_VALUE;
                             }
+                        } else if ("httpSocketTimeout".equalsIgnoreCase(value)) {
+                            mHttpSocketTimeout = Integer.parseInt(text);
                         }
                     } else if ("string".equals(tag)) {
                         // string config tags go here
@@ -212,8 +219,11 @@ public class MmsConfig {
                 }
             }
         } catch (XmlPullParserException e) {
+            Log.e(TAG, "loadMmsSettings caught ", e);
         } catch (NumberFormatException e) {
+            Log.e(TAG, "loadMmsSettings caught ", e);
         } catch (IOException e) {
+            Log.e(TAG, "loadMmsSettings caught ", e);
         } finally {
             parser.close();
         }

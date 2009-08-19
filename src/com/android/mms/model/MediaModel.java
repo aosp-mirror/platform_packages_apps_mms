@@ -27,7 +27,6 @@ import org.w3c.dom.events.EventListener;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.drm.mobile1.DrmException;
-import android.media.MediaPlayer;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.util.Log;
@@ -251,7 +250,7 @@ public abstract class MediaModel extends Model implements EventListener {
             }
             mDuration = duration;
         } catch (Exception ex) {
-            Log.e(TAG, "MediaMetadataRetriever failed to retrieve duration from the media", ex);
+            Log.e(TAG, "MediaMetadataRetriever failed to get duration for " + mUri.getPath(), ex);
             throw new MmsException(ex);
         } finally {
             retriever.release();
