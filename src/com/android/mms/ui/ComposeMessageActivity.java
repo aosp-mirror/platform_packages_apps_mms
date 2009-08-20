@@ -109,6 +109,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnKeyListener;
@@ -1607,6 +1608,10 @@ public class ComposeMessageActivity extends Activity
         // Show the recipients editor if we don't have a valid thread.
         if (mConversation.getThreadId() <= 0) {
             initRecipientsEditor();
+
+            // Bring up the softkeyboard so the user can immediately enter recipients. This
+            // call won't do anything on devices with a hard keyboard.
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         }
 
         updateSendButtonState();
