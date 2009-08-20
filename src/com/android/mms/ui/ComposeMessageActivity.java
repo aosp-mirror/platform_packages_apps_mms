@@ -29,6 +29,7 @@ import static com.android.mms.ui.MessageListAdapter.PROJECTION;
 import com.android.internal.widget.ContactHeaderWidget;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
+import com.android.mms.MmsApp;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
@@ -1124,6 +1125,10 @@ public class ComposeMessageActivity extends Activity
             PduPart part = body.getPart(i);
             String type = new String(part.getContentType());
 
+            if (Log.isLoggable(MmsApp.LOG_TAG, Log.DEBUG)) {
+                log("[CMA] haveSomethingToCopyToSDCard: part[" + i + "] contentType=" + type);
+            }
+
             if (ContentType.isImageType(type) || ContentType.isVideoType(type) ||
                     ContentType.isAudioType(type)) {
                 result = true;
@@ -1391,8 +1396,9 @@ public class ComposeMessageActivity extends Activity
                 fout = new FileOutputStream(file);
 
                 byte[] buffer = new byte[8000];
-                while(fin.read(buffer) != -1) {
-                    fout.write(buffer);
+                int size = 0;
+                while ((size=fin.read(buffer)) != -1) {
+                    fout.write(buffer, 0, size);
                 }
 
                 // Notify other applications listening to scanner events

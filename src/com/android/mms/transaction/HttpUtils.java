@@ -27,8 +27,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnRouteParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.params.HttpConnectionParams;
 
 import com.android.mms.MmsConfig;
+import com.android.mms.MmsApp;
 
 import android.content.Context;
 import android.net.http.AndroidHttpClient;
@@ -46,7 +48,7 @@ import java.net.URISyntaxException;
 import java.util.Locale;
 
 public class HttpUtils {
-    private static final String TAG = "HttpUtils";
+    private static final String TAG = MmsApp.LOG_TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
@@ -252,6 +254,14 @@ public class HttpUtils {
                 = AndroidHttpClient.newInstance(MmsConfig.getUserAgent());
         HttpParams params = client.getParams();
         HttpProtocolParams.setContentCharset(params, "UTF-8");
+
+        // set the socket timeout
+        int soTimeout = MmsConfig.getHttpSocketTimeout();
+
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+            Log.d(TAG, "[HttpUtils] createHttpClient w/ socket timeout " + soTimeout + " ms");
+        }
+        HttpConnectionParams.setSoTimeout(params, soTimeout);
         return client;
     }
 
