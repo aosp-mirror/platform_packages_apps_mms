@@ -11,9 +11,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
-import android.provider.Contacts;
-import android.provider.Contacts.People;
-import android.provider.Contacts.Presence;
+import android.provider.ContactsContract.Contacts;
+import android.provider.ContactsContract.Presence;
 import android.provider.Telephony.Mms;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -259,7 +258,7 @@ public class Contact {
     }
 
     public synchronized Uri getUri() {
-        return ContentUris.withAppendedId(People.CONTENT_URI, mPersonId);
+        return ContentUris.withAppendedId(Contacts.CONTENT_URI, mPersonId);
     }
 
     public long getPersonId() {
@@ -298,7 +297,7 @@ public class Contact {
         Cache.init(context);
         RecipientIdCache.init(context);
         context.getContentResolver().registerContentObserver(
-                People.CONTENT_URI, true, sContactsObserver);
+                Contacts.CONTENT_URI, true, sContactsObserver);
     }
 
     public static void dump() {
