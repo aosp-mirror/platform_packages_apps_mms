@@ -155,8 +155,16 @@ public class SmilHelper {
             String tag, SMILDocument document, String src) {
         SMILMediaElement mediaElement =
                 (SMILMediaElement) document.createElement(tag);
-        mediaElement.setSrc(src);
+        mediaElement.setSrc(escapeXML(src));
         return mediaElement;
+    }
+
+    static public String escapeXML(String str) {
+        return str.replaceAll("&","&amp;")
+                  .replaceAll("<", "&lt;")
+                  .replaceAll(">", "&gt;")
+                  .replaceAll("\"", "&quot;")
+                  .replaceAll("'", "&apos;");
     }
 
     private static SMILDocument createSmilDocument(PduBody pb) {
