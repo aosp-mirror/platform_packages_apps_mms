@@ -40,6 +40,7 @@ import android.view.Window;
 
 import com.android.mms.R;
 import com.android.mms.transaction.SmsReceiverService;
+import com.android.mms.transaction.MessagingNotification;
 
 import com.google.android.mms.util.SqliteWrapper;
 
@@ -85,10 +86,14 @@ public class ClassZeroActivity extends Activity {
     };
 
     private void saveMessage() {
+        Uri messageUri = null;
         if (mMessage.isReplace()) {
-            replaceMessage(mMessage);
+            messageUri = replaceMessage(mMessage);
         } else {
-            storeMessage(mMessage);
+            messageUri = storeMessage(mMessage);
+        }
+        if (!mRead && messageUri != null) {
+            MessagingNotification.updateNewMessageIndicator(this, true);
         }
     }
 
@@ -121,13 +126,19 @@ public class ClassZeroActivity extends Activity {
         if (icicle != null) {
             mTimerSet = icicle.getLong(TIMER_FIRE, mTimerSet);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        long now = SystemClock.uptimeMillis();
         if (mTimerSet <= now) {
             // Save the message if the timer already expired.
             mHandler.sendEmptyMessage(ON_AUTO_SAVE);
         } else {
             mHandler.sendEmptyMessageAtTime(ON_AUTO_SAVE, mTimerSet);
             if (Config.DEBUG) {
-                Log.d(TAG, "onCreate time = " + Long.toString(mTimerSet) + " "
+                Log.d(TAG, "onRestart time = " + Long.toString(mTimerSet) + " "
                         + this.toString());
             }
         }
@@ -148,7 +159,8 @@ public class ClassZeroActivity extends Activity {
         super.onStop();
         mHandler.removeMessages(ON_AUTO_SAVE);
         if (Config.DEBUG) {
-            Log.d(TAG, "onStop " + this.toString());
+            Log.d(TAG, "onStop time = " + Long.toString(mTimerSet)
+                    + " " + this.toString());
         }
     }
 
@@ -222,8 +234,9 @@ public class ClassZeroActivity extends Activity {
         ContentValues values = extractContentValues(sms);
         values.put(Inbox.BODY, sms.getDisplayMessageBody());
         ContentResolver resolver = getContentResolver();
-
+        if (Config.DEBUG) {
+            Log.d(TAG, "storeMessage " + this.toString());
+        }
         return SqliteWrapper.insert(this, resolver, Inbox.CONTENT_URI, values);
     }
-
 }
