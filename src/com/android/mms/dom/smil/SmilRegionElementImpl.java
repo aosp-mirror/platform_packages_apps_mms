@@ -157,7 +157,10 @@ public class SmilRegionElementImpl extends SmilElementImpl implements
 
     public int getHeight() {
         try {
-            return parseRegionLength(getAttribute(HEIGHT_ATTRIBUTE_NAME), false);
+            final int height = parseRegionLength(getAttribute(HEIGHT_ATTRIBUTE_NAME), false);
+            return height == 0 ?
+                    ((SMILDocument) getOwnerDocument()).getLayout().getRootLayout().getHeight() :
+                        height;
         } catch (NumberFormatException _) {
             if (LOCAL_LOGV) {
                 Log.v(TAG, "Height attribute is not set or incorrect.");
@@ -187,7 +190,10 @@ public class SmilRegionElementImpl extends SmilElementImpl implements
 
     public int getWidth() {
         try {
-            return parseRegionLength(getAttribute(WIDTH_ATTRIBUTE_NAME), true);
+            final int width = parseRegionLength(getAttribute(WIDTH_ATTRIBUTE_NAME), true);
+            return width == 0 ?
+                    ((SMILDocument) getOwnerDocument()).getLayout().getRootLayout().getWidth() :
+                        width;
         } catch (NumberFormatException _) {
             if (LOCAL_LOGV) {
                 Log.v(TAG, "Width attribute is not set or incorrect.");

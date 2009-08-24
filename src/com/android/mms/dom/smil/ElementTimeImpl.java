@@ -25,6 +25,8 @@ import org.w3c.dom.smil.SMILElement;
 import org.w3c.dom.smil.Time;
 import org.w3c.dom.smil.TimeList;
 
+import com.android.mms.MmsConfig;
+
 import android.util.Log;
 
 public abstract class ElementTimeImpl implements ElementTime {
@@ -113,7 +115,10 @@ public abstract class ElementTimeImpl implements ElementTime {
                 dur = TimeImpl.parseClockValue(durString) / 1000f;
             }
         } catch (IllegalArgumentException e) {
-            // Do nothing and return 0
+            // Do nothing and return the minimum value
+        }
+        if (dur == 0) {
+            dur = MmsConfig.getMinimumSlideElementDuration();
         }
         return dur;
     }
