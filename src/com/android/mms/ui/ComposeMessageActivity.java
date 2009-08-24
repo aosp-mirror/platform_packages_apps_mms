@@ -641,17 +641,21 @@ public class ComposeMessageActivity extends Activity
     private boolean canAddToContacts(Contact contact) {
         // There are some kind of automated messages, like STK messages, that we don't want
         // to add to contacts. These names begin with special characters, like, "*Info".
+        final String name = contact.getName();
         if (!TextUtils.isEmpty(contact.getNumber())) {
             char c = contact.getNumber().charAt(0);
             if (isSpecialChar(c)) {
                 return false;
             }
         }
-        if (!TextUtils.isEmpty(contact.getName())) {
-            char c = contact.getName().charAt(0);
+        if (!TextUtils.isEmpty(name)) {
+            char c = name.charAt(0);
             if (isSpecialChar(c)) {
                 return false;
             }
+        }
+        if (!(Mms.isEmailAddress(name) || Mms.isPhoneNumber(name))) {
+            return false;
         }
         return true;
     }
