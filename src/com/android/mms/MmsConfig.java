@@ -57,6 +57,7 @@ public class MmsConfig {
     private static int mMaxMessageCountPerThread = 5000;        // default value
     private static int mSmsToMmsTextThreshold = 4;              // default value
     private static int mHttpSocketTimeout = 60*1000;            // default to 1 min
+    private static int mMinimumSlideElementDuration = 7;        // default to 7 sec
 
     public static void init(Context context) {
         if (LOCAL_LOGV) {
@@ -143,6 +144,10 @@ public class MmsConfig {
         return mHttpSocketTimeout;
     }
 
+    public static int getMinimumSlideElementDuration() {
+        return mMinimumSlideElementDuration;
+    }
+
     private static void loadMmsSettings(Context context) {
         XmlResourceParser parser = context.getResources()
                 .getXml(R.xml.mms_config);
@@ -199,6 +204,8 @@ public class MmsConfig {
                             }
                         } else if ("httpSocketTimeout".equalsIgnoreCase(value)) {
                             mHttpSocketTimeout = Integer.parseInt(text);
+                        } else if ("minimumSlideElementDuration".equalsIgnoreCase(value)) {
+                            mMinimumSlideElementDuration = Integer.parseInt(text);
                         }
                     } else if ("string".equals(tag)) {
                         // string config tags go here
