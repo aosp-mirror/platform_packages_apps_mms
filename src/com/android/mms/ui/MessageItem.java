@@ -86,6 +86,7 @@ public class MessageItem {
         mContext = context;
         mMsgId = cursor.getLong(columnsMap.mColumnMsgId);
         mHighlight = highlight != null ? highlight.toLowerCase() : null;
+        mType = type;
 
         if ("sms".equals(type)) {
             mReadReport = false; // No read reports in sms
@@ -106,10 +107,12 @@ public class MessageItem {
             }
             mBody = cursor.getString(columnsMap.mColumnSmsBody);
 
-            // Set time stamp
-            long date = cursor.getLong(columnsMap.mColumnSmsDate);
-            mTimestamp = String.format(context.getString(R.string.sent_on),
-                    MessageUtils.formatTimeStampString(context, date));
+            if (!isOutgoingMessage()) {
+                // Set "sent" time stamp
+                long date = cursor.getLong(columnsMap.mColumnSmsDate);
+                mTimestamp = String.format(context.getString(R.string.sent_on),
+                        MessageUtils.formatTimeStampString(context, date));
+            }
 
             mLocked = cursor.getInt(columnsMap.mColumnSmsLocked) != 0;
         } else if ("mms".equals(type)) {
@@ -197,13 +200,13 @@ public class MessageItem {
                 mMessageSize = mSlideshow.getCurrentMessageSize();
             }
 
-            mTimestamp = context.getString(getTimestampStrId(),
-                    MessageUtils.formatTimeStampString(context, timestamp));
+            if (!isOutgoingMessage()) {
+                mTimestamp = context.getString(getTimestampStrId(),
+                        MessageUtils.formatTimeStampString(context, timestamp));
+            }
         } else {
             throw new MmsException("Unknown type of the message: " + type);
         }
-
-        mType = type;
     }
 
     private void interpretFrom(EncodedStringValue from) {
