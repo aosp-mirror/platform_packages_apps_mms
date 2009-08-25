@@ -19,11 +19,11 @@ package com.android.mms.ui;
 
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
+import com.android.mms.LogTag;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.model.MediaModel;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
-import com.android.mms.model.CarrierContentRestriction;
 import com.android.mms.transaction.MmsMessageSender;
 import com.android.mms.util.AddressUtils;
 import com.google.android.mms.ContentType;
@@ -80,7 +80,7 @@ public class MessageUtils {
         void onResizeResult(PduPart part, boolean append);
     }
 
-    private static final String TAG = "MessageUtils";
+    private static final String TAG = LogTag.APP;
     private static String sLocalNumber;
 
     // Cache of both groups of space-separated ids to their full
@@ -547,6 +547,7 @@ public class MessageUtils {
 
     public static Uri saveBitmapAsPart(Context context, Uri messageUri, Bitmap bitmap)
             throws MmsException {
+
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         bitmap.compress(CompressFormat.JPEG, IMAGE_COMPRESSION_QUALITY, os);
 
@@ -558,8 +559,14 @@ public class MessageUtils {
         part.setContentId(contentId.getBytes());
         part.setData(os.toByteArray());
 
-        return PduPersister.getPduPersister(context).persistPart(part,
+        Uri retVal = PduPersister.getPduPersister(context).persistPart(part,
                         ContentUris.parseId(messageUri));
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("saveBitmapAsPart: persisted part with uri=" + retVal);
+        }
+
+        return retVal;
     }
 
     public static void resizeImageAsync(final Context context,
@@ -798,5 +805,9 @@ public class MessageUtils {
             Uri uri = msg.saveAsMms();
             viewMmsMessageAttachment(context, uri, slideshow);
         }
+    }
+
+    private static void log(String msg) {
+        Log.d(TAG, "[MsgUtils] " + msg);
     }
 }

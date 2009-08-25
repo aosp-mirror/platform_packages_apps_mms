@@ -21,6 +21,7 @@ import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IN
 import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
 
 import com.android.mms.R;
+import com.android.mms.LogTag;
 import com.android.mms.data.Contact;
 import com.android.mms.data.Conversation;
 import com.android.mms.ui.ComposeMessageActivity;
@@ -64,7 +65,7 @@ import java.util.TreeSet;
  * otherwise, hide the indicator.
  */
 public class MessagingNotification {
-    private static final String TAG = "MessagingNotification";
+    private static final String TAG = LogTag.APP;
 
     private static final int NOTIFICATION_ID = 123;
     public static final int MESSAGE_FAILED_NOTIFICATION_ID = 789;
@@ -291,9 +292,10 @@ public class MessagingNotification {
             long threadId,
             long timeMillis,
             int count) {
-        Intent clickIntent = getAppIntent();
-        clickIntent.setData(Conversation.getUri(threadId));
-        clickIntent.setAction(Intent.ACTION_VIEW);
+        Intent clickIntent = ComposeMessageActivity.createIntent(context, threadId);
+        clickIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP
+                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         String senderInfo = buildTickerMessage(
                 context, address, null, null).toString();
@@ -314,13 +316,6 @@ public class MessagingNotification {
         nm.cancel(notificationId);
     }
 
-    private static Intent getAppIntent() {
-        Intent appIntent = new Intent(Intent.ACTION_MAIN);
-
-        appIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        return appIntent;
-   }
-
     private static void updateNotification(
             Context context,
             Intent clickIntent,
@@ -334,8 +329,7 @@ public class MessagingNotification {
             int uniqueThreadCount) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
-        if (!sp.getBoolean(
-                    MessagingPreferenceActivity.NOTIFICATION_ENABLED, true)) {
+        if (!sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_ENABLED, true)) {
             return;
         }
 
@@ -347,8 +341,12 @@ public class MessagingNotification {
         // user to the conversation list instead of the specific thread.
         if (uniqueThreadCount > 1) {
             title = context.getString(R.string.notification_multiple_title);
-            clickIntent = getAppIntent();
-            clickIntent.setAction(Intent.ACTION_MAIN);
+            clickIntent = new Intent(Intent.ACTION_MAIN);
+
+            clickIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                    | Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
             clickIntent.setType("vnd.android-dir/mms-sms");
         }
         

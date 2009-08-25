@@ -22,6 +22,7 @@ import com.android.mms.MmsConfig;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.ResolutionException;
 import com.android.mms.UnsupportContentTypeException;
+import com.android.mms.LogTag;
 import com.android.mms.model.AudioModel;
 import com.android.mms.model.ImageModel;
 import com.android.mms.model.MediaModel;
@@ -630,7 +631,9 @@ public class WorkingMessage {
      * to {@link setConversation}.
      */
     public void saveDraft() {
-        if (DEBUG) debug("saveDraft");
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            debug("saveDraft");
+        }
 
         // If we have discarded the message, just bail out.
         if (mDiscarded) {
@@ -656,7 +659,9 @@ public class WorkingMessage {
     }
 
     public void discard() {
-        if (DEBUG) debug("discard");
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            debug("discard");
+        }
 
         // Technically, we could probably just bail out here.  But discard() is
         // really meant to be called if you never want to use the message again,
@@ -1034,7 +1039,9 @@ public class WorkingMessage {
     }
 
     private void asyncUpdateDraftMmsMessage(final Conversation conv) {
-        if (DEBUG) debug("asyncUpdateDraftMmsMessage conv=%s mMessageUri=%s", conv, mMessageUri);
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            debug("asyncUpdateDraftMmsMessage conv=%s mMessageUri=%s", conv, mMessageUri);
+        }
 
         final PduPersister persister = PduPersister.getPduPersister(mContext);
         final SendReq sendReq = makeSendReq(conv, mSubject);
@@ -1152,7 +1159,9 @@ public class WorkingMessage {
     }
 
     private void asyncDelete(final Uri uri, final String selection, final String[] selectionArgs) {
-        if (DEBUG) debug("asyncDelete %s where %s", uri, selection);
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            debug("asyncDelete %s where %s", uri, selection);
+        }
         new Thread(new Runnable() {
             public void run() {
                 SqliteWrapper.delete(mContext, mContentResolver, uri, selection, selectionArgs);

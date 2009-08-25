@@ -25,11 +25,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
-import android.util.Config;
 import android.util.Log;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.Phone;
-import com.android.mms.MmsApp;
+import com.android.mms.LogTag;
 
 /**
  * MmsSystemEventReceiver receives the
@@ -47,7 +46,7 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
     private static MmsSystemEventReceiver sMmsSystemEventReceiver;
 
     private static void wakeUpService(Context context) {
-        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "wakeUpService: start transaction service ...");
         }
 
@@ -56,7 +55,7 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "Intent received: " + intent);
         }
 
@@ -67,7 +66,7 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
         } else if (action.equals(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED)) {
             String state = intent.getStringExtra(Phone.STATE_KEY);
 
-            if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "ANY_DATA_STATE event received: " + state);
             }
 
@@ -86,7 +85,7 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED);
-        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "registerForConnectionStateChanges");
         }
         if (sMmsSystemEventReceiver == null) {
@@ -97,7 +96,7 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
     }
 
     public static void unRegisterForConnectionStateChanges(Context context) {
-        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "unRegisterForConnectionStateChanges");
         }
         if (sMmsSystemEventReceiver != null) {

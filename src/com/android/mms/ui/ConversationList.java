@@ -18,6 +18,8 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
+import com.android.mms.MmsApp;
+import com.android.mms.LogTag;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
@@ -209,6 +211,10 @@ public class ConversationList extends ListActivity
 
         Conversation.cleanup(this);
 
+        if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
+            log("onResume: refresh draft cache");
+        }
+
         // Make sure the draft cache is up to date.
         DraftCache.getInstance().refresh();
 
@@ -322,14 +328,11 @@ public class ConversationList extends ListActivity
     }
 
     private void createNewMessage() {
-        Intent intent = new Intent(this, ComposeMessageActivity.class);
-        startActivity(intent);
+        startActivity(ComposeMessageActivity.createIntent(this, 0));
     }
 
     private void openThread(long threadId) {
-        Intent intent = new Intent(this, ComposeMessageActivity.class);
-        intent.putExtra("thread_id", threadId);
-        startActivity(intent);
+        startActivity(ComposeMessageActivity.createIntent(this, threadId));
     }
 
     public static Intent createAddContactIntent(String address) {
@@ -517,5 +520,10 @@ public class ConversationList extends ListActivity
                 break;
             }
         }
+    }
+
+    private void log(String format, Object... args) {
+        String s = String.format(format, args);
+        Log.d(TAG, "[" + Thread.currentThread().getId() + "] " + s);
     }
 }
