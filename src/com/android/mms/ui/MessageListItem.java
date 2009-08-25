@@ -290,25 +290,25 @@ public class MessageListItem extends LinearLayout implements
             SmileyParser parser = SmileyParser.getInstance();
             buf.append(parser.addSmileySpans(body));
         }
+        if (!TextUtils.isEmpty(timestamp)) {
+            buf.append("\n");
+            int startOffset = buf.length();
 
-        buf.append("\n");
-        int startOffset = buf.length();
+            // put a one pixel high spacer line between the message and the time stamp as requested
+            // by the spec.
+            buf.append("\n");
+            buf.setSpan(new AbsoluteSizeSpan(3), startOffset, buf.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        // put a one pixel high spacer line between the message and the time stamp as requested
-        // by the spec.
-        buf.append("\n");
-        buf.setSpan(new AbsoluteSizeSpan(3), startOffset, buf.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        startOffset = buf.length();
-        buf.append(timestamp);
-        buf.setSpan(new AbsoluteSizeSpan(12), startOffset, buf.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        // Make the timestamp text not as dark
-        int color = mContext.getResources().getColor(R.color.timestamp_color);
-        buf.setSpan(new ForegroundColorSpan(color), startOffset, buf.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
+            startOffset = buf.length();
+            buf.append(timestamp);
+            buf.setSpan(new AbsoluteSizeSpan(12), startOffset, buf.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            // Make the timestamp text not as dark
+            int color = mContext.getResources().getColor(R.color.timestamp_color);
+            buf.setSpan(new ForegroundColorSpan(color), startOffset, buf.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
         if (highlight != null) {
             int highlightLen = highlight.length();
 
