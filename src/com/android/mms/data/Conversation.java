@@ -412,11 +412,14 @@ public class Conversation {
      * @param handler An AsyncQueryHandler that will receive onDeleteComplete
      *                upon completion of the conversation being deleted
      * @param token   The token that will be passed to onDeleteComplete
+     * @param deleteAll Delete the whole thread including locked messages
      * @param threadId Thread ID of the conversation to be deleted
      */
-    public static void startDelete(AsyncQueryHandler handler, int token, long threadId) {
+    public static void startDelete(AsyncQueryHandler handler, int token, boolean deleteAll,
+            long threadId) {
         Uri uri = ContentUris.withAppendedId(Threads.CONTENT_URI, threadId);
-        handler.startDelete(token, null, uri, "locked=0", null);
+        String selection = deleteAll ? null : "locked=0";
+        handler.startDelete(token, null, uri, selection, null);
     }
 
     /**
@@ -424,9 +427,11 @@ public class Conversation {
      * @param handler An AsyncQueryHandler that will receive onDeleteComplete
      *                upon completion of all conversations being deleted
      * @param token   The token that will be passed to onDeleteComplete
+     * @param deleteAll Delete the whole thread including locked messages
      */
-    public static void startDeleteAll(AsyncQueryHandler handler, int token) {
-        handler.startDelete(token, null, Threads.CONTENT_URI, "locked=0", null);
+    public static void startDeleteAll(AsyncQueryHandler handler, int token, boolean deleteAll) {
+        String selection = deleteAll ? null : "locked=0";
+        handler.startDelete(token, null, Threads.CONTENT_URI, selection, null);
     }
 
     /**
