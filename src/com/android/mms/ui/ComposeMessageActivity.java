@@ -1705,6 +1705,7 @@ public class ComposeMessageActivity extends Activity
         // If we have been passed a thread_id, use that to find our
         // conversation.
         long threadId = intent.getLongExtra("thread_id", 0);
+
         if (threadId > 0) {
             conversation = Conversation.get(this, threadId);
         } else {
@@ -1713,7 +1714,12 @@ public class ComposeMessageActivity extends Activity
             conversation = Conversation.get(this, intent.getData());
         }
 
-        if (conversation == mConversation) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("onNewIntent: data=" + intent.getData() + ", thread_id extra is " + threadId);
+            log("     new conversation=" + conversation + ", mConversation=" + mConversation);
+        }
+
+        if (conversation.getThreadId() == mConversation.getThreadId()) {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: same conversation");
             }        
