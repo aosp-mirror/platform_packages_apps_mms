@@ -1499,6 +1499,23 @@ public class ComposeMessageActivity extends Activity
         return mConversation.getRecipients();
     }
 
+    private void bindToContactHeaderWidget() {
+        ContactList list = getRecipients();
+        switch (list.size()) {
+            case 0:
+                mContactHeader.setDisplayName(mRecipientsEditor.getText().toString(), null);
+                break;
+            case 1:
+                // TODO this could be an email address
+                mContactHeader.bindFromPhoneNumber(list.get(0).getNumber());
+                break;
+            default:
+                String multipleRecipientsString = getString(R.string.multiple_recipients, list.size());
+                mContactHeader.setDisplayName(multipleRecipientsString, null);
+                break;
+        }
+    }
+
     // Get the recipients editor ready to be displayed onscreen.
     private void initRecipientsEditor() {
         if (isRecipientsEditorVisible()) {
@@ -1536,6 +1553,14 @@ public class ComposeMessageActivity extends Activity
                     if (inputManager == null || !inputManager.isFullscreenMode()) {
                         mTextEditor.requestFocus();
                     }
+                }
+            }
+        });
+
+        mRecipientsEditor.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    bindToContactHeaderWidget();
                 }
             }
         });
@@ -1635,9 +1660,7 @@ public class ComposeMessageActivity extends Activity
         mIsLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE;
         onKeyboardStateChanged(mIsKeyboardOpen);
 
-        if (getRecipients().size() == 1) {
-            mContactHeader.bindFromPhoneNumber(getRecipients().get(0).getNumber());
-        }
+        bindToContactHeaderWidget();
         if (TRACE) {
             android.os.Debug.startMethodTracing("compose");
         }
