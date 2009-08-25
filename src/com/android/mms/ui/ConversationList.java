@@ -473,8 +473,10 @@ public class ConversationList extends ListActivity
                     int token = DELETE_CONVERSATION_TOKEN;
                     if (mThreadId == -1) {
                         Conversation.startDeleteAll(mQueryHandler, token);
+                        DraftCache.getInstance().refresh();
                     } else {
                         Conversation.startDelete(mQueryHandler, token, mThreadId);
+                        DraftCache.getInstance().setDraftState(mThreadId, false);
                     }
                 }
             });
