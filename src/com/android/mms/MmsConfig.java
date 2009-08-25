@@ -58,6 +58,7 @@ public class MmsConfig {
     private static int mSmsToMmsTextThreshold = 4;              // default value
     private static int mHttpSocketTimeout = 60*1000;            // default to 1 min
     private static int mMinimumSlideElementDuration = 7;        // default to 7 sec
+    private static boolean mNotifyWapMMSC = false;
 
     public static void init(Context context) {
         if (LOCAL_LOGV) {
@@ -148,6 +149,10 @@ public class MmsConfig {
         return mMinimumSlideElementDuration;
     }
 
+    public static boolean getNotifyWapMMSC() {
+        return mNotifyWapMMSC;
+    }
+
     private static void loadMmsSettings(Context context) {
         XmlResourceParser parser = context.getResources()
                 .getXml(R.xml.mms_config);
@@ -178,6 +183,8 @@ public class MmsConfig {
                             mMmsEnabled = "true".equalsIgnoreCase(text) ? 1 : 0;
                         } else if ("enabledTransID".equalsIgnoreCase(value)) {
                             mTransIdEnabled = "true".equalsIgnoreCase(text);
+                        } else if ("enabledNotifyWapMMSC".equalsIgnoreCase(value)) {
+                            mNotifyWapMMSC = "true".equalsIgnoreCase(text);
                         }
                     } else if ("int".equals(tag)) {
                         // int config tags go here
