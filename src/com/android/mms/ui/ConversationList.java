@@ -431,7 +431,8 @@ public class ConversationList extends ListActivity
         builder.setTitle(R.string.confirm_dialog_title);
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setCancelable(true);
-        builder.setPositiveButton(R.string.yes, listener);
+        builder.setPositiveButton(R.string.delete_unlocked, listener);
+        builder.setNeutralButton(R.string.delete_all, listener);
         builder.setNegativeButton(R.string.no, null);
         builder.setMessage(deleteAll
                 ? R.string.confirm_delete_all_conversations
@@ -466,16 +467,17 @@ public class ConversationList extends ListActivity
             mThreadId = threadId;
         }
 
-        public void onClick(DialogInterface dialog, int whichButton) {
+        public void onClick(DialogInterface dialog, final int whichButton) {
             MessageUtils.handleReadReport(ConversationList.this, mThreadId,
                     PduHeaders.READ_STATUS__DELETED_WITHOUT_BEING_READ, new Runnable() {
                 public void run() {
                     int token = DELETE_CONVERSATION_TOKEN;
+                    boolean deleteLocked = whichButton == DialogInterface.BUTTON_NEUTRAL;
                     if (mThreadId == -1) {
-                        Conversation.startDeleteAll(mQueryHandler, token);
+                        Conversation.startDeleteAll(mQueryHandler, token, deleteLocked);
                         DraftCache.getInstance().refresh();
                     } else {
-                        Conversation.startDelete(mQueryHandler, token, mThreadId);
+                        Conversation.startDelete(mQueryHandler, token, deleteLocked, mThreadId);
                         DraftCache.getInstance().setDraftState(mThreadId, false);
                     }
                 }

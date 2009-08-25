@@ -379,6 +379,10 @@
     <string name="confirm_delete_all_SIM_messages">All messages on the SIM will be deleted.</string>
     <!-- Delete the selected message on the SIM dialog message -->
     <string name="confirm_delete_SIM_message">This message on the SIM will be deleted.</string>
+    <!-- Delete unlocked button title -->
+    <string name="delete_unlocked">Delete unlocked</string>
+    <!-- Delete all button title -->
+    <string name="delete_all">Delete all</string>
 
     <!-- When the user tries to view message details and some error occurs while
          retrieving those details, this message will be shown. -->
