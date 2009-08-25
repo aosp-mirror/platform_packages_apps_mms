@@ -17,6 +17,7 @@
 package com.android.mms.util;
 
 import com.google.android.mms.util.SqliteWrapper;
+import com.android.mms.LogTag;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,7 +32,7 @@ import android.util.Log;
  * Cache for information about draft messages on conversations.
  */
 public class DraftCache {
-    private static final String TAG = "DraftCache";
+    private static final String TAG = "Mms:draft";
 
     private static DraftCache sInstance;
 
@@ -46,6 +47,10 @@ public class DraftCache {
     }
     
     private DraftCache(Context context) {
+        if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
+            log("DraftCache.constructor");
+        }
+
         mContext = context;
         refresh();
     }
@@ -60,6 +65,10 @@ public class DraftCache {
      *  Dispatches work to a thread and returns immediately.
      */
     public void refresh() {
+        if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
+            log("refresh");
+        }
+
         new Thread(new Runnable() {
             public void run() {
                 rebuildCache();
@@ -70,6 +79,10 @@ public class DraftCache {
     /** Does the actual work of rebuilding the draft cache.
      */
     private synchronized void rebuildCache() {
+        if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
+            log("rebuildCache");
+        }
+
         HashSet<Long> oldDraftSet = mDraftSet;
         HashSet<Long> newDraftSet = new HashSet<Long>(oldDraftSet.size());
         
@@ -84,6 +97,9 @@ public class DraftCache {
                 for (; !cursor.isAfterLast(); cursor.moveToNext()) {
                     long threadId = cursor.getLong(COLUMN_DRAFT_THREAD_ID);
                     newDraftSet.add(threadId);
+                    if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
+                        log("rebuildCache: add tid=" + threadId);
+                    }
                 }
             }
         } finally {
@@ -92,6 +108,10 @@ public class DraftCache {
         
         mDraftSet = newDraftSet;
         
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            dump();
+        }
+
         // If nobody's interested in finding out about changes,
         // just bail out early.
         if (mChangeListeners.size() < 1) {
@@ -124,11 +144,19 @@ public class DraftCache {
             return;
         }
         
+        if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
+            log("setDraftState: tid=" + threadId + ", hasDraft=" + hasDraft);
+        }
+
         boolean changed;
         if (hasDraft) {
             changed = mDraftSet.add(threadId);
         } else {
             changed = mDraftSet.remove(threadId);
+        }
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            dump();
         }
 
         // Notify listeners if there was a change.
@@ -168,8 +196,15 @@ public class DraftCache {
         return sInstance;
     }
     
+    public void dump() {
+        Log.i(TAG, "dump:");
+        for (Long threadId : mDraftSet) {
+            Log.i(TAG, "  tid: " + threadId);
+        }
+    }
+    
     private void log(String format, Object... args) {
         String s = String.format(format, args);
-        Log.d(TAG, "[" + Thread.currentThread().getId() + "] " + s);
+        Log.d(TAG, "[DraftCache/" + Thread.currentThread().getId() + "] " + s);
     }
 }

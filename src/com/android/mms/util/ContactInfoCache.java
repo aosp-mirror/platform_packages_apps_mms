@@ -319,6 +319,12 @@ public class ContactInfoCache {
                 mContactInfoSelectionArgs,
                 null);
 
+        if (cursor == null) {
+            Log.w(TAG, "queryContactInfoByNumber(" + number + ") returned NULL cursor!" +
+                    " contact uri used " + PHONES_WITH_PRESENCE_URI);
+            return entry;
+        }
+
         try {
             if (cursor.moveToFirst()) {
                 entry.phoneLabel = cursor.getString(PHONE_LABEL_COLUMN);

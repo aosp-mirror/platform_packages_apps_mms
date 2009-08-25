@@ -29,7 +29,7 @@ import static com.android.mms.ui.MessageListAdapter.PROJECTION;
 import com.android.internal.widget.ContactHeaderWidget;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
-import com.android.mms.MmsApp;
+import com.android.mms.LogTag;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
@@ -66,6 +66,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ComponentName;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -163,7 +164,8 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_CREATE_SLIDESHOW = 16;
     public static final int REQUEST_CODE_ECM_EXIT_DIALOG  = 17;
 
-    private static final String TAG = "ComposeMessageActivity";
+    private static final String TAG = "Mms:compose";
+    
     private static final boolean DEBUG = false;
     private static final boolean TRACE = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
@@ -1129,7 +1131,7 @@ public class ComposeMessageActivity extends Activity
             PduPart part = body.getPart(i);
             String type = new String(part.getContentType());
 
-            if (Log.isLoggable(MmsApp.LOG_TAG, Log.DEBUG)) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("[CMA] haveSomethingToCopyToSDCard: part[" + i + "] contentType=" + type);
             }
 
@@ -1606,15 +1608,46 @@ public class ComposeMessageActivity extends Activity
         mContentResolver = getContentResolver();
         mBackgroundQueryHandler = new BackgroundQueryHandler(mContentResolver);
 
+        initialize(savedInstanceState);
+
+        if (TRACE) {
+            android.os.Debug.startMethodTracing("compose");
+        }
+    }
+
+    private void showSubjectEditor(boolean show) {
+        if (mSubjectTextEditor == null) {
+            // Don't bother to initialize the subject editor if
+            // we're just going to hide it.
+            if (show == false) {
+                return;
+            }
+            mSubjectTextEditor = (EditText)findViewById(R.id.subject);
+            mSubjectTextEditor.setOnKeyListener(mSubjectKeyListener);
+            mSubjectTextEditor.addTextChangedListener(mSubjectEditorWatcher);
+        }
+        mSubjectTextEditor.setText(mWorkingMessage.getSubject());
+        mSubjectTextEditor.setVisibility(show ? View.VISIBLE : View.GONE);
+        hideOrShowTopPanel();
+    }
+
+    private void hideOrShowTopPanel() {
+        boolean anySubViewsVisible = (isSubjectEditorVisible() || isRecipientsEditorVisible());
+        mTopPanel.setVisibility(anySubViewsVisible ? View.VISIBLE : View.GONE);
+    }
+
+    private void initialize(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+
         // Create a new empty working message.
         mWorkingMessage = WorkingMessage.createEmpty(this);
 
         // Read parameters or previously saved state of this activity.
-        initActivityState(savedInstanceState, getIntent());
+        initActivityState(savedInstanceState, intent);
 
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "onCreate(): savedInstanceState = " + savedInstanceState +
-                    " intent = " + getIntent() +
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("initialize: savedInstanceState = " + savedInstanceState +
+                    " intent = " + intent +
                     " recipients = " + getRecipients());
         }
 
@@ -1633,7 +1666,7 @@ public class ComposeMessageActivity extends Activity
 
         // Load the draft for this thread, if we aren't already handling
         // existing data, such as a shared picture or forwarded message.
-        if (!handleSendIntent(getIntent()) && !handleForwardedMessage()) {
+        if (!handleSendIntent(intent) && !handleForwardedMessage()) {
             loadDraft();
         }
 
@@ -1661,30 +1694,36 @@ public class ComposeMessageActivity extends Activity
         onKeyboardStateChanged(mIsKeyboardOpen);
 
         bindToContactHeaderWidget();
-        if (TRACE) {
-            android.os.Debug.startMethodTracing("compose");
-        }
     }
 
-    private void showSubjectEditor(boolean show) {
-        if (mSubjectTextEditor == null) {
-            // Don't bother to initialize the subject editor if
-            // we're just going to hide it.
-            if (show == false) {
-                return;
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Conversation conversation;
+
+        // If we have been passed a thread_id, use that to find our
+        // conversation.
+        long threadId = intent.getLongExtra("thread_id", 0);
+        if (threadId > 0) {
+            conversation = Conversation.get(this, threadId);
+        } else {
+            // Otherwise, try to get a conversation based on the
+            // data URI passed to our intent.
+            conversation = Conversation.get(this, intent.getData());
+        }
+
+        if (conversation == mConversation) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                log("onNewIntent: same conversation");
+            }        
+        } else {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                log("onNewIntent: different conversation, initialize...");
             }
-            mSubjectTextEditor = (EditText)findViewById(R.id.subject);
-            mSubjectTextEditor.setOnKeyListener(mSubjectKeyListener);
-            mSubjectTextEditor.addTextChangedListener(mSubjectEditorWatcher);
+            initialize(null);
         }
-        mSubjectTextEditor.setText(mWorkingMessage.getSubject());
-        mSubjectTextEditor.setVisibility(show ? View.VISIBLE : View.GONE);
-        hideOrShowTopPanel();
-    }
 
-    private void hideOrShowTopPanel() {
-        boolean anySubViewsVisible = (isSubjectEditorVisible() || isRecipientsEditorVisible());
-        mTopPanel.setVisibility(anySubViewsVisible ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -1716,6 +1755,7 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onResume() {
         super.onResume();
+
         // Register to get notified of presence changes so we can update the presence indicator.
         Contact.startPresenceObserver();
         addRecipientsListeners();
@@ -1752,6 +1792,7 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onPause() {
         super.onPause();
+
         Contact.stopPresenceObserver();
         removeRecipientsListeners();
     }
@@ -1764,6 +1805,9 @@ public class ComposeMessageActivity extends Activity
             mMsgListAdapter.changeCursor(null);
         }
 
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("onStop: save draft");
+        }
         saveDraft();
 
         // Cleanup the BroadcastReceiver.
@@ -2225,6 +2269,9 @@ public class ComposeMessageActivity extends Activity
             try {
                 Uri dataUri = persister.persistPart(part, ContentUris.parseId(messageUri));
                 result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, dataUri, append);
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    log("ResizeImageResultCallback: dataUri=" + dataUri);
+                }
             } catch (MmsException e) {
                 result = WorkingMessage.UNKNOWN_ERROR;
             }
@@ -2267,9 +2314,16 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void addImage(Uri uri, boolean append) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("addImage: append=" + append + ", uri=" + uri);
+        }
+
         int result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, uri, append);
 
         if (result == WorkingMessage.IMAGE_TOO_LARGE) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                log("addImage: resize image " + uri);
+            }
             MessageUtils.resizeImageAsync(this,
                     uri, mAttachmentEditorHandler, mResizeImageCallback, append);
             return;
@@ -2534,6 +2588,10 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("loadDraft: call WorkingMessage.loadDraft");
+        }
+
         mWorkingMessage = WorkingMessage.loadDraft(this, mConversation);
     }
 
@@ -2546,9 +2604,17 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (!mWaitingForSubActivity && !mWorkingMessage.isWorthSaving()) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                log("saveDraft: not worth saving, discard WorkingMessage and bail");
+            }
             mWorkingMessage.discard();
             return;
         }
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("saveDraft: call WorkingMessage.saveDraft");
+        }
+
         mWorkingMessage.saveDraft();
 
         if (mToastForDraftSave) {
@@ -2942,6 +3008,18 @@ public class ComposeMessageActivity extends Activity
         ContactList recipients = getRecipients();
         recipients.removeListeners(this);
     }
+
+    public static Intent createIntent(Context context, long threadId) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+        if (threadId > 0) {
+            intent.setData(Conversation.getUri(threadId));
+        } else {
+            intent.setComponent(new ComponentName(context, ComposeMessageActivity.class));
+        }
+
+        return intent;
+   }
 }
 
 

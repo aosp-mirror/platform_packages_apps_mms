@@ -16,12 +16,12 @@
  */
 
 package com.android.mms.transaction;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnRouteParams;
@@ -30,11 +30,10 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.params.HttpConnectionParams;
 
 import com.android.mms.MmsConfig;
-import com.android.mms.MmsApp;
+import com.android.mms.LogTag;
 
 import android.content.Context;
 import android.net.http.AndroidHttpClient;
-import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Config;
@@ -48,7 +47,8 @@ import java.net.URISyntaxException;
 import java.util.Locale;
 
 public class HttpUtils {
-    private static final String TAG = MmsApp.LOG_TAG;
+    private static final String TAG = LogTag.TRANSACTION;
+
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 

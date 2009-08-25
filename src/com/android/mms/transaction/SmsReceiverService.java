@@ -22,7 +22,6 @@ import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
 
 
 import com.android.mms.data.Contact;
-import com.android.mms.MmsApp;
 import com.android.mms.ui.ClassZeroActivity;
 import com.android.mms.util.Recycler;
 import com.android.mms.util.SendingProgressTokenManager;
@@ -57,6 +56,7 @@ import android.widget.Toast;
 
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.mms.R;
+import com.android.mms.LogTag;
 
 /**
  * This service essentially plays the role of a "worker thread", allowing us to store
@@ -99,7 +99,7 @@ public class SmsReceiverService extends Service {
     
     @Override
     public void onCreate() {
-        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "onCreate");
         }
 
@@ -115,7 +115,7 @@ public class SmsReceiverService extends Service {
 
     @Override
     public void onStart(Intent intent, int startId) {
-        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras());
         }
 
@@ -129,7 +129,7 @@ public class SmsReceiverService extends Service {
 
     @Override
     public void onDestroy() {
-        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "onDestroy");
         }
         mServiceLooper.quit();
@@ -152,7 +152,7 @@ public class SmsReceiverService extends Service {
          */
         @Override
         public void handleMessage(Message msg) {
-            if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "Handling incoming message: " + msg);
             }
             int serviceId = msg.arg1;
