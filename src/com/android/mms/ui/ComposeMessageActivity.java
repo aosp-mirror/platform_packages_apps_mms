@@ -2799,9 +2799,21 @@ public class ComposeMessageActivity extends Activity
         if (threadId > 0) {
             mConversation = Conversation.get(this, threadId);
         } else {
-            // Otherwise, try to get a conversation based on the
-            // data URI passed to our intent.
-            mConversation = Conversation.get(this, intent.getData());
+            Uri intentData = intent.getData();
+
+            if (intentData != null) {
+                // try to get a conversation based on the data URI passed to our intent.
+                mConversation = Conversation.get(this, intent.getData());
+            } else {
+                // special intent extra parameter to specify the address
+                String address = intent.getStringExtra("address");
+                if (!TextUtils.isEmpty(address)) {
+                    mConversation = Conversation.get(this,
+                            ContactList.getByNumbers(address, false));
+                } else {
+                    mConversation = Conversation.createNew(this);
+                }
+            }
         }
 
         mExitOnSent = intent.getBooleanExtra("exit_on_sent", false);
