@@ -2112,6 +2112,10 @@ public class ComposeMessageActivity extends Activity
         return true;
     }
 
+    private int getVideoCaptureDurationLimit() {
+        return SystemProperties.getInt("ro.media.enc.lprof.duration", 60);
+    }
+
     private void addAttachment(int type) {
         switch (type) {
             case AttachmentTypeSelectorAdapter.ADD_IMAGE:
@@ -2135,9 +2139,11 @@ public class ComposeMessageActivity extends Activity
                     sizeLimit -= mWorkingMessage.getSlideshow().getCurrentMessageSize();
                 }
                 if (sizeLimit > 0) {
+                    int durationLimit = getVideoCaptureDurationLimit();
                     Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                     intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
                     intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, sizeLimit);
+                    intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, durationLimit);
                     startActivityForResult(intent, REQUEST_CODE_TAKE_VIDEO);
                 }
                 else {
