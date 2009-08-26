@@ -18,6 +18,7 @@
 package com.android.mms.model;
 
 import com.android.mms.R;
+import com.android.mms.LogTag;
 import com.android.mms.drm.DrmUtils;
 import com.android.mms.drm.DrmWrapper;
 import com.google.android.mms.MmsException;
@@ -26,6 +27,7 @@ import org.w3c.dom.events.EventListener;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.drm.mobile1.DrmException;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
@@ -38,7 +40,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public abstract class MediaModel extends Model implements EventListener {
-    private static final String TAG = "MediaModel";
+    protected static final String TAG = "Mms:media";
+
+    private final static String MUSIC_SERVICE_ACTION = "com.android.music.musicservicecommand";
 
     protected Context mContext;
     protected int mBegin;
@@ -315,5 +319,25 @@ public abstract class MediaModel extends Model implements EventListener {
 
     public DrmWrapper getDrmObject() {
         return mDrmObjectWrapper;
+    }
+
+    protected void pauseMusicPlayer() {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.d(TAG, "pauseMusicPlayer");
+        }
+
+        Intent i = new Intent(MUSIC_SERVICE_ACTION);
+        i.putExtra("command", "pause");
+        mContext.sendBroadcast(i);
+    }
+    
+    protected void resumeMusicPlayer() {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.d(TAG, "resumeMusicPlayer");
+        }
+
+        Intent i = new Intent(MUSIC_SERVICE_ACTION);
+        i.putExtra("command", "togglepause");
+        mContext.sendBroadcast(i);
     }
 }

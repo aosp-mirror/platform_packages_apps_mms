@@ -26,7 +26,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 public class LayoutModel extends Model {
-    private static final String TAG = "LayoutModel";
+    private static final String TAG = SlideModel.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 

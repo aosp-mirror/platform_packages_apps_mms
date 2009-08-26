@@ -18,6 +18,7 @@
 package com.android.mms.model;
 
 import com.android.mms.ContentRestrictionException;
+import com.android.mms.LogTag;
 import com.android.mms.dom.smil.SmilMediaElementImpl;
 import com.android.mms.drm.DrmWrapper;
 import com.google.android.mms.MmsException;
@@ -38,8 +39,8 @@ import android.util.Log;
 import java.io.IOException;
 
 public class VideoModel extends RegionMediaModel {
-    private static final String TAG = "VideoModel";
-    private static final boolean DEBUG = false;
+    private static final String TAG = MediaModel.TAG;
+    private static final boolean DEBUG = true;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
     public VideoModel(Context context, Uri uri, RegionModel region)
@@ -74,7 +75,7 @@ public class VideoModel extends RegionMediaModel {
                         throw new MmsException("Type of media is unknown.");
                     }
 
-                    if (LOCAL_LOGV) {
+                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                         Log.v(TAG, "New VideoModel created:"
                                 + " mSrc=" + mSrc
                                 + " mContentType=" + mContentType
@@ -96,19 +97,28 @@ public class VideoModel extends RegionMediaModel {
     // EventListener Interface
     public void handleEvent(Event evt) {
         String evtType = evt.getType();
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "Handling event: " + evt.getType() + " on " + this);
+        if (LOCAL_LOGV || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.v(TAG, "[VideoModel] handleEvent " + evt.getType() + " on " + this);
         }
 
         MediaAction action = MediaAction.NO_ACTIVE_ACTION;
         if (evtType.equals(SmilMediaElementImpl.SMIL_MEDIA_START_EVENT)) {
             action = MediaAction.START;
+
+            // if the Music player app is playing audio, we should pause that so it won't
+            // interfere with us playing video here.
+            pauseMusicPlayer();
+
             mVisible = true;
         } else if (evtType.equals(SmilMediaElementImpl.SMIL_MEDIA_END_EVENT)) {
             action = MediaAction.STOP;
             if (mFill != ElementTime.FILL_FREEZE) {
                 mVisible = false;
             }
+
+            // resume the Music player if necessary
+            resumeMusicPlayer();
+
         } else if (evtType.equals(SmilMediaElementImpl.SMIL_MEDIA_PAUSE_EVENT)) {
             action = MediaAction.PAUSE;
             mVisible = true;
