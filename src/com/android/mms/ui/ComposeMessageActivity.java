@@ -1616,6 +1616,10 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void showSubjectEditor(boolean show) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("showSubjectEditor: " + show);
+        }
+
         if (mSubjectTextEditor == null) {
             // Don't bother to initialize the subject editor if
             // we're just going to hide it.
@@ -1623,9 +1627,16 @@ public class ComposeMessageActivity extends Activity
                 return;
             }
             mSubjectTextEditor = (EditText)findViewById(R.id.subject);
-            mSubjectTextEditor.setOnKeyListener(mSubjectKeyListener);
-            mSubjectTextEditor.addTextChangedListener(mSubjectEditorWatcher);
         }
+
+        mSubjectTextEditor.setOnKeyListener(show ? mSubjectKeyListener : null);
+
+        if (show) {
+            mSubjectTextEditor.addTextChangedListener(mSubjectEditorWatcher);
+        } else {
+            mSubjectTextEditor.removeTextChangedListener(mSubjectEditorWatcher);
+        }
+
         mSubjectTextEditor.setText(mWorkingMessage.getSubject());
         mSubjectTextEditor.setVisibility(show ? View.VISIBLE : View.GONE);
         hideOrShowTopPanel();
