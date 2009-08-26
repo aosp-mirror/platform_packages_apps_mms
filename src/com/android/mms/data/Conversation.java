@@ -85,7 +85,7 @@ public class Conversation {
      * be called as many times as you like; the conversation will not be
      * created in the database until {@link ensureThreadId} is called.
      */
-    private static Conversation createNew(Context context) {
+    public static Conversation createNew(Context context) {
         return new Conversation(context);
     }
 
