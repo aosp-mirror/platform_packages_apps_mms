@@ -42,7 +42,7 @@ import java.lang.ref.SoftReference;
 
 
 public class ImageModel extends RegionMediaModel {
-    private static final String TAG = "ImageModel";
+    private static final String TAG = "Mms:image";
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
