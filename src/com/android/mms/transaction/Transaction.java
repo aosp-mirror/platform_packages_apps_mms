@@ -117,15 +117,22 @@ public abstract class Transaction extends Observable {
      *         an HTTP error code(>=400) returned from the server.
      */
     protected byte[] sendPdu(byte[] pdu) throws IOException {
-        String mmscUrl = mTransactionSettings.getMmscUrl();
-        ensureRouteToHost(mmscUrl, mTransactionSettings);
-        return HttpUtils.httpConnection(
-                mContext, SendingProgressTokenManager.NO_TOKEN,
-                mmscUrl,
-                pdu, HttpUtils.HTTP_POST_METHOD,
-                mTransactionSettings.isProxySet(),
-                mTransactionSettings.getProxyAddress(),
-                mTransactionSettings.getProxyPort());
+        return sendPdu(SendingProgressTokenManager.NO_TOKEN, pdu,
+                mTransactionSettings.getMmscUrl());
+    }
+
+    /**
+     * A common method to send a PDU to MMSC.
+     *
+     * @param pdu A byte array which contains the data of the PDU.
+     * @param mmscUrl Url of the recipient MMSC.
+     * @return A byte array which contains the response data.
+     *         If an HTTP error code is returned, an IOException will be thrown.
+     * @throws IOException if any error occurred on network interface or
+     *         an HTTP error code(>=400) returned from the server.
+     */
+    protected byte[] sendPdu(byte[] pdu, String mmscUrl) throws IOException {
+        return sendPdu(SendingProgressTokenManager.NO_TOKEN, pdu, mmscUrl);
     }
 
     /**
@@ -139,7 +146,21 @@ public abstract class Transaction extends Observable {
      *         an HTTP error code(>=400) returned from the server.
      */
     protected byte[] sendPdu(long token, byte[] pdu) throws IOException {
-        String mmscUrl = mTransactionSettings.getMmscUrl();
+        return sendPdu(token, pdu, mTransactionSettings.getMmscUrl());
+    }
+
+    /**
+     * A common method to send a PDU to MMSC.
+     *
+     * @param token The token to identify the sending progress.
+     * @param pdu A byte array which contains the data of the PDU.
+     * @param mmscUrl Url of the recipient MMSC.
+     * @return A byte array which contains the response data.
+     *         If an HTTP error code is returned, an IOException will be thrown.
+     * @throws IOException if any error occurred on network interface or
+     *         an HTTP error code(>=400) returned from the server.
+     */
+    protected byte[] sendPdu(long token, byte[] pdu, String mmscUrl) throws IOException {
         ensureRouteToHost(mmscUrl, mTransactionSettings);
         return HttpUtils.httpConnection(
                 mContext, token,

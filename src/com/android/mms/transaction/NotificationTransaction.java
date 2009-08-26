@@ -25,6 +25,7 @@ import static com.google.android.mms.pdu.PduHeaders.STATUS_DEFERRED;
 import static com.google.android.mms.pdu.PduHeaders.STATUS_RETRIEVED;
 import static com.google.android.mms.pdu.PduHeaders.STATUS_UNRECOGNIZED;
 
+import com.android.mms.MmsConfig;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.Recycler;
 import com.google.android.mms.MmsException;
@@ -70,6 +71,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
 
     private Uri mUri;
     private NotificationInd mNotificationInd;
+    private String mContentLocation;
 
     public NotificationTransaction(
             Context context, int serviceId,
@@ -87,6 +89,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
         }
 
         mId = new String(mNotificationInd.getTransactionId());
+        mContentLocation = new String(mNotificationInd.getContentLocation());
 
         // Attach the transaction to the instance of RetryScheduler.
         attach(RetryScheduler.getInstance(context));
@@ -140,21 +143,16 @@ public class NotificationTransaction extends Transaction implements Runnable {
             }
 
             downloadManager.markState(mUri, DownloadManager.STATE_DOWNLOADING);
-            byte[] clBytes = mNotificationInd.getContentLocation();
-            if (clBytes == null) {
-                throw new MmsException("Content-Location may not be null.");
-            }
 
-            String contentLocation = new String(clBytes);
             if (LOCAL_LOGV) {
-                Log.v(TAG, "Content-Location: " + contentLocation);
+                Log.v(TAG, "Content-Location: " + mContentLocation);
             }
 
             byte[] retrieveConfData = null;
             // We should catch exceptions here to response MMSC
             // with STATUS_DEFERRED.
             try {
-                retrieveConfData = getPdu(contentLocation);
+                retrieveConfData = getPdu(mContentLocation);
             } catch (IOException e) {
                 mTransactionState.setState(FAILED);
             }
@@ -236,7 +234,11 @@ public class NotificationTransaction extends Transaction implements Runnable {
                 status);
 
         // Pack M-NotifyResp.ind and send it
-        sendPdu(new PduComposer(mContext, notifyRespInd).make());
+        if(MmsConfig.getNotifyWapMMSC()) {
+            sendPdu(new PduComposer(mContext, notifyRespInd).make(), mContentLocation);
+        } else {
+            sendPdu(new PduComposer(mContext, notifyRespInd).make());
+        }
     }
 
     @Override

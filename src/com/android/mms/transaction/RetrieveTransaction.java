@@ -17,6 +17,7 @@
 
 package com.android.mms.transaction;
 
+import com.android.mms.MmsConfig;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.Recycler;
 import com.google.android.mms.MmsException;
@@ -198,7 +199,11 @@ public class RetrieveTransaction extends Transaction implements Runnable {
                     PduHeaders.CURRENT_MMS_VERSION, tranId);
 
             // Pack M-Acknowledge.ind and send it
-            sendPdu(new PduComposer(mContext, acknowledgeInd).make());
+            if(MmsConfig.getNotifyWapMMSC()) {
+                sendPdu(new PduComposer(mContext, acknowledgeInd).make(), mContentLocation);
+            } else {
+                sendPdu(new PduComposer(mContext, acknowledgeInd).make());
+            }
         }
     }
 
