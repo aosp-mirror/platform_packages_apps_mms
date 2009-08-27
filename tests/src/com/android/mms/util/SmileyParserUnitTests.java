@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package src.com.android.mms.util;
+package com.android.mms.util;
 
 import java.nio.IntBuffer;
-
-import com.android.mms.util.SmileyParser;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -26,7 +24,6 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
-import android.util.Log;
 
 import com.android.internal.widget.Smileys;
 
