@@ -43,6 +43,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Inbox;
+import android.telephony.TelephonyManager;
 import android.util.Config;
 import android.util.Log;
 
@@ -127,6 +128,8 @@ public class NotificationTransaction extends Transaction implements Runnable {
     public void run() {
         DownloadManager downloadManager = DownloadManager.getInstance();
         boolean autoDownload = downloadManager.isAuto();
+        boolean dataSuspended = (TelephonyManager.getDefault().getDataState() ==
+                TelephonyManager.DATA_SUSPENDED);
         try {
             if (LOCAL_LOGV) {
                 Log.v(TAG, "Notification transaction launched: " + this);
@@ -136,7 +139,8 @@ public class NotificationTransaction extends Transaction implements Runnable {
             // should response MMSC with STATUS_DEFERRED when we cannot
             // download a MM immediately.
             int status = STATUS_DEFERRED;
-            if (!autoDownload) {
+            // Don't try to download when data is suspended, as it will fail, so defer download
+            if (!autoDownload || dataSuspended) {
                 downloadManager.markState(mUri, DownloadManager.STATE_UNSTARTED);
                 sendNotifyRespInd(status);
                 return;
@@ -213,7 +217,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
             Log.e(TAG, Log.getStackTraceString(t));
         } finally {
             mTransactionState.setContentUri(mUri);
-            if (!autoDownload) {
+            if (!autoDownload || dataSuspended) {
                 // Always mark the transaction successful for deferred
                 // download since any error here doesn't make sense.
                 mTransactionState.setState(SUCCESS);
