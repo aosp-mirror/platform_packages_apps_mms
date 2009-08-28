@@ -1501,8 +1501,7 @@ public class ComposeMessageActivity extends Activity
         return mConversation.getRecipients();
     }
 
-    private void bindToContactHeaderWidget() {
-        ContactList list = getRecipients();
+    private void bindToContactHeaderWidget(ContactList list) {
         switch (list.size()) {
             case 0:
                 mContactHeader.setDisplayName(mRecipientsEditor.getText().toString(), null);
@@ -1562,7 +1561,8 @@ public class ComposeMessageActivity extends Activity
         mRecipientsEditor.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    bindToContactHeaderWidget();
+                    RecipientsEditor editor = (RecipientsEditor) v;
+                    bindToContactHeaderWidget(editor.getContacts());
                 }
             }
         });
@@ -1704,7 +1704,7 @@ public class ComposeMessageActivity extends Activity
         mIsLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE;
         onKeyboardStateChanged(mIsKeyboardOpen);
 
-        bindToContactHeaderWidget();
+        bindToContactHeaderWidget(getRecipients());
     }
 
     @Override
