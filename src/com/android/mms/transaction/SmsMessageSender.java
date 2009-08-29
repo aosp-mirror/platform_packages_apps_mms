@@ -18,6 +18,8 @@
 package com.android.mms.transaction;
 
 import com.android.mms.MmsConfig;
+import com.android.mms.LogTag;
+import com.android.mms.MmsApp;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.util.SqliteWrapper;
@@ -33,6 +35,7 @@ import android.preference.PreferenceManager;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.SmsManager;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -56,8 +59,14 @@ public class SmsMessageSender implements MessageSender {
     private static final int COLUMN_REPLY_PATH_PRESENT = 0;
     private static final int COLUMN_SERVICE_CENTER     = 1;
 
-    public SmsMessageSender(Context context, String[] dests, String msgText,
-            long threadId) {
+    public SmsMessageSender(Context context, String[] dests, String msgText, long threadId) {
+        if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
+            log("SmsMessageSender: theadId=" + threadId + ", recipients:");
+            for (String addr : dests) {
+                log("    addr=" + addr);
+            }
+        }
+
         mContext = context;
         mMessageText = msgText;
         mNumberOfDests = dests.length;
@@ -170,5 +179,9 @@ public class SmsMessageSender implements MessageSender {
                 cursor.close();
             }
         }
+    }
+
+    private void log(String msg) {
+        Log.d(LogTag.TAG, "[SmsMsgSender] " + msg);
     }
 }

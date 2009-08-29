@@ -14,40 +14,26 @@
  * limitations under the License.
  */
 
+package com.android.mms.ui;
+
 import com.android.mms.R;
-import com.android.mms.ui.ComposeMessageActivity;
-import com.android.mms.ui.MessageItem;
-import com.android.mms.ui.MessageListAdapter;
-import com.android.mms.ui.MessageListView;
-import com.android.mms.ui.RecipientsEditor;
 import com.android.mms.ui.MessageListAdapter.ColumnsMap;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.MediumTest;
-import android.test.suitebuilder.annotation.Suppress;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.SubMenu;
+import android.test.suitebuilder.annotation.SmallTest;
+import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Button;
 
 /**
- * Various instrumentation tests for ComposeMessageActivity.  
- * 
+ * Various instrumentation tests for ComposeMessageActivity.
  */
-@MediumTest
-public class ComposeMessageActivityTests 
+public class ComposeMessageActivityTests
 extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
 
     private Context mContext;
@@ -174,11 +160,12 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
         }
         assertTrue(success && boxChecker.getError() == null);
     }
-
+    
     /**
      * Helper method to verify which field has the focus
      * @param focused The view that should be focused (all others should not have focus)
      */
+    @SmallTest
     private void checkFocused(View focused) {
         assertEquals(focused == mRecipientsView, mRecipientsView.isFocused());
         assertEquals(focused == mTextEditor, mTextEditor.isFocused());

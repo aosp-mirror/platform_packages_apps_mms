@@ -17,6 +17,8 @@
 package com.android.mms;
 
 public class LogTag {
+    public static final String TAG = "Mms";
+    
     public static final String TRANSACTION = "Mms:transaction";
     public static final String APP = "Mms:app";
 }

@@ -21,6 +21,8 @@ import android.util.Log;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.TaskStack;
+import com.android.mms.util.AddressUtils;
+import com.android.mms.LogTag;
 
 public class Contact {
     private static final String TAG = "Contact";
@@ -108,13 +110,16 @@ public class Contact {
         if (contact == null) {
             contact = new Contact(number);
             Cache.put(contact);
-            updateContact(number, canBlock);
+            asyncUpdateContact(contact, canBlock);
         }
         return contact;
     }
 
     public static void invalidateCache() {
-        if (V) Log.d(TAG, "invalidateCache");
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("invalidateCache");
+        }
+        
         // force invalidate the contact info cache, so we will query for fresh info again.
         // This is so we can get fresh presence info again on the screen, since the presence
         // info changes pretty quickly, and we can't get change notifications when presence is
@@ -123,10 +128,8 @@ public class Contact {
 
         // Queue updates for the whole cache.
         sTaskStack.clear();
-        String[] numbersToUpdate = Cache.getNumbers();
-        for (String number : numbersToUpdate) {
-            updateContact(number, false);
-        }
+
+        asyncUpdateContacts(Cache.getContacts(), false);
     }
 
     private static String emptyIfNull(String s) {
@@ -177,38 +180,38 @@ public class Contact {
         }
         return false;
     }
+    
+    private static void asyncUpdateContact(final Contact c, boolean canBlock) {
+        if (c == null) {
+            return;
+        }
 
-    private static void updateContact(final String number, boolean canBlock) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("asyncUpdateContact for " + c.toString());
+        }
+
         Runnable r = new Runnable() {
             public void run() {
-                // TODO: move the querying into this file from ContactInfoCache
-                Contact c = Cache.get(number);
-                if (c == null) {
-                    Log.w(TAG, "updateContact: contact not in cache");
-                    return;
+                updateContact(c);
+            }
+        };
+
+        if (canBlock) {
+            r.run();
+        } else {
+            sTaskStack.push(r);
+        }
+    }
+
+    private static void asyncUpdateContacts(final List<Contact> contacts, boolean canBlock) {
+        Runnable r = new Runnable() {
+            public void run() {
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    log("asyncUpdateContacts...");
                 }
 
-                // Check to see if this is the local ("me") number.
-                if (handleLocalNumber(c))
-                    return;
-
-                ContactInfoCache cache = ContactInfoCache.getInstance();
-                ContactInfoCache.CacheEntry entry = cache.getContactInfo(number);
-                synchronized (Cache.getInstance()) {
-                    if (contactChanged(c, entry)) {
-                        //c.mNumber = entry.phoneNumber;
-                        c.mName = entry.name;
-                        c.mNameAndNumber = formatNameAndNumber(c.mName, c.mNumber);
-                        c.mLabel = entry.phoneLabel;
-                        c.mPersonId = entry.person_id;
-                        c.mPresenceResId = entry.presenceResId;
-                        c.mPresenceText = entry.presenceText;
-                        c.mAvatar = entry.mAvatar;
-                        for (UpdateListener l : c.mListeners) {
-                            if (V) Log.d(TAG, "updating " + l);
-                            l.onUpdate(c);
-                        }
-                    }
+                for (Contact c : contacts) {
+                    updateContact(c);
                 }
             }
         };
@@ -217,6 +220,40 @@ public class Contact {
             r.run();
         } else {
             sTaskStack.push(r);
+        }
+    }
+
+    private static void updateContact(final Contact c) {
+        if (c == null) {
+            return;
+        }
+
+        // Check to see if this is the local ("me") number.
+        if (handleLocalNumber(c)) {
+            return;
+        }
+
+        ContactInfoCache cache = ContactInfoCache.getInstance();
+        ContactInfoCache.CacheEntry entry = cache.getContactInfo(c.mNumber);
+        synchronized (Cache.getInstance()) {
+            if (contactChanged(c, entry)) {
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    log("updateContact: contact changed for " + entry.name);
+                }
+
+                //c.mNumber = entry.phoneNumber;
+                c.mName = entry.name;
+                c.mNameAndNumber = formatNameAndNumber(c.mName, c.mNumber);
+                c.mLabel = entry.phoneLabel;
+                c.mPersonId = entry.person_id;
+                c.mPresenceResId = entry.presenceResId;
+                c.mPresenceText = entry.presenceText;
+                c.mAvatar = entry.mAvatar;
+                for (UpdateListener l : c.mListeners) {
+                    if (V) Log.d(TAG, "updating " + l);
+                    l.onUpdate(c);
+                }
+            }
         }
     }
 
@@ -357,7 +394,7 @@ public class Contact {
 
             synchronized (sInstance) {
                 for (Contact c : sInstance.mCache) {
-                    if (PhoneNumberUtils.compare(number, c.mNumber)) {
+                    if (AddressUtils.phoneNumbersEqual(number, c.mNumber)) {
                         return c;
                     }
                 }
@@ -386,5 +423,15 @@ public class Contact {
                 return numbers;
             }
         }
+
+        static List<Contact> getContacts() {
+            synchronized (sInstance) {
+                return new ArrayList<Contact>(sInstance.mCache);
+            }
+        }
+    }
+
+    private static void log(String msg) {
+        Log.d(TAG, msg);
     }
 }
