@@ -207,8 +207,6 @@ public class ComposeMessageActivity extends Activity
     private static final int DELETE_MESSAGE_TOKEN  = 9700;
     private static final int DELETE_CONVERSATION_TOKEN  = 9701;
 
-    private static final int MARK_AS_READ_TOKEN = 9900;
-
     private static final int CHARS_REMAINING_BEFORE_COUNTER_SHOWN = 10;
 
     private static final long NO_DATE_FOR_DIALOG = -1L;
@@ -2922,15 +2920,6 @@ public class ComposeMessageActivity extends Activity
                 mWorkingMessage.discard();
                 Conversation.init(ComposeMessageActivity.this);
                 finish();
-            }
-        }
-
-        @Override
-        protected void onUpdateComplete(int token, Object cookie, int result) {
-            switch(token) {
-            case MARK_AS_READ_TOKEN:
-                MessagingNotification.updateAllNotifications(ComposeMessageActivity.this);
-                break;
             }
         }
     }

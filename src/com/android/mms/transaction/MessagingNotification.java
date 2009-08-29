@@ -190,8 +190,9 @@ public class MessagingNotification {
 
         public void deliver(Context context, boolean isNew, int count, int uniqueThreads) {
             updateNotification(
-                    context, mClickIntent, mDescription, mIconResourceId,
-                    isNew, mTicker, mTimeMillis, mTitle, count, uniqueThreads);
+                    context, mClickIntent, mDescription, mIconResourceId, isNew,
+                    (isNew? mTicker : null), // only display the ticker if the message is new
+                    mTimeMillis, mTitle, count, uniqueThreads);
         }
 
         public long getTime() {
