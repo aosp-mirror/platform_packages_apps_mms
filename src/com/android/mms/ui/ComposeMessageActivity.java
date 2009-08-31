@@ -1765,6 +1765,10 @@ public class ComposeMessageActivity extends Activity
         initializeContactInfo();
         updateSendFailedNotification();
         drawBottomPanel();
+        int len = mTextEditor.length();
+        if (len > 0) {
+            mTextEditor.setSelection(len);
+        }
     }
 
     @Override
