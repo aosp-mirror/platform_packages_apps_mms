@@ -18,8 +18,8 @@
  */
 -->
 
-<com.android.mms.ui.ImageAttachmentView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/image_attachment_view"
+<com.android.mms.ui.VideoAttachmentView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/video_attachment_view_portrait"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -27,11 +27,24 @@
     android:paddingRight="5dip"
     android:background="@drawable/attachment_editor_bg">
 
-    <ImageView
-        android:id="@+id/image_content"
+    <RelativeLayout
+        android:layout_weight="1"
+        android:gravity="center"
         android:layout_width="fill_parent"
-        android:layout_height="150dip"
-        android:layout_weight="1" />
+        android:layout_height="fill_parent">
+
+        <ImageView
+            android:id="@+id/video_thumbnail"
+            android:scaleType="centerCrop"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_gallery_video_overlay" />
+    </RelativeLayout>
 
     <LinearLayout
         android:orientation="vertical"
@@ -39,25 +52,25 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/view_image_button"
+            android:id="@+id/view_video_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
             android:layout_height="50dip"
             android:text="@string/view" />
 
         <Button
-            android:id="@+id/replace_image_button"
+            android:id="@+id/replace_video_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
             android:layout_height="50dip"
             android:text="@string/replace" />
 
         <Button
-            android:id="@+id/remove_image_button"
+            android:id="@+id/remove_video_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
             android:layout_height="50dip"
             android:text="@string/remove" />
 
     </LinearLayout>
-</com.android.mms.ui.ImageAttachmentView>
+</com.android.mms.ui.VideoAttachmentView>

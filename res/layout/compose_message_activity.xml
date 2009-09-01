@@ -97,23 +97,43 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <ViewStub android:id="@+id/image_attachment_view_stub"
-                        android:layout="@layout/image_attachment_view"
+                    <ViewStub android:id="@+id/image_attachment_view_portrait_stub"
+                        android:layout="@layout/image_attachment_view_portrait"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
 
-                    <ViewStub android:id="@+id/video_attachment_view_stub"
-                        android:layout="@layout/video_attachment_view"
+                    <ViewStub android:id="@+id/video_attachment_view_portrait_stub"
+                        android:layout="@layout/video_attachment_view_portrait"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
 
-                    <ViewStub android:id="@+id/audio_attachment_view_stub"
-                        android:layout="@layout/audio_attachment_view"
+                    <ViewStub android:id="@+id/audio_attachment_view_portrait_stub"
+                        android:layout="@layout/audio_attachment_view_portrait"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
 
-                    <ViewStub android:id="@+id/slideshow_attachment_view_stub"
-                        android:layout="@layout/slideshow_attachment_view"
+                    <ViewStub android:id="@+id/slideshow_attachment_view_portrait_stub"
+                        android:layout="@layout/slideshow_attachment_view_portrait"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <ViewStub android:id="@+id/image_attachment_view_landscape_stub"
+                        android:layout="@layout/image_attachment_view_landscape"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <ViewStub android:id="@+id/video_attachment_view_landscape_stub"
+                        android:layout="@layout/video_attachment_view_landscape"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <ViewStub android:id="@+id/audio_attachment_view_landscape_stub"
+                        android:layout="@layout/audio_attachment_view_landscape"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <ViewStub android:id="@+id/slideshow_attachment_view_landscape_stub"
+                        android:layout="@layout/slideshow_attachment_view_landscape"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
                 </view>
