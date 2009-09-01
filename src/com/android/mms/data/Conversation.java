@@ -10,6 +10,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.Threads;
 import android.provider.Telephony.Sms.Conversations;
 import android.text.TextUtils;
@@ -432,6 +433,24 @@ public class Conversation {
     public static void startDeleteAll(AsyncQueryHandler handler, int token, boolean deleteAll) {
         String selection = deleteAll ? null : "locked=0";
         handler.startDelete(token, null, Threads.CONTENT_URI, selection, null);
+    }
+
+    /**
+     * Check for locked messages in all threads or a specified thread.
+     * @param handler An AsyncQueryHandler that will receive onQueryComplete
+     *                upon completion of looking for locked messages
+     * @param threadId   The threadId of the thread to search. -1 means all threads
+     * @param token   The token that will be passed to onQueryComplete
+     */
+    public static void startQueryHaveLockedMessages(AsyncQueryHandler handler, long threadId,
+            int token) {
+        handler.cancelOperation(token);
+        Uri uri = MmsSms.CONTENT_LOCKED_URI;
+        if (threadId != -1) {
+            uri = ContentUris.withAppendedId(uri, threadId);
+        }
+        handler.startQuery(token, new Long(threadId), uri,
+                ALL_THREADS_PROJECTION, null, null, Conversations.DEFAULT_SORT_ORDER);
     }
 
     /**
