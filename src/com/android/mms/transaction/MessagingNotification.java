@@ -52,6 +52,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -95,6 +96,10 @@ public class MessagingNotification {
             "(" + Sms.TYPE + " = " + Sms.MESSAGE_TYPE_INBOX
             + " AND " + Sms.READ + " = 0)";
 
+    private static final String NEW_DELIVERY_SM_CONSTRAINT =
+	    "(" + Sms.TYPE + " = " + Sms.MESSAGE_TYPE_SENT
+	    + " AND " + Sms.STATUS + " = "+ Sms.STATUS_COMPLETE +")";
+
     private static final String NEW_INCOMING_MM_CONSTRAINT =
             "(" + Mms.MESSAGE_BOX + "=" + Mms.MESSAGE_BOX_INBOX
             + " AND " + Mms.READ + "=0"
@@ -129,6 +134,7 @@ public class MessagingNotification {
     public static void updateNewMessageIndicator(Context context, boolean isNew) {
         SortedSet<MmsSmsNotificationInfo> accumulator =
                 new TreeSet<MmsSmsNotificationInfo>(INFO_COMPARATOR);
+	MmsSmsDeliveryInfo delivery = null;
         Set<Long> threads = new HashSet<Long>(4);
         
         int count = 0;
@@ -141,6 +147,11 @@ public class MessagingNotification {
         if (!accumulator.isEmpty()) {
             accumulator.first().deliver(context, isNew, count, threads.size());
         }
+	
+	// And deals with delivery reports (which use Toasts)
+	delivery = getSmsNewDeliveryInfo(context);
+	if (delivery != null)
+	    delivery.deliver(context, isNew);
     }
 
     /**
@@ -181,6 +192,22 @@ public class MessagingNotification {
         }
 
         return 0;
+    }
+
+    private static final class MmsSmsDeliveryInfo {
+	public CharSequence mTicker;
+	public long mTimeMillis;
+
+	public MmsSmsDeliveryInfo(
+		CharSequence ticker, long timeMillis) {
+	    mTicker = ticker;
+	    mTimeMillis = timeMillis;
+	}
+
+	public void deliver(Context context, boolean isNew) {
+	    updateDeliveryNotification(
+		    context, isNew, mTicker, mTimeMillis);
+	}
     }
 
     private static final class MmsSmsNotificationInfo {
@@ -263,6 +290,32 @@ public class MessagingNotification {
         }
     }
 
+    public static final MmsSmsDeliveryInfo getSmsNewDeliveryInfo(
+	    Context context) {
+	ContentResolver resolver = context.getContentResolver();
+	Cursor cursor = SqliteWrapper.query(context, resolver, Sms.CONTENT_URI,
+			    SMS_STATUS_PROJECTION, NEW_DELIVERY_SM_CONSTRAINT,
+			    null, Sms.DATE + " desc");
+
+	if (cursor == null)
+	    return null;
+
+	try {
+	    if (!cursor.moveToFirst())
+		return null;
+
+	    String address = cursor.getString(COLUMN_SMS_ADDRESS);
+	    long timeMillis = 3000;
+
+	    return new MmsSmsDeliveryInfo(String.format(
+			context.getString(R.string.delivery_toast_body), address),
+		    timeMillis);
+
+	} finally {
+	    cursor.close();
+	}
+    }
+
     public static final MmsSmsNotificationInfo getSmsNewMessageNotificationInfo(
             Context context, Set<Long> threads) {
         ContentResolver resolver = context.getContentResolver();
@@ -339,6 +392,23 @@ public class MessagingNotification {
         appIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return appIntent;
    }
+
+    private static void updateDeliveryNotification(
+	    Context context,
+	    boolean isNew,
+	    CharSequence message,
+	    long timeMillis) {
+	SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+
+	if (!sp.getBoolean(
+		    MessagingPreferenceActivity.NOTIFICATION_ENABLED, true))
+	    return;
+
+	if (isNew) {
+            Toast toast = Toast.makeText(context, message, (int)timeMillis);
+            toast.show();
+	}
+    }
 
     private static void updateNotification(
             Context context,
