@@ -969,11 +969,11 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void forwardMessage(MessageItem msgItem) {
-        Intent intent = new Intent(ComposeMessageActivity.this,
-                ComposeMessageActivity.class);
+        Intent intent = createIntent(this, 0);
 
         intent.putExtra("exit_on_sent", true);
         intent.putExtra("forwarded_message", true);
+
         if (msgItem.mType.equals("sms")) {
             intent.putExtra("sms_body", msgItem.mBody);
         } else {
@@ -1001,7 +1001,10 @@ public class ComposeMessageActivity extends Activity
             intent.putExtra("msg_uri", uri);
             intent.putExtra("subject", subject);
         }
-        startActivityIfNeeded(intent, -1);
+
+        if (!startActivityIfNeeded(intent, -1)) {
+            onNewIntent(intent);
+        }
     }
 
     /**
@@ -1709,6 +1712,8 @@ public class ComposeMessageActivity extends Activity
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
+        setIntent(intent);
+
         Conversation conversation;
 
         // If we have been passed a thread_id, use that to find our
@@ -1737,6 +1742,7 @@ public class ComposeMessageActivity extends Activity
                 log("onNewIntent: different conversation, initialize...");
             }
             initialize(null);
+            loadMessageContent();
         }
 
     }
@@ -1761,6 +1767,10 @@ public class ComposeMessageActivity extends Activity
         // Register a BroadcastReceiver to listen on HTTP I/O process.
         registerReceiver(mHttpProgressReceiver, mHttpProgressFilter);
 
+        loadMessageContent();
+    }
+
+    private void loadMessageContent() {
         startMsgListQuery();
         initializeContactInfo();
         updateSendFailedNotification();
@@ -2378,6 +2388,11 @@ public class ComposeMessageActivity extends Activity
         }
 
         Uri uri = intent.getParcelableExtra("msg_uri");
+
+        if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
+            log("handle forwarded message " + uri);
+        }
+
         if (uri != null) {
             mWorkingMessage = WorkingMessage.load(this, uri);
             mWorkingMessage.setSubject(intent.getStringExtra("subject"), false);
@@ -2569,6 +2584,7 @@ public class ComposeMessageActivity extends Activity
 
     private void startMsgListQuery() {
         Uri conversationUri = mConversation.getUri();
+
         if (conversationUri == null) {
             return;
         }
