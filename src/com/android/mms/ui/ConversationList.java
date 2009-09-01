@@ -273,12 +273,12 @@ public class ConversationList extends ListActivity
                     android.R.drawable.ic_menu_delete);
         }
 
+        menu.add(0, MENU_SEARCH, 0, android.R.string.search_go).
+            setIcon(android.R.drawable.ic_menu_search).
+            setAlphabeticShortcut(android.app.SearchManager.MENU_KEY);
+
         menu.add(0, MENU_PREFERENCES, 0, R.string.menu_preferences).setIcon(
                 android.R.drawable.ic_menu_preferences);
-
-        menu.add(0, MENU_SEARCH, 0, android.R.string.search_go).
-                setIcon(android.R.drawable.ic_menu_search).
-                setAlphabeticShortcut(android.app.SearchManager.MENU_KEY);
 
         return true;
     }
