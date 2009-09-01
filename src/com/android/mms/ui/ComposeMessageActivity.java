@@ -1862,7 +1862,14 @@ public class ComposeMessageActivity extends Activity
         }
 
         mIsKeyboardOpen = newConfig.keyboardHidden == KEYBOARDHIDDEN_NO;
-        mIsLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
+        boolean isLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
+        if (mIsLandscape != isLandscape) {
+            mIsLandscape = isLandscape;
+
+            // Have to re-layout the attachment editor because we have different layouts
+            // depending on whether we're portrait or landscape.
+            mAttachmentEditor.update(mWorkingMessage);
+        }
         onKeyboardStateChanged(mIsKeyboardOpen);
     }
 

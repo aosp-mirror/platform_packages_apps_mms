@@ -23,6 +23,7 @@ import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -39,7 +40,7 @@ import android.widget.LinearLayout;
  */
 public class AttachmentEditor extends LinearLayout {
     private static final String TAG = "AttachmentEditor";
-   
+
     static final int MSG_EDIT_SLIDESHOW   = 1;
     static final int MSG_SEND_SLIDESHOW   = 2;
     static final int MSG_PLAY_SLIDESHOW   = 3;
@@ -50,7 +51,7 @@ public class AttachmentEditor extends LinearLayout {
     static final int MSG_PLAY_AUDIO       = 8;
     static final int MSG_VIEW_IMAGE       = 9;
     static final int MSG_REMOVE_ATTACHMENT = 10;
-    
+
     private final Context mContext;
     private Handler mHandler;
 
@@ -68,15 +69,15 @@ public class AttachmentEditor extends LinearLayout {
     public void update(WorkingMessage msg) {
         hideView();
         mView = null;
-        
+
         // If there's no attachment, we have nothing to do.
         if (!msg.hasAttachment()) {
             return;
         }
-        
+
         // Get the slideshow from the message.
         mSlideshow = msg.getSlideshow();
-        
+
         mView = createView();
 
         if ((mPresenter == null) || !mSlideshow.equals(mPresenter.getModel())) {
@@ -88,11 +89,11 @@ public class AttachmentEditor extends LinearLayout {
 
         mPresenter.present();
     }
-    
+
     public void setHandler(Handler handler) {
         mHandler = handler;
     }
-    
+
     public void setCanSend(boolean enable) {
         if (mCanSend != enable) {
             mCanSend = enable;
@@ -125,11 +126,11 @@ public class AttachmentEditor extends LinearLayout {
 
     private class MessageOnClick implements OnClickListener {
         private int mWhat;
-        
+
         public MessageOnClick(int what) {
             mWhat = what;
         }
-        
+
         public void onClick(View v) {
             Message msg = Message.obtain(mHandler, mWhat);
             msg.sendToTarget();
@@ -137,29 +138,47 @@ public class AttachmentEditor extends LinearLayout {
     }
 
     private SlideViewInterface createView() {
+        boolean inPortrait = inPortraitMode();
         if (mSlideshow.size() > 1) {
-            return createSlideshowView();
+            return createSlideshowView(inPortrait);
         }
-        
+
         SlideModel slide = mSlideshow.get(0);
         if (slide.hasImage()) {
             return createMediaView(
-                    R.id.image_attachment_view_stub, R.id.image_attachment_view,
+                    inPortrait ? R.id.image_attachment_view_portrait_stub :
+                        R.id.image_attachment_view_landscape_stub,
+                    inPortrait ? R.id.image_attachment_view_portrait :
+                        R.id.image_attachment_view_landscape,
                     R.id.view_image_button, R.id.replace_image_button, R.id.remove_image_button,
                     MSG_VIEW_IMAGE, MSG_REPLACE_IMAGE, MSG_REMOVE_ATTACHMENT);
         } else if (slide.hasVideo()) {
             return createMediaView(
-                    R.id.video_attachment_view_stub, R.id.video_attachment_view,
+                    inPortrait ? R.id.video_attachment_view_portrait_stub :
+                        R.id.video_attachment_view_landscape_stub,
+                    inPortrait ? R.id.video_attachment_view_portrait :
+                        R.id.video_attachment_view_landscape,
                     R.id.view_video_button, R.id.replace_video_button, R.id.remove_video_button,
                     MSG_PLAY_VIDEO, MSG_REPLACE_VIDEO, MSG_REMOVE_ATTACHMENT);
         } else if (slide.hasAudio()) {
             return createMediaView(
-                    R.id.audio_attachment_view_stub, R.id.audio_attachment_view,
+                    inPortrait ? R.id.audio_attachment_view_portrait_stub :
+                        R.id.audio_attachment_view_landscape_stub,
+                    inPortrait ? R.id.audio_attachment_view_portrait :
+                        R.id.audio_attachment_view_landscape,
                     R.id.play_audio_button, R.id.replace_audio_button, R.id.remove_audio_button,
                     MSG_PLAY_AUDIO, MSG_REPLACE_AUDIO, MSG_REMOVE_ATTACHMENT);
         } else {
             throw new IllegalArgumentException();
         }
+    }
+
+    /**
+     * What is the current orientation?
+     */
+    private boolean inPortraitMode() {
+        final Configuration configuration = mContext.getResources().getConfiguration();
+        return configuration.orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
     private SlideViewInterface createMediaView(
@@ -179,10 +198,13 @@ public class AttachmentEditor extends LinearLayout {
 
         return (SlideViewInterface) view;
     }
-    
-    private SlideViewInterface createSlideshowView() {
-        LinearLayout view =(LinearLayout) getStubView(
-                R.id.slideshow_attachment_view_stub, R.id.slideshow_attachment_view);
+
+    private SlideViewInterface createSlideshowView(boolean inPortrait) {
+        LinearLayout view =(LinearLayout) getStubView(inPortrait ?
+                R.id.slideshow_attachment_view_portrait_stub :
+                R.id.slideshow_attachment_view_landscape_stub,
+                inPortrait ? R.id.slideshow_attachment_view_portrait :
+                    R.id.slideshow_attachment_view_landscape);
         view.setVisibility(View.VISIBLE);
 
         Button editBtn = (Button) view.findViewById(R.id.edit_slideshow_button);

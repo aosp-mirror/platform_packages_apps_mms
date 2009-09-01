@@ -18,8 +18,8 @@
  */
 -->
 
-<com.android.mms.ui.VideoAttachmentView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/video_attachment_view"
+<com.android.mms.ui.AudioAttachmentView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/audio_attachment_view_portrait"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -27,24 +27,42 @@
     android:paddingRight="5dip"
     android:background="@drawable/attachment_editor_bg">
 
-    <RelativeLayout
-        android:layout_weight="1"
-        android:gravity="center"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        <ImageView
-            android:id="@+id/video_thumbnail"
-            android:scaleType="centerCrop"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_weight="1">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_gallery_video_overlay" />
-    </RelativeLayout>
+            android:paddingBottom="10dip"
+            android:src="@drawable/ic_launcher_record_audio" />
+
+        <TextView
+            android:id="@+id/audio_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/album_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/artist_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/audio_error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@drawable/text_color_red"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
@@ -52,25 +70,25 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/view_video_button"
+            android:id="@+id/play_audio_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
             android:layout_height="50dip"
-            android:text="@string/view" />
+            android:text="@string/play" />
 
         <Button
-            android:id="@+id/replace_video_button"
+            android:id="@+id/replace_audio_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
             android:layout_height="50dip"
             android:text="@string/replace" />
 
         <Button
-            android:id="@+id/remove_video_button"
+            android:id="@+id/remove_audio_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
             android:layout_height="50dip"
             android:text="@string/remove" />
 
     </LinearLayout>
-</com.android.mms.ui.VideoAttachmentView>
+</com.android.mms.ui.AudioAttachmentView>

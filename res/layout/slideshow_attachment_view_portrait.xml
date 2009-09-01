@@ -19,7 +19,7 @@
 -->
 
 <com.android.mms.ui.SlideshowAttachmentView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/slideshow_attachment_view"
+    android:id="@+id/slideshow_attachment_view_portrait"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"

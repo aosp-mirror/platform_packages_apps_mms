@@ -19,7 +19,7 @@
 -->
 
 <com.android.mms.ui.AudioAttachmentView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/audio_attachment_view"
+    android:id="@+id/audio_attachment_view_landscape"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -37,7 +37,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dip"
+            android:paddingBottom="5dip"
             android:src="@drawable/ic_launcher_record_audio" />
 
         <TextView
@@ -73,21 +73,21 @@
             android:id="@+id/play_audio_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
-            android:layout_height="50dip"
+            android:layout_height="32dip"
             android:text="@string/play" />
 
         <Button
             android:id="@+id/replace_audio_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
-            android:layout_height="50dip"
+            android:layout_height="32dip"
             android:text="@string/replace" />
 
         <Button
             android:id="@+id/remove_audio_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
-            android:layout_height="50dip"
+            android:layout_height="32dip"
             android:text="@string/remove" />
 
     </LinearLayout>
