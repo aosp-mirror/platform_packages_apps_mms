@@ -88,7 +88,7 @@ public class SearchActivity extends ListActivity
         protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
             String fullTextLower = mFullText.toLowerCase();
             String targetStringLower = mTargetString.toLowerCase();
-            
+
             int startPos = fullTextLower.indexOf(targetStringLower);
             int searchStringLength = targetStringLower.length();
             int bodyLength = fullTextLower.length();
@@ -181,6 +181,12 @@ public class SearchActivity extends ListActivity
         listView.setFocusable(true);
         listView.setClickable(true);
 
+        // I considered something like "searching..." but typically it will
+        // flash on the screen briefly which I found to be more distracting
+        // than beneficial.
+        // This gets updated when the query completes.
+        setTitle("");
+
         // When the query completes cons up a new adapter and set our list adapter to that.
         mQueryHandler = new AsyncQueryHandler(cr) {
             protected void onQueryComplete(int token, Object cookie, Cursor c) {
@@ -188,6 +194,13 @@ public class SearchActivity extends ListActivity
                 final int addressPos  = c.getColumnIndex("address");
                 final int bodyPos     = c.getColumnIndex("body");
                 final int rowidPos    = c.getColumnIndex("_id");
+
+                int cursorCount = c.getCount();
+                setTitle(getResources().getQuantityString(
+                        R.plurals.search_results_title,
+                        cursorCount,
+                        cursorCount,
+                        searchString));
 
                 setListAdapter(new CursorAdapter(SearchActivity.this, c) {
                     @Override
