@@ -165,7 +165,7 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_ECM_EXIT_DIALOG  = 17;
 
     private static final String TAG = "Mms:compose";
-    
+
     private static final boolean DEBUG = false;
     private static final boolean TRACE = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
@@ -1603,6 +1603,8 @@ public class ComposeMessageActivity extends Activity
         setContentView(R.layout.compose_message_activity);
         setProgressBarVisibility(false);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
         // Initialize members for UI elements.
         initResourceRefs();
 
@@ -1736,7 +1738,7 @@ public class ComposeMessageActivity extends Activity
         if (conversation.getThreadId() == mConversation.getThreadId()) {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: same conversation");
-            }        
+            }
         } else {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: different conversation, initialize...");
