@@ -214,6 +214,12 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".transaction.SmsRejectedReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_REJECTED" />
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".ui.ConfirmRateLimitActivity"
                   android:theme="@android:style/Theme.Dialog">
             <intent-filter>

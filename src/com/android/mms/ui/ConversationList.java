@@ -24,6 +24,7 @@ import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
 import com.android.mms.transaction.MessagingNotification;
+import com.android.mms.transaction.SmsRejectedReceiver;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.Recycler;
 
@@ -204,6 +205,9 @@ public class ConversationList extends ListActivity
     protected void handleCreationIntent(Intent intent) {
         // Handle intents that occur upon creation of the activity.
         initNormalQueryArgs();
+
+        MessagingNotification.cancelNotification(getApplicationContext(),
+                SmsRejectedReceiver.SMS_REJECTED_NOTIFICATION_ID);
    }
 
     @Override
