@@ -250,16 +250,17 @@ public class HttpUtils {
     }
 
     private static AndroidHttpClient createHttpClient() {
-        AndroidHttpClient client
-                = AndroidHttpClient.newInstance(MmsConfig.getUserAgent());
+        String userAgent = MmsConfig.getUserAgent();
+        AndroidHttpClient client = AndroidHttpClient.newInstance(userAgent);
         HttpParams params = client.getParams();
         HttpProtocolParams.setContentCharset(params, "UTF-8");
 
         // set the socket timeout
         int soTimeout = MmsConfig.getHttpSocketTimeout();
 
-        if (Log.isLoggable(TAG, Log.DEBUG)) {
-            Log.d(TAG, "[HttpUtils] createHttpClient w/ socket timeout " + soTimeout + " ms");
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.DEBUG)) {
+            Log.d(TAG, "[HttpUtils] createHttpClient w/ socket timeout " + soTimeout + " ms, "
+                    + ", UA=" + userAgent);
         }
         HttpConnectionParams.setSoTimeout(params, soTimeout);
         return client;
