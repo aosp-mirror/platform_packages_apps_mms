@@ -96,12 +96,13 @@ public class SmsReceiverService extends Service {
     private static final int SEND_COLUMN_BODY       = 3;
 
     private int mResultCode;
-    
+
     @Override
     public void onCreate() {
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            Log.v(TAG, "onCreate");
-        }
+        // Temporarily removed for this duplicate message track down.
+//        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+//            Log.v(TAG, "onCreate");
+//        }
 
         // Start up the thread running the service.  Note that we create a
         // separate thread because the service normally runs in the process's
@@ -115,9 +116,10 @@ public class SmsReceiverService extends Service {
 
     @Override
     public void onStart(Intent intent, int startId) {
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras());
-        }
+        // Temporarily removed for this duplicate message track down.
+//        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+//            Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras());
+//        }
 
         mResultCode = intent.getIntExtra("result", 0);
 
@@ -129,9 +131,10 @@ public class SmsReceiverService extends Service {
 
     @Override
     public void onDestroy() {
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            Log.v(TAG, "onDestroy");
-        }
+        // Temporarily removed for this duplicate message track down.
+//        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+//            Log.v(TAG, "onDestroy");
+//        }
         mServiceLooper.quit();
     }
 
@@ -152,9 +155,6 @@ public class SmsReceiverService extends Service {
          */
         @Override
         public void handleMessage(Message msg) {
-            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                Log.v(TAG, "Handling incoming message: " + msg);
-            }
             int serviceId = msg.arg1;
             Intent intent = (Intent)msg.obj;
 
@@ -202,6 +202,7 @@ public class SmsReceiverService extends Service {
 
                     SmsMessageSender sender = new SmsMessageSender(this,
                             address, msgText, threadId);
+
                     try {
                         sender.sendMessage(SendingProgressTokenManager.NO_TOKEN);
 
@@ -209,6 +210,13 @@ public class SmsReceiverService extends Service {
                         // moving the old one, the old one must be deleted here
                         Uri msgUri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgId);
                         SqliteWrapper.delete(this, resolver, msgUri, null, null);
+
+                        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                            Log.v(TAG, "sendFirstQueuedMessage after send msgUri: " + msgUri +
+                                    " address " + address +
+                                    " threadId: " + threadId +
+                                    " body: " + msgText);
+                        }
                     } catch (MmsException e) {
                         Log.e(TAG, "Failed to send message: " + e);
                     }
@@ -223,6 +231,9 @@ public class SmsReceiverService extends Service {
         Uri uri = intent.getData();
 
         if (mResultCode == Activity.RESULT_OK) {
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                Log.v(TAG, "handleSmsSent sending uri: " + uri);
+            }
             Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_SENT);
             sendFirstQueuedMessage();
 
@@ -232,9 +243,15 @@ public class SmsReceiverService extends Service {
                     this);
         } else if ((mResultCode == SmsManager.RESULT_ERROR_RADIO_OFF) ||
                 (mResultCode == SmsManager.RESULT_ERROR_NO_SERVICE)) {
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                Log.v(TAG, "handleSmsSent: no service, queuing message w/ uri: " + uri);
+            }
             Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_QUEUED);
             mToastHandler.sendEmptyMessage(1);
         } else {
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                Log.v(TAG, "handleSmsSent msg failed uri: " + uri);
+            }
             Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_FAILED);
             MessagingNotification.notifySendFailed(getApplicationContext(), true);
             sendFirstQueuedMessage();
@@ -244,6 +261,16 @@ public class SmsReceiverService extends Service {
     private void handleSmsReceived(Intent intent) {
         SmsMessage[] msgs = Intents.getMessagesFromIntent(intent);
         Uri messageUri = insertMessage(this, msgs);
+
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            if (msgs.length > 0 && msgs[0] != null) {
+                Log.v(TAG, "handleSmsReceived messageUri: " + messageUri + " address: " +
+                        msgs[0].getOriginatingAddress() +
+                        " body: " + msgs[0].getMessageBody());
+            } else {
+                Log.v(TAG, "handleSmsReceived messageUri: " + messageUri + " but null msg");
+            }
+        }
 
         if (messageUri != null) {
             MessagingNotification.updateNewMessageIndicator(this, true);
@@ -336,6 +363,11 @@ public class SmsReceiverService extends Service {
 
                     SqliteWrapper.update(context, resolver, messageUri,
                                         values, null, null);
+                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                        Log.v(TAG, "replaceMessage after update messageUri: " + messageUri +
+                                " address: " + sms.getOriginatingAddress() +
+                                " body: " + sms.getMessageBody());
+                    }
                     return messageUri;
                 }
             } finally {
@@ -364,7 +396,7 @@ public class SmsReceiverService extends Service {
             }
             values.put(Inbox.BODY, body.toString());
         }
-        
+
         // Make sure we've got a thread id so after the insert we'll be able to delete
         // excess messages.
         Long threadId = values.getAsLong(Sms.THREAD_ID);
@@ -382,12 +414,17 @@ public class SmsReceiverService extends Service {
         ContentResolver resolver = context.getContentResolver();
 
         Uri insertedUri = SqliteWrapper.insert(context, resolver, Inbox.CONTENT_URI, values);
-        
+
         // Now make sure we're not over the limit in stored messages
         threadId = values.getAsLong(Sms.THREAD_ID);
         Recycler.getSmsRecycler().deleteOldMessagesByThreadId(getApplicationContext(),
-                threadId);  
+                threadId);
 
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG, "storeMessage insertedUri: " + insertedUri +
+                    " address: " + sms.getOriginatingAddress() +
+                    " body: " + sms.getMessageBody());
+        }
         return insertedUri;
     }
 
