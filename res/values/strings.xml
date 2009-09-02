@@ -512,6 +512,16 @@
     <!-- Sim Full Notification dialog text. -->
     <string name="sim_full_body">Delete some messages to make room for more.</string>
 
+    <!-- Device Full Notification dialog title. -->
+    <string name="sms_full_title">SMS memory full</string>
+    <!-- Device Full Notification dialog text. -->
+    <string name="sms_full_body">Incoming message rejected due to full memory. Please delete old messages.</string>
+
+    <!-- Sms's Being Rejected Notification dialog title. -->
+    <string name="sms_rejected_title">SMS message rejected</string>
+    <!-- Sms's Being Rejected Notification dialog text. -->
+    <string name="sms_rejected_body">Incoming message rejected due to unknown reason.</string>
+
     <!-- Multimedia type used in building other messages.
          For instance: Sorry, you cannot add this audio to your message. -->
     <string name="type_audio">audio</string>
