@@ -252,6 +252,13 @@ public class SearchActivity extends ListActivity
                     }
 
                 });
+
+                // ListView seems to want to reject the setFocusable until such time
+                // as the list is not empty.  Set it here and request focus.  Without
+                // this the arrow keys (and trackball) fail to move the selection.
+                listView.setFocusable(true);
+                listView.setFocusableInTouchMode(true);
+                listView.requestFocus();
             }
         };
 
