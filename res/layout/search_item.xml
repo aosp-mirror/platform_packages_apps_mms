@@ -44,7 +44,7 @@
 
         <TextView
             android:id="@+id/title"
-            android:textAppearance="?android:attr/textAppearanceMediumInverse"
+            android:textAppearance="@style/TextAppearance.SearchResult.Title"
             android:layout_width="wrap_content"
             android:paddingTop="2dip"
             android:maxLines="1"
@@ -56,13 +56,12 @@
     <view
         class="com.android.mms.ui.SearchActivity$TextViewSnippet"
         android:id="@+id/subtitle"
-        android:textAppearance="?android:attr/textAppearanceSmallInverse"
+        android:textAppearance="@style/TextAppearance.SearchResult.Subtitle"
         android:layout_width="fill_parent"
         android:textSize="12sp"
         android:maxLines="1"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:singleLine="true"
-        android:textColor="?android:attr/textColorSecondary" />
+        android:singleLine="true" />
 
 </LinearLayout>
