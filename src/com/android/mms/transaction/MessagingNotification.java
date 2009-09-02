@@ -367,7 +367,8 @@ public class MessagingNotification {
         notification.setLatestEventInfo(context, title, description, pendingIntent);
 
         if (isNew) {
-            boolean vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE, true);
+            boolean vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE,
+                    false /* don't vibrate by default */);
             if (vibrate) {
                 notification.defaults |= Notification.DEFAULT_VIBRATE;
             }
@@ -495,12 +496,14 @@ public class MessagingNotification {
         notification.setLatestEventInfo(context, title, description, pendingIntent);
 
         if (noisy) {
-            boolean vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE, true);
+            boolean vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE,
+                    false /* don't vibrate by default */);
             if (vibrate) {
                 notification.defaults |= Notification.DEFAULT_VIBRATE;
             }
 
-            String ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE, null);
+            String ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE,
+                    null);
             notification.sound = TextUtils.isEmpty(ringtoneStr) ? null : Uri.parse(ringtoneStr);
         }
         
