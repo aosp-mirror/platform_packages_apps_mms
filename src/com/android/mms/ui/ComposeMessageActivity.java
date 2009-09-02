@@ -802,11 +802,20 @@ public class ComposeMessageActivity extends Activity
     }
 
     private boolean haveEmailContact(String emailAddress) {
-        Cursor cursor = SqliteWrapper.query(this, getContentResolver(),
-                Contacts.ContactMethods.CONTENT_EMAIL_URI,
-                new String[] { Contacts.ContactMethods.NAME },
-                Contacts.ContactMethods.DATA + " = " + DatabaseUtils.sqlEscapeString(emailAddress),
-                null, null);
+        Cursor cursor = null;
+
+        try {
+            cursor = SqliteWrapper.query(this, getContentResolver(),
+                    Contacts.ContactMethods.CONTENT_EMAIL_URI,
+                    new String[] { Contacts.ContactMethods.NAME },
+                    Contacts.ContactMethods.DATA + " = " +
+                            DatabaseUtils.sqlEscapeString(emailAddress),
+                    null, null);
+        } catch (IllegalArgumentException ex) {
+            // catch the exception. Contact provider currently doesn't support the legacy
+            // url we are using, and is crashing us. We don't want to crash.
+            Log.e(TAG, "[CMA] haveEmailContact: caught " + ex);
+        }
 
         if (cursor != null) {
             try {
