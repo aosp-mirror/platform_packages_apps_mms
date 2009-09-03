@@ -850,7 +850,9 @@ public class WorkingMessage {
      * no longer useful after this method has been called.
      */
     public void send() {
-        if (DEBUG) debug("send");
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            debug("send");
+        }
 
         // Get ready to write to disk.
         prepareForSave();

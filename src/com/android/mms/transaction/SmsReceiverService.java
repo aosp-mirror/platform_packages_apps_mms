@@ -150,8 +150,7 @@ public class SmsReceiverService extends Service {
 
         /**
          * Handle incoming transaction requests.
-         * The incoming requests are initiated by the MMSC Server or by the
-         * MMS Client itself.
+         * The incoming requests are initiated by the MMSC Server or by the MMS Client itself.
          */
         @Override
         public void handleMessage(Message msg) {
@@ -194,7 +193,6 @@ public class SmsReceiverService extends Service {
         if (c != null) {
             try {
                 if (c.moveToFirst()) {
-                    int msgId = c.getInt(SEND_COLUMN_ID);
                     String msgText = c.getString(SEND_COLUMN_BODY);
                     String[] address = new String[1];
                     address[0] = c.getString(SEND_COLUMN_ADDRESS);
@@ -203,22 +201,30 @@ public class SmsReceiverService extends Service {
                     SmsMessageSender sender = new SmsMessageSender(this,
                             address, msgText, threadId);
 
+                    int msgId = c.getInt(SEND_COLUMN_ID);
+                    Uri msgUri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgId);
+
+                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                        Log.v(TAG, "sendFirstQueuedMessage and delete old msgUri " + msgUri +
+                                ", address: " + address +
+                                ", threadId: " + threadId +
+                                ", body: " + msgText);
+                    }
                     try {
                         sender.sendMessage(SendingProgressTokenManager.NO_TOKEN);
 
                         // Since sendMessage adds a new message to the outbox rather than
                         // moving the old one, the old one must be deleted here
-                        Uri msgUri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgId);
-                        SqliteWrapper.delete(this, resolver, msgUri, null, null);
 
-                        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                            Log.v(TAG, "sendFirstQueuedMessage after send msgUri: " + msgUri +
-                                    " address " + address +
-                                    " threadId: " + threadId +
-                                    " body: " + msgText);
+                        int result = SqliteWrapper.delete(this, resolver, msgUri, null, null);
+                        if (result != 1) {
+                            Log.e(TAG, "sendFirstQueuedMessage: failed to delete old msgUri " +
+                                    msgUri + ", result=" + result);
                         }
+
                     } catch (MmsException e) {
-                        Log.e(TAG, "Failed to send message: " + e);
+                        Log.e(TAG, "sendFirstQueuedMessage: failed to send message " + msgUri
+                                + ", caught " + e);
                     }
                 }
             } finally {
@@ -234,13 +240,13 @@ public class SmsReceiverService extends Service {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleSmsSent sending uri: " + uri);
             }
-            Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_SENT);
+            if (!Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_SENT)) {
+                Log.e(TAG, "handleSmsSent: failed to move message " + uri + " to sent folder");
+            }
             sendFirstQueuedMessage();
 
-            // Update the notification for failed messages since they
-            // may be deleted.
-            MessagingNotification.updateSendFailedNotification(
-                    this);
+            // Update the notification for failed messages since they may be deleted.
+            MessagingNotification.updateSendFailedNotification(this);
         } else if ((mResultCode == SmsManager.RESULT_ERROR_RADIO_OFF) ||
                 (mResultCode == SmsManager.RESULT_ERROR_NO_SERVICE)) {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
@@ -263,13 +269,11 @@ public class SmsReceiverService extends Service {
         Uri messageUri = insertMessage(this, msgs);
 
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            if (msgs.length > 0 && msgs[0] != null) {
-                Log.v(TAG, "handleSmsReceived messageUri: " + messageUri + " address: " +
-                        msgs[0].getOriginatingAddress() +
-                        " body: " + msgs[0].getMessageBody());
-            } else {
-                Log.v(TAG, "handleSmsReceived messageUri: " + messageUri + " but null msg");
-            }
+            SmsMessage sms = msgs[0];
+            Log.v(TAG, "handleSmsReceived" + (sms.isReplace() ? "(replace)" : "") +
+                    " messageUri: " + messageUri + 
+                    ", address: " + sms.getOriginatingAddress() +
+                    ", body: " + sms.getMessageBody());
         }
 
         if (messageUri != null) {
@@ -363,11 +367,6 @@ public class SmsReceiverService extends Service {
 
                     SqliteWrapper.update(context, resolver, messageUri,
                                         values, null, null);
-                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                        Log.v(TAG, "replaceMessage after update messageUri: " + messageUri +
-                                " address: " + sms.getOriginatingAddress() +
-                                " body: " + sms.getMessageBody());
-                    }
                     return messageUri;
                 }
             } finally {
@@ -420,11 +419,6 @@ public class SmsReceiverService extends Service {
         Recycler.getSmsRecycler().deleteOldMessagesByThreadId(getApplicationContext(),
                 threadId);
 
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            Log.v(TAG, "storeMessage insertedUri: " + insertedUri +
-                    " address: " + sms.getOriginatingAddress() +
-                    " body: " + sms.getMessageBody());
-        }
         return insertedUri;
     }
 

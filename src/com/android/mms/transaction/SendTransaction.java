@@ -19,6 +19,7 @@ package com.android.mms.transaction;
 
 import com.android.mms.util.RateController;
 import com.android.mms.util.SendingProgressTokenManager;
+import com.android.mms.LogTag;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.PduComposer;
 import com.google.android.mms.pdu.PduHeaders;
@@ -108,6 +109,11 @@ public class SendTransaction extends Transaction implements Runnable {
             byte[] response = sendPdu(SendingProgressTokenManager.get(tokenKey),
                                       new PduComposer(mContext, sendReq).make());
             SendingProgressTokenManager.remove(tokenKey);
+
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                String respStr = new String(response);
+                Log.d(TAG, "[SendTransaction] run: send mms msg (" + mId + "), resp=" + respStr);
+            }
 
             SendConf conf = (SendConf) new PduParser(response).parse();
             if (conf == null) {

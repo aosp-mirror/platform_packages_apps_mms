@@ -60,13 +60,6 @@ public class SmsMessageSender implements MessageSender {
     private static final int COLUMN_SERVICE_CENTER     = 1;
 
     public SmsMessageSender(Context context, String[] dests, String msgText, long threadId) {
-        if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
-            log("SmsMessageSender: theadId=" + threadId + ", recipients:");
-            for (String addr : dests) {
-                log("    addr=" + addr);
-            }
-        }
-
         mContext = context;
         mMessageText = msgText;
         mNumberOfDests = dests.length;
@@ -140,6 +133,13 @@ public class SmsMessageSender implements MessageSender {
                                 SmsReceiver.class),
                         0));
             }
+
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                log("sendMessage: addr=" + mDests[i] + ", threadId=" + mThreadId + ", uri=" + uri + 
+                        (messageCount==1 ? ", body=" + messages.get(0) : "msgs.count=" +
+                                messages.size()));
+            }
+
             smsManager.sendMultipartTextMessage(
                     mDests[i], mServiceCenter, messages, sentIntents,
                     deliveryIntents);
