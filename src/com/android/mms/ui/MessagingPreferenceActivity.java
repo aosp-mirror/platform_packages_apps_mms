@@ -17,14 +17,16 @@
 
 package com.android.mms.ui;
 
-import com.android.internal.widget.NumberPicker;
 import com.android.mms.R;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -53,8 +55,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
 
     private Preference mSmsLimitPref;
     private Preference mMmsLimitPref;
-    private NumberPicker mSmsNumberPicker;
-    private NumberPicker mMmsNumberPicker;
+    private Preference mManageSimPref;
     private Recycler mSmsRecycler;
     private Recycler mMmsRecycler;
 
@@ -63,8 +64,16 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.preferences);
 
+        mManageSimPref = findPreference("pref_key_manage_sim_messages");
         mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
         mMmsLimitPref = findPreference("pref_key_mms_delete_limit");
+
+        if (!TelephonyManager.getDefault().hasIccCard()) {
+            // No SIM card, remove the SIM-related prefs
+            PreferenceCategory smsCategory =
+                (PreferenceCategory)findPreference("pref_key_sms_settings");
+            smsCategory.removePreference(mManageSimPref);
+        }
 
         mSmsRecycler = Recycler.getSmsRecycler();
         mMmsRecycler = Recycler.getMmsRecycler();
@@ -120,6 +129,8 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
                     mMmsRecycler.getMessageMinLimit(),
                     mMmsRecycler.getMessageMaxLimit(),
                     R.string.pref_title_mms_delete).show();
+        } else if (preference == mManageSimPref) {
+            startActivity(new Intent(this, ManageSimMessages.class));
         }
 
         return super.onPreferenceTreeClick(preferenceScreen, preference);
