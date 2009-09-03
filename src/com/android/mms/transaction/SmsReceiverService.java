@@ -188,7 +188,9 @@ public class SmsReceiverService extends Service {
         final Uri uri = Uri.parse("content://sms/queued");
         ContentResolver resolver = getContentResolver();
         Cursor c = SqliteWrapper.query(this, resolver, uri,
-                        SEND_PROJECTION, null, null, null);
+                        SEND_PROJECTION, null, null, "date ASC");   // date ASC so we send out in
+                                                                    // same order the user tried
+                                                                    // to send messages.
 
         if (c != null) {
             try {
@@ -271,7 +273,7 @@ public class SmsReceiverService extends Service {
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             SmsMessage sms = msgs[0];
             Log.v(TAG, "handleSmsReceived" + (sms.isReplace() ? "(replace)" : "") +
-                    " messageUri: " + messageUri + 
+                    " messageUri: " + messageUri +
                     ", address: " + sms.getOriginatingAddress() +
                     ", body: " + sms.getMessageBody());
         }
