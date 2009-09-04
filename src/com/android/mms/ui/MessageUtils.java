@@ -569,6 +569,13 @@ public class MessageUtils {
         return retVal;
     }
 
+    /**
+     * Message overhead that reduces the maximum image byte size.
+     * 5000 is a realistic overhead number that allows for user to also include
+     * a small MIDI file or a couple pages of text along with the picture.
+     */
+    public static final int MESSAGE_OVERHEAD = 5000;
+
     public static void resizeImageAsync(final Context context,
             final Uri imageUri, final Handler handler,
             final ResizeImageResultCallback cb,
@@ -601,7 +608,8 @@ public class MessageUtils {
                     UriImage image = new UriImage(context, imageUri);
                     part = image.getResizedImageAsPart(
                         MmsConfig.getMaxImageWidth(),
-                        MmsConfig.getMaxImageHeight());
+                        MmsConfig.getMaxImageHeight(),
+                        MmsConfig.getMaxMessageSize() - MESSAGE_OVERHEAD);
                 } finally {
                     // Cancel pending show of the progress dialog if necessary.
                     handler.removeCallbacks(showProgress);

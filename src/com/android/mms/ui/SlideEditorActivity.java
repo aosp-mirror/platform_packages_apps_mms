@@ -539,9 +539,8 @@ public class SlideEditorActivity extends Activity {
                     MessageUtils.resizeImageAsync(this, data.getData(), new Handler(),
                             mResizeImageCallback, false);
                 } catch (ExceedMessageSizeException e) {
-                    MessageUtils.showErrorDialog(SlideEditorActivity.this,
-                            getResourcesString(R.string.exceed_message_size_limitation),
-                            getResourcesString(R.string.failed_to_add_media, getPictureString()));
+                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(),
+                            mResizeImageCallback, false);
                 }
                 break;
 
@@ -563,9 +562,8 @@ public class SlideEditorActivity extends Activity {
                     MessageUtils.resizeImageAsync(this, data.getData(), new Handler(),
                             mResizeImageCallback, false);
                 } catch (ExceedMessageSizeException e) {
-                    MessageUtils.showErrorDialog(SlideEditorActivity.this,
-                            getResourcesString(R.string.exceed_message_size_limitation),
-                            getResourcesString(R.string.failed_to_add_media, getPictureString()));
+                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(),
+                            mResizeImageCallback, false);
                 }
                 break;
 
