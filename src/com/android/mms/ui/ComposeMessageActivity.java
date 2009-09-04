@@ -1752,6 +1752,8 @@ public class ComposeMessageActivity extends Activity
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: different conversation, initialize...");
             }
+            saveDraft();    // if we've got a draft, save it first
+
             initialize(null);
             loadMessageContent();
         }
