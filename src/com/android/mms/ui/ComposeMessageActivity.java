@@ -2375,7 +2375,8 @@ public class ComposeMessageActivity extends Activity
 
         int result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, uri, append);
 
-        if (result == WorkingMessage.IMAGE_TOO_LARGE) {
+        if (result == WorkingMessage.IMAGE_TOO_LARGE ||
+            result == WorkingMessage.MESSAGE_SIZE_EXCEEDED) {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("addImage: resize image " + uri);
             }

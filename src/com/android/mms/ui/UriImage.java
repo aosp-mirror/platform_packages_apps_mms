@@ -165,10 +165,10 @@ public class UriImage {
         return mHeight;
     }
 
-    public PduPart getResizedImageAsPart(int widthLimit, int heightLimit) {
+    public PduPart getResizedImageAsPart(int widthLimit, int heightLimit, int byteLimit) {
         PduPart part = new PduPart();
 
-        byte[] data = getResizedImageData(widthLimit, heightLimit);
+        byte[] data = getResizedImageData(widthLimit, heightLimit, byteLimit);
         if (data == null) {
             if (LOCAL_LOGV) {
                 Log.v(TAG, "Resize image failed.");
@@ -187,31 +187,71 @@ public class UriImage {
         return part;
     }
 
-    private byte[] getResizedImageData(int widthLimit, int heightLimit) {
+    private static final int MINIMUM_IMAGE_COMPRESSION_QUALITY = 50;
+    private static final int NUMBER_OF_RESIZE_ATTEMPTS = 4;
+
+    private byte[] getResizedImageData(int widthLimit, int heightLimit, int byteLimit) {
         int outWidth = mWidth;
         int outHeight = mHeight;
 
-        int s = 1;
-        while ((outWidth / s > widthLimit) || (outHeight / s > heightLimit)) {
-            s *= 2;
+        int scaleFactor = 1;
+        while ((outWidth / scaleFactor > widthLimit) || (outHeight / scaleFactor > heightLimit)) {
+            scaleFactor *= 2;
         }
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "outWidth=" + outWidth / s
-                    + " outHeight=" + outHeight / s);
-        }
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = s;
 
         InputStream input = null;
         try {
-            input = mContext.getContentResolver().openInputStream(mUri);
-            Bitmap b = BitmapFactory.decodeStream(input, null, options);
-            if (b == null) {
-                return null;
-            }
+            ByteArrayOutputStream os = null;
+            int attempts = 1;
 
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            b.compress(CompressFormat.JPEG, MessageUtils.IMAGE_COMPRESSION_QUALITY, os);
+            do {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = scaleFactor;
+                input = mContext.getContentResolver().openInputStream(mUri);
+                Bitmap b = BitmapFactory.decodeStream(input, null, options);
+                if (b == null) {
+                    return null;
+                }
+                if(options.outWidth > widthLimit || options.outHeight > heightLimit) {
+                    // The decoder does not support the inSampleSize option.
+                    // Scale the bitmap using Bitmap library.
+                    b = Bitmap.createScaledBitmap(b, outWidth / scaleFactor,
+                            outHeight / scaleFactor, false);
+                    if (b == null) {
+                        return null;
+                    }
+                }
+
+                // Compress the image into a JPG. Start with MessageUtils.IMAGE_COMPRESSION_QUALITY.
+                // In case that the image byte size is still too large reduce the quality in
+                // proportion to the desired byte size. Should the quality fall below
+                // MINIMUM_IMAGE_COMPRESSION_QUALITY skip a compression attempt and we will enter
+                // the next round with a smaller image to start with.
+                os = new ByteArrayOutputStream();
+                int quality = MessageUtils.IMAGE_COMPRESSION_QUALITY;
+                b.compress(CompressFormat.JPEG, quality, os);
+                int jpgFileSize = os.size();
+                if (jpgFileSize > byteLimit) {
+                    int reducedQuality = quality * byteLimit / jpgFileSize;
+                    if (reducedQuality >= MINIMUM_IMAGE_COMPRESSION_QUALITY) {
+                        quality = reducedQuality;
+                        os = new ByteArrayOutputStream();
+                        b.compress(CompressFormat.JPEG, quality, os);
+                    }
+                }
+
+                if (LOCAL_LOGV) {
+                    Log.v(TAG, "attempt=" + attempts
+                            + " size=" + os.size()
+                            + " width=" + outWidth / scaleFactor
+                            + " height=" + outHeight / scaleFactor
+                            + " scaleFactor=" + scaleFactor
+                            + " quality=" + quality);
+                }
+                scaleFactor *= 2;
+                attempts++;
+            } while (os.size() > byteLimit && attempts < NUMBER_OF_RESIZE_ATTEMPTS);
+
             return os.toByteArray();
         } catch (FileNotFoundException e) {
             Log.e(TAG, e.getMessage(), e);
