@@ -17,9 +17,8 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.R;
-import com.android.mms.MmsApp;
 import com.android.mms.LogTag;
+import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
@@ -27,7 +26,6 @@ import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.transaction.SmsRejectedReceiver;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.Recycler;
-
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.util.SqliteWrapper;
 
@@ -45,8 +43,8 @@ import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.provider.Contacts;
-import android.provider.Contacts.Intents.Insert;
+import android.provider.ContactsContract;
+import android.provider.ContactsContract.Contacts;
 import android.provider.Telephony.Mms;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -345,11 +343,11 @@ public class ConversationList extends ListActivity
     public static Intent createAddContactIntent(String address) {
         // address must be a single recipient
         Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
-        intent.setType(Contacts.People.CONTENT_ITEM_TYPE);
+        intent.setType(Contacts.CONTENT_ITEM_TYPE);
         if (Mms.isEmailAddress(address)) {
-            intent.putExtra(Insert.EMAIL, address);
+            intent.putExtra(ContactsContract.Intents.Insert.EMAIL, address);
         } else {
-            intent.putExtra(Insert.PHONE, address);
+            intent.putExtra(ContactsContract.Intents.Insert.PHONE, address);
         }
 
         return intent;
@@ -419,6 +417,7 @@ public class ConversationList extends ListActivity
         return super.onContextItemSelected(item);
     }
 
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         // We override this method to avoid restarting the entire
         // activity when the keyboard is opened (declared in
