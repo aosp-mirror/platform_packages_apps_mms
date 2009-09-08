@@ -15,254 +15,323 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label">"Berichten"</string>
-    <string name="new_message">"Nieuw bericht"</string>
-    <string name="create_new_message">"Nieuw bericht opstellen"</string>
-    <string name="menu_call_back">"<xliff:g id="NAME">%s</xliff:g> bellen"</string>
-    <string name="menu_send_email">"E-mail verzenden aan <xliff:g id="NAME">%s</xliff:g>"</string>
-    <string name="menu_compose_new">"Opstellen"</string>
-    <string name="menu_preferences">"Instellingen"</string>
-    <string name="menu_add_address_to_contacts">"<xliff:g id="NAME">%s</xliff:g> toevoegen aan contacten"</string>
-    <string name="menu_call">"Bellen"</string>
-    <string name="menu_delete_all">"Threads verwijderen"</string>
-    <string name="menu_delete">"Thread verwijderen"</string>
-    <string name="menu_undelivered_messages">"Niet-afgeleverde berichten"</string>
-    <string name="menu_view">"Thread weergeven"</string>
-    <string name="refreshing">"Vernieuwen..."</string>
-    <string name="has_draft">"Concept"</string>
+    <string name="app_label" msgid="1503967887341230795">"Berichten"</string>
+    <string name="new_message" msgid="1530369762346003973">"Nieuw bericht"</string>
+    <string name="create_new_message" msgid="8735943333953093860">"Nieuw bericht opstellen"</string>
+    <string name="menu_call_back" msgid="7538482331117914146">"<xliff:g id="NAME">%s</xliff:g> bellen"</string>
+    <string name="menu_send_email" msgid="671366308915241664">"E-mail verzenden aan <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_compose_new" msgid="3763437973691046238">"Opstellen"</string>
+    <string name="menu_preferences" msgid="4693148116114749414">"Instellingen"</string>
+    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"<xliff:g id="NAME">%s</xliff:g> toevoegen aan contacten"</string>
+    <string name="menu_call" msgid="5877123227307074690">"Bellen"</string>
+    <string name="menu_delete_all" msgid="8853352701914512057">"Threads verwijderen"</string>
+    <string name="menu_delete" msgid="1851666911396479006">"Thread verwijderen"</string>
+    <string name="menu_undelivered_messages" msgid="3896857623211780616">"Niet-afgeleverde berichten"</string>
+    <string name="menu_view" msgid="7448852683948080108">"Thread weergeven"</string>
+    <string name="refreshing" msgid="987335057871404222">"Vernieuwen..."</string>
+    <string name="has_draft" msgid="2487465595514636160">"Concept"</string>
     <!-- no translation found for broadcast_from_to (1804605929273213017) -->
     <skip />
-    <string name="anonymous_recipient">"Anoniem"</string>
-    <string name="no_subject_view">"(Geen onderwerp)"</string>
-    <string name="messagelist_sender_self">"Ik"</string>
-    <string name="view_picture">"Foto weergeven"</string>
-    <string name="view_slideshow">"Diavoorstelling weergeven"</string>
-    <string name="view_message_details">"Berichtdetails weergeven"</string>
-    <string name="view_delivery_report">"Rapport weergeven"</string>
-    <string name="delete_message">"Bericht verwijderen"</string>
-    <string name="sent_on">"Verzonden: <xliff:g id="DATE">%s</xliff:g>"</string>
-    <string name="expire_on">"Verloopt op: <xliff:g id="DATE">%s</xliff:g>"</string>
-    <string name="kilobyte">"kB"</string>
-    <string name="undelivered_msg_dialog_title">"Niet-afgeleverd bericht"</string>
-    <string name="undelivered_msg_dialog_body">"Kan dit bericht niet verzenden."\n"Poging: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
-    <string name="undelivered_sms_dialog_body">"Kan dit bericht niet verzenden."</string>
-    <string name="delete_thread">"Thread verwijderen"</string>
-    <string name="menu_forward">"Doorsturen"</string>
-    <string name="download">"Downloaden"</string>
-    <string name="downloading">"Downloaden"</string>
-    <string name="name_colon"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
-    <string name="inline_subject">"&lt;Onderwerp: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
-    <string name="drm_protected_text">"* DRM-beschermde tekst *"</string>
-    <string name="insufficient_drm_rights">"Onvoldoende DRM-rechten gedetecteerd."</string>
-    <string name="copy_message_text">"Tekst van bericht kopiëren"</string>
-    <string name="message_options">"Berichtopties"</string>
-    <string name="done">"Gereed"</string>
-    <string name="move_up">"Naar boven"</string>
-    <string name="move_down">"Naar beneden"</string>
-    <string name="remove_slide">"Dia verwijderen"</string>
-    <string name="add_slide">"Dia toevoegen"</string>
-    <string name="add_slide_hint">"Selecteer dit om een nieuwe dia te maken."</string>
-    <string name="discard_slideshow">"Diavoorstelling weggooien"</string>
-    <string name="slide_show_part">"Deel <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
-    <string name="remove_text">"Tekst verwijderen"</string>
-    <string name="add_picture">"Foto toevoegen"</string>
-    <string name="remove_picture">"Foto verwijderen"</string>
-    <string name="add_music">"Muziek toevoegen"</string>
-    <string name="remove_music">"Muziek verwijderen"</string>
-    <string name="add_video">"Video toevoegen"</string>
-    <string name="remove_video">"Video verwijderen"</string>
-    <string name="compose_title">"Opstellen"</string>
-    <string name="to_hint">"Aan"</string>
-    <string name="subject_hint">"Onderwerp"</string>
-    <string name="add_attachment">"Bijvoegen"</string>
-    <string name="add_subject">"Onderwerp toevoegen"</string>
-    <string name="discard">"Weggooien"</string>
-    <string name="view">"Weergeven"</string>
-    <string name="replace">"Vervangen"</string>
-    <string name="remove">"Verwijderen"</string>
-    <string name="send">"Verzenden"</string>
-    <string name="all_threads">"Alle threads"</string>
-    <string name="type_to_compose_text_enter_to_send">"Typ om een bericht te schrijven"</string>
-    <string name="open_keyboard_to_compose_message">"Toetsenbord openen om bericht op te stellen"</string>
-    <string name="image_too_large">"Foto te groot"</string>
-    <string name="ask_for_automatically_resize">"Formaat van foto automatisch aanpassen vóór verzending?"</string>
-    <string name="compressing">"Comprimeren..."</string>
-    <string name="unsupported_media_format">"Niet-ondersteunde indeling voor <xliff:g id="NAME">%1$s</xliff:g>"</string>
-    <string name="select_different_media">"Selecteer een ander item (<xliff:g id="NAME">%1$s</xliff:g>)."</string>
-    <string name="exceed_message_size_limitation">"Limiet berichtgrootte bereikt."</string>
-    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
+    <string name="anonymous_recipient" msgid="2501437626187039034">"Anoniem"</string>
+    <string name="no_subject_view" msgid="7795086723069563537">"(Geen onderwerp)"</string>
+    <string name="messagelist_sender_self" msgid="3579016854116401602">"Ik"</string>
+    <string name="view_picture" msgid="4356315935277709195">"Foto weergeven"</string>
+    <string name="view_slideshow" msgid="4990460971211388453">"Diavoorstelling weergeven"</string>
+    <string name="view_message_details" msgid="2443165773568096234">"Berichtdetails weergeven"</string>
+    <string name="view_delivery_report" msgid="8219095994071575215">"Rapport weergeven"</string>
+    <string name="delete_message" msgid="8888447283788388395">"Bericht verwijderen"</string>
+    <string name="sent_on" msgid="5868288548564632354">"Verzonden: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="expire_on" msgid="4436268382742593921">"Verloopt op: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="kilobyte" msgid="534782148965716631">"kB"</string>
+    <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Niet-afgeleverd bericht"</string>
+    <string name="undelivered_msg_dialog_body" msgid="3574032060588309397">"Kan dit bericht niet verzenden."\n"Poging: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_sms_dialog_body" msgid="6755818550013032420">"Kan dit bericht niet verzenden."</string>
+    <string name="delete_thread" msgid="757258847736632791">"Thread verwijderen"</string>
+    <string name="menu_forward" msgid="9026858380050046756">"Doorsturen"</string>
+    <string name="download" msgid="4488877642230207631">"Downloaden"</string>
+    <string name="downloading" msgid="1779557575565350637">"Downloaden"</string>
+    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
+    <string name="inline_subject" msgid="4057621785274119260">"&lt;Onderwerp: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="drm_protected_text" msgid="1396394157870730742">"* DRM-beschermde tekst *"</string>
+    <string name="insufficient_drm_rights" msgid="6989074725969164383">"Onvoldoende DRM-rechten gedetecteerd."</string>
+    <string name="copy_message_text" msgid="4640869459731924158">"Tekst van bericht kopiëren"</string>
+    <string name="message_options" msgid="6838806653341967550">"Berichtopties"</string>
+    <string name="done" msgid="7479926268660505871">"Gereed"</string>
+    <string name="move_up" msgid="7307578107431739359">"Naar boven"</string>
+    <string name="move_down" msgid="6356509518429479053">"Naar beneden"</string>
+    <string name="remove_slide" msgid="2225604354024914900">"Dia verwijderen"</string>
+    <string name="add_slide" msgid="9140721399423564187">"Dia toevoegen"</string>
+    <string name="add_slide_hint" msgid="563319570849475501">"Selecteer dit om een nieuwe dia te maken."</string>
+    <string name="discard_slideshow" msgid="5054239124146413609">"Diavoorstelling weggooien"</string>
+    <string name="slide_show_part" msgid="5077675385448696846">"Deel <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
+    <string name="remove_text" msgid="2164068850029476539">"Tekst verwijderen"</string>
+    <string name="add_picture" msgid="7819574884962571479">"Foto toevoegen"</string>
+    <string name="remove_picture" msgid="6378701749074289096">"Foto verwijderen"</string>
+    <string name="add_music" msgid="3827442822987116233">"Muziek toevoegen"</string>
+    <string name="remove_music" msgid="858889733416015223">"Muziek verwijderen"</string>
+    <string name="add_video" msgid="7816866867806595144">"Video toevoegen"</string>
+    <string name="remove_video" msgid="5258603891528497799">"Video verwijderen"</string>
+    <string name="compose_title" msgid="558578836596816068">"Opstellen"</string>
+    <string name="to_hint" msgid="224029549150332986">"Aan"</string>
+    <string name="subject_hint" msgid="4296714962311604126">"Onderwerp"</string>
+    <string name="add_attachment" msgid="7103751293360532684">"Bijvoegen"</string>
+    <string name="add_subject" msgid="7616134948428265870">"Onderwerp toevoegen"</string>
+    <string name="discard" msgid="1624800293064498479">"Weggooien"</string>
+    <string name="view" msgid="7929667761715467136">"Weergeven"</string>
+    <string name="replace" msgid="7587904998114459388">"Vervangen"</string>
+    <string name="remove" msgid="4625444913256213175">"Verwijderen"</string>
+    <string name="send" msgid="4589898724889248486">"Verzenden"</string>
+    <string name="all_threads" msgid="2663426830306307194">"Alle threads"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Typ om een bericht te schrijven"</string>
+    <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Toetsenbord openen om bericht op te stellen"</string>
+    <string name="image_too_large" msgid="261880224164478061">"Foto te groot"</string>
+    <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Formaat van foto automatisch aanpassen vóór verzending?"</string>
+    <string name="compressing" msgid="8809622439325731724">"Comprimeren..."</string>
+    <string name="unsupported_media_format" msgid="5037111178813903722">"Niet-ondersteunde indeling voor <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="select_different_media" msgid="7573116916321879964">"Selecteer een ander item (<xliff:g id="NAME">%1$s</xliff:g>)."</string>
+    <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Limiet berichtgrootte bereikt."</string>
+    <string name="message_too_big_for_video" msgid="2639367545165352543">"Dit bericht is te groot om er een video aan te koppelen."</string>
+    <string name="failed_to_add_media" msgid="8272471485019037446">"U kunt dit item (<xliff:g id="NAME">%1$s</xliff:g>) niet aan uw bericht toevoegen."</string>
+    <string name="failed_to_resize_image" msgid="5608354151631833669">"Formaat van foto is niet aangepast."</string>
+    <string name="resize_image_error_information" msgid="4897031754321114959">"Zelfs nadat het formaat is aangepast, is deze foto te groot voor verzending."</string>
+    <string name="forward_prefix" msgid="276280492803486464">"Fw: "</string>
+    <string name="discard_message" msgid="6078326880056142781">"Weggooien"</string>
+    <string name="discard_message_reason" msgid="2667664943003796133">"Uw bericht wordt weggegooid, omdat het geen geldige ontvangers heeft."</string>
+    <string name="has_invalid_recipient" msgid="1485388396900997383">"Ongeldige ontvanger(s): &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
+    <!-- no translation found for invalid_destination (7643854177921895615) -->
     <skip />
-    <string name="failed_to_add_media">"U kunt dit item (<xliff:g id="NAME">%1$s</xliff:g>) niet aan uw bericht toevoegen."</string>
-    <string name="failed_to_resize_image">"Formaat van foto is niet aangepast."</string>
-    <string name="resize_image_error_information">"Zelfs nadat het formaat is aangepast, is deze foto te groot voor verzending."</string>
-    <string name="forward_prefix">"Fw: "</string>
-    <string name="discard_message">"Weggooien"</string>
-    <string name="discard_message_reason">"Uw bericht wordt weggegooid, omdat het geen geldige ontvangers heeft."</string>
-    <string name="has_invalid_recipient">"Ongeldige ontvanger(s): &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <string name="invalid_recipient_message">"Corrigeer de ontvangers, anders ontvangen ze het bericht niet."</string>
-    <string name="cannot_send_message">"Kan dit bericht niet verzenden"</string>
-    <string name="cannot_send_message_reason">"Uw bericht heeft geen geldige ontvangers."</string>
-    <string name="cannot_forward_drm_obj">"Het DRM-object in het bericht kan niet worden doorgestuurd."</string>
-    <string name="converting_to_picture_message">"Converteren naar MMS-bericht..."</string>
-    <string name="converting_to_text_message">"Converteren naar SMS-bericht..."</string>
-    <string name="cannot_add_slide_anymore">"Kan niet meer dia\'s toevoegen."</string>
-    <string name="cannot_save_message">"Bericht kan niet worden opgeslagen."</string>
-    <string name="cannot_load_message">"Kan bericht niet laden."</string>
-    <string name="message_saved_as_draft">"Bericht opgeslagen als concept."</string>
-    <string name="cannot_play_audio">"Audio kan niet worden afgespeeld."</string>
-    <string name="preview">"Voorbeeld"</string>
-    <string name="preview_slideshow">"Voorbeeld"</string>
-    <string name="replace_image">"Foto vervangen"</string>
-    <string name="duration_sec">"Duur (<xliff:g id="DURATION">%s</xliff:g> sec)"</string>
-    <string name="duration_selector_title">"Duur voor dia "</string>
-    <string name="layout_selector_title">"Lay-out van diavoorstelling "</string>
-    <string name="layout_top">"Indeling (bovenaan)"</string>
-    <string name="layout_bottom">"Indeling (onderaan)"</string>
-    <string name="type_to_compose_text_or_leave_blank">"Typ om tekst in te voeren of laat leeg"</string>
-    <string name="secs">"seconden"</string>
+    <string name="invalid_recipient_message" msgid="7315539322634238519">"Corrigeer de ontvangers, anders ontvangen ze het bericht niet."</string>
+    <string name="cannot_send_message" msgid="3918913277571649400">"Kan dit bericht niet verzenden"</string>
+    <string name="cannot_send_message_reason" msgid="8745080126044054343">"Uw bericht heeft geen geldige ontvangers."</string>
+    <string name="cannot_forward_drm_obj" msgid="84606990079390099">"Het DRM-object in het bericht kan niet worden doorgestuurd."</string>
+    <string name="converting_to_picture_message" msgid="5371075642673327773">"Converteren naar MMS-bericht..."</string>
+    <string name="converting_to_text_message" msgid="585187847299693795">"Converteren naar SMS-bericht..."</string>
+    <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"Kan niet meer dia\'s toevoegen."</string>
+    <string name="cannot_save_message" msgid="5026354972915392301">"Bericht kan niet worden opgeslagen."</string>
+    <string name="cannot_load_message" msgid="2577010607550849892">"Kan bericht niet laden."</string>
+    <string name="message_saved_as_draft" msgid="2503018972659880692">"Bericht opgeslagen als concept."</string>
+    <!-- no translation found for locked_message_cannot_be_deleted (6369452071783350219) -->
+    <skip />
+    <!-- no translation found for too_many_recipients (4239709214735078881) -->
+    <skip />
+    <!-- no translation found for multiple_recipients (8747754491343248141) -->
+    <skip />
+    <string name="cannot_play_audio" msgid="575086601128003093">"Audio kan niet worden afgespeeld."</string>
+    <string name="preview" msgid="5438149136136446756">"Voorbeeld"</string>
+    <string name="preview_slideshow" msgid="6824095909448728427">"Voorbeeld"</string>
+    <string name="replace_image" msgid="3171240952601443619">"Foto vervangen"</string>
+    <string name="duration_sec" msgid="6617032324007824096">"Duur (<xliff:g id="DURATION">%s</xliff:g> sec)"</string>
+    <string name="duration_selector_title" msgid="5981097971537625852">"Duur voor dia "</string>
+    <string name="layout_selector_title" msgid="7344600117972450771">"Lay-out van diavoorstelling "</string>
+    <string name="layout_top" msgid="6811021650398972346">"Indeling (bovenaan)"</string>
+    <string name="layout_bottom" msgid="5822765871095491843">"Indeling (onderaan)"</string>
+    <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Typ om tekst in te voeren of laat leeg"</string>
+    <string name="secs" msgid="6886003523109967972">"seconden"</string>
   <string-array name="select_dialog_items">
-    <item>"1 seconde"</item>
-    <item>"2 seconden"</item>
-    <item>"3 seconden"</item>
-    <item>"4 seconden"</item>
-    <item>"5 seconden"</item>
-    <item>"6 seconden"</item>
-    <item>"7 seconden"</item>
-    <item>"8 seconden"</item>
-    <item>"9 seconden"</item>
-    <item>"10 seconden"</item>
-    <item>"Anders..."</item>
+    <item msgid="4840183714016984112">"1 seconde"</item>
+    <item msgid="3734955613666864447">"2 seconden"</item>
+    <item msgid="6032232473048379828">"3 seconden"</item>
+    <item msgid="5978471781525927827">"4 seconden"</item>
+    <item msgid="4888440297621208402">"5 seconden"</item>
+    <item msgid="6047246213264166841">"6 seconden"</item>
+    <item msgid="2327501250056533797">"7 seconden"</item>
+    <item msgid="3400770414689795703">"8 seconden"</item>
+    <item msgid="4358760614161107970">"9 seconden"</item>
+    <item msgid="2618179407176906471">"10 seconden"</item>
+    <item msgid="6238597861937337981">"Anders..."</item>
   </string-array>
-    <string name="menu_view_contact">"Contact weergeven"</string>
-    <string name="menu_add_to_contacts">"Toevoegen aan contacten"</string>
-    <string name="hidden_sender_address">"Verborgen adres verzender"</string>
-    <string name="yes">"OK"</string>
-    <string name="no">"Annuleren"</string>
-    <string name="play">"Afspelen"</string>
-    <string name="edit">"Bewerken"</string>
-    <string name="resize">"Formaat aanpassen"</string>
-    <string name="try_to_send">"Poging tot verzenden"</string>
-    <string name="preferences_title">"Instellingen"</string>
-    <string name="restore_default">"Standaardinstellingen terugzetten"</string>
-    <string name="pref_notification_settings_title">"Meldingsinstellingen"</string>
-    <string name="pref_mms_settings_title">"MMS-instellingen"</string>
-    <string name="pref_sms_settings_title">"SMS-instellingen"</string>
-    <string name="pref_summary_manage_sim_messages">"Berichten op uw SIM-kaart beheren"</string>
-    <string name="pref_summary_mms_delivery_reports">"Leveringsrapport voor elk verzonden bericht aanvragen"</string>
-    <string name="pref_summary_mms_read_reports">"Leesrapport voor elk verzonden bericht aanvragen"</string>
-    <string name="pref_summary_sms_delivery_reports">"Leveringsrapport voor elk verzonden bericht aanvragen"</string>
-    <string name="pref_title_manage_sim_messages">"Berichten op SIM-kaart beheren"</string>
-    <string name="pref_title_mms_delivery_reports">"Leveringsrapporten"</string>
-    <string name="pref_title_mms_read_reports">"Rapporten lezen"</string>
-    <string name="pref_title_sms_delivery_reports">"Leveringsrapporten"</string>
-    <string name="pref_title_notification_enabled">"Meldingen"</string>
-    <string name="pref_summary_notification_enabled">"Berichtmeldingen in statusbalk weergeven"</string>
-    <string name="pref_title_notification_vibrate">"Trillen"</string>
-    <string name="pref_summary_notification_vibrate">"Ook trillen bij melding"</string>
-    <string name="pref_title_notification_ringtone">"Beltoon selecteren"</string>
-    <string name="pref_title_mms_auto_retrieval">"Automatisch ophalen"</string>
-    <string name="pref_summary_mms_auto_retrieval">"Berichten automatisch ophalen"</string>
-    <string name="pref_title_mms_retrieval_during_roaming">"Automatisch ophalen tijdens roaming"</string>
-    <string name="pref_summary_mms_retrieval_during_roaming">"Berichten automatisch ophalen tijdens roaming"</string>
-    <string name="to_label">"Aan "</string>
-    <string name="confirm_dialog_title">"Verwijderen"</string>
-    <string name="confirm_delete_conversation">"De volledige thread wordt verwijderd."</string>
-    <string name="confirm_delete_all_conversations">"Alle threads worden verwijderd."</string>
-    <string name="confirm_delete_message">"Het bericht wordt verwijderd."</string>
-    <string name="confirm_delete_all_messages">"De volledige thread wordt verwijderd."</string>
-    <string name="confirm_delete_all_SIM_messages">"Alle berichten op de SIM-kaart worden verwijderd."</string>
-    <string name="confirm_delete_SIM_message">"Dit bericht op de SIM-kaart wordt verwijderd."</string>
-    <string name="cannot_get_details">"Kan details niet ophalen"</string>
-    <string name="message_details_title">"Berichtdetails"</string>
-    <string name="message_type_label">"Type: "</string>
-    <string name="text_message">"SMS-bericht"</string>
-    <string name="multimedia_message">"MMS-bericht"</string>
-    <string name="multimedia_notification">"MMS-melding"</string>
-    <string name="from_label">"Van: "</string>
-    <string name="to_address_label">"Aan: "</string>
-    <string name="bcc_label">"Bcc: "</string>
-    <string name="sent_label">"Verzonden: "</string>
-    <string name="received_label">"Ontvangen: "</string>
-    <string name="saved_label">"Opgeslagen: "</string>
-    <string name="subject_label">"Onderwerp: "</string>
-    <string name="message_size_label">"Berichtgrootte: "</string>
-    <string name="priority_label">"Prioriteit: "</string>
-    <string name="priority_high">"Hoog"</string>
-    <string name="priority_normal">"Normaal"</string>
-    <string name="priority_low">"Laag"</string>
-    <string name="message_class_label">"Berichtklasse: "</string>
-    <string name="menu_edit">"Bewerken"</string>
-    <string name="menu_retry_sending">"Nieuwe verzendpoging"</string>
-    <string name="menu_retry_sending_all">"Nieuwe verzendpoging voor alles"</string>
-    <string name="menu_delete_messages">"Berichten verwijderen"</string>
-    <string name="retrying_dialog_body">"Dit bericht <xliff:g id="MESSAGE">%s</xliff:g> is niet verzonden vanwege een verbindingsprobleem."\n"Nieuwe verzendpoging…"</string>
-    <string name="sim_copy_to_phone_memory">"Kopiëren naar telefoongeheugen"</string>
-    <string name="sim_delete">"Verwijderen"</string>
-    <string name="sim_manage_messages_title">"SMS-berichten op SIM-kaart"</string>
-    <string name="sim_view">"Weergeven"</string>
-    <string name="sim_empty">"Geen berichten op de SIM-kaart."</string>
-    <string name="delivery_header_title">"Rapport"</string>
-    <string name="status_none">"(Geen)"</string>
-    <string name="status_pending">"In behandeling"</string>
-    <string name="status_read">"Lezen"</string>
-    <string name="status_received">"Ontvangen"</string>
-    <string name="status_failed">"Mislukt"</string>
-    <string name="status_unread">"Ongelezen"</string>
-    <string name="status_rejected">"Afgewezen"</string>
-    <string name="recipient_label">"Ontvanger: "</string>
-    <string name="status_label">"Status: "</string>
-    <string name="attach_image">"Foto\'s"</string>
-    <string name="attach_take_photo">"Foto nemen"</string>
-    <string name="attach_video">"Video\'s"</string>
-    <string name="attach_record_video">"Video opnemen"</string>
-    <string name="attach_sound">"Audio"</string>
-    <string name="attach_record_sound">"Audio opnemen"</string>
-    <string name="attach_slideshow">"Diavoorstelling"</string>
-    <string name="select_bottom_text">"Tekst onderaan"</string>
-    <string name="select_top_text">"Tekst bovenaan"</string>
-    <string name="notification_multiple">"<xliff:g id="COUNT">%s</xliff:g> ongelezen berichten."</string>
-    <string name="notification_multiple_title">"Nieuwe berichten"</string>
-    <string name="notification_failed_multiple">"<xliff:g id="COUNT">%s</xliff:g> berichten kunnen niet worden verzonden."</string>
-    <string name="notification_failed_multiple_title">"Berichten niet verzonden"</string>
-    <string name="sim_full_title">"SIM-kaart vol"</string>
-    <string name="sim_full_body">"Verwijder enkele berichten om ruimte vrij te maken voor nieuwe berichten."</string>
-    <string name="type_audio">"audio"</string>
-    <string name="type_picture">"foto"</string>
-    <string name="type_video">"video"</string>
-    <string name="confirm">"Bevestigen"</string>
-    <string name="message_send_read_report">"Er wordt een leesrapport verzonden."</string>
-    <string name="message_queued">"Uw bericht kan momenteel niet worden verzonden. Het wordt verzonden als de service beschikbaar komt."</string>
-    <string name="no_subject">"(Geen onderwerp)"</string>
-    <string name="unknown_sender">"Onbekende afzender"</string>
-    <string name="dl_failure_notification">"Downloaden van bericht <xliff:g id="SUBJECT">%s</xliff:g> van <xliff:g id="FROM">%s</xliff:g> is mislukt."</string>
-    <string name="rate_limit_surpassed">"Bevestigen"</string>
-    <string name="confirm_rate_limit">"Er wordt een groot aantal multimediaberichten verzonden. Is dat OK?"</string>
-    <string name="message_download_failed_title">"Bericht niet gedownload"</string>
-    <string name="message_send_failed_title">"Bericht niet verzonden"</string>
-    <string name="message_failed_body">"Selecteer dit om het bericht te controleren en opnieuw te proberen."</string>
-    <string name="download_later">"Kan momenteel niet downloaden. Probeer het later opnieuw."</string>
-    <string name="select_audio">"Audio selecteren"</string>
-    <string name="copy_to_sdcard">"Bijlage kopiëren naar SD-kaart"</string>
-    <string name="copy_to_sdcard_success">"Bijlage gekopieerd naar SD-kaart"</string>
-    <string name="copy_to_sdcard_fail">"Kan de bijlage niet kopiëren naar de SD-kaart"</string>
-    <string name="menu_insert_smiley">"Smiley invoegen"</string>
-    <string name="select_link_title">"Actie selecteren"</string>
-    <string name="slide_number">"Dia <xliff:g id="NUMBER">%s</xliff:g>"</string>
+    <string name="menu_view_contact" msgid="1414670584423909451">"Contact weergeven"</string>
+    <string name="menu_add_to_contacts" msgid="2978074583938544513">"Toevoegen aan contacten"</string>
+    <string name="hidden_sender_address" msgid="2776075636669924968">"Verborgen adres verzender"</string>
+    <string name="yes" msgid="3246158147503160811">"OK"</string>
+    <string name="no" msgid="4289742508556913860">"Annuleren"</string>
+    <!-- no translation found for set (4642365398263275979) -->
+    <skip />
+    <string name="play" msgid="1888432400937785115">"Afspelen"</string>
+    <string name="edit" msgid="5912118407791492696">"Bewerken"</string>
+    <string name="resize" msgid="4308912589984220360">"Formaat aanpassen"</string>
+    <string name="try_to_send" msgid="1996751738286080976">"Poging tot verzenden"</string>
+    <string name="preferences_title" msgid="6650089610332670157">"Instellingen"</string>
+    <string name="restore_default" msgid="7165341506551155053">"Standaardinstellingen terugzetten"</string>
+    <string name="pref_notification_settings_title" msgid="4860726154770053004">"Meldingsinstellingen"</string>
+    <string name="pref_mms_settings_title" msgid="1023389466940215979">"MMS-instellingen"</string>
+    <string name="pref_sms_settings_title" msgid="7565588908643816045">"SMS-instellingen"</string>
+    <!-- no translation found for pref_sms_storage_title (2531726671883516470) -->
+    <skip />
+    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Berichten op uw SIM-kaart beheren"</string>
+    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Leveringsrapport voor elk verzonden bericht aanvragen"</string>
+    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Leesrapport voor elk verzonden bericht aanvragen"</string>
+    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Leveringsrapport voor elk verzonden bericht aanvragen"</string>
+    <!-- no translation found for pref_summary_auto_delete (7719538116486177613) -->
+    <skip />
+    <!-- no translation found for pref_summary_delete_limit (597128041393045216) -->
+    <skip />
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Berichten op SIM-kaart beheren"</string>
+    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Leveringsrapporten"</string>
+    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Rapporten lezen"</string>
+    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Leveringsrapporten"</string>
+    <!-- no translation found for pref_title_auto_delete (7227835692631701134) -->
+    <skip />
+    <!-- no translation found for pref_title_sms_delete (1809717374103016889) -->
+    <skip />
+    <!-- no translation found for pref_title_mms_delete (4357985559647986247) -->
+    <skip />
+    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Meldingen"</string>
+    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Berichtmeldingen in statusbalk weergeven"</string>
+    <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"Trillen"</string>
+    <string name="pref_summary_notification_vibrate" msgid="6005751082181574289">"Ook trillen bij melding"</string>
+    <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Beltoon selecteren"</string>
+    <!-- no translation found for pref_messages_to_save (3202539743892934926) -->
+    <skip />
+    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Automatisch ophalen"</string>
+    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Berichten automatisch ophalen"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Automatisch ophalen tijdens roaming"</string>
+    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Berichten automatisch ophalen tijdens roaming"</string>
+    <string name="to_label" msgid="2355268818058389047">"Aan "</string>
+    <string name="confirm_dialog_title" msgid="5810813994465120375">"Verwijderen"</string>
+    <string name="confirm_delete_conversation" msgid="6115966687389279855">"De volledige thread wordt verwijderd."</string>
+    <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Alle threads worden verwijderd."</string>
+    <string name="confirm_delete_message" msgid="9121480656609809591">"Het bericht wordt verwijderd."</string>
+    <string name="confirm_delete_all_messages" msgid="5836389073199814660">"De volledige thread wordt verwijderd."</string>
+    <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"Alle berichten op de SIM-kaart worden verwijderd."</string>
+    <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Dit bericht op de SIM-kaart wordt verwijderd."</string>
+    <!-- no translation found for delete_unlocked (7545321606698162261) -->
+    <skip />
+    <!-- no translation found for delete (1409973060081564612) -->
+    <skip />
+    <string name="cannot_get_details" msgid="6493664168168047746">"Kan details niet ophalen"</string>
+    <string name="message_details_title" msgid="9223295113731634528">"Berichtdetails"</string>
+    <string name="message_type_label" msgid="7975373966795945566">"Type: "</string>
+    <string name="text_message" msgid="4282768567194758552">"SMS-bericht"</string>
+    <string name="multimedia_message" msgid="4581191448601209159">"MMS-bericht"</string>
+    <string name="multimedia_notification" msgid="1888616721010229907">"MMS-melding"</string>
+    <string name="from_label" msgid="2055117571548171397">"Van: "</string>
+    <string name="to_address_label" msgid="5837363600471845801">"Aan: "</string>
+    <string name="bcc_label" msgid="530867161453958774">"Bcc: "</string>
+    <string name="sent_label" msgid="2722190650145251584">"Verzonden: "</string>
+    <string name="received_label" msgid="8618029024731693906">"Ontvangen: "</string>
+    <string name="saved_label" msgid="4183160415593488207">"Opgeslagen: "</string>
+    <string name="subject_label" msgid="8721241914144101631">"Onderwerp: "</string>
+    <string name="message_size_label" msgid="4698016210013319786">"Berichtgrootte: "</string>
+    <string name="priority_label" msgid="7397600367853359607">"Prioriteit: "</string>
+    <string name="priority_high" msgid="5627897207952009214">"Hoog"</string>
+    <string name="priority_normal" msgid="5715227727384683550">"Normaal"</string>
+    <string name="priority_low" msgid="8928782666023373987">"Laag"</string>
+    <string name="message_class_label" msgid="5115748690481550562">"Berichtklasse: "</string>
+    <string name="menu_edit" msgid="3056513240155967777">"Bewerken"</string>
+    <string name="menu_retry_sending" msgid="3146582005568302643">"Nieuwe verzendpoging"</string>
+    <string name="menu_retry_sending_all" msgid="1870529976966340616">"Nieuwe verzendpoging voor alles"</string>
+    <string name="menu_delete_messages" msgid="2610286783513247420">"Berichten verwijderen"</string>
+    <string name="retrying_dialog_body" msgid="4738260459043003431">"Dit bericht <xliff:g id="MESSAGE">%s</xliff:g> is niet verzonden vanwege een verbindingsprobleem."\n"Nieuwe verzendpoging…"</string>
+    <!-- no translation found for menu_lock (136863583207382259) -->
+    <skip />
+    <!-- no translation found for menu_unlock (5264877122797287929) -->
+    <skip />
+    <string name="sim_copy_to_phone_memory" msgid="5895767417844881971">"Kopiëren naar telefoongeheugen"</string>
+    <string name="sim_delete" msgid="610790510655316922">"Verwijderen"</string>
+    <string name="sim_manage_messages_title" msgid="4098052627890320779">"SMS-berichten op SIM-kaart"</string>
+    <string name="sim_view" msgid="1997173541766393706">"Weergeven"</string>
+    <string name="sim_empty" msgid="1763174398613486328">"Geen berichten op de SIM-kaart."</string>
+    <string name="delivery_header_title" msgid="5361719578869045764">"Rapport"</string>
+    <string name="status_none" msgid="8253075950774894961">"(Geen)"</string>
+    <string name="status_pending" msgid="2739860824607984892">"In behandeling"</string>
+    <string name="status_read" msgid="7576195253780627332">"Lezen"</string>
+    <string name="status_received" msgid="7264334589461906965">"Ontvangen"</string>
+    <string name="status_failed" msgid="1998776666856593544">"Mislukt"</string>
+    <string name="status_unread" msgid="8555305495998700198">"Ongelezen"</string>
+    <string name="status_rejected" msgid="2613641949065942678">"Afgewezen"</string>
+    <string name="recipient_label" msgid="3922667485312634446">"Ontvanger: "</string>
+    <string name="status_label" msgid="7283375460919181660">"Status: "</string>
+    <string name="attach_image" msgid="6439985727687107742">"Foto\'s"</string>
+    <string name="attach_take_photo" msgid="4280601313184373837">"Foto nemen"</string>
+    <string name="attach_video" msgid="4264272693501538294">"Video\'s"</string>
+    <string name="attach_record_video" msgid="3099814114743078615">"Video opnemen"</string>
+    <string name="attach_sound" msgid="3149325985970669609">"Audio"</string>
+    <string name="attach_record_sound" msgid="6011431304469858929">"Audio opnemen"</string>
+    <string name="attach_slideshow" msgid="3497422151091037063">"Diavoorstelling"</string>
+    <string name="select_bottom_text" msgid="4201966447623311931">"Tekst onderaan"</string>
+    <string name="select_top_text" msgid="6734183477539197815">"Tekst bovenaan"</string>
+    <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> ongelezen berichten."</string>
+    <string name="notification_multiple_title" msgid="332602028959557541">"Nieuwe berichten"</string>
+    <string name="notification_failed_multiple" msgid="4081781748475686236">"<xliff:g id="COUNT">%s</xliff:g> berichten kunnen niet worden verzonden."</string>
+    <string name="notification_failed_multiple_title" msgid="1112032024904397126">"Berichten niet verzonden"</string>
+    <string name="sim_full_title" msgid="1809829051697702810">"SIM-kaart vol"</string>
+    <string name="sim_full_body" msgid="6241664980790322925">"Verwijder enkele berichten om ruimte vrij te maken voor nieuwe berichten."</string>
+    <!-- no translation found for sms_full_title (4645029916683807688) -->
+    <skip />
+    <!-- no translation found for sms_full_body (7757490997215434514) -->
+    <skip />
+    <!-- no translation found for sms_rejected_title (5867575562981241065) -->
+    <skip />
+    <!-- no translation found for sms_rejected_body (7187754586609631934) -->
+    <skip />
+    <string name="type_audio" msgid="3842064092332309756">"audio"</string>
+    <string name="type_picture" msgid="4091928975383609443">"foto"</string>
+    <string name="type_video" msgid="8521556159545168441">"video"</string>
+    <string name="confirm" msgid="3155110885840591914">"Bevestigen"</string>
+    <string name="message_send_read_report" msgid="6997117678914261250">"Er wordt een leesrapport verzonden."</string>
+    <string name="message_queued" msgid="8869479754825264671">"Uw bericht kan momenteel niet worden verzonden. Het wordt verzonden als de service beschikbaar komt."</string>
+    <string name="no_subject" msgid="4168963736134552285">"(Geen onderwerp)"</string>
+    <string name="unknown_sender" msgid="4929330613278853635">"Onbekende afzender"</string>
+    <string name="dl_failure_notification" msgid="2457080452886498701">"Downloaden van bericht <xliff:g id="SUBJECT">%s</xliff:g> van <xliff:g id="FROM">%s</xliff:g> is mislukt."</string>
+    <!-- no translation found for dl_expired_notification (950390029992535809) -->
+    <skip />
+    <string name="rate_limit_surpassed" msgid="1347801608211628177">"Bevestigen"</string>
+    <string name="confirm_rate_limit" msgid="234228299751243067">"Er wordt een groot aantal multimediaberichten verzonden. Is dat OK?"</string>
+    <string name="message_download_failed_title" msgid="5722226064394767921">"Bericht niet gedownload"</string>
+    <string name="message_send_failed_title" msgid="3469894907399046372">"Bericht niet verzonden"</string>
+    <string name="message_failed_body" msgid="2740907094762116644">"Selecteer dit om het bericht te controleren en opnieuw te proberen."</string>
+    <string name="download_later" msgid="4486286146421650880">"Kan momenteel niet downloaden. Probeer het later opnieuw."</string>
+    <string name="select_audio" msgid="3120822451872772124">"Audio selecteren"</string>
+    <string name="copy_to_sdcard" msgid="6056459122898138734">"Bijlage kopiëren naar SD-kaart"</string>
+    <string name="copy_to_sdcard_success" msgid="5322211009838330188">"Bijlage gekopieerd naar SD-kaart"</string>
+    <string name="copy_to_sdcard_fail" msgid="2726421767948392438">"Kan de bijlage niet kopiëren naar de SD-kaart"</string>
+    <!-- no translation found for save_ringtone (2310157075045201051) -->
+    <skip />
+    <!-- no translation found for saved_ringtone (6616730290861857836) -->
+    <skip />
+    <!-- no translation found for saved_ringtone_fail (5447210504935083544) -->
+    <skip />
+    <string name="menu_insert_smiley" msgid="4964504393061025071">"Smiley invoegen"</string>
+    <string name="select_link_title" msgid="600168208731216059">"Actie selecteren"</string>
+    <string name="slide_number" msgid="1923958526266726635">"Dia <xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
-    <item quantity="one">"<xliff:g id="NUMBER">%s</xliff:g> seconde"</item>
-    <item quantity="few">"<xliff:g id="NUMBER">%s</xliff:g> seconden"</item>
-    <item quantity="other">"<xliff:g id="NUMBER">%s</xliff:g> seconden"</item>
+    <item quantity="one" msgid="1654101988340583935">"<xliff:g id="NUMBER">%s</xliff:g> seconde"</item>
+    <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g> seconden"</item>
+    <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g> seconden"</item>
   </plurals>
-    <string name="delivery_report_activity">"Leveringsrapport"</string>
-    <string name="add_attachment_activity">"Bijlage toevoegen:"</string>
-    <string name="select_layout_activity">"Indeling selecteren"</string>
-    <string name="change_duration_activity">"Duur wijzigen"</string>
-    <string name="edit_text_activity">"Tekst bewerken"</string>
-    <string name="edit_slideshow_activity">"Diavoorstelling bewerken"</string>
-    <string name="edit_slide_activity">"Dia bewerken"</string>
-    <string name="pick_numbers_activity">"Nummers kiezen"</string>
-    <string name="slideshow_activity">"Diavoorstelling"</string>
-    <string name="class_0_message_activity">"Berichtklasse 0"</string>
-    <string name="send_using_mms_activity">"Verzenden via MMS…"</string>
-    <string name="select_contact_method_activity">"Contactmethode selecteren"</string>
+    <string name="delivery_report_activity" msgid="2957463094232916364">"Leveringsrapport"</string>
+    <!-- no translation found for storage_limits_activity (8810530813311077716) -->
+    <skip />
+    <string name="add_attachment_activity" msgid="5324811371129695320">"Bijlage toevoegen:"</string>
+    <string name="select_layout_activity" msgid="5041916695464513848">"Indeling selecteren"</string>
+    <string name="change_duration_activity" msgid="7048606979485031693">"Duur wijzigen"</string>
+    <string name="edit_text_activity" msgid="5915226413346879213">"Tekst bewerken"</string>
+    <string name="edit_slideshow_activity" msgid="8751493388760050529">"Diavoorstelling bewerken"</string>
+    <string name="edit_slide_activity" msgid="8752829671778696983">"Dia bewerken"</string>
+    <string name="pick_numbers_activity" msgid="2083330191224178637">"Nummers kiezen"</string>
+    <string name="slideshow_activity" msgid="5658249461317434432">"Diavoorstelling"</string>
+    <string name="class_0_message_activity" msgid="8474176218999130627">"Berichtklasse 0"</string>
+    <string name="send_using_mms_activity" msgid="6082321147663913763">"Verzenden via MMS…"</string>
+    <string name="select_contact_method_activity" msgid="1743384358979323991">"Contactmethode selecteren"</string>
+    <!-- no translation found for search_label (6042598929386174964) -->
+    <skip />
+    <!-- no translation found for search_hint (1340787800788064929) -->
+    <skip />
+    <!-- no translation found for search (2008586577169316010) -->
+    <skip />
+    <!-- no translation found for search_empty (645052646985297065) -->
+    <skip />
+    <!-- no translation found for search_results_title:one (675571420878010439) -->
+    <!-- no translation found for search_results_title:other (3778201725913692491) -->
+    <!-- no translation found for save (6847069284991531310) -->
+    <skip />
+    <!-- no translation found for storage_limits_title (7074684882530693016) -->
+    <skip />
+    <!-- no translation found for storage_limits_message (8729608389698270388) -->
+    <skip />
+    <!-- no translation found for storage_limits_setting (4952781049308537373) -->
+    <skip />
+    <!-- no translation found for storage_limits_setting_dismiss (1433841310158458034) -->
+    <skip />
 </resources>
