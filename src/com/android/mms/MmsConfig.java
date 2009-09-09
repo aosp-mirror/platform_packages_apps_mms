@@ -53,7 +53,7 @@ public class MmsConfig {
     private static int mRecipientLimit = Integer.MAX_VALUE;     // default value
     private static int mDefaultSMSMessagesPerThread = 200;      // default value
     private static int mDefaultMMSMessagesPerThread = 20;       // default value
-    private static int mMinMessageCountPerThread = 10;          // default value
+    private static int mMinMessageCountPerThread = 2;           // default value
     private static int mMaxMessageCountPerThread = 5000;        // default value
     private static int mSmsToMmsTextThreshold = 4;              // default value
     private static int mHttpSocketTimeout = 60*1000;            // default to 1 min

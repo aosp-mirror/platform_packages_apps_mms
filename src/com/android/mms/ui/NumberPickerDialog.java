@@ -21,15 +21,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.android.internal.widget.NumberPicker;
 
 import com.android.mms.R;
 
 /**
- * A dialog that prompts the user for the time of day using a {@link TimePicker}.
+ * A dialog that prompts the user for the message deletion limits.
  */
 public class NumberPickerDialog extends AlertDialog implements OnClickListener {
     private int mInitialNumber;
@@ -48,7 +50,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
         void onNumberSet(int number);
     }
 
-    private final NumberPicker mNumberPicker;
+    private final NonWrapNumberPicker mNumberPicker;
     private final OnNumberSetListener mCallback;
 
     /**
@@ -92,7 +94,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.number_picker, null);
         setView(view);
-        mNumberPicker = (NumberPicker) view.findViewById(R.id.number_picker);
+        mNumberPicker = (NonWrapNumberPicker) view.findViewById(R.id.number_picker);
 
         // initialize state
         mNumberPicker.setRange(rangeMin, rangeMax);
@@ -121,4 +123,33 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
         int number = savedInstanceState.getInt(NUMBER);
         mNumberPicker.setCurrent(number);
     }
+
+    public static class NonWrapNumberPicker extends NumberPicker {
+
+        public NonWrapNumberPicker(Context context) {
+            this(context, null);
+        }
+
+        public NonWrapNumberPicker(Context context, AttributeSet attrs) {
+            this(context, attrs, 0);
+        }
+
+        @SuppressWarnings({"UnusedDeclaration"})
+        public NonWrapNumberPicker(Context context, AttributeSet attrs, int defStyle) {
+            super(context, attrs);
+        }
+
+        @Override
+        protected void changeCurrent(int current) {
+            // Don't wrap. Pin instead.
+            if (current > mEnd) {
+                current = mEnd;
+            } else if (current < mStart) {
+                current = mStart;
+            }
+            super.changeCurrent(current);
+        }
+
+    }
+
 }
