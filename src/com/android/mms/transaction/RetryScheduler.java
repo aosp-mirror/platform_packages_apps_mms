@@ -18,6 +18,7 @@
 package com.android.mms.transaction;
 
 import com.android.mms.R;
+import com.android.mms.LogTag;
 import com.android.mms.util.DownloadManager;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPersister;
@@ -73,6 +74,11 @@ public class RetryScheduler implements Observer {
     public void update(Observable observable) {
         try {
             Transaction t = (Transaction) observable;
+
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                Log.v(TAG, "[RetryScheduler] update " + observable);
+            }
+            
             // We are only supposed to handle M-Notification.ind, M-Send.req
             // and M-ReadRec.ind.
             if ((t instanceof NotificationTransaction)
@@ -136,10 +142,9 @@ public class RetryScheduler implements Observer {
                     if ((retryIndex < scheme.getRetryLimit()) && retry) {
                         long retryAt = current + scheme.getWaitingInterval();
 
-                        if (LOCAL_LOGV) {
-                            Log.v(TAG, "Retry for " + uri + " is scheduled to "
-                                    + DateFormat.format("kk:mm:ss.", retryAt)
-                                    + (retryAt % 1000));
+                        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                            Log.v(TAG, "scheduleRetry: retry for " + uri + " is scheduled at "
+                                    + (retryAt - System.currentTimeMillis()) + "ms from now");
                         }
 
                         values.put(PendingMessages.DUE_TIME, retryAt);
@@ -237,10 +242,9 @@ public class RetryScheduler implements Observer {
                             Context.ALARM_SERVICE);
                     am.set(AlarmManager.RTC, retryAt, operation);
 
-                    if (LOCAL_LOGV) {
-                        Log.v(TAG, "Next retry is scheduled at: "
-                                + DateFormat.format("kk:mm:ss.", retryAt)
-                                + (retryAt % 1000));
+                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                        Log.v(TAG, "Next retry is scheduled at"
+                                + (retryAt - System.currentTimeMillis()) + "ms from now");
                     }
                 }
             } finally {
