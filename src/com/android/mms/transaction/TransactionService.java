@@ -176,8 +176,7 @@ public class TransactionService extends Service implements Observer {
         boolean noNetwork = !isNetworkAvailable();
         
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras() + " action =" +
-                    intent.getAction());
+            Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras() + " intent=" + intent);
             Log.v(TAG, "    networkAvailable=" + !noNetwork);
         }
 
@@ -187,18 +186,22 @@ public class TransactionService extends Service implements Observer {
                     System.currentTimeMillis());
             if (cursor != null) {
                 try {
-                    if (cursor.getCount() == 0) {
+                    int count = cursor.getCount();
+
+                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                        Log.v(TAG, "onStart: cursor.count=" + count);
+                    }
+
+                    if (count == 0) {
                         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                            Log.v(TAG, "onStart: " +
-                                    "No pending messages. Stopping service.");
+                            Log.v(TAG, "onStart: no pending messages. Stopping service.");
                         }
                         RetryScheduler.setRetryAlarm(this);
                         stopSelfIfIdle(startId);
                         return;
                     }
 
-                    int columnIndexOfMsgId = cursor.getColumnIndexOrThrow(
-                            PendingMessages.MSG_ID);
+                    int columnIndexOfMsgId = cursor.getColumnIndexOrThrow(PendingMessages.MSG_ID);
                     int columnIndexOfMsgType = cursor.getColumnIndexOrThrow(
                             PendingMessages.MSG_TYPE);
                     
@@ -248,8 +251,7 @@ public class TransactionService extends Service implements Observer {
                 }
             } else {
                 if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                    Log.v(TAG, "onStart: " +
-                            "No pending messages. Stopping service.");
+                    Log.v(TAG, "onStart: no pending messages. Stopping service.");
                 }
                 RetryScheduler.setRetryAlarm(this);
                 stopSelfIfIdle(startId);
@@ -321,6 +323,10 @@ public class TransactionService extends Service implements Observer {
     }
 
     private void onNetworkUnavailable(int serviceId, int transactionType) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG, "onNetworkUnavailable: sid=" + serviceId + ", type=" + transactionType);
+        }
+
         int toastType = TOAST_NONE;
         if (transactionType == Transaction.RETRIEVE_TRANSACTION) {
             toastType = TOAST_DOWNLOAD_LATER;
