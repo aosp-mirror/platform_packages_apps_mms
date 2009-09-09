@@ -88,7 +88,6 @@
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="50dip"
-                    android:paddingLeft="12dip"
                     android:src="@drawable/ic_maps_next" />
             </LinearLayout>
 
