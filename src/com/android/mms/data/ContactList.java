@@ -13,7 +13,9 @@ public class ContactList extends ArrayList<Contact>  {
     public static ContactList getByNumbers(Iterable<String> numbers, boolean canBlock) {
         ContactList list = new ContactList();
         for (String number : numbers) {
-            list.add(Contact.get(number, canBlock));
+            if (!TextUtils.isEmpty(number)) {
+                list.add(Contact.get(number, canBlock));
+            }
         }
         return list;
     }
@@ -21,7 +23,9 @@ public class ContactList extends ArrayList<Contact>  {
     public static ContactList getByNumbers(String semiSepNumbers, boolean canBlock) {
         ContactList list = new ContactList();
         for (String number : semiSepNumbers.split(";")) {
-            list.add(Contact.get(number, canBlock));
+            if (!TextUtils.isEmpty(number)) {
+                list.add(Contact.get(number, canBlock));
+            }
         }
         return list;
     }
@@ -29,8 +33,9 @@ public class ContactList extends ArrayList<Contact>  {
     public static ContactList getByIds(String spaceSepIds, boolean canBlock) {
         ContactList list = new ContactList();
         for (String number : RecipientIdCache.getNumbers(spaceSepIds)) {
-            Contact contact = Contact.get(number, canBlock);
-            list.add(contact);
+            if (!TextUtils.isEmpty(number)) {
+                list.add(Contact.get(number, canBlock));
+            }
         }
         return list;
     }
