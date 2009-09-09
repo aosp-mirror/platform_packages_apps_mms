@@ -69,7 +69,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteException;
 import android.drm.mobile1.DrmException;
 import android.drm.mobile1.DrmRawContent;
@@ -238,8 +237,7 @@ public class ComposeMessageActivity extends Activity
     private boolean mPossiblePendingNotification;   // If the message list has changed, we may have
                                                     // a pending notification to deal with.
 
-    private boolean mToastForDraftSave;          // Whether to notify the user that a draft is
-                                                 // being saved.
+    private boolean mToastForDraftSave;   // Whether to notify the user that a draft is being saved
 
     private WorkingMessage mWorkingMessage;         // The message currently being composed.
 
