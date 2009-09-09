@@ -36,7 +36,8 @@ This layout file is used by the AlertDialog when displaying a list of items.
         android:textSize="12sp"
         android:padding="1dip" />
 
-    <com.android.internal.widget.NumberPicker android:id="@+id/number_picker"
+    <view class="com.android.mms.ui.NumberPickerDialog$NonWrapNumberPicker"
+        android:id="@+id/number_picker"
         android:layout_centerInParent="true"
         android:layout_width="100dip"
         android:layout_height="fill_parent" />
