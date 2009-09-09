@@ -26,10 +26,12 @@ import static com.android.mms.ui.MessageListAdapter.COLUMN_ID;
 import static com.android.mms.ui.MessageListAdapter.COLUMN_MSG_TYPE;
 import static com.android.mms.ui.MessageListAdapter.PROJECTION;
 
+import com.android.internal.telephony.TelephonyIntents;
+import com.android.internal.telephony.TelephonyProperties;
 import com.android.internal.widget.ContactHeaderWidget;
+import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
-import com.android.mms.LogTag;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
@@ -41,10 +43,6 @@ import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
-
-import com.android.internal.telephony.TelephonyProperties;
-import com.android.internal.telephony.TelephonyIntents;
-
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -59,6 +57,7 @@ import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -66,7 +65,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ComponentName;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -84,10 +82,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
 import android.os.SystemProperties;
-import android.provider.Contacts;
+import android.provider.ContactsContract.Contacts;
 import android.provider.DrmStore;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.SmsMessage;
@@ -116,6 +115,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnKeyListener;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -126,18 +126,15 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.InputStream;
-import java.io.IOException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.lang.Boolean;
-
-import android.webkit.MimeTypeMap;
 
 /**
  * This is the main UI for:
@@ -802,20 +799,9 @@ public class ComposeMessageActivity extends Activity
     }
 
     private boolean haveEmailContact(String emailAddress) {
-        Cursor cursor = null;
-
-        try {
-            cursor = SqliteWrapper.query(this, getContentResolver(),
-                    Contacts.ContactMethods.CONTENT_EMAIL_URI,
-                    new String[] { Contacts.ContactMethods.NAME },
-                    Contacts.ContactMethods.DATA + " = " +
-                            DatabaseUtils.sqlEscapeString(emailAddress),
-                    null, null);
-        } catch (IllegalArgumentException ex) {
-            // catch the exception. Contact provider currently doesn't support the legacy
-            // url we are using, and is crashing us. We don't want to crash.
-            Log.e(TAG, "[CMA] haveEmailContact: caught " + ex);
-        }
+        Cursor cursor = SqliteWrapper.query(this, getContentResolver(),
+                Uri.withAppendedPath(Email.CONTENT_LOOKUP_URI, Uri.encode(emailAddress)),
+                new String[] { Contacts.DISPLAY_NAME }, null, null, null);
 
         if (cursor != null) {
             try {
@@ -1220,7 +1206,7 @@ public class ComposeMessageActivity extends Activity
             if (input instanceof FileInputStream) {
                 FileInputStream fin = (FileInputStream) input;
 
-                DrmRawContent content = new DrmRawContent(fin, (int) fin.available(),
+                DrmRawContent content = new DrmRawContent(fin, fin.available(),
                         DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING);
                 String mimeType = content.getContentType();
                 return mimeType;
@@ -2435,7 +2421,7 @@ public class ComposeMessageActivity extends Activity
         if (Intent.ACTION_SEND.equals(action)) {
             if (extras.containsKey(Intent.EXTRA_STREAM)) {
                 Uri uri = (Uri)extras.getParcelable(Intent.EXTRA_STREAM);
-                addAttachment(mimeType, (Uri) uri, false);
+                addAttachment(mimeType, uri, false);
                 return true;
             } else if (extras.containsKey(Intent.EXTRA_TEXT)) {
                 mWorkingMessage.setText(extras.getString(Intent.EXTRA_TEXT));

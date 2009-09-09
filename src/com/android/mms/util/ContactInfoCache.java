@@ -338,33 +338,39 @@ public class ContactInfoCache {
                             ", presence=" + entry.presenceResId);
                 }
 
-                Uri contactUri = ContentUris.withAppendedId(
-                        Contacts.CONTENT_URI,
-                        cursor.getLong(CONTACT_ID_COLUMN));
-
-                InputStream avatarDataStream =
-                    Contacts.openContactPhotoInputStream(
-                            mContext.getContentResolver(),
-                            contactUri);
-                if (avatarDataStream != null) {
-                    Bitmap b = BitmapFactory.decodeStream(avatarDataStream);
-
-                    BitmapDrawable bd =
-                        new BitmapDrawable(mContext.getResources(), b);
-
-                    entry.mAvatar = bd;
-                    try {
-                        avatarDataStream.close();
-                    } catch (IOException e) {
-                        entry.mAvatar = null;
-                    }
-                }
+                loadAvatar(entry, cursor);
             }
         } finally {
             cursor.close();
         }
 
         return entry;
+    }
+
+    private void loadAvatar(CacheEntry entry, Cursor cursor) {
+        if (entry.person_id == 0 || entry.mAvatar != null) {
+            return;
+        }
+
+        Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, entry.person_id);
+
+        InputStream avatarDataStream =
+            Contacts.openContactPhotoInputStream(
+                    mContext.getContentResolver(),
+                    contactUri);
+        if (avatarDataStream != null) {
+            Bitmap b = BitmapFactory.decodeStream(avatarDataStream);
+
+            BitmapDrawable bd =
+                new BitmapDrawable(mContext.getResources(), b);
+
+            entry.mAvatar = bd;
+            try {
+                avatarDataStream.close();
+            } catch (IOException e) {
+                entry.mAvatar = null;
+            }
+        }
     }
 
     /**
@@ -499,12 +505,14 @@ public class ContactInfoCache {
                     String name = cursor.getString(EMAIL_NAME_COLUMN);
                     if (!TextUtils.isEmpty(name)) {
                         entry.name = name;
+                        loadAvatar(entry, cursor);
                         if (LOCAL_DEBUG) {
                             log("queryEmailDisplayName: name=" + entry.name + ", email=" + email +
                                     ", presence=" + entry.presenceResId);
                         }
                         break;
                     }
+
                 }
             } finally {
                 cursor.close();
