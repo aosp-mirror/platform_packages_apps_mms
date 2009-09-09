@@ -554,9 +554,9 @@ public class WorkingMessage {
     /**
      * Removes the subject if it is empty, possibly converting back to SMS.
      */
-    private void removeSubjectIfEmpty() {
+    private void removeSubjectIfEmpty(boolean notify) {
         if (!hasSubject()) {
-            setSubject(null, true);
+            setSubject(null, notify);
         }
     }
 
@@ -564,7 +564,7 @@ public class WorkingMessage {
      * Gets internal message state ready for storage.  Should be called any
      * time the message is about to be sent or written to disk.
      */
-    private void prepareForSave() {
+    private void prepareForSave(boolean notify) {
         // Make sure our working set of recipients is resolved
         // to first-class Contact objects before we save.
         syncWorkingRecipients();
@@ -572,7 +572,7 @@ public class WorkingMessage {
         if (requiresMms()) {
             ensureSlideshow();
             syncTextToSlideshow();
-            removeSubjectIfEmpty();
+            removeSubjectIfEmpty(notify);
         }
     }
 
@@ -606,7 +606,7 @@ public class WorkingMessage {
         updateState(FORCE_MMS, true, false);
 
         // Collect our state to be written to disk.
-        prepareForSave();
+        prepareForSave(true /* notify */);
 
         // Make sure we are saving to the correct thread ID.
         mConversation.ensureThreadId();
@@ -645,8 +645,8 @@ public class WorkingMessage {
             throw new IllegalStateException("saveDraft() called with no conversation");
         }
 
-        // Get ready to write to disk.
-        prepareForSave();
+        // Get ready to write to disk. But don't notify message status when saving draft
+        prepareForSave(false /* notify */);
 
         if (requiresMms()) {
             asyncUpdateDraftMmsMessage(mConversation);
@@ -855,7 +855,7 @@ public class WorkingMessage {
         }
 
         // Get ready to write to disk.
-        prepareForSave();
+        prepareForSave(true /* notify */);
 
         // We need the recipient list for both SMS and MMS.
         final Conversation conv = mConversation;
