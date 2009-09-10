@@ -73,7 +73,10 @@ public class Conversation {
 
     private Conversation(Context context, long threadId) {
         mContext = context;
-        loadFromThreadId(threadId);
+        if (!loadFromThreadId(threadId)) {
+            mRecipients = new ContactList();
+            mThreadId = 0;
+        }
     }
 
     private Conversation(Context context, Cursor cursor, boolean allowQuery) {
@@ -655,17 +658,19 @@ public class Conversation {
         }
     }
 
-    private void loadFromThreadId(long threadId) {
+    private boolean loadFromThreadId(long threadId) {
         Cursor c = mContext.getContentResolver().query(sAllThreadsUri, ALL_THREADS_PROJECTION,
                 "_id=" + Long.toString(threadId), null, null);
         try {
             if (c.moveToFirst()) {
                 fillFromCursor(mContext, this, c, true);
             } else {
-                throw new IllegalArgumentException("Can't find thread ID " + threadId);
+                Log.e(TAG, "loadFromThreadId: Can't find thread ID " + threadId);
+                return false;
             }
         } finally {
             c.close();
         }
+        return true;
     }
 }
