@@ -257,6 +257,12 @@ public class SlideEditorActivity extends Activity {
 
     private final OnClickListener mOnReplaceImage = new OnClickListener() {
         public void onClick(View v) {
+            SlideModel slide = mSlideshowModel.get(mPosition);
+            if (slide.hasVideo()) {
+                Toast.makeText(SlideEditorActivity.this, R.string.cannot_add_picture_and_video,
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
             intent.setType(ContentType.IMAGE_UNSPECIFIED);
             startActivityForResult(intent, REQUEST_CODE_CHANGE_PICTURE);

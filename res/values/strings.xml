@@ -221,6 +221,8 @@
     <string name="converting_to_text_message">Converting to text message\u2026</string>
     <!-- Brief message that appears when the maximum number of slides has been reached -->
     <string name="cannot_add_slide_anymore">Cannot add more slides.</string>
+    <!-- Brief message that appears when user tries to add picture to a slide which already has a video. -->
+    <string name="cannot_add_picture_and_video">Cannot add video and picture to one slide.</string>
     <!-- Brief message that appears when the message cannot be saved -->
     <string name="cannot_save_message">Cannot save message.</string>
     <string name="cannot_load_message">Cannot load message.</string>
