@@ -56,7 +56,6 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
     private TextView mFromView;
     private TextView mDateView;
     private View mAttachmentView;
-    private View mUnreadIndicator;
     private View mErrorIndicator;
     private ImageView mPresenceView;
     private ImageView mAvatarView;
@@ -91,7 +90,6 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
 
         mDateView = (TextView) findViewById(R.id.date);
         mAttachmentView = findViewById(R.id.attachment);
-        mUnreadIndicator = findViewById(R.id.unread_indicator);
         mErrorIndicator = findViewById(R.id.error);
         mPresenceView = (ImageView) findViewById(R.id.presence);
         mAvatarView = (ImageView) findViewById(R.id.avatar);
@@ -243,8 +241,6 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
         ContactList contacts = ch.getContacts();
         contacts.addListeners(this);
         setPresenceIcon(contacts.getPresenceResId());
-
-        mUnreadIndicator.setVisibility(ch.isRead() ? INVISIBLE : VISIBLE);
 
         // Subject
         mSubjectView.setText(ch.getSubject());
