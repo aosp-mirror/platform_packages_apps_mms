@@ -195,7 +195,7 @@ public abstract class Recycler {
             Cursor cursor = SqliteWrapper.query(context, resolver,
                     ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
                     SMS_MESSAGE_PROJECTION,
-                    "read=1 AND locked=0",
+                    "locked=0",
                     null, "date DESC");     // get in newest to oldest order
 
             int count = cursor.getCount();
@@ -215,7 +215,7 @@ public abstract class Recycler {
 
                 long cntDeleted = SqliteWrapper.delete(context, resolver,
                         ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
-                        "read=1 AND locked=0 AND date<" + latestDate,
+                        "locked=0 AND date<" + latestDate,
                         null);
                 if (LOCAL_DEBUG) {
                     Log.v(TAG, "SMS: deleteMessagesForThread cntDeleted: " + cntDeleted);
@@ -249,7 +249,7 @@ public abstract class Recycler {
                     Cursor msgs = SqliteWrapper.query(context, resolver,
                             ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
                             SMS_MESSAGE_PROJECTION,
-                            "read=1 AND locked=0",
+                            "locked=0",
                             null, "date DESC");     // get in newest to oldest order
 
                     if (msgs.getCount() >= limit) {
@@ -320,7 +320,7 @@ public abstract class Recycler {
             Cursor cursor = SqliteWrapper.query(context, resolver,
                     Telephony.Mms.CONTENT_URI,
                     MMS_MESSAGE_PROJECTION,
-                    "thread_id=" + threadId + " AND read=1 AND locked=0",
+                    "thread_id=" + threadId + " AND locked=0",
                     null, "date DESC");     // get in newest to oldest order
 
             int count = cursor.getCount();
@@ -340,7 +340,7 @@ public abstract class Recycler {
 
                 long cntDeleted = SqliteWrapper.delete(context, resolver,
                         Telephony.Mms.CONTENT_URI,
-                        "thread_id=" + threadId + " AND read=1 AND locked=0 AND date<" + latestDate,
+                        "thread_id=" + threadId + " AND locked=0 AND date<" + latestDate,
                         null);
                 if (LOCAL_DEBUG) {
                     Log.v(TAG, "MMS: deleteMessagesForThread cntDeleted: " + cntDeleted);
@@ -370,7 +370,7 @@ public abstract class Recycler {
                     Cursor msgs = SqliteWrapper.query(context, resolver,
                             Telephony.Mms.CONTENT_URI,
                             MMS_MESSAGE_PROJECTION,
-                            "thread_id=" + threadId + " AND read=1 AND locked=0",
+                            "thread_id=" + threadId + " AND locked=0",
                             null, "date DESC");     // get in newest to oldest order
 
                     if (msgs.getCount() >= limit) {
