@@ -367,12 +367,16 @@
     <!-- Confirm Delete -->
     <!-- Delete confirmation dialog title -->
     <string name="confirm_dialog_title">Delete</string>
+    <!-- Delete confirmation dialog title for locked messages -->
+    <string name="confirm_dialog_locked_title">Delete locked message?</string>
     <!-- Delete entire thread confirmation dialog message -->
     <string name="confirm_delete_conversation">The entire thread will be deleted.</string>
     <!-- Delete all threads confirmation dialog message -->
     <string name="confirm_delete_all_conversations">All threads will be deleted.</string>
     <!-- Delete message confirmation dialog message -->
     <string name="confirm_delete_message">The message will be deleted.</string>
+    <!-- Delete message confirmation dialog message for a locked message -->
+    <string name="confirm_delete_locked_message">Are you sure you want to delete this locked message?</string>
     <!-- Delete entire thread confirmation dialog message -->
     <string name="confirm_delete_all_messages">The entire thread will be deleted.</string>
     <!-- Delete all the messages on the SIM dialog message -->

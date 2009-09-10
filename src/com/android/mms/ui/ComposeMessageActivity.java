@@ -25,6 +25,7 @@ import static com.android.mms.transaction.ProgressCallbackEntity.PROGRESS_STATUS
 import static com.android.mms.ui.MessageListAdapter.COLUMN_ID;
 import static com.android.mms.ui.MessageListAdapter.COLUMN_MSG_TYPE;
 import static com.android.mms.ui.MessageListAdapter.PROJECTION;
+import static com.android.mms.ui.MessageListAdapter.COLUMN_MMS_LOCKED;
 
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.TelephonyProperties;
@@ -41,12 +42,14 @@ import com.android.mms.model.SlideshowModel;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
+import com.android.mms.util.DraftCache;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.PduBody;
+import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendReq;
@@ -117,6 +120,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -201,7 +205,6 @@ public class ComposeMessageActivity extends Activity
     private static final int MESSAGE_LIST_QUERY_TOKEN = 9527;
 
     private static final int DELETE_MESSAGE_TOKEN  = 9700;
-    private static final int DELETE_CONVERSATION_TOKEN  = 9701;
 
     private static final int CHARS_REMAINING_BEFORE_COUNTER_SHOWN = 10;
 
@@ -246,6 +249,7 @@ public class ComposeMessageActivity extends Activity
     private boolean mWaitingForSubActivity;
     private int mLastRecipientCount;            // Used for warning the user on too many recipients.
     private ContactHeaderWidget mContactHeader;
+    private boolean mDeleteLockedMessages;
 
     @SuppressWarnings("unused")
     private static void log(String format, Object... args) {
@@ -434,14 +438,14 @@ public class ComposeMessageActivity extends Activity
 
     private class DeleteMessageListener implements OnClickListener {
         private final Uri mDeleteUri;
-        private final boolean mDeleteAll;
+        private final boolean mDeleteLocked;
 
-        public DeleteMessageListener(Uri uri, boolean all) {
+        public DeleteMessageListener(Uri uri, boolean deleteLocked) {
             mDeleteUri = uri;
-            mDeleteAll = all;
+            mDeleteLocked = deleteLocked;
         }
 
-        public DeleteMessageListener(long msgId, String type) {
+        public DeleteMessageListener(long msgId, String type, boolean deleteLocked) {
             if ("mms".equals(type)) {
                 mDeleteUri = ContentUris.withAppendedId(
                         Mms.CONTENT_URI, msgId);
@@ -449,14 +453,12 @@ public class ComposeMessageActivity extends Activity
                 mDeleteUri = ContentUris.withAppendedId(
                         Sms.CONTENT_URI, msgId);
             }
-            mDeleteAll = false;
+            mDeleteLocked = deleteLocked;
         }
 
         public void onClick(DialogInterface dialog, int whichButton) {
-            int token = mDeleteAll ? DELETE_CONVERSATION_TOKEN
-                                   : DELETE_MESSAGE_TOKEN;
-            mBackgroundQueryHandler.startDelete(token,
-                    null, mDeleteUri, "locked=0", null);
+            mBackgroundQueryHandler.startDelete(DELETE_MESSAGE_TOKEN,
+                    null, mDeleteUri, mDeleteLocked ? null : "locked=0", null);
         }
     }
 
@@ -1045,14 +1047,9 @@ public class ComposeMessageActivity extends Activity
                     return true;
                 }
                 case MENU_DELETE_MESSAGE: {
-                    if (!msgItem.mLocked) {
-                        DeleteMessageListener l = new DeleteMessageListener(
-                                msgItem.mMessageUri, false);
-                        confirmDeleteDialog(l, false);
-                    } else {
-                        Toast.makeText(ComposeMessageActivity.this,
-                             R.string.locked_message_cannot_be_deleted, Toast.LENGTH_SHORT).show();
-                    }
+                    DeleteMessageListener l = new DeleteMessageListener(
+                            msgItem.mMessageUri, msgItem.mLocked);
+                    confirmDeleteDialog(l, msgItem.mLocked);
                     return true;
                 }
                 case MENU_DELIVERY_REPORT:
@@ -1919,10 +1916,12 @@ public class ComposeMessageActivity extends Activity
                     }
 
                     if (cursor != null) {
+                        boolean locked = cursor.getInt(COLUMN_MMS_LOCKED) != 0;
                         DeleteMessageListener l = new DeleteMessageListener(
                                 cursor.getLong(COLUMN_ID),
-                                cursor.getString(COLUMN_MSG_TYPE));
-                        confirmDeleteDialog(l, false);
+                                cursor.getString(COLUMN_MSG_TYPE),
+                                locked);
+                        confirmDeleteDialog(l, locked);
                         return true;
                     }
                 }
@@ -2106,9 +2105,7 @@ public class ComposeMessageActivity extends Activity
                 onSearchRequested();
                 break;
             case MENU_DELETE_THREAD:
-                DeleteMessageListener l = new DeleteMessageListener(
-                        mConversation.getUri(), true);
-                confirmDeleteDialog(l, true);
+                confirmDeleteThread(mConversation.getThreadId());
                 break;
             case MENU_CONVERSATION_LIST:
                 exitComposeMessageActivity(new Runnable() {
@@ -2137,6 +2134,11 @@ public class ComposeMessageActivity extends Activity
         }
 
         return true;
+    }
+
+    private void confirmDeleteThread(long threadId) {
+        Conversation.startQueryHaveLockedMessages(mBackgroundQueryHandler,
+                threadId, ConversationList.HAVE_LOCKED_MESSAGES_TOKEN);
     }
 
     private int getVideoCaptureDurationLimit() {
@@ -2553,15 +2555,15 @@ public class ComposeMessageActivity extends Activity
         mContactHeader = (ContactHeaderWidget) findViewById(R.id.contact_header);
     }
 
-    private void confirmDeleteDialog(OnClickListener listener, boolean allMessages) {
+    private void confirmDeleteDialog(OnClickListener listener, boolean locked) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.confirm_dialog_title);
+        builder.setTitle(locked ? R.string.confirm_dialog_locked_title :
+            R.string.confirm_dialog_title);
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setCancelable(true);
-        builder.setMessage(allMessages
-                ? R.string.confirm_delete_conversation
-                : R.string.confirm_delete_message);
-        builder.setPositiveButton(R.string.yes, listener);
+        builder.setMessage(locked ? R.string.confirm_delete_locked_message :
+                    R.string.confirm_delete_message);
+        builder.setPositiveButton(R.string.delete, listener);
         builder.setNegativeButton(R.string.no, null);
         builder.show();
     }
@@ -2921,6 +2923,16 @@ public class ComposeMessageActivity extends Activity
                     mTextEditor.requestFocus();
 
                     return;
+
+                case ConversationList.HAVE_LOCKED_MESSAGES_TOKEN:
+                    long threadId = (Long)cookie;
+                    ConversationList.confirmDeleteThreadDialog(
+                            new ConversationList.DeleteThreadListener(threadId,
+                                mBackgroundQueryHandler, ComposeMessageActivity.this),
+                            threadId == -1,
+                            cursor != null && cursor.getCount() > 0,
+                            ComposeMessageActivity.this);
+                    break;
             }
         }
 
@@ -2928,7 +2940,7 @@ public class ComposeMessageActivity extends Activity
         protected void onDeleteComplete(int token, Object cookie, int result) {
             switch(token) {
             case DELETE_MESSAGE_TOKEN:
-            case DELETE_CONVERSATION_TOKEN:
+            case ConversationList.DELETE_CONVERSATION_TOKEN:
                 // Update the notification for new messages since they
                 // may be deleted.
                 MessagingNotification.updateNewMessageIndicator(
@@ -2941,7 +2953,7 @@ public class ComposeMessageActivity extends Activity
 
             // If we're deleting the whole conversation, throw away
             // our current working message and bail.
-            if (token == DELETE_CONVERSATION_TOKEN) {
+            if (token == ConversationList.DELETE_CONVERSATION_TOKEN) {
                 mWorkingMessage.discard();
                 Conversation.init(ComposeMessageActivity.this);
                 finish();

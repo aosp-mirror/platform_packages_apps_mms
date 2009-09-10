@@ -33,6 +33,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -72,8 +73,8 @@ public class ConversationList extends ListActivity
     private static final boolean LOCAL_LOGV = DEBUG;
 
     private static final int THREAD_LIST_QUERY_TOKEN = 1701;
-    private static final int DELETE_CONVERSATION_TOKEN = 1801;
-    private static final int HAVE_LOCKED_MESSAGES_TOKEN = 1802;
+    public static final int DELETE_CONVERSATION_TOKEN = 1801;
+    public static final int HAVE_LOCKED_MESSAGES_TOKEN = 1802;
 
     // IDs of the main menu items.
     public static final int MENU_COMPOSE_NEW          = 0;
@@ -92,7 +93,6 @@ public class ConversationList extends ListActivity
     private CharSequence mTitle;
     private SharedPreferences mPrefs;
     private Handler mHandler;
-    private boolean mDeleteLockedMessages;
 
     static private final String CHECKED_MESSAGE_LIMITS = "checked_message_limits";
 
@@ -304,7 +304,8 @@ public class ConversationList extends ListActivity
                 onSearchRequested();
                 break;
             case MENU_DELETE_ALL:
-                confirmDelete(-1L);     // The invalid threadId of -1 means all threads here.
+                // The invalid threadId of -1 means all threads here.
+                confirmDeleteThread(-1L, mQueryHandler);
                 break;
             case MENU_PREFERENCES: {
                 Intent intent = new Intent(this, MessagingPreferenceActivity.class);
@@ -392,7 +393,7 @@ public class ConversationList extends ListActivity
             long threadId = conv.getThreadId();
             switch (item.getItemId()) {
             case MENU_DELETE: {
-                confirmDelete(threadId);
+                confirmDeleteThread(threadId, mQueryHandler);
                 break;
             }
             case MENU_VIEW: {
@@ -431,13 +432,32 @@ public class ConversationList extends ListActivity
         if (DEBUG) Log.v(TAG, "onConfigurationChanged: " + newConfig);
     }
 
-    private void confirmDelete(long threadId) {
-        Conversation.startQueryHaveLockedMessages(mQueryHandler, threadId, HAVE_LOCKED_MESSAGES_TOKEN);
+    /**
+     * Start the process of putting up a dialog to confirm deleting a thread,
+     * but first start a background query to see if any of the threads or thread
+     * contain locked messages so we'll know how detailed of a UI to display.
+     * @param threadId id of the thread to delete or -1 for all threads
+     * @param handler query handler to do the background locked query
+     */
+    public static void confirmDeleteThread(long threadId, AsyncQueryHandler handler) {
+        Conversation.startQueryHaveLockedMessages(handler, threadId,
+                HAVE_LOCKED_MESSAGES_TOKEN);
     }
 
-    private void confirmDeleteDialog(OnClickListener listener, boolean deleteAll,
-            boolean hasLockedMessages) {
-        View contents = View.inflate(this, R.layout.delete_thread_dialog_view, null);
+    /**
+     * Build and show the proper delete thread dialog. The UI is slightly different
+     * depending on whether there are locked messages in the thread(s) and whether we're
+     * deleting a single thread or all threads.
+     * @param listener gets called when the delete button is pressed
+     * @param deleteAll whether to show a single thread or all threads UI
+     * @param hasLockedMessages whether the thread(s) contain locked messages
+     * @param context used to load the various UI elements
+     */
+    public static void confirmDeleteThreadDialog(final DeleteThreadListener listener,
+            boolean deleteAll,
+            boolean hasLockedMessages,
+            Context context) {
+        View contents = View.inflate(context, R.layout.delete_thread_dialog_view, null);
         TextView msg = (TextView)contents.findViewById(R.id.message);
         msg.setText(deleteAll
                 ? R.string.confirm_delete_all_conversations
@@ -446,15 +466,15 @@ public class ConversationList extends ListActivity
         if (!hasLockedMessages) {
             checkbox.setVisibility(View.GONE);
         } else {
-            mDeleteLockedMessages = checkbox.isChecked();
+            listener.setDeleteLockedMessage(checkbox.isChecked());
             checkbox.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    mDeleteLockedMessages = checkbox.isChecked();
+                    listener.setDeleteLockedMessage(checkbox.isChecked());
                 }
             });
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.confirm_dialog_title)
             .setIcon(android.R.drawable.ic_dialog_alert)
         .setCancelable(true)
@@ -471,7 +491,7 @@ public class ConversationList extends ListActivity
                     case KeyEvent.KEYCODE_DEL: {
                         long id = getListView().getSelectedItemId();
                         if (id > 0) {
-                            confirmDelete(id);
+                            confirmDeleteThread(id, mQueryHandler);
                         }
                         return true;
                     }
@@ -481,23 +501,32 @@ public class ConversationList extends ListActivity
         }
     };
 
-    private class DeleteThreadListener implements OnClickListener {
+    public static class DeleteThreadListener implements OnClickListener {
         private final long mThreadId;
+        private final AsyncQueryHandler mHandler;
+        private final Context mContext;
+        private boolean mDeleteLockedMessages;
 
-        public DeleteThreadListener(long threadId) {
+        public DeleteThreadListener(long threadId, AsyncQueryHandler handler, Context context) {
             mThreadId = threadId;
+            mHandler = handler;
+            mContext = context;
+        }
+
+        public void setDeleteLockedMessage(boolean deleteLockedMessages) {
+            mDeleteLockedMessages = deleteLockedMessages;
         }
 
         public void onClick(DialogInterface dialog, final int whichButton) {
-            MessageUtils.handleReadReport(ConversationList.this, mThreadId,
+            MessageUtils.handleReadReport(mContext, mThreadId,
                     PduHeaders.READ_STATUS__DELETED_WITHOUT_BEING_READ, new Runnable() {
                 public void run() {
                     int token = DELETE_CONVERSATION_TOKEN;
                     if (mThreadId == -1) {
-                        Conversation.startDeleteAll(mQueryHandler, token, mDeleteLockedMessages);
+                        Conversation.startDeleteAll(mHandler, token, mDeleteLockedMessages);
                         DraftCache.getInstance().refresh();
                     } else {
-                        Conversation.startDelete(mQueryHandler, token, mDeleteLockedMessages,
+                        Conversation.startDelete(mHandler, token, mDeleteLockedMessages,
                                 mThreadId);
                         DraftCache.getInstance().setDraftState(mThreadId, false);
                     }
@@ -522,8 +551,10 @@ public class ConversationList extends ListActivity
 
             case HAVE_LOCKED_MESSAGES_TOKEN:
                 long threadId = (Long)cookie;
-                confirmDeleteDialog(new DeleteThreadListener(threadId), threadId == -1,
-                        cursor != null && cursor.getCount() > 0);
+                confirmDeleteThreadDialog(new DeleteThreadListener(threadId, mQueryHandler,
+                        ConversationList.this), threadId == -1,
+                        cursor != null && cursor.getCount() > 0,
+                        ConversationList.this);
                 break;
 
             default:
