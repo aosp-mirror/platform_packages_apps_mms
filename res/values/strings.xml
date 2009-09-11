@@ -216,9 +216,9 @@
     <string name="cannot_forward_drm_obj">The DRM object included in the message cannot be forwarded.</string>
 
     <!-- Brief message that appears when converting a message from SMS to MMS. -->
-    <string name="converting_to_picture_message">Converting to MMS message\u2026</string>
+    <string name="converting_to_picture_message">Converting to multimedia message\u2026</string>
     <!-- Brief message that appears when converting a message from MMS to SMS. -->
-    <string name="converting_to_text_message">Converting to SMS message\u2026</string>
+    <string name="converting_to_text_message">Converting to text message\u2026</string>
     <!-- Brief message that appears when the maximum number of slides has been reached -->
     <string name="cannot_add_slide_anymore">Cannot add more slides.</string>
     <!-- Brief message that appears when the message cannot be saved -->
@@ -307,9 +307,9 @@
     <!-- Settings screen, section heading for notifications -->
     <string name="pref_notification_settings_title">Notification settings</string>
     <!-- Settings screen, section heading for MMS-specific settings -->
-    <string name="pref_mms_settings_title">MMS settings</string>
+    <string name="pref_mms_settings_title">"Multimedia message (MMS) settings"</string>
     <!-- Settings screen, section heading for SMS-specific settings -->
-    <string name="pref_sms_settings_title">SMS settings</string>
+    <string name="pref_sms_settings_title">"Text message (SMS) settings"</string>
     <!-- Settings screen, section heading for storage-specific settings -->
     <string name="pref_sms_storage_title">Storage settings</string>
 
@@ -336,9 +336,9 @@
     <!-- Settings item for boolean option to enable/disable auto-deletion of messages -->
     <string name="pref_title_auto_delete">Delete old messages</string>
     <!-- Settings item for integer option to set SMS delete limit -->
-    <string name="pref_title_sms_delete">SMS message limit</string>
+    <string name="pref_title_sms_delete">Text message limit</string>
     <!-- Settings item for integer option to set MMS delete limit -->
-    <string name="pref_title_mms_delete">MMS message limit</string>
+    <string name="pref_title_mms_delete">Multimedia message limit</string>
     <!-- Settings item for boolean option to display message notifications -->
     <string name="pref_title_notification_enabled">Notifications</string>
     <!-- Settings item description for boolean message notification option -->
@@ -396,11 +396,11 @@
     <!-- Label in "Message details" dialog -->
     <string name="message_type_label">Type:\u0020</string>
     <!-- "Type" value in "Message details" dialog -->
-    <string name="text_message">SMS message</string>
+    <string name="text_message">Text message</string>
     <!-- "Type" value in "Message details" dialog -->
-    <string name="multimedia_message">MMS message</string>
+    <string name="multimedia_message">Multimedia message</string>
     <!-- "Type" value in "Message details" dialog -->
-    <string name="multimedia_notification">MMS notification</string>
+    <string name="multimedia_notification">Multimedia message notification</string>
     <!-- Label in "Message details" dialog showing who sent the message. -->
     <string name="from_label">From:\u0020</string>
     <!-- Label in "Message details" dialog -->
@@ -450,7 +450,7 @@
     <!-- Menu title to delete a selected messaged from the SIM card. -->
     <string name="sim_delete">Delete</string>
     <!-- Title of screen displaying messages on SIM card -->
-    <string name="sim_manage_messages_title">SMS messages on SIM card</string>
+    <string name="sim_manage_messages_title">Text messages on SIM card</string>
     <!-- Context menu item but currently commented out in 1.0. -->
     <string name="sim_view">View</string>
     <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
@@ -517,12 +517,12 @@
     <string name="sim_full_body">Delete some messages to make room for more.</string>
 
     <!-- Device Full Notification dialog title. -->
-    <string name="sms_full_title">SMS memory full</string>
+    <string name="sms_full_title">Text message memory full</string>
     <!-- Device Full Notification dialog text. -->
     <string name="sms_full_body">Incoming message rejected due to full memory. Please delete old messages.</string>
 
     <!-- Sms's Being Rejected Notification dialog title. -->
-    <string name="sms_rejected_title">SMS message rejected</string>
+    <string name="sms_rejected_title">Text message rejected</string>
     <!-- Sms's Being Rejected Notification dialog text. -->
     <string name="sms_rejected_body">Incoming message rejected due to unknown reason.</string>
 
@@ -642,7 +642,7 @@
     <string name="class_0_message_activity">Class 0 Message</string>
 
     <!-- Title of the send-using-MMS activity. -->
-    <string name="send_using_mms_activity">Send using MMS\u2026</string>
+    <string name="send_using_mms_activity">Send as multimedia message\u2026</string>
 
     <!-- Title of the select-contact-method activity. -->
     <string name="select_contact_method_activity">Select Contact Method</string>
