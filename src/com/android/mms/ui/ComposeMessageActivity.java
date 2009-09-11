@@ -447,11 +447,9 @@ public class ComposeMessageActivity extends Activity
 
         public DeleteMessageListener(long msgId, String type, boolean deleteLocked) {
             if ("mms".equals(type)) {
-                mDeleteUri = ContentUris.withAppendedId(
-                        Mms.CONTENT_URI, msgId);
+                mDeleteUri = ContentUris.withAppendedId(Mms.CONTENT_URI, msgId);
             } else {
-                mDeleteUri = ContentUris.withAppendedId(
-                        Sms.CONTENT_URI, msgId);
+                mDeleteUri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgId);
             }
             mDeleteLocked = deleteLocked;
         }
@@ -1777,15 +1775,6 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Register to get notified of presence changes so we can update the presence indicator.
-        Contact.startPresenceObserver();
-        addRecipientsListeners();
-    }
-
     private void updateSendFailedNotification() {
         final long threadId = mConversation.getThreadId();
         if (threadId <= 0)
@@ -1815,10 +1804,26 @@ public class ComposeMessageActivity extends Activity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        // OLD: get notified of presence updates to update the titlebar.
+        // NEW: we are using ContactHeaderWidget which displays presence, but updating presence
+        //      there is out of our control.
+        //Contact.startPresenceObserver();
+
+        addRecipientsListeners();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
-        Contact.stopPresenceObserver();
+        // OLD: stop getting notified of presence updates to update the titlebar.
+        // NEW: we are using ContactHeaderWidget which displays presence, but updating presence
+        //      there is out of our control.
+        //Contact.stopPresenceObserver();
+
         removeRecipientsListeners();
     }
 
