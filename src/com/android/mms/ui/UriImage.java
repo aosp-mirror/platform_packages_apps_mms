@@ -63,9 +63,9 @@ public class UriImage {
         } else if (uri.getScheme().equals("file")) {
             initFromFile(context, uri);
         }
-        
+
         mSrc = mPath.substring(mPath.lastIndexOf('/') + 1);
-        
+
         // Some MMSCs appear to have problems with filenames
         // containing a space.  So just replace them with
         // underscores in the name, which is typically not
@@ -79,16 +79,22 @@ public class UriImage {
     }
 
     private void initFromFile(Context context, Uri uri) {
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        String extension = MimeTypeMap.getFileExtensionFromUrl(uri.toString());
-        mContentType = mimeTypeMap.getMimeTypeFromExtension(extension);
-        if (mContentType == null) {
-            throw new IllegalArgumentException(
-                    "Unable to determine extension for " + uri.toString());
-        }
         mPath = uri.getPath();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        String extension = MimeTypeMap.getFileExtensionFromUrl(mPath);
+        if (TextUtils.isEmpty(extension)) {
+            // getMimeTypeFromExtension() doesn't handle spaces in filenames nor can it handle
+            // urlEncoded strings. Let's try one last time at finding the extension.
+            int dotPos = mPath.lastIndexOf('.');
+            if (0 <= dotPos) {
+                extension = mPath.substring(dotPos + 1);
+            }
+        }
+        mContentType = mimeTypeMap.getMimeTypeFromExtension(extension);
+        // It's ok if mContentType is null. Eventually we'll show a toast telling the
+        // user the picture couldn't be attached.
     }
-    
+
     private void initFromContentUri(Context context, Uri uri) {
         Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
                             uri, null, null, null, null);
