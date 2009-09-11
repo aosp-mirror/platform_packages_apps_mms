@@ -1067,6 +1067,10 @@ public class WorkingMessage {
     private static void updateDraftMmsMessage(Uri uri, PduPersister persister,
             SlideshowModel slideshow, SendReq sendReq) {
         if (DEBUG) debug("updateDraftMmsMessage uri=%s", uri);
+        if (uri == null) {
+            Log.e(TAG, "updateDraftMmsMessage null uri");
+            return;
+        }
         persister.updateHeaders(uri, sendReq);
         final PduBody pb = slideshow.toPduBody();
 
