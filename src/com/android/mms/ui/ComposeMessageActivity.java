@@ -252,14 +252,13 @@ public class ComposeMessageActivity extends Activity
     private boolean mDeleteLockedMessages;
 
     @SuppressWarnings("unused")
-    private static void log(String format, Object... args) {
+    private static void log(String logMsg) {
         Thread current = Thread.currentThread();
         long tid = current.getId();
         StackTraceElement[] stack = current.getStackTrace();
         String methodName = stack[3].getMethodName();
         // Prepend current thread ID and name of calling method to the message.
-        format = "[" + tid + "] [" + methodName + "] " + format;
-        String logMsg = String.format(format, args);
+        logMsg = "[" + tid + "] [" + methodName + "] " + logMsg;
         Log.d(TAG, logMsg);
     }
 
