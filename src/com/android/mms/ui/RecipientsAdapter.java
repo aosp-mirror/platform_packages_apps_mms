@@ -147,8 +147,12 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
 
         Uri uri = Uri.withAppendedPath(Phone.CONTENT_FILTER_URI, Uri.encode(cons));
         Cursor phoneCursor =
-            mContentResolver.query(uri, PROJECTION_PHONE, Phone.TYPE + "=" + Phone.TYPE_MOBILE,
-                null, SORT_ORDER);
+            mContentResolver.query(uri,
+                    PROJECTION_PHONE, 
+                    Phone.TYPE + '=' + Phone.TYPE_MOBILE + " OR " +
+                            Phone.TYPE + '=' + Phone.TYPE_WORK_MOBILE,
+                    null,
+                    SORT_ORDER);
 
         if (phone.length() > 0) {
             ArrayList result = new ArrayList();
