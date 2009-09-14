@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAm3///+Y\u003d",
+        "filename": "res/values/arrays.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-09-14T15:34:16Z",
+      "side": 1,
+      "message": "Why does it start at 4?",
+      "revId": "e34fb2fba73264e9e2932e0813c29dad4d238d53",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///+c\u003d",
+        "filename": "res/xml/preferences.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001146
+      },
+      "writtenOn": "2009-09-14T15:34:16Z",
+      "side": 1,
+      "message": "I really don\u0027t think this is the kind of preference that should have a UI.",
+      "revId": "e34fb2fba73264e9e2932e0813c29dad4d238d53",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
