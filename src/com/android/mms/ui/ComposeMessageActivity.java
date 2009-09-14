@@ -2467,7 +2467,15 @@ public class ComposeMessageActivity extends Activity
         }
 
         mBottomPanel.setVisibility(View.VISIBLE);
-        mTextEditor.setTextKeepState(mWorkingMessage.getText());
+
+        CharSequence text = mWorkingMessage.getText();
+
+        // TextView.setTextKeepState() doesn't like null input. 
+        if (text != null) {
+            mTextEditor.setTextKeepState(text);
+        } else {
+            mTextEditor.setText("");
+        }
     }
 
     private void drawTopPanel() {
