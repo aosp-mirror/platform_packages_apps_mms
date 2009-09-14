@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAm3///7E\u003d",
+        "filename": "src/com/android/mms/transaction/MessageStatusReceiver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1002473
+      },
+      "writtenOn": "2009-09-14T18:58:16Z",
+      "side": 1,
+      "message": "We should always call cursor.close as long as cursor !\u003d null. The old code doesn\u0027t close the cursor if it\u0027s empty. \n\nSo something like this\n\nif (cursor !\u003d null) {\n  try {\n     if (cursor.moveToFirst()) {\n       result \u003d cursor.getLong(0);\n     }\n  } finally {\n    cursor.close();\n  }\n}",
+      "revId": "eb07c08e16bc290881d774251e20d2e22dea44fa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
