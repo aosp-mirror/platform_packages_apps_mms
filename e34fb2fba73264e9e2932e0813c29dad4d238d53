@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAm3///9w\u003d",
+        "filename": "res/values/arrays.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000443
+      },
+      "writtenOn": "2009-09-14T15:50:19Z",
+      "side": 1,
+      "message": "4 is the current default value, meaning that an SMS turns to an MMS after it spans more than three messages. It would be possible to add 3 or even 2 (so the phone will never send messages made out of several SMS), but I doubt any user would have a use for that, so there\u0027s no reason to have unnecessary options in the settings.",
+      "parentUuid": "AAAAm3///+Y\u003d",
+      "revId": "e34fb2fba73264e9e2932e0813c29dad4d238d53",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAm3///+c\u003d",
         "filename": "res/xml/preferences.xml",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2009-09-14T15:34:16Z",
       "side": 1,
       "message": "I really don\u0027t think this is the kind of preference that should have a UI.",
+      "revId": "e34fb2fba73264e9e2932e0813c29dad4d238d53",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///9s\u003d",
+        "filename": "res/xml/preferences.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000443
+      },
+      "writtenOn": "2009-09-14T15:50:19Z",
+      "side": 1,
+      "message": "Issue #2318 has 40 stars and lots of people are complaining about it. I was opting for a solution that does not change the current behavior.",
+      "parentUuid": "AAAAm3///+c\u003d",
       "revId": "e34fb2fba73264e9e2932e0813c29dad4d238d53",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
