@@ -308,6 +308,8 @@
     <string name="pref_summary_mms_read_reports">Request a read report for each message you send</string>
     <!-- Settings item description for boolean SMS delivery report setting -->
     <string name="pref_summary_sms_delivery_reports">Request a delivery report for each message you send</string>
+    <!-- Settings item description for string-array SMS-to-MMS-conversion threshold setting -->
+    <string name="pref_summary_sms_to_mms_threshold">Number of messages at which MMS is used instead of SMS</string>
     <!-- Settings item for entering SIM card message screen -->
     <string name="pref_title_manage_sim_messages">Manage SIM card messages</string>
     <!-- Settings item for boolean option to enable/disable MMS delivery reports -->
@@ -316,6 +318,10 @@
     <string name="pref_title_mms_read_reports">Read reports</string>
     <!-- Settings item for boolean option to enable/disable SMS delivery reports -->
     <string name="pref_title_sms_delivery_reports">Delivery reports</string>
+    <!-- Settings item for string-array SMS-to-MMS-conversion threshold setting -->
+    <string name="pref_title_sms_to_mms_threshold">SMS-to-MMS conversion</string>
+    <!-- Settings dialog title for SMS-to-MMS-conversion threshold setting -->
+    <string name="pref_dialog_title_sms_to_mms_threshold">Number of messages</string>
     <!-- Settings item for boolean option to display message notifications -->
     <string name="pref_title_notification_enabled">Notifications</string>
     <!-- Settings item description for boolean message notification option -->

@@ -68,6 +68,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -80,6 +81,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.provider.Contacts;
 import android.provider.Contacts.People;
 import android.provider.Contacts.Presence;
@@ -208,7 +210,10 @@ public class ComposeMessageActivity extends Activity
 
     private static final int MARK_AS_READ_TOKEN = 9900;
     
-    private static final int MMS_THRESHOLD = 4;
+    private static final int MMS_THRESHOLD = 4;	// Default value
+
+    private static final int MAX_MMS_THRESHOLD = 9999; // This is the upper limit, the user will
+                                                       // not be able to exceed this value.
 
     private static final int CHARS_REMAINING_BEFORE_COUNTER_SHOWN = 10;
 
@@ -279,6 +284,9 @@ public class ComposeMessageActivity extends Activity
     private int mMessageState;                  // A bitmap of the above indicating different
                                                 // properties of the message -- any bit set
                                                 // will require conversion to MMS.
+
+    private int mSmsToMmsThreshold;		// User-defined threshold at which SMS will be
+                                                // converted to MMS.
 
     // These fields are only used in MMS compose mode (requiresMms() == true) and should
     // otherwise be null.
@@ -452,7 +460,7 @@ public class ComposeMessageActivity extends Activity
         int remainingInCurrentMessage = params[2];
 
         // Convert to MMS if this message has gotten too long for SMS.
-        convertMessageIfNeeded(LENGTH_REQUIRES_MMS, msgCount >= MMS_THRESHOLD);
+        convertMessageIfNeeded(LENGTH_REQUIRES_MMS, msgCount >= mSmsToMmsThreshold);
         
         // Show the counter only if:
         // - We are not in MMS mode
@@ -1694,6 +1702,28 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Cache the SMS-to-MMS threshold so we don't have to dig out the
+        // shared preference manager whenever the user types a key.
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        try {
+          mSmsToMmsThreshold = Integer.parseInt(prefs.getString(
+                                  MessagingPreferenceActivity.SMS_TO_MMS_THRESHOLD, null));
+        } catch (Exception e) {
+          // Apparently the user messed with the preference XML file and put garbage in.
+          // Or the preference doesn't exist, and getString returned null.
+          // In either case, we will use the default value.
+          // Note that catching a plain Exception is frowned upon, but in this case, we're
+          // looking for either a NullException or a NumberFormatException. We could handle
+          // them separeately, but that would add code with no benefit.
+          mSmsToMmsThreshold = MMS_THRESHOLD;
+        }
+
+        // Clamp the threshold, just in case the user tried to override potential
+        // carrier-defined limits by editing the preference XML file manually.
+        mSmsToMmsThreshold = Math.min(mSmsToMmsThreshold, MAX_MMS_THRESHOLD);
+
         startPresencePollingRequest();
     }
 

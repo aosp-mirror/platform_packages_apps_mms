@@ -27,6 +27,13 @@
        android:key="pref_key_manage_sim_messages"
        android:summary="@string/pref_summary_manage_sim_messages"
        android:title="@string/pref_title_manage_sim_messages" />
+    <ListPreference android:defaultValue="3"
+       android:key="pref_key_sms_to_mms_threshold"
+       android:summary="@string/pref_summary_sms_to_mms_threshold"
+       android:title="@string/pref_title_sms_to_mms_threshold"
+       android:entries="@array/pref_entries_sms_to_mms_threshold"
+       android:entryValues="@array/pref_entryvalues_sms_to_mms_threshold"
+       android:dialogTitle="@string/pref_dialog_title_sms_to_mms_threshold" />
   </PreferenceCategory>
   <PreferenceCategory android:title="@string/pref_mms_settings_title">
     <CheckBoxPreference android:defaultValue="false"
