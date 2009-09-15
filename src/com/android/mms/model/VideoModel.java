@@ -115,10 +115,6 @@ public class VideoModel extends RegionMediaModel {
             if (mFill != ElementTime.FILL_FREEZE) {
                 mVisible = false;
             }
-
-            // resume the Music player if necessary
-            resumeMusicPlayer();
-
         } else if (evtType.equals(SmilMediaElementImpl.SMIL_MEDIA_PAUSE_EVENT)) {
             action = MediaAction.PAUSE;
             mVisible = true;

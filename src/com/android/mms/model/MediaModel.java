@@ -330,14 +330,4 @@ public abstract class MediaModel extends Model implements EventListener {
         i.putExtra("command", "pause");
         mContext.sendBroadcast(i);
     }
-    
-    protected void resumeMusicPlayer() {
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            Log.d(TAG, "resumeMusicPlayer");
-        }
-
-        Intent i = new Intent(MUSIC_SERVICE_ACTION);
-        i.putExtra("command", "togglepause");
-        mContext.sendBroadcast(i);
-    }
 }
