@@ -1769,10 +1769,6 @@ public class ComposeMessageActivity extends Activity
         initializeContactInfo();
         updateSendFailedNotification();
         drawBottomPanel();
-        int len = mTextEditor.length();
-        if (len > 0) {
-            mTextEditor.setSelection(len);
-        }
     }
 
     private void updateSendFailedNotification() {
@@ -2472,7 +2468,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         mBottomPanel.setVisibility(View.VISIBLE);
-        mTextEditor.setText(mWorkingMessage.getText());
+        mTextEditor.setTextKeepState(mWorkingMessage.getText());
     }
 
     private void drawTopPanel() {
