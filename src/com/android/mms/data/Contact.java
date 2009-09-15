@@ -30,18 +30,22 @@ public class Contact {
 
     private static final TaskStack sTaskStack = new TaskStack();
 
-    private static final ContentObserver sContactsObserver
-            = new ContentObserver(new Handler()) {
+    private static final ContentObserver sContactsObserver = new ContentObserver(new Handler()) {
         @Override
         public void onChange(boolean selfUpdate) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                log("contact changed, invalidate cache");
+            }
             invalidateCache();
         }
     };
 
-    private static final ContentObserver sPresenceObserver
-            = new ContentObserver(new Handler()) {
+    private static final ContentObserver sPresenceObserver = new ContentObserver(new Handler()) {
         @Override
         public void onChange(boolean selfUpdate) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                log("presence changed, invalidate cache");
+            }
             invalidateCache();
         }
     };
@@ -311,11 +315,21 @@ public class Contact {
     }
 
     public synchronized void addListener(UpdateListener l) {
-        mListeners.add(l);
+        boolean added = mListeners.add(l);
+        if (V && added) dumpListeners();
     }
 
     public synchronized void removeListener(UpdateListener l) {
-        mListeners.remove(l);
+        boolean removed = mListeners.remove(l);
+        if (V && removed) dumpListeners();
+    }
+
+    public synchronized void dumpListeners() {
+        int i=0;
+        Log.i(TAG, "[Contact] dumpListeners(" + mNumber + ") size=" + mListeners.size());
+        for (UpdateListener listener : mListeners) {
+            Log.i(TAG, "["+ (i++) + "]" + listener);
+        }
     }
 
     public synchronized boolean isEmail() {
@@ -333,8 +347,15 @@ public class Contact {
     public static void init(final Context context) {
         Cache.init(context);
         RecipientIdCache.init(context);
+
+        // it maybe too aggressive to listen for *any* contact changes, and rebuild MMS contact
+        // cache each time that occurs. Unless we can get targeted updates for the contacts we
+        // care about(which probably won't happen for a long time), we probably should just
+        // invalidate cache peoridically, or surgically.
+        /*
         context.getContentResolver().registerContentObserver(
                 Contacts.CONTENT_URI, true, sContactsObserver);
+        */
     }
 
     public static void dump() {

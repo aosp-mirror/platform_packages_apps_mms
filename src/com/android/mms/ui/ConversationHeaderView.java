@@ -213,7 +213,7 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
     }
 
     public final void bind(Context context, final ConversationHeader ch) {
-        if (DEBUG) Log.v(TAG, "bind()");
+        //if (DEBUG) Log.v(TAG, "bind()");
 
         setConversationHeader(ch);
 
@@ -239,6 +239,8 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
 
         // Register for updates in changes of any of the contacts in this conversation.
         ContactList contacts = ch.getContacts();
+
+        if (DEBUG) Log.v(TAG, "bind: contacts.addListeners " + this);
         contacts.addListeners(this);
         setPresenceIcon(contacts.getPresenceResId());
 
@@ -256,6 +258,7 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
     }
 
     public final void unbind() {
+        if (DEBUG) Log.v(TAG, "unbind: contacts.removeListeners " + this);
         // Unregister contact update callbacks.
         mConversationHeader.getContacts().removeListeners(this);
     }

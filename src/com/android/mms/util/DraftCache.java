@@ -144,15 +144,15 @@ public class DraftCache {
             return;
         }
         
-        if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
-            log("setDraftState: tid=" + threadId + ", hasDraft=" + hasDraft);
-        }
-
         boolean changed;
         if (hasDraft) {
             changed = mDraftSet.add(threadId);
         } else {
             changed = mDraftSet.remove(threadId);
+        }
+
+        if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
+            log("setDraftState: tid=" + threadId + ", value=" + hasDraft + ", changed=" + changed);
         }
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
@@ -175,10 +175,16 @@ public class DraftCache {
     }
 
     public synchronized void addOnDraftChangedListener(OnDraftChangedListener l) {
+        if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
+            log("addOnDraftChangedListener " + l);
+        }
         mChangeListeners.add(l);
     }
 
     public synchronized void removeOnDraftChangedListener(OnDraftChangedListener l) {
+        if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
+            log("removeOnDraftChangedListener " + l);
+        }
         mChangeListeners.remove(l);
     }
 

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.mms.data.Contact.UpdateListener;
+import com.android.mms.LogTag;
 
 public class ContactList extends ArrayList<Contact>  {
     private static final long serialVersionUID = 1L;
@@ -128,5 +130,9 @@ public class ContactList extends ArrayList<Contact>  {
         } catch (ClassCastException e) {
             return false;
         }
+    }
+
+    private void log(String msg) {
+        Log.d(LogTag.TAG, "[ContactList] " + msg);
     }
 }

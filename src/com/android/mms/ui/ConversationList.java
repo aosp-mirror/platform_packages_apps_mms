@@ -118,7 +118,7 @@ public class ConversationList extends ListActivity
 
         initListAdapter();
 
-        handleCreationIntent(getIntent());
+        mTitle = getString(R.string.app_label);
 
         mHandler = new Handler();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -132,6 +132,7 @@ public class ConversationList extends ListActivity
     private void initListAdapter() {
         mListAdapter = new ConversationListAdapter(this, null);
         setListAdapter(mListAdapter);
+        getListView().setRecyclerListener(mListAdapter);
     }
 
     /**
@@ -197,62 +198,59 @@ public class ConversationList extends ListActivity
     @Override
     protected void onNewIntent(Intent intent) {
         // Handle intents that occur after the activity has already been created.
-        handleCreationIntent(intent);
+        privateOnStart();
     }
 
-    protected void handleCreationIntent(Intent intent) {
-        // Handle intents that occur upon creation of the activity.
-        initNormalQueryArgs();
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        
         MessagingNotification.cancelNotification(getApplicationContext(),
                 SmsRejectedReceiver.SMS_REJECTED_NOTIFICATION_ID);
-   }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        DraftCache.getInstance().addOnDraftChangedListener(this);
 
         Conversation.cleanup(this);
 
-        if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
-            log("onResume: refresh draft cache");
-        }
+        DraftCache.getInstance().addOnDraftChangedListener(this);
 
-        // Make sure the draft cache is up to date.
-        DraftCache.getInstance().refresh();
+        // We used to refresh the DraftCache here, but
+        // refreshing the DraftCache each time we go to the ConversationList seems overly
+        // aggressive. We already update the DraftCache when leaving CMA in onStop() and
+        // onNewIntent(), and when we delete threads or delete all in CMA or this activity.
+        // I hope we don't have to do such a heavy operation each time we enter here.
 
-        startAsyncQuery();
+        privateOnStart();
 
+        // we invalidate the contact cache here because we want to get updated presence
+        // and any contact changes. We don't invalidate the cache by observing presence and contact
+        // changes (since that's too untargeted), so as a tradeoff we do it here.
+        // TODO: think of a better way to invalidate cache more surgically or based on actual
+        // TODO: changes we care about
         Contact.invalidateCache();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        DraftCache.getInstance().removeOnDraftChangedListener(this);
+    protected void privateOnStart() {
+        startAsyncQuery();
     }
+
 
     @Override
     protected void onStop() {
         super.onStop();
 
+        DraftCache.getInstance().removeOnDraftChangedListener(this);
         mListAdapter.changeCursor(null);
     }
 
-    public void onDraftChanged(long threadId, boolean hasDraft) {
+    public void onDraftChanged(final long threadId, final boolean hasDraft) {
         // Run notifyDataSetChanged() on the main thread.
         mQueryHandler.post(new Runnable() {
             public void run() {
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    log("onDraftChanged: threadId=" + threadId + ", hasDraft=" + hasDraft);
+                }
                 mListAdapter.notifyDataSetChanged();
             }
         });
-    }
-
-    private void initNormalQueryArgs() {
-        mTitle = getString(R.string.app_label);
     }
 
     private void startAsyncQuery() {
