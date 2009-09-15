@@ -464,6 +464,7 @@ public class MessageUtils {
             Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
             intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
             intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
+            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_INCLUDE_DRM, false);
             intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE,
                     context.getString(R.string.select_audio));
             ((Activity) context).startActivityForResult(intent, requestCode);
