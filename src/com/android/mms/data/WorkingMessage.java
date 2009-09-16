@@ -35,6 +35,7 @@ import com.android.mms.transaction.MmsMessageSender;
 import com.android.mms.util.Recycler;
 import com.android.mms.transaction.SmsMessageSender;
 import com.android.mms.ui.ComposeMessageActivity;
+import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.SlideshowEditor;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
@@ -920,7 +921,7 @@ public class WorkingMessage {
             String[] dests = conv.getRecipients().getNumbers();
             int length = dests.length;
             for (int i = 0; i < length; i++) {
-                if (Mms.isEmailAddress(dests[i])) {
+                if (Mms.isEmailAddress(dests[i]) || MessageUtils.isAlias(dests[i])) {
                     String mtext = dests[i] + " " + text;
                     int[] params = SmsMessage.calculateLength(mtext, false);
                     if (params[0] > 1) {
