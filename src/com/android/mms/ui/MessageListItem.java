@@ -365,7 +365,7 @@ public class MessageListItem extends LinearLayout implements
             Uri uri = Uri.parse(spans[0].getURL());
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             intent.putExtra(Browser.EXTRA_APPLICATION_ID, mContext.getPackageName());
-
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
             mContext.startActivity(intent);
         } else {
             final java.util.ArrayList<String> urls = MessageUtils.extractUris(spans);
@@ -403,6 +403,7 @@ public class MessageListItem extends LinearLayout implements
                         Uri uri = Uri.parse(urls.get(which));
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         intent.putExtra(Browser.EXTRA_APPLICATION_ID, mContext.getPackageName());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                         mContext.startActivity(intent);
                     }
                 }
