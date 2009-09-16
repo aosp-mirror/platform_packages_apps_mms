@@ -80,8 +80,7 @@ public class MessageItem {
     int mMessageSize;
     int mErrorType;
 
-    MessageItem(
-            Context context, String type, Cursor cursor,
+    MessageItem(Context context, String type, Cursor cursor,
             ColumnsMap columnsMap, String highlight) throws MmsException {
         mContext = context;
         mMsgId = cursor.getLong(columnsMap.mColumnMsgId);
@@ -150,8 +149,7 @@ public class MessageItem {
                     timestamp = retrieveConf.getDate() * 1000L;
                 } else {
                     // Use constant string for outgoing messages
-                    mContact = mAddress = context.getString(
-                            R.string.messagelist_sender_self);
+                    mContact = mAddress = context.getString(R.string.messagelist_sender_self);
                     timestamp = ((SendReq) msg).getDate() * 1000L;
                 }
 
@@ -193,7 +191,7 @@ public class MessageItem {
                     if (tm.isDrmProtected()) {
                         mBody = mContext.getString(R.string.drm_protected_text);
                     } else {
-                        mBody = slide.getText().getText();
+                        mBody = tm.getText();
                     }
                 }
 
