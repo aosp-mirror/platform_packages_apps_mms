@@ -155,6 +155,10 @@ public class SlideshowActivity extends Activity implements EventListener {
             } else {
                 mSmilPlayer.stopWhenReload();
             }
+            if (mMediaController != null) {
+                // Must do this so we don't leak a window.
+                mMediaController.hide();
+            }
         }
     }
 
