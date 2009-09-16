@@ -26,6 +26,7 @@ import org.w3c.dom.smil.ElementTime;
 
 import android.util.Config;
 import android.util.Log;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -98,8 +99,14 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
         }
 
         if (media.isText()) {
-            internalAddOrReplace(mText, media);
-            mText = media;
+            String contentType = media.getContentType();
+            if (TextUtils.isEmpty(contentType) || "text/plain".equals(contentType)) {
+                internalAddOrReplace(mText, media);
+                mText = media;
+            } else {
+                Log.w(TAG, "[SlideModel] content type " + media.getContentType() +
+                        " isn't supported (as text)");
+            }
         } else if (media.isImage()) {
             if (mCanAddImage) {
                 internalAddOrReplace(mImage, media);
