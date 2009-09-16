@@ -618,7 +618,9 @@ public class ComposeMessageActivity extends Activity
                 // Context menu handlers for the recipients editor.
                 case MENU_VIEW_CONTACT: {
                     Uri contactUri = mRecipient.getUri();
-                    startActivity(new Intent(Intent.ACTION_VIEW, contactUri));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, contactUri);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                    startActivity(intent);
                     return true;
                 }
                 case MENU_ADD_TO_CONTACTS: {
@@ -768,20 +770,22 @@ public class ComposeMessageActivity extends Activity
             if ("mailto".equalsIgnoreCase(prefix))  {
                 String sendEmailString = getString(
                         R.string.menu_send_email).replace("%s", uriString);
+                Intent intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("mailto:" + uriString));
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                 menu.add(0, MENU_SEND_EMAIL, 0, sendEmailString)
                     .setOnMenuItemClickListener(l)
-                    .setIntent(new Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse("mailto:" + uriString)));
+                    .setIntent(intent);
                 addToContacts = !haveEmailContact(uriString);
             } else if ("tel".equalsIgnoreCase(prefix)) {
                 String callBackString = getString(
                         R.string.menu_call_back).replace("%s", uriString);
+                Intent intent = new Intent(Intent.ACTION_DIAL,
+                        Uri.parse("tel:" + uriString));
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                 menu.add(0, MENU_CALL_BACK, 0, callBackString)
                     .setOnMenuItemClickListener(l)
-                    .setIntent(new Intent(
-                            Intent.ACTION_DIAL,
-                            Uri.parse("tel:" + uriString)));
+                    .setIntent(intent);
                 addToContacts = !isNumberInContacts(uriString);
             }
             if (addToContacts) {
@@ -2127,7 +2131,9 @@ public class ComposeMessageActivity extends Activity
                 ContactList list = getRecipients();
                 if (list.size() == 1 && list.get(0).existsInDatabase()) {
                     Uri contactUri = list.get(0).getUri();
-                    startActivity(new Intent(Intent.ACTION_VIEW, contactUri));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, contactUri);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                    startActivity(intent);
                 }
                 break;
             }
@@ -2470,7 +2476,7 @@ public class ComposeMessageActivity extends Activity
 
         CharSequence text = mWorkingMessage.getText();
 
-        // TextView.setTextKeepState() doesn't like null input. 
+        // TextView.setTextKeepState() doesn't like null input.
         if (text != null) {
             mTextEditor.setTextKeepState(text);
         } else {
