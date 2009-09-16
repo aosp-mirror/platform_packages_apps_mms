@@ -67,6 +67,7 @@ import android.text.style.URLSpan;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,7 +81,7 @@ public class MessageUtils {
         void onResizeResult(PduPart part, boolean append);
     }
 
-    private static final String TAG = LogTag.APP;
+    private static final String TAG = LogTag.TAG;
     private static String sLocalNumber;
 
     // Cache of both groups of space-separated ids to their full
@@ -545,6 +546,10 @@ public class MessageUtils {
      * The quality parameter which is used to compress JPEG images.
      */
     public static final int IMAGE_COMPRESSION_QUALITY = 80;
+    /**
+     * The minimum quality parameter which is used to compress JPEG images.
+     */
+    public static final int MINIMUM_IMAGE_COMPRESSION_QUALITY = 50;
 
     public static Uri saveBitmapAsPart(Context context, Uri messageUri, Bitmap bitmap)
             throws MmsException {
@@ -813,6 +818,19 @@ public class MessageUtils {
         } else {
             Uri uri = msg.saveAsMms();
             viewMmsMessageAttachment(context, uri, slideshow);
+        }
+    }
+
+    /**
+     * Debugging
+     */
+    public static void writeHprofDataToFile(){
+        String filename = "/sdcard/mms_oom_hprof_data";
+        try {
+            android.os.Debug.dumpHprofData(filename);
+            Log.i(TAG, "##### written hprof data to " + filename);
+        } catch (IOException ex) {
+            Log.e(TAG, "writeHprofDataToFile: caught " + ex);
         }
     }
 

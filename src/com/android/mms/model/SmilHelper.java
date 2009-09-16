@@ -56,7 +56,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SmilHelper {
-    private static final String TAG = "SmilHelper";
+    private static final String TAG = "Mms/smil";
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
