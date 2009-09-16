@@ -18,6 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.model.ImageModel;
+import com.android.mms.LogTag;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.util.SqliteWrapper;
 
@@ -40,7 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class UriImage {
-    private static final String TAG = "UriImage";
+    private static final String TAG = "Mms/image";
     private static final boolean DEBUG = true;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
@@ -193,7 +194,6 @@ public class UriImage {
         return part;
     }
 
-    private static final int MINIMUM_IMAGE_COMPRESSION_QUALITY = 50;
     private static final int NUMBER_OF_RESIZE_ATTEMPTS = 4;
 
     private byte[] getResizedImageData(int widthLimit, int heightLimit, int byteLimit) {
@@ -203,6 +203,13 @@ public class UriImage {
         int scaleFactor = 1;
         while ((outWidth / scaleFactor > widthLimit) || (outHeight / scaleFactor > heightLimit)) {
             scaleFactor *= 2;
+        }
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.v(TAG, "getResizedImageData: wlimit=" + widthLimit +
+                    ", hlimit=" + heightLimit + ", sizeLimit=" + byteLimit +
+                    ", mWidth=" + mWidth + ", mHeight=" + mHeight +
+                    ", initialScaleFactor=" + scaleFactor);
         }
 
         InputStream input = null;
@@ -221,6 +228,15 @@ public class UriImage {
                 if(options.outWidth > widthLimit || options.outHeight > heightLimit) {
                     // The decoder does not support the inSampleSize option.
                     // Scale the bitmap using Bitmap library.
+                    int scaledWidth = outWidth / scaleFactor;
+                    int scaledHeight = outHeight / scaleFactor;
+
+                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                        Log.v(TAG, "getResizedImageData: retry scaling using " +
+                                "Bitmap.createScaledBitmap: w=" + scaledWidth +
+                                ", h=" + scaledHeight);
+                    }
+
                     b = Bitmap.createScaledBitmap(b, outWidth / scaleFactor,
                             outHeight / scaleFactor, false);
                     if (b == null) {
@@ -239,14 +255,19 @@ public class UriImage {
                 int jpgFileSize = os.size();
                 if (jpgFileSize > byteLimit) {
                     int reducedQuality = quality * byteLimit / jpgFileSize;
-                    if (reducedQuality >= MINIMUM_IMAGE_COMPRESSION_QUALITY) {
+                    if (reducedQuality >= MessageUtils.MINIMUM_IMAGE_COMPRESSION_QUALITY) {
                         quality = reducedQuality;
+
+                        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                            Log.v(TAG, "getResizedImageData: compress(2) w/ quality=" + quality);
+                        }
+
                         os = new ByteArrayOutputStream();
                         b.compress(CompressFormat.JPEG, quality, os);
                     }
                 }
 
-                if (LOCAL_LOGV) {
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     Log.v(TAG, "attempt=" + attempts
                             + " size=" + os.size()
                             + " width=" + outWidth / scaleFactor

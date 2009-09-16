@@ -32,7 +32,7 @@ import android.util.Log;
  * Cache for information about draft messages on conversations.
  */
 public class DraftCache {
-    private static final String TAG = "Mms:draft";
+    private static final String TAG = "Mms/draft";
 
     private static DraftCache sInstance;
 
