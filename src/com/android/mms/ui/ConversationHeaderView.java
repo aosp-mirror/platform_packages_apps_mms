@@ -158,7 +158,12 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
         if (ch.getContacts().size() == 1) {
             Contact contact = ch.getContacts().get(0);
             avatarDrawable = contact.getAvatar(sDefaultContactImage);
-            mAvatarView.assignContactUri(contact.getUri());
+
+            if (contact.existsInDatabase()) {
+                mAvatarView.assignContactUri(contact.getUri());
+            } else {
+                mAvatarView.assignContactFromPhone(contact.getNumber(), true);
+            }
         } else {
             // TODO get a multiple recipients asset (or do something else)
             avatarDrawable = sDefaultContactImage;
