@@ -2242,11 +2242,14 @@ public class ComposeMessageActivity extends Activity
         switch(requestCode) {
             case REQUEST_CODE_CREATE_SLIDESHOW:
                 if (data != null) {
-                    mWorkingMessage = WorkingMessage.load(this, data.getData());
-                    mWorkingMessage.setConversation(mConversation);
-                    mAttachmentEditor.update(mWorkingMessage);
-                    drawTopPanel();
-                    updateSendButtonState();
+                    WorkingMessage newMessage = WorkingMessage.load(this, data.getData());
+                    if (newMessage != null) {
+                        mWorkingMessage = newMessage;
+                        mWorkingMessage.setConversation(mConversation);
+                        mAttachmentEditor.update(mWorkingMessage);
+                        drawTopPanel();
+                        updateSendButtonState();
+                    }
                 }
                 break;
 
