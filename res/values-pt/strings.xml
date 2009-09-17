@@ -103,16 +103,19 @@
     <string name="cannot_send_message" msgid="3918913277571649400">"Não é possível enviar esta mensagem."</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"A sua mensagem não tem destinatários válidos."</string>
     <string name="cannot_forward_drm_obj" msgid="84606990079390099">"O objeto DRM incluído na mensagem não pode ser encaminhado."</string>
-    <string name="converting_to_picture_message" msgid="5371075642673327773">"Convertendo em mensagem MMS…"</string>
-    <string name="converting_to_text_message" msgid="585187847299693795">"Convertendo em mensagem SMS…"</string>
+    <!-- no translation found for converting_to_picture_message (2980023239017588627) -->
+    <skip />
+    <!-- no translation found for converting_to_text_message (6374423235426015422) -->
+    <skip />
     <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"Não é possível adicionar mais slides."</string>
+    <!-- no translation found for cannot_add_picture_and_video (4721981351130823908) -->
+    <skip />
     <string name="cannot_save_message" msgid="5026354972915392301">"Não e possível salvar a mensagem."</string>
     <string name="cannot_load_message" msgid="2577010607550849892">"Não é possível carregar a mensagem."</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"Mensagem salva como rascunho."</string>
     <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"A mensagem bloqueada não pode ser excluída."</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"Esta mensagem tem muitos destinatários (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). Há um limite de <xliff:g id="MAXLIMIT">%2$s</xliff:g> destinatários."</string>
-    <!-- no translation found for multiple_recipients (8747754491343248141) -->
-    <skip />
+    <string name="multiple_recipients" msgid="8747754491343248141">"<xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g> destinatários"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"Não é possível reproduzir o áudio."</string>
     <string name="preview" msgid="5438149136136446756">"Visualizar"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Visualizar"</string>
@@ -150,8 +153,10 @@
     <string name="preferences_title" msgid="6650089610332670157">"Configurações"</string>
     <string name="restore_default" msgid="7165341506551155053">"Restaurar as configurações padrão"</string>
     <string name="pref_notification_settings_title" msgid="4860726154770053004">"Configurações de notificação"</string>
-    <string name="pref_mms_settings_title" msgid="1023389466940215979">"Configurações de MMS"</string>
-    <string name="pref_sms_settings_title" msgid="7565588908643816045">"Configurações SMS"</string>
+    <!-- no translation found for pref_mms_settings_title (2573616208360684392) -->
+    <skip />
+    <!-- no translation found for pref_sms_settings_title (9088516111717417514) -->
+    <skip />
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"Configurações de armazenamento"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Gerencia mensagens armazenadas no seu cartão SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Solicita um relatório de entrega para cada mensagem enviada"</string>
@@ -164,8 +169,10 @@
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Ler relatórios"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Relatórios de entrega"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Excluir mensagens antigas"</string>
-    <string name="pref_title_sms_delete" msgid="1809717374103016889">"Limite de mensagens SMS"</string>
-    <string name="pref_title_mms_delete" msgid="4357985559647986247">"Limite de mensagens MMS"</string>
+    <!-- no translation found for pref_title_sms_delete (6890538316799296878) -->
+    <skip />
+    <!-- no translation found for pref_title_mms_delete (7265878070847351664) -->
+    <skip />
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notificações"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Exibe notificações de mensagem na barra de status"</string>
     <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"Vibrar"</string>
@@ -178,22 +185,27 @@
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Recupera mensagens automaticamente em roaming"</string>
     <string name="to_label" msgid="2355268818058389047">"Para "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Excluir"</string>
+    <!-- no translation found for confirm_dialog_locked_title (8179085718150932242) -->
+    <skip />
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"A conversa inteira será excluída."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Todas as conversas serão excluídas."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"A mensagem será excluída."</string>
+    <!-- no translation found for confirm_delete_locked_message (5863578342246077057) -->
+    <skip />
     <string name="confirm_delete_all_messages" msgid="5836389073199814660">"A conversa inteira será excluída."</string>
     <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"Todas as mensagens no SIM serão excluídas."</string>
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Esta mensagem no SIM será excluída."</string>
-    <!-- no translation found for delete_unlocked (7545321606698162261) -->
-    <skip />
-    <!-- no translation found for delete (1409973060081564612) -->
-    <skip />
+    <string name="delete_unlocked" msgid="7545321606698162261">"Excluir mensagens bloqueadas"</string>
+    <string name="delete" msgid="1409973060081564612">"Excluir"</string>
     <string name="cannot_get_details" msgid="6493664168168047746">"Não é possível obter detalhes"</string>
     <string name="message_details_title" msgid="9223295113731634528">"Detalhes da mensagem"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Tipo: "</string>
-    <string name="text_message" msgid="4282768567194758552">"Mensagem SMS"</string>
-    <string name="multimedia_message" msgid="4581191448601209159">"Mensagem MMS"</string>
-    <string name="multimedia_notification" msgid="1888616721010229907">"Notificação MMS"</string>
+    <!-- no translation found for text_message (8196464345251877972) -->
+    <skip />
+    <!-- no translation found for multimedia_message (1512644521083533071) -->
+    <skip />
+    <!-- no translation found for multimedia_notification (4124031788554972308) -->
+    <skip />
     <string name="from_label" msgid="2055117571548171397">"De: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Para: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Cco: "</string>
@@ -216,7 +228,8 @@
     <string name="menu_unlock" msgid="5264877122797287929">"Desbloquear mensagem"</string>
     <string name="sim_copy_to_phone_memory" msgid="5895767417844881971">"Copiar para a memória do telefone"</string>
     <string name="sim_delete" msgid="610790510655316922">"Excluir"</string>
-    <string name="sim_manage_messages_title" msgid="4098052627890320779">"Mensagens SMS no cartão SIM"</string>
+    <!-- no translation found for sim_manage_messages_title (3989147182100584333) -->
+    <skip />
     <string name="sim_view" msgid="1997173541766393706">"Visualizar"</string>
     <string name="sim_empty" msgid="1763174398613486328">"Não há mensagens no cartão SIM."</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"Relatar"</string>
@@ -244,14 +257,12 @@
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"Mensagens não enviadas"</string>
     <string name="sim_full_title" msgid="1809829051697702810">"O cartão SIM está cheio"</string>
     <string name="sim_full_body" msgid="6241664980790322925">"Exclua algumas mensagens para criar espaço para mais."</string>
-    <!-- no translation found for sms_full_title (4645029916683807688) -->
+    <!-- no translation found for sms_full_title (6041287140125011854) -->
     <skip />
-    <!-- no translation found for sms_full_body (7757490997215434514) -->
+    <string name="sms_full_body" msgid="7757490997215434514">"Mensagem recebida rejeitada devido à memória cheia. Exclua mensagens antigas."</string>
+    <!-- no translation found for sms_rejected_title (8548394922491529811) -->
     <skip />
-    <!-- no translation found for sms_rejected_title (5867575562981241065) -->
-    <skip />
-    <!-- no translation found for sms_rejected_body (7187754586609631934) -->
-    <skip />
+    <string name="sms_rejected_body" msgid="7187754586609631934">"Mensagem recebida rejeitada devido a uma razão desconhecida."</string>
     <string name="type_audio" msgid="3842064092332309756">"áudio"</string>
     <string name="type_picture" msgid="4091928975383609443">"imagem"</string>
     <string name="type_video" msgid="8521556159545168441">"vídeo"</string>
@@ -294,14 +305,17 @@
     <string name="pick_numbers_activity" msgid="2083330191224178637">"Escolher números"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Apresentação de slides"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"Mensagem classe 0"</string>
-    <string name="send_using_mms_activity" msgid="6082321147663913763">"Enviar usando MMS…"</string>
+    <!-- no translation found for send_using_mms_activity (3703434556280345726) -->
+    <skip />
     <string name="select_contact_method_activity" msgid="1743384358979323991">"Selecionar método de contato"</string>
     <string name="search_label" msgid="6042598929386174964">"Envio de mensagens"</string>
     <string name="search_hint" msgid="1340787800788064929">"Pesquisa de mensagens"</string>
     <string name="search" msgid="2008586577169316010">"Pesquisa de mensagens"</string>
     <string name="search_empty" msgid="645052646985297065">"Sem correspondências"</string>
-    <!-- no translation found for search_results_title:one (675571420878010439) -->
-    <!-- no translation found for search_results_title:other (3778201725913692491) -->
+  <plurals name="search_results_title">
+    <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> resultado para \"%s\""</item>
+    <item quantity="other" msgid="3778201725913692491">"<xliff:g id="NUMBER">%s</xliff:g> resultados para \"%s\""</item>
+  </plurals>
     <string name="save" msgid="6847069284991531310">"Salvar"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"Limitar mensagens"</string>
     <string name="storage_limits_message" msgid="8729608389698270388">"Deseja limitar o número de mensagens salvas por conversa?"</string>
