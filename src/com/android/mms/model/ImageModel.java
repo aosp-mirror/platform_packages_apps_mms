@@ -18,9 +18,11 @@
 package com.android.mms.model;
 
 import com.android.mms.ContentRestrictionException;
+import com.android.mms.LogTag;
 import com.android.mms.dom.smil.SmilMediaElementImpl;
 import com.android.mms.drm.DrmWrapper;
 import com.android.mms.ui.UriImage;
+import com.android.mms.ui.MessageUtils;
 import com.google.android.mms.MmsException;
 
 import org.w3c.dom.events.Event;
@@ -42,7 +44,7 @@ import java.lang.ref.SoftReference;
 
 
 public class ImageModel extends RegionMediaModel {
-    private static final String TAG = "Mms:image";
+    private static final String TAG = "Mms/image";
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
@@ -153,9 +155,9 @@ public class ImageModel extends RegionMediaModel {
                 || (outHeight / s > thumbnailBoundsLimit)) {
             s *= 2;
         }
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "outWidth=" + outWidth / s
-                    + " outHeight=" + outHeight / s);
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.v(TAG, "createThumbnailBitmap: scale=" + s + ", w=" + outWidth / s
+                    + ", h=" + outHeight / s);
         }
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = s;
@@ -167,6 +169,9 @@ public class ImageModel extends RegionMediaModel {
         } catch (FileNotFoundException e) {
             Log.e(TAG, e.getMessage(), e);
             return null;
+        } catch (OutOfMemoryError ex) {
+            MessageUtils.writeHprofDataToFile();
+            throw ex;
         } finally {
             if (input != null) {
                 try {
@@ -177,4 +182,5 @@ public class ImageModel extends RegionMediaModel {
             }
         }
     }
+
 }

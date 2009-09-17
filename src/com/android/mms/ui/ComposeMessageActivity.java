@@ -164,7 +164,7 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_CREATE_SLIDESHOW = 16;
     public static final int REQUEST_CODE_ECM_EXIT_DIALOG  = 17;
 
-    private static final String TAG = "Mms:compose";
+    private static final String TAG = "Mms/compose";
 
     private static final boolean DEBUG = false;
     private static final boolean TRACE = false;

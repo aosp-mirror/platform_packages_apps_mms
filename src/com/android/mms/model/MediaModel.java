@@ -40,7 +40,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public abstract class MediaModel extends Model implements EventListener {
-    protected static final String TAG = "Mms:media";
+    protected static final String TAG = "Mms/media";
 
     private final static String MUSIC_SERVICE_ACTION = "com.android.music.musicservicecommand";
 
