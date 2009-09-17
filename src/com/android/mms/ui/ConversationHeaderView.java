@@ -41,6 +41,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.FasttrackBadgeWidget;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -58,7 +59,7 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
     private View mAttachmentView;
     private View mErrorIndicator;
     private ImageView mPresenceView;
-    private ImageView mAvatarView;
+    private FasttrackBadgeWidget mAvatarView;
 
     static private Drawable sDefaultContactImage;
 
@@ -92,39 +93,7 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
         mAttachmentView = findViewById(R.id.attachment);
         mErrorIndicator = findViewById(R.id.error);
         mPresenceView = (ImageView) findViewById(R.id.presence);
-        mAvatarView = (ImageView) findViewById(R.id.avatar);
-
-        mAvatarView.setOnClickListener(new OnClickListener() {
-            private Rect getTargetRect(View anchor) {
-                final int[] location = new int[2];
-                anchor.getLocationOnScreen(location);
-
-                final Rect rect = new Rect();
-                rect.left = location[0];
-                rect.top = location[1];
-                rect.right = rect.left + anchor.getWidth();
-                rect.bottom = rect.top + anchor.getHeight();
-                return rect;
-            }
-
-           public void onClick(View v) {
-                // Photo launches contact detail action
-                ContactList list = mConversationHeader.getContacts();
-                if (list.size() != 1) {
-                    return;
-                }
-
-                final Intent intent = new Intent(Intents.SHOW_OR_CREATE_CONTACT, list.get(0).getUri());
-                final Rect target = getTargetRect(ConversationHeaderView.this);
-                intent.putExtra(Intents.EXTRA_TARGET_RECT, target);
-                intent.putExtra(Intents.EXTRA_MODE, Intents.MODE_SMALL);
-                try {
-                    mContext.startActivity(intent);
-                } catch (ActivityNotFoundException ex) {
-                    // ignore
-                }
-            }
-        });
+        mAvatarView = (FasttrackBadgeWidget) findViewById(R.id.avatar);
     }
 
     public void setPresenceIcon(int iconId) {
@@ -187,10 +156,13 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
 
         Drawable avatarDrawable;
         if (ch.getContacts().size() == 1) {
-            avatarDrawable = ch.getContacts().get(0).getAvatar(sDefaultContactImage);
+            Contact contact = ch.getContacts().get(0);
+            avatarDrawable = contact.getAvatar(sDefaultContactImage);
+            mAvatarView.assignContactUri(contact.getUri());
         } else {
             // TODO get a multiple recipients asset (or do something else)
             avatarDrawable = sDefaultContactImage;
+            mAvatarView.assignContactUri(null);
         }
         mAvatarView.setImageDrawable(avatarDrawable);
         mAvatarView.setVisibility(View.VISIBLE);

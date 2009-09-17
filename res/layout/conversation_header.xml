@@ -23,15 +23,12 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:paddingRight="10dip" >
 
-    <ImageView
+    <android.widget.FasttrackBadgeWidget
         android:id="@+id/avatar"
         android:visibility="gone"
-        android:background="@drawable/fasttrack_badge_middle"
         android:layout_marginLeft="7dip"
-        android:layout_width="56dip"
-        android:layout_height="64dip"
-        android:scaleType="fitCenter"
-        android:layout_gravity="center_vertical" />
+        android:layout_centerVertical="true"
+        style="@*android:style/Widget.FasttrackBadgeWidget.WindowSmall" />
 
     <ImageView
         android:id="@+id/presence"
