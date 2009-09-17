@@ -140,9 +140,6 @@ public class AudioModel extends MediaModel {
             pauseMusicPlayer();
         } else if (evtType.equals(SmilMediaElementImpl.SMIL_MEDIA_END_EVENT)) {
             action = MediaAction.STOP;
-
-            // resume the Music player if necessary
-            resumeMusicPlayer();
         } else if (evtType.equals(SmilMediaElementImpl.SMIL_MEDIA_PAUSE_EVENT)) {
             action = MediaAction.PAUSE;
         } else if (evtType.equals(SmilMediaElementImpl.SMIL_MEDIA_SEEK_EVENT)) {
