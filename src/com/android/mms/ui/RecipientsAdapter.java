@@ -146,12 +146,17 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
         }
 
         Uri uri = Uri.withAppendedPath(Phone.CONTENT_FILTER_URI, Uri.encode(cons));
+        String selection = String.format("%s=%s OR %s=%s OR %s=%s",
+                Phone.TYPE,
+                Phone.TYPE_MOBILE,
+                Phone.TYPE,
+                Phone.TYPE_WORK_MOBILE,
+                Phone.TYPE,
+                Phone.TYPE_MMS);
         Cursor phoneCursor =
             mContentResolver.query(uri,
                     PROJECTION_PHONE, 
-                    Phone.TYPE + '=' + Phone.TYPE_MOBILE + " OR " +
-                            Phone.TYPE + '=' + Phone.TYPE_WORK_MOBILE + " OR " +
-                            Phone.TYPE + '=' + Phone.TYPE_MMS,
+                    selection,
                     null,
                     SORT_ORDER);
 
