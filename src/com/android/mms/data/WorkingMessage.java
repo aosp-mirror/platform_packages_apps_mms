@@ -135,11 +135,22 @@ public class WorkingMessage {
         void onAttachmentChanged();
 
         /**
+         * Called just before the process of sending a message.
+         */
+        void onPreMessageSent();
+
+        /**
          * Called once the process of sending a message, triggered by
          * {@link send} has completed. This doesn't mean the send succeeded,
          * just that it has been dispatched to the network.
          */
         void onMessageSent();
+
+        /**
+         * Called if there are too many unsent messages in the queue and we're not allowing
+         * any more Mms's to be sent.
+         */
+        void onMaxPendingMessagesReached();
     }
 
     private WorkingMessage(ComposeMessageActivity activity) {
@@ -918,6 +929,7 @@ public class WorkingMessage {
     // Message sending stuff
 
     private void sendSmsWorker(Conversation conv, String msgText) {
+        mStatusListener.onPreMessageSent();
         // Make sure we are still using the correct thread ID for our
         // recipient set.
         long threadId = conv.ensureThreadId();
@@ -938,6 +950,24 @@ public class WorkingMessage {
 
     private void sendMmsWorker(Conversation conv, Uri mmsUri, PduPersister persister,
                                SlideshowModel slideshow, SendReq sendReq) {
+        // First make sure we don't have too many outstanding unsent message.
+        Cursor cursor = null;
+        try {
+            cursor = SqliteWrapper.query(mContext, mContentResolver,
+                    Mms.Outbox.CONTENT_URI, null, null, null, null);
+            if (cursor != null && 
+                    cursor.getCount() >= MmsConfig.getMaxPendingMmsMessagesAllowed()) {
+                unDiscard();    // it wasn't successfully sent. Allow it to be saved as a draft.
+                mStatusListener.onMaxPendingMessagesReached();
+                return;
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        mStatusListener.onPreMessageSent();
+
         // Make sure we are still using the correct thread ID for our
         // recipient set.
         long threadId = conv.ensureThreadId();

@@ -59,6 +59,7 @@ public class MmsConfig {
     private static int mHttpSocketTimeout = 60*1000;            // default to 1 min
     private static int mMinimumSlideElementDuration = 7;        // default to 7 sec
     private static boolean mNotifyWapMMSC = false;
+    private static int mMaxPendingMmsMessagesAllowed = 6;       // default value
 
     public static void init(Context context) {
         if (LOCAL_LOGV) {
@@ -153,6 +154,10 @@ public class MmsConfig {
         return mNotifyWapMMSC;
     }
 
+    public static int getMaxPendingMmsMessagesAllowed() {
+        return mMaxPendingMmsMessagesAllowed;
+    }
+
     private static void loadMmsSettings(Context context) {
         XmlResourceParser parser = context.getResources()
                 .getXml(R.xml.mms_config);
@@ -213,6 +218,8 @@ public class MmsConfig {
                             mHttpSocketTimeout = Integer.parseInt(text);
                         } else if ("minimumSlideElementDuration".equalsIgnoreCase(value)) {
                             mMinimumSlideElementDuration = Integer.parseInt(text);
+                        } else if ("maxPendingMmsMessagesAllowed".equalsIgnoreCase(value)) {
+                            mMaxPendingMmsMessagesAllowed = Integer.parseInt(text);
                         }
                     } else if ("string".equals(tag)) {
                         // string config tags go here

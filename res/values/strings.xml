@@ -684,5 +684,9 @@
     <!-- Button title to dismiss dialog that informs user about new storage settings. -->
     <string name="storage_limits_setting_dismiss">No limits</string>
 
+    <!-- Toast message when a user tries to send a Mms message when there are already too many
+         outstanding unsent message. -->
+    <string name="too_many_unsent_mms">Can\'t send message right now. There are too many unsent multimedia messages.</string>
+
 </resources>
 

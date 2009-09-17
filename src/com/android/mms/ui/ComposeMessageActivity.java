@@ -1994,6 +1994,16 @@ public class ComposeMessageActivity extends Activity
     public void onProtocolChanged(boolean mms) {
         toastConvertInfo(mms);
     }
+    
+    Runnable mResetMessageRunnable = new Runnable() {
+        public void run() {
+            resetMessage();
+        }
+    };
+
+    public void onPreMessageSent() {
+        runOnUiThread(mResetMessageRunnable);
+    }
 
     public void onMessageSent() {
         // If we already have messages in the list adapter, it
@@ -2001,6 +2011,17 @@ public class ComposeMessageActivity extends Activity
         if (mMsgListAdapter.getCount() == 0) {
             startMsgListQuery();
         }
+    }
+
+    public void onMaxPendingMessagesReached() {
+        saveDraft();
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(ComposeMessageActivity.this, R.string.too_many_unsent_mms,
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     // We don't want to show the "call" option unless there is only one
@@ -2733,9 +2754,6 @@ public class ComposeMessageActivity extends Activity
         removeRecipientsListeners();
         mWorkingMessage.send();
         addRecipientsListeners();
-
-        // Reset the UI to be ready for the next message.
-        resetMessage();
 
         // But bail out if we are supposed to exit after the message is sent.
         if (mExitOnSent) {
