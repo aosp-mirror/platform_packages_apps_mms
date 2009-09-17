@@ -204,7 +204,7 @@ public class ConversationList extends ListActivity
     @Override
     protected void onStart() {
         super.onStart();
-        
+
         MessagingNotification.cancelNotification(getApplicationContext(),
                 SmsRejectedReceiver.SMS_REJECTED_NOTIFICATION_ID);
 
@@ -348,6 +348,7 @@ public class ConversationList extends ListActivity
         } else {
             intent.putExtra(ContactsContract.Intents.Insert.PHONE, address);
         }
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
         return intent;
     }
@@ -401,6 +402,7 @@ public class ConversationList extends ListActivity
             case MENU_VIEW_CONTACT: {
                 Contact contact = conv.getRecipients().get(0);
                 Intent intent = new Intent(Intent.ACTION_VIEW, contact.getUri());
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                 startActivity(intent);
                 break;
             }
