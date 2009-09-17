@@ -59,7 +59,11 @@ public class MmsConfig {
     private static int mHttpSocketTimeout = 60*1000;            // default to 1 min
     private static int mMinimumSlideElementDuration = 7;        // default to 7 sec
     private static boolean mNotifyWapMMSC = false;
-    private static int mMaxPendingMmsMessagesAllowed = 6;       // default value
+
+    // This is the max amount of storage multiplied by mMaxMessageSize that we
+    // allow of unsent messages before blocking the user from sending any more
+    // MMS's. 
+    private static int mMaxSizeScaleForPendingMmsAllowed = 4;       // default value
 
     public static void init(Context context) {
         if (LOCAL_LOGV) {
@@ -154,8 +158,8 @@ public class MmsConfig {
         return mNotifyWapMMSC;
     }
 
-    public static int getMaxPendingMmsMessagesAllowed() {
-        return mMaxPendingMmsMessagesAllowed;
+    public static int getMaxSizeScaleForPendingMmsAllowed() {
+        return mMaxSizeScaleForPendingMmsAllowed;
     }
 
     private static void loadMmsSettings(Context context) {
@@ -218,8 +222,8 @@ public class MmsConfig {
                             mHttpSocketTimeout = Integer.parseInt(text);
                         } else if ("minimumSlideElementDuration".equalsIgnoreCase(value)) {
                             mMinimumSlideElementDuration = Integer.parseInt(text);
-                        } else if ("maxPendingMmsMessagesAllowed".equalsIgnoreCase(value)) {
-                            mMaxPendingMmsMessagesAllowed = Integer.parseInt(text);
+                        } else if ("maxSizeScaleForPendingMmsAllowed".equalsIgnoreCase(value)) {
+                            mMaxSizeScaleForPendingMmsAllowed = Integer.parseInt(text);
                         }
                     } else if ("string".equals(tag)) {
                         // string config tags go here

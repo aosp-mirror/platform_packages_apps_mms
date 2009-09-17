@@ -115,6 +115,15 @@ public class WorkingMessage {
     // Our callback interface
     private final MessageStatusListener mStatusListener;
     private List<String> mWorkingRecipients;
+    
+    // Message sizes in Outbox
+    private static final String[] MMS_OUTBOX_PROJECTION = {
+        Mms._ID,            // 0
+        Mms.MESSAGE_SIZE    // 1
+    };
+
+    private static final int MMS_MESSAGE_SIZE_INDEX  = 1;
+
 
     /**
      * Callback interface for communicating important state changes back to
@@ -954,12 +963,19 @@ public class WorkingMessage {
         Cursor cursor = null;
         try {
             cursor = SqliteWrapper.query(mContext, mContentResolver,
-                    Mms.Outbox.CONTENT_URI, null, null, null, null);
-            if (cursor != null && 
-                    cursor.getCount() >= MmsConfig.getMaxPendingMmsMessagesAllowed()) {
-                unDiscard();    // it wasn't successfully sent. Allow it to be saved as a draft.
-                mStatusListener.onMaxPendingMessagesReached();
-                return;
+                    Mms.Outbox.CONTENT_URI, MMS_OUTBOX_PROJECTION, null, null, null);
+            if (cursor != null) {
+                long maxMessageSize = MmsConfig.getMaxSizeScaleForPendingMmsAllowed() *
+                    MmsConfig.getMaxMessageSize();
+                long totalPendingSize = 0;
+                while (cursor.moveToNext()) {
+                    totalPendingSize += cursor.getLong(MMS_MESSAGE_SIZE_INDEX);
+                }
+                if (totalPendingSize >= maxMessageSize) {
+                    unDiscard();    // it wasn't successfully sent. Allow it to be saved as a draft.
+                    mStatusListener.onMaxPendingMessagesReached();
+                    return;
+                }
             }
         } finally {
             if (cursor != null) {
@@ -985,7 +1001,8 @@ public class WorkingMessage {
         // Be paranoid and clean any draft SMS up.
         deleteDraftSmsMessage(threadId);
 
-        MessageSender sender = new MmsMessageSender(mContext, mmsUri);
+        MessageSender sender = new MmsMessageSender(mContext, mmsUri,
+                slideshow.getCurrentMessageSize());
         try {
             if (!sender.sendMessage(threadId)) {
                 // The message was sent through SMS protocol, we should
