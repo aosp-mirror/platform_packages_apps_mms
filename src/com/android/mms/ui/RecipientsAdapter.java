@@ -150,7 +150,8 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
             mContentResolver.query(uri,
                     PROJECTION_PHONE, 
                     Phone.TYPE + '=' + Phone.TYPE_MOBILE + " OR " +
-                            Phone.TYPE + '=' + Phone.TYPE_WORK_MOBILE,
+                            Phone.TYPE + '=' + Phone.TYPE_WORK_MOBILE + " OR " +
+                            Phone.TYPE + '=' + Phone.TYPE_MMS,
                     null,
                     SORT_ORDER);
 
