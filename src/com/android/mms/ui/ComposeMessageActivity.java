@@ -1496,7 +1496,11 @@ public class ComposeMessageActivity extends Activity
     private void bindToContactHeaderWidget(ContactList list) {
         switch (list.size()) {
             case 0:
-                mContactHeader.setDisplayName(mRecipientsEditor.getText().toString(), null);
+                String recipient = "";
+                if (mRecipientsEditor != null) {
+                    recipient = mRecipientsEditor.getText().toString();
+                }
+                mContactHeader.setDisplayName(recipient, null);
                 break;
             case 1:
                 // TODO this could be an email address
@@ -2438,6 +2442,9 @@ public class ComposeMessageActivity extends Activity
         } else {
             mWorkingMessage.setText(intent.getStringExtra("sms_body"));
         }
+
+        // let's clear the message thread for forwarded messages
+        mMsgListAdapter.changeCursor(null);
 
         return true;
     }
