@@ -45,6 +45,10 @@ public class SmsRejectedReceiver extends BroadcastReceiver {
 
             int reason = intent.getIntExtra("result", -1);
             boolean outOfMemory = reason == Telephony.Sms.Intents.RESULT_SMS_OUT_OF_MEMORY;
+            if (!outOfMemory) {
+                // Right now, the only user-level rejection we show to the user is out-of-memory.
+                return;
+            }
 
             NotificationManager nm = (NotificationManager)
             context.getSystemService(Context.NOTIFICATION_SERVICE);
