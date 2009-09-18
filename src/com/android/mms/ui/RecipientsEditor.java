@@ -154,8 +154,13 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
 
     public boolean hasInvalidRecipient() {
         for (String number : mTokenizer.getNumbers()) {
-            if (!isValid(number))
-                return true;
+            if (!isValid(number)) {
+                if (MmsConfig.getEmailGateway() == null) {
+                    return true;
+                } else if (!MessageUtils.isAlias(number)) {
+                    return true;
+                }
+            }
         }
         return false;
     }

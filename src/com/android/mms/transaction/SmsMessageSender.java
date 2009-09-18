@@ -21,6 +21,7 @@ import com.android.mms.MmsConfig;
 import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 import com.android.mms.ui.MessagingPreferenceActivity;
+import com.android.mms.ui.MessageUtils;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.util.SqliteWrapper;
 
@@ -80,7 +81,8 @@ public class SmsMessageSender implements MessageSender {
 
         for (int i = 0; i < mNumberOfDests; i++) {
             ArrayList<String> messages = null;
-            if ((MmsConfig.getEmailGateway() != null) && Mms.isEmailAddress(mDests[i])) {
+            if ((MmsConfig.getEmailGateway() != null) &&
+                    (Mms.isEmailAddress(mDests[i]) || MessageUtils.isAlias(mDests[i]))) {
                 String msgText;
                 msgText = mDests[i] + " " + mMessageText;
                 mDests[i] = MmsConfig.getEmailGateway();

@@ -84,6 +84,8 @@ public class MessageUtils {
     private static final String TAG = LogTag.TAG;
     private static String sLocalNumber;
 
+    public static final int MAX_ALIAS_LENGTH = 48;
+
     // Cache of both groups of space-separated ids to their full
     // comma-separated display names, as well as individual ids to
     // display names.
@@ -832,6 +834,25 @@ public class MessageUtils {
         } catch (IOException ex) {
             Log.e(TAG, "writeHprofDataToFile: caught " + ex);
         }
+    }
+
+    public static boolean isAlias(String string) {
+        if (!Mms.isPhoneNumber(string) && isAlphaNumeric(string) &&
+                string.length() > 1 && string.length() <= MAX_ALIAS_LENGTH) {
+            return true;
+        } else return false;
+    }
+
+    public static boolean isAlphaNumeric(String s) {
+        char[] chars = s.toCharArray();
+        for (int x = 0; x < chars.length; x++) {
+            char c = chars[x];
+            if ((c >= 'a') && (c <= 'z')) continue;
+            if ((c >= 'A') && (c <= 'Z')) continue;
+            if ((c >= '0') && (c <= '9')) continue;
+                return false;
+        }
+        return true;
     }
 
     private static void log(String msg) {
