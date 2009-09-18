@@ -42,6 +42,7 @@ public class MmsMessageSender implements MessageSender {
 
     private final Context mContext;
     private final Uri mMessageUri;
+    private final long mMessageSize;
 
     // Default preference values
     private static final boolean DEFAULT_DELIVERY_REPORT_MODE  = false;
@@ -50,9 +51,10 @@ public class MmsMessageSender implements MessageSender {
     private static final int     DEFAULT_PRIORITY        = PduHeaders.PRIORITY_NORMAL;
     private static final String  DEFAULT_MESSAGE_CLASS   = PduHeaders.MESSAGE_CLASS_PERSONAL_STR;
 
-    public MmsMessageSender(Context context, Uri location) {
+    public MmsMessageSender(Context context, Uri location, long messageSize) {
         mContext = context;
         mMessageUri = location;
+        mMessageSize = messageSize;
 
         if (mMessageUri == null) {
             throw new IllegalArgumentException("Null message URI.");
@@ -78,6 +80,8 @@ public class MmsMessageSender implements MessageSender {
 
         // Update the 'date' field of the message before sending it.
         sendReq.setDate(System.currentTimeMillis() / 1000L);
+        
+        sendReq.setMessageSize(mMessageSize);
 
         p.updateHeaders(mMessageUri, sendReq);
 
