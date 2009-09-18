@@ -347,6 +347,8 @@ public class ConversationList extends ListActivity
             intent.putExtra(ContactsContract.Intents.Insert.EMAIL, address);
         } else {
             intent.putExtra(ContactsContract.Intents.Insert.PHONE, address);
+            intent.putExtra(ContactsContract.Intents.Insert.PHONE_TYPE,
+                    ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
