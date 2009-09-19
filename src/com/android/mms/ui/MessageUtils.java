@@ -84,8 +84,6 @@ public class MessageUtils {
     private static final String TAG = LogTag.TAG;
     private static String sLocalNumber;
 
-    public static final int MAX_ALIAS_LENGTH = 48;
-
     // Cache of both groups of space-separated ids to their full
     // comma-separated display names, as well as individual ids to
     // display names.
@@ -837,10 +835,29 @@ public class MessageUtils {
     }
 
     public static boolean isAlias(String string) {
-        if (!Mms.isPhoneNumber(string) && isAlphaNumeric(string) &&
-                string.length() > 1 && string.length() <= MAX_ALIAS_LENGTH) {
-            return true;
-        } else return false;
+        if (!MmsConfig.isAliasEnabled()) {
+            return false;
+        }
+
+        if (TextUtils.isEmpty(string)) {
+            return false;
+        }
+
+        if (Mms.isPhoneNumber(string)) {
+            return false;
+        }
+
+        if (!isAlphaNumeric(string)) {
+            return false;
+        }
+
+        int len = string.length();
+
+        if (len < MmsConfig.getAliasMinChars() || len > MmsConfig.getAliasMaxChars()) {
+            return false;
+        }
+
+        return true;
     }
 
     public static boolean isAlphaNumeric(String s) {
