@@ -27,8 +27,6 @@ import android.database.Cursor;
 import android.database.MergeCursor;
 import android.net.Uri;
 import android.provider.ContactsContract.Contacts;
-import android.provider.ContactsContract.Data;
-import android.provider.ContactsContract.RawContacts;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.telephony.PhoneNumberUtils;
 import android.text.Annotation;
@@ -53,12 +51,12 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
     public static final int NAME_INDEX       = 5;
 
     private static final String[] PROJECTION_PHONE = {
-        Data._ID,                   // 0
-        RawContacts.CONTACT_ID,     // 1
+        Phone._ID,                  // 0
+        Phone.CONTACT_ID,           // 1
         Phone.TYPE,                 // 2
         Phone.NUMBER,               // 3
         Phone.LABEL,                // 4
-        Contacts.DISPLAY_NAME,      // 5
+        Phone.DISPLAY_NAME,         // 5
     };
 
     private static final String SORT_ORDER = Contacts.TIMES_CONTACTED + " DESC,"
@@ -155,7 +153,7 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
                 Phone.TYPE_MMS);
         Cursor phoneCursor =
             mContentResolver.query(uri,
-                    PROJECTION_PHONE, 
+                    PROJECTION_PHONE,
                     selection,
                     null,
                     SORT_ORDER);
@@ -163,7 +161,7 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
         if (phone.length() > 0) {
             ArrayList result = new ArrayList();
             result.add(Integer.valueOf(-1));                    // ID
-            result.add(Long.valueOf(-1));                       // PERSON_ID
+            result.add(Long.valueOf(-1));                       // CONTACT_ID
             result.add(Integer.valueOf(Phone.TYPE_CUSTOM));     // TYPE
             result.add(phone);                                  // NUMBER
 
