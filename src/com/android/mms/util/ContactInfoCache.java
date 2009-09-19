@@ -34,7 +34,6 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.Presence;
-import android.provider.ContactsContract.RawContacts;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.Telephony.Mms;
@@ -75,12 +74,12 @@ public class ContactInfoCache {
             Uri.withAppendedPath(ContactsContract.AUTHORITY_URI, "data_with_presence");
 
     private static final String[] CALLER_ID_PROJECTION = new String[] {
-            Phone.NUMBER,                       // 0
-            Phone.LABEL,                        // 1
-            Contacts.DISPLAY_NAME,              // 2
-            RawContacts.CONTACT_ID,             // 3
-            Presence.PRESENCE_STATUS,           // 4
-            Presence.PRESENCE_CUSTOM_STATUS,    // 5
+            Phone.NUMBER,                   // 0
+            Phone.LABEL,                    // 1
+            Phone.DISPLAY_NAME,             // 2
+            Phone.CONTACT_ID,               // 3
+            Phone.PRESENCE_STATUS,          // 4
+            Phone.PRESENCE_CUSTOM_STATUS,   // 5
     };
     private static final int PHONE_NUMBER_COLUMN = 0;
     private static final int PHONE_LABEL_COLUMN = 1;
@@ -97,9 +96,9 @@ public class ContactInfoCache {
             + Email.CONTENT_ITEM_TYPE + "'";
 
     private static final String[] EMAIL_PROJECTION = new String[] {
-            Contacts.DISPLAY_NAME,              // 0
-            Presence.PRESENCE_STATUS,           // 1
-            RawContacts.CONTACT_ID,             // 2
+            Email.DISPLAY_NAME,           // 0
+            Email.PRESENCE_STATUS,        // 1
+            Email.CONTACT_ID,             // 2
     };
     private static final int EMAIL_NAME_COLUMN = 0;
     private static final int EMAIL_STATUS_COLUMN = 1;
