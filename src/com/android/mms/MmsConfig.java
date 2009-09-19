@@ -65,6 +65,11 @@ public class MmsConfig {
     // MMS's. 
     private static int mMaxSizeScaleForPendingMmsAllowed = 4;       // default value
 
+    // Email gateway alias support, including the master switch and different rules
+    private static boolean mAliasEnabled = false;
+    private static int mAliasRuleMinChars = 2;
+    private static int mAliasRuleMaxChars = 48;
+
     public static void init(Context context) {
         if (LOCAL_LOGV) {
             Log.v(TAG, "MmsConfig.init()");
@@ -162,6 +167,18 @@ public class MmsConfig {
         return mMaxSizeScaleForPendingMmsAllowed;
     }
 
+    public static boolean isAliasEnabled() {
+        return mAliasEnabled;
+    }
+
+    public static int getAliasMinChars() {
+        return mAliasRuleMinChars;
+    }
+
+    public static int getAliasMaxChars() {
+        return mAliasRuleMaxChars;
+    }
+
     private static void loadMmsSettings(Context context) {
         XmlResourceParser parser = context.getResources()
                 .getXml(R.xml.mms_config);
@@ -194,6 +211,8 @@ public class MmsConfig {
                             mTransIdEnabled = "true".equalsIgnoreCase(text);
                         } else if ("enabledNotifyWapMMSC".equalsIgnoreCase(value)) {
                             mNotifyWapMMSC = "true".equalsIgnoreCase(text);
+                        } else if ("aliasEnabled".equalsIgnoreCase(value)) {
+                            mAliasEnabled = "true".equalsIgnoreCase(text);
                         }
                     } else if ("int".equals(tag)) {
                         // int config tags go here
@@ -224,6 +243,10 @@ public class MmsConfig {
                             mMinimumSlideElementDuration = Integer.parseInt(text);
                         } else if ("maxSizeScaleForPendingMmsAllowed".equalsIgnoreCase(value)) {
                             mMaxSizeScaleForPendingMmsAllowed = Integer.parseInt(text);
+                        } else if ("aliasMinChars".equalsIgnoreCase(value)) {
+                            mAliasRuleMinChars = Integer.parseInt(text);
+                        } else if ("aliasMaxChars".equalsIgnoreCase(value)) {
+                            mAliasRuleMaxChars = Integer.parseInt(text);
                         }
                     } else if ("string".equals(tag)) {
                         // string config tags go here
