@@ -291,12 +291,12 @@ public class ContactInfoCache {
             } else if (!allowQuery) {
                 return null;
             }
-
-            CacheEntry entry = queryContactInfoByNumber(number);
-            mCache.put(number, entry);
-
-            return entry;
         }
+        CacheEntry entry = queryContactInfoByNumber(number);
+        synchronized (mCache) {
+            mCache.put(number, entry);
+        }
+        return entry;
     }
 
     /**
@@ -443,8 +443,9 @@ public class ContactInfoCache {
             } else if (!allowQuery) {
                 return null;
             }
-
-            CacheEntry entry = queryEmailDisplayName(email);
+        }
+        CacheEntry entry = queryEmailDisplayName(email);
+        synchronized (mCache) {
             mCache.put(email, entry);
 
             return entry;
@@ -596,8 +597,8 @@ public class ContactInfoCache {
             if (phones != null) {
                 if (LOCAL_DEBUG) log("rebuild cache for phone numbers...");
                 for (String phone : phones) {
+                    CacheEntry entry = queryContactInfoByNumber(phone);
                     synchronized (mCache) {
-                        CacheEntry entry = queryContactInfoByNumber(phone);
                         mCache.put(phone, entry);
                     }
                 }
@@ -605,8 +606,8 @@ public class ContactInfoCache {
             if (emails != null) {
                 if (LOCAL_DEBUG) log("rebuild cache for emails...");
                 for (String email : emails) {
+                    CacheEntry entry = queryEmailDisplayName(email);
                     synchronized (mCache) {
-                        CacheEntry entry = queryEmailDisplayName(email);
                         mCache.put(email, entry);
                     }
                 }
