@@ -58,7 +58,7 @@ import java.util.regex.Matcher;
  *       database could have a caching layer to ease the work for all apps.
  */
 public class ContactInfoCache {
-    private static final String TAG = "MMS/Cache";
+    private static final String TAG = "Mms/cache";
 
     private static final boolean LOCAL_DEBUG = false;
 
