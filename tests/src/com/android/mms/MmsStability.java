@@ -102,4 +102,16 @@ public class MmsStability extends ActivityInstrumentationTestCase2 <ComposeMessa
             Log.v(TAG, e.toString());
         }
     }
+
+    @LargeTest
+    public void testMMSDoNothing() {
+        // Added a do nothing test case to capture
+        // the mms power usage base line.
+        try {
+            Thread.sleep(WAIT_TIME);
+        } catch (Exception e) {
+            assertTrue("MMS do nothing", false);
+        }
+        assertTrue("MMS do nothing", true);
+    }
 }
