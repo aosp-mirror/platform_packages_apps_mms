@@ -415,7 +415,9 @@ public class Contact {
 
             synchronized (sInstance) {
                 for (Contact c : sInstance.mCache) {
-                    if (AddressUtils.phoneNumbersEqual(number, c.mNumber)) {
+                    if (PhoneNumberUtils.compare(number, c.mNumber)) {
+                        //Log.i(TAG, "return contact " + c + ", number=" + number +
+                        //       ", contact.number=" + c.mNumber);
                         return c;
                     }
                 }
