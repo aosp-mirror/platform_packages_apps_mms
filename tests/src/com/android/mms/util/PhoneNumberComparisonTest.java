@@ -19,6 +19,7 @@ package com.android.mms.util;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.util.Log;
+import android.telephony.PhoneNumberUtils;
 import com.android.mms.LogTag;
 
 public class PhoneNumberComparisonTest extends AndroidTestCase {
@@ -28,15 +29,15 @@ public class PhoneNumberComparisonTest extends AndroidTestCase {
         Log.i(LogTag.APP, "testCompareSmsShortcode");
 
         // test the short codes themselves are compared correctly
-        assertFalse(AddressUtils.phoneNumbersEqual("321", "54321"));
-        assertFalse(AddressUtils.phoneNumbersEqual("4321", "54321"));
-        assertFalse(AddressUtils.phoneNumbersEqual("54321", "654321"));
+        assertFalse(PhoneNumberUtils.compare("321", "54321"));
+        assertFalse(PhoneNumberUtils.compare("4321", "54321"));
+        assertFalse(PhoneNumberUtils.compare("54321", "654321"));
 
         // test comparing one shortcode to a regular phone number
-        assertFalse(AddressUtils.phoneNumbersEqual("54321", "6505554321"));
-        assertFalse(AddressUtils.phoneNumbersEqual("54321", "+16505554321"));
-        assertFalse(AddressUtils.phoneNumbersEqual("654321", "6505654321"));
-        assertFalse(AddressUtils.phoneNumbersEqual("654321", "+16505654321"));
+        assertFalse(PhoneNumberUtils.compare("54321", "6505554321"));
+        assertFalse(PhoneNumberUtils.compare("54321", "+16505554321"));
+        assertFalse(PhoneNumberUtils.compare("654321", "6505654321"));
+        assertFalse(PhoneNumberUtils.compare("654321", "+16505654321"));
     }
 
 
