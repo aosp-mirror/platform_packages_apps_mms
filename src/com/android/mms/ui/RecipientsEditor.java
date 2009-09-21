@@ -34,11 +34,10 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.inputmethod.EditorInfo;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.ListAdapter;
 import android.widget.MultiAutoCompleteTextView;
 
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ import java.util.List;
 public class RecipientsEditor extends MultiAutoCompleteTextView {
     private int mLongPressedPosition = -1;
     private final RecipientsEditorTokenizer mTokenizer;
-    private char mLastSeparator;
+    private char mLastSeparator = ',';
 
     public RecipientsEditor(Context context, AttributeSet attrs) {
         super(context, attrs, android.R.attr.autoCompleteTextViewStyle);
@@ -269,12 +268,31 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
     }
 
     private static String getNumberAt(Spanned sp, int start, int end, Context context) {
+        return getFieldAt("number", sp, start, end, context);
+    }
+
+    private static int getSpanLength(Spanned sp, int start, int end, Context context) {
+        // TODO: there's a situation where the span can lose its annotations:
+        //   - add an auto-complete contact
+        //   - add another auto-complete contact
+        //   - delete that second contact and keep deleting into the first
+        //   - we lose the annotation and can no longer get the span.
+        // Need to fix this case because it breaks auto-complete contacts with commas in the name.
         Annotation[] a = sp.getSpans(start, end, Annotation.class);
-        String number = getAnnotation(a, "number");
-        if (TextUtils.isEmpty(number)) {
-            number = TextUtils.substring(sp, start, end);
+        if (a.length > 0) {
+            return sp.getSpanEnd(a[0]);
         }
-        return number;
+        return 0;
+    }
+
+    private static String getFieldAt(String field, Spanned sp, int start, int end,
+            Context context) {
+        Annotation[] a = sp.getSpans(start, end, Annotation.class);
+        String fieldValue = getAnnotation(a, field);
+        if (TextUtils.isEmpty(fieldValue)) {
+            fieldValue = TextUtils.substring(sp, start, end);
+        }
+        return fieldValue;
 
     }
 
@@ -380,6 +398,15 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
                 if ((i == len) || ((c = sp.charAt(i)) == ',') || (c == ';')) {
                     if (i > start) {
                         list.add(getNumberAt(sp, start, i, mContext));
+
+                        // calculate the recipients total length. This is so if the name contains
+                        // commas or semis, we'll skip over the whole name to the next
+                        // recipient, rather than parsing this single name into multiple
+                        // recipients.
+                        int spanLen = getSpanLength(sp, start, i, mContext);
+                        if (spanLen > i) {
+                            i = spanLen;
+                        }
                     }
 
                     i++;
