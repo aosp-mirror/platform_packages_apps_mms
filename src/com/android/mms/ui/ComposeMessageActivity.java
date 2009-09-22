@@ -1704,7 +1704,7 @@ public class ComposeMessageActivity extends Activity
         mIsLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE;
         onKeyboardStateChanged(mIsKeyboardOpen);
 
-        bindToContactHeaderWidget(getRecipients());
+        bindToContactHeaderWidget(mConversation.getRecipients());
     }
 
     @Override
@@ -1998,7 +1998,7 @@ public class ComposeMessageActivity extends Activity
     public void onProtocolChanged(boolean mms) {
         toastConvertInfo(mms);
     }
-    
+
     Runnable mResetMessageRunnable = new Runnable() {
         public void run() {
             resetMessage();
