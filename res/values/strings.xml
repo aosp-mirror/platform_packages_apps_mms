@@ -257,6 +257,10 @@
     <string name="layout_bottom">Layout (bottom)</string>
     <!-- Hint in slide text field before text is typed -->
     <string name="type_to_compose_text_or_leave_blank">Type to compose text, or leave blank</string>
+    <!-- Toast when the user enters a non-numeric value for the duration of a slide -->
+    <string name="duration_not_a_number">Duration must be a number</string>
+    <!-- Toast when the user enters a zero value for the duration of a slide -->
+    <string name="duration_zero">Duration must be greater than zero seconds</string>
 
     <!-- In duration selection dialog box, short version of "seconds" -->
     <string name="secs">secs</string>
