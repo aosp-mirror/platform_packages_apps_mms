@@ -21,6 +21,8 @@ import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.PduComposer;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.ReadRecInd;
+import com.google.android.mms.pdu.EncodedStringValue;
+import com.android.mms.ui.MessageUtils;
 
 import android.content.Context;
 import android.net.Uri;
@@ -71,6 +73,10 @@ public class ReadRecTransaction extends Transaction {
         try {
             // Load M-read-rec.ind from outbox
             ReadRecInd readRecInd = (ReadRecInd) persister.load(mReadReportURI);
+
+            // insert the 'from' address per spec
+            String lineNumber = MessageUtils.getLocalNumber();
+            readRecInd.setFrom(new EncodedStringValue(lineNumber));
 
             // Pack M-read-rec.ind and send it
             byte[] postingData = new PduComposer(mContext, readRecInd).make();
