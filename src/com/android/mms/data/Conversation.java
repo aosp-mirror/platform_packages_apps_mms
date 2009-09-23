@@ -25,7 +25,7 @@ import com.android.mms.util.DraftCache;
  * An interface for finding information about conversations and/or creating new ones.
  */
 public class Conversation {
-    private static final String TAG = "Conversation";
+    private static final String TAG = "Mms/conv";
     private static final boolean DEBUG = false;
 
     private static final Uri sAllThreadsUri =

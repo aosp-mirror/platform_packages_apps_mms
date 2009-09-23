@@ -18,6 +18,7 @@
 package com.android.mms.transaction;
 
 import com.android.mms.MmsConfig;
+import com.android.mms.ui.MessageUtils;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.Recycler;
 import com.google.android.mms.MmsException;
@@ -27,6 +28,7 @@ import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.RetrieveConf;
+import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.content.ContentValues;
@@ -187,8 +189,7 @@ public class RetrieveTransaction extends Transaction implements Runnable {
         return false;
     }
 
-    private void sendAcknowledgeInd(RetrieveConf rc)
-            throws MmsException, IOException {
+    private void sendAcknowledgeInd(RetrieveConf rc) throws MmsException, IOException {
         // Send M-Acknowledge.ind to MMSC if required.
         // If the Transaction-ID isn't set in the M-Retrieve.conf, it means
         // the MMS proxy-relay doesn't require an ACK.
@@ -197,6 +198,10 @@ public class RetrieveTransaction extends Transaction implements Runnable {
             // Create M-Acknowledge.ind
             AcknowledgeInd acknowledgeInd = new AcknowledgeInd(
                     PduHeaders.CURRENT_MMS_VERSION, tranId);
+
+            // insert the 'from' address per spec
+            String lineNumber = MessageUtils.getLocalNumber();
+            acknowledgeInd.setFrom(new EncodedStringValue(lineNumber));
 
             // Pack M-Acknowledge.ind and send it
             if(MmsConfig.getNotifyWapMMSC()) {

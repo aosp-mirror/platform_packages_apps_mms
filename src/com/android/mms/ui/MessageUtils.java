@@ -643,7 +643,7 @@ public class MessageUtils {
                 .show();
     }
 
-    private static String getLocalNumber() {
+    public static String getLocalNumber() {
         if (null == sLocalNumber) {
             sLocalNumber = TelephonyManager.getDefault().getLine1Number();
         }
