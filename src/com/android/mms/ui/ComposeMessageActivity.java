@@ -75,6 +75,7 @@ import android.drm.mobile1.DrmException;
 import android.drm.mobile1.DrmRawContent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -247,7 +248,6 @@ public class ComposeMessageActivity extends Activity
     private boolean mWaitingForSubActivity;
     private int mLastRecipientCount;            // Used for warning the user on too many recipients.
     private ContactHeaderWidget mContactHeader;
-    private boolean mDeleteLockedMessages;
 
     @SuppressWarnings("unused")
     private static void log(String logMsg) {
@@ -1505,8 +1505,13 @@ public class ComposeMessageActivity extends Activity
                 mContactHeader.bindFromPhoneNumber(list.get(0).getNumber());
                 break;
             default:
-                String multipleRecipientsString = getString(R.string.multiple_recipients, list.size());
-                mContactHeader.setDisplayName(multipleRecipientsString, null);
+                // Handle multiple recipients
+                mContactHeader.setDisplayName(list.formatNames(", "), null);
+                mContactHeader.setContactUri(null);
+                mContactHeader.setPhoto(((BitmapDrawable)getResources()
+                        .getDrawable(R.drawable.ic_groupchat))
+                        .getBitmap());
+                mContactHeader.setPresence(0);  // clear the presence, too
                 break;
         }
     }
