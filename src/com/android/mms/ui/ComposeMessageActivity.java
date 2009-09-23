@@ -42,14 +42,12 @@ import com.android.mms.model.SlideshowModel;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
-import com.android.mms.util.DraftCache;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.PduBody;
-import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendReq;
@@ -76,6 +74,7 @@ import android.database.sqlite.SQLiteException;
 import android.drm.mobile1.DrmException;
 import android.drm.mobile1.DrmRawContent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -120,7 +119,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -2186,9 +2184,14 @@ public class ComposeMessageActivity extends Activity
 
             case AttachmentTypeSelectorAdapter.TAKE_PICTURE: {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Mms.ScrapSpace.CONTENT_URI);
+                intent.putExtra("MaxNumOfPixels",
+                        MmsConfig.getMaxImageWidth() * MmsConfig.getMaxImageHeight());
+
                 startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
-            }
                 break;
+            }
 
             case AttachmentTypeSelectorAdapter.ADD_VIDEO:
                 MessageUtils.selectVideo(this, REQUEST_CODE_ATTACH_VIDEO);
@@ -2252,15 +2255,20 @@ public class ComposeMessageActivity extends Activity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "onActivityResult: requestCode=" + requestCode
+        if (DEBUG) {
+            log("onActivityResult: requestCode=" + requestCode
                     + ", resultCode=" + resultCode + ", data=" + data);
         }
         mWaitingForSubActivity = false;     // We're back!
 
         // If there's no data (because the user didn't select a picture and
         // just hit BACK, for example), there's nothing to do.
-        if (data == null) {
+        if (requestCode != REQUEST_CODE_TAKE_PICTURE) {
+            if (data == null) {
+                return;
+            }
+        } else if (resultCode != RESULT_OK){
+            if (DEBUG) log("onActivityResult: bail due to resultCode=" + resultCode);
             return;
         }
 
@@ -2278,31 +2286,35 @@ public class ComposeMessageActivity extends Activity
                 }
                 break;
 
-            case REQUEST_CODE_TAKE_PICTURE:
-                Bitmap bitmap = (Bitmap) data.getParcelableExtra("data");
+            case REQUEST_CODE_TAKE_PICTURE: {
+                Bitmap bitmap = BitmapFactory.decodeFile(Mms.ScrapSpace.SCRAP_FILE_PATH);
+
                 if (bitmap == null) {
                     handleAddAttachmentError(WorkingMessage.UNKNOWN_ERROR, R.string.type_picture);
                     return;
                 }
                 addImage(bitmap);
                 break;
+            }
 
-            case REQUEST_CODE_ATTACH_IMAGE:
+            case REQUEST_CODE_ATTACH_IMAGE: {
                 addImage(data.getData(), false);
                 break;
+            }
 
             case REQUEST_CODE_TAKE_VIDEO:
             case REQUEST_CODE_ATTACH_VIDEO:
                 addVideo(data.getData(), false);
                 break;
 
-            case REQUEST_CODE_ATTACH_SOUND:
+            case REQUEST_CODE_ATTACH_SOUND: {
                 Uri uri = (Uri) data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
                 if (Settings.System.DEFAULT_RINGTONE_URI.equals(uri)) {
                     break;
                 }
                 addAudio(uri);
                 break;
+            }
 
             case REQUEST_CODE_RECORD_SOUND:
                 addAudio(data.getData());
