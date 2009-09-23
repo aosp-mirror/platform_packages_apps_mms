@@ -116,7 +116,7 @@ public class WorkingMessage {
     // Our callback interface
     private final MessageStatusListener mStatusListener;
     private List<String> mWorkingRecipients;
-    
+
     // Message sizes in Outbox
     private static final String[] MMS_OUTBOX_PROJECTION = {
         Mms._ID,            // 0
@@ -188,11 +188,13 @@ public class WorkingMessage {
         // If the message is not already in the draft box, move it there.
         if (!uri.toString().startsWith(Mms.Draft.CONTENT_URI.toString())) {
             PduPersister persister = PduPersister.getPduPersister(activity);
-            if (DEBUG) debug("load: moving %s to drafts", uri);
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                LogTag.debug("load: moving %s to drafts", uri);
+            }
             try {
                 uri = persister.move(uri, Mms.Draft.CONTENT_URI);
             } catch (MmsException e) {
-                error("Can't move %s to drafts", uri);
+                LogTag.error("Can't move %s to drafts", uri);
                 return null;
             }
         }
@@ -232,11 +234,11 @@ public class WorkingMessage {
     }
 
     private boolean loadFromUri(Uri uri) {
-        if (DEBUG) debug("loadFromUri %s", uri);
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) LogTag.debug("loadFromUri %s", uri);
         try {
             mSlideshow = SlideshowModel.createFromMessageUri(mContext, uri);
         } catch (MmsException e) {
-            error("Couldn't load URI %s", uri);
+            LogTag.error("Couldn't load URI %s", uri);
             return false;
         }
 
@@ -264,7 +266,7 @@ public class WorkingMessage {
     }
 
     private boolean loadFromConversation(Conversation conv) {
-        if (DEBUG) debug("loadFromConversation %s", conv);
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) LogTag.debug("loadFromConversation %s", conv);
 
         long threadId = conv.getThreadId();
         if (threadId <= 0) {
@@ -324,7 +326,9 @@ public class WorkingMessage {
      * @return An error code such as {@link UNKNOWN_ERROR} or {@link OK} if successful
      */
     public int setAttachment(int type, Uri dataUri, boolean append) {
-        if (DEBUG) debug("setAttachment type=%d uri %s", type, dataUri);
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("setAttachment type=%d uri %s", type, dataUri);
+        }
         int result = OK;
 
         // Make sure mSlideshow is set up and has a slide.
@@ -600,7 +604,7 @@ public class WorkingMessage {
     /**
      * Resolve the temporary working set of recipients to a ContactList.
      */
-    private void syncWorkingRecipients() {
+    public void syncWorkingRecipients() {
         if (mWorkingRecipients != null) {
             ContactList recipients = ContactList.getByNumbers(mWorkingRecipients, false);
             mConversation.setRecipients(recipients);
@@ -614,7 +618,7 @@ public class WorkingMessage {
      * Typically used when handing a message off to another activity.
      */
     public Uri saveAsMms() {
-        if (DEBUG) debug("save mConversation=%s", mConversation);
+        if (DEBUG) LogTag.debug("save mConversation=%s", mConversation);
 
         if (mDiscarded) {
             throw new IllegalStateException("save() called after discard()");
@@ -653,7 +657,7 @@ public class WorkingMessage {
      */
     public void saveDraft() {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            debug("saveDraft");
+            LogTag.debug("saveDraft");
         }
 
         // If we have discarded the message, just bail out.
@@ -681,7 +685,7 @@ public class WorkingMessage {
 
     public void discard() {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            debug("discard");
+            LogTag.debug("discard");
         }
 
         // Technically, we could probably just bail out here.  But discard() is
@@ -707,7 +711,7 @@ public class WorkingMessage {
     }
 
     public void unDiscard() {
-        if (DEBUG) debug("unDiscard");
+        if (DEBUG) LogTag.debug("unDiscard");
 
         mDiscarded = false;
     }
@@ -773,7 +777,7 @@ public class WorkingMessage {
      * Set the conversation associated with this message.
      */
     public void setConversation(Conversation conv) {
-        if (DEBUG) debug("setConversation %s -> %s", mConversation, conv);
+        if (DEBUG) LogTag.debug("setConversation %s -> %s", mConversation, conv);
 
         mConversation = conv;
 
@@ -860,7 +864,8 @@ public class WorkingMessage {
         }
 
         if (oldState != mMmsState) {
-            if (DEBUG) debug("updateState: %s%s = %s", on ? "+" : "-",
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) LogTag.debug("updateState: %s%s = %s",
+                    on ? "+" : "-",
                     stateString(state), stateString(mMmsState));
         }
     }
@@ -872,7 +877,7 @@ public class WorkingMessage {
      */
     public void send() {
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            debug("send");
+            LogTag.debug("send");
         }
 
         // Get ready to write to disk.
@@ -989,7 +994,9 @@ public class WorkingMessage {
         // recipient set.
         long threadId = conv.ensureThreadId();
 
-        if (DEBUG) debug("sendMmsWorker: update draft MMS message " + mmsUri);
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("sendMmsWorker: update draft MMS message " + mmsUri);
+        }
 
         if (mmsUri == null) {
             // Create a new MMS message if one hasn't been made yet.
@@ -1031,7 +1038,9 @@ public class WorkingMessage {
     private static final int MMS_SUBJECT_INDEX  = 1;
 
     private static Uri readDraftMmsMessage(Context context, long threadId, StringBuilder sb) {
-        if (DEBUG) debug("readDraftMmsMessage tid=%d", threadId);
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("readDraftMmsMessage tid=%d", threadId);
+        }
         Cursor cursor;
         ContentResolver cr = context.getContentResolver();
 
@@ -1090,7 +1099,7 @@ public class WorkingMessage {
 
     private void asyncUpdateDraftMmsMessage(final Conversation conv) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            debug("asyncUpdateDraftMmsMessage conv=%s mMessageUri=%s", conv, mMessageUri);
+            LogTag.debug("asyncUpdateDraftMmsMessage conv=%s mMessageUri=%s", conv, mMessageUri);
         }
 
         final PduPersister persister = PduPersister.getPduPersister(mContext);
@@ -1114,7 +1123,9 @@ public class WorkingMessage {
 
     private static void updateDraftMmsMessage(Uri uri, PduPersister persister,
             SlideshowModel slideshow, SendReq sendReq) {
-        if (DEBUG) debug("updateDraftMmsMessage uri=%s", uri);
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("updateDraftMmsMessage uri=%s", uri);
+        }
         if (uri == null) {
             Log.e(TAG, "updateDraftMmsMessage null uri");
             return;
@@ -1141,7 +1152,9 @@ public class WorkingMessage {
      * @return The draft message or an empty string.
      */
     private static String readDraftSmsMessage(Context context, long thread_id, Conversation conv) {
-        if (DEBUG) debug("readDraftSmsMessage tid=%d", thread_id);
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("readDraftSmsMessage tid=%d", thread_id);
+        }
         ContentResolver cr = context.getContentResolver();
 
         // If it's an invalid thread, don't bother.
@@ -1172,7 +1185,7 @@ public class WorkingMessage {
         // that means we deleted the thread, too. Must reset the thread id
         // so we'll eventually create a new thread.
         if (conv.getMessageCount() == 0) {
-            if (DEBUG) debug("readDraftSmsMessage calling clearThreadId");
+            if (DEBUG) LogTag.debug("readDraftSmsMessage calling clearThreadId");
             conv.clearThreadId();
         }
 
@@ -1190,7 +1203,9 @@ public class WorkingMessage {
     }
 
     private void updateDraftSmsMessage(long thread_id, String contents) {
-        if (DEBUG) debug("updateDraftSmsMessage tid=%d, contents=\"%s\"", thread_id, contents);
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("updateDraftSmsMessage tid=%d, contents=\"%s\"", thread_id, contents);
+        }
 
         // If we don't have a valid thread, there's nothing to do.
         if (thread_id <= 0) {
@@ -1214,7 +1229,7 @@ public class WorkingMessage {
 
     private void asyncDelete(final Uri uri, final String selection, final String[] selectionArgs) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            debug("asyncDelete %s where %s", uri, selection);
+            LogTag.debug("asyncDelete %s where %s", uri, selection);
         }
         new Thread(new Runnable() {
             public void run() {
@@ -1242,45 +1257,4 @@ public class WorkingMessage {
         asyncDelete(Mms.Draft.CONTENT_URI, where, null);
     }
 
-    // Logging stuff.
-
-    private static String prettyArray(String[] array) {
-        if (array.length == 0) {
-            return "[]";
-        }
-
-        StringBuilder sb = new StringBuilder("[");
-        int len = array.length-1;
-        for (int i = 0; i < len; i++) {
-            sb.append(array[i]);
-            sb.append(", ");
-        }
-        sb.append(array[len]);
-        sb.append("]");
-
-        return sb.toString();
-    }
-
-    private static String logFormat(String format, Object... args) {
-        for (int i = 0; i < args.length; i++) {
-            if (args[i] instanceof String[]) {
-                args[i] = prettyArray((String[])args[i]);
-            }
-        }
-        String s = String.format(format, args);
-        s = "[" + Thread.currentThread().getId() + "] " + s;
-        return s;
-    }
-
-    private static void debug(String format, Object... args) {
-        Log.d(TAG, logFormat(format, args));
-    }
-
-    private static void warn(String format, Object... args) {
-        Log.w(TAG, logFormat(format, args));
-    }
-
-    private static void error(String format, Object... args) {
-        Log.e(TAG, logFormat(format, args));
-    }
 }
