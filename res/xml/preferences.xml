@@ -18,7 +18,8 @@
  */
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-  <PreferenceCategory android:title="@string/pref_sms_storage_title">
+  <PreferenceCategory android:title="@string/pref_sms_storage_title"
+                      android:key="pref_key_storage_settings">
     <CheckBoxPreference android:defaultValue="false"
                       android:key="pref_key_auto_delete"
                       android:summary="@string/pref_summary_auto_delete"
@@ -44,7 +45,8 @@
                       android:summary="@string/pref_summary_manage_sim_messages"
                       android:title="@string/pref_title_manage_sim_messages" />
   </PreferenceCategory>
-  <PreferenceCategory android:title="@string/pref_mms_settings_title">
+  <PreferenceCategory android:title="@string/pref_mms_settings_title"
+                      android:key="pref_key_mms_settings">
     <CheckBoxPreference android:defaultValue="false"
                       android:key="pref_key_mms_delivery_reports"
                       android:summary="@string/pref_summary_mms_delivery_reports"
