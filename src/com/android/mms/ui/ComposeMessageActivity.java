@@ -1679,8 +1679,12 @@ public class ComposeMessageActivity extends Activity
 
         // Load the draft for this thread, if we aren't already handling
         // existing data, such as a shared picture or forwarded message.
-        if (!handleSendIntent(intent) && !handleForwardedMessage()) {
-            loadDraft();
+        boolean isForwardedMessage = false;
+        if (!handleSendIntent(intent)) {
+            isForwardedMessage = handleForwardedMessage();
+            if (!isForwardedMessage) {
+                loadDraft();
+            }
         }
 
         // Let the working message know what conversation it belongs to.
@@ -1714,6 +1718,12 @@ public class ComposeMessageActivity extends Activity
         onKeyboardStateChanged(mIsKeyboardOpen);
 
         bindToContactHeaderWidget(mConversation.getRecipients());
+
+        if (isForwardedMessage && isRecipientsEditorVisible()) {
+            // The user is forwarding the message to someone. Put the focus on the
+            // recipient editor rather than in the message editor.
+            mRecipientsEditor.requestFocus();
+        }
     }
 
     @Override
