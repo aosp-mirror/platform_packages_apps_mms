@@ -121,7 +121,7 @@ public class SmsReceiverService extends Service {
 //            Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras());
 //        }
 
-        mResultCode = intent.getIntExtra("result", 0);
+        mResultCode = intent != null ? intent.getIntExtra("result", 0) : 0;
 
         Message msg = mServiceHandler.obtainMessage();
         msg.arg1 = startId;
@@ -156,19 +156,19 @@ public class SmsReceiverService extends Service {
         public void handleMessage(Message msg) {
             int serviceId = msg.arg1;
             Intent intent = (Intent)msg.obj;
+            if (intent != null) {
+                String action = intent.getAction();
 
-            String action = intent.getAction();
-
-            if (MESSAGE_SENT_ACTION.equals(intent.getAction())) {
-                handleSmsSent(intent);
-            } else if (SMS_RECEIVED_ACTION.equals(action)) {
-                handleSmsReceived(intent);
-            } else if (ACTION_BOOT_COMPLETED.equals(action)) {
-                handleBootCompleted();
-            } else if (TelephonyIntents.ACTION_SERVICE_STATE_CHANGED.equals(action)) {
-                handleServiceStateChanged(intent);
+                if (MESSAGE_SENT_ACTION.equals(intent.getAction())) {
+                    handleSmsSent(intent);
+                } else if (SMS_RECEIVED_ACTION.equals(action)) {
+                    handleSmsReceived(intent);
+                } else if (ACTION_BOOT_COMPLETED.equals(action)) {
+                    handleBootCompleted();
+                } else if (TelephonyIntents.ACTION_SERVICE_STATE_CHANGED.equals(action)) {
+                    handleServiceStateChanged(intent);
+                }
             }
-
             // NOTE: We MUST not call stopSelf() directly, since we need to
             // make sure the wake lock acquired by AlertReceiver is released.
             SmsReceiver.finishStartingService(SmsReceiverService.this, serviceId);
