@@ -17,6 +17,7 @@
 
 package com.android.mms.ui;
 
+import com.android.mms.MmsConfig;
 import com.android.mms.R;
 
 import android.content.Intent;
@@ -73,6 +74,16 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
             PreferenceCategory smsCategory =
                 (PreferenceCategory)findPreference("pref_key_sms_settings");
             smsCategory.removePreference(mManageSimPref);
+        }
+        if (!MmsConfig.getMmsEnabled()) {
+            // No Mms, remove all the mms-related preferences
+            PreferenceCategory mmsOptions =
+                (PreferenceCategory)findPreference("pref_key_mms_settings");
+            getPreferenceScreen().removePreference(mmsOptions);
+
+            PreferenceCategory storageOptions =
+                (PreferenceCategory)findPreference("pref_key_storage_settings");
+            storageOptions.removePreference(findPreference("pref_key_mms_delete_limit"));
         }
 
         mSmsRecycler = Recycler.getSmsRecycler();
