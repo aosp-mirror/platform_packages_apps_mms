@@ -94,9 +94,10 @@ public class SmsMessageSender implements MessageSender {
 
             if (messageCount == 0) {
                 // Don't try to send an empty message.
-                throw new MmsException("Zero messages after divideMessage. Original message: \"" +
-                        mMessageText + "\"");
+                throw new MmsException("SmsMessageSender.sendMessage: divideMessage returned " +
+                        "empty messages. Original message is \"" + mMessageText + "\"");
             }
+
             ArrayList<PendingIntent> deliveryIntents =
                     new ArrayList<PendingIntent>(messageCount);
             ArrayList<PendingIntent> sentIntents =
@@ -137,9 +138,8 @@ public class SmsMessageSender implements MessageSender {
             }
 
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                log("sendMessage: addr=" + mDests[i] + ", threadId=" + mThreadId + ", uri=" + uri + 
-                        (messageCount==1 ? ", body=" + messages.get(0) : "msgs.count=" +
-                                messages.size()));
+                log("sendMessage: address " + i + ", threadId=" + mThreadId + ", uri=" + uri + 
+                        "msgs.count=" + messageCount);
             }
 
             smsManager.sendMultipartTextMessage(
