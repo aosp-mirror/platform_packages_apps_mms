@@ -59,6 +59,7 @@ public class MmsConfig {
     private static int mHttpSocketTimeout = 60*1000;            // default to 1 min
     private static int mMinimumSlideElementDuration = 7;        // default to 7 sec
     private static boolean mNotifyWapMMSC = false;
+    private static boolean mAllowAttachAudio = true;
 
     // This is the max amount of storage multiplied by mMaxMessageSize that we
     // allow of unsent messages before blocking the user from sending any more
@@ -179,6 +180,10 @@ public class MmsConfig {
         return mAliasRuleMaxChars;
     }
 
+    public static boolean getAllowAttachAudio() {
+        return mAllowAttachAudio;
+    }
+
     private static void loadMmsSettings(Context context) {
         XmlResourceParser parser = context.getResources()
                 .getXml(R.xml.mms_config);
@@ -213,6 +218,8 @@ public class MmsConfig {
                             mNotifyWapMMSC = "true".equalsIgnoreCase(text);
                         } else if ("aliasEnabled".equalsIgnoreCase(value)) {
                             mAliasEnabled = "true".equalsIgnoreCase(text);
+                        } else if ("allowAttachAudio".equalsIgnoreCase(value)) {
+                            mAllowAttachAudio = "true".equalsIgnoreCase(text);
                         }
                     } else if ("int".equals(tag)) {
                         // int config tags go here
