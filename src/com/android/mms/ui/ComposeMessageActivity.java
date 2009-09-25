@@ -2218,9 +2218,6 @@ public class ComposeMessageActivity extends Activity
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Mms.ScrapSpace.CONTENT_URI);
-                intent.putExtra("MaxNumOfPixels",
-                        MmsConfig.getMaxImageWidth() * MmsConfig.getMaxImageHeight());
-
                 startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
                 break;
             }
