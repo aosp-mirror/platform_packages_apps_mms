@@ -80,7 +80,7 @@ public class MmsStability extends ActivityInstrumentationTestCase2 <ComposeMessa
 
     // Send 5 mms to the same contact.
     @LargeTest
-    public void testSendMMS(){
+    public void testSend5MMS(){
         try{
             Instrumentation inst = getInstrumentation();
             //This number will send automatic reply
@@ -104,7 +104,7 @@ public class MmsStability extends ActivityInstrumentationTestCase2 <ComposeMessa
     }
 
     @LargeTest
-    public void testMMSDoNothing() {
+    public void testLaunchMMS() {
         // Added a do nothing test case to capture
         // the mms power usage base line.
         try {
