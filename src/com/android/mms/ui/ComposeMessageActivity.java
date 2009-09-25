@@ -1683,6 +1683,12 @@ public class ComposeMessageActivity extends Activity
 
         // Show the recipients editor if we don't have a valid thread.
         if (mConversation.getThreadId() <= 0) {
+            // Hide the recipients editor so the call to initRecipientsEditor won't get
+            // short-circuited.
+            if (mRecipientsEditor != null) {
+                mRecipientsEditor.setVisibility(View.GONE);
+                hideOrShowTopPanel();
+            }
             initRecipientsEditor();
 
             // Bring up the softkeyboard so the user can immediately enter recipients. This
@@ -1711,26 +1717,37 @@ public class ComposeMessageActivity extends Activity
 
         setIntent(intent);
 
-        Conversation conversation;
+        Conversation conversation = null;
 
         // If we have been passed a thread_id, use that to find our
         // conversation.
         long threadId = intent.getLongExtra("thread_id", 0);
+        Uri intentUri = intent.getData();
 
+        boolean sameThread = false;
         if (threadId > 0) {
             conversation = Conversation.get(this, threadId);
         } else {
-            // Otherwise, try to get a conversation based on the
-            // data URI passed to our intent.
-            conversation = Conversation.get(this, intent.getData());
+            if (mConversation.getThreadId() == 0) {
+                // We've got a draft. See if the new intent's recipient is the same as
+                // the draft's recipient. First make sure the working recipients are synched
+                // to the conversation.
+                mWorkingMessage.syncWorkingRecipients();
+                sameThread = mConversation.sameRecipient(intentUri);
+            }
+            if (!sameThread) {
+                // Otherwise, try to get a conversation based on the
+                // data URI passed to our intent.
+                conversation = Conversation.get(this, intentUri);
+            }
         }
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("onNewIntent: data=" + intent.getData() + ", thread_id extra is " + threadId);
+            log("onNewIntent: data=" + intentUri + ", thread_id extra is " + threadId);
             log("     new conversation=" + conversation + ", mConversation=" + mConversation);
         }
 
-        if (conversation.getThreadId() == mConversation.getThreadId()) {
+        if (sameThread || conversation.getThreadId() == mConversation.getThreadId()) {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: same conversation");
             }
