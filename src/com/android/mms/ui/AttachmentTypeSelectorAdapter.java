@@ -17,6 +17,7 @@
 
 package com.android.mms.ui;
 
+import com.android.mms.MmsConfig;
 import com.android.mms.R;
 
 import android.content.Context;
@@ -42,37 +43,59 @@ public class AttachmentTypeSelectorAdapter extends IconListAdapter {
     public AttachmentTypeSelectorAdapter(Context context, int mode) {
         super(context, getData(mode, context));
     }
+    
+    public int buttonToCommand(int whichButton) {
+        AttachmentListItem item = (AttachmentListItem)getItem(whichButton);
+        return item.getCommand();
+    }
 
     protected static List<IconListItem> getData(int mode, Context context) {
         List<IconListItem> data = new ArrayList<IconListItem>(7);
         addItem(data, context.getString(R.string.attach_image),
-                R.drawable.ic_launcher_gallery);
+                R.drawable.ic_launcher_gallery, ADD_IMAGE);
 
         addItem(data, context.getString(R.string.attach_take_photo),
-                R.drawable.ic_launcher_camera);
+                R.drawable.ic_launcher_camera, TAKE_PICTURE);
 
         addItem(data, context.getString(R.string.attach_video),
-                R.drawable.ic_launcher_video_player);
+                R.drawable.ic_launcher_video_player, ADD_VIDEO);
 
         addItem(data, context.getString(R.string.attach_record_video),
-                R.drawable.ic_launcher_camera_record);
+                R.drawable.ic_launcher_camera_record, RECORD_VIDEO);
 
-        addItem(data, context.getString(R.string.attach_sound),
-                R.drawable.ic_launcher_musicplayer_2);
+        if (MmsConfig.getAllowAttachAudio()) {
+            addItem(data, context.getString(R.string.attach_sound),
+                    R.drawable.ic_launcher_musicplayer_2, ADD_SOUND);
+        }
 
         addItem(data, context.getString(R.string.attach_record_sound),
-                R.drawable.ic_launcher_record_audio);
+                R.drawable.ic_launcher_record_audio, RECORD_SOUND);
 
         if (mode == MODE_WITH_SLIDESHOW) {
             addItem(data, context.getString(R.string.attach_slideshow),
-                    R.drawable.ic_launcher_slideshow_add_sms);
+                    R.drawable.ic_launcher_slideshow_add_sms, ADD_SLIDESHOW);
         }
 
         return data;
     }
 
-    protected static void addItem(List<IconListItem> data, String title, int resource) {
-        IconListItem temp = new IconListItem(title, resource);
+    protected static void addItem(List<IconListItem> data, String title,
+            int resource, int command) {
+        AttachmentListItem temp = new AttachmentListItem(title, resource, command);
         data.add(temp);
+    }
+    
+    public static class AttachmentListItem extends IconListAdapter.IconListItem {
+        private int mCommand;
+
+        public AttachmentListItem(String title, int resource, int command) {
+            super(title, resource);
+
+            mCommand = command;
+        }
+
+        public int getCommand() {
+            return mCommand;
+        }
     }
 }
