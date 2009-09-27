@@ -248,6 +248,7 @@ public class ComposeMessageActivity extends Activity
     private boolean mWaitingForSubActivity;
     private int mLastRecipientCount;            // Used for warning the user on too many recipients.
     private ContactHeaderWidget mContactHeader;
+    private AttachmentTypeSelectorAdapter mAttachmentTypeSelectorAdapter;
 
     @SuppressWarnings("unused")
     private static void log(String logMsg) {
@@ -2270,12 +2271,13 @@ public class ComposeMessageActivity extends Activity
         builder.setIcon(R.drawable.ic_dialog_attach);
         builder.setTitle(R.string.add_attachment);
 
-        AttachmentTypeSelectorAdapter adapter = new AttachmentTypeSelectorAdapter(
+        mAttachmentTypeSelectorAdapter = new AttachmentTypeSelectorAdapter(
                 this, AttachmentTypeSelectorAdapter.MODE_WITH_SLIDESHOW);
 
-        builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+        builder.setAdapter(mAttachmentTypeSelectorAdapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                addAttachment(which);
+                addAttachment(mAttachmentTypeSelectorAdapter.buttonToCommand(which));
+                mAttachmentTypeSelectorAdapter = null;      // let it be GC'd.
             }
         });
 
