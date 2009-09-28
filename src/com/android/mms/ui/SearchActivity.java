@@ -172,7 +172,9 @@ public class SearchActivity extends ListActivity
         super.onCreate(icicle);
         setContentView(R.layout.search_activity);
 
-        final String searchString = getIntent().getStringExtra(SearchManager.QUERY);
+        String searchStringParameter = getIntent().getStringExtra(SearchManager.QUERY).trim();
+        final String searchString = 
+        	searchStringParameter != null ? searchStringParameter.trim() : searchStringParameter;
         ContentResolver cr = getContentResolver();
 
         final ListView listView = getListView();
