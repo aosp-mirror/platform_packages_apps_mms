@@ -99,10 +99,12 @@ public class ContactInfoCache {
             Email.DISPLAY_NAME,           // 0
             Email.PRESENCE_STATUS,        // 1
             Email.CONTACT_ID,             // 2
+            Phone.DISPLAY_NAME,           //
     };
     private static final int EMAIL_NAME_COLUMN = 0;
     private static final int EMAIL_STATUS_COLUMN = 1;
     private static final int EMAIL_ID_COLUMN = 2;
+    private static final int EMAIL_CONTACT_NAME_COLUMN = 3;
 
     private static ContactInfoCache sInstance;
 
@@ -503,6 +505,9 @@ public class ContactInfoCache {
                     entry.person_id = cursor.getLong(EMAIL_ID_COLUMN);
 
                     String name = cursor.getString(EMAIL_NAME_COLUMN);
+                    if (TextUtils.isEmpty(name)) {
+                        name = cursor.getString(EMAIL_CONTACT_NAME_COLUMN);
+                    }
                     if (!TextUtils.isEmpty(name)) {
                         entry.name = name;
                         loadAvatar(entry, cursor);
