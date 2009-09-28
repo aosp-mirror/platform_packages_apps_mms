@@ -415,9 +415,10 @@ public class Contact {
 
             synchronized (sInstance) {
                 for (Contact c : sInstance.mCache) {
-                    if (PhoneNumberUtils.compare(number, c.mNumber)) {
-                        //Log.i(TAG, "return contact " + c + ", number=" + number +
-                        //       ", contact.number=" + c.mNumber);
+
+                    // if the numbers are an exact match (i.e. Google SMS), or if the phone
+                    // number comparison returns a match, return the contact.
+                    if (number.equals(c.mNumber) || PhoneNumberUtils.compare(number, c.mNumber)) {
                         return c;
                     }
                 }
