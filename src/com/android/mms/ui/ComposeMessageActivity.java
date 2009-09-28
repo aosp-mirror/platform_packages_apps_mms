@@ -2271,13 +2271,13 @@ public class ComposeMessageActivity extends Activity
         builder.setIcon(R.drawable.ic_dialog_attach);
         builder.setTitle(R.string.add_attachment);
 
-        mAttachmentTypeSelectorAdapter = new AttachmentTypeSelectorAdapter(
-                this, AttachmentTypeSelectorAdapter.MODE_WITH_SLIDESHOW);
-
+        if (mAttachmentTypeSelectorAdapter == null) {
+            mAttachmentTypeSelectorAdapter = new AttachmentTypeSelectorAdapter(
+                    this, AttachmentTypeSelectorAdapter.MODE_WITH_SLIDESHOW);
+        }
         builder.setAdapter(mAttachmentTypeSelectorAdapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 addAttachment(mAttachmentTypeSelectorAdapter.buttonToCommand(which));
-                mAttachmentTypeSelectorAdapter = null;      // let it be GC'd.
             }
         });
 
