@@ -64,30 +64,30 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
         private int[] mExpectedBoxStates;
         private boolean mDone;
         private String mError;
-        
+
         public BoxChecker(int[] expectedBoxStates) {
             mExpectedBoxStates = expectedBoxStates;
             mDone = false;
             mError = null;
-            mMsgListAdapter.setOnDataSetChangedListener(mDataSetChangedListener);            
+            mMsgListAdapter.setOnDataSetChangedListener(mDataSetChangedListener);
         }
-        
+
         private final MessageListAdapter.OnDataSetChangedListener
         mDataSetChangedListener = new MessageListAdapter.OnDataSetChangedListener() {
             public void onDataSetChanged(MessageListAdapter adapter) {
                 int count = adapter.getCount();
                 if (count > 0) {
                     MessageItem item = getMessageItem(count - 1);   // get most recent
-                    
+
                     int boxId = item.getBoxId();
-                    
+
                     // is boxId a valid box?
                     boolean found = false;
                     boolean isLast = false;
                     for (int i = 0; i < mExpectedBoxStates.length; i++) {
                         if (mExpectedBoxStates[i] == boxId) {
                             found = true;
-                            isLast = i == mExpectedBoxStates.length - 1; 
+                            isLast = i == mExpectedBoxStates.length - 1;
                             break;
                         }
                     }
@@ -100,34 +100,37 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
                     }
                }
             }
+
+            public void onContentChanged(MessageListAdapter adapter) {
+            }
         };
-        
+
         private void setError(String error) {
             mError = error;
             mDone = true;
         }
-        
+
         public String getError() {
             return mError;
         }
-        
+
         public boolean isDone() {
             return mDone;
         }
-        
+
         private MessageItem getMessageItem(int index) {
             Cursor cursor = (Cursor)mMsgListAdapter.getItem(index);
 
             mColumnsMap = new MessageListAdapter.ColumnsMap(cursor);
             String type = cursor.getString(mColumnsMap.mColumnMsgType);
             long msgId = cursor.getLong(mColumnsMap.mColumnMsgId);
-            
+
             MessageItem msgItem = mMsgListAdapter.getCachedMessageItem(type, msgId, cursor);
-            
+
             return msgItem;
         }
 }
-    
+
     /**
      * Tests that a simple SMS message is successfully sent.
      */
@@ -145,13 +148,13 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
                 send.performClick();
             }
         });
-        
+
         // Now poll while watching the adapter to see if the message got sent
         BoxChecker boxChecker = new BoxChecker(new int[] {4, 2});    // outbox, sent
         long now = System.currentTimeMillis();
         boolean success = true;
         while (!boxChecker.isDone()) {
-            Thread.sleep(1000); 
+            Thread.sleep(1000);
             if (System.currentTimeMillis() - now > 10000) {
                 // Give up after ten seconds
                 success = false;
@@ -160,7 +163,7 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
         }
         assertTrue(success && boxChecker.getError() == null);
     }
-    
+
     /**
      * Helper method to verify which field has the focus
      * @param focused The view that should be focused (all others should not have focus)

@@ -129,8 +129,16 @@ public class ConversationList extends ListActivity
         }
     }
 
+    private final ConversationListAdapter.OnContentChangedListener mContentChangedListener =
+        new ConversationListAdapter.OnContentChangedListener() {
+        public void onContentChanged(ConversationListAdapter adapter) {
+            startAsyncQuery();
+        }
+    };
+
     private void initListAdapter() {
         mListAdapter = new ConversationListAdapter(this, null);
+        mListAdapter.setOnContentChangedListener(mContentChangedListener);
         setListAdapter(mListAdapter);
         getListView().setRecyclerListener(mListAdapter);
     }

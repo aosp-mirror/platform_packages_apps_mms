@@ -109,8 +109,8 @@ public class MessageListAdapter extends CursorAdapter {
 
     public MessageListAdapter(
             Context context, Cursor c, ListView listView,
-            boolean useDefaultColumnsMap, String highlight) {
-        super(context, c);
+            boolean useDefaultColumnsMap, String highlight, boolean autoRequery) {
+        super(context, c, autoRequery /* auto-requery */);
         mHighlight = highlight != null ? highlight.toLowerCase() : null;
 
         mInflater = (LayoutInflater) context.getSystemService(
@@ -147,6 +147,7 @@ public class MessageListAdapter extends CursorAdapter {
 
     public interface OnDataSetChangedListener {
         void onDataSetChanged(MessageListAdapter adapter);
+        void onContentChanged(MessageListAdapter adapter);
     }
 
     public void setOnDataSetChangedListener(OnDataSetChangedListener l) {
@@ -169,6 +170,19 @@ public class MessageListAdapter extends CursorAdapter {
 
         if (mOnDataSetChangedListener != null) {
             mOnDataSetChangedListener.onDataSetChanged(this);
+        }
+    }
+
+    @Override
+    protected void onContentChanged() {
+        if (mAutoRequery) {
+            super.onContentChanged();
+            return;
+        }
+        if (mCursor != null && !mCursor.isClosed()) {
+            if (mOnDataSetChangedListener != null) {
+                mOnDataSetChangedListener.onContentChanged(this);
+            }
         }
     }
 
