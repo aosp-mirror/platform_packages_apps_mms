@@ -105,7 +105,15 @@ public class EditSlideDurationActivity  extends Activity {
         mState = new Bundle();
         mState.putInt(SLIDE_INDEX, mCurSlide);
         mState.putInt(SLIDE_TOTAL, mTotal);
-        mState.putInt(SLIDE_DUR, Integer.parseInt(mDur.getText().toString()));
+
+        int durValue;
+        try {
+            durValue = Integer.parseInt(mDur.getText().toString());
+        } catch (NumberFormatException e) {
+            // On an illegal value, set the duration back to a default value.
+            durValue = 5;
+        }
+        mState.putInt(SLIDE_DUR, durValue);
 
         outState.putBundle(STATE, mState);
     }
