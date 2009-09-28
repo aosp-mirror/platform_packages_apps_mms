@@ -1918,7 +1918,6 @@ public class ComposeMessageActivity extends Activity
             }
             mTextEditor.setFocusableInTouchMode(true);
             mTextEditor.setHint(R.string.type_to_compose_text_enter_to_send);
-            initFocus();
         } else {
             if (mRecipientsEditor != null) {
                 mRecipientsEditor.setFocusable(false);
