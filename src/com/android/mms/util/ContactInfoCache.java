@@ -70,34 +70,32 @@ public class ContactInfoCache {
             + ",?) AND " + Data.MIMETYPE + "='" + Phone.CONTENT_ITEM_TYPE + "'";
 
     // Utilizing private API
-    private static final Uri PHONES_WITH_PRESENCE_URI =
-            Uri.withAppendedPath(ContactsContract.AUTHORITY_URI, "data_with_presence");
+    private static final Uri PHONES_WITH_PRESENCE_URI = Data.CONTENT_URI;
 
     private static final String[] CALLER_ID_PROJECTION = new String[] {
             Phone.NUMBER,                   // 0
             Phone.LABEL,                    // 1
             Phone.DISPLAY_NAME,             // 2
             Phone.CONTACT_ID,               // 3
-            Phone.PRESENCE_STATUS,          // 4
-            Phone.PRESENCE_CUSTOM_STATUS,   // 5
+            Phone.CONTACT_PRESENCE,         // 4
+            Phone.CONTACT_STATUS,           // 5
     };
     private static final int PHONE_NUMBER_COLUMN = 0;
     private static final int PHONE_LABEL_COLUMN = 1;
     private static final int CONTACT_NAME_COLUMN = 2;
     private static final int CONTACT_ID_COLUMN = 3;
     private static final int CONTACT_PRESENCE_COLUMN = 4;
-    private static final int PRESENCE_CUSTOM_STATUS_COLUMN = 5;
+    private static final int CONTACT_STATUS_COLUMN = 5;
 
     // query params for contact lookup by email
-    private static final Uri EMAIL_WITH_PRESENCE_URI =
-        Uri.withAppendedPath(ContactsContract.AUTHORITY_URI, "data_with_presence");
+    private static final Uri EMAIL_WITH_PRESENCE_URI = Data.CONTENT_URI;
 
     private static final String EMAIL_SELECTION = Email.DATA + "=? AND " + Data.MIMETYPE + "='"
             + Email.CONTENT_ITEM_TYPE + "'";
 
     private static final String[] EMAIL_PROJECTION = new String[] {
             Email.DISPLAY_NAME,           // 0
-            Email.PRESENCE_STATUS,        // 1
+            Email.CONTACT_PRESENCE,       // 1
             Email.CONTACT_ID,             // 2
             Phone.DISPLAY_NAME,           //
     };
@@ -333,7 +331,7 @@ public class ContactInfoCache {
                 entry.person_id = cursor.getLong(CONTACT_ID_COLUMN);
                 entry.presenceResId = getPresenceIconResourceId(
                         cursor.getInt(CONTACT_PRESENCE_COLUMN));
-                entry.presenceText = cursor.getString(PRESENCE_CUSTOM_STATUS_COLUMN);
+                entry.presenceText = cursor.getString(CONTACT_STATUS_COLUMN);
                 if (LOCAL_DEBUG) {
                     log("queryContactInfoByNumber: name=" + entry.name + ", number=" + number +
                             ", presence=" + entry.presenceResId);
