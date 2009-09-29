@@ -45,17 +45,17 @@ public abstract class Recycler {
     // Default preference values
     private static final boolean DEFAULT_AUTO_DELETE  = false;
 
-    private static Recycler sSmsRecycler;
-    private static Recycler sMmsRecycler;
+    private static SmsRecycler sSmsRecycler;
+    private static MmsRecycler sMmsRecycler;
 
-    public static Recycler getSmsRecycler() {
+    public static SmsRecycler getSmsRecycler() {
         if (sSmsRecycler == null) {
             sSmsRecycler = new SmsRecycler();
         }
         return sSmsRecycler;
     }
 
-    public static Recycler getMmsRecycler() {
+    public static MmsRecycler getMmsRecycler() {
         if (sMmsRecycler == null) {
             sMmsRecycler = new MmsRecycler();
         }
@@ -129,7 +129,7 @@ public abstract class Recycler {
 
     abstract protected boolean anyThreadOverLimit(Context context);
 
-    static class SmsRecycler extends Recycler {
+    public static class SmsRecycler extends Recycler {
         private static final String[] ALL_SMS_THREADS_PROJECTION = {
             Telephony.Sms.Conversations.THREAD_ID, Telephony.Sms.Conversations.MESSAGE_COUNT
         };
@@ -263,7 +263,7 @@ public abstract class Recycler {
         }
     }
 
-    static class MmsRecycler extends Recycler {
+    public static class MmsRecycler extends Recycler {
         private static final String[] ALL_MMS_THREADS_PROJECTION = {
             "thread_id", "count(*) as msg_count"
         };
@@ -312,41 +312,94 @@ public abstract class Recycler {
             return cursor;
         }
 
+        public void deleteOldMessagesInSameThreadAsMessage(Context context, Uri uri) {
+            if (LOCAL_DEBUG) {
+                Log.v(TAG, "MMS: deleteOldMessagesByUri");
+            }
+            Cursor cursor = null;
+            long latestDate = 0;
+            long threadId = 0;
+            try {
+                String msgId = uri.getLastPathSegment();
+                ContentResolver resolver = context.getContentResolver();
+                cursor = SqliteWrapper.query(context, resolver,
+                        Telephony.Mms.CONTENT_URI,
+                        MMS_MESSAGE_PROJECTION,
+                        "thread_id in (select thread_id from pdu where _id=" + msgId +
+                            ") AND locked=0",
+                        null, "date DESC");     // get in newest to oldest order
+
+                int count = cursor.getCount();
+                int keep = getMessageLimit(context);
+                int numberToDelete = count - keep;
+                if (LOCAL_DEBUG) {
+                    Log.v(TAG, "MMS: deleteOldMessagesByUri keep: " + keep +
+                            " count: " + count +
+                            " numberToDelete: " + numberToDelete);
+                }
+                if (numberToDelete <= 0) {
+                    return;
+                }
+                // Move to the keep limit and then delete everything older than that one.
+                cursor.move(keep);
+                latestDate = cursor.getLong(COLUMN_MMS_DATE);
+                threadId = cursor.getLong(COLUMN_THREAD_ID);
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+            if (threadId != 0) {
+                deleteMessagesOlderThanDate(context, threadId, latestDate);
+            }
+        }
+
         protected void deleteMessagesForThread(Context context, long threadId, int keep) {
             if (LOCAL_DEBUG) {
                 Log.v(TAG, "MMS: deleteMessagesForThread");
             }
-            ContentResolver resolver = context.getContentResolver();
-            Cursor cursor = SqliteWrapper.query(context, resolver,
-                    Telephony.Mms.CONTENT_URI,
-                    MMS_MESSAGE_PROJECTION,
-                    "thread_id=" + threadId + " AND locked=0",
-                    null, "date DESC");     // get in newest to oldest order
-
-            int count = cursor.getCount();
-            int numberToDelete = count - keep;
-            if (LOCAL_DEBUG) {
-                Log.v(TAG, "MMS: deleteMessagesForThread keep: " + keep +
-                        " count: " + count +
-                        " numberToDelete: " + numberToDelete);
-            }
-            if (numberToDelete <= 0) {
+            if (threadId == 0) {
                 return;
             }
+            Cursor cursor = null;
+            long latestDate = 0;
             try {
+                ContentResolver resolver = context.getContentResolver();
+                cursor = SqliteWrapper.query(context, resolver,
+                        Telephony.Mms.CONTENT_URI,
+                        MMS_MESSAGE_PROJECTION,
+                        "thread_id=" + threadId + " AND locked=0",
+                        null, "date DESC");     // get in newest to oldest order
+
+                int count = cursor.getCount();
+                int numberToDelete = count - keep;
+                if (LOCAL_DEBUG) {
+                    Log.v(TAG, "MMS: deleteMessagesForThread keep: " + keep +
+                            " count: " + count +
+                            " numberToDelete: " + numberToDelete);
+                }
+                if (numberToDelete <= 0) {
+                    return;
+                }
                 // Move to the keep limit and then delete everything older than that one.
                 cursor.move(keep);
-                long latestDate = cursor.getLong(COLUMN_MMS_DATE);
-
-                long cntDeleted = SqliteWrapper.delete(context, resolver,
-                        Telephony.Mms.CONTENT_URI,
-                        "thread_id=" + threadId + " AND locked=0 AND date<" + latestDate,
-                        null);
-                if (LOCAL_DEBUG) {
-                    Log.v(TAG, "MMS: deleteMessagesForThread cntDeleted: " + cntDeleted);
-                }
+                latestDate = cursor.getLong(COLUMN_MMS_DATE);
             } finally {
-                cursor.close();
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+            deleteMessagesOlderThanDate(context, threadId, latestDate);
+        }
+
+        private void deleteMessagesOlderThanDate(Context context, long threadId,
+                long latestDate) {
+            long cntDeleted = SqliteWrapper.delete(context, context.getContentResolver(),
+                    Telephony.Mms.CONTENT_URI,
+                    "thread_id=" + threadId + " AND locked=0 AND date<" + latestDate,
+                    null);
+            if (LOCAL_DEBUG) {
+                Log.v(TAG, "MMS: deleteMessagesOlderThanDate cntDeleted: " + cntDeleted);
             }
         }
 
