@@ -199,20 +199,9 @@ public class NotificationTransaction extends Transaction implements Runnable {
             }
 
             sendNotifyRespInd(status);
-            
-            // Make sure this thread isn't over the limits in message count. In order to do
-            // that, we've got to retrieve the message's thread id first.
-            Cursor cursor = SqliteWrapper.query(mContext, mContext.getContentResolver(),
-                    mUri, new String[] {Mms.THREAD_ID},
-                    null, null, null);
-            try {
-                if ((cursor.getCount() == 1) && cursor.moveToFirst()) {
-                    long threadId = cursor.getLong(0);
-                    Recycler.getMmsRecycler().deleteOldMessagesByThreadId(mContext, threadId);
-                }
-            } finally {
-                cursor.close();
-            }
+
+            // Make sure this thread isn't over the limits in message count.
+            Recycler.getMmsRecycler().deleteOldMessagesInSameThreadAsMessage(mContext, mUri);
         } catch (Throwable t) {
             Log.e(TAG, Log.getStackTraceString(t));
         } finally {
