@@ -38,9 +38,10 @@ public class ConversationListAdapter extends CursorAdapter implements AbsListVie
     private static final boolean LOCAL_LOGV = false;
 
     private final LayoutInflater mFactory;
+    private OnContentChangedListener mOnContentChangedListener;
 
     public ConversationListAdapter(Context context, Cursor cursor) {
-        super(context, cursor, true /* auto-requery */);
+        super(context, cursor, false /* auto-requery */);
         mFactory = LayoutInflater.from(context);
     }
 
@@ -50,7 +51,7 @@ public class ConversationListAdapter extends CursorAdapter implements AbsListVie
             Log.e(TAG, "Unexpected bound view: " + view);
             return;
         }
-        
+
         ConversationHeaderView headerView = (ConversationHeaderView) view;
         Conversation conv = Conversation.from(context, cursor);
 
@@ -67,5 +68,22 @@ public class ConversationListAdapter extends CursorAdapter implements AbsListVie
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         if (LOCAL_LOGV) Log.v(TAG, "inflating new view");
         return mFactory.inflate(R.layout.conversation_header, parent, false);
+    }
+
+    public interface OnContentChangedListener {
+        void onContentChanged(ConversationListAdapter adapter);
+    }
+
+    public void setOnContentChangedListener(OnContentChangedListener l) {
+        mOnContentChangedListener = l;
+    }
+
+    @Override
+    protected void onContentChanged() {
+        if (mCursor != null && !mCursor.isClosed()) {
+            if (mOnContentChangedListener != null) {
+                mOnContentChangedListener.onContentChanged(this);
+            }
+        }
     }
 }
