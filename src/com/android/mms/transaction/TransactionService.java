@@ -115,7 +115,7 @@ public class TransactionService extends Service implements Observer {
     private static final int EVENT_CONTINUE_MMS_CONNECTIVITY = 3;
     private static final int EVENT_HANDLE_NEXT_PENDING_TRANSACTION = 4;
     private static final int EVENT_QUIT = 100;
-    
+
     private static final int TOAST_MSG_QUEUED = 1;
     private static final int TOAST_DOWNLOAD_LATER = 2;
     private static final int TOAST_NONE = -1;
@@ -169,12 +169,15 @@ public class TransactionService extends Service implements Observer {
         mConnectivityListener.registerHandler(mServiceHandler, EVENT_DATA_STATE_CHANGED);
         mConnectivityListener.startListening(this);
     }
-    
+
     @Override
-    public void onStart(Intent intent, int startId) {
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent == null) {
+            return Service.START_NOT_STICKY;
+        }
         mConnMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         boolean noNetwork = !isNetworkAvailable();
-        
+
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras() + " intent=" + intent);
             Log.v(TAG, "    networkAvailable=" + !noNetwork);
@@ -198,13 +201,13 @@ public class TransactionService extends Service implements Observer {
                         }
                         RetryScheduler.setRetryAlarm(this);
                         stopSelfIfIdle(startId);
-                        return;
+                        return Service.START_NOT_STICKY;
                     }
 
                     int columnIndexOfMsgId = cursor.getColumnIndexOrThrow(PendingMessages.MSG_ID);
                     int columnIndexOfMsgType = cursor.getColumnIndexOrThrow(
                             PendingMessages.MSG_TYPE);
-                    
+
                     if (noNetwork) {
                         // Make sure we register for connection state changes.
                         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
@@ -219,7 +222,7 @@ public class TransactionService extends Service implements Observer {
                         int transactionType = getTransactionType(msgType);
                         if (noNetwork) {
                             onNetworkUnavailable(startId, transactionType);
-                            return;
+                            return Service.START_NOT_STICKY;
                         }
                         switch (transactionType) {
                             case -1:
@@ -264,6 +267,7 @@ public class TransactionService extends Service implements Observer {
             TransactionBundle args = new TransactionBundle(intent.getExtras());
             launchTransaction(startId, args, noNetwork);
         }
+        return Service.START_NOT_STICKY;
     }
 
     private void stopSelfIfIdle(int startId) {
@@ -349,7 +353,7 @@ public class TransactionService extends Service implements Observer {
         }
 
         releaseWakeLock();
-        
+
         mConnectivityListener.unregisterHandler(mServiceHandler);
         mConnectivityListener.stopListening();
         mConnectivityListener = null;
@@ -451,13 +455,13 @@ public class TransactionService extends Service implements Observer {
             mWakeLock.setReferenceCounted(false);
         }
     }
-    
+
     private void acquireWakeLock() {
         // It's okay to double-acquire this because we are not using it
         // in reference-counted mode.
         mWakeLock.acquire();
     }
-    
+
     private void releaseWakeLock() {
         // Don't release the wake lock if it hasn't been created and acquired.
         if (mWakeLock != null && mWakeLock.isHeld()) {
@@ -468,7 +472,7 @@ public class TransactionService extends Service implements Observer {
     protected int beginMmsConnectivity() throws IOException {
         // Take a wake lock so we don't fall asleep before the message is downloaded.
         createWakeLock();
-        
+
         int result = mConnMgr.startUsingNetworkFeature(
                 ConnectivityManager.TYPE_MOBILE, Phone.FEATURE_ENABLE_MMS);
 
@@ -491,7 +495,7 @@ public class TransactionService extends Service implements Observer {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "endMmsConnectivity");
             }
-            
+
             // cancel timer for renewal of lease
             mServiceHandler.removeMessages(EVENT_CONTINUE_MMS_CONNECTIVITY);
             if (mConnMgr != null) {
@@ -526,7 +530,7 @@ public class TransactionService extends Service implements Observer {
                 case EVENT_QUIT:
                     getLooper().quit();
                     return;
-                    
+
                 case EVENT_CONTINUE_MMS_CONNECTIVITY:
                     synchronized (mProcessing) {
                         if (mProcessing.isEmpty()) {
@@ -604,7 +608,7 @@ public class TransactionService extends Service implements Observer {
                                        APN_EXTENSION_WAIT);
                     processPendingTransaction(transaction, settings);
                     return;
-                
+
                 case EVENT_TRANSACTION_REQUEST:
                     int serviceId = msg.arg1;
                     try {
@@ -724,7 +728,7 @@ public class TransactionService extends Service implements Observer {
 
         private void processPendingTransaction(Transaction transaction,
                                                TransactionSettings settings) {
-            
+
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "processPendingTxn: transaction=" + transaction);
             }
@@ -741,7 +745,7 @@ public class TransactionService extends Service implements Observer {
                 if (settings != null) {
                     transaction.setConnectionSettings(settings);
                 }
-   
+
                 /*
                  * Process deferred transaction
                  */

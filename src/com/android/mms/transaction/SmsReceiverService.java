@@ -115,7 +115,7 @@ public class SmsReceiverService extends Service {
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
+    public int onStartCommand(Intent intent, int flags, int startId) {
         // Temporarily removed for this duplicate message track down.
 //        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
 //            Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras());
@@ -127,6 +127,7 @@ public class SmsReceiverService extends Service {
         msg.arg1 = startId;
         msg.obj = intent;
         mServiceHandler.sendMessage(msg);
+        return Service.START_NOT_STICKY;
     }
 
     @Override
