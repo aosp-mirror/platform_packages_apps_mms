@@ -50,8 +50,7 @@
     <string name="menu_forward" msgid="9026858380050046756">"Προώθηση"</string>
     <string name="download" msgid="4488877642230207631">"Λήψη"</string>
     <string name="downloading" msgid="1779557575565350637">"Λήψη"</string>
-    <!-- no translation found for name_colon (7069560650889479120) -->
-    <skip />
+    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Θέμα: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Κείμενο με προστασία DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Ανιχνεύτηκαν ανεπαρκή δικαιώματα DRM."</string>
@@ -91,8 +90,7 @@
     <string name="unsupported_media_format" msgid="5037111178813903722">"Άγνωστη μορφή <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Επιλέξτε διαφορετικό (διαφορετική) <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Συμπληρώθηκε το όριο μεγέθους μηνυμάτων."</string>
-    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
-    <skip />
+    <string name="message_too_big_for_video" msgid="2639367545165352543">"Το μήνυμα είναι υπερβολικά μεγάλο για επισύναψη βίντεο."</string>
     <string name="failed_to_add_media" msgid="8272471485019037446">"Λυπούμαστε, δεν μπορείτε να προσθέσετε το <xliff:g id="NAME">%1$s</xliff:g> στο μήνυμά σας."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Δεν έγινε προσαρμογή του μεγέθους της εικόνας."</string>
     <string name="resize_image_error_information" msgid="4897031754321114959">"Λυπούμαστε, αλλά ακόμα και μετά την προσαρμογή του μεγέθους της, η εικόνα παραμένει υπερβολικά μεγάλη για αποστολή."</string>

@@ -50,8 +50,7 @@
     <string name="menu_forward" msgid="9026858380050046756">"Reenviar"</string>
     <string name="download" msgid="4488877642230207631">"Descargar"</string>
     <string name="downloading" msgid="1779557575565350637">"Descargando"</string>
-    <!-- no translation found for name_colon (7069560650889479120) -->
-    <skip />
+    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Asunto: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Texto protegido por DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Se detectaron derechos de DRM insuficientes."</string>
@@ -91,8 +90,7 @@
     <string name="unsupported_media_format" msgid="5037111178813903722">"Formato de <xliff:g id="NAME">%1$s</xliff:g> no admitido"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Selecciona un <xliff:g id="NAME">%1$s</xliff:g> diferente."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Se alcanzó el límite de tamaño del mensaje."</string>
-    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
-    <skip />
+    <string name="message_too_big_for_video" msgid="2639367545165352543">"El mensaje es demasiado grande para adjuntar un video."</string>
     <string name="failed_to_add_media" msgid="8272471485019037446">"Lo sentimos, pero no puedes agregar este nombre <xliff:g id="NAME">%1$s</xliff:g> a tu mensaje."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"El tamaño de la imagen no se ajustó."</string>
     <string name="resize_image_error_information" msgid="4897031754321114959">"Lo sentimos, pero aunque se ajuste el tamaño, esta imagen es demasiado grande para enviarse."</string>

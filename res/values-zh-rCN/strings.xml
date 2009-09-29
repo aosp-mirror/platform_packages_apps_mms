@@ -50,8 +50,7 @@
     <string name="menu_forward" msgid="9026858380050046756">"转发"</string>
     <string name="download" msgid="4488877642230207631">"下载"</string>
     <string name="downloading" msgid="1779557575565350637">"正在下载"</string>
-    <!-- no translation found for name_colon (7069560650889479120) -->
-    <skip />
+    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>"： "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;主题：<xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* DRM 保护的文本 *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"检测到 DRM 权限不足。"</string>
@@ -91,8 +90,7 @@
     <string name="unsupported_media_format" msgid="5037111178813903722">"不支持<xliff:g id="NAME">%1$s</xliff:g>格式"</string>
     <string name="select_different_media" msgid="7573116916321879964">"请选择另一个<xliff:g id="NAME">%1$s</xliff:g>。"</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"已达到信息大小上限。"</string>
-    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
-    <skip />
+    <string name="message_too_big_for_video" msgid="2639367545165352543">"该短信太大，无法附加视频。"</string>
     <string name="failed_to_add_media" msgid="8272471485019037446">"抱歉，您无法将此<xliff:g id="NAME">%1$s</xliff:g>添加到信息。"</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"未调整图片大小。"</string>
     <string name="resize_image_error_information" msgid="4897031754321114959">"抱歉，即使此图片已调整过大小，但仍然过大而无法发送。"</string>
