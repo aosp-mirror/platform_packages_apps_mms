@@ -241,6 +241,14 @@ public class ComposeMessageActivity extends Activity
 
     private boolean mToastForDraftSave;   // Whether to notify the user that a draft is being saved
 
+    private boolean mSentMessage;       // true if the user has sent a message while in this
+                                        // activity. On a new compose message case, when the first
+                                        // message is sent is a MMS w/ attachment, the list blanks
+                                        // for a second before showing the sent message. But we'd
+                                        // think the message list is empty, thus show the recipients
+                                        // editor thinking it's a draft message. This flag should
+                                        // help clarify the situation.
+
     private WorkingMessage mWorkingMessage;         // The message currently being composed.
 
     private AlertDialog mSmileyDialog;
@@ -2807,6 +2815,7 @@ public class ComposeMessageActivity extends Activity
         // them back once the recipient list has settled.
         removeRecipientsListeners();
         mWorkingMessage.send();
+        mSentMessage = true;
         addRecipientsListeners();
 
         // But bail out if we are supposed to exit after the message is sent.
@@ -2816,6 +2825,10 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void resetMessage() {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("resetMessage");
+        }
+
         // Make the attachment editor hide its view.
         mAttachmentEditor.hideView();
 
@@ -3002,10 +3015,11 @@ public class ComposeMessageActivity extends Activity
 
                     // Once we have completed the query for the message history, if
                     // there is nothing in the cursor and we are not composing a new
-                    // message, we must be editing a draft in a new conversation.
+                    // message, we must be editing a draft in a new conversation (unless
+                    // mSentMessage is true).
                     // Show the recipients editor to give the user a chance to add
                     // more people before the conversation begins.
-                    if (cursor.getCount() == 0 && !isRecipientsEditorVisible()) {
+                    if (cursor.getCount() == 0 && !isRecipientsEditorVisible() && !mSentMessage) {
                         initRecipientsEditor();
                     }
 
