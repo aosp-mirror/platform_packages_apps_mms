@@ -87,6 +87,18 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
         if (name == null) {
             name = "";
         }
+        if (name == null) {
+            name = "";
+        } else {
+            // Names with commas are the bane of the recipient editor's existence.
+            // We've worked around them by using spans, but there are edge cases
+            // where the spans get deleted. Furthermore, having commas in names
+            // can be confusing to the user since commas are used as separators
+            // between recipients. The best solution is to simply remove commas
+            // from names.
+            name = name.replace(", ", " ");
+            name = name.replace(",", " ");  // Make sure we leave a space between parts of names.
+        }
 
         String nameAndNumber = Contact.formatNameAndNumber(name, number);
 
