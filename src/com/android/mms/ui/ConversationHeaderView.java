@@ -41,7 +41,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.FasttrackBadgeWidget;
+import android.widget.QuickContactBadge;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -59,7 +59,7 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
     private View mAttachmentView;
     private View mErrorIndicator;
     private ImageView mPresenceView;
-    private FasttrackBadgeWidget mAvatarView;
+    private QuickContactBadge mAvatarView;
 
     static private Drawable sDefaultContactImage;
 
@@ -93,7 +93,7 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
         mAttachmentView = findViewById(R.id.attachment);
         mErrorIndicator = findViewById(R.id.error);
         mPresenceView = (ImageView) findViewById(R.id.presence);
-        mAvatarView = (FasttrackBadgeWidget) findViewById(R.id.avatar);
+        mAvatarView = (QuickContactBadge) findViewById(R.id.avatar);
     }
 
     public void setPresenceIcon(int iconId) {
