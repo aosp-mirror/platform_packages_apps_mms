@@ -1688,23 +1688,22 @@ public class ComposeMessageActivity extends Activity
             }
         }
 
-        // Let the working message know what conversation it belongs to.
+        // Let the working message know what conversation it belongs to
         mWorkingMessage.setConversation(mConversation);
 
-        // Show the recipients editor if we don't have a valid thread.
+        // Show the recipients editor if we don't have a valid thread. Hide it otherwise.
         if (mConversation.getThreadId() <= 0) {
             // Hide the recipients editor so the call to initRecipientsEditor won't get
             // short-circuited.
-            if (mRecipientsEditor != null) {
-                mRecipientsEditor.setVisibility(View.GONE);
-                hideOrShowTopPanel();
-            }
+            hideRecipientEditor();
             initRecipientsEditor();
 
             // Bring up the softkeyboard so the user can immediately enter recipients. This
             // call won't do anything on devices with a hard keyboard.
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        } else {
+            hideRecipientEditor();
         }
 
         updateSendButtonState();
@@ -1993,8 +1992,7 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
-        if (isRecipientsEditorVisible()
-                && !mRecipientsEditor.hasValidRecipient()) {
+        if (isRecipientsEditorVisible() && !mRecipientsEditor.hasValidRecipient()) {
             MessageUtils.showDiscardDraftConfirmDialog(this,
                     new DiscardDraftListener());
             return;
@@ -2007,6 +2005,13 @@ public class ComposeMessageActivity extends Activity
     private void goToConversationList() {
         finish();
         startActivity(new Intent(this, ConversationList.class));
+    }
+
+    private void hideRecipientEditor() {
+        if (mRecipientsEditor != null) {
+            mRecipientsEditor.setVisibility(View.GONE);
+            hideOrShowTopPanel();
+        }
     }
 
     private boolean isRecipientsEditorVisible() {
@@ -2832,12 +2837,7 @@ public class ComposeMessageActivity extends Activity
         mWorkingMessage = WorkingMessage.createEmpty(this);
         mWorkingMessage.setConversation(mConversation);
 
-        // Hide the recipients editor.
-        if (mRecipientsEditor != null) {
-            mRecipientsEditor.setVisibility(View.GONE);
-            hideOrShowTopPanel();
-        }
-
+        hideRecipientEditor();
         drawBottomPanel();
         updateWindowTitle();
 
@@ -2944,8 +2944,9 @@ public class ComposeMessageActivity extends Activity
         // If the recipients editor is visible, there is nothing in it,
         // and the text editor is not already focused, focus the
         // recipients editor.
-        if (isRecipientsEditorVisible() && TextUtils.isEmpty(mRecipientsEditor.getText())
-                                        && !mTextEditor.isFocused()) {
+        if (isRecipientsEditorVisible()
+                && TextUtils.isEmpty(mRecipientsEditor.getText())
+                && !mTextEditor.isFocused()) {
             mRecipientsEditor.requestFocus();
             return;
         }
