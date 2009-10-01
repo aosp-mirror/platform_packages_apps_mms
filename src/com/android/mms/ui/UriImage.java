@@ -221,55 +221,59 @@ public class UriImage {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = scaleFactor;
                 input = mContext.getContentResolver().openInputStream(mUri);
-                Bitmap b = BitmapFactory.decodeStream(input, null, options);
-                if (b == null) {
-                    return null;
-                }
-                if(options.outWidth > widthLimit || options.outHeight > heightLimit) {
-                    // The decoder does not support the inSampleSize option.
-                    // Scale the bitmap using Bitmap library.
-                    int scaledWidth = outWidth / scaleFactor;
-                    int scaledHeight = outHeight / scaleFactor;
-
-                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                        Log.v(TAG, "getResizedImageData: retry scaling using " +
-                                "Bitmap.createScaledBitmap: w=" + scaledWidth +
-                                ", h=" + scaledHeight);
-                    }
-
-                    b = Bitmap.createScaledBitmap(b, outWidth / scaleFactor,
-                            outHeight / scaleFactor, false);
+                int quality = MessageUtils.IMAGE_COMPRESSION_QUALITY;
+                try {
+                    Bitmap b = BitmapFactory.decodeStream(input, null, options);
                     if (b == null) {
                         return null;
                     }
-                }
-
-                // Compress the image into a JPG. Start with MessageUtils.IMAGE_COMPRESSION_QUALITY.
-                // In case that the image byte size is still too large reduce the quality in
-                // proportion to the desired byte size. Should the quality fall below
-                // MINIMUM_IMAGE_COMPRESSION_QUALITY skip a compression attempt and we will enter
-                // the next round with a smaller image to start with.
-                os = new ByteArrayOutputStream();
-                int quality = MessageUtils.IMAGE_COMPRESSION_QUALITY;
-                b.compress(CompressFormat.JPEG, quality, os);
-                int jpgFileSize = os.size();
-                if (jpgFileSize > byteLimit) {
-                    int reducedQuality = quality * byteLimit / jpgFileSize;
-                    if (reducedQuality >= MessageUtils.MINIMUM_IMAGE_COMPRESSION_QUALITY) {
-                        quality = reducedQuality;
+                    if (options.outWidth > widthLimit || options.outHeight > heightLimit) {
+                        // The decoder does not support the inSampleSize option.
+                        // Scale the bitmap using Bitmap library.
+                        int scaledWidth = outWidth / scaleFactor;
+                        int scaledHeight = outHeight / scaleFactor;
 
                         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                            Log.v(TAG, "getResizedImageData: compress(2) w/ quality=" + quality);
+                            Log.v(TAG, "getResizedImageData: retry scaling using " +
+                                    "Bitmap.createScaledBitmap: w=" + scaledWidth +
+                                    ", h=" + scaledHeight);
                         }
 
-                        os = new ByteArrayOutputStream();
-                        b.compress(CompressFormat.JPEG, quality, os);
+                        b = Bitmap.createScaledBitmap(b, outWidth / scaleFactor,
+                                outHeight / scaleFactor, false);
+                        if (b == null) {
+                            return null;
+                        }
                     }
-                }
 
+                    // Compress the image into a JPG. Start with MessageUtils.IMAGE_COMPRESSION_QUALITY.
+                    // In case that the image byte size is still too large reduce the quality in
+                    // proportion to the desired byte size. Should the quality fall below
+                    // MINIMUM_IMAGE_COMPRESSION_QUALITY skip a compression attempt and we will enter
+                    // the next round with a smaller image to start with.
+                    os = new ByteArrayOutputStream();
+                    b.compress(CompressFormat.JPEG, quality, os);
+                    int jpgFileSize = os.size();
+                    if (jpgFileSize > byteLimit) {
+                        int reducedQuality = quality * byteLimit / jpgFileSize;
+                        if (reducedQuality >= MessageUtils.MINIMUM_IMAGE_COMPRESSION_QUALITY) {
+                            quality = reducedQuality;
+
+                            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                                Log.v(TAG, "getResizedImageData: compress(2) w/ quality=" + quality);
+                            }
+
+                            os = new ByteArrayOutputStream();
+                            b.compress(CompressFormat.JPEG, quality, os);
+                        }
+                    }
+                } catch (java.lang.OutOfMemoryError e) {
+                    Log.e(TAG, e.getMessage(), e);
+                    // fall through and keep trying with a smaller scale factor.
+                }
                 if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     Log.v(TAG, "attempt=" + attempts
-                            + " size=" + os.size()
+                            + " size=" + (os == null ? 0 : os.size())
                             + " width=" + outWidth / scaleFactor
                             + " height=" + outHeight / scaleFactor
                             + " scaleFactor=" + scaleFactor
@@ -277,7 +281,7 @@ public class UriImage {
                 }
                 scaleFactor *= 2;
                 attempts++;
-            } while (os.size() > byteLimit && attempts < NUMBER_OF_RESIZE_ATTEMPTS);
+            } while ((os == null || os.size() > byteLimit) && attempts < NUMBER_OF_RESIZE_ATTEMPTS);
 
             return os.toByteArray();
         } catch (FileNotFoundException e) {

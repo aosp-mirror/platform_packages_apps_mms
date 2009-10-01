@@ -357,6 +357,11 @@ public class WorkingMessage {
         if (result == OK) {
             mAttachmentType = type;
             mStatusListener.onAttachmentChanged();
+        } else if (append) {
+            // We added a new slide and what we attempted to insert on the slide failed.
+            // Delete that slide, otherwise we could end up with a bunch of blank slides.
+            SlideshowEditor slideShowEditor = new SlideshowEditor(mContext, mSlideshow);
+            slideShowEditor.removeSlide(mSlideshow.size() - 1);
         }
 
         // Set HAS_ATTACHMENT if we need it.
