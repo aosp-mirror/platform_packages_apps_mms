@@ -179,8 +179,8 @@
     <!-- Dialog message text asking the user if he wants to resize the picture being attached -->
     <string name="ask_for_automatically_resize">Automatically resize picture before sending?</string>
 
-    <!-- Progress message while an image is being resized -->
-    <string name="compressing">Compressing\u2026</string>
+    <!-- Toast message while an image is being resized -->
+    <string name="compressing">Picture too large. Compressing\u2026</string>
 
     <!-- Error message indicating the format for the specified media type (e.g. "picture") is unsupported -->
     <string name="unsupported_media_format">Unsupported <xliff:g id="name">%1$s</xliff:g> format</string>

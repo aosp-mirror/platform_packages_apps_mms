@@ -42,7 +42,6 @@ import com.google.android.mms.util.SqliteWrapper;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -65,6 +64,7 @@ import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.text.style.URLSpan;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -587,21 +587,13 @@ public class MessageUtils {
             final ResizeImageResultCallback cb,
             final boolean append) {
 
-        // Show a progress dialog if the resize hasn't finished
+        // Show a progress toast if the resize hasn't finished
         // within one second.
-
-        // Make the progress dialog.
-        final ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.setTitle(context.getText(R.string.image_too_large));
-        progressDialog.setMessage(context.getText(R.string.compressing));
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-
         // Stash the runnable for showing it away so we can cancel
         // it later if the resize completes ahead of the deadline.
         final Runnable showProgress = new Runnable() {
             public void run() {
-                progressDialog.show();
+                Toast.makeText(context, R.string.compressing, Toast.LENGTH_SHORT).show();
             }
         };
         // Schedule it for one second from now.
@@ -617,10 +609,8 @@ public class MessageUtils {
                         MmsConfig.getMaxImageHeight(),
                         MmsConfig.getMaxMessageSize() - MESSAGE_OVERHEAD);
                 } finally {
-                    // Cancel pending show of the progress dialog if necessary.
+                    // Cancel pending show of the progress toast if necessary.
                     handler.removeCallbacks(showProgress);
-                    // Dismiss the progress dialog if it's around.
-                    progressDialog.dismiss();
                 }
 
                 handler.post(new Runnable() {
