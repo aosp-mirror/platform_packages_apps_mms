@@ -54,7 +54,7 @@
     <string name="has_draft">Draft</string>
 
     <!-- Appearance of message sender in multi-recipient messages, e.g. "me to Megan" -->
-    <string name="broadcast_from_to"><xliff:g id="format">%s to %s</xliff:g></string>
+    <string name="broadcast_from_to"><xliff:g id="sender" example="me">%1$s</xliff:g> to <xliff:g id="recipient" example="Megan">%2$s</xliff:g></string>
     <!-- Name to use when we have an unspecified sender -->
     <string name="anonymous_recipient">Anonymous</string>
     <!-- Subject to display in the conversation list if there is no subject -->
