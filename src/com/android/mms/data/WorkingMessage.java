@@ -113,6 +113,9 @@ public class WorkingMessage {
     // Set to true if this message has been discarded.
     private boolean mDiscarded = false;
 
+    // Cached value of mms enabled flag
+    private static boolean sMmsEnabled = MmsConfig.getMmsEnabled();
+
     // Our callback interface
     private final MessageStatusListener mStatusListener;
     private List<String> mWorkingRecipients;
@@ -845,6 +848,12 @@ public class WorkingMessage {
      * @param notify Whether or not to notify the user
      */
     private void updateState(int state, boolean on, boolean notify) {
+        if (!sMmsEnabled) {
+            // If Mms isn't enabled, the rest of the Messaging UI should not be using any
+            // feature that would cause us to to turn on any Mms flag and show the
+            // "Converting to multimedia..." message.
+            return;
+        }
         int oldState = mMmsState;
         if (on) {
             mMmsState |= state;
