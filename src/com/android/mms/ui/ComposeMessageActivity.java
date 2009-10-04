@@ -2330,13 +2330,12 @@ public class ComposeMessageActivity extends Activity
                 break;
 
             case REQUEST_CODE_TAKE_PICTURE: {
-                Bitmap bitmap = BitmapFactory.decodeFile(Mms.ScrapSpace.SCRAP_FILE_PATH);
-
-                if (bitmap == null) {
-                    handleAddAttachmentError(WorkingMessage.UNKNOWN_ERROR, R.string.type_picture);
-                    return;
-                }
-                addImage(bitmap);
+                // create a file based uri and pass to addImage(). We want to read the JPEG
+                // data directly from file (using UriImage) instead of decoding it into a Bitmap,
+                // which takes up too much memory and could easily lead to OOM.
+                File file = new File(Mms.ScrapSpace.SCRAP_FILE_PATH);
+                Uri uri = Uri.fromFile(file);
+                addImage(uri, false);
                 break;
             }
 
