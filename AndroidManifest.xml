@@ -118,6 +118,12 @@
            </intent-filter>
         </activity>
 
+        <activity-alias android:name=".ui.ForwardMessageActivity"
+                  android:targetActivity=".ui.ComposeMessageActivity"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:windowSoftInputMode="stateHidden" >
+        </activity-alias>
+
         <activity android:name=".ui.DeliveryReportActivity"
             android:label="@string/delivery_report_activity"
             android:theme="@android:style/Theme.Dialog">
