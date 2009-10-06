@@ -85,8 +85,7 @@
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Abrir teclado para componer mensaje"</string>
     <string name="image_too_large" msgid="261880224164478061">"Imagen muy grande"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"¿Deseas ajustar el tamaño de la imagen automáticamente antes de enviar?"</string>
-    <!-- no translation found for compressing (1961357529661045180) -->
-    <skip />
+    <string name="compressing" msgid="1961357529661045180">"Imagen demasiado grande. Comprimiendo..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Formato de <xliff:g id="NAME">%1$s</xliff:g> no admitido"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Selecciona un <xliff:g id="NAME">%1$s</xliff:g> diferente."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Se alcanzó el límite de tamaño del mensaje."</string>
