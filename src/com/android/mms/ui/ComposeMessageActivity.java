@@ -74,7 +74,6 @@ import android.database.sqlite.SQLiteException;
 import android.drm.mobile1.DrmException;
 import android.drm.mobile1.DrmRawContent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
@@ -1004,10 +1003,14 @@ public class ComposeMessageActivity extends Activity
             intent.putExtra("msg_uri", uri);
             intent.putExtra("subject", subject);
         }
-
-        if (!startActivityIfNeeded(intent, -1)) {
-            onNewIntent(intent);
-        }
+        // ForwardMessageActivity is simply an alias in the manifest for ComposeMessageActivity.
+        // We have to make an alias because ComposeMessageActivity launch flags specify
+        // singleTop. When we forward a message, we want to start a separate ComposeMessageActivity.
+        // The only way to do that is to override the singleTop flag, which is impossible to do
+        // in code. By creating an alias to the activity, without the singleTop flag, we can
+        // launch a separate ComposeMessageActivity to edit the forward message.
+        intent.setClassName(this, "com.android.mms.ui.ForwardMessageActivity");
+        startActivity(intent);
     }
 
     /**
