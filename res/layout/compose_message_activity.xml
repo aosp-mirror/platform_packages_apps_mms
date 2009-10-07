@@ -67,7 +67,7 @@
         <view class="com.android.mms.ui.MessageListView"
             android:id="@+id/history"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="0dip"
             android:layout_weight="1.0"
             android:listSelector="@drawable/chat_history_selector"
             android:divider="@android:drawable/divider_horizontal_bright"
@@ -88,7 +88,7 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <view class="com.android.mms.ui.AttachmentEditor"
