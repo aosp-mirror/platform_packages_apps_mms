@@ -469,7 +469,7 @@ public class ComposeMessageActivity extends Activity
     private class DiscardDraftListener implements OnClickListener {
         public void onClick(DialogInterface dialog, int whichButton) {
             mWorkingMessage.discard();
-            goToConversationList();
+            finish();
         }
     }
 
