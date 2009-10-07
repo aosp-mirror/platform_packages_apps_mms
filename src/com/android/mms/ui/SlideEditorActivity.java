@@ -20,6 +20,7 @@ package com.android.mms.ui;
 import com.google.android.mms.ContentType;
 import com.android.mms.ExceedMessageSizeException;
 import com.google.android.mms.MmsException;
+import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.ResolutionException;
 import com.android.mms.UnsupportContentTypeException;
@@ -337,10 +338,15 @@ public class SlideEditorActivity extends Activity {
             menu.add(0, MENU_DEL_AUDIO, 0, R.string.remove_music).setIcon(
                     R.drawable.ic_menu_remove_sound);
         } else if (!slide.hasVideo()) {
-            SubMenu subMenu = menu.addSubMenu(0, MENU_SUB_AUDIO, 0, R.string.add_music).setIcon(
-                    R.drawable.ic_menu_add_sound);
-            subMenu.add(0, MENU_ADD_AUDIO, 0, R.string.attach_sound);
-            subMenu.add(0, MENU_RECORD_SOUND, 0, R.string.attach_record_sound);
+            if (MmsConfig.getAllowAttachAudio()) {
+                SubMenu subMenu = menu.addSubMenu(0, MENU_SUB_AUDIO, 0, R.string.add_music)
+                    .setIcon(R.drawable.ic_menu_add_sound);
+                subMenu.add(0, MENU_ADD_AUDIO, 0, R.string.attach_sound);
+                subMenu.add(0, MENU_RECORD_SOUND, 0, R.string.attach_record_sound);
+            } else {
+                menu.add(0, MENU_RECORD_SOUND, 0, R.string.attach_record_sound)
+                    .setIcon(R.drawable.ic_menu_add_sound);
+            }
         }
 
         // Video
