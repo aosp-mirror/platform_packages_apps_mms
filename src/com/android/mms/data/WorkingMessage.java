@@ -681,7 +681,17 @@ public class WorkingMessage {
         if (requiresMms()) {
             asyncUpdateDraftMmsMessage(mConversation);
         } else {
-            asyncUpdateDraftSmsMessage(mConversation, mText.toString());
+            String content = mText.toString();
+
+            // bug 2169583: don't bother creating a thread id only to delete the thread
+            // because the content is empty. When we delete the thread in updateDraftSmsMessage,
+            // we didn't nullify conv.mThreadId, causing a temperary situation where conv
+            // is holding onto a thread id that isn't in the database. If a new message arrives
+            // and takes that thread id (because it's the next thread id to be assigned), the
+            // new message will be merged with the draft message thread, causing confusion!
+            if (!TextUtils.isEmpty(content)) {
+                asyncUpdateDraftSmsMessage(mConversation, content);
+            }
         }
 
         // Update state of the draft cache.
@@ -1214,13 +1224,6 @@ public class WorkingMessage {
 
         // If we don't have a valid thread, there's nothing to do.
         if (thread_id <= 0) {
-            return;
-        }
-
-        // Don't bother saving an empty message.
-        if (TextUtils.isEmpty(contents)) {
-            // But delete the old draft message if it's there.
-            deleteDraftSmsMessage(thread_id);
             return;
         }
 
