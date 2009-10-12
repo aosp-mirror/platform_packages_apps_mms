@@ -26,9 +26,10 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginLeft="5dip"
+        android:layout_weight="1"
         android:layout_gravity="center_vertical">
 
         <TextView android:id="@+id/recipient"
@@ -46,26 +47,12 @@
             android:singleLine="true" />
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#ffffffff">
-
-        <LinearLayout
-        android:orientation="horizontal"
+    <ImageView android:id="@+id/icon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:background="#ffffffff"
-        android:layout_weight="1"
-        android:layout_gravity="right">
-
-            <ImageView android:id="@+id/icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dip"
-                android:layout_gravity="center_vertical"/>
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_weight="0"
+        android:layout_marginRight="5dip"
+        android:layout_gravity="right"/>
 
 </com.android.mms.ui.DeliveryReportListItem>
