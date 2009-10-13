@@ -147,9 +147,9 @@
     <string name="pref_mms_settings_title" msgid="1023389466940215979">"MMS 설정"</string>
     <string name="pref_sms_settings_title" msgid="7565588908643816045">"SMS 설정"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"SIM 카드에 저장된 메시지 관리"</string>
-    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"보내는 메시지마다 전송 여부 보고 요청"</string>
-    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"보내는 메시지마다 읽음 여부 보고 요청"</string>
-    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"보내는 메시지마다 전송 여부 보고 요청"</string>
+    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"보내는 메시지마다 읽음 여부 보고"</string>
+    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"보내는 메시지마다 읽음 여부 보고"</string>
+    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"보내는 메시지마다 전송 여부 보고"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"SIM 카드 메시지 관리"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"전송 여부 보고"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"읽음 여부 보고"</string>

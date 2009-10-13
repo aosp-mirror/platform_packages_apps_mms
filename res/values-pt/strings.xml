@@ -150,7 +150,7 @@
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Solicita um relatório de entrega para cada mensagem enviada"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Solicita um relatório de leitura para cada mensagem enviada"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Solicita um relatório de entrega para cada mensagem enviada"</string>
-    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Gerenciar mensagens do cartão SIM"</string>
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Gerenciar mensagens SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Relatórios de entrega"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Ler relatórios"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Relatórios de entrega"</string>
@@ -161,7 +161,7 @@
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Selecionar toque"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Recuperação automática"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Recupera mensagens automaticamente"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recuperação automática de roaming"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recuperação em roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Recupera mensagens automaticamente em roaming"</string>
     <string name="to_label" msgid="2355268818058389047">"Para "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Excluir"</string>

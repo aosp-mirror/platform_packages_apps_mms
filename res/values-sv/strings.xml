@@ -161,7 +161,7 @@
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Välj ringsignal"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Autohämtning"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Hämta meddelanden automatiskt"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Aut. hämtning vid roam."</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Autohämtning vid roam."</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Hämta meddelanden automatiskt vid roaming"</string>
     <string name="to_label" msgid="2355268818058389047">"Till "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Ta bort"</string>

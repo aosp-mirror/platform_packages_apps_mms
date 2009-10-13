@@ -69,7 +69,7 @@
     <string name="remove_picture" msgid="6378701749074289096">"Fjern bilde"</string>
     <string name="add_music" msgid="3827442822987116233">"Legg til musikk"</string>
     <string name="remove_music" msgid="858889733416015223">"Fjern musikk"</string>
-    <string name="add_video" msgid="7816866867806595144">"Legg til video"</string>
+    <string name="add_video" msgid="7816866867806595144">"Blokker forgrunnsvinduer"</string>
     <string name="remove_video" msgid="5258603891528497799">"Fjern video"</string>
     <string name="compose_title" msgid="558578836596816068">"Skriv melding"</string>
     <string name="to_hint" msgid="224029549150332986">"Til"</string>
