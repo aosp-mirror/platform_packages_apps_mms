@@ -194,6 +194,12 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
 
         setConversationHeader(ch);
 
+        int bgcolor = ch.isRead()?
+                mContext.getResources().getColor(R.color.read_bgcolor) : 
+                    mContext.getResources().getColor(R.color.unread_bgcolor);
+
+        setBackgroundColor(bgcolor);
+
         LayoutParams attachmentLayout = (LayoutParams)mAttachmentView.getLayoutParams();
         boolean hasError = ch.hasError();
         // When there's an error icon, the attachment icon is left of the error icon.
