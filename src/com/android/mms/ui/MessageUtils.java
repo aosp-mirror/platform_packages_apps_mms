@@ -641,6 +641,10 @@ public class MessageUtils {
     }
 
     public static boolean isLocalNumber(String number) {
+        if (Mms.isEmailAddress(number)) {
+            return false;
+        }
+
         return PhoneNumberUtils.compare(number, getLocalNumber());
     }
 
