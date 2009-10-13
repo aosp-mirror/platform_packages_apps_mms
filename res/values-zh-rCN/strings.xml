@@ -30,7 +30,7 @@
     <string name="menu_view" msgid="7448852683948080108">"查看会话"</string>
     <string name="refreshing" msgid="987335057871404222">"正在刷新..."</string>
     <string name="has_draft" msgid="2487465595514636160">"草稿"</string>
-    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <!-- no translation found for broadcast_from_to (2050376286109362539) -->
     <skip />
     <string name="anonymous_recipient" msgid="2501437626187039034">"匿名"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"（无主题）"</string>
@@ -86,7 +86,8 @@
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"打开键盘以编写信息"</string>
     <string name="image_too_large" msgid="261880224164478061">"图片过大"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"在发送之前自动调整图片的大小？"</string>
-    <string name="compressing" msgid="8809622439325731724">"正在压缩..."</string>
+    <!-- no translation found for compressing (1961357529661045180) -->
+    <skip />
     <string name="unsupported_media_format" msgid="5037111178813903722">"不支持<xliff:g id="NAME">%1$s</xliff:g>格式"</string>
     <string name="select_different_media" msgid="7573116916321879964">"请选择另一个<xliff:g id="NAME">%1$s</xliff:g>。"</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"已达到信息大小上限。"</string>
@@ -126,6 +127,10 @@
     <string name="layout_top" msgid="6811021650398972346">"布局（顶部）"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"布局（底部）"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"输入内容文本或保留为空白"</string>
+    <!-- no translation found for duration_not_a_number (8005480904677546322) -->
+    <skip />
+    <!-- no translation found for duration_zero (109945354056393575) -->
+    <skip />
     <string name="secs" msgid="6886003523109967972">"秒"</string>
   <string-array name="select_dialog_items">
     <item msgid="4840183714016984112">"1 秒"</item>
@@ -321,4 +326,6 @@
     <string name="storage_limits_message" msgid="8729608389698270388">"是否要限制每个会话存储的短信数？"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"设置限制"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"无限制"</string>
+    <!-- no translation found for too_many_unsent_mms (8005932837414848242) -->
+    <skip />
 </resources>

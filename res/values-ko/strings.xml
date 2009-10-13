@@ -30,7 +30,7 @@
     <string name="menu_view" msgid="7448852683948080108">"대화목록 보기"</string>
     <string name="refreshing" msgid="987335057871404222">"새로 고치는 중..."</string>
     <string name="has_draft" msgid="2487465595514636160">"임시보관함"</string>
-    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <!-- no translation found for broadcast_from_to (2050376286109362539) -->
     <skip />
     <string name="anonymous_recipient" msgid="2501437626187039034">"익명"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(제목 없음)"</string>
@@ -86,7 +86,8 @@
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"키보드를 사용하여 메시지 쓰기"</string>
     <string name="image_too_large" msgid="261880224164478061">"사진이 너무 큼"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"사진 크기를 자동 조정하여 전송하겠습니까?"</string>
-    <string name="compressing" msgid="8809622439325731724">"압축하는 중..."</string>
+    <!-- no translation found for compressing (1961357529661045180) -->
+    <skip />
     <string name="unsupported_media_format" msgid="5037111178813903722">"지원되지 않는 <xliff:g id="NAME">%1$s</xliff:g> 형식"</string>
     <string name="select_different_media" msgid="7573116916321879964">"다른 <xliff:g id="NAME">%1$s</xliff:g>을(를) 선택하세요."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"메시지 크기 한도에 도달했습니다."</string>
@@ -126,6 +127,10 @@
     <string name="layout_top" msgid="6811021650398972346">"레이아웃(상단)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"레이아웃(하단)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"텍스트를 입력하거나 빈 칸으로 둡니다."</string>
+    <!-- no translation found for duration_not_a_number (8005480904677546322) -->
+    <skip />
+    <!-- no translation found for duration_zero (109945354056393575) -->
+    <skip />
     <string name="secs" msgid="6886003523109967972">"초"</string>
   <string-array name="select_dialog_items">
     <item msgid="4840183714016984112">"1초"</item>
@@ -159,9 +164,9 @@
     <skip />
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"저장소 설정"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"SIM 카드에 저장된 메시지 관리"</string>
-    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"보내는 메시지마다 전송 여부 보고 요청"</string>
-    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"보내는 메시지마다 읽음 여부 보고 요청"</string>
-    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"보내는 메시지마다 전송 여부 보고 요청"</string>
+    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"보내는 메시지마다 읽음 여부 보고"</string>
+    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"보내는 메시지마다 읽음 여부 보고"</string>
+    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"보내는 메시지마다 전송 여부 보고"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"한도에 도달하면 이전 메시지 삭제"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"대화당 <xliff:g id="COUNT">%1$s</xliff:g>개 메시지"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"SIM 카드 메시지 관리"</string>
@@ -321,4 +326,6 @@
     <string name="storage_limits_message" msgid="8729608389698270388">"대화당 저장하는 메시지의 개수를 제한하시겠습니까?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"한도 설정"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"한도 없음"</string>
+    <!-- no translation found for too_many_unsent_mms (8005932837414848242) -->
+    <skip />
 </resources>

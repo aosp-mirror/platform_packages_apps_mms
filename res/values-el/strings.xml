@@ -15,7 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"Ανταλλαγή μηνυμάτων"</string>
+    <string name="app_label" msgid="1503967887341230795">"Μηνύματα"</string>
     <string name="new_message" msgid="1530369762346003973">"Νέο μήνυμα"</string>
     <string name="create_new_message" msgid="8735943333953093860">"Σύνθεση νέου μηνύματος"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Κλήση <xliff:g id="NAME">%s</xliff:g>"</string>
@@ -30,7 +30,7 @@
     <string name="menu_view" msgid="7448852683948080108">"Προβολή νήματος"</string>
     <string name="refreshing" msgid="987335057871404222">"Ανανέωση..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Πρόχειρο"</string>
-    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <!-- no translation found for broadcast_from_to (2050376286109362539) -->
     <skip />
     <string name="anonymous_recipient" msgid="2501437626187039034">"Ανώνυμος"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Χωρίς θέμα)"</string>
@@ -86,7 +86,8 @@
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Ανοίξτε το πληκτρολόγιο για να συνθέσετε το μήνυμα"</string>
     <string name="image_too_large" msgid="261880224164478061">"Η εικόνα είναι υπερβολικά μεγάλη"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Αυτόματη προσαρμογή μεγέθους εικόνας πριν την αποστολή;"</string>
-    <string name="compressing" msgid="8809622439325731724">"Συμπίεση..."</string>
+    <!-- no translation found for compressing (1961357529661045180) -->
+    <skip />
     <string name="unsupported_media_format" msgid="5037111178813903722">"Άγνωστη μορφή <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Επιλέξτε διαφορετικό (διαφορετική) <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Συμπληρώθηκε το όριο μεγέθους μηνυμάτων."</string>
@@ -126,6 +127,10 @@
     <string name="layout_top" msgid="6811021650398972346">"Διάταξη (στην κορυφή)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Διάταξη (στο κάτω μέρος)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Πληκτρολογήστε για να συνθέσετε ένα κείμενο ή αφήστε το κενό"</string>
+    <!-- no translation found for duration_not_a_number (8005480904677546322) -->
+    <skip />
+    <!-- no translation found for duration_zero (109945354056393575) -->
+    <skip />
     <string name="secs" msgid="6886003523109967972">"δευτερόλεπτα"</string>
   <string-array name="select_dialog_items">
     <item msgid="4840183714016984112">"1 δευτερόλεπτο"</item>
@@ -308,9 +313,9 @@
     <!-- no translation found for send_using_mms_activity (3703434556280345726) -->
     <skip />
     <string name="select_contact_method_activity" msgid="1743384358979323991">"Επιλογή μεθόδου επικοινωνίας"</string>
-    <string name="search_label" msgid="6042598929386174964">"Ανταλλαγή μηνυμάτων"</string>
-    <string name="search_hint" msgid="1340787800788064929">"Αναζήτηση στην Ανταλλαγή μηνυμάτων"</string>
-    <string name="search" msgid="2008586577169316010">"Αναζήτηση στην Ανταλλαγή μηνυμάτων"</string>
+    <string name="search_label" msgid="6042598929386174964">"Μηνύματα"</string>
+    <string name="search_hint" msgid="1340787800788064929">"Αναζήτηση στα Μηνύματα"</string>
+    <string name="search" msgid="2008586577169316010">"Αναζήτηση στα Μηνύματα"</string>
     <string name="search_empty" msgid="645052646985297065">"Δεν υπάρχουν αποτελέσματα"</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> αποτέλεσμα για \"%s\""</item>
@@ -321,4 +326,6 @@
     <string name="storage_limits_message" msgid="8729608389698270388">"Θέλετε να περιορίσετε τον αριθμό των μηνυμάτων που αποθηκεύετε ανά συνομιλία;"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"Ορισμός ορίων"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Χωρίς όρια"</string>
+    <!-- no translation found for too_many_unsent_mms (8005932837414848242) -->
+    <skip />
 </resources>
