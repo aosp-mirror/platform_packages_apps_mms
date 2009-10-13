@@ -561,7 +561,6 @@ public class ComposeMessageActivity extends Activity
 
                 if (c == ',') {
                     updateWindowTitle();
-                    initializeContactInfo();
                 }
                 break;
             }
@@ -1578,7 +1577,9 @@ public class ComposeMessageActivity extends Activity
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     RecipientsEditor editor = (RecipientsEditor) v;
-                    bindToContactHeaderWidget(editor.getContacts());
+                    ContactList contacts = editor.getContacts();
+                    contacts.addListeners(ComposeMessageActivity.this);
+                    bindToContactHeaderWidget(contacts);
                 }
             }
         });
@@ -1819,7 +1820,6 @@ public class ComposeMessageActivity extends Activity
 
     private void loadMessageContent() {
         startMsgListQuery();
-        initializeContactInfo();
         updateSendFailedNotification();
         drawBottomPanel();
     }
@@ -3157,30 +3157,13 @@ public class ComposeMessageActivity extends Activity
         mSmileyDialog.show();
     }
 
-    private void updatePresence(Contact updated) {
-        // this is a noop now (TODO: remove this and callers)
-    }
-
-    private void initializeContactInfo() {
-        ContactList recipients = getRecipients();
-
-        if (recipients.size() != 1) {
-            updatePresence(null);
-        } else {
-            updatePresence(recipients.get(0));
-        }
-    }
-
     public void onUpdate(final Contact updated) {
         // Using an existing handler for the post, rather than conjuring up a new one.
         mMessageListItemHandler.post(new Runnable() {
             public void run() {
-                ContactList recipients = getRecipients();
-                if (recipients.size() == 1) {
-                    updatePresence(recipients.get(0));
-                } else {
-                    updatePresence(null);
-                }
+                ContactList recipients = isRecipientsEditorVisible() ?
+                        mRecipientsEditor.getContacts() : getRecipients();
+                bindToContactHeaderWidget(recipients);
             }
         });
     }
