@@ -194,11 +194,11 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
 
         setConversationHeader(ch);
 
-        int bgcolor = ch.isRead()?
-                mContext.getResources().getColor(R.color.read_bgcolor) : 
-                    mContext.getResources().getColor(R.color.unread_bgcolor);
+        Drawable background = ch.isRead()?
+                mContext.getResources().getDrawable(R.drawable.conversation_item_background_read) :
+                mContext.getResources().getDrawable(R.drawable.conversation_item_background_unread);
 
-        setBackgroundColor(bgcolor);
+        setBackgroundDrawable(background);
 
         LayoutParams attachmentLayout = (LayoutParams)mAttachmentView.getLayoutParams();
         boolean hasError = ch.hasError();
