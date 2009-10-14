@@ -41,6 +41,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteFullException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -216,7 +217,13 @@ public class ConversationList extends ListActivity
         MessagingNotification.cancelNotification(getApplicationContext(),
                 SmsRejectedReceiver.SMS_REJECTED_NOTIFICATION_ID);
 
-        Conversation.cleanup(this);
+        try {
+            Conversation.cleanup(this);
+        } catch (SQLiteFullException e) {
+            Log.e(TAG, "ConversationList.onStart disk probably full - finishing: " + e);
+            finish();
+            return;
+        }
 
         DraftCache.getInstance().addOnDraftChangedListener(this);
 
