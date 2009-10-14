@@ -15,7 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"Mesajlaşma"</string>
+    <string name="app_label" msgid="1503967887341230795">"Mesajlaş."</string>
     <string name="new_message" msgid="1530369762346003973">"Yeni ileti"</string>
     <string name="create_new_message" msgid="8735943333953093860">"Yeni ileti oluştur"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"<xliff:g id="NAME">%s</xliff:g> kişisini ara"</string>
@@ -30,7 +30,7 @@
     <string name="menu_view" msgid="7448852683948080108">"İleti dizisini görüntüle"</string>
     <string name="refreshing" msgid="987335057871404222">"Yenileniyor..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Taslak"</string>
-    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <!-- no translation found for broadcast_from_to (2050376286109362539) -->
     <skip />
     <string name="anonymous_recipient" msgid="2501437626187039034">"İsimsiz"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Konu yok)"</string>
@@ -86,7 +86,8 @@
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"İletiyi oluşturmak için tuş takımını aç"</string>
     <string name="image_too_large" msgid="261880224164478061">"Resim çok büyük"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Resim gönderilmeden önce otomatik olarak yeniden boyutlandırılsın mı?"</string>
-    <string name="compressing" msgid="8809622439325731724">"Sıkıştırılıyor..."</string>
+    <!-- no translation found for compressing (1961357529661045180) -->
+    <skip />
     <string name="unsupported_media_format" msgid="5037111178813903722">"Desteklenmeyen <xliff:g id="NAME">%1$s</xliff:g> biçimi"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Lütfen başka bir <xliff:g id="NAME">%1$s</xliff:g> seçin."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"İleti boyutu sınırına ulaşıldı."</string>
@@ -126,6 +127,10 @@
     <string name="layout_top" msgid="6811021650398972346">"Düzen (üst)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Düzen (alt)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Metni girmek için yazın veya boş bırakın"</string>
+    <!-- no translation found for duration_not_a_number (8005480904677546322) -->
+    <skip />
+    <!-- no translation found for duration_zero (109945354056393575) -->
+    <skip />
     <string name="secs" msgid="6886003523109967972">"saniye"</string>
   <string-array name="select_dialog_items">
     <item msgid="4840183714016984112">"1 saniye"</item>
@@ -321,4 +326,6 @@
     <string name="storage_limits_message" msgid="8729608389698270388">"İleti dizisi başına kaydettiğiniz iletilerin sayısını sınırlandırmak istiyor musunuz?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"Sınırları ayarla"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Sınır yok"</string>
+    <!-- no translation found for too_many_unsent_mms (8005932837414848242) -->
+    <skip />
 </resources>

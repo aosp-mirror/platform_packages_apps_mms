@@ -30,7 +30,7 @@
     <string name="menu_view" msgid="7448852683948080108">"Vis"</string>
     <string name="refreshing" msgid="987335057871404222">"Synkroniserer…"</string>
     <string name="has_draft" msgid="2487465595514636160">"Utkast"</string>
-    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <!-- no translation found for broadcast_from_to (2050376286109362539) -->
     <skip />
     <string name="anonymous_recipient" msgid="2501437626187039034">"Anonym"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Mangler emne)"</string>
@@ -69,7 +69,7 @@
     <string name="remove_picture" msgid="6378701749074289096">"Fjern bilde"</string>
     <string name="add_music" msgid="3827442822987116233">"Legg til musikk"</string>
     <string name="remove_music" msgid="858889733416015223">"Fjern musikk"</string>
-    <string name="add_video" msgid="7816866867806595144">"Legg til video"</string>
+    <string name="add_video" msgid="7816866867806595144">"Blokker forgrunnsvinduer"</string>
     <string name="remove_video" msgid="5258603891528497799">"Fjern video"</string>
     <string name="compose_title" msgid="558578836596816068">"Skriv melding"</string>
     <string name="to_hint" msgid="224029549150332986">"Til"</string>
@@ -86,7 +86,8 @@
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Åpne tastaturet for å skrive en melding"</string>
     <string name="image_too_large" msgid="261880224164478061">"Bildet er for stort"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Gjør bildet mindre før sending?"</string>
-    <string name="compressing" msgid="8809622439325731724">"Komprimerer…"</string>
+    <!-- no translation found for compressing (1961357529661045180) -->
+    <skip />
     <string name="unsupported_media_format" msgid="5037111178813903722">"Ustøttet <xliff:g id="NAME">%1$s</xliff:g>-format"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Vennligst velg et annet <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Maksimal meldingsstørelse nådd."</string>
@@ -126,6 +127,10 @@
     <string name="layout_top" msgid="6811021650398972346">"Layout (topp)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Layout (bunn)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Skriv for å legge til tekst, eller la stå tom"</string>
+    <!-- no translation found for duration_not_a_number (8005480904677546322) -->
+    <skip />
+    <!-- no translation found for duration_zero (109945354056393575) -->
+    <skip />
     <string name="secs" msgid="6886003523109967972">"sek"</string>
   <string-array name="select_dialog_items">
     <item msgid="4840183714016984112">"1 sekund"</item>
@@ -321,4 +326,6 @@
     <string name="storage_limits_message" msgid="8729608389698270388">"Vil du begrense antallet meldinger du lagrer per samtale?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"Angi grenser"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Ingen grenser"</string>
+    <!-- no translation found for too_many_unsent_mms (8005932837414848242) -->
+    <skip />
 </resources>

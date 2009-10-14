@@ -30,7 +30,7 @@
     <string name="menu_view" msgid="7448852683948080108">"Visualizar conversa"</string>
     <string name="refreshing" msgid="987335057871404222">"Atualizando..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Rascunho"</string>
-    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <!-- no translation found for broadcast_from_to (2050376286109362539) -->
     <skip />
     <string name="anonymous_recipient" msgid="2501437626187039034">"Anônimo"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Sem assunto)"</string>
@@ -86,7 +86,8 @@
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Abra o teclado para escrever uma mensagem"</string>
     <string name="image_too_large" msgid="261880224164478061">"Imagem muito grande"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Redimensionar imagem automaticamente antes de enviar?"</string>
-    <string name="compressing" msgid="8809622439325731724">"Compactando…"</string>
+    <!-- no translation found for compressing (1961357529661045180) -->
+    <skip />
     <string name="unsupported_media_format" msgid="5037111178813903722">"Formato de <xliff:g id="NAME">%1$s</xliff:g> não suportado"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Selecione um <xliff:g id="NAME">%1$s</xliff:g> diferente."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Limite de tamanho da mensagem atingido."</string>
@@ -126,6 +127,10 @@
     <string name="layout_top" msgid="6811021650398972346">"Layout (superior)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Layout (inferior)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Digite para escrever o texto ou deixe em branco"</string>
+    <!-- no translation found for duration_not_a_number (8005480904677546322) -->
+    <skip />
+    <!-- no translation found for duration_zero (109945354056393575) -->
+    <skip />
     <string name="secs" msgid="6886003523109967972">"segundos"</string>
   <string-array name="select_dialog_items">
     <item msgid="4840183714016984112">"1 segundo"</item>
@@ -164,7 +169,7 @@
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Solicita um relatório de entrega para cada mensagem enviada"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Excluir mensagens antigas à medida que os limites forem atingidos"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> mensagens por conversa"</string>
-    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Gerenciar mensagens do cartão SIM"</string>
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Gerenciar mensagens SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Relatórios de entrega"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Ler relatórios"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Relatórios de entrega"</string>
@@ -181,7 +186,7 @@
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Definir número de mensagens a serem salvas"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Recuperação automática"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Recupera mensagens automaticamente"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recuperação automática de roaming"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recuperação em roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Recupera mensagens automaticamente em roaming"</string>
     <string name="to_label" msgid="2355268818058389047">"Para "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Excluir"</string>
@@ -321,4 +326,6 @@
     <string name="storage_limits_message" msgid="8729608389698270388">"Deseja limitar o número de mensagens salvas por conversa?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"Definir limites"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Sem limites"</string>
+    <!-- no translation found for too_many_unsent_mms (8005932837414848242) -->
+    <skip />
 </resources>

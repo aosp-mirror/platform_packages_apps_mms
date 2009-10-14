@@ -30,7 +30,7 @@
     <string name="menu_view" msgid="7448852683948080108">"Thread weergeven"</string>
     <string name="refreshing" msgid="987335057871404222">"Vernieuwen..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Concept"</string>
-    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <!-- no translation found for broadcast_from_to (2050376286109362539) -->
     <skip />
     <string name="anonymous_recipient" msgid="2501437626187039034">"Anoniem"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Geen onderwerp)"</string>
@@ -86,7 +86,8 @@
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Toetsenbord openen om bericht op te stellen"</string>
     <string name="image_too_large" msgid="261880224164478061">"Foto te groot"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Formaat van foto automatisch aanpassen vóór verzending?"</string>
-    <string name="compressing" msgid="8809622439325731724">"Comprimeren..."</string>
+    <!-- no translation found for compressing (1961357529661045180) -->
+    <skip />
     <string name="unsupported_media_format" msgid="5037111178813903722">"Niet-ondersteunde indeling voor <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Selecteer een ander item (<xliff:g id="NAME">%1$s</xliff:g>)."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Limiet berichtgrootte bereikt."</string>
@@ -126,6 +127,10 @@
     <string name="layout_top" msgid="6811021650398972346">"Indeling (bovenaan)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Indeling (onderaan)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Typ om tekst in te voeren of laat leeg"</string>
+    <!-- no translation found for duration_not_a_number (8005480904677546322) -->
+    <skip />
+    <!-- no translation found for duration_zero (109945354056393575) -->
+    <skip />
     <string name="secs" msgid="6886003523109967972">"seconden"</string>
   <string-array name="select_dialog_items">
     <item msgid="4840183714016984112">"1 seconde"</item>
@@ -321,4 +326,6 @@
     <string name="storage_limits_message" msgid="8729608389698270388">"Wilt u een limiet instellen voor het aantal berichten dat u per conversatie opslaat?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"Ingestelde limieten"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Geen limieten"</string>
+    <!-- no translation found for too_many_unsent_mms (8005932837414848242) -->
+    <skip />
 </resources>

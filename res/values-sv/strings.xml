@@ -30,7 +30,7 @@
     <string name="menu_view" msgid="7448852683948080108">"Visa tråd"</string>
     <string name="refreshing" msgid="987335057871404222">"Uppdaterar…"</string>
     <string name="has_draft" msgid="2487465595514636160">"Utkast"</string>
-    <!-- no translation found for broadcast_from_to (1804605929273213017) -->
+    <!-- no translation found for broadcast_from_to (2050376286109362539) -->
     <skip />
     <string name="anonymous_recipient" msgid="2501437626187039034">"Anonym"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Inget ämne)"</string>
@@ -86,7 +86,8 @@
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Öppna tangentbordet om du vill skriva meddelanden"</string>
     <string name="image_too_large" msgid="261880224164478061">"Bilden är för stor"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Ändra automatiskt storlek på bilden innan du skickar?"</string>
-    <string name="compressing" msgid="8809622439325731724">"Komprimerar…"</string>
+    <!-- no translation found for compressing (1961357529661045180) -->
+    <skip />
     <string name="unsupported_media_format" msgid="5037111178813903722">"Formatet för <xliff:g id="NAME">%1$s</xliff:g> stöds inte"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Välj annan <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Meddelandet överskrider storleksgränsen."</string>
@@ -126,6 +127,10 @@
     <string name="layout_top" msgid="6811021650398972346">"Layout (överst)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Layout (nederkant)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Börja skriva eller lämna tomt"</string>
+    <!-- no translation found for duration_not_a_number (8005480904677546322) -->
+    <skip />
+    <!-- no translation found for duration_zero (109945354056393575) -->
+    <skip />
     <string name="secs" msgid="6886003523109967972">"sekunder"</string>
   <string-array name="select_dialog_items">
     <item msgid="4840183714016984112">"1 sekund"</item>
@@ -181,7 +186,7 @@
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Ange hur många meddelanden som ska sparas"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Autohämtning"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Hämta meddelanden automatiskt"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Aut. hämtning vid roam."</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Autohämtning vid roam."</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Hämta meddelanden automatiskt vid roaming"</string>
     <string name="to_label" msgid="2355268818058389047">"Till "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Ta bort"</string>
@@ -321,4 +326,6 @@
     <string name="storage_limits_message" msgid="8729608389698270388">"Vill du begränsa hur många meddelanden som kan sparas per konversation?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"Ange begränsningar"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Ingen begränsning"</string>
+    <!-- no translation found for too_many_unsent_mms (8005932837414848242) -->
+    <skip />
 </resources>
