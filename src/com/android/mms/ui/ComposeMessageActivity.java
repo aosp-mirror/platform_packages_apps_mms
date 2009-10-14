@@ -785,7 +785,7 @@ public class ComposeMessageActivity extends Activity
             } else if ("tel".equalsIgnoreCase(prefix)) {
                 String callBackString = getString(
                         R.string.menu_call_back).replace("%s", uriString);
-                Intent intent = new Intent(Intent.ACTION_DIAL,
+                Intent intent = new Intent(Intent.ACTION_CALL,
                         Uri.parse("tel:" + uriString));
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                 menu.add(0, MENU_CALL_BACK, 0, callBackString)
@@ -2088,7 +2088,7 @@ public class ComposeMessageActivity extends Activity
 
     private void dialRecipient() {
         String number = getRecipients().get(0).getNumber();
-        Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number));
+        Intent dialIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number));
         startActivity(dialIntent);
     }
 
