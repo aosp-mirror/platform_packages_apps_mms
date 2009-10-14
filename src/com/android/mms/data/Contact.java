@@ -21,7 +21,6 @@ import android.util.Log;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.TaskStack;
-import com.android.mms.util.AddressUtils;
 import com.android.mms.LogTag;
 
 public class Contact {
@@ -30,15 +29,15 @@ public class Contact {
 
     private static final TaskStack sTaskStack = new TaskStack();
 
-    private static final ContentObserver sContactsObserver = new ContentObserver(new Handler()) {
-        @Override
-        public void onChange(boolean selfUpdate) {
-            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                log("contact changed, invalidate cache");
-            }
-            invalidateCache();
-        }
-    };
+//    private static final ContentObserver sContactsObserver = new ContentObserver(new Handler()) {
+//        @Override
+//        public void onChange(boolean selfUpdate) {
+//            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+//                log("contact changed, invalidate cache");
+//            }
+//            invalidateCache();
+//        }
+//    };
 
     private static final ContentObserver sPresenceObserver = new ContentObserver(new Handler()) {
         @Override
@@ -60,6 +59,7 @@ public class Contact {
     private int mPresenceResId;      // TODO: make this a state instead of a res ID
     private String mPresenceText;
     private BitmapDrawable mAvatar;
+    private boolean mIsStale;
 
     @Override
     public synchronized String toString() {
@@ -78,6 +78,7 @@ public class Contact {
         mLabel = "";
         mPersonId = 0;
         mPresenceResId = 0;
+        mIsStale = true;
     }
 
     private static void logWithTrace(String msg, Object... format) {
@@ -114,6 +115,8 @@ public class Contact {
         if (contact == null) {
             contact = new Contact(number);
             Cache.put(contact);
+        }
+        if (contact.mIsStale) {
             asyncUpdateContact(contact, canBlock);
         }
         return contact;
@@ -123,17 +126,21 @@ public class Contact {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             log("invalidateCache");
         }
-        
+
         // force invalidate the contact info cache, so we will query for fresh info again.
         // This is so we can get fresh presence info again on the screen, since the presence
         // info changes pretty quickly, and we can't get change notifications when presence is
         // updated in the ContactsProvider.
         ContactInfoCache.getInstance().invalidateCache();
 
-        // Queue updates for the whole cache.
-        sTaskStack.clear();
-
-        asyncUpdateContacts(Cache.getContacts(), false);
+        // While invalidating our local Cache doesn't remove the contacts, it will mark them
+        // stale so the next time we're asked for a particular contact, we'll return that
+        // stale contact and at the same time, fire off an asyncUpdateContact to update
+        // that contact's info in the background. UI elements using the contact typically
+        // call addListener() so they immediately get notified when the contact has been
+        // updated with the latest info. They redraw themselves when we call the
+        // listener's onUpdate().
+        Cache.invalidate();
     }
 
     private static String emptyIfNull(String s) {
@@ -184,7 +191,7 @@ public class Contact {
         }
         return false;
     }
-    
+
     private static void asyncUpdateContact(final Contact c, boolean canBlock) {
         if (c == null) {
             return;
@@ -207,30 +214,11 @@ public class Contact {
         }
     }
 
-    private static void asyncUpdateContacts(final List<Contact> contacts, boolean canBlock) {
-        Runnable r = new Runnable() {
-            public void run() {
-                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                    log("asyncUpdateContacts...");
-                }
-
-                for (Contact c : contacts) {
-                    updateContact(c);
-                }
-            }
-        };
-
-        if (canBlock) {
-            r.run();
-        } else {
-            sTaskStack.push(r);
-        }
-    }
-
     private static void updateContact(final Contact c) {
         if (c == null) {
             return;
         }
+        c.mIsStale = false;
 
         // Check to see if this is the local ("me") number.
         if (handleLocalNumber(c)) {
@@ -451,6 +439,16 @@ public class Contact {
         static List<Contact> getContacts() {
             synchronized (sInstance) {
                 return new ArrayList<Contact>(sInstance.mCache);
+            }
+        }
+
+        static void invalidate() {
+            // Don't remove the contacts. Just mark them stale so we'll update their
+            // info, particularly their presence.
+            synchronized (sInstance) {
+                for (Contact c : sInstance.mCache) {
+                    c.mIsStale = true;
+                }
             }
         }
     }

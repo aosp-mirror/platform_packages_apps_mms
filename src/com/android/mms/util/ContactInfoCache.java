@@ -20,17 +20,13 @@ package com.android.mms.util;
 import com.android.mms.ui.MessageUtils;
 import com.google.android.mms.util.SqliteWrapper;
 
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Handler;
-import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.Presence;
@@ -43,9 +39,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
@@ -62,7 +56,6 @@ public class ContactInfoCache {
 
     private static final boolean LOCAL_DEBUG = false;
 
-    private static final long REBUILD_DELAY = 5000; // 5 seconds
     private static final String SEPARATOR = ";";
 
     // query params for caller id lookup
@@ -182,19 +175,6 @@ public class ContactInfoCache {
 
     private ContactInfoCache(Context context) {
         mContext = context;
-
-        ContentResolver resolver = context.getContentResolver();
-        resolver.registerContentObserver(Data.CONTENT_URI, true,
-                new ContentObserver(new Handler()) {
-                    @Override
-                    public void onChange(boolean selfUpdate) {
-                        synchronized (mCacheRebuildLock) {
-                            mPhoneCacheInvalidated = true;
-                            mEmailCacheInvalidated = true;
-                            startCacheRebuilder();
-                        }
-                    }
-                });
     }
 
     /**
@@ -522,100 +502,6 @@ public class ContactInfoCache {
             }
         }
         return entry;
-    }
-
-    /**
-     * Start the background cache rebuilding thread if there is not one yet.
-     */
-    private void startCacheRebuilder() {
-        if (mCacheRebuilder == null) {
-            mCacheRebuilder = new Thread(new Runnable() {
-                    public void run() {
-                        rebuildCache();
-                    }
-            });
-            mCacheRebuilder.start();
-        }
-    }
-
-    /**
-     * Get the list of phone/email candidates for the cache rebuilding. This is
-     * a snapshot of the keys in the cache.
-     */
-    private void getRebuildList(List<String> phones, List<String> emails) {
-        synchronized (mCache) {
-            for (String name : mCache.keySet()) {
-                if (Mms.isEmailAddress(name)) {
-                    if (emails != null) {
-                        emails.add(name);
-                    }
-                } else {
-                    if (phones != null) {
-                        phones.add(name);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * The actual work of rebuilding the cache, i.e. syncing our cache with
-     * the contacts database.
-     */
-    private void rebuildCache() {
-        List<String> phones;
-        List<String> emails;
-
-        for (;;) {
-            // simulate the Nagle's algorithm:
-            // delay for a while to prevent from getting too busy, when, say,
-            // there is a big contacts sync going on
-            try {
-                Thread.sleep(REBUILD_DELAY);
-            } catch (InterruptedException ie) {
-            }
-
-            phones = null;
-            emails = null;
-            synchronized (mCacheRebuildLock) {
-                // if nothing changed during our sync, stop this thread
-                // otherwise, just keep working on it.
-                if (!(mPhoneCacheInvalidated || mEmailCacheInvalidated)) {
-                    mCacheRebuilder = null;
-                    return;
-                }
-                if (mPhoneCacheInvalidated) {
-                    phones = new ArrayList<String>();
-                    mPhoneCacheInvalidated = false;
-                }
-                if (mEmailCacheInvalidated) {
-                    emails = new ArrayList<String>();
-                    mEmailCacheInvalidated = false;
-                }
-            }
-            // retrieve the list of phone/email candidates for syncing
-            // which is a snapshot of the keys in the cache
-            getRebuildList(phones, emails);
-            // now sync
-            if (phones != null) {
-                if (LOCAL_DEBUG) log("rebuild cache for phone numbers...");
-                for (String phone : phones) {
-                    CacheEntry entry = queryContactInfoByNumber(phone);
-                    synchronized (mCache) {
-                        mCache.put(phone, entry);
-                    }
-                }
-            }
-            if (emails != null) {
-                if (LOCAL_DEBUG) log("rebuild cache for emails...");
-                for (String email : emails) {
-                    CacheEntry entry = queryEmailDisplayName(email);
-                    synchronized (mCache) {
-                        mCache.put(email, entry);
-                    }
-                }
-            }
-        }
     }
 
     private void log(String msg) {
