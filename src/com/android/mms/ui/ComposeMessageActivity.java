@@ -1513,8 +1513,13 @@ public class ComposeMessageActivity extends Activity
                 mContactHeader.setDisplayName(recipient, null);
                 break;
             case 1:
-                // TODO this could be an email address
-                mContactHeader.bindFromPhoneNumber(list.get(0).getNumber());
+                String addr = list.get(0).getNumber();
+
+                if (Mms.isEmailAddress(addr)) {
+                    mContactHeader.bindFromEmail(addr);
+                } else {
+                    mContactHeader.bindFromPhoneNumber(addr);
+                }
                 break;
             default:
                 // Handle multiple recipients
