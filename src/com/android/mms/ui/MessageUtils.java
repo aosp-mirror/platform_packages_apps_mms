@@ -641,7 +641,15 @@ public class MessageUtils {
     }
 
     public static boolean isLocalNumber(String number) {
-        if (Mms.isEmailAddress(number)) {
+        if (number == null) {
+            return false;
+        }
+
+        // we don't use Mms.isEmailAddress() because it is too strict for comparing addresses like
+        // "foo+caf_=6505551212=tmomail.net@gmail.com", which is the 'from' address from a forwarded email
+        // message from Gmail. We don't want to treat "foo+caf_=6505551212=tmomail.net@gmail.com" and
+        // "6505551212" to be the same.
+        if (number.indexOf('@') >= 0) {
             return false;
         }
 
