@@ -1054,12 +1054,14 @@ public class WorkingMessage {
     // Draft message stuff
 
     private static final String[] MMS_DRAFT_PROJECTION = {
-        Mms._ID,        // 0
-        Mms.SUBJECT     // 1
+        Mms._ID,                // 0
+        Mms.SUBJECT,            // 1
+        Mms.SUBJECT_CHARSET     // 2
     };
 
-    private static final int MMS_ID_INDEX       = 0;
-    private static final int MMS_SUBJECT_INDEX  = 1;
+    private static final int MMS_ID_INDEX         = 0;
+    private static final int MMS_SUBJECT_INDEX    = 1;
+    private static final int MMS_SUBJECT_CS_INDEX = 2;
 
     private static Uri readDraftMmsMessage(Context context, long threadId, StringBuilder sb) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
@@ -1078,7 +1080,8 @@ public class WorkingMessage {
             if (cursor.moveToFirst()) {
                 uri = ContentUris.withAppendedId(Mms.Draft.CONTENT_URI,
                         cursor.getLong(MMS_ID_INDEX));
-                String subject = cursor.getString(MMS_SUBJECT_INDEX);
+                String subject = MessageUtils.extractEncStrFromCursor(cursor, MMS_SUBJECT_INDEX,
+                        MMS_SUBJECT_CS_INDEX);
                 if (subject != null) {
                     sb.append(subject);
                 }
