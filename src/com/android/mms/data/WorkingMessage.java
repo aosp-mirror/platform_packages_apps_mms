@@ -622,7 +622,7 @@ public class WorkingMessage {
      * Force the message to be saved as MMS and return the Uri of the message.
      * Typically used when handing a message off to another activity.
      */
-    public Uri saveAsMms() {
+    public Uri saveAsMms(boolean notify) {
         if (DEBUG) LogTag.debug("save mConversation=%s", mConversation);
 
         if (mDiscarded) {
@@ -633,7 +633,7 @@ public class WorkingMessage {
         // the message seem non-empty (and thus not discarded).  This bit
         // is sticky until the last other MMS bit is removed, at which
         // point the message will fall back to SMS.
-        updateState(FORCE_MMS, true, false);
+        updateState(FORCE_MMS, true, notify);
 
         // Collect our state to be written to disk.
         prepareForSave(true /* notify */);

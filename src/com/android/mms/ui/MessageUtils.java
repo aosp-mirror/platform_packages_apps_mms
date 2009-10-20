@@ -806,7 +806,7 @@ public class MessageUtils {
         if (slideshow.isSimple()) {
             MessageUtils.viewSimpleSlideshow(context, slideshow);
         } else {
-            Uri uri = msg.saveAsMms();
+            Uri uri = msg.saveAsMms(false);
             viewMmsMessageAttachment(context, uri, slideshow);
         }
     }
