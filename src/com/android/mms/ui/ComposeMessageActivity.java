@@ -273,7 +273,7 @@ public class ComposeMessageActivity extends Activity
     //==========================================================
 
     private void editSlideshow() {
-        Uri dataUri = mWorkingMessage.saveAsMms();
+        Uri dataUri = mWorkingMessage.saveAsMms(false);
         Intent intent = new Intent(this, SlideshowEditActivity.class);
         intent.setData(dataUri);
         startActivityForResult(intent, REQUEST_CODE_CREATE_SLIDESHOW);
@@ -2383,15 +2383,6 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
-    private void addImage(Bitmap bitmap) {
-        try {
-            Uri messageUri = mWorkingMessage.saveAsMms();
-            addImage(MessageUtils.saveBitmapAsPart(this, messageUri, bitmap), false);
-        } catch (MmsException e) {
-            handleAddAttachmentError(WorkingMessage.UNKNOWN_ERROR, R.string.type_picture);
-        }
-    }
-
     private final ResizeImageResultCallback mResizeImageCallback = new ResizeImageResultCallback() {
         // TODO: make this produce a Uri, that's what we want anyway
         public void onResizeResult(PduPart part, boolean append) {
@@ -2404,7 +2395,7 @@ public class ComposeMessageActivity extends Activity
             PduPersister persister = PduPersister.getPduPersister(context);
             int result;
 
-            Uri messageUri = mWorkingMessage.saveAsMms();
+            Uri messageUri = mWorkingMessage.saveAsMms(true);
             try {
                 Uri dataUri = persister.persistPart(part, ContentUris.parseId(messageUri));
                 result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, dataUri, append);
