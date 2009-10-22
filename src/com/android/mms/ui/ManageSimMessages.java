@@ -140,6 +140,9 @@ public class ManageSimMessages extends Activity
                 }
                 startManagingCursor(mCursor);
                 registerSimChangeObserver();
+            } else {
+                // Let user know the SIM is empty
+                updateState(SHOW_EMPTY);
             }
         }
     }
