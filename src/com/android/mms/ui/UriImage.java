@@ -283,7 +283,7 @@ public class UriImage {
                 attempts++;
             } while ((os == null || os.size() > byteLimit) && attempts < NUMBER_OF_RESIZE_ATTEMPTS);
 
-            return os.toByteArray();
+            return os == null ? null : os.toByteArray();
         } catch (FileNotFoundException e) {
             Log.e(TAG, e.getMessage(), e);
             return null;
