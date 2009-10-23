@@ -1504,6 +1504,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void bindToContactHeaderWidget(ContactList list) {
+        mContactHeader.wipeClean()
         switch (list.size()) {
             case 0:
                 String recipient = "";
