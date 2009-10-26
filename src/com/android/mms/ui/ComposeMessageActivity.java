@@ -73,7 +73,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.drm.mobile1.DrmException;
 import android.drm.mobile1.DrmRawContent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
@@ -1817,6 +1816,12 @@ public class ComposeMessageActivity extends Activity
         registerReceiver(mHttpProgressReceiver, mHttpProgressFilter);
 
         loadMessageContent();
+
+        // Update the fasttrack info in case any of the recipients' contact info changed
+        // while we were paused. This can happen, for example, if a user changes or adds
+        // an avatar associated with a contact.
+        mWorkingMessage.syncWorkingRecipients();
+        bindToContactHeaderWidget(mConversation.getRecipients());
     }
 
     private void loadMessageContent() {
