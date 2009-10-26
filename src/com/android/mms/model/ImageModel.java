@@ -129,19 +129,25 @@ public class ImageModel extends RegionMediaModel {
     }
 
     public Bitmap getBitmap() {
-        Bitmap bm = mBitmapCache.get();
-        if (bm == null) {
-            bm = createThumbnailBitmap(THUMBNAIL_BOUNDS_LIMIT, getUri());
-            mBitmapCache = new SoftReference<Bitmap>(bm);
-        }
-        return bm;
+        return internalGetBitmap(getUri());
     }
 
     public Bitmap getBitmapWithDrmCheck() throws DrmException {
+        return internalGetBitmap(getUriWithDrmCheck());
+    }
+
+    private Bitmap internalGetBitmap(Uri uri) {
         Bitmap bm = mBitmapCache.get();
         if (bm == null) {
-            bm = createThumbnailBitmap(THUMBNAIL_BOUNDS_LIMIT, getUriWithDrmCheck());
-            mBitmapCache = new SoftReference<Bitmap>(bm);
+            try {
+                bm = createThumbnailBitmap(THUMBNAIL_BOUNDS_LIMIT, uri);
+                if (bm != null) {
+                    mBitmapCache = new SoftReference<Bitmap>(bm);
+                }
+            } catch (OutOfMemoryError ex) {
+                // fall through and return a null bitmap. The callers can handle a null
+                // result and show R.drawable.ic_missing_thumbnail_picture
+            }
         }
         return bm;
     }
