@@ -25,8 +25,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:paddingRight="15dip"
-    android:paddingLeft="15dip"
-    android:background="#ffffffff" >
+    android:paddingLeft="15dip" >
 
     <LinearLayout
         android:orientation="horizontal"
