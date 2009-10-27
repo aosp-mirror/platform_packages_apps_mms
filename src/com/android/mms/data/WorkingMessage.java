@@ -33,6 +33,7 @@ import com.android.mms.model.VideoModel;
 import com.android.mms.transaction.MessageSender;
 import com.android.mms.transaction.MmsMessageSender;
 import com.android.mms.util.Recycler;
+import com.android.mms.util.DraftCache;
 import com.android.mms.transaction.SmsMessageSender;
 import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.MessageUtils;
@@ -1214,6 +1215,12 @@ public class WorkingMessage {
         if (conv.getMessageCount() == 0) {
             if (DEBUG) LogTag.debug("readDraftSmsMessage calling clearThreadId");
             conv.clearThreadId();
+
+            // since we removed the draft message in the db, and the conversation no longer
+            // has a thread id, let's clear the draft state for 'thread_id' in the draft cache.
+            // Otherwise if a new message arrives it could be assigned the same thread id, and
+            // we'd mistaken it for a draft due to the stale draft cache.
+            DraftCache.getInstance().setDraftState(thread_id, false);
         }
 
         return body;
