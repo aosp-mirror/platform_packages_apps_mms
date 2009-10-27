@@ -20,4 +20,8 @@
 <searchable xmlns:android="http://schemas.android.com/apk/res/android"
     android:label="@string/search_label"
     android:hint="@string/search_hint"
+
+    android:searchSuggestAuthority="com.android.mms.SuggestionsProvider"
+    android:searchSuggestSelection="query LIKE ?"
+    android:searchSuggestIntentAction="android.intent.action.SEARCH"
 />

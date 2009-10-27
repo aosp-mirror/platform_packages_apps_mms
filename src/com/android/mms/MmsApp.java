@@ -31,9 +31,12 @@ import com.android.mms.MmsConfig;
 import android.app.Application;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
+import android.provider.SearchRecentSuggestions;
 
 public class MmsApp extends Application {
     public static final String LOG_TAG = "Mms";
+
+    private SearchRecentSuggestions mRecentSuggestions;
 
     @Override
     public void onCreate() {
@@ -63,4 +66,17 @@ public class MmsApp extends Application {
     public void onConfigurationChanged(Configuration newConfig) {
         LayoutManager.getInstance().onConfigurationChanged(newConfig);
     }
+
+    /**
+     * Returns the content provider wrapper that allows access to recent searches.
+     * @return Returns the content provider wrapper that allows access to recent searches.
+     */
+    public SearchRecentSuggestions getRecentSuggestions() {
+        if (mRecentSuggestions == null) {
+            mRecentSuggestions = new SearchRecentSuggestions(this,
+                    SuggestionsProvider.AUTHORITY, SuggestionsProvider.MODE);
+        }
+        return mRecentSuggestions;
+    }
+
 }
