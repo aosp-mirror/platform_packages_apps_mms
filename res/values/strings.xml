@@ -673,6 +673,19 @@
         <item quantity="other"><xliff:g id="number" example="15">%s</xliff:g> results for \"%s\"</item>
     </plurals>
 
+    <!--- String saved in history searches. -->
+    <string name="search_history"><xliff:g id="count">%s</xliff:g> results for \"<xliff:g id="search">%s</xliff:g>\"</string>
+
+    <!-- Button title in Messaging preferences. -->
+    <string name="confirm_clear_search_title">Clear</string>
+    <!-- Text for the preferences button. -->
+    <string name="confirm_clear_search_text">Search history will be cleared.</string>
+    <!--- Button title in preferences to clear the search history. It's a verb action that takes place
+          immediately when clicked. -->
+    <string name="pref_mms_clear_search_history_title">Clear search history</string>
+    <!--- Button description in preferences to clear the search history. -->
+    <string name="pref_mms_clear_search_history_summary">Clear previous Messaging searches from showing up in the Search box</string>
+
     <!-- Dialog text for display mode save dialog. -->
     <string name="save">Save</string>
 

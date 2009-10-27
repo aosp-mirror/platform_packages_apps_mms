@@ -16,6 +16,7 @@
 
 package com.android.mms.ui;
 
+import com.android.mms.MmsApp;
 import com.android.mms.R;
 import android.app.ListActivity;
 import android.app.SearchManager;
@@ -173,7 +174,7 @@ public class SearchActivity extends ListActivity
         setContentView(R.layout.search_activity);
 
         String searchStringParameter = getIntent().getStringExtra(SearchManager.QUERY).trim();
-        final String searchString = 
+        final String searchString =
         	searchStringParameter != null ? searchStringParameter.trim() : searchStringParameter;
         ContentResolver cr = getContentResolver();
 
@@ -261,6 +262,15 @@ public class SearchActivity extends ListActivity
                 listView.setFocusable(true);
                 listView.setFocusableInTouchMode(true);
                 listView.requestFocus();
+
+                // Remember the query if there are actual results
+                if (cursorCount > 0) {
+                    MmsApp mmsApp = (MmsApp)getApplication();
+                    mmsApp.getRecentSuggestions().saveRecentQuery(
+                            searchString,
+                            getString(R.string.search_history,
+                                    cursorCount, searchString));
+                }
             }
         };
 
