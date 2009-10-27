@@ -23,11 +23,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <com.android.internal.widget.ContactHeaderWidget
-        android:id="@+id/contact_header"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
-
     <LinearLayout
         android:id="@+id/recipients_subject_linear"
         android:layout_width="fill_parent"
