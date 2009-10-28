@@ -79,6 +79,7 @@ public class MessageItem {
     SlideshowModel mSlideshow;
     int mMessageSize;
     int mErrorType;
+    int mErrorCode;
 
     MessageItem(Context context, String type, Cursor cursor,
             ColumnsMap columnsMap, String highlight) throws MmsException {
@@ -114,6 +115,7 @@ public class MessageItem {
             }
 
             mLocked = cursor.getInt(columnsMap.mColumnSmsLocked) != 0;
+            mErrorCode = cursor.getInt(columnsMap.mColumnSmsErrorCode);
         } else if ("mms".equals(type)) {
             mMessageUri = ContentUris.withAppendedId(Mms.CONTENT_URI, mMsgId);
             mBoxId = cursor.getInt(columnsMap.mColumnMmsMessageBox);

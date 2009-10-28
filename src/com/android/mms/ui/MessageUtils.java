@@ -305,6 +305,14 @@ public class MessageUtils {
         long date = cursor.getLong(MessageListAdapter.COLUMN_SMS_DATE);
         details.append(MessageUtils.formatTimeStampString(context, date, true));
 
+        // Error code: ***
+        int errorCode = cursor.getInt(MessageListAdapter.COLUMN_SMS_ERROR_CODE);
+        if (errorCode != 0) {
+            details.append('\n')
+                .append(res.getString(R.string.error_code_label))
+                .append(errorCode);
+        }
+
         return details.toString();
     }
 
