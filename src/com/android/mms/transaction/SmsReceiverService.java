@@ -54,6 +54,7 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.internal.telephony.SmsResponse;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.mms.R;
 import com.android.mms.LogTag;
@@ -160,10 +161,12 @@ public class SmsReceiverService extends Service {
             if (intent != null) {
                 String action = intent.getAction();
 
+                int error = intent.getIntExtra("errorCode", 0);
+
                 if (MESSAGE_SENT_ACTION.equals(intent.getAction())) {
-                    handleSmsSent(intent);
+                    handleSmsSent(intent, error);
                 } else if (SMS_RECEIVED_ACTION.equals(action)) {
-                    handleSmsReceived(intent);
+                    handleSmsReceived(intent, error);
                 } else if (ACTION_BOOT_COMPLETED.equals(action)) {
                     handleBootCompleted();
                 } else if (TelephonyIntents.ACTION_SERVICE_STATE_CHANGED.equals(action)) {
@@ -236,14 +239,14 @@ public class SmsReceiverService extends Service {
         }
     }
 
-    private void handleSmsSent(Intent intent) {
+    private void handleSmsSent(Intent intent, int error) {
         Uri uri = intent.getData();
 
         if (mResultCode == Activity.RESULT_OK) {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleSmsSent sending uri: " + uri);
             }
-            if (!Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_SENT)) {
+            if (!Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_SENT, error)) {
                 Log.e(TAG, "handleSmsSent: failed to move message " + uri + " to sent folder");
             }
             sendFirstQueuedMessage();
@@ -255,21 +258,21 @@ public class SmsReceiverService extends Service {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleSmsSent: no service, queuing message w/ uri: " + uri);
             }
-            Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_QUEUED);
+            Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_QUEUED, error);
             mToastHandler.sendEmptyMessage(1);
         } else {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleSmsSent msg failed uri: " + uri);
             }
-            Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_FAILED);
+            Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_FAILED, error);
             MessagingNotification.notifySendFailed(getApplicationContext(), true);
             sendFirstQueuedMessage();
         }
     }
 
-    private void handleSmsReceived(Intent intent) {
+    private void handleSmsReceived(Intent intent, int error) {
         SmsMessage[] msgs = Intents.getMessagesFromIntent(intent);
-        Uri messageUri = insertMessage(this, msgs);
+        Uri messageUri = insertMessage(this, msgs, error);
 
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             SmsMessage sms = msgs[0];
@@ -319,7 +322,7 @@ public class SmsReceiverService extends Service {
      * <code>Uri</code> of the thread containing this message
      * so that we can use it for notification.
      */
-    private Uri insertMessage(Context context, SmsMessage[] msgs) {
+    private Uri insertMessage(Context context, SmsMessage[] msgs, int error) {
         // Build the helper classes to parse the messages.
         SmsMessage sms = msgs[0];
 
@@ -327,9 +330,9 @@ public class SmsReceiverService extends Service {
             displayClassZeroMessage(context, sms);
             return null;
         } else if (sms.isReplace()) {
-            return replaceMessage(context, msgs);
+            return replaceMessage(context, msgs, error);
         } else {
-            return storeMessage(context, msgs);
+            return storeMessage(context, msgs, error);
         }
     }
 
@@ -342,11 +345,12 @@ public class SmsReceiverService extends Service {
      *
      * See TS 23.040 9.2.3.9.
      */
-    private Uri replaceMessage(Context context, SmsMessage[] msgs) {
+    private Uri replaceMessage(Context context, SmsMessage[] msgs, int error) {
         SmsMessage sms = msgs[0];
         ContentValues values = extractContentValues(sms);
 
         values.put(Inbox.BODY, sms.getMessageBody());
+        values.put(Sms.ERROR_CODE, error);
 
         ContentResolver resolver = context.getContentResolver();
         String originatingAddress = sms.getOriginatingAddress();
@@ -376,14 +380,15 @@ public class SmsReceiverService extends Service {
                 cursor.close();
             }
         }
-        return storeMessage(context, msgs);
+        return storeMessage(context, msgs, error);
     }
 
-    private Uri storeMessage(Context context, SmsMessage[] msgs) {
+    private Uri storeMessage(Context context, SmsMessage[] msgs, int error) {
         SmsMessage sms = msgs[0];
 
         // Store the message in the content provider.
         ContentValues values = extractContentValues(sms);
+        values.put(Sms.ERROR_CODE, error);
         int pduCount = msgs.length;
 
         if (pduCount == 1) {

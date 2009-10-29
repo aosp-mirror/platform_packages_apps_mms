@@ -61,6 +61,7 @@ public class MessageListAdapter extends CursorAdapter {
         Sms.TYPE,
         Sms.STATUS,
         Sms.LOCKED,
+        Sms.ERROR_CODE,
         // For MMS
         Mms.SUBJECT,
         Mms.SUBJECT_CHARSET,
@@ -86,16 +87,17 @@ public class MessageListAdapter extends CursorAdapter {
     static final int COLUMN_SMS_TYPE            = 7;
     static final int COLUMN_SMS_STATUS          = 8;
     static final int COLUMN_SMS_LOCKED          = 9;
-    static final int COLUMN_MMS_SUBJECT         = 10;
-    static final int COLUMN_MMS_SUBJECT_CHARSET = 11;
-    static final int COLUMN_MMS_DATE            = 12;
-    static final int COLUMN_MMS_READ            = 13;
-    static final int COLUMN_MMS_MESSAGE_TYPE    = 14;
-    static final int COLUMN_MMS_MESSAGE_BOX     = 15;
-    static final int COLUMN_MMS_DELIVERY_REPORT = 16;
-    static final int COLUMN_MMS_READ_REPORT     = 17;
-    static final int COLUMN_MMS_ERROR_TYPE      = 18;
-    static final int COLUMN_MMS_LOCKED          = 19;
+    static final int COLUMN_SMS_ERROR_CODE      = 10;
+    static final int COLUMN_MMS_SUBJECT         = 11;
+    static final int COLUMN_MMS_SUBJECT_CHARSET = 12;
+    static final int COLUMN_MMS_DATE            = 13;
+    static final int COLUMN_MMS_READ            = 14;
+    static final int COLUMN_MMS_MESSAGE_TYPE    = 15;
+    static final int COLUMN_MMS_MESSAGE_BOX     = 16;
+    static final int COLUMN_MMS_DELIVERY_REPORT = 17;
+    static final int COLUMN_MMS_READ_REPORT     = 18;
+    static final int COLUMN_MMS_ERROR_TYPE      = 19;
+    static final int COLUMN_MMS_LOCKED          = 20;
 
     private static final int CACHE_SIZE         = 50;
 
@@ -222,6 +224,7 @@ public class MessageListAdapter extends CursorAdapter {
         public int mColumnSmsType;
         public int mColumnSmsStatus;
         public int mColumnSmsLocked;
+        public int mColumnSmsErrorCode;
         public int mColumnMmsSubject;
         public int mColumnMmsSubjectCharset;
         public int mColumnMmsDate;
@@ -242,6 +245,7 @@ public class MessageListAdapter extends CursorAdapter {
             mColumnSmsType            = COLUMN_SMS_TYPE;
             mColumnSmsStatus          = COLUMN_SMS_STATUS;
             mColumnSmsLocked          = COLUMN_SMS_LOCKED;
+            mColumnSmsErrorCode       = COLUMN_SMS_ERROR_CODE;
             mColumnMmsSubject         = COLUMN_MMS_SUBJECT;
             mColumnMmsSubjectCharset  = COLUMN_MMS_SUBJECT_CHARSET;
             mColumnMmsMessageType     = COLUMN_MMS_MESSAGE_TYPE;
@@ -300,6 +304,12 @@ public class MessageListAdapter extends CursorAdapter {
 
             try {
                 mColumnSmsLocked = cursor.getColumnIndexOrThrow(Sms.LOCKED);
+            } catch (IllegalArgumentException e) {
+                Log.w("colsMap", e.getMessage());
+            }
+
+            try {
+                mColumnSmsErrorCode = cursor.getColumnIndexOrThrow(Sms.ERROR_CODE);
             } catch (IllegalArgumentException e) {
                 Log.w("colsMap", e.getMessage());
             }
