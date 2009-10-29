@@ -17,9 +17,13 @@
 
 package com.android.mms.ui;
 
+import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -57,8 +61,10 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
     private Preference mSmsLimitPref;
     private Preference mMmsLimitPref;
     private Preference mManageSimPref;
+    private Preference mClearHistoryPref;
     private Recycler mSmsRecycler;
     private Recycler mMmsRecycler;
+    private static final int CONFIRM_CLEAR_SEARCH_HISTORY_DIALOG = 3;
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -68,6 +74,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         mManageSimPref = findPreference("pref_key_manage_sim_messages");
         mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
         mMmsLimitPref = findPreference("pref_key_mms_delete_limit");
+        mClearHistoryPref = findPreference("pref_key_mms_clear_history");
 
         if (!TelephonyManager.getDefault().hasIccCard()) {
             // No SIM card, remove the SIM-related prefs
@@ -142,6 +149,9 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
                     R.string.pref_title_mms_delete).show();
         } else if (preference == mManageSimPref) {
             startActivity(new Intent(this, ManageSimMessages.class));
+        } else if (preference == mClearHistoryPref) {
+            showDialog(CONFIRM_CLEAR_SEARCH_HISTORY_DIALOG);
+            return true;
         }
 
         return super.onPreferenceTreeClick(preferenceScreen, preference);
@@ -170,4 +180,25 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
                 setMmsDisplayLimit();
             }
     };
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case CONFIRM_CLEAR_SEARCH_HISTORY_DIALOG:
+                return new AlertDialog.Builder(MessagingPreferenceActivity.this)
+                    .setTitle(R.string.confirm_clear_search_title)
+                    .setMessage(R.string.confirm_clear_search_text)
+                    .setPositiveButton(android.R.string.ok, new AlertDialog.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            MmsApp mmsApp = (MmsApp)getApplication();
+                            mmsApp.getRecentSuggestions().clearHistory();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .create();
+        }
+        return super.onCreateDialog(id);
+    }
+
 }
