@@ -433,6 +433,8 @@
     <string name="priority_low">Low</string>
     <!-- Label in "Message details" dialog -->
     <string name="message_class_label">Message class:\u0020</string>
+    <!-- Label in "Message details" dialog -->
+    <string name="error_code_label">Error code:\u0020</string>
 
    <!-- Menu title for editing a message -->
    <string name="menu_edit">Edit</string>
