@@ -25,8 +25,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.Paint.FontMetricsInt;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
@@ -36,25 +38,28 @@ import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
+import android.telephony.TelephonyManager;
+import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
-import android.text.style.AbsoluteSizeSpan;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.LeadingMarginSpan;
+import android.text.style.LineHeightSpan;
 import android.text.style.StyleSpan;
+import android.text.style.TextAppearanceSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
 import com.android.mms.R;
@@ -87,6 +92,7 @@ public class MessageListItem extends LinearLayout implements
     private TextView mBodyTextView;
     private Button mDownloadButton;
     private TextView mDownloadingLabel;
+    private QuickContactBadge mAvatar;
     private Handler mHandler;
     private MessageItem mMessageItem;
 
@@ -96,6 +102,9 @@ public class MessageListItem extends LinearLayout implements
 
     public MessageListItem(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        int color = mContext.getResources().getColor(R.color.timestamp_color);
+        mColorSpan = new ForegroundColorSpan(color);
     }
 
     @Override
@@ -105,9 +114,34 @@ public class MessageListItem extends LinearLayout implements
         mMsgListItem = findViewById(R.id.msg_list_item);
         mBodyTextView = (TextView) findViewById(R.id.text_view);
         mRightStatusIndicator = (ImageView) findViewById(R.id.right_status_indicator);
+        mAvatar = (QuickContactBadge) findViewById(R.id.avatar);
+
+        ViewGroup.MarginLayoutParams badgeParams = (MarginLayoutParams)mAvatar.getLayoutParams();
+        final int badgeWidth = badgeParams.width + badgeParams.rightMargin + badgeParams.leftMargin;
+
+        int lineHeight = mBodyTextView.getLineHeight();
+        int effectiveBadgeHeight = badgeParams.height + badgeParams.topMargin - mBodyTextView.getPaddingTop();
+        final int indentLineCount = (int) ((effectiveBadgeHeight-1) / lineHeight) + 1;
+
+        mLeadingMarginSpan = new LeadingMarginSpan.LeadingMarginSpan2() {
+            public void drawLeadingMargin(Canvas c, Paint p, int x, int dir,
+                    int top, int baseline, int bottom, CharSequence text,
+                    int start, int end, boolean first, Layout layout) {
+                // no op
+            }
+
+            public int getLeadingMargin(boolean first) {
+                return first ? badgeWidth : 0;
+            }
+
+            public int getLeadingMarginLineCount() {
+                return indentLineCount;
+            }
+        };
+
     }
 
-    public void bind(MessageItem msgItem) {
+    public void bind(MessageListAdapter.AvatarCache avatarCache, MessageItem msgItem) {
         mMessageItem = msgItem;
 
         setLongClickable(false);
@@ -117,7 +151,7 @@ public class MessageListItem extends LinearLayout implements
                 bindNotifInd(msgItem);
                 break;
             default:
-                bindCommonMessage(msgItem);
+                bindCommonMessage(avatarCache, msgItem);
                 break;
         }
     }
@@ -176,7 +210,7 @@ public class MessageListItem extends LinearLayout implements
         drawLeftStatusIndicator(msgItem.mBoxId);
     }
 
-    private void bindCommonMessage(final MessageItem msgItem) {
+    private void bindCommonMessage(final MessageListAdapter.AvatarCache avatarCache, final MessageItem msgItem) {
         if (mDownloadButton != null) {
             mDownloadButton.setVisibility(View.GONE);
             mDownloadingLabel.setVisibility(View.GONE);
@@ -185,6 +219,21 @@ public class MessageListItem extends LinearLayout implements
         // address(or name), I have to display it here instead of
         // displaying it by the Presenter.
         mBodyTextView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+        String addr = null;
+        if (!Sms.isOutgoingFolder(msgItem.mBoxId)) {
+            addr = msgItem.mAddress;
+        } else {
+            addr = TelephonyManager.getDefault().getLine1Number();
+        }
+        if (!TextUtils.isEmpty(addr)) {
+            MessageListAdapter.AvatarCache.ContactData contactData = avatarCache.get(addr);
+            mAvatar.setImageDrawable(contactData.getAvatar());
+            mAvatar.assignContactUri(contactData.getContactUri());
+        } else {
+            mAvatar.setImageDrawable(null);
+            mAvatar.assignContactUri(null);
+        }
 
         // Get and/or lazily set the formatted message from/on the
         // MessageItem.  Because the MessageItem instances come from a
@@ -270,6 +319,20 @@ public class MessageListItem extends LinearLayout implements
         }
     }
 
+    private LeadingMarginSpan mLeadingMarginSpan;
+
+    private LineHeightSpan mSpan = new LineHeightSpan() {
+        public void chooseHeight(CharSequence text, int start,
+                int end, int spanstartv, int v, FontMetricsInt fm) {
+            fm.ascent -= 10;
+        }
+    };
+
+    TextAppearanceSpan mTextSmallSpan =
+        new TextAppearanceSpan(mContext, android.R.style.TextAppearance_Small);
+
+    ForegroundColorSpan mColorSpan = null;  // set in ctor
+
     private CharSequence formatMessage(String contact, String body, String subject,
                                        String timestamp, String highlight) {
         CharSequence template = mContext.getResources().getText(R.string.name_colon);
@@ -294,20 +357,14 @@ public class MessageListItem extends LinearLayout implements
             buf.append("\n");
             int startOffset = buf.length();
 
-            // put a one pixel high spacer line between the message and the time stamp as requested
-            // by the spec.
-            buf.append("\n");
-            buf.setSpan(new AbsoluteSizeSpan(3), startOffset, buf.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
             startOffset = buf.length();
             buf.append(timestamp);
-            buf.setSpan(new AbsoluteSizeSpan(12), startOffset, buf.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            buf.setSpan(mTextSmallSpan, startOffset, buf.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            buf.setSpan(mSpan, startOffset+1, buf.length(), 0);
+
             // Make the timestamp text not as dark
-            int color = mContext.getResources().getColor(R.color.timestamp_color);
-            buf.setSpan(new ForegroundColorSpan(color), startOffset, buf.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            buf.setSpan(mColorSpan, startOffset, buf.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         if (highlight != null) {
             int highlightLen = highlight.length();
@@ -323,6 +380,7 @@ public class MessageListItem extends LinearLayout implements
                 prev = index + highlightLen;
             }
         }
+        buf.setSpan(mLeadingMarginSpan, 0, buf.length(), 0);
         return buf;
     }
 
