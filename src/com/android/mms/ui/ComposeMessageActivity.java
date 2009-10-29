@@ -253,7 +253,6 @@ public class ComposeMessageActivity extends Activity
 
     private boolean mWaitingForSubActivity;
     private int mLastRecipientCount;            // Used for warning the user on too many recipients.
-    private ContactHeaderWidget mContactHeader;
     private AttachmentTypeSelectorAdapter mAttachmentTypeSelectorAdapter;
 
     @SuppressWarnings("unused")
@@ -559,8 +558,9 @@ public class ComposeMessageActivity extends Activity
                     continue;
 
                 if (c == ',') {
-                    updateWindowTitle();
+                    updateTitle(mConversation.getRecipients());
                 }
+
                 break;
             }
 
@@ -1501,35 +1501,28 @@ public class ComposeMessageActivity extends Activity
         return mConversation.getRecipients();
     }
 
-    private void bindToContactHeaderWidget(ContactList list) {
-        mContactHeader.wipeClean();
+    private void updateTitle(ContactList list) {
+        String s;
         switch (list.size()) {
-            case 0:
+            case 0: {
                 String recipient = "";
                 if (mRecipientsEditor != null) {
                     recipient = mRecipientsEditor.getText().toString();
                 }
-                mContactHeader.setDisplayName(recipient, null);
+                s = recipient;
                 break;
-            case 1:
-                String addr = list.get(0).getNumber();
-
-                if (Mms.isEmailAddress(addr)) {
-                    mContactHeader.bindFromEmail(addr);
-                } else {
-                    mContactHeader.bindFromPhoneNumber(addr);
-                }
+            }
+            case 1: {
+                s = list.get(0).getNameAndNumber();
                 break;
-            default:
+            }
+            default: {
                 // Handle multiple recipients
-                mContactHeader.setDisplayName(list.formatNames(", "), null);
-                mContactHeader.setContactUri(null);
-                mContactHeader.setPhoto(((BitmapDrawable)getResources()
-                        .getDrawable(R.drawable.ic_groupchat))
-                        .getBitmap());
-                mContactHeader.setPresence(0);  // clear the presence, too
+                s = list.formatNames(", ");
                 break;
+            }
         }
+        getWindow().setTitle(s);
     }
 
     // Get the recipients editor ready to be displayed onscreen.
@@ -1579,7 +1572,7 @@ public class ComposeMessageActivity extends Activity
                     RecipientsEditor editor = (RecipientsEditor) v;
                     ContactList contacts = editor.getContacts();
                     contacts.addListeners(ComposeMessageActivity.this);
-                    bindToContactHeaderWidget(contacts);
+                    updateTitle(contacts);
                 }
             }
         });
@@ -1614,7 +1607,6 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.compose_message_activity);
         setProgressBarVisibility(false);
@@ -1734,7 +1726,7 @@ public class ComposeMessageActivity extends Activity
         mIsLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE;
         onKeyboardStateChanged(mIsKeyboardOpen);
 
-        bindToContactHeaderWidget(mConversation.getRecipients());
+        updateTitle(mConversation.getRecipients());
 
         if (isForwardedMessage && isRecipientsEditorVisible()) {
             // The user is forwarding the message to someone. Put the focus on the
@@ -1809,7 +1801,6 @@ public class ComposeMessageActivity extends Activity
     protected void onStart() {
         super.onStart();
 
-        updateWindowTitle();
         initFocus();
 
         // Register a BroadcastReceiver to listen on HTTP I/O process.
@@ -1821,7 +1812,7 @@ public class ComposeMessageActivity extends Activity
         // while we were paused. This can happen, for example, if a user changes or adds
         // an avatar associated with a contact.
         mWorkingMessage.syncWorkingRecipients();
-        bindToContactHeaderWidget(mConversation.getRecipients());
+        updateTitle(mConversation.getRecipients());
     }
 
     private void loadMessageContent() {
@@ -1868,6 +1859,17 @@ public class ComposeMessageActivity extends Activity
         //Contact.startPresenceObserver();
 
         addRecipientsListeners();
+
+        // There seems to be a bug in the framework such that setting the title
+        // here gets overwritten to the original title.  Do this delayed as a
+        // workaround.
+        mMessageListItemHandler.postDelayed(new Runnable() {
+            public void run() {
+                ContactList recipients = isRecipientsEditorVisible() ?
+                        mRecipientsEditor.getContacts() : getRecipients();
+                updateTitle(recipients);
+            }
+        }, 100);
     }
 
     @Override
@@ -2658,7 +2660,6 @@ public class ComposeMessageActivity extends Activity
         mTopPanel.setFocusable(false);
         mAttachmentEditor = (AttachmentEditor) findViewById(R.id.attachment_editor);
         mAttachmentEditor.setHandler(mAttachmentEditorHandler);
-        mContactHeader = (ContactHeaderWidget) findViewById(R.id.contact_header);
 
         if (!MmsConfig.getMmsEnabled()) {
             // If this config doesn't support Mms, make sure we limit the message length to
@@ -2869,7 +2870,6 @@ public class ComposeMessageActivity extends Activity
 
         hideRecipientEditor();
         drawBottomPanel();
-        updateWindowTitle();
 
         // "Or not", in this case.
         updateSendButtonState();
@@ -2960,10 +2960,6 @@ public class ComposeMessageActivity extends Activity
         mExitOnSent = intent.getBooleanExtra("exit_on_sent", false);
         mWorkingMessage.setText(intent.getStringExtra("sms_body"));
         mWorkingMessage.setSubject(intent.getStringExtra("subject"), false);
-    }
-
-    private void updateWindowTitle() {
-        // this is now a no-op (TODO remove
     }
 
     private void initFocus() {
@@ -3160,7 +3156,7 @@ public class ComposeMessageActivity extends Activity
             public void run() {
                 ContactList recipients = isRecipientsEditorVisible() ?
                         mRecipientsEditor.getContacts() : getRecipients();
-                bindToContactHeaderWidget(recipients);
+                updateTitle(recipients);
             }
         });
     }
