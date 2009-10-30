@@ -38,6 +38,7 @@ import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.data.WorkingMessage.MessageStatusListener;
+import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
@@ -302,7 +303,7 @@ public class ComposeMessageActivity extends Activity
                 case AttachmentEditor.MSG_REPLACE_IMAGE:
                 case AttachmentEditor.MSG_REPLACE_VIDEO:
                 case AttachmentEditor.MSG_REPLACE_AUDIO:
-                    showAddAttachmentDialog();
+                    showAddAttachmentDialog(true);
                     break;
 
                 case AttachmentEditor.MSG_REMOVE_ATTACHMENT:
@@ -2180,7 +2181,7 @@ public class ComposeMessageActivity extends Activity
                 break;
             case MENU_ADD_ATTACHMENT:
                 // Launch the add-attachment list dialog
-                showAddAttachmentDialog();
+                showAddAttachmentDialog(false);
                 break;
             case MENU_DISCARD:
                 mWorkingMessage.discard();
@@ -2237,7 +2238,15 @@ public class ComposeMessageActivity extends Activity
         return SystemProperties.getInt("ro.media.enc.lprof.duration", 60);
     }
 
-    private void addAttachment(int type) {
+    private void addAttachment(int type, boolean replace) {
+        // Calculate the size of the current slide if we're doing a replace so the
+        // slide size can optionally be used in computing how much room is left for an attachment.
+        int currentSlideSize = 0;
+        SlideshowModel slideShow = mWorkingMessage.getSlideshow();
+        if (replace && slideShow != null) {
+            SlideModel slide = slideShow.get(0);
+            currentSlideSize = slide.getSlideSize();
+        }
         switch (type) {
             case AttachmentTypeSelectorAdapter.ADD_IMAGE:
                 MessageUtils.selectImage(this, REQUEST_CODE_ATTACH_IMAGE);
@@ -2258,8 +2267,15 @@ public class ComposeMessageActivity extends Activity
             case AttachmentTypeSelectorAdapter.RECORD_VIDEO: {
                 // Set video size limit. Subtract 1K for some text.
                 long sizeLimit = MmsConfig.getMaxMessageSize() - 1024;
-                if (mWorkingMessage.getSlideshow() != null) {
-                    sizeLimit -= mWorkingMessage.getSlideshow().getCurrentMessageSize();
+                if (slideShow != null) {
+                    sizeLimit -= slideShow.getCurrentMessageSize();
+
+                    // We're about to ask the camera to capture some video which will
+                    // eventually replace the content on the current slide. Since the current
+                    // slide already has some content (which was subtracted out just above)
+                    // and that content is going to get replaced, we can add the size of the
+                    // current slide into the available space used to capture a video.
+                    sizeLimit += currentSlideSize;
                 }
                 if (sizeLimit > 0) {
                     int durationLimit = getVideoCaptureDurationLimit();
@@ -2294,7 +2310,7 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
-    private void showAddAttachmentDialog() {
+    private void showAddAttachmentDialog(final boolean replace) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.ic_dialog_attach);
         builder.setTitle(R.string.add_attachment);
@@ -2305,7 +2321,7 @@ public class ComposeMessageActivity extends Activity
         }
         builder.setAdapter(mAttachmentTypeSelectorAdapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                addAttachment(mAttachmentTypeSelectorAdapter.buttonToCommand(which));
+                addAttachment(mAttachmentTypeSelectorAdapter.buttonToCommand(which), replace);
             }
         });
 
