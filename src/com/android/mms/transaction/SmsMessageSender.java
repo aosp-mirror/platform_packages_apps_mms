@@ -89,6 +89,8 @@ public class SmsMessageSender implements MessageSender {
                 messages = smsManager.divideMessage(msgText);
             } else {
                messages = smsManager.divideMessage(mMessageText);
+               // remove spaces from destination number (e.g. "801 555 1212" -> "8015551212")
+               mDests[i] = mDests[i].replaceAll(" ", "");
             }
             int messageCount = messages.size();
 
@@ -138,7 +140,7 @@ public class SmsMessageSender implements MessageSender {
             }
 
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                log("sendMessage: address " + i + ", threadId=" + mThreadId + ", uri=" + uri + 
+                log("sendMessage: address " + i + ", threadId=" + mThreadId + ", uri=" + uri +
                         "msgs.count=" + messageCount);
             }
 
