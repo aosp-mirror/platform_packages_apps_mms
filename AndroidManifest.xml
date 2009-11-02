@@ -148,6 +148,7 @@
             android:label="@string/edit_slide_activity" />
 
         <activity android:name=".ui.SlideshowActivity"
+            android:noHistory="true"
             android:label="@string/slideshow_activity">
         </activity>
 
