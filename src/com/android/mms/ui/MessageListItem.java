@@ -492,8 +492,17 @@ public class MessageListItem extends LinearLayout implements
                 mRightStatusIndicator.setImageResource(R.drawable.ic_email_pending);
             }
             mRightStatusIndicator.setVisibility(View.VISIBLE);
-        } else if (msgItem.mDeliveryReport || msgItem.mReadReport) {
+        } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.INFO || msgItem.mReadReport) {
             mRightStatusIndicator.setImageResource(R.drawable.ic_mms_message_details);
+            mRightStatusIndicator.setVisibility(View.VISIBLE);
+        } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.PENDING) {
+            mRightStatusIndicator.setImageResource(R.drawable.ic_sms_mms_pending);
+            mRightStatusIndicator.setVisibility(View.VISIBLE);
+        } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.FAILED) {
+            mRightStatusIndicator.setImageResource(R.drawable.ic_sms_mms_not_delivered);
+            mRightStatusIndicator.setVisibility(View.VISIBLE);
+        } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.RECEIVED) {
+            mRightStatusIndicator.setImageResource(R.drawable.ic_sms_mms_delivered);
             mRightStatusIndicator.setVisibility(View.VISIBLE);
         } else {
             mRightStatusIndicator.setVisibility(View.GONE);
