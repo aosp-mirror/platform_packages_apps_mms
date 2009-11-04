@@ -1579,7 +1579,7 @@ public class ComposeMessageActivity extends Activity
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     RecipientsEditor editor = (RecipientsEditor) v;
-                    bindToContactHeaderWidget(editor.getContacts());
+                    bindToContactHeaderWidget(editor.constructContactsFromInput());
                 }
             }
         });

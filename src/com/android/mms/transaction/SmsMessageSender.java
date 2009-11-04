@@ -138,8 +138,8 @@ public class SmsMessageSender implements MessageSender {
             }
 
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                log("sendMessage: address " + i + ", threadId=" + mThreadId + ", uri=" + uri + 
-                        "msgs.count=" + messageCount);
+                log("sendMessage: address[" + i + "]=" + mDests[i] + ", threadId=" + mThreadId + ", uri=" + uri + 
+                        ", msgs.count=" + messageCount);
             }
 
             smsManager.sendMultipartTextMessage(
