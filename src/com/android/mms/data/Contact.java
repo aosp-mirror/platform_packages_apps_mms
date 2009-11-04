@@ -220,11 +220,6 @@ public class Contact {
         }
         c.mIsStale = false;
 
-        // Check to see if this is the local ("me") number.
-        if (handleLocalNumber(c)) {
-            return;
-        }
-
         ContactInfoCache cache = ContactInfoCache.getInstance();
         ContactInfoCache.CacheEntry entry = cache.getContactInfo(c.mNumber);
         synchronized (Cache.getInstance()) {
@@ -241,6 +236,10 @@ public class Contact {
                 c.mPresenceResId = entry.presenceResId;
                 c.mPresenceText = entry.presenceText;
                 c.mAvatar = entry.mAvatar;
+
+                // Check to see if this is the local ("me") number and update the name.
+                handleLocalNumber(c);
+
                 for (UpdateListener l : c.mListeners) {
                     if (V) Log.d(TAG, "updating " + l);
                     l.onUpdate(c);
