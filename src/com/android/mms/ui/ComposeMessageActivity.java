@@ -2945,7 +2945,9 @@ public class ComposeMessageActivity extends Activity
     private void initActivityState(Bundle bundle, Intent intent) {
         if (bundle != null) {
             String recipients = bundle.getString("recipients");
-            mConversation = Conversation.get(this, ContactList.getByNumbers(recipients, false));
+            mConversation = Conversation.get(this,
+                    ContactList.getByNumbers(recipients,
+                            false /* don't block */, true /* replace number */));
             mExitOnSent = bundle.getBoolean("exit_on_sent", false);
             mWorkingMessage.readStateFromBundle(bundle);
             return;
@@ -2966,8 +2968,8 @@ public class ComposeMessageActivity extends Activity
                 // special intent extra parameter to specify the address
                 String address = intent.getStringExtra("address");
                 if (!TextUtils.isEmpty(address)) {
-                    mConversation = Conversation.get(this,
-                            ContactList.getByNumbers(address, false));
+                    mConversation = Conversation.get(this, ContactList.getByNumbers(address,
+                            false /* don't block */, true /* replace number */));
                 } else {
                     mConversation = Conversation.createNew(this);
                 }
