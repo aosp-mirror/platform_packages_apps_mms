@@ -125,11 +125,13 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         return mTokenizer.getNumbers();
     }
 
-    public ContactList getContacts() {
+    public ContactList constructContactsFromInput() {
         List<String> numbers = mTokenizer.getNumbers();
         ContactList list = new ContactList();
         for (String number : numbers) {
-            list.add(Contact.get(number, false));
+            Contact contact = Contact.get(number, false);
+            contact.setNumber(number);
+            list.add(contact);
         }
         return list;
     }

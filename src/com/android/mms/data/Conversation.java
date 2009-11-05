@@ -194,6 +194,7 @@ public class Conversation {
      * The recipient list of this conversation can be empty if the results
      * were not in cache.
      */
+    // TODO: check why can't load a cached Conversation object here.
     public static Conversation from(Context context, Cursor cursor) {
         return new Conversation(context, cursor, false);
     }
@@ -645,7 +646,7 @@ public class Conversation {
     private static void cacheAllThreads(Context context) {
         synchronized (Cache.getInstance()) {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                LogTag.debug("cacheAllThreads called");
+                LogTag.debug("[Conversation] cacheAllThreads");
             }
             // Keep track of what threads are now on disk so we
             // can discard anything removed from the cache.
