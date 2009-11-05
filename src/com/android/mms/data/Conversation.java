@@ -164,7 +164,8 @@ public class Conversation {
         }
 
         String recipient = uri.getSchemeSpecificPart();
-        return get(context, ContactList.getByNumbers(recipient, false));
+        return get(context, ContactList.getByNumbers(recipient,
+                false /* don't block */, true /* replace number */));
     }
 
     /**
@@ -183,7 +184,8 @@ public class Conversation {
             return false;       // it's a thread id for a conversation
         }
         String recipient = uri.getSchemeSpecificPart();
-        ContactList incomingRecipient = ContactList.getByNumbers(recipient, false);
+        ContactList incomingRecipient = ContactList.getByNumbers(recipient,
+                false /* don't block */, false /* don't replace number */);
         return mRecipients.equals(incomingRecipient);
     }
 
