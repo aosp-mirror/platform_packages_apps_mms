@@ -74,7 +74,7 @@ public class Contact {
     private Contact(String number) {
         mNumber = number;
         mName = "";
-        mNameAndNumber = formatNameAndNumber(mName, mNumber);
+        updateNameAndNumber();
         mLabel = "";
         mPersonId = 0;
         mPresenceResId = 0;
@@ -186,7 +186,7 @@ public class Contact {
     private static boolean handleLocalNumber(Contact c) {
         if (MessageUtils.isLocalNumber(c.mNumber)) {
             c.mName = Cache.getContext().getString(com.android.internal.R.string.me);
-            c.mNameAndNumber = formatNameAndNumber(c.mName, c.mNumber);
+            c.updateNameAndNumber();
             return true;
         }
         return false;
@@ -230,7 +230,7 @@ public class Contact {
 
                 //c.mNumber = entry.phoneNumber;
                 c.mName = entry.name;
-                c.mNameAndNumber = formatNameAndNumber(c.mName, c.mNumber);
+                c.updateNameAndNumber();
                 c.mLabel = entry.phoneLabel;
                 c.mPersonId = entry.person_id;
                 c.mPresenceResId = entry.presenceResId;
@@ -269,6 +269,11 @@ public class Contact {
         return mNumber;
     }
 
+    public synchronized void setNumber(String number) {
+        mNumber = number;
+        updateNameAndNumber();
+    }
+
     public synchronized String getName() {
         if (TextUtils.isEmpty(mName)) {
             return mNumber;
@@ -279,6 +284,10 @@ public class Contact {
 
     public synchronized String getNameAndNumber() {
         return mNameAndNumber;
+    }
+
+    private void updateNameAndNumber() {
+        mNameAndNumber = formatNameAndNumber(mName, mNumber);
     }
 
     public synchronized String getLabel() {
