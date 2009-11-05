@@ -22,11 +22,17 @@ public class ContactList extends ArrayList<Contact>  {
         return list;
     }
 
-    public static ContactList getByNumbers(String semiSepNumbers, boolean canBlock) {
+    public static ContactList getByNumbers(String semiSepNumbers,
+                                           boolean canBlock,
+                                           boolean replaceNumber) {
         ContactList list = new ContactList();
         for (String number : semiSepNumbers.split(";")) {
             if (!TextUtils.isEmpty(number)) {
-                list.add(Contact.get(number, canBlock));
+                Contact contact = Contact.get(number, canBlock);
+                if (replaceNumber) {
+                    contact.setNumber(number);
+                }
+                list.add(contact);
             }
         }
         return list;
