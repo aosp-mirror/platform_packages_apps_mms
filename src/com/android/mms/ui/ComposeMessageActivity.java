@@ -1572,7 +1572,7 @@ public class ComposeMessageActivity extends Activity
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     RecipientsEditor editor = (RecipientsEditor) v;
-                    ContactList contacts = editor.getContacts();
+                    ContactList contacts = editor.constructContactsFromInput();
                     contacts.addListeners(ComposeMessageActivity.this);
                     updateTitle(contacts);
                 }
@@ -1868,7 +1868,7 @@ public class ComposeMessageActivity extends Activity
         mMessageListItemHandler.postDelayed(new Runnable() {
             public void run() {
                 ContactList recipients = isRecipientsEditorVisible() ?
-                        mRecipientsEditor.getContacts() : getRecipients();
+                        mRecipientsEditor.constructContactsFromInput() : getRecipients();
                 updateTitle(recipients);
             }
         }, 100);
@@ -3172,7 +3172,7 @@ public class ComposeMessageActivity extends Activity
         mMessageListItemHandler.post(new Runnable() {
             public void run() {
                 ContactList recipients = isRecipientsEditorVisible() ?
-                        mRecipientsEditor.getContacts() : getRecipients();
+                        mRecipientsEditor.constructContactsFromInput() : getRecipients();
                 updateTitle(recipients);
             }
         });
