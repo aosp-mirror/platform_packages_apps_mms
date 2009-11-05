@@ -549,7 +549,7 @@ public class ComposeMessageActivity extends Activity
             }
 
             mWorkingMessage.setWorkingRecipients(mRecipientsEditor.getNumbers());
-            mWorkingMessage.setHasEmail(mRecipientsEditor.containsEmail());
+            mWorkingMessage.setHasEmail(mRecipientsEditor.containsEmail(), true);
 
             checkForTooManyRecipients();
 
