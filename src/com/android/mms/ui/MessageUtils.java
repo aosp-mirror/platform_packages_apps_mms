@@ -94,6 +94,24 @@ public class MessageUtils {
     private static final Map<String, String> sRecipientAddress =
             new ConcurrentHashMap<String, String>(20 /* initial capacity */);
 
+
+    /**
+     * MMS address parsing data structures
+     */
+    // allowable phone number separators
+    private static final char[] NUMERIC_CHARS_SUGAR = {
+        '-', '.', ',', '(', ')', ' ', '/', '\\', '*', '#', '+'
+    };
+
+    private static HashMap numericSugarMap = new HashMap (NUMERIC_CHARS_SUGAR.length);
+
+    static {
+        for (int i = 0; i < NUMERIC_CHARS_SUGAR.length; i++) {
+            numericSugarMap.put(NUMERIC_CHARS_SUGAR[i], NUMERIC_CHARS_SUGAR[i]);
+        }
+    }
+
+
     private MessageUtils() {
         // Forbidden being instantiated.
     }
@@ -853,6 +871,10 @@ public class MessageUtils {
             return false;
         }
 
+        // TODO: not sure if this is the right thing to use. Mms.isPhoneNumber() is
+        // intended for searching for things that look like they might be phone numbers
+        // in arbitrary text, not for validating whether something is in fact a phone number.
+        // It will miss many things that are legitimate phone numbers.
         if (Mms.isPhoneNumber(string)) {
             return false;
         }
@@ -874,12 +896,88 @@ public class MessageUtils {
         char[] chars = s.toCharArray();
         for (int x = 0; x < chars.length; x++) {
             char c = chars[x];
-            if ((c >= 'a') && (c <= 'z')) continue;
-            if ((c >= 'A') && (c <= 'Z')) continue;
-            if ((c >= '0') && (c <= '9')) continue;
-                return false;
+
+            if ((c >= 'a') && (c <= 'z')) {
+                continue;
+            }
+            if ((c >= 'A') && (c <= 'Z')) {
+                continue;
+            }
+            if ((c >= '0') && (c <= '9')) {
+                continue;
+            }
+
+            return false;
         }
         return true;
+    }
+
+
+
+
+    /**
+     * Given a phone number, return the string without syntactic sugar, meaning parens,
+     * spaces, slashes, dots, dashes, etc. If the input string contains non-numeric
+     * non-punctuation characters, return null.
+     */
+    private static String parsePhoneNumberForMms(String address) {
+        StringBuilder builder = new StringBuilder();
+        int len = address.length();
+
+        for (int i = 0; i < len; i++) {
+            char c = address.charAt(i);
+
+            // accept the first '+' in the address
+            if (c == '+' && builder.length() == 0) {
+                builder.append(c);
+                continue;
+            }
+
+            if (Character.isDigit(c)) {
+                builder.append(c);
+                continue;
+            }
+
+            if (numericSugarMap.get(c) == null) {
+                return null;
+            }
+        }
+        return builder.toString();
+    }
+
+    /**
+     * Returns true if the address passed in is a valid MMS address.
+     */
+    public static boolean isValidMmsAddress(String address) {
+        String retVal = parseMmsAddress(address);
+        return (retVal != null);
+    }
+
+    /**
+     * parse the input address to be a valid MMS address.
+     * - if the address is an email address, leave it as is.
+     * - if the address can be parsed into a valid MMS phone number, return the parsed number.
+     * - if the address is a compliant alias address, leave it as is.
+     */
+    public static String parseMmsAddress(String address) {
+        // if it's a valid Email address, use that.
+        if (Mms.isEmailAddress(address)) {
+            return address;
+        }
+
+        // if we are able to parse the address to a MMS compliant phone number, take that.
+        String retVal = parsePhoneNumberForMms(address);
+        if (retVal != null) {
+            return retVal;
+        }
+
+        // if it's an alias compliant address, use that.
+        if (isAlias(address)) {
+            return address;
+        }
+
+        // it's not a valid MMS address, return null
+        return null;
     }
 
     private static void log(String msg) {
