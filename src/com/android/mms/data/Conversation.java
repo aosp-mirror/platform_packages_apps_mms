@@ -131,7 +131,12 @@ public class Conversation {
             long threadId = getOrCreateThreadId(context, recipients);
             conv = new Conversation(context, threadId);
 
-            Cache.put(conv);
+            try {
+                Cache.put(conv);
+            } catch (IllegalStateException e) {
+                LogTag.error("Tried to add duplicate Conversation to Cache");
+            }
+
             return conv;
         }
     }
