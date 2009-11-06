@@ -491,10 +491,11 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
-        if (mRecipientsEditor.hasInvalidRecipient()) {
-            if (mRecipientsEditor.hasValidRecipient()) {
+        boolean isMms = mWorkingMessage.requiresMms();
+        if (mRecipientsEditor.hasInvalidRecipient(isMms)) {
+            if (mRecipientsEditor.hasValidRecipient(isMms)) {
                 String title = getResourcesString(R.string.has_invalid_recipient,
-                        mRecipientsEditor.formatInvalidNumbers());
+                        mRecipientsEditor.formatInvalidNumbers(isMms));
                 new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle(title)
@@ -2018,9 +2019,9 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
-        if (isRecipientsEditorVisible() && !mRecipientsEditor.hasValidRecipient()) {
-            MessageUtils.showDiscardDraftConfirmDialog(this,
-                    new DiscardDraftListener());
+        if (isRecipientsEditorVisible() &&
+                !mRecipientsEditor.hasValidRecipient(mWorkingMessage.requiresMms())) {
+            MessageUtils.showDiscardDraftConfirmDialog(this, new DiscardDraftListener());
             return;
         }
 

@@ -34,7 +34,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.inputmethod.EditorInfo;
 import android.view.MotionEvent;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -136,26 +135,29 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         return list;
     }
 
-    private boolean isValid(String number) {
-        if (!MmsConfig.getMmsEnabled()) {
+    private boolean isValidAddress(String number, boolean isMms) {
+        if (isMms) {
+            return MessageUtils.isValidMmsAddress(number);
+        } else {
+            // TODO: this only check if the number is a valid GSM SMS address.
+            // if the address contains a dialable char, it considers it a well formed SMS addr.
+            // CDMA doesn't work that way and has a different parser for SMS address (see
+            // CdmaSmsAddress.parse(String address)). We should definitely fix this!!!
             return PhoneNumberUtils.isWellFormedSmsAddress(number);
         }
-
-        return PhoneNumberUtils.isWellFormedSmsAddress(number)
-            || Mms.isEmailAddress(number);
     }
 
-    public boolean hasValidRecipient() {
+    public boolean hasValidRecipient(boolean isMms) {
         for (String number : mTokenizer.getNumbers()) {
-            if (isValid(number))
+            if (isValidAddress(number, isMms))
                 return true;
         }
         return false;
     }
 
-    public boolean hasInvalidRecipient() {
+    public boolean hasInvalidRecipient(boolean isMms) {
         for (String number : mTokenizer.getNumbers()) {
-            if (!isValid(number)) {
+            if (!isValidAddress(number, isMms)) {
                 if (MmsConfig.getEmailGateway() == null) {
                     return true;
                 } else if (!MessageUtils.isAlias(number)) {
@@ -166,10 +168,10 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         return false;
     }
 
-    public String formatInvalidNumbers() {
+    public String formatInvalidNumbers(boolean isMms) {
         StringBuilder sb = new StringBuilder();
         for (String number : mTokenizer.getNumbers()) {
-            if (!isValid(number)) {
+            if (!isValidAddress(number, isMms)) {
                 if (sb.length() != 0) {
                     sb.append(", ");
                 }

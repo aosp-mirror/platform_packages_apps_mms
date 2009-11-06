@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.android.mms.data.Contact.UpdateListener;
 import com.android.mms.LogTag;
+import com.android.mms.ui.MessageUtils;
 
 public class ContactList extends ArrayList<Contact>  {
     private static final long serialVersionUID = 1L;
@@ -100,15 +101,28 @@ public class ContactList extends ArrayList<Contact>  {
     }
 
     public String[] getNumbers() {
+        return getNumbers(false /* don't scrub for MMS address */);
+    }
+
+    public String[] getNumbers(boolean scrubForMmsAddress) {
         List<String> numbers = new ArrayList<String>();
         String number;
         for (Contact c : this) {
             number = c.getNumber();
+
+            if (scrubForMmsAddress) {
+                // parse/scrub the address for valid MMS address. The returned number
+                // could be null if it's not a valid MMS address. We don't want to send
+                // a message to an invalid number, as the network may do its own stripping,
+                // and end up sending the message to a different number!
+                number = MessageUtils.parseMmsAddress(number);
+            }
+
             // Don't add duplicate numbers. This can happen if a contact name has a comma.
             // Since we use a comma as a delimiter between contacts, the code will consider
             // the same recipient has been added twice. The recipients UI still works correctly.
             // It's easiest to just make sure we only send to the same recipient once.
-            if (!numbers.contains(number)) {
+            if (!TextUtils.isEmpty(number) && !numbers.contains(number)) {
                 numbers.add(number);
             }
         }
