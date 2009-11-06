@@ -218,7 +218,10 @@ public class SmsReceiverService extends Service {
                     }
                     try {
                         sender.sendMessage(SendingProgressTokenManager.NO_TOKEN);
-
+                    } catch (MmsException e) {
+                        Log.e(TAG, "sendFirstQueuedMessage: failed to send message " + msgUri
+                                + ", caught ", e);
+                    } finally {
                         // Since sendMessage adds a new message to the outbox rather than
                         // moving the old one, the old one must be deleted here
 
@@ -227,10 +230,6 @@ public class SmsReceiverService extends Service {
                             Log.e(TAG, "sendFirstQueuedMessage: failed to delete old msgUri " +
                                     msgUri + ", result=" + result);
                         }
-
-                    } catch (MmsException e) {
-                        Log.e(TAG, "sendFirstQueuedMessage: failed to send message " + msgUri
-                                + ", caught " + e);
                     }
                 }
             } finally {
