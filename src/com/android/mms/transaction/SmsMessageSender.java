@@ -138,13 +138,18 @@ public class SmsMessageSender implements MessageSender {
             }
 
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                log("sendMessage: address[" + i + "]=" + mDests[i] + ", threadId=" + mThreadId + ", uri=" + uri + 
-                        ", msgs.count=" + messageCount);
+                log("sendMessage: address[" + i + "]=" + mDests[i] + ", threadId=" + mThreadId +
+                        ", uri=" + uri + ", msgs.count=" + messageCount);
             }
 
-            smsManager.sendMultipartTextMessage(
-                    mDests[i], mServiceCenter, messages, sentIntents,
-                    deliveryIntents);
+            try {
+                smsManager.sendMultipartTextMessage(
+                        mDests[i], mServiceCenter, messages, sentIntents,
+                        deliveryIntents);
+            } catch (Exception ex) {
+                throw new MmsException("SmsMessageSender.sendMessage: caught " + ex +
+                        " from SmsManager.sendMultipartTextMessage()");
+            }
         }
         return false;
     }
