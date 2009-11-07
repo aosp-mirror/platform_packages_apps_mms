@@ -64,6 +64,7 @@ public class Conversation {
     private boolean mHasError;          // True if any message is in an error state.
 
     private static ContentValues mReadContentValues;
+    private static boolean mLoadingThreads;
 
 
     private Conversation(Context context) {
@@ -650,11 +651,20 @@ public class Conversation {
         }).start();
     }
 
+    /**
+     * Are we in the process of loading and caching all the threads?.
+     */
+   public static boolean loadingThreads() {
+        return mLoadingThreads;
+    }
+
     private static void cacheAllThreads(Context context) {
         synchronized (Cache.getInstance()) {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 LogTag.debug("[Conversation] cacheAllThreads");
             }
+            mLoadingThreads = true;
+
             // Keep track of what threads are now on disk so we
             // can discard anything removed from the cache.
             HashSet<Long> threadsOnDisk = new HashSet<Long>();
@@ -687,6 +697,7 @@ public class Conversation {
                 }
             } finally {
                 c.close();
+                mLoadingThreads = false;
             }
 
             // Purge the cache of threads that no longer exist on disk.
