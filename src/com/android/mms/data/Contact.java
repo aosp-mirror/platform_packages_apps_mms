@@ -54,6 +54,9 @@ public class Contact {
     private String mNumber;
     private String mName;
     private String mNameAndNumber;   // for display, e.g. Fred Flintstone <670-782-1123>
+    private boolean mNumberIsModified; // true if the number is modified
+
+    private long mRecipientId;       // used to find the Recipient cache entry
     private String mLabel;
     private long mPersonId;
     private int mPresenceResId;      // TODO: make this a state instead of a res ID
@@ -72,9 +75,9 @@ public class Contact {
     }
 
     private Contact(String number) {
-        mNumber = number;
         mName = "";
-        updateNameAndNumber();
+        setNumber(number);
+        mNumberIsModified = false;
         mLabel = "";
         mPersonId = 0;
         mPresenceResId = 0;
@@ -273,6 +276,15 @@ public class Contact {
     public synchronized void setNumber(String number) {
         mNumber = number;
         updateNameAndNumber();
+        mNumberIsModified = true;
+    }
+
+    public boolean isNumberModified() {
+        return mNumberIsModified;
+    }
+
+    public void setIsNumberModified(boolean flag) {
+        mNumberIsModified = flag;
     }
 
     public synchronized String getName() {
@@ -289,6 +301,14 @@ public class Contact {
 
     private void updateNameAndNumber() {
         mNameAndNumber = formatNameAndNumber(mName, mNumber);
+    }
+
+    public synchronized long getRecipientId() {
+        return mRecipientId;
+    }
+
+    public synchronized void setRecipientId(long id) {
+        mRecipientId = id;
     }
 
     public synchronized String getLabel() {
