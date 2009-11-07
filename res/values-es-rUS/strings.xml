@@ -208,6 +208,8 @@
     <string name="priority_normal" msgid="5715227727384683550">"Normal"</string>
     <string name="priority_low" msgid="8928782666023373987">"Bajo"</string>
     <string name="message_class_label" msgid="5115748690481550562">"Clase de mensaje: "</string>
+    <!-- no translation found for error_code_label (5810068247647058769) -->
+    <skip />
     <string name="menu_edit" msgid="3056513240155967777">"Editar"</string>
     <string name="menu_retry_sending" msgid="3146582005568302643">"Intentar nuevamente enviar"</string>
     <string name="menu_retry_sending_all" msgid="1870529976966340616">"Intentar nuevamente enviar todo"</string>
@@ -301,6 +303,16 @@
     <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> resultado para \"%s\""</item>
     <item quantity="other" msgid="3778201725913692491">"<xliff:g id="NUMBER">%s</xliff:g> resultados para \"%s\""</item>
   </plurals>
+    <!-- no translation found for search_history (4127805495662693154) -->
+    <skip />
+    <!-- no translation found for confirm_clear_search_title (8510295993632032904) -->
+    <skip />
+    <!-- no translation found for confirm_clear_search_text (8731877031837077478) -->
+    <skip />
+    <!-- no translation found for pref_mms_clear_search_history_title (6159758850628148164) -->
+    <skip />
+    <!-- no translation found for pref_mms_clear_search_history_summary (7960005384066460035) -->
+    <skip />
     <string name="save" msgid="6847069284991531310">"Guardar"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"Limitar mensajes"</string>
     <string name="storage_limits_message" msgid="8729608389698270388">"¿Deseas limitar el número de mensajes que guardas por conversación?"</string>
