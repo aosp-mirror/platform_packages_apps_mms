@@ -23,6 +23,7 @@ import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.TextModel;
 import com.android.mms.ui.MessageListAdapter.ColumnsMap;
+import com.android.mms.util.AddressUtils;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.MultimediaMessagePdu;
@@ -149,7 +150,7 @@ public class MessageItem {
             if (PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND == mMessageType) {
                 mDeliveryStatus = DeliveryStatus.NONE;
                 NotificationInd notifInd = (NotificationInd) p.load(mMessageUri);
-                interpretFrom(notifInd.getFrom());
+                interpretFrom(notifInd.getFrom(), mMessageUri);
                 // Borrow the mBody to hold the URL of the message.
                 mBody = new String(notifInd.getContentLocation());
                 mMessageSize = (int) notifInd.getMessageSize();
@@ -161,7 +162,7 @@ public class MessageItem {
 
                 if (mMessageType == PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF) {
                     RetrieveConf retrieveConf = (RetrieveConf) msg;
-                    interpretFrom(retrieveConf.getFrom());
+                    interpretFrom(retrieveConf.getFrom(), mMessageUri);
                     timestamp = retrieveConf.getDate() * 1000L;
                 } else {
                     // Use constant string for outgoing messages
@@ -226,13 +227,17 @@ public class MessageItem {
         }
     }
 
-    private void interpretFrom(EncodedStringValue from) {
+    private void interpretFrom(EncodedStringValue from, Uri messageUri) {
         if (from != null) {
             mAddress = from.getString();
-            mContact = Contact.get(mAddress, true).getName();
         } else {
-            mContact = mAddress = "";
+            // In the rare case when getting the "from" address from the pdu fails,
+            // (e.g. from == null) fall back to a slower, yet more reliable method of
+            // getting the address from the "addr" table. This is what the Messaging
+            // notification system uses.
+            mAddress = AddressUtils.getFrom(mContext, messageUri);
         }
+        mContact = TextUtils.isEmpty(mAddress) ? "" : Contact.get(mAddress, true).getName();
     }
 
     private int getTimestampStrId() {
