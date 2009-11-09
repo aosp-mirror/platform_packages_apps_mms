@@ -926,7 +926,7 @@ public class ComposeMessageActivity extends Activity
                     .setOnMenuItemClickListener(l);
             menu.add(0, MENU_DELETE_MESSAGE, 0, R.string.delete_message)
                     .setOnMenuItemClickListener(l);
-            if (msgItem.mDeliveryReport || msgItem.mReadReport) {
+            if (msgItem.mDeliveryStatus != MessageItem.DeliveryStatus.NONE || msgItem.mReadReport) {
                 menu.add(0, MENU_DELIVERY_REPORT, 0, R.string.view_delivery_report)
                         .setOnMenuItemClickListener(l);
             }
