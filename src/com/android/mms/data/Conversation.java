@@ -131,7 +131,8 @@ public class Conversation {
 
             long threadId = getOrCreateThreadId(context, recipients);
             conv = new Conversation(context, threadId);
-
+            conv.setRecipients(recipients);
+ 
             try {
                 Cache.put(conv);
             } catch (IllegalStateException e) {
@@ -515,9 +516,13 @@ public class Conversation {
             conv.mHasUnreadMessages = (c.getInt(READ) == 0);
             conv.mHasError = (c.getInt(ERROR) != 0);
             conv.mHasAttachment = (c.getInt(HAS_ATTACHMENT) != 0);
-
-            String recipientIds = c.getString(RECIPIENT_IDS);
-            conv.mRecipients = ContactList.getByIds(recipientIds, allowQuery);
+        }
+        // Fill in as much of the conversation as we can before doing the slow stuff of looking
+        // up the contacts associated with this conversation.
+        String recipientIds = c.getString(RECIPIENT_IDS);
+        ContactList recipients = ContactList.getByIds(recipientIds, allowQuery);;
+        synchronized (conv) {
+            conv.mRecipients = recipients;
         }
     }
 
@@ -655,55 +660,71 @@ public class Conversation {
      * Are we in the process of loading and caching all the threads?.
      */
    public static boolean loadingThreads() {
-        return mLoadingThreads;
+       synchronized (Cache.getInstance()) {
+           return mLoadingThreads;
+       }
     }
 
-    private static void cacheAllThreads(Context context) {
-        synchronized (Cache.getInstance()) {
-            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                LogTag.debug("[Conversation] cacheAllThreads");
-            }
-            mLoadingThreads = true;
+   private static void cacheAllThreads(Context context) {
+       if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+           LogTag.debug("[Conversation] cacheAllThreads");
+       }
+       synchronized (Cache.getInstance()) {
+           if (mLoadingThreads) {
+              return;
+           }
+           mLoadingThreads = true;
+       }
 
-            // Keep track of what threads are now on disk so we
-            // can discard anything removed from the cache.
-            HashSet<Long> threadsOnDisk = new HashSet<Long>();
+       // Keep track of what threads are now on disk so we
+       // can discard anything removed from the cache.
+       HashSet<Long> threadsOnDisk = new HashSet<Long>();
 
-            // Query for all conversations.
-            Cursor c = context.getContentResolver().query(sAllThreadsUri,
-                    ALL_THREADS_PROJECTION, null, null, null);
-            try {
-                while (c.moveToNext()) {
-                    long threadId = c.getLong(ID);
-                    threadsOnDisk.add(threadId);
+       // Query for all conversations.
+       Cursor c = context.getContentResolver().query(sAllThreadsUri,
+               ALL_THREADS_PROJECTION, null, null, null);
+       try {
+           if (c != null) {
+               while (c.moveToNext()) {
+                   long threadId = c.getLong(ID);
+                   threadsOnDisk.add(threadId);
 
-                    // Try to find this thread ID in the cache.
-                    Conversation conv = Cache.get(threadId);
+                   // Try to find this thread ID in the cache.
+                   Conversation conv;
+                   synchronized (Cache.getInstance()) {
+                       conv = Cache.get(threadId);
+                   }
 
-                    if (conv == null) {
-                        // Make a new Conversation and put it in
-                        // the cache if necessary.
-                        conv = new Conversation(context, c, true);
-                        try {
-                            Cache.put(conv);
-                        } catch (IllegalStateException e) {
-                            LogTag.error("Tried to add duplicate Conversation to Cache");
-                        }
-                    } else {
-                        // Or update in place so people with references
-                        // to conversations get updated too.
-                        fillFromCursor(context, conv, c, true);
-                    }
-                }
-            } finally {
-                c.close();
-                mLoadingThreads = false;
-            }
+                   if (conv == null) {
+                       // Make a new Conversation and put it in
+                       // the cache if necessary.
+                       conv = new Conversation(context, c, true);
+                       try {
+                           synchronized (Cache.getInstance()) {
+                               Cache.put(conv);
+                           }
+                       } catch (IllegalStateException e) {
+                           LogTag.error("Tried to add duplicate Conversation to Cache");
+                       }
+                   } else {
+                       // Or update in place so people with references
+                       // to conversations get updated too.
+                       fillFromCursor(context, conv, c, true);
+                   }
+               }
+           }
+       } finally {
+           if (c != null) {
+               c.close();
+           }
+           synchronized (Cache.getInstance()) {
+               mLoadingThreads = false;
+           }
+       }
 
-            // Purge the cache of threads that no longer exist on disk.
-            Cache.keepOnly(threadsOnDisk);
-        }
-    }
+       // Purge the cache of threads that no longer exist on disk.
+       Cache.keepOnly(threadsOnDisk);
+   }
 
     private boolean loadFromThreadId(long threadId) {
         Cursor c = mContext.getContentResolver().query(sAllThreadsUri, ALL_THREADS_PROJECTION,
