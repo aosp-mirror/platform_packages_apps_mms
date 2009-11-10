@@ -131,7 +131,8 @@ public class Conversation {
 
             long threadId = getOrCreateThreadId(context, recipients);
             conv = new Conversation(context, threadId);
-
+            conv.setRecipients(recipients);
+ 
             try {
                 Cache.put(conv);
             } catch (IllegalStateException e) {
