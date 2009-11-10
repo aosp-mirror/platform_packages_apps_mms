@@ -238,9 +238,13 @@ public class ConversationList extends ListActivity
         // we invalidate the contact cache here because we want to get updated presence
         // and any contact changes. We don't invalidate the cache by observing presence and contact
         // changes (since that's too untargeted), so as a tradeoff we do it here.
+        // If we're in the middle of the app initialization where we're loading the conversation
+        // threads, don't invalidate the cache because we're in the process of building it.
         // TODO: think of a better way to invalidate cache more surgically or based on actual
         // TODO: changes we care about
-        Contact.invalidateCache();
+        if (!Conversation.loadingThreads()) {
+            Contact.invalidateCache();
+        }
     }
 
     protected void privateOnStart() {
