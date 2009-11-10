@@ -922,20 +922,16 @@ public class WorkingMessage {
             final SlideshowModel slideshow = mSlideshow;
             final SendReq sendReq = makeSendReq(conv, mSubject);
 
-            if (sendReq != null) {
-                // Make sure the text in slide 0 is no longer holding onto a reference to the text
-                // in the message text box.
-                slideshow.prepareForSend();
+            // Make sure the text in slide 0 is no longer holding onto a reference to the text
+            // in the message text box.
+            slideshow.prepareForSend();
 
-                // Do the dirty work of sending the message off of the main UI thread.
-                new Thread(new Runnable() {
-                    public void run() {
-                        sendMmsWorker(conv, mmsUri, persister, slideshow, sendReq);
-                    }
-                }).start();
-            } else {
-                Log.e(LogTag.TAG, "[WorkingMsg] send (mms): invalid SendReq, msg not sent!");
-            }
+            // Do the dirty work of sending the message off of the main UI thread.
+            new Thread(new Runnable() {
+                public void run() {
+                    sendMmsWorker(conv, mmsUri, persister, slideshow, sendReq);
+                }
+            }).start();
         } else {
             // Same rules apply as above.
             final String msgText = mText.toString();
@@ -1099,12 +1095,12 @@ public class WorkingMessage {
         return null;
     }
 
+    /**
+     * makeSendReq should always return a non-null SendReq, whether the dest addresses are
+     * valid or not. 
+     */
     private static SendReq makeSendReq(Conversation conv, CharSequence subject) {
         String[] dests = conv.getRecipients().getNumbers(true /* scrub for MMS address */);
-
-        if (dests.length == 0) {
-            return null;
-        }
 
         SendReq req = new SendReq();
         EncodedStringValue[] encodedNumbers = EncodedStringValue.encodeStrings(dests);
