@@ -249,5 +249,9 @@
         <meta-data android:name="android.app.default_searchable"
             android:value=".ui.SearchActivity" />
 
+        <!-- Search Suggestions Provider -->
+        <provider android:name="SuggestionsProvider"
+            android:authorities="com.android.mms.SuggestionsProvider" />
+	
     </application>
 </manifest>
