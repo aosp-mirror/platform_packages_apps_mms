@@ -942,6 +942,9 @@ public class WorkingMessage {
             }).start();
         }
 
+        // update the Recipient cache with the new to address, if it's different
+        RecipientIdCache.updateNumbers(conv.getThreadId(), conv.getRecipients());
+
         // Mark the message as discarded because it is "off the market" after being sent.
         mDiscarded = true;
     }
