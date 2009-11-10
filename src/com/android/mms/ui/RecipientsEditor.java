@@ -139,11 +139,12 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         if (isMms) {
             return MessageUtils.isValidMmsAddress(number);
         } else {
-            // TODO: this only check if the number is a valid GSM SMS address.
-            // if the address contains a dialable char, it considers it a well formed SMS addr.
-            // CDMA doesn't work that way and has a different parser for SMS address (see
-            // CdmaSmsAddress.parse(String address)). We should definitely fix this!!!
-            return PhoneNumberUtils.isWellFormedSmsAddress(number);
+            // TODO: PhoneNumberUtils.isWellFormedSmsAddress() only check if the number is a valid
+            // GSM SMS address. If the address contains a dialable char, it considers it a well
+            // formed SMS addr. CDMA doesn't work that way and has a different parser for SMS
+            // address (see CdmaSmsAddress.parse(String address)). We should definitely fix this!!!
+            return PhoneNumberUtils.isWellFormedSmsAddress(number)
+                    || Mms.isEmailAddress(number);
         }
     }
 
