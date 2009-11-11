@@ -507,6 +507,9 @@
     <!-- Layout Selector Adapter. Slideshow layout dialog option for aligning an icon. -->
     <string name="select_top_text">Text on top</string>
 
+    <!-- Delivery Report Toast dialog content -->
+    <string name="delivery_toast_body">Message received by %s</string>
+
     <!-- Delivery Report Notification dialog title. -->
     <string name="notification_multiple"><xliff:g id="count">%s</xliff:g> unread messages.</string>
     <!-- Delivery Report Notification dialog title. -->
