@@ -94,14 +94,14 @@ public class RecipientIdCache {
                 String number = sInstance.mCache.get(longId);
 
                 if (number == null) {
-                    Log.w(TAG, "Recipient ID " + id + " not in DB!");
+                    Log.w(TAG, "RecipientId " + longId + " not in cache!");
                     dump();
                     fill();
-                    number = sInstance.mCache.get(id);
+                    number = sInstance.mCache.get(longId);
                 }
 
                 if (TextUtils.isEmpty(number)) {
-                    Log.w(TAG, "Recipient ID " + id + " has empty number!");
+                    Log.w(TAG, "RecipientId " + longId + " has empty number!");
                 } else {
                     numbers.add(new Entry(longId, number));
                 }
