@@ -31,6 +31,14 @@ import android.os.PowerManager;
 public class SmsReceiver extends BroadcastReceiver {
     static final Object mStartingServiceSync = new Object();
     static PowerManager.WakeLock mStartingService;
+    private static SmsReceiver sInstance;
+
+    public static SmsReceiver getInstance() {
+        if (sInstance == null) {
+            sInstance = new SmsReceiver();
+        }
+        return sInstance;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {

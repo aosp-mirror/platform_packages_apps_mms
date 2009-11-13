@@ -35,6 +35,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
@@ -185,6 +186,7 @@ public class SmsReceiverService extends Service {
     }
 
     public synchronized void sendFirstQueuedMessage() {
+        boolean success = true;
         // get all the queued messages from the database
         final Uri uri = Uri.parse("content://sms/queued");
         ContentResolver resolver = getContentResolver();
@@ -192,7 +194,6 @@ public class SmsReceiverService extends Service {
                         SEND_PROJECTION, null, null, "date ASC");   // date ASC so we send out in
                                                                     // same order the user tried
                                                                     // to send messages.
-
         if (c != null) {
             try {
                 if (c.moveToFirst()) {
@@ -218,6 +219,7 @@ public class SmsReceiverService extends Service {
                     } catch (MmsException e) {
                         Log.e(TAG, "sendFirstQueuedMessage: failed to send message " + msgUri
                                 + ", caught ", e);
+                        success = false;
                     } finally {
                         // Since sendMessage adds a new message to the outbox rather than
                         // moving the old one, the old one must be deleted here
@@ -233,15 +235,17 @@ public class SmsReceiverService extends Service {
                 c.close();
             }
         }
+        if (success) {
+            // We successfully sent all the messages in the queue. We don't need to
+            // be notified of any service changes any longer.
+            unRegisterForServiceStateChanges();
+        }
     }
 
     private void handleSmsSent(Intent intent) {
         Uri uri = intent.getData();
 
         if (mResultCode == Activity.RESULT_OK) {
-            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                Log.v(TAG, "handleSmsSent sending uri: " + uri);
-            }
             if (!Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_SENT)) {
                 Log.e(TAG, "handleSmsSent: failed to move message " + uri + " to sent folder");
             }
@@ -254,6 +258,11 @@ public class SmsReceiverService extends Service {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleSmsSent: no service, queuing message w/ uri: " + uri);
             }
+            // We got an error with no service or no radio. Register for state changes so
+            // when the status of the connection/radio changes, we can try to send the
+            // queued up messages.
+            registerForServiceStateChanges();
+            // We couldn't send the message, put in the queue to retry later.
             Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_QUEUED);
             mToastHandler.sendEmptyMessage(1);
         } else {
@@ -462,6 +471,31 @@ public class SmsReceiverService extends Service {
                           | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
         context.startActivity(smsDialogIntent);
+    }
+
+    private void registerForServiceStateChanges() {
+        Context context = getApplicationContext();
+        unRegisterForServiceStateChanges();
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED);
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG, "registerForServiceStateChanges");
+        }
+
+        context.registerReceiver(SmsReceiver.getInstance(), intentFilter);
+    }
+
+    private void unRegisterForServiceStateChanges() {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG, "unRegisterForServiceStateChanges");
+        }
+        try {
+            Context context = getApplicationContext();
+            context.unregisterReceiver(SmsReceiver.getInstance());
+        } catch (IllegalArgumentException e) {
+            // Allow un-matched register-unregister calls
+        }
     }
 
 }
