@@ -797,18 +797,18 @@ public class WorkingMessage {
         mConversation = conv;
 
         // Convert to MMS if there are any email addresses in the recipient list.
-        setHasEmail(conv.getRecipients().containsEmail());
+        setHasEmail(conv.getRecipients().containsEmail(), false);
     }
 
     /**
      * Hint whether or not this message will be delivered to an
      * an email address.
      */
-    public void setHasEmail(boolean hasEmail) {
+    public void setHasEmail(boolean hasEmail, boolean notify) {
         if (MmsConfig.getEmailGateway() != null) {
-            updateState(RECIPIENTS_REQUIRE_MMS, false, true);
+            updateState(RECIPIENTS_REQUIRE_MMS, false, notify);
         } else {
-            updateState(RECIPIENTS_REQUIRE_MMS, hasEmail, true);
+            updateState(RECIPIENTS_REQUIRE_MMS, hasEmail, notify);
         }
     }
 
