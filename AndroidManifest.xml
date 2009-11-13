@@ -200,9 +200,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.SERVICE_STATE" />
-            </intent-filter>
-            <intent-filter>
                 <action android:name="com.android.mms.transaction.MESSAGE_SENT" />
                 <!-- TODO Do a better data match here. -->
                 <data android:scheme="content" />
