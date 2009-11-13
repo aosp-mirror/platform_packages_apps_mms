@@ -85,8 +85,7 @@
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Toetsenbord openen om bericht op te stellen"</string>
     <string name="image_too_large" msgid="261880224164478061">"Foto te groot"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Formaat van foto automatisch aanpassen vóór verzending?"</string>
-    <!-- no translation found for compressing (1961357529661045180) -->
-    <skip />
+    <string name="compressing" msgid="1961357529661045180">"Afbeelding te groot. Comprimeren..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Niet-ondersteunde indeling voor <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Selecteer een ander item (<xliff:g id="NAME">%1$s</xliff:g>)."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Limiet berichtgrootte bereikt."</string>
