@@ -17,32 +17,14 @@
 
 package com.android.mms.transaction;
 
-import android.provider.Telephony.MmsSms;
-
 public abstract class AbstractRetryScheme {
     public static final int OUTGOING = 1;
     public static final int INCOMING = 2;
 
-    protected int mType;
     protected int mRetriedTimes;
-    protected int mErrorType;
 
-    public AbstractRetryScheme() {
-        this(OUTGOING);
-    }
-
-    public AbstractRetryScheme(int type) {
-        this(type, 0);
-    }
-
-    public AbstractRetryScheme(int type, int retriedTimes) {
-        this(type, retriedTimes, MmsSms.ERR_TYPE_GENERIC);
-    }
-
-    public AbstractRetryScheme(int type, int retriedTimes, int errorType) {
-        mType = type;
+    public AbstractRetryScheme(int retriedTimes) {
         mRetriedTimes = retriedTimes;
-        mErrorType = errorType;
     }
 
     abstract public int getRetryLimit();

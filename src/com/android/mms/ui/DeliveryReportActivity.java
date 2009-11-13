@@ -18,7 +18,6 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
-import com.android.mms.ui.RecipientList.Recipient;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.util.SqliteWrapper;
 
@@ -202,7 +201,7 @@ public class DeliveryReportActivity extends ListActivity {
 
         String recipient = request.getRecipient();
         recipient = (Mms.isEmailAddress(recipient))?
-                Mms.extractAddrSpec(recipient): Recipient.filterPhoneNumber(recipient);
+                Mms.extractAddrSpec(recipient): PhoneNumberUtils.stripSeparators(recipient);
         MmsReportStatus status = queryStatusByRecipient(reportStatus, recipient);
         if (status == null) {
             // haven't received any reports.
@@ -290,7 +289,7 @@ public class DeliveryReportActivity extends ListActivity {
                 String recipient = c.getString(COLUMN_RECIPIENT);
                 recipient = (Mms.isEmailAddress(recipient))?
                                         Mms.extractAddrSpec(recipient):
-                                        Recipient.filterPhoneNumber(recipient);
+                                            PhoneNumberUtils.stripSeparators(recipient);
                 MmsReportStatus status = new MmsReportStatus(
                                         c.getInt(COLUMN_DELIVERY_STATUS),
                                         c.getInt(COLUMN_READ_STATUS));

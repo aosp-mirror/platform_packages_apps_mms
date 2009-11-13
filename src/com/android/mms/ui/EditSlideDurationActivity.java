@@ -33,6 +33,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.mms.R;
 
@@ -104,7 +105,15 @@ public class EditSlideDurationActivity  extends Activity {
         mState = new Bundle();
         mState.putInt(SLIDE_INDEX, mCurSlide);
         mState.putInt(SLIDE_TOTAL, mTotal);
-        mState.putInt(SLIDE_DUR, Integer.parseInt(mDur.getText().toString()));
+
+        int durValue;
+        try {
+            durValue = Integer.parseInt(mDur.getText().toString());
+        } catch (NumberFormatException e) {
+            // On an illegal value, set the duration back to a default value.
+            durValue = 5;
+        }
+        mState.putInt(SLIDE_DUR, durValue);
 
         outState.putBundle(STATE, mState);
     }
@@ -136,12 +145,15 @@ public class EditSlideDurationActivity  extends Activity {
         // Set result to parent, and close window.
         // Check the duration.
         String dur = mDur.getText().toString();
+        int durValue = 0;
         try {
-            Integer.valueOf(dur);
+            durValue = Integer.valueOf(dur);
         } catch (NumberFormatException e) {
-            notifyUser("Invalid duration! Please input again.");
-            mDur.requestFocus();
-            mDur.selectAll();
+            notifyUser(R.string.duration_not_a_number);
+            return;
+        }
+        if (durValue <= 0) {
+            notifyUser(R.string.duration_zero);
             return;
         }
 
@@ -150,9 +162,10 @@ public class EditSlideDurationActivity  extends Activity {
         finish();
     }
 
-    private void notifyUser(String message) {
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "notifyUser: message=" + message);
-        }
+    private void notifyUser(int msgId) {
+        mDur.requestFocus();
+        mDur.selectAll();
+        Toast.makeText(this, msgId, Toast.LENGTH_SHORT).show();
+        return;
     }
 }

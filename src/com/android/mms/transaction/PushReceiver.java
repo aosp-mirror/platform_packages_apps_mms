@@ -22,6 +22,7 @@ import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_DELIVERY_IND;
 import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
 import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_READ_ORIG_IND;
 
+import com.android.mms.MmsConfig;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.DeliveryInd;
@@ -102,6 +103,21 @@ public class PushReceiver extends BroadcastReceiver {
                     }
                     case MESSAGE_TYPE_NOTIFICATION_IND: {
                         NotificationInd nInd = (NotificationInd) pdu;
+
+                        if (MmsConfig.getTransIdEnabled()) {
+                            byte [] contentLocation = nInd.getContentLocation();
+                            if ('=' == contentLocation[contentLocation.length - 1]) {
+                                byte [] transactionId = nInd.getTransactionId();
+                                byte [] contentLocationWithId = new byte [contentLocation.length
+                                                                          + transactionId.length];
+                                System.arraycopy(contentLocation, 0, contentLocationWithId,
+                                        0, contentLocation.length);
+                                System.arraycopy(transactionId, 0, contentLocationWithId,
+                                        contentLocation.length, transactionId.length);
+                                nInd.setContentLocation(contentLocationWithId);
+                            }
+                        }
+
                         if (!isDuplicateNotification(mContext, nInd)) {
                             Uri uri = p.persist(pdu, Inbox.CONTENT_URI);
                             // Start service to finish the notification transaction.

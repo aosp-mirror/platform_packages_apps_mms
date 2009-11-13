@@ -17,12 +17,15 @@
 
 package com.android.mms.transaction;
 
+import com.android.mms.MmsConfig;
+import com.android.mms.LogTag;
+import com.android.mms.MmsApp;
 import com.android.mms.ui.MessagingPreferenceActivity;
+import com.android.mms.ui.MessageUtils;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.app.PendingIntent;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,14 +33,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
-import android.provider.Telephony.Sms.Conversations;
 import android.telephony.SmsManager;
+import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 
 public class SmsMessageSender implements MessageSender {
     private final Context mContext;
@@ -47,7 +48,7 @@ public class SmsMessageSender implements MessageSender {
     private final String mServiceCenter;
     private final long mThreadId;
     private long mTimestamp;
-    
+
     // Default preference values
     private static final boolean DEFAULT_DELIVERY_REPORT_MODE  = false;
 
@@ -56,24 +57,17 @@ public class SmsMessageSender implements MessageSender {
         Sms.Conversations.SERVICE_CENTER,
     };
 
-    private static final String[] DATE_PROJECTION = new String[] {
-        Sms.DATE
-    };
-    
     private static final int COLUMN_REPLY_PATH_PRESENT = 0;
     private static final int COLUMN_SERVICE_CENTER     = 1;
 
-    public SmsMessageSender(Context context, String[] dests, String msgText,
-            long threadId) {
+    public SmsMessageSender(Context context, String[] dests, String msgText, long threadId) {
         mContext = context;
         mMessageText = msgText;
         mNumberOfDests = dests.length;
         mDests = new String[mNumberOfDests];
         System.arraycopy(dests, 0, mDests, 0, mNumberOfDests);
         mTimestamp = System.currentTimeMillis();
-        mThreadId = threadId > 0 ? threadId
-                        : Threads.getOrCreateThreadId(context,
-                                    new HashSet<String>(Arrays.asList(dests)));
+        mThreadId = threadId;
         mServiceCenter = getOutgoingServiceCenter(mThreadId);
     }
 
@@ -86,8 +80,24 @@ public class SmsMessageSender implements MessageSender {
         SmsManager smsManager = SmsManager.getDefault();
 
         for (int i = 0; i < mNumberOfDests; i++) {
-            ArrayList<String> messages = smsManager.divideMessage(mMessageText);
+            ArrayList<String> messages = null;
+            if ((MmsConfig.getEmailGateway() != null) &&
+                    (Mms.isEmailAddress(mDests[i]) || MessageUtils.isAlias(mDests[i]))) {
+                String msgText;
+                msgText = mDests[i] + " " + mMessageText;
+                mDests[i] = MmsConfig.getEmailGateway();
+                messages = smsManager.divideMessage(msgText);
+            } else {
+               messages = smsManager.divideMessage(mMessageText);
+            }
             int messageCount = messages.size();
+
+            if (messageCount == 0) {
+                // Don't try to send an empty message.
+                throw new MmsException("SmsMessageSender.sendMessage: divideMessage returned " +
+                        "empty messages. Original message is \"" + mMessageText + "\"");
+            }
+
             ArrayList<PendingIntent> deliveryIntents =
                     new ArrayList<PendingIntent>(messageCount);
             ArrayList<PendingIntent> sentIntents =
@@ -126,9 +136,20 @@ public class SmsMessageSender implements MessageSender {
                                 SmsReceiver.class),
                         0));
             }
-            smsManager.sendMultipartTextMessage(
-                    mDests[i], mServiceCenter, messages, sentIntents,
-                    deliveryIntents);
+
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                log("sendMessage: address[" + i + "]=" + mDests[i] + ", threadId=" + mThreadId +
+                        ", uri=" + uri + ", msgs.count=" + messageCount);
+            }
+
+            try {
+                smsManager.sendMultipartTextMessage(
+                        mDests[i], mServiceCenter, messages, sentIntents,
+                        deliveryIntents);
+            } catch (Exception ex) {
+                throw new MmsException("SmsMessageSender.sendMessage: caught " + ex +
+                        " from SmsManager.sendMultipartTextMessage()");
+            }
         }
         return false;
     }
@@ -165,5 +186,9 @@ public class SmsMessageSender implements MessageSender {
                 cursor.close();
             }
         }
+    }
+
+    private void log(String msg) {
+        Log.d(LogTag.TAG, "[SmsMsgSender] " + msg);
     }
 }

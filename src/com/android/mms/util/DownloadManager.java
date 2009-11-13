@@ -20,6 +20,7 @@ package com.android.mms.util;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.TelephonyProperties;
 import com.android.mms.R;
+import com.android.mms.data.Contact;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -182,6 +183,26 @@ public class DownloadManager {
     }
 
     public void markState(final Uri uri, int state) {
+        // Notify user if the message has expired.
+        try {
+            NotificationInd nInd = (NotificationInd) PduPersister.getPduPersister(mContext)
+                    .load(uri);
+            if ((nInd.getExpiry() < System.currentTimeMillis()/1000L)
+                && (state == STATE_DOWNLOADING)) {
+                mHandler.post(new Runnable() {
+                    public void run() {
+                        Toast.makeText(mContext, R.string.dl_expired_notification,
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+                SqliteWrapper.delete(mContext, mContext.getContentResolver(), uri, null, null);
+                return;
+            }
+        } catch(MmsException e) {
+            Log.e(TAG, e.getMessage(), e);
+            return;
+        }
+
         // Notify user if downloading permanently failed.
         if (state == STATE_PERMANENT_FAILURE) {
             mHandler.post(new Runnable() {
@@ -206,6 +227,19 @@ public class DownloadManager {
                     uri, values, null, null);
     }
 
+    public void showErrorCodeToast(int errorStr) {
+        final int errStr = errorStr;
+        mHandler.post(new Runnable() {
+            public void run() {
+                try {
+                    Toast.makeText(mContext, errStr, Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Log.e(TAG,"Caught an exception in showErrorCodeToast");
+                }
+            }
+        });
+    }
+
     private String getMessage(Uri uri) throws MmsException {
         NotificationInd ind = (NotificationInd) PduPersister
                 .getPduPersister(mContext).load(uri);
@@ -216,7 +250,7 @@ public class DownloadManager {
 
         v = ind.getFrom();
         String from = (v != null)
-                ? ContactInfoCache.getInstance().getContactName(mContext, v.getString())
+                ? Contact.get(v.getString(), true).getName()
                 : mContext.getString(R.string.unknown_sender);
 
         return mContext.getString(R.string.dl_failure_notification, subject, from);

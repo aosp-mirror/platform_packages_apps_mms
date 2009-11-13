@@ -18,6 +18,7 @@
 package com.android.mms.model;
 
 import com.android.mms.R;
+import com.android.mms.LogTag;
 import com.android.mms.drm.DrmUtils;
 import com.android.mms.drm.DrmWrapper;
 import com.google.android.mms.MmsException;
@@ -26,8 +27,9 @@ import org.w3c.dom.events.EventListener;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.drm.mobile1.DrmException;
-import android.media.MediaPlayer;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.util.Log;
 
@@ -38,7 +40,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public abstract class MediaModel extends Model implements EventListener {
-    private static final String TAG = "MediaModel";
+    protected static final String TAG = "Mms/media";
+
+    private final static String MUSIC_SERVICE_ACTION = "com.android.music.musicservicecommand";
 
     protected Context mContext;
     protected int mBegin;
@@ -60,10 +64,6 @@ public abstract class MediaModel extends Model implements EventListener {
         STOP,
         PAUSE,
         SEEK,
-    }
-
-    public MediaModel(Context context, String tag, Uri uri) throws MmsException{
-        this(context, tag, null, null, uri);
     }
 
     public MediaModel(Context context, String tag, String contentType,
@@ -243,16 +243,21 @@ public abstract class MediaModel extends Model implements EventListener {
             throw new IllegalArgumentException("Uri may not be null.");
         }
 
-        MediaPlayer mediaPlayer = new MediaPlayer();
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setMode(MediaMetadataRetriever.MODE_GET_METADATA_ONLY);
+        int duration = 0;
         try {
-            mediaPlayer.setDataSource(mContext, mUri);
-            mediaPlayer.prepare();
-            mDuration = mediaPlayer.getDuration();
-        } catch (IOException e) {
-            Log.e(TAG, "Unexpected IOException.", e);
-            throw new MmsException(e);
+            retriever.setDataSource(mContext, mUri);
+            String dur = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            if (dur != null) {
+                duration = Integer.parseInt(dur);
+            }
+            mDuration = duration;
+        } catch (Exception ex) {
+            Log.e(TAG, "MediaMetadataRetriever failed to get duration for " + mUri.getPath(), ex);
+            throw new MmsException(ex);
         } finally {
-            mediaPlayer.release();
+            retriever.release();
         }
     }
 
@@ -314,5 +319,15 @@ public abstract class MediaModel extends Model implements EventListener {
 
     public DrmWrapper getDrmObject() {
         return mDrmObjectWrapper;
+    }
+
+    protected void pauseMusicPlayer() {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.d(TAG, "pauseMusicPlayer");
+        }
+
+        Intent i = new Intent(MUSIC_SERVICE_ACTION);
+        i.putExtra("command", "pause");
+        mContext.sendBroadcast(i);
     }
 }

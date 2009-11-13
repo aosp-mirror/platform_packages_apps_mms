@@ -30,8 +30,4 @@ public final class ExceedMessageSizeException extends ContentRestrictionExceptio
     public ExceedMessageSizeException(String msg) {
         super(msg);
     }
-
-    public ExceedMessageSizeException(Exception cause) {
-        super(cause);
-    }
 }

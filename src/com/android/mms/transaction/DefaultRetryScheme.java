@@ -32,13 +32,8 @@ public class DefaultRetryScheme extends AbstractRetryScheme {
     private static final int[] sDefaultRetryScheme = {
         0, 1 * 60 * 1000, 5 * 60 * 1000, 10 * 60 * 1000, 30 * 60 * 1000};
 
-    public DefaultRetryScheme(Context context, int type, int errorType) {
-        this(context, type, 0, errorType);
-    }
-
-    public DefaultRetryScheme(Context context, int type, int retriedTimes,
-            int errorType) {
-        super(type, retriedTimes, errorType);
+    public DefaultRetryScheme(Context context, int retriedTimes) {
+        super(retriedTimes);
 
         mRetriedTimes = mRetriedTimes < 0 ? 0 : mRetriedTimes;
         mRetriedTimes = mRetriedTimes >= sDefaultRetryScheme.length

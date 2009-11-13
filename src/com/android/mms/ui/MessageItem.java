@@ -18,11 +18,12 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
+import com.android.mms.data.Contact;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.TextModel;
 import com.android.mms.ui.MessageListAdapter.ColumnsMap;
-import com.android.mms.util.ContactInfoCache;
+import com.android.mms.util.AddressUtils;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.MultimediaMessagePdu;
@@ -38,7 +39,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -58,11 +58,13 @@ public class MessageItem {
 
     boolean mDeliveryReport;
     boolean mReadReport;
+    boolean mLocked;            // locked to prevent auto-deletion
 
     String mTimestamp;
     String mAddress;
     String mContact;
     String mBody; // Body of SMS, first text of MMS.
+    String mHighlight; // portion of message to highlight (from search)
 
     // The only non-immutable field.  Not synchronized, as access will
     // only be from the main GUI thread.  Worst case if accessed from
@@ -78,17 +80,15 @@ public class MessageItem {
     SlideshowModel mSlideshow;
     int mMessageSize;
     int mErrorType;
-    int mThreadType;
 
-    MessageItem(
-            Context context, String type, Cursor cursor,
-            ColumnsMap columnsMap, int threadType) throws MmsException {
+    MessageItem(Context context, String type, Cursor cursor,
+            ColumnsMap columnsMap, String highlight) throws MmsException {
         mContext = context;
-        mThreadType = threadType;
         mMsgId = cursor.getLong(columnsMap.mColumnMsgId);
-        
+        mHighlight = highlight != null ? highlight.toLowerCase() : null;
+        mType = type;
+
         if ("sms".equals(type)) {
-            ContactInfoCache infoCache = ContactInfoCache.getInstance();
             mReadReport = false; // No read reports in sms
             mDeliveryReport = (cursor.getLong(columnsMap.mColumnSmsStatus)
                     != Sms.STATUS_NONE);
@@ -100,24 +100,21 @@ public class MessageItem {
                 String meString = context.getString(
                         R.string.messagelist_sender_self);
 
-                if (mThreadType == Threads.COMMON_THREAD) {
-                    mContact = meString;
-                } else {
-                    mContact = String.format(
-                            context.getString(R.string.broadcast_from_to),
-                            meString,
-                            infoCache.getContactName(context, mAddress));
-                }
+                mContact = meString;
             } else {
                 // For incoming messages, the ADDRESS field contains the sender.
-                mContact = infoCache.getContactName(context, mAddress);
+                mContact = Contact.get(mAddress, true).getName();
             }
             mBody = cursor.getString(columnsMap.mColumnSmsBody);
 
-            // Set time stamp
-            long date = cursor.getLong(columnsMap.mColumnSmsDate);
-            mTimestamp = String.format(context.getString(R.string.sent_on),
-                    MessageUtils.formatTimeStampString(context, date));
+            if (!isOutgoingMessage()) {
+                // Set "sent" time stamp
+                long date = cursor.getLong(columnsMap.mColumnSmsDate);
+                mTimestamp = String.format(context.getString(R.string.sent_on),
+                        MessageUtils.formatTimeStampString(context, date));
+            }
+
+            mLocked = cursor.getInt(columnsMap.mColumnSmsLocked) != 0;
         } else if ("mms".equals(type)) {
             mMessageUri = ContentUris.withAppendedId(Mms.CONTENT_URI, mMsgId);
             mBoxId = cursor.getInt(columnsMap.mColumnMmsMessageBox);
@@ -130,13 +127,14 @@ public class MessageItem {
                         PduPersister.getBytes(subject));
                 mSubject = v.getString();
             }
+            mLocked = cursor.getInt(columnsMap.mColumnMmsLocked) != 0;
 
             long timestamp = 0L;
             PduPersister p = PduPersister.getPduPersister(mContext);
             if (PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND == mMessageType) {
                 mDeliveryReport = false;
                 NotificationInd notifInd = (NotificationInd) p.load(mMessageUri);
-                interpretFrom(notifInd.getFrom());
+                interpretFrom(notifInd.getFrom(), mMessageUri);
                 // Borrow the mBody to hold the URL of the message.
                 mBody = new String(notifInd.getContentLocation());
                 mMessageSize = (int) notifInd.getMessageSize();
@@ -148,12 +146,11 @@ public class MessageItem {
 
                 if (mMessageType == PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF) {
                     RetrieveConf retrieveConf = (RetrieveConf) msg;
-                    interpretFrom(retrieveConf.getFrom());
+                    interpretFrom(retrieveConf.getFrom(), mMessageUri);
                     timestamp = retrieveConf.getDate() * 1000L;
                 } else {
                     // Use constant string for outgoing messages
-                    mContact = mAddress = context.getString(
-                            R.string.messagelist_sender_self);
+                    mContact = mAddress = context.getString(R.string.messagelist_sender_self);
                     timestamp = ((SendReq) msg).getDate() * 1000L;
                 }
 
@@ -195,30 +192,33 @@ public class MessageItem {
                     if (tm.isDrmProtected()) {
                         mBody = mContext.getString(R.string.drm_protected_text);
                     } else {
-                        mBody = slide.getText().getText();
+                        mBody = tm.getText();
                     }
                 }
 
                 mMessageSize = mSlideshow.getCurrentMessageSize();
             }
 
-            mTimestamp = context.getString(getTimestampStrId(),
-                    MessageUtils.formatTimeStampString(context, timestamp));
+            if (!isOutgoingMessage()) {
+                mTimestamp = context.getString(getTimestampStrId(),
+                        MessageUtils.formatTimeStampString(context, timestamp));
+            }
         } else {
             throw new MmsException("Unknown type of the message: " + type);
         }
-
-        mType = type;
     }
 
-    private void interpretFrom(EncodedStringValue from) {
+    private void interpretFrom(EncodedStringValue from, Uri messageUri) {
         if (from != null) {
             mAddress = from.getString();
-            mContact = ContactInfoCache.getInstance().getContactName(mContext, mAddress);
         } else {
-            mContact = mAddress = mContext.getString(
-                    R.string.anonymous_recipient);
+            // In the rare case when getting the "from" address from the pdu fails,
+            // (e.g. from == null) fall back to a slower, yet more reliable method of
+            // getting the address from the "addr" table. This is what the Messaging
+            // notification system uses.
+            mAddress = AddressUtils.getFrom(mContext, messageUri);
         }
+        mContact = TextUtils.isEmpty(mAddress) ? "" : Contact.get(mAddress, true).getName();
     }
 
     private int getTimestampStrId() {
@@ -261,5 +261,20 @@ public class MessageItem {
 
     public CharSequence getCachedFormattedMessage() {
         return mCachedFormattedMessage;
+    }
+
+    public int getBoxId() {
+        return mBoxId;
+    }
+
+    @Override
+    public String toString() {
+        return "type: " + mType +
+            " box: " + mBoxId +
+            " uri: " + mMessageUri +
+            " address: " + mAddress +
+            " contact: " + mContact +
+            " read: " + mReadReport +
+            " delivery report: " + mDeliveryReport;
     }
 }

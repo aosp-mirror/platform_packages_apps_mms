@@ -21,9 +21,9 @@ import static android.content.Intent.ACTION_BOOT_COMPLETED;
 import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
 
 
-
-import com.android.mms.MmsApp;
+import com.android.mms.data.Contact;
 import com.android.mms.ui.ClassZeroActivity;
+import com.android.mms.util.Recycler;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.util.SqliteWrapper;
@@ -44,6 +44,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
 import android.provider.Telephony.Sms;
+import android.provider.Telephony.Threads;
 import android.provider.Telephony.Sms.Inbox;
 import android.provider.Telephony.Sms.Intents;
 import android.provider.Telephony.Sms.Outbox;
@@ -55,10 +56,7 @@ import android.widget.Toast;
 
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.mms.R;
-import com.android.mms.ui.ClassZeroActivity;
-import com.android.mms.util.SendingProgressTokenManager;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.util.SqliteWrapper;
+import com.android.mms.LogTag;
 
 /**
  * This service essentially plays the role of a "worker thread", allowing us to store
@@ -101,9 +99,10 @@ public class SmsReceiverService extends Service {
 
     @Override
     public void onCreate() {
-        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
-            Log.v(TAG, "onCreate");
-        }
+        // Temporarily removed for this duplicate message track down.
+//        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+//            Log.v(TAG, "onCreate");
+//        }
 
         // Start up the thread running the service.  Note that we create a
         // separate thread because the service normally runs in the process's
@@ -116,24 +115,27 @@ public class SmsReceiverService extends Service {
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
-        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
-            Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras());
-        }
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        // Temporarily removed for this duplicate message track down.
+//        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+//            Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras());
+//        }
 
-        mResultCode = intent.getIntExtra("result", 0);
+        mResultCode = intent != null ? intent.getIntExtra("result", 0) : 0;
 
         Message msg = mServiceHandler.obtainMessage();
         msg.arg1 = startId;
         msg.obj = intent;
         mServiceHandler.sendMessage(msg);
+        return Service.START_NOT_STICKY;
     }
 
     @Override
     public void onDestroy() {
-        if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
-            Log.v(TAG, "onDestroy");
-        }
+        // Temporarily removed for this duplicate message track down.
+//        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+//            Log.v(TAG, "onDestroy");
+//        }
         mServiceLooper.quit();
     }
 
@@ -149,29 +151,25 @@ public class SmsReceiverService extends Service {
 
         /**
          * Handle incoming transaction requests.
-         * The incoming requests are initiated by the MMSC Server or by the
-         * MMS Client itself.
+         * The incoming requests are initiated by the MMSC Server or by the MMS Client itself.
          */
         @Override
         public void handleMessage(Message msg) {
-            if (Log.isLoggable(MmsApp.LOG_TAG, Log.VERBOSE)) {
-                Log.v(TAG, "Handling incoming message: " + msg);
-            }
             int serviceId = msg.arg1;
             Intent intent = (Intent)msg.obj;
+            if (intent != null) {
+                String action = intent.getAction();
 
-            String action = intent.getAction();
-
-            if (MESSAGE_SENT_ACTION.equals(intent.getAction())) {
-                handleSmsSent(intent);
-            } else if (SMS_RECEIVED_ACTION.equals(action)) {
-                handleSmsReceived(intent);
-            } else if (ACTION_BOOT_COMPLETED.equals(action)) {
-                handleBootCompleted();
-            } else if (TelephonyIntents.ACTION_SERVICE_STATE_CHANGED.equals(action)) {
-                handleServiceStateChanged(intent);
+                if (MESSAGE_SENT_ACTION.equals(intent.getAction())) {
+                    handleSmsSent(intent);
+                } else if (SMS_RECEIVED_ACTION.equals(action)) {
+                    handleSmsReceived(intent);
+                } else if (ACTION_BOOT_COMPLETED.equals(action)) {
+                    handleBootCompleted();
+                } else if (TelephonyIntents.ACTION_SERVICE_STATE_CHANGED.equals(action)) {
+                    handleServiceStateChanged(intent);
+                }
             }
-
             // NOTE: We MUST not call stopSelf() directly, since we need to
             // make sure the wake lock acquired by AlertReceiver is released.
             SmsReceiver.finishStartingService(SmsReceiverService.this, serviceId);
@@ -191,12 +189,13 @@ public class SmsReceiverService extends Service {
         final Uri uri = Uri.parse("content://sms/queued");
         ContentResolver resolver = getContentResolver();
         Cursor c = SqliteWrapper.query(this, resolver, uri,
-                        SEND_PROJECTION, null, null, null);
+                        SEND_PROJECTION, null, null, "date ASC");   // date ASC so we send out in
+                                                                    // same order the user tried
+                                                                    // to send messages.
 
         if (c != null) {
             try {
                 if (c.moveToFirst()) {
-                    int msgId = c.getInt(SEND_COLUMN_ID);
                     String msgText = c.getString(SEND_COLUMN_BODY);
                     String[] address = new String[1];
                     address[0] = c.getString(SEND_COLUMN_ADDRESS);
@@ -204,15 +203,30 @@ public class SmsReceiverService extends Service {
 
                     SmsMessageSender sender = new SmsMessageSender(this,
                             address, msgText, threadId);
+
+                    int msgId = c.getInt(SEND_COLUMN_ID);
+                    Uri msgUri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgId);
+
+                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                        Log.v(TAG, "sendFirstQueuedMessage and delete old msgUri " + msgUri +
+                                ", address: " + address +
+                                ", threadId: " + threadId +
+                                ", body: " + msgText);
+                    }
                     try {
                         sender.sendMessage(SendingProgressTokenManager.NO_TOKEN);
-
+                    } catch (MmsException e) {
+                        Log.e(TAG, "sendFirstQueuedMessage: failed to send message " + msgUri
+                                + ", caught ", e);
+                    } finally {
                         // Since sendMessage adds a new message to the outbox rather than
                         // moving the old one, the old one must be deleted here
-                        Uri msgUri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgId);
-                        SqliteWrapper.delete(this, resolver, msgUri, null, null);
-                    } catch (MmsException e) {
-                        Log.e(TAG, "Failed to send message: " + e);
+
+                        int result = SqliteWrapper.delete(this, resolver, msgUri, null, null);
+                        if (result != 1) {
+                            Log.e(TAG, "sendFirstQueuedMessage: failed to delete old msgUri " +
+                                    msgUri + ", result=" + result);
+                        }
                     }
                 }
             } finally {
@@ -225,18 +239,27 @@ public class SmsReceiverService extends Service {
         Uri uri = intent.getData();
 
         if (mResultCode == Activity.RESULT_OK) {
-            Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_SENT);
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                Log.v(TAG, "handleSmsSent sending uri: " + uri);
+            }
+            if (!Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_SENT)) {
+                Log.e(TAG, "handleSmsSent: failed to move message " + uri + " to sent folder");
+            }
             sendFirstQueuedMessage();
 
-            // Update the notification for failed messages since they
-            // may be deleted.
-            MessagingNotification.updateSendFailedNotification(
-                    this);
+            // Update the notification for failed messages since they may be deleted.
+            MessagingNotification.updateSendFailedNotification(this);
         } else if ((mResultCode == SmsManager.RESULT_ERROR_RADIO_OFF) ||
                 (mResultCode == SmsManager.RESULT_ERROR_NO_SERVICE)) {
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                Log.v(TAG, "handleSmsSent: no service, queuing message w/ uri: " + uri);
+            }
             Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_QUEUED);
             mToastHandler.sendEmptyMessage(1);
         } else {
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                Log.v(TAG, "handleSmsSent msg failed uri: " + uri);
+            }
             Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_FAILED);
             MessagingNotification.notifySendFailed(getApplicationContext(), true);
             sendFirstQueuedMessage();
@@ -246,6 +269,14 @@ public class SmsReceiverService extends Service {
     private void handleSmsReceived(Intent intent) {
         SmsMessage[] msgs = Intents.getMessagesFromIntent(intent);
         Uri messageUri = insertMessage(this, msgs);
+
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            SmsMessage sms = msgs[0];
+            Log.v(TAG, "handleSmsReceived" + (sms.isReplace() ? "(replace)" : "") +
+                    " messageUri: " + messageUri +
+                    ", address: " + sms.getOriginatingAddress() +
+                    ", body: " + sms.getMessageBody());
+        }
 
         if (messageUri != null) {
             MessagingNotification.updateNewMessageIndicator(this, true);
@@ -269,9 +300,6 @@ public class SmsReceiverService extends Service {
     }
 
     public static final String CLASS_ZERO_BODY_KEY = "CLASS_ZERO_BODY";
-    public static final String CLASS_ZERO_TITLE_KEY = "CLASS_ZERO_TITLE";
-
-    public static final int NOTIFICATION_NEW_MESSAGE = 1;
 
     // This must match the column IDs below.
     private final static String[] REPLACE_PROJECTION = new String[] {
@@ -370,9 +398,30 @@ public class SmsReceiverService extends Service {
             values.put(Inbox.BODY, body.toString());
         }
 
+        // Make sure we've got a thread id so after the insert we'll be able to delete
+        // excess messages.
+        Long threadId = values.getAsLong(Sms.THREAD_ID);
+        String address = values.getAsString(Sms.ADDRESS);
+        Contact cacheContact = Contact.get(address,true);
+        if (cacheContact != null) {
+            address = cacheContact.getNumber();
+        }
+
+        if (((threadId == null) || (threadId == 0)) && (address != null)) {
+            values.put(Sms.THREAD_ID, Threads.getOrCreateThreadId(
+                               context, address));
+        }
+
         ContentResolver resolver = context.getContentResolver();
 
-        return SqliteWrapper.insert(context, resolver, Inbox.CONTENT_URI, values);
+        Uri insertedUri = SqliteWrapper.insert(context, resolver, Inbox.CONTENT_URI, values);
+
+        // Now make sure we're not over the limit in stored messages
+        threadId = values.getAsLong(Sms.THREAD_ID);
+        Recycler.getSmsRecycler().deleteOldMessagesByThreadId(getApplicationContext(),
+                threadId);
+
+        return insertedUri;
     }
 
     /**
@@ -408,13 +457,12 @@ public class SmsReceiverService extends Service {
         // Using NEW_TASK here is necessary because we're calling
         // startActivity from outside an activity.
         Intent smsDialogIntent = new Intent(context, ClassZeroActivity.class)
-                .putExtra(CLASS_ZERO_BODY_KEY, sms.getMessageBody())
+                .putExtra("pdu", sms.getPdu())
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                           | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
         context.startActivity(smsDialogIntent);
     }
-
 
 }
 

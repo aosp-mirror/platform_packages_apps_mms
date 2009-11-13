@@ -113,8 +113,9 @@ public abstract class ElementTimeImpl implements ElementTime {
                 dur = TimeImpl.parseClockValue(durString) / 1000f;
             }
         } catch (IllegalArgumentException e) {
-            // Do nothing and return 0
+            // Do nothing and return the minimum value
         }
+
         return dur;
     }
 

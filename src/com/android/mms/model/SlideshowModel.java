@@ -60,7 +60,7 @@ import java.util.ListIterator;
 
 public class SlideshowModel extends Model
         implements List<SlideModel>, IModelChangedObserver {
-    private static final String TAG = "SlideshowModel";
+    private static final String TAG = "Mms/slideshow";
 
     private final LayoutModel mLayout;
     private final ArrayList<SlideModel> mSlides;

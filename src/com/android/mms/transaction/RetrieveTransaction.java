@@ -17,7 +17,10 @@
 
 package com.android.mms.transaction;
 
+import com.android.mms.MmsConfig;
+import com.android.mms.ui.MessageUtils;
 import com.android.mms.util.DownloadManager;
+import com.android.mms.util.Recycler;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.AcknowledgeInd;
 import com.google.android.mms.pdu.PduComposer;
@@ -25,6 +28,7 @@ import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.RetrieveConf;
+import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.content.ContentValues;
@@ -121,6 +125,7 @@ public class RetrieveTransaction extends Transaction implements Runnable {
                 throw new MmsException("Invalid M-Retrieve.conf PDU.");
             }
 
+            Uri msgUri = null;
             if (isDuplicateMessage(mContext, retrieveConf)) {
                 // Mark this transaction as failed to prevent duplicate
                 // notification to user.
@@ -129,19 +134,25 @@ public class RetrieveTransaction extends Transaction implements Runnable {
             } else {
                 // Store M-Retrieve.conf into Inbox
                 PduPersister persister = PduPersister.getPduPersister(mContext);
-                Uri uri = persister.persist(retrieveConf, Inbox.CONTENT_URI);
+                msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI);
 
                 // The M-Retrieve.conf has been successfully downloaded.
                 mTransactionState.setState(TransactionState.SUCCESS);
-                mTransactionState.setContentUri(uri);
+                mTransactionState.setContentUri(msgUri);
                 // Remember the location the message was downloaded from.
                 // Since it's not critical, it won't fail the transaction.
-                updateContentLocation(mContext, uri, mContentLocation);
+                updateContentLocation(mContext, msgUri, mContentLocation);
             }
 
             // Delete the corresponding M-Notification.ind.
             SqliteWrapper.delete(mContext, mContext.getContentResolver(),
                                  mUri, null, null);
+
+            if (msgUri != null) {
+                // Have to delete messages over limit *after* the delete above. Otherwise,
+                // it would be counted as part of the total.
+                Recycler.getMmsRecycler().deleteOldMessagesInSameThreadAsMessage(mContext, msgUri);
+            }
 
             // Send ACK to the Proxy-Relay to indicate we have fetched the
             // MM successfully.
@@ -185,8 +196,7 @@ public class RetrieveTransaction extends Transaction implements Runnable {
         return false;
     }
 
-    private void sendAcknowledgeInd(RetrieveConf rc)
-            throws MmsException, IOException {
+    private void sendAcknowledgeInd(RetrieveConf rc) throws MmsException, IOException {
         // Send M-Acknowledge.ind to MMSC if required.
         // If the Transaction-ID isn't set in the M-Retrieve.conf, it means
         // the MMS proxy-relay doesn't require an ACK.
@@ -196,8 +206,16 @@ public class RetrieveTransaction extends Transaction implements Runnable {
             AcknowledgeInd acknowledgeInd = new AcknowledgeInd(
                     PduHeaders.CURRENT_MMS_VERSION, tranId);
 
+            // insert the 'from' address per spec
+            String lineNumber = MessageUtils.getLocalNumber();
+            acknowledgeInd.setFrom(new EncodedStringValue(lineNumber));
+
             // Pack M-Acknowledge.ind and send it
-            sendPdu(new PduComposer(mContext, acknowledgeInd).make());
+            if(MmsConfig.getNotifyWapMMSC()) {
+                sendPdu(new PduComposer(mContext, acknowledgeInd).make(), mContentLocation);
+            } else {
+                sendPdu(new PduComposer(mContext, acknowledgeInd).make());
+            }
         }
     }
 

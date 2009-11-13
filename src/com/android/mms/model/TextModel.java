@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class TextModel extends RegionMediaModel {
-    private static final String TAG = "TextModel";
+    private static final String TAG = "Mms/text";
 
     private CharSequence mText;
     private final int mCharset;

@@ -25,7 +25,9 @@ import static com.google.android.mms.pdu.PduHeaders.STATUS_DEFERRED;
 import static com.google.android.mms.pdu.PduHeaders.STATUS_RETRIEVED;
 import static com.google.android.mms.pdu.PduHeaders.STATUS_UNRECOGNIZED;
 
+import com.android.mms.MmsConfig;
 import com.android.mms.util.DownloadManager;
+import com.android.mms.util.Recycler;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.GenericPdu;
 import com.google.android.mms.pdu.NotificationInd;
@@ -37,8 +39,11 @@ import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Inbox;
+import android.telephony.TelephonyManager;
 import android.util.Config;
 import android.util.Log;
 
@@ -67,6 +72,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
 
     private Uri mUri;
     private NotificationInd mNotificationInd;
+    private String mContentLocation;
 
     public NotificationTransaction(
             Context context, int serviceId,
@@ -84,6 +90,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
         }
 
         mId = new String(mNotificationInd.getTransactionId());
+        mContentLocation = new String(mNotificationInd.getContentLocation());
 
         // Attach the transaction to the instance of RetryScheduler.
         attach(RetryScheduler.getInstance(context));
@@ -121,6 +128,8 @@ public class NotificationTransaction extends Transaction implements Runnable {
     public void run() {
         DownloadManager downloadManager = DownloadManager.getInstance();
         boolean autoDownload = downloadManager.isAuto();
+        boolean dataSuspended = (TelephonyManager.getDefault().getDataState() ==
+                TelephonyManager.DATA_SUSPENDED);
         try {
             if (LOCAL_LOGV) {
                 Log.v(TAG, "Notification transaction launched: " + this);
@@ -130,28 +139,24 @@ public class NotificationTransaction extends Transaction implements Runnable {
             // should response MMSC with STATUS_DEFERRED when we cannot
             // download a MM immediately.
             int status = STATUS_DEFERRED;
-            if (!autoDownload) {
+            // Don't try to download when data is suspended, as it will fail, so defer download
+            if (!autoDownload || dataSuspended) {
                 downloadManager.markState(mUri, DownloadManager.STATE_UNSTARTED);
                 sendNotifyRespInd(status);
                 return;
             }
 
             downloadManager.markState(mUri, DownloadManager.STATE_DOWNLOADING);
-            byte[] clBytes = mNotificationInd.getContentLocation();
-            if (clBytes == null) {
-                throw new MmsException("Content-Location may not be null.");
-            }
 
-            String contentLocation = new String(clBytes);
             if (LOCAL_LOGV) {
-                Log.v(TAG, "Content-Location: " + contentLocation);
+                Log.v(TAG, "Content-Location: " + mContentLocation);
             }
 
             byte[] retrieveConfData = null;
             // We should catch exceptions here to response MMSC
             // with STATUS_DEFERRED.
             try {
-                retrieveConfData = getPdu(contentLocation);
+                retrieveConfData = getPdu(mContentLocation);
             } catch (IOException e) {
                 mTransactionState.setState(FAILED);
             }
@@ -195,11 +200,13 @@ public class NotificationTransaction extends Transaction implements Runnable {
 
             sendNotifyRespInd(status);
 
+            // Make sure this thread isn't over the limits in message count.
+            Recycler.getMmsRecycler().deleteOldMessagesInSameThreadAsMessage(mContext, mUri);
         } catch (Throwable t) {
             Log.e(TAG, Log.getStackTraceString(t));
         } finally {
             mTransactionState.setContentUri(mUri);
-            if (!autoDownload) {
+            if (!autoDownload || dataSuspended) {
                 // Always mark the transaction successful for deferred
                 // download since any error here doesn't make sense.
                 mTransactionState.setState(SUCCESS);
@@ -220,7 +227,11 @@ public class NotificationTransaction extends Transaction implements Runnable {
                 status);
 
         // Pack M-NotifyResp.ind and send it
-        sendPdu(new PduComposer(mContext, notifyRespInd).make());
+        if(MmsConfig.getNotifyWapMMSC()) {
+            sendPdu(new PduComposer(mContext, notifyRespInd).make(), mContentLocation);
+        } else {
+            sendPdu(new PduComposer(mContext, notifyRespInd).make());
+        }
     }
 
     @Override

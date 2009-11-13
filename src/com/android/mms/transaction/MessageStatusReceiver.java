@@ -29,6 +29,7 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 
 import com.google.android.mms.util.SqliteWrapper;
+import com.android.mms.LogTag;
 
 public class MessageStatusReceiver extends BroadcastReceiver {
     public static final String MESSAGE_STATUS_RECEIVED_ACTION =
@@ -57,25 +58,35 @@ public class MessageStatusReceiver extends BroadcastReceiver {
         // message's status in the database.
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
                             messageUri, ID_PROJECTION, null, null, null);
-        if ((cursor != null) && cursor.moveToFirst()) {
-            int messageId = cursor.getInt(0);
+        try {
+            if (cursor.moveToFirst()) {
+                int messageId = cursor.getInt(0);
 
+                Uri updateUri = ContentUris.withAppendedId(STATUS_URI, messageId);
+                SmsMessage message = SmsMessage.createFromPdu(pdu);
+                int status = message.getStatus();
+                ContentValues contentValues = new ContentValues(1);
+
+                if (Log.isLoggable(LogTag.TAG, Log.DEBUG)) {
+                    log("updateMessageStatus: msgUrl=" + messageUri + ", status=" + status);
+                }
+
+                contentValues.put(Sms.STATUS, status);
+                SqliteWrapper.update(context, context.getContentResolver(),
+                                    updateUri, contentValues, null, null);
+            } else {
+                error("Can't find message for status update: " + messageUri);
+            }
+        } finally {
             cursor.close();
-
-            Uri updateUri = ContentUris.withAppendedId(STATUS_URI, messageId);
-            SmsMessage message = SmsMessage.createFromPdu(pdu);
-            int status = message.getStatus();
-            ContentValues contentValues = new ContentValues(1);
-
-            contentValues.put(Sms.STATUS, status);
-            SqliteWrapper.update(context, context.getContentResolver(),
-                                updateUri, contentValues, null, null);
-        } else {
-            error("Can't find message for status update: " + messageUri);
         }
     }
 
     private void error(String message) {
         Log.e(LOG_TAG, "[MessageStatusReceiver] " + message);
+    }
+    
+    private void log(String message) {
+        Log.d(LOG_TAG, "[MessageStatusReceiver] " + message);
     }
 }

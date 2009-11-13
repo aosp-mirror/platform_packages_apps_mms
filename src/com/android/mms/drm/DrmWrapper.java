@@ -202,26 +202,6 @@ public class DrmWrapper {
     }
 
     /**
-     * Check whether a object is DRM object.
-     *
-     * @param contentType the mimetype of the object
-     * @return true if it is
-     *         false if not
-     */
-    public static boolean isDrmObject(String contentType) {
-        if (contentType == null) {
-            return false;
-        }
-
-        if (contentType.equalsIgnoreCase(DrmRawContent.DRM_MIMETYPE_CONTENT_STRING) ||
-                contentType.equalsIgnoreCase(DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Get URL of right.
      *
      * @return the right's URL

@@ -75,6 +75,7 @@ public class SlideshowEditActivity extends ListActivity {
 
     private Bundle mState;
     private Uri mUri;
+    private Intent mResultIntent;
     private boolean mDirty;
 
     @Override
@@ -101,6 +102,10 @@ public class SlideshowEditActivity extends ListActivity {
             return;
         }
 
+        // Return the Uri of the message to whoever invoked us.
+        mResultIntent = new Intent();
+        mResultIntent.setData(mUri);
+        
         try {
             initSlideList();
         } catch (MmsException e) {
@@ -311,7 +316,7 @@ public class SlideshowEditActivity extends ListActivity {
                 synchronized (this) {
                     mDirty = true;
                 }
-                setResult(RESULT_OK);
+                setResult(RESULT_OK, mResultIntent);
 
                 if ((data != null) && data.getBooleanExtra("done", false)) {
                     finish();
@@ -381,7 +386,7 @@ public class SlideshowEditActivity extends ListActivity {
                 synchronized (SlideshowEditActivity.this) {
                     mDirty = true;
                 }
-                setResult(RESULT_OK);
+                setResult(RESULT_OK, mResultIntent);
             }
         };
 }

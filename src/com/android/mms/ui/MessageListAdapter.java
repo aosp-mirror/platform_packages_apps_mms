@@ -60,6 +60,7 @@ public class MessageListAdapter extends CursorAdapter {
         Sms.READ,
         Sms.TYPE,
         Sms.STATUS,
+        Sms.LOCKED,
         // For MMS
         Mms.SUBJECT,
         Mms.SUBJECT_CHARSET,
@@ -69,7 +70,8 @@ public class MessageListAdapter extends CursorAdapter {
         Mms.MESSAGE_BOX,
         Mms.DELIVERY_REPORT,
         Mms.READ_REPORT,
-        PendingMessages.ERROR_TYPE
+        PendingMessages.ERROR_TYPE,
+        Mms.LOCKED
     };
 
     // The indexes of the default columns which must be consistent
@@ -83,31 +85,34 @@ public class MessageListAdapter extends CursorAdapter {
     static final int COLUMN_SMS_READ            = 6;
     static final int COLUMN_SMS_TYPE            = 7;
     static final int COLUMN_SMS_STATUS          = 8;
-    static final int COLUMN_MMS_SUBJECT         = 9;
-    static final int COLUMN_MMS_SUBJECT_CHARSET = 10;
-    static final int COLUMN_MMS_DATE            = 11;
-    static final int COLUMN_MMS_READ            = 12;
-    static final int COLUMN_MMS_MESSAGE_TYPE    = 13;
-    static final int COLUMN_MMS_MESSAGE_BOX     = 14;
-    static final int COLUMN_MMS_DELIVERY_REPORT = 15;
-    static final int COLUMN_MMS_READ_REPORT     = 16;
-    static final int COLUMN_MMS_ERROR_TYPE      = 17;
+    static final int COLUMN_SMS_LOCKED          = 9;
+    static final int COLUMN_MMS_SUBJECT         = 10;
+    static final int COLUMN_MMS_SUBJECT_CHARSET = 11;
+    static final int COLUMN_MMS_DATE            = 12;
+    static final int COLUMN_MMS_READ            = 13;
+    static final int COLUMN_MMS_MESSAGE_TYPE    = 14;
+    static final int COLUMN_MMS_MESSAGE_BOX     = 15;
+    static final int COLUMN_MMS_DELIVERY_REPORT = 16;
+    static final int COLUMN_MMS_READ_REPORT     = 17;
+    static final int COLUMN_MMS_ERROR_TYPE      = 18;
+    static final int COLUMN_MMS_LOCKED          = 19;
 
-    private static final int CACHE_SIZE            = 50;
-    
+    private static final int CACHE_SIZE         = 50;
+
     protected LayoutInflater mInflater;
     private final ListView mListView;
     private final LinkedHashMap<Long, MessageItem> mMessageItemCache;
     private final ColumnsMap mColumnsMap;
     private OnDataSetChangedListener mOnDataSetChangedListener;
-    private final int mThreadType;
     private Handler mMsgListItemHandler;
+    private String mHighlight;
 
     public MessageListAdapter(
             Context context, Cursor c, ListView listView,
-            boolean useDefaultColumnsMap, int threadType) {
-        super(context, c);
-        mThreadType = threadType;
+            boolean useDefaultColumnsMap, String highlight, boolean autoRequery) {
+        super(context, c, autoRequery /* auto-requery */);
+        mHighlight = highlight != null ? highlight.toLowerCase() : null;
+
         mInflater = (LayoutInflater) context.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
         mListView = listView;
@@ -131,7 +136,7 @@ public class MessageListAdapter extends CursorAdapter {
         if (view instanceof MessageListItem) {
             String type = cursor.getString(mColumnsMap.mColumnMsgType);
             long msgId = cursor.getLong(mColumnsMap.mColumnMsgId);
-            
+
             MessageItem msgItem = getCachedMessageItem(type, msgId, cursor);
             if (msgItem != null) {
                 ((MessageListItem) view).bind(msgItem);
@@ -142,6 +147,7 @@ public class MessageListAdapter extends CursorAdapter {
 
     public interface OnDataSetChangedListener {
         void onDataSetChanged(MessageListAdapter adapter);
+        void onContentChanged(MessageListAdapter adapter);
     }
 
     public void setOnDataSetChangedListener(OnDataSetChangedListener l) {
@@ -168,6 +174,19 @@ public class MessageListAdapter extends CursorAdapter {
     }
 
     @Override
+    protected void onContentChanged() {
+        if (mAutoRequery) {
+            super.onContentChanged();
+            return;
+        }
+        if (mCursor != null && !mCursor.isClosed()) {
+            if (mOnDataSetChangedListener != null) {
+                mOnDataSetChangedListener.onContentChanged(this);
+            }
+        }
+    }
+
+    @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return mInflater.inflate(R.layout.message_list_item, parent, false);
     }
@@ -176,7 +195,7 @@ public class MessageListAdapter extends CursorAdapter {
         MessageItem item = mMessageItemCache.get(getKey(type, msgId));
         if (item == null) {
             try {
-                item = new MessageItem(mContext, type, c, mColumnsMap, mThreadType);
+                item = new MessageItem(mContext, type, c, mColumnsMap, mHighlight);
                 mMessageItemCache.put(getKey(item.mType, item.mMsgId), item);
             } catch (MmsException e) {
                 Log.e(TAG, e.getMessage());
@@ -193,46 +212,47 @@ public class MessageListAdapter extends CursorAdapter {
         }
     }
 
-    final class ColumnsMap {
-        int mColumnMsgType;
-        int mColumnMsgId;
-        int mColumnSmsAddress;
-        int mColumnSmsBody;
-        int mColumnSmsDate;
-        int mColumnSmsRead;
-        int mColumnSmsType;
-        int mColumnSmsStatus;
-        int mColumnMmsSubject;
-        int mColumnMmsSubjectCharset;
-        int mColumnMmsDate;
-        int mColumnMmsRead;
-        int mColumnMmsMessageType;
-        int mColumnMmsMessageBox;
-        int mColumnMmsDeliveryReport;
-        int mColumnMmsReadReport;
-        int mColumnMmsErrorType;
+    public static class ColumnsMap {
+        public int mColumnMsgType;
+        public int mColumnMsgId;
+        public int mColumnSmsAddress;
+        public int mColumnSmsBody;
+        public int mColumnSmsDate;
+        public int mColumnSmsRead;
+        public int mColumnSmsType;
+        public int mColumnSmsStatus;
+        public int mColumnSmsLocked;
+        public int mColumnMmsSubject;
+        public int mColumnMmsSubjectCharset;
+        public int mColumnMmsDate;
+        public int mColumnMmsRead;
+        public int mColumnMmsMessageType;
+        public int mColumnMmsMessageBox;
+        public int mColumnMmsDeliveryReport;
+        public int mColumnMmsReadReport;
+        public int mColumnMmsErrorType;
+        public int mColumnMmsLocked;
 
-        ColumnsMap() {
+        public ColumnsMap() {
             mColumnMsgType            = COLUMN_MSG_TYPE;
             mColumnMsgId              = COLUMN_ID;
             mColumnSmsAddress         = COLUMN_SMS_ADDRESS;
             mColumnSmsBody            = COLUMN_SMS_BODY;
             mColumnSmsDate            = COLUMN_SMS_DATE;
-            mColumnSmsRead            = COLUMN_SMS_READ;
             mColumnSmsType            = COLUMN_SMS_TYPE;
             mColumnSmsStatus          = COLUMN_SMS_STATUS;
+            mColumnSmsLocked          = COLUMN_SMS_LOCKED;
             mColumnMmsSubject         = COLUMN_MMS_SUBJECT;
             mColumnMmsSubjectCharset  = COLUMN_MMS_SUBJECT_CHARSET;
-            mColumnMmsDate            = COLUMN_MMS_DATE;
-            mColumnMmsRead            = COLUMN_MMS_READ;
             mColumnMmsMessageType     = COLUMN_MMS_MESSAGE_TYPE;
             mColumnMmsMessageBox      = COLUMN_MMS_MESSAGE_BOX;
             mColumnMmsDeliveryReport  = COLUMN_MMS_DELIVERY_REPORT;
             mColumnMmsReadReport      = COLUMN_MMS_READ_REPORT;
             mColumnMmsErrorType       = COLUMN_MMS_ERROR_TYPE;
+            mColumnMmsLocked          = COLUMN_MMS_LOCKED;
         }
 
-        ColumnsMap(Cursor cursor) {
+        public ColumnsMap(Cursor cursor) {
             // Ignore all 'not found' exceptions since the custom columns
             // may be just a subset of the default columns.
             try {
@@ -267,12 +287,6 @@ public class MessageListAdapter extends CursorAdapter {
             }
 
             try {
-                mColumnSmsRead = cursor.getColumnIndexOrThrow(Sms.READ);
-            } catch (IllegalArgumentException e) {
-                Log.w("colsMap", e.getMessage());
-            }
-
-            try {
                 mColumnSmsType = cursor.getColumnIndexOrThrow(Sms.TYPE);
             } catch (IllegalArgumentException e) {
                 Log.w("colsMap", e.getMessage());
@@ -285,6 +299,12 @@ public class MessageListAdapter extends CursorAdapter {
             }
 
             try {
+                mColumnSmsLocked = cursor.getColumnIndexOrThrow(Sms.LOCKED);
+            } catch (IllegalArgumentException e) {
+                Log.w("colsMap", e.getMessage());
+            }
+
+            try {
                 mColumnMmsSubject = cursor.getColumnIndexOrThrow(Mms.SUBJECT);
             } catch (IllegalArgumentException e) {
                 Log.w("colsMap", e.getMessage());
@@ -292,18 +312,6 @@ public class MessageListAdapter extends CursorAdapter {
 
             try {
                 mColumnMmsSubjectCharset = cursor.getColumnIndexOrThrow(Mms.SUBJECT_CHARSET);
-            } catch (IllegalArgumentException e) {
-                Log.w("colsMap", e.getMessage());
-            }
-
-            try {
-                mColumnMmsDate = cursor.getColumnIndexOrThrow(Mms.DATE);
-            } catch (IllegalArgumentException e) {
-                Log.w("colsMap", e.getMessage());
-            }
-
-            try {
-                mColumnMmsRead = cursor.getColumnIndexOrThrow(Mms.READ);
             } catch (IllegalArgumentException e) {
                 Log.w("colsMap", e.getMessage());
             }
@@ -334,6 +342,12 @@ public class MessageListAdapter extends CursorAdapter {
 
             try {
                 mColumnMmsErrorType = cursor.getColumnIndexOrThrow(PendingMessages.ERROR_TYPE);
+            } catch (IllegalArgumentException e) {
+                Log.w("colsMap", e.getMessage());
+            }
+
+            try {
+                mColumnMmsLocked = cursor.getColumnIndexOrThrow(Mms.LOCKED);
             } catch (IllegalArgumentException e) {
                 Log.w("colsMap", e.getMessage());
             }

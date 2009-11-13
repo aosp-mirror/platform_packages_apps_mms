@@ -20,6 +20,7 @@ package com.android.mms.ui;
 import com.google.android.mms.ContentType;
 import com.android.mms.ExceedMessageSizeException;
 import com.google.android.mms.MmsException;
+import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.ResolutionException;
 import com.android.mms.UnsupportContentTypeException;
@@ -153,7 +154,7 @@ public class SlideEditorActivity extends Activity {
             mSlideshowEditor = new SlideshowEditor(this, mSlideshowModel);
             mPresenter = (SlideshowPresenter) PresenterFactory.getPresenter(
                     "SlideshowPresenter", this, mSlideView, mSlideshowModel);
-            
+
             // Sanitize mPosition
             if (mPosition >= mSlideshowModel.size()) {
                 mPosition = Math.max(0, mSlideshowModel.size() - 1);
@@ -257,6 +258,12 @@ public class SlideEditorActivity extends Activity {
 
     private final OnClickListener mOnReplaceImage = new OnClickListener() {
         public void onClick(View v) {
+            SlideModel slide = mSlideshowModel.get(mPosition);
+            if (slide.hasVideo()) {
+                Toast.makeText(SlideEditorActivity.this, R.string.cannot_add_picture_and_video,
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
             intent.setType(ContentType.IMAGE_UNSPECIFIED);
             startActivityForResult(intent, REQUEST_CODE_CHANGE_PICTURE);
@@ -291,9 +298,7 @@ public class SlideEditorActivity extends Activity {
     };
 
     private void previewSlideshow() {
-        MessageUtils.viewMmsMessageAttachment(SlideEditorActivity.this,
-                mUri, mSlideshowModel,
-                PduPersister.getPduPersister(SlideEditorActivity.this));
+        MessageUtils.viewMmsMessageAttachment(SlideEditorActivity.this, mUri, mSlideshowModel);
     }
 
     private void updateTitle() {
@@ -333,10 +338,15 @@ public class SlideEditorActivity extends Activity {
             menu.add(0, MENU_DEL_AUDIO, 0, R.string.remove_music).setIcon(
                     R.drawable.ic_menu_remove_sound);
         } else if (!slide.hasVideo()) {
-            SubMenu subMenu = menu.addSubMenu(0, MENU_SUB_AUDIO, 0, R.string.add_music).setIcon(
-                    R.drawable.ic_menu_add_sound);
-            subMenu.add(0, MENU_ADD_AUDIO, 0, R.string.attach_sound);
-            subMenu.add(0, MENU_RECORD_SOUND, 0, R.string.attach_record_sound);
+            if (MmsConfig.getAllowAttachAudio()) {
+                SubMenu subMenu = menu.addSubMenu(0, MENU_SUB_AUDIO, 0, R.string.add_music)
+                    .setIcon(R.drawable.ic_menu_add_sound);
+                subMenu.add(0, MENU_ADD_AUDIO, 0, R.string.attach_sound);
+                subMenu.add(0, MENU_RECORD_SOUND, 0, R.string.attach_record_sound);
+            } else {
+                menu.add(0, MENU_RECORD_SOUND, 0, R.string.attach_record_sound)
+                    .setIcon(R.drawable.ic_menu_add_sound);
+            }
         }
 
         // Video
@@ -487,11 +497,11 @@ public class SlideEditorActivity extends Activity {
         builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
-                    case 0: // Bottom text.
-                        mSlideshowEditor.changeLayout(LayoutModel.LAYOUT_BOTTOM_TEXT);
-                        break;
-                    case 1: // Top text.
+                    case 0: // Top text.
                         mSlideshowEditor.changeLayout(LayoutModel.LAYOUT_TOP_TEXT);
+                        break;
+                    case 1: // Bottom text.
+                        mSlideshowEditor.changeLayout(LayoutModel.LAYOUT_BOTTOM_TEXT);
                         break;
                 }
             }
@@ -538,11 +548,11 @@ public class SlideEditorActivity extends Activity {
                             getResourcesString(R.string.unsupported_media_format, getPictureString()),
                             getResourcesString(R.string.select_different_media, getPictureString()));
                 } catch (ResolutionException e) {
-                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(), mResizeImageCallback);
+                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(),
+                            mResizeImageCallback, false);
                 } catch (ExceedMessageSizeException e) {
-                    MessageUtils.showErrorDialog(SlideEditorActivity.this,
-                            getResourcesString(R.string.exceed_message_size_limitation),
-                            getResourcesString(R.string.failed_to_add_media, getPictureString()));
+                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(),
+                            mResizeImageCallback, false);
                 }
                 break;
 
@@ -561,11 +571,11 @@ public class SlideEditorActivity extends Activity {
                             getResourcesString(R.string.unsupported_media_format, getPictureString()),
                             getResourcesString(R.string.select_different_media, getPictureString()));
                 } catch (ResolutionException e) {
-                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(), mResizeImageCallback);
+                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(),
+                            mResizeImageCallback, false);
                 } catch (ExceedMessageSizeException e) {
-                    MessageUtils.showErrorDialog(SlideEditorActivity.this,
-                            getResourcesString(R.string.exceed_message_size_limitation),
-                            getResourcesString(R.string.failed_to_add_media, getPictureString()));
+                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(),
+                            mResizeImageCallback, false);
                 }
                 break;
 
@@ -628,7 +638,7 @@ public class SlideEditorActivity extends Activity {
     }
 
     private final ResizeImageResultCallback mResizeImageCallback = new ResizeImageResultCallback() {
-        public void onResizeResult(PduPart part) {
+        public void onResizeResult(PduPart part, boolean append) {
             Context context = SlideEditorActivity.this;
             if (part == null) {
                 Toast.makeText(SlideEditorActivity.this,

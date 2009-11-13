@@ -17,15 +17,7 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.R;
-import com.android.mms.transaction.Transaction;
-import com.android.mms.transaction.TransactionBundle;
-import com.android.mms.transaction.TransactionService;
-import com.android.mms.util.DownloadManager;
-import com.android.mms.util.SmileyParser;
-
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduPersister;
+import java.util.Map;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -33,12 +25,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -54,14 +43,13 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.LineBackgroundSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -69,8 +57,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.util.Map;
+import com.android.mms.R;
+import com.android.mms.data.WorkingMessage;
+import com.android.mms.transaction.Transaction;
+import com.android.mms.transaction.TransactionBundle;
+import com.android.mms.transaction.TransactionService;
+import com.android.mms.util.DownloadManager;
+import com.android.mms.util.SmileyParser;
+import com.google.android.mms.pdu.PduHeaders;
 
 /**
  * This class provides view of a message in the messages list.
@@ -131,7 +125,7 @@ public class MessageListItem extends LinearLayout implements
     public MessageItem getMessageItem() {
         return mMessageItem;
     }
-    
+
     public void setMsgListItemHandler(Handler handler) {
         mHandler = handler;
     }
@@ -144,7 +138,8 @@ public class MessageListItem extends LinearLayout implements
                                 + mContext.getString(R.string.kilobyte);
 
         mBodyTextView.setText(formatMessage(msgItem.mContact, null, msgItem.mSubject,
-                                            msgSizeText + "\n" + msgItem.mTimestamp));
+                                            msgSizeText + "\n" + msgItem.mTimestamp,
+                                            msgItem.mHighlight));
 
         int state = DownloadManager.getInstance().getState(msgItem.mMessageUri);
         switch (state) {
@@ -198,7 +193,8 @@ public class MessageListItem extends LinearLayout implements
         CharSequence formattedMessage = msgItem.getCachedFormattedMessage();
         if (formattedMessage == null) {
             formattedMessage = formatMessage(msgItem.mContact, msgItem.mBody,
-                                             msgItem.mSubject, msgItem.mTimestamp);
+                                             msgItem.mSubject, msgItem.mTimestamp,
+                                             msgItem.mHighlight);
             msgItem.setCachedFormattedMessage(formattedMessage);
         }
         mBodyTextView.setText(formattedMessage);
@@ -211,7 +207,7 @@ public class MessageListItem extends LinearLayout implements
                     this, msgItem.mSlideshow);
             presenter.present();
 
-            if (msgItem.mAttachmentType != AttachmentEditor.TEXT_ONLY) {
+            if (msgItem.mAttachmentType != WorkingMessage.TEXT) {
                 inflateMmsView();
                 mMmsView.setVisibility(View.VISIBLE);
                 setOnClickListener(msgItem);
@@ -264,7 +260,7 @@ public class MessageListItem extends LinearLayout implements
             mSlideShowButton = (ImageButton) findViewById(R.id.play_slideshow_button);
         }
     }
-    
+
     private void inflateDownloadControls() {
         if (mDownloadButton == null) {
             //inflate the download controls
@@ -275,9 +271,9 @@ public class MessageListItem extends LinearLayout implements
     }
 
     private CharSequence formatMessage(String contact, String body, String subject,
-                                       String timestamp) {
+                                       String timestamp, String highlight) {
         CharSequence template = mContext.getResources().getText(R.string.name_colon);
-        SpannableStringBuilder buf = 
+        SpannableStringBuilder buf =
             new SpannableStringBuilder(TextUtils.replace(template,
                 new String[] { "%s" },
                 new CharSequence[] { contact }));
@@ -294,39 +290,64 @@ public class MessageListItem extends LinearLayout implements
             SmileyParser parser = SmileyParser.getInstance();
             buf.append(parser.addSmileySpans(body));
         }
+        if (!TextUtils.isEmpty(timestamp)) {
+            buf.append("\n");
+            int startOffset = buf.length();
 
-        buf.append("\n");
-        int startOffset = buf.length();
+            // put a one pixel high spacer line between the message and the time stamp as requested
+            // by the spec.
+            buf.append("\n");
+            buf.setSpan(new AbsoluteSizeSpan(3), startOffset, buf.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        // put a one pixel high spacer line between the message and the time stamp as requested
-        // by the spec.
-        buf.append("\n");
-        buf.setSpan(new AbsoluteSizeSpan(3), startOffset, buf.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            startOffset = buf.length();
+            buf.append(timestamp);
+            buf.setSpan(new AbsoluteSizeSpan(12), startOffset, buf.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            // Make the timestamp text not as dark
+            int color = mContext.getResources().getColor(R.color.timestamp_color);
+            buf.setSpan(new ForegroundColorSpan(color), startOffset, buf.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        if (highlight != null) {
+            int highlightLen = highlight.length();
 
-        startOffset = buf.length();
-        buf.append(timestamp);
-        buf.setSpan(new AbsoluteSizeSpan(12), startOffset, buf.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        // Make the timestamp text not as dark
-        int color = mContext.getResources().getColor(R.color.timestamp_color);
-        buf.setSpan(new ForegroundColorSpan(color), startOffset, buf.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
+            String s = buf.toString().toLowerCase();
+            int prev = 0;
+            while (true) {
+                int index = s.indexOf(highlight, prev);
+                if (index == -1) {
+                    break;
+                }
+                buf.setSpan(new StyleSpan(Typeface.BOLD), index, index + highlightLen, 0);
+                prev = index + highlightLen;
+            }
+        }
         return buf;
     }
 
     private void drawPlaybackButton(MessageItem msgItem) {
         switch (msgItem.mAttachmentType) {
-            case AttachmentEditor.SLIDESHOW_ATTACHMENT:
-            case AttachmentEditor.AUDIO_ATTACHMENT:
-            case AttachmentEditor.VIDEO_ATTACHMENT:
+            case WorkingMessage.SLIDESHOW:
+            case WorkingMessage.AUDIO:
+            case WorkingMessage.VIDEO:
                 // Show the 'Play' button and bind message info on it.
                 mSlideShowButton.setTag(msgItem);
                 // Set call-back for the 'Play' button.
                 mSlideShowButton.setOnClickListener(this);
                 mSlideShowButton.setVisibility(View.VISIBLE);
                 setLongClickable(true);
+
+                // When we show the mSlideShowButton, this list item's onItemClickListener doesn't
+                // get called. (It gets set in ComposeMessageActivity:
+                // mMsgListView.setOnItemClickListener) Here we explicitly set the item's
+                // onClickListener. It allows the item to respond to embedded html links and at the
+                // same time, allows the slide show play button to work.
+                setOnClickListener(new OnClickListener() {
+                    public void onClick(View v) {
+                        onMessageListItemClick();
+                    }
+                });
                 break;
             default:
                 mSlideShowButton.setVisibility(View.GONE);
@@ -338,11 +359,10 @@ public class MessageListItem extends LinearLayout implements
     public void onClick(View v) {
         MessageItem mi = (MessageItem) v.getTag();
         switch (mi.mAttachmentType) {
-            case AttachmentEditor.VIDEO_ATTACHMENT:
-            case AttachmentEditor.AUDIO_ATTACHMENT:
-            case AttachmentEditor.SLIDESHOW_ATTACHMENT:
-                MessageUtils.viewMmsMessageAttachment(mContext,
-                        mi.mMessageUri, mi.mSlideshow, null /* persister */);
+            case WorkingMessage.VIDEO:
+            case WorkingMessage.AUDIO:
+            case WorkingMessage.SLIDESHOW:
+                MessageUtils.viewMmsMessageAttachment(mContext, mi.mMessageUri, mi.mSlideshow);
                 break;
         }
     }
@@ -356,12 +376,12 @@ public class MessageListItem extends LinearLayout implements
             Uri uri = Uri.parse(spans[0].getURL());
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             intent.putExtra(Browser.EXTRA_APPLICATION_ID, mContext.getPackageName());
-
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
             mContext.startActivity(intent);
         } else {
             final java.util.ArrayList<String> urls = MessageUtils.extractUris(spans);
 
-            ArrayAdapter<String> adapter = 
+            ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(mContext, android.R.layout.select_dialog_item, urls) {
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
@@ -394,11 +414,12 @@ public class MessageListItem extends LinearLayout implements
                         Uri uri = Uri.parse(urls.get(which));
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         intent.putExtra(Browser.EXTRA_APPLICATION_ID, mContext.getPackageName());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                         mContext.startActivity(intent);
                     }
                 }
             };
-                
+
             b.setTitle(R.string.select_link_title);
             b.setCancelable(true);
             b.setAdapter(adapter, click);
@@ -416,12 +437,11 @@ public class MessageListItem extends LinearLayout implements
 
     private void setOnClickListener(final MessageItem msgItem) {
         switch(msgItem.mAttachmentType) {
-        case AttachmentEditor.IMAGE_ATTACHMENT:
-        case AttachmentEditor.VIDEO_ATTACHMENT:
+        case WorkingMessage.IMAGE:
+        case WorkingMessage.VIDEO:
             mImageView.setOnClickListener(new OnClickListener() {
                 public void onClick(View v) {
-                    MessageUtils.viewMmsMessageAttachment(mContext,
-                        null /* uri */, msgItem.mSlideshow, null /* persister */);
+                    MessageUtils.viewMmsMessageAttachment(mContext, null, msgItem.mSlideshow);
                 }
             });
             mImageView.setOnLongClickListener(new OnLongClickListener() {
@@ -430,7 +450,7 @@ public class MessageListItem extends LinearLayout implements
                 }
             });
             break;
-            
+
         default:
             mImageView.setOnClickListener(null);
             break;
@@ -494,6 +514,9 @@ public class MessageListItem extends LinearLayout implements
             mRightStatusIndicator.setVisibility(View.VISIBLE);
         } else if (msgItem.mDeliveryReport || msgItem.mReadReport) {
             mRightStatusIndicator.setImageResource(R.drawable.ic_mms_message_details);
+            mRightStatusIndicator.setVisibility(View.VISIBLE);
+        } else if (msgItem.mLocked) {
+            mRightStatusIndicator.setImageResource(R.drawable.ic_lock_message_sms);
             mRightStatusIndicator.setVisibility(View.VISIBLE);
         } else {
             mRightStatusIndicator.setVisibility(View.GONE);

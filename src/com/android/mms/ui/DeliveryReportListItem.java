@@ -18,7 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
-import com.android.mms.util.ContactInfoCache;
+import com.android.mms.data.Contact;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -53,15 +53,15 @@ public class DeliveryReportListItem extends LinearLayout {
     }
 
     public final void bind(String recipient, String status) {
-        ContactInfoCache cache = ContactInfoCache.getInstance();
-        Context context = getContext();
         // Recipient
-        mRecipientView.setText(cache.getContactName(context, recipient));
+        // TODO: Make the call to Contact.get() guaranteed non-blocking.
+        mRecipientView.setText(Contact.get(recipient, true).getName());
 
         // Status text
-        mStatusView.setText(cache.getContactName(context, status));
+        mStatusView.setText(status);
 
         // Status icon
+        Context context = getContext();
         String receivedStr = context.getString(R.string.status_received);
         String failedStr = context.getString(R.string.status_failed);
         String pendingStr = context.getString(R.string.status_pending);
