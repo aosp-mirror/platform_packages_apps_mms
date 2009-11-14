@@ -1774,7 +1774,7 @@ public class ComposeMessageActivity extends Activity
             log("     new conversation=" + conversation + ", mConversation=" + mConversation);
         }
 
-        long convThreadId = conversation.getThreadId();
+        long convThreadId = conversation == null ? 0 : conversation.getThreadId();
         if (sameThread || (convThreadId != 0 && convThreadId == mConversation.getThreadId())) {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: same conversation");
