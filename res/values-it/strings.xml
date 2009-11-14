@@ -60,7 +60,7 @@
     <string name="move_down" msgid="6356509518429479053">"Sposta giù"</string>
     <string name="remove_slide" msgid="2225604354024914900">"Rimuovi diapositiva"</string>
     <string name="add_slide" msgid="9140721399423564187">"Aggiungi diapositiva"</string>
-    <string name="add_slide_hint" msgid="563319570849475501">"Seleziona per creare nuova diapositiva."</string>
+    <string name="add_slide_hint" msgid="563319570849475501">"Selez. per creare nuova dia."</string>
     <string name="discard_slideshow" msgid="5054239124146413609">"Ignora presentazione"</string>
     <string name="slide_show_part" msgid="5077675385448696846">"Parte <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text" msgid="2164068850029476539">"Rimuovi testo"</string>
@@ -166,7 +166,7 @@
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Rapporti consegna"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Elimina vecchi messaggi"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limite messaggio di testo"</string>
-    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite messaggio multimediale"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite mess. multimediale"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notifiche"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Visualizza notifiche messaggi nella barra di stato"</string>
     <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"Vibrazione"</string>

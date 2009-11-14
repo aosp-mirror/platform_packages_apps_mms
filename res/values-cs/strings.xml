@@ -22,7 +22,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"Odeslat e-mail adresátovi <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Napsat"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Nastavení"</string>
-    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Přidat <xliff:g id="NAME">%s</xliff:g> mezi Kontakty"</string>
+    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Přidat <xliff:g id="NAME">%s</xliff:g> do Kontaktů"</string>
     <string name="menu_call" msgid="5877123227307074690">"Volat"</string>
     <string name="menu_delete_all" msgid="8853352701914512057">"Smazat konverzace"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Smazat konverzaci"</string>
@@ -139,7 +139,7 @@
     <item msgid="6238597861937337981">"Jiná..."</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"Zobrazit kontakt"</string>
-    <string name="menu_add_to_contacts" msgid="2978074583938544513">"Přidat mezi Kontakty"</string>
+    <string name="menu_add_to_contacts" msgid="2978074583938544513">"Přidat do kontaktů"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"Adresa skrytého odesílatele"</string>
     <string name="yes" msgid="3246158147503160811">"OK"</string>
     <string name="no" msgid="4289742508556913860">"Zrušit"</string>
@@ -299,7 +299,7 @@
     <string name="search_empty" msgid="645052646985297065">"Žádné shody"</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="675571420878010439">"Počet výsledků pro výraz „%s“: <xliff:g id="NUMBER">%s</xliff:g>"</item>
-    <item quantity="other" msgid="3778201725913692491">"Počet výsledků pro výraz %s: <xliff:g id="NUMBER">%s</xliff:g>"</item>
+    <item quantity="other" msgid="3778201725913692491">"Počet výsledků pro výraz „%s“: <xliff:g id="NUMBER">%s</xliff:g>"</item>
   </plurals>
     <string name="save" msgid="6847069284991531310">"Uložit"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"Omezit počet zpráv"</string>

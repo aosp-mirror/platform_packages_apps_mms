@@ -152,7 +152,7 @@
     <string name="restore_default" msgid="7165341506551155053">"Standardeinstellungen wiederherstellen"</string>
     <string name="pref_notification_settings_title" msgid="4860726154770053004">"Benachrichtigungseinstellungen"</string>
     <string name="pref_mms_settings_title" msgid="2573616208360684392">"Einstellungen für Multimedia-Nachrichten (MMS)"</string>
-    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Einstellungen für Textnachricht (SMS)"</string>
+    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Einstellungen für Textnachrichten (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"Speichereinstellungen"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Auf der SIM-Karte gespeicherte Nachrichten verwalten"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Zustellbestätigung für jede gesendete Nachricht anfordern"</string>
@@ -165,8 +165,8 @@
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Leseberichte"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Zustellberichte"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Alte Nachrichten löschen"</string>
-    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Beschränkung zum Löschen von Textnachrichten"</string>
-    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Beschränkung zum Löschen von Multimedia-Nachrichten"</string>
+    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Höchstzahl an Textnachrichten"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Höchstzahl an Multimedia-Nachrichten"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Benachrichtigungen"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Bei Nachrichteneingang Benachrichtigung in Statuszeile anzeigen"</string>
     <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"Vibrieren"</string>

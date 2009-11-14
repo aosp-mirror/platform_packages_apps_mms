@@ -37,7 +37,7 @@
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Я"</string>
     <string name="view_picture" msgid="4356315935277709195">"Просмотреть картинку"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Просмотреть слайд-шоу"</string>
-    <string name="view_message_details" msgid="2443165773568096234">"Просмотреть сведения о сообщении"</string>
+    <string name="view_message_details" msgid="2443165773568096234">"Сведения о сообщении"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Просмотреть отчет"</string>
     <string name="delete_message" msgid="8888447283788388395">"Удалить сообщение"</string>
     <string name="sent_on" msgid="5868288548564632354">"Отправлено: <xliff:g id="DATE">%s</xliff:g>"</string>
@@ -159,7 +159,7 @@
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Запрашивать отчет о доставке для всех отправляемых сообщений"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Запрашивать отчет о прочтении для всех отправляемых сообщений"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Запрашивать отчет о доставке для всех отправляемых сообщений"</string>
-    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Удалять старые сообщения по достижении максимального количества"</string>
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Удалять старые сообщения по достижении макс. количества"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"Сообщений в цепочке: <xliff:g id="COUNT">%1$s</xliff:g>"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Управление сообщениями на SIM-карте"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Отчеты о доставке"</string>
