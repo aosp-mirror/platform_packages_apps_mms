@@ -155,16 +155,16 @@
     <string name="pref_sms_settings_title" msgid="9088516111717417514">"短信 (SMS) 设置"</string>
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"存储设置"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"管理存储在 SIM 卡上的信息"</string>
-    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"要求发送的每条信息都返回发送报告"</string>
-    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"要求发送的每条信息都返回已读报告"</string>
-    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"要求发送的每条信息都返回发送报告"</string>
-    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"达到上限时删除旧短信"</string>
-    <string name="pref_summary_delete_limit" msgid="597128041393045216">"每个会话限存储 <xliff:g id="COUNT">%1$s</xliff:g> 条短信"</string>
+    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"发送信息后要求返回发送报告"</string>
+    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"发送信息后要求返回已读报告"</string>
+    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"发送信息后要求返回发送报告"</string>
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"达到数量上限时删除旧信息"</string>
+    <string name="pref_summary_delete_limit" msgid="597128041393045216">"每个会话限存储 <xliff:g id="COUNT">%1$s</xliff:g> 条信息"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"管理 SIM 卡上的信息"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"发送报告"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"已读报告"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"发送报告"</string>
-    <string name="pref_title_auto_delete" msgid="7227835692631701134">"删除旧短信"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"删除旧信息"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"短信限制"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"彩信限制"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"通知"</string>
@@ -254,7 +254,7 @@
     <string name="type_video" msgid="8521556159545168441">"视频"</string>
     <string name="confirm" msgid="3155110885840591914">"确认"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"将会发送已读报告。"</string>
-    <string name="message_queued" msgid="8869479754825264671">"当前无法发送您的信息。将在服务可用时发送该信息。"</string>
+    <string name="message_queued" msgid="8869479754825264671">"当前无法发送信息。信息将在服务可用时送出。"</string>
     <string name="no_subject" msgid="4168963736134552285">"（无主题）"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"未知发送者"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"下载来自<xliff:g id="FROM">%s</xliff:g>的<xliff:g id="SUBJECT">%s</xliff:g>信息失败。"</string>
@@ -268,7 +268,7 @@
     <string name="select_audio" msgid="3120822451872772124">"选择音频"</string>
     <string name="copy_to_sdcard" msgid="6056459122898138734">"将附件复制到 SD 卡"</string>
     <string name="copy_to_sdcard_success" msgid="5322211009838330188">"已将附件复制到 SD 卡"</string>
-    <string name="copy_to_sdcard_fail" msgid="2726421767948392438">"将附件复制到 SD 卡失败"</string>
+    <string name="copy_to_sdcard_fail" msgid="2726421767948392438">"无法将附件复制到 SD 卡"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"另存为铃声"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"铃声已保存"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"无法保存铃声"</string>

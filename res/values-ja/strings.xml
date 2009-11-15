@@ -170,7 +170,7 @@
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"通知"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"メッセージ受信: ステータスバーで通知"</string>
     <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"バイブレーション"</string>
-    <string name="pref_summary_notification_vibrate" msgid="6005751082181574289">"メッセージ受信を通知する際にバイブレーションさせます。"</string>
+    <string name="pref_summary_notification_vibrate" msgid="6005751082181574289">"メッセージ受信の通知: バイブレーションON"</string>
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"着信音を選択"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"保存するメッセージ件数を設定"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"自動で取得"</string>
