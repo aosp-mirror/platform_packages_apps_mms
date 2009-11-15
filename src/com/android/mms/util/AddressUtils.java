@@ -28,21 +28,13 @@ import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Addr;
 import android.text.TextUtils;
+import android.telephony.PhoneNumberUtils;
 
 public class AddressUtils {
     private static final String TAG = "AddressUtils";
 
     private AddressUtils() {
         // Forbidden being instantiated.
-    }
-
-    public static boolean containsEmailAddress(String[] addresses) {
-        for (String address : addresses) {
-            if (Mms.isEmailAddress(address)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public static String getFrom(Context context, Uri uri) {

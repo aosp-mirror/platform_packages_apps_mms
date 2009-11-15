@@ -21,11 +21,13 @@ import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IN
 import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
 
 import com.android.mms.R;
+import com.android.mms.LogTag;
+import com.android.mms.data.Contact;
+import com.android.mms.data.Conversation;
 import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.ConversationList;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.AddressUtils;
-import com.android.mms.util.ContactInfoCache;
 import com.android.mms.util.DownloadManager;
 
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -46,7 +48,6 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -66,9 +67,7 @@ import java.util.TreeSet;
  * otherwise, hide the indicator.
  */
 public class MessagingNotification {
-    public static final String NOTIFICATION_CLICK_RECEIVER =
-            "com.android.mms.transaction.NotificationClickReceiver";
-    private static final String TAG = "MessagingNotification";
+    private static final String TAG = LogTag.APP;
 
     private static final int NOTIFICATION_ID = 123;
     public static final int MESSAGE_FAILED_NOTIFICATION_ID = 789;
@@ -169,20 +168,6 @@ public class MessagingNotification {
         }).start();
     }
     
-    /**
-     * Deletes any delivery report notifications for the specified
-     * thread, then checks to see if there are any unread messages or
-     * delivery reports.  Shows the most recent notification if there
-     * is one.
-     *
-     * @param context the context to use
-     * @param threadId the thread for which to clear delivery notifications
-     */
-    public static void updateNewMessageIndicator(
-            Context context, long threadId) {
-        updateNewMessageIndicator(context);
-    }
-
     private static final int accumulateNotificationInfo(
             SortedSet set, MmsSmsNotificationInfo info) {
         if (info != null) {
@@ -233,8 +218,9 @@ public class MessagingNotification {
 
         public void deliver(Context context, boolean isNew, int count, int uniqueThreads) {
             updateNotification(
-                    context, mClickIntent, mDescription, mIconResourceId,
-                    isNew, mTicker, mTimeMillis, mTitle, count, uniqueThreads);
+                    context, mClickIntent, mDescription, mIconResourceId, isNew,
+                    (isNew? mTicker : null), // only display the ticker if the message is new
+                    mTimeMillis, mTitle, count, uniqueThreads);
         }
 
         public long getTime() {
@@ -361,11 +347,10 @@ public class MessagingNotification {
             long threadId,
             long timeMillis,
             int count) {
-        Intent clickIntent = getAppIntent();
-        clickIntent.setData(
-                Uri.withAppendedPath(
-                        clickIntent.getData(), Long.toString(threadId)));
-        clickIntent.setAction(Intent.ACTION_VIEW);
+        Intent clickIntent = ComposeMessageActivity.createIntent(context, threadId);
+        clickIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP
+                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         String senderInfo = buildTickerMessage(
                 context, address, null, null).toString();
@@ -385,13 +370,6 @@ public class MessagingNotification {
 
         nm.cancel(notificationId);
     }
-
-    private static Intent getAppIntent() {
-        Intent appIntent = new Intent(Intent.ACTION_MAIN, Threads.CONTENT_URI);
-
-        appIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        return appIntent;
-   }
 
     private static void updateDeliveryNotification(
 	    Context context,
@@ -423,8 +401,7 @@ public class MessagingNotification {
             int uniqueThreadCount) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
-        if (!sp.getBoolean(
-                    MessagingPreferenceActivity.NOTIFICATION_ENABLED, true)) {
+        if (!sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_ENABLED, true)) {
             return;
         }
 
@@ -436,8 +413,12 @@ public class MessagingNotification {
         // user to the conversation list instead of the specific thread.
         if (uniqueThreadCount > 1) {
             title = context.getString(R.string.notification_multiple_title);
-            clickIntent = getAppIntent();
-            clickIntent.setAction(Intent.ACTION_MAIN);
+            clickIntent = new Intent(Intent.ACTION_MAIN);
+
+            clickIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                    | Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
             clickIntent.setType("vnd.android-dir/mms-sms");
         }
         
@@ -457,7 +438,8 @@ public class MessagingNotification {
         notification.setLatestEventInfo(context, title, description, pendingIntent);
 
         if (isNew) {
-            boolean vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE, true);
+            boolean vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE,
+                    false /* don't vibrate by default */);
             if (vibrate) {
                 notification.defaults |= Notification.DEFAULT_VIBRATE;
             }
@@ -480,8 +462,7 @@ public class MessagingNotification {
 
     protected static CharSequence buildTickerMessage(
             Context context, String address, String subject, String body) {
-        String displayAddress = ContactInfoCache.getInstance()
-                .getContactName(context, address);
+        String displayAddress = Contact.get(address, true).getName();
         
         StringBuilder buf = new StringBuilder(
                 displayAddress == null
@@ -564,11 +545,15 @@ public class MessagingNotification {
                         context.getString(R.string.message_send_failed_title);
             
             description = context.getString(R.string.message_failed_body);
-            threadId = (msgThreadId[0] != 0 ? msgThreadId[0] : 0);
-            
             failedIntent = new Intent(context, ComposeMessageActivity.class);
+            if (isDownload) {
+                // When isDownload is true, the valid threadId is passed into this function.
+                failedIntent.putExtra("failed_download_flag", true);
+            } else {
+                threadId = (msgThreadId[0] != 0 ? msgThreadId[0] : 0);
+                failedIntent.putExtra("undelivered_flag", true);
+            }            
             failedIntent.putExtra("thread_id", threadId);         
-            failedIntent.putExtra("undelivered_flag", true);
         }
 
         failedIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -582,12 +567,14 @@ public class MessagingNotification {
         notification.setLatestEventInfo(context, title, description, pendingIntent);
 
         if (noisy) {
-            boolean vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE, true);
+            boolean vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE,
+                    false /* don't vibrate by default */);
             if (vibrate) {
                 notification.defaults |= Notification.DEFAULT_VIBRATE;
             }
 
-            String ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE, null);
+            String ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE,
+                    null);
             notification.sound = TextUtils.isEmpty(ringtoneStr) ? null : Uri.parse(ringtoneStr);
         }
         
@@ -676,4 +663,14 @@ public class MessagingNotification {
             cancelNotification(context, DOWNLOAD_FAILED_NOTIFICATION_ID);
         }
     }
+    
+    public static boolean isFailedToDeliver(Intent intent) {
+        return (intent != null) && intent.getBooleanExtra("undelivered_flag", false);
+    }
+
+    public static boolean isFailedToDownload(Intent intent) {
+        return (intent != null) && intent.getBooleanExtra("failed_download_flag", false);
+    }
+
+
 }

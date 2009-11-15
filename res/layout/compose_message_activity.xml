@@ -23,6 +23,11 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
+    <com.android.internal.widget.ContactHeaderWidget
+        android:id="@+id/contact_header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+
     <LinearLayout
         android:id="@+id/recipients_subject_linear"
         android:layout_width="fill_parent"
@@ -47,6 +52,7 @@
             android:capitalize="sentences"
             android:autoText="true"
             android:singleLine="true"
+            android:maxLength="40"
             android:hint="@string/subject_hint"
             android:visibility="gone"/>
     </LinearLayout>
@@ -75,7 +81,7 @@
             android:layout_marginBottom="1dip"
             android:cacheColorHint="@android:color/white"
         />
-    
+
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
@@ -85,33 +91,53 @@
                 android:layout_height="fill_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <view class="com.android.mms.ui.AttachmentEditor"
                     android:id="@+id/attachment_editor"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <ViewStub android:id="@+id/image_attachment_view_stub"
-                        android:layout="@layout/image_attachment_view"
+                    <ViewStub android:id="@+id/image_attachment_view_portrait_stub"
+                        android:layout="@layout/image_attachment_view_portrait"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
-    
-                    <ViewStub android:id="@+id/video_attachment_view_stub"
-                        android:layout="@layout/video_attachment_view"
+
+                    <ViewStub android:id="@+id/video_attachment_view_portrait_stub"
+                        android:layout="@layout/video_attachment_view_portrait"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
-  
-                    <ViewStub android:id="@+id/audio_attachment_view_stub"
-                        android:layout="@layout/audio_attachment_view"
+
+                    <ViewStub android:id="@+id/audio_attachment_view_portrait_stub"
+                        android:layout="@layout/audio_attachment_view_portrait"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
-  
-                    <ViewStub android:id="@+id/slideshow_attachment_view_stub"
-                        android:layout="@layout/slideshow_attachment_view"
+
+                    <ViewStub android:id="@+id/slideshow_attachment_view_portrait_stub"
+                        android:layout="@layout/slideshow_attachment_view_portrait"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"/>
-                </LinearLayout>
-  
+
+                    <ViewStub android:id="@+id/image_attachment_view_landscape_stub"
+                        android:layout="@layout/image_attachment_view_landscape"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <ViewStub android:id="@+id/video_attachment_view_landscape_stub"
+                        android:layout="@layout/video_attachment_view_landscape"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <ViewStub android:id="@+id/audio_attachment_view_landscape_stub"
+                        android:layout="@layout/audio_attachment_view_landscape"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <ViewStub android:id="@+id/slideshow_attachment_view_landscape_stub"
+                        android:layout="@layout/slideshow_attachment_view_landscape"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"/>
+                </view>
+
                 <LinearLayout
                     android:id="@+id/bottom_panel"
                     android:orientation="horizontal"
@@ -145,7 +171,7 @@
                             android:background="@null"
                             android:maxLength="1000"
                         />
-    
+
                         <TextView
                             android:id="@+id/text_counter"
                             android:layout_width="wrap_content"

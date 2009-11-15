@@ -18,6 +18,8 @@
 package com.android.mms.model;
 
 import com.android.mms.UnsupportContentTypeException;
+import com.android.mms.LogTag;
+import com.android.mms.MmsConfig;
 import com.android.mms.drm.DrmWrapper;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
@@ -32,11 +34,12 @@ import org.w3c.dom.smil.TimeList;
 
 import android.content.Context;
 import android.drm.mobile1.DrmException;
+import android.util.Log;
 
 import java.io.IOException;
 
 public class MediaModelFactory {
-    private static final String TAG = "MediaModelFactory";
+    private static final String TAG = "Mms:media";
 
     public static MediaModel getMediaModel(Context context,
             SMILMediaElement sme, LayoutModel layouts, PduBody pb)
@@ -206,9 +209,19 @@ public class MediaModelFactory {
                 Time t = tl.item(0);
                 if (t.getTimeType() != Time.SMIL_TIME_INDEFINITE) {
                     duration = (int) (t.getResolvedOffset() * 1000) - begin;
+
+                    if (duration == 0 &&
+                            (media instanceof AudioModel || media instanceof VideoModel)) {
+                        duration = MmsConfig.getMinimumSlideElementDuration();
+                        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                            Log.d(TAG, "[MediaModelFactory] compute new duration for " + tag +
+                                    ", duration=" + duration);
+                        }
+                    }
                 }
             }
         }
+
         media.setDuration(duration);
 
         // Set 'fill' property.

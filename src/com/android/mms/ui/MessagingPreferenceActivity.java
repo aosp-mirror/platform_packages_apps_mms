@@ -17,58 +17,95 @@
 
 package com.android.mms.ui;
 
+import com.android.mms.MmsConfig;
 import com.android.mms.R;
-import com.google.android.mms.pdu.PduHeaders;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
+import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.android.mms.util.Recycler;
 
 /**
  * With this activity, users can set preferences for MMS and SMS and
  * can access and manipulate SMS messages stored on the SIM.
  */
 public class MessagingPreferenceActivity extends PreferenceActivity {
-
-    // Creation modes
-    public static final int VALUE_CREATION_MODE_RESTRICTED = 0;
-    public static final int VALUE_CREATION_MODE_WARNING    = 1;
-    public static final int VALUE_CREATION_MODE_FREE       = 2;
-
-    // Re-submission modes
-    public static final int VALUE_RESUBMISSION_MODE_RESTRICTED = 0;
-    public static final int VALUE_RESUBMISSION_MODE_WARNING    = 1;
-    public static final int VALUE_RESUBMISSION_MODE_FREE       = 2;
-
     // Symbolic names for the keys used for preference lookup
-    public static final String COMPRESS_IMAGE_MODE      = "pref_key_mms_compress_images";
-    public static final String CREATION_MODE            = "pref_key_mms_creation_mode";
     public static final String MMS_DELIVERY_REPORT_MODE = "pref_key_mms_delivery_reports";
     public static final String EXPIRY_TIME              = "pref_key_mms_expiry";
     public static final String PRIORITY                 = "pref_key_mms_priority";
     public static final String READ_REPORT_MODE         = "pref_key_mms_read_reports";
-    public static final String RESUBMISSION_MODE        = "pref_key_mms_resubmission_mode";
     public static final String SMS_DELIVERY_REPORT_MODE = "pref_key_sms_delivery_reports";
     public static final String NOTIFICATION_ENABLED     = "pref_key_enable_notifications";
     public static final String NOTIFICATION_VIBRATE     = "pref_key_vibrate";
-    public static final String NOTIFICATION_SOUND       = "pref_key_sound";
     public static final String NOTIFICATION_RINGTONE    = "pref_key_ringtone";
     public static final String AUTO_RETRIEVAL           = "pref_key_mms_auto_retrieval";
     public static final String RETRIEVAL_DURING_ROAMING = "pref_key_mms_retrieval_during_roaming";
+    public static final String AUTO_DELETE              = "pref_key_auto_delete";
 
     // Menu entries
     private static final int MENU_RESTORE_DEFAULTS    = 1;
+
+    private Preference mSmsLimitPref;
+    private Preference mMmsLimitPref;
+    private Preference mManageSimPref;
+    private Recycler mSmsRecycler;
+    private Recycler mMmsRecycler;
 
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.preferences);
+
+        mManageSimPref = findPreference("pref_key_manage_sim_messages");
+        mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
+        mMmsLimitPref = findPreference("pref_key_mms_delete_limit");
+
+        if (!TelephonyManager.getDefault().hasIccCard()) {
+            // No SIM card, remove the SIM-related prefs
+            PreferenceCategory smsCategory =
+                (PreferenceCategory)findPreference("pref_key_sms_settings");
+            smsCategory.removePreference(mManageSimPref);
+        }
+        if (!MmsConfig.getMmsEnabled()) {
+            // No Mms, remove all the mms-related preferences
+            PreferenceCategory mmsOptions =
+                (PreferenceCategory)findPreference("pref_key_mms_settings");
+            getPreferenceScreen().removePreference(mmsOptions);
+
+            PreferenceCategory storageOptions =
+                (PreferenceCategory)findPreference("pref_key_storage_settings");
+            storageOptions.removePreference(findPreference("pref_key_mms_delete_limit"));
+        }
+
+        mSmsRecycler = Recycler.getSmsRecycler();
+        mMmsRecycler = Recycler.getMmsRecycler();
+
+        // Fix up the recycler's summary with the correct values
+        setSmsDisplayLimit();
+        setMmsDisplayLimit();
     }
 
-    @Override
+    private void setSmsDisplayLimit() {
+        mSmsLimitPref.setSummary(
+                getString(R.string.pref_summary_delete_limit,
+                        mSmsRecycler.getMessageLimit(this)));
+    }
+
+    private void setMmsDisplayLimit() {
+        mMmsLimitPref.setSummary(
+                getString(R.string.pref_summary_delete_limit,
+                        mMmsRecycler.getMessageLimit(this)));
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         menu.clear();
@@ -85,7 +122,32 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         }
         return false;
     }
-    
+
+    @Override
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
+            Preference preference) {
+        if (preference == mSmsLimitPref) {
+            new NumberPickerDialog(this,
+                    mSmsLimitListener,
+                    mSmsRecycler.getMessageLimit(this),
+                    mSmsRecycler.getMessageMinLimit(),
+                    mSmsRecycler.getMessageMaxLimit(),
+                    R.string.pref_title_sms_delete).show();
+        } else if (preference == mMmsLimitPref) {
+            new NumberPickerDialog(this,
+                    mMmsLimitListener,
+                    mMmsRecycler.getMessageLimit(this),
+                    mMmsRecycler.getMessageMinLimit(),
+                    mMmsRecycler.getMessageMaxLimit(),
+                    R.string.pref_title_mms_delete).show();
+        } else if (preference == mManageSimPref) {
+            startActivity(new Intent(this, ManageSimMessages.class));
+        }
+
+        return super.onPreferenceTreeClick(preferenceScreen, preference);
+    }
+
+
     private void restoreDefaultPreferences() {
         PreferenceManager.getDefaultSharedPreferences(this)
                 .edit().clear().commit();
@@ -93,91 +155,19 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.preferences);
     }
 
-    // TODO: Move this to a more appropriate class.
-    /**
-     * Given the name of a content class, which must be one of the
-     * "pref_entry_values_mms_content_class" values in
-     * "res/values/arrays.xml", return the corresponding ID.
-     */
-    public static int convertContentClass(String contentValue) {
-        return Integer.parseInt(contentValue);
-    }
+    NumberPickerDialog.OnNumberSetListener mSmsLimitListener =
+        new NumberPickerDialog.OnNumberSetListener() {
+            public void onNumberSet(int limit) {
+                mSmsRecycler.setMessageLimit(MessagingPreferenceActivity.this, limit);
+                setSmsDisplayLimit();
+            }
+    };
 
-    // TODO: Move this to a more appropriate class.
-    /**
-     * Given the string value of an expiry time from
-     * Sharedpreferences, which must be one of the
-     * "pref_entry_values_mms_expiry" values in
-     * "res/values/arrays.xml", return the corresponding number of
-     * seconds.
-     */
-    public static int convertExpiryTime(String expiryTimeName) {
-        return Integer.parseInt(expiryTimeName);
-    }
-
-    // TODO: Move this to a more appropriate class.
-    /**
-     * Given the string value of a maximum size from
-     * Sharedpreferences, which must be one of the
-     * "pref_entry_values_mms_max_size" values in
-     * "res/values/arrays.xml", return the corresponding number of
-     * bytes.
-     */
-    public static long convertMaxMmsSize(String maxSize) {
-        return Long.parseLong(maxSize);
-    }
-
-    // TODO: Move this to a more appropriate class.
-    /**
-     * Given the name of a priority class, which must be one of the
-     * "pref_entry_values_mms_priority" values in
-     * "res/values/arrays.xml", return the corresponding ID.
-     */
-    public static int convertPriorityId(String priorityValue) {
-        if ("low".equals(priorityValue)) {
-            return PduHeaders.PRIORITY_LOW;
-        } else if ("medium".equals(priorityValue)) {
-            return PduHeaders.PRIORITY_NORMAL;
-        } else if ("high".equals(priorityValue)) {
-            return PduHeaders.PRIORITY_HIGH;
-        } else {
-            throw new IllegalArgumentException("Unknown MMS priority.");
-        }
-    }
-
-    // TODO: Move this to a more appropriate class.
-    /**
-     * Given the name of a creation mode, which must be one of the
-     * "pref_entry_values_mms_creation_mode" values in
-     * "res/values/arrays.xml", return the corresponding ID.
-     */
-    public static int convertCreationMode(String modeName) {
-        if ("creation".equals(modeName)) {
-            return MessagingPreferenceActivity.VALUE_CREATION_MODE_RESTRICTED;
-        } else if ("warning".equals(modeName)) {
-            return MessagingPreferenceActivity.VALUE_CREATION_MODE_WARNING;
-        } else if ("free".equals(modeName)) {
-            return MessagingPreferenceActivity.VALUE_CREATION_MODE_FREE;
-        } else {
-            throw new IllegalArgumentException("Unknown MMS creation mode.");
-        }
-    }
-
-    // TODO: Move this to a more appropriate class.
-    /**
-     * Given the name of a resubmission mode, which must be one of the
-     * "pref_entry_values_mms_resubmission_mode" values in
-     * "res/values/arrays.xml", return the corresponding ID.
-     */
-    public static int convertResubmissionMode(String modeName) {
-        if ("creation".equals(modeName)) {
-            return MessagingPreferenceActivity.VALUE_RESUBMISSION_MODE_RESTRICTED;
-        } else if ("warning".equals(modeName)) {
-            return MessagingPreferenceActivity.VALUE_RESUBMISSION_MODE_WARNING;
-        } else if ("free".equals(modeName)) {
-            return MessagingPreferenceActivity.VALUE_RESUBMISSION_MODE_FREE;
-        } else {
-            throw new IllegalArgumentException("Unknown MMS resubmission mode.");
-        }
-    }
+    NumberPickerDialog.OnNumberSetListener mMmsLimitListener =
+        new NumberPickerDialog.OnNumberSetListener() {
+            public void onNumberSet(int limit) {
+                mMmsRecycler.setMessageLimit(MessagingPreferenceActivity.this, limit);
+                setMmsDisplayLimit();
+            }
+    };
 }

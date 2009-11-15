@@ -19,6 +19,8 @@ package com.android.mms.transaction;
 
 import com.android.mms.util.RateController;
 import com.android.mms.util.SendingProgressTokenManager;
+import com.android.mms.LogTag;
+import com.android.mms.ui.MessageUtils;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.PduComposer;
 import com.google.android.mms.pdu.PduHeaders;
@@ -26,6 +28,7 @@ import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendConf;
 import com.google.android.mms.pdu.SendReq;
+import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.util.SqliteWrapper;
 
 import android.content.ContentUris;
@@ -103,11 +106,20 @@ public class SendTransaction extends Transaction implements Runnable {
             SqliteWrapper.update(mContext, mContext.getContentResolver(),
                                  mSendReqURI, values, null, null);
 
+            // fix bug 2100169: insert the 'from' address per spec
+            String lineNumber = MessageUtils.getLocalNumber();
+            sendReq.setFrom(new EncodedStringValue(lineNumber));
+
             // Pack M-Send.req, send it, retrieve confirmation data, and parse it
             long tokenKey = ContentUris.parseId(mSendReqURI);
             byte[] response = sendPdu(SendingProgressTokenManager.get(tokenKey),
                                       new PduComposer(mContext, sendReq).make());
             SendingProgressTokenManager.remove(tokenKey);
+
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                String respStr = new String(response);
+                Log.d(TAG, "[SendTransaction] run: send mms msg (" + mId + "), resp=" + respStr);
+            }
 
             SendConf conf = (SendConf) new PduParser(response).parse();
             if (conf == null) {

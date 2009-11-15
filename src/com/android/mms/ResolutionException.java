@@ -30,8 +30,4 @@ public final class ResolutionException extends ContentRestrictionException {
     public ResolutionException(String msg) {
         super(msg);
     }
-
-    public ResolutionException(Exception cause) {
-        super(cause);
-    }
 }

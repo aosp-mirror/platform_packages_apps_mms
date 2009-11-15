@@ -155,6 +155,10 @@ public class SlideshowActivity extends Activity implements EventListener {
             } else {
                 mSmilPlayer.stopWhenReload();
             }
+            if (mMediaController != null) {
+                // Must do this so we don't leak a window.
+                mMediaController.hide();
+            }
         }
     }
 
@@ -163,12 +167,19 @@ public class SlideshowActivity extends Activity implements EventListener {
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_DOWN:
             case KeyEvent.KEYCODE_VOLUME_UP:
-            case KeyEvent.KEYCODE_BACK:
-            case KeyEvent.KEYCODE_MENU:
             case KeyEvent.KEYCODE_DPAD_UP:
             case KeyEvent.KEYCODE_DPAD_DOWN:
             case KeyEvent.KEYCODE_DPAD_LEFT:
             case KeyEvent.KEYCODE_DPAD_RIGHT:
+                break;
+            case KeyEvent.KEYCODE_BACK:
+            case KeyEvent.KEYCODE_MENU:
+                if ((mSmilPlayer != null) &&
+                        (mSmilPlayer.isPausedState()
+                        || mSmilPlayer.isPlayingState()
+                        || mSmilPlayer.isPlayedState())) {
+                    mSmilPlayer.stop();
+                }
                 break;
             default:
                 if ((mSmilPlayer != null) && (mMediaController != null)) {
@@ -216,6 +227,18 @@ public class SlideshowActivity extends Activity implements EventListener {
             if (mPlayer != null) {
                 mPlayer.start();
             }
+        }
+
+        public boolean canPause() {
+            return true;
+        }
+
+        public boolean canSeekBackward() {
+            return true;
+        }
+
+        public boolean canSeekForward() {
+            return true;
         }
     }
 

@@ -26,7 +26,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 public class LayoutModel extends Model {
-    private static final String TAG = "LayoutModel";
+    private static final String TAG = SlideModel.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
@@ -50,33 +50,6 @@ public class LayoutModel extends Model {
         createDefaultRootLayout();
         createDefaultImageRegion();
         createDefaultTextRegion();
-    }
-
-    public LayoutModel(ArrayList<RegionModel> layouts) {
-        mLayoutParams = LayoutManager.getInstance().getLayoutParameters();
-        // Root-Layout must be always provided as the first element.
-        mRootLayout = layouts.get(0);
-        mNonStdRegions = new ArrayList<RegionModel>();
-
-        int size = layouts.size();
-        if (size > 1) {
-            for (int i = 1; i < size; i++) {
-                RegionModel r = layouts.get(i);
-                String rId = r.getRegionId();
-                if (rId.equals(IMAGE_REGION_ID)) {
-                    mImageRegion = r;
-                } else if (rId.equals(TEXT_REGION_ID)) {
-                    mTextRegion = r;
-                } else {
-                    if (LOCAL_LOGV) {
-                        Log.v(TAG, "Found non-standard region: " + rId);
-                    }
-                    mNonStdRegions.add(r);
-                }
-            }
-        }
-
-        validateLayouts();
     }
 
     public LayoutModel(RegionModel rootLayout, ArrayList<RegionModel> regions) {
@@ -293,9 +266,5 @@ public class LayoutModel extends Model {
         if (mTextRegion != null) {
             mTextRegion.unregisterAllModelChangedObservers();
         }
-    }
-
-    public boolean hasNonStdRegions() {
-        return mNonStdRegions.size() > 0;
     }
 }

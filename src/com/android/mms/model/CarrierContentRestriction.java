@@ -19,7 +19,6 @@ package com.android.mms.model;
 import java.util.ArrayList;
 
 import android.content.ContentResolver;
-import android.provider.Settings;
 
 import com.google.android.mms.ContentType;
 import com.android.mms.ContentRestrictionException;
@@ -49,6 +48,7 @@ public class CarrierContentRestriction implements ContentRestriction {
                     + " or increase size");
         }
         int newSize = messageSize + increaseSize;
+
         if ( (newSize < 0) || (newSize > MmsConfig.getMaxMessageSize()) ) {
             throw new ExceedMessageSizeException("Exceed message size limitation");
         }

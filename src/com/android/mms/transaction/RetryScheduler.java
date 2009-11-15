@@ -17,6 +17,8 @@
 
 package com.android.mms.transaction;
 
+import com.android.mms.R;
+import com.android.mms.LogTag;
 import com.android.mms.util.DownloadManager;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPersister;
@@ -64,14 +66,19 @@ public class RetryScheduler implements Observer {
 
     private boolean isConnected() {
         ConnectivityManager mConnMgr = (ConnectivityManager)
-                    mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        return networkInfo.isConnected();
+                mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return (mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS).
+                isConnected());
     }
 
     public void update(Observable observable) {
         try {
             Transaction t = (Transaction) observable;
+
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                Log.v(TAG, "[RetryScheduler] update " + observable);
+            }
+            
             // We are only supposed to handle M-Notification.ind, M-Send.req
             // and M-ReadRec.ind.
             if ((t instanceof NotificationTransaction)
@@ -113,40 +120,31 @@ public class RetryScheduler implements Observer {
                     int msgType = cursor.getInt(cursor.getColumnIndexOrThrow(
                             PendingMessages.MSG_TYPE));
 
-                    int direction;
-                    switch (msgType) {
-                        case PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND:
-                            direction = AbstractRetryScheme.INCOMING;
-                            break;
-                        case PduHeaders.MESSAGE_TYPE_SEND_REQ:
-                        case PduHeaders.MESSAGE_TYPE_READ_REC_IND:
-                            direction = AbstractRetryScheme.OUTGOING;
-                            break;
-                        default:
-                            Log.w(TAG, "Bad message type found: " + msgType);
-                            return;
-                    }
-
                     int retryIndex = cursor.getInt(cursor.getColumnIndexOrThrow(
                             PendingMessages.RETRY_INDEX)) + 1; // Count this time.
 
                     // TODO Should exactly understand what was happened.
                     int errorType = MmsSms.ERR_TYPE_GENERIC;
 
-                    DefaultRetryScheme scheme = new DefaultRetryScheme(
-                            mContext, direction, retryIndex, errorType);
+                    DefaultRetryScheme scheme = new DefaultRetryScheme(mContext, retryIndex);
 
                     ContentValues values = new ContentValues(4);
                     long current = System.currentTimeMillis();
                     boolean isRetryDownloading =
                             (msgType == PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND);
-                    if (retryIndex < scheme.getRetryLimit()) {
+                    boolean retry = true;
+                    int respStatus = getResponseStatus(msgId);
+                    if (respStatus == PduHeaders.RESPONSE_STATUS_ERROR_SENDING_ADDRESS_UNRESOLVED) {
+                        DownloadManager.getInstance().showErrorCodeToast(R.string.invalid_destination);
+                        retry = false;
+                    }
+
+                    if ((retryIndex < scheme.getRetryLimit()) && retry) {
                         long retryAt = current + scheme.getWaitingInterval();
 
-                        if (LOCAL_LOGV) {
-                            Log.v(TAG, "Retry for " + uri + " is scheduled to "
-                                    + DateFormat.format("kk:mm:ss.", retryAt)
-                                    + (retryAt % 1000));
+                        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                            Log.v(TAG, "scheduleRetry: retry for " + uri + " is scheduled at "
+                                    + (retryAt - System.currentTimeMillis()) + "ms from now");
                         }
 
                         values.put(PendingMessages.DUE_TIME, retryAt);
@@ -209,6 +207,23 @@ public class RetryScheduler implements Observer {
         }
     }
 
+    private int getResponseStatus(long msgID) {
+        int respStatus = 0;
+        Cursor cursor = SqliteWrapper.query(mContext, mContentResolver,
+                Mms.Outbox.CONTENT_URI, null, Mms._ID + "=" + msgID, null, null);
+        try {
+            if (cursor.moveToFirst()) {
+                respStatus = cursor.getInt(cursor.getColumnIndexOrThrow(Mms.RESPONSE_STATUS));
+            }
+        } finally {
+            cursor.close();
+        }
+        if (respStatus != 0) {
+            Log.e(TAG, "Response status is: " + respStatus);
+        }
+        return respStatus;
+    }
+
     public static void setRetryAlarm(Context context) {
         Cursor cursor = PduPersister.getPduPersister(context).getPendingMessages(
                 Long.MAX_VALUE);
@@ -227,10 +242,9 @@ public class RetryScheduler implements Observer {
                             Context.ALARM_SERVICE);
                     am.set(AlarmManager.RTC, retryAt, operation);
 
-                    if (LOCAL_LOGV) {
-                        Log.v(TAG, "Next retry is scheduled at: "
-                                + DateFormat.format("kk:mm:ss.", retryAt)
-                                + (retryAt % 1000));
+                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                        Log.v(TAG, "Next retry is scheduled at"
+                                + (retryAt - System.currentTimeMillis()) + "ms from now");
                     }
                 }
             } finally {

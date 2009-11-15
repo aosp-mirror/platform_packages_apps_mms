@@ -33,5 +33,9 @@
 
     <!-- Chat "sent time" text background -->
     <color name="timestamp_color">#bf000000</color>
+
+    <!-- the background color used for unread conversation -->
+    <color name="unread_bgcolor">#ff404040</color>
+    <color name="read_bgcolor">#ff000000</color>
 </resources>
 

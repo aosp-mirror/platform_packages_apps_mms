@@ -18,6 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.model.ImageModel;
+import com.android.mms.LogTag;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.util.SqliteWrapper;
 
@@ -40,7 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class UriImage {
-    private static final String TAG = "UriImage";
+    private static final String TAG = "Mms/image";
     private static final boolean DEBUG = true;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
@@ -63,9 +64,9 @@ public class UriImage {
         } else if (uri.getScheme().equals("file")) {
             initFromFile(context, uri);
         }
-        
+
         mSrc = mPath.substring(mPath.lastIndexOf('/') + 1);
-        
+
         // Some MMSCs appear to have problems with filenames
         // containing a space.  So just replace them with
         // underscores in the name, which is typically not
@@ -79,16 +80,22 @@ public class UriImage {
     }
 
     private void initFromFile(Context context, Uri uri) {
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        String extension = MimeTypeMap.getFileExtensionFromUrl(uri.toString());
-        mContentType = mimeTypeMap.getMimeTypeFromExtension(extension);
-        if (mContentType == null) {
-            throw new IllegalArgumentException(
-                    "Unable to determine extension for " + uri.toString());
-        }
         mPath = uri.getPath();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        String extension = MimeTypeMap.getFileExtensionFromUrl(mPath);
+        if (TextUtils.isEmpty(extension)) {
+            // getMimeTypeFromExtension() doesn't handle spaces in filenames nor can it handle
+            // urlEncoded strings. Let's try one last time at finding the extension.
+            int dotPos = mPath.lastIndexOf('.');
+            if (0 <= dotPos) {
+                extension = mPath.substring(dotPos + 1);
+            }
+        }
+        mContentType = mimeTypeMap.getMimeTypeFromExtension(extension);
+        // It's ok if mContentType is null. Eventually we'll show a toast telling the
+        // user the picture couldn't be attached.
     }
-    
+
     private void initFromContentUri(Context context, Uri uri) {
         Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
                             uri, null, null, null, null);
@@ -165,10 +172,10 @@ public class UriImage {
         return mHeight;
     }
 
-    public PduPart getResizedImageAsPart(int widthLimit, int heightLimit) {
+    public PduPart getResizedImageAsPart(int widthLimit, int heightLimit, int byteLimit) {
         PduPart part = new PduPart();
 
-        byte[] data = getResizedImageData(widthLimit, heightLimit);
+        byte[] data = getResizedImageData(widthLimit, heightLimit, byteLimit);
         if (data == null) {
             if (LOCAL_LOGV) {
                 Log.v(TAG, "Resize image failed.");
@@ -187,32 +194,96 @@ public class UriImage {
         return part;
     }
 
-    private byte[] getResizedImageData(int widthLimit, int heightLimit) {
+    private static final int NUMBER_OF_RESIZE_ATTEMPTS = 4;
+
+    private byte[] getResizedImageData(int widthLimit, int heightLimit, int byteLimit) {
         int outWidth = mWidth;
         int outHeight = mHeight;
 
-        int s = 1;
-        while ((outWidth / s > widthLimit) || (outHeight / s > heightLimit)) {
-            s *= 2;
+        int scaleFactor = 1;
+        while ((outWidth / scaleFactor > widthLimit) || (outHeight / scaleFactor > heightLimit)) {
+            scaleFactor *= 2;
         }
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "outWidth=" + outWidth / s
-                    + " outHeight=" + outHeight / s);
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.v(TAG, "getResizedImageData: wlimit=" + widthLimit +
+                    ", hlimit=" + heightLimit + ", sizeLimit=" + byteLimit +
+                    ", mWidth=" + mWidth + ", mHeight=" + mHeight +
+                    ", initialScaleFactor=" + scaleFactor);
         }
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = s;
 
         InputStream input = null;
         try {
-            input = mContext.getContentResolver().openInputStream(mUri);
-            Bitmap b = BitmapFactory.decodeStream(input, null, options);
-            if (b == null) {
-                return null;
-            }
+            ByteArrayOutputStream os = null;
+            int attempts = 1;
 
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            b.compress(CompressFormat.JPEG, MessageUtils.IMAGE_COMPRESSION_QUALITY, os);
-            return os.toByteArray();
+            do {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = scaleFactor;
+                input = mContext.getContentResolver().openInputStream(mUri);
+                int quality = MessageUtils.IMAGE_COMPRESSION_QUALITY;
+                try {
+                    Bitmap b = BitmapFactory.decodeStream(input, null, options);
+                    if (b == null) {
+                        return null;
+                    }
+                    if (options.outWidth > widthLimit || options.outHeight > heightLimit) {
+                        // The decoder does not support the inSampleSize option.
+                        // Scale the bitmap using Bitmap library.
+                        int scaledWidth = outWidth / scaleFactor;
+                        int scaledHeight = outHeight / scaleFactor;
+
+                        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                            Log.v(TAG, "getResizedImageData: retry scaling using " +
+                                    "Bitmap.createScaledBitmap: w=" + scaledWidth +
+                                    ", h=" + scaledHeight);
+                        }
+
+                        b = Bitmap.createScaledBitmap(b, outWidth / scaleFactor,
+                                outHeight / scaleFactor, false);
+                        if (b == null) {
+                            return null;
+                        }
+                    }
+
+                    // Compress the image into a JPG. Start with MessageUtils.IMAGE_COMPRESSION_QUALITY.
+                    // In case that the image byte size is still too large reduce the quality in
+                    // proportion to the desired byte size. Should the quality fall below
+                    // MINIMUM_IMAGE_COMPRESSION_QUALITY skip a compression attempt and we will enter
+                    // the next round with a smaller image to start with.
+                    os = new ByteArrayOutputStream();
+                    b.compress(CompressFormat.JPEG, quality, os);
+                    int jpgFileSize = os.size();
+                    if (jpgFileSize > byteLimit) {
+                        int reducedQuality = quality * byteLimit / jpgFileSize;
+                        if (reducedQuality >= MessageUtils.MINIMUM_IMAGE_COMPRESSION_QUALITY) {
+                            quality = reducedQuality;
+
+                            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                                Log.v(TAG, "getResizedImageData: compress(2) w/ quality=" + quality);
+                            }
+
+                            os = new ByteArrayOutputStream();
+                            b.compress(CompressFormat.JPEG, quality, os);
+                        }
+                    }
+                } catch (java.lang.OutOfMemoryError e) {
+                    Log.e(TAG, e.getMessage(), e);
+                    // fall through and keep trying with a smaller scale factor.
+                }
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    Log.v(TAG, "attempt=" + attempts
+                            + " size=" + (os == null ? 0 : os.size())
+                            + " width=" + outWidth / scaleFactor
+                            + " height=" + outHeight / scaleFactor
+                            + " scaleFactor=" + scaleFactor
+                            + " quality=" + quality);
+                }
+                scaleFactor *= 2;
+                attempts++;
+            } while ((os == null || os.size() > byteLimit) && attempts < NUMBER_OF_RESIZE_ATTEMPTS);
+
+            return os == null ? null : os.toByteArray();
         } catch (FileNotFoundException e) {
             Log.e(TAG, e.getMessage(), e);
             return null;

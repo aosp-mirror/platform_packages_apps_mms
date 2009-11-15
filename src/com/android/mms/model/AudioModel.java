@@ -40,7 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AudioModel extends MediaModel {
-    private static final String TAG = "AudioModel";
+    private static final String TAG = MediaModel.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
@@ -135,6 +135,9 @@ public class AudioModel extends MediaModel {
         MediaAction action = MediaAction.NO_ACTIVE_ACTION;
         if (evtType.equals(SmilMediaElementImpl.SMIL_MEDIA_START_EVENT)) {
             action = MediaAction.START;
+            // if the Music player app is playing audio, we should pause that so it won't
+            // interfere with us playing audio here.
+            pauseMusicPlayer();
         } else if (evtType.equals(SmilMediaElementImpl.SMIL_MEDIA_END_EVENT)) {
             action = MediaAction.STOP;
         } else if (evtType.equals(SmilMediaElementImpl.SMIL_MEDIA_PAUSE_EVENT)) {

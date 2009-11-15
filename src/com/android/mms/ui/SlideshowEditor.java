@@ -35,7 +35,7 @@ import android.util.Log;
  * An utility to edit contents of a slide.
  */
 public class SlideshowEditor {
-    private static final String TAG = "SlideshowEditor";
+    private static final String TAG = "Mms:slideshow";
 
     private static final int MAX_SLIDE_NUM = 10;
 

@@ -36,7 +36,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -131,8 +130,7 @@ public class ManageSimMessages extends Activity
                     updateState(SHOW_EMPTY);
                 } else if (mListAdapter == null) {
                     mListAdapter = new MessageListAdapter(
-                            mParent, mCursor, mSimList, false,
-                            Threads.COMMON_THREAD);
+                            mParent, mCursor, mSimList, false, null, true);
                     mSimList.setAdapter(mListAdapter);
                     mSimList.setOnCreateContextMenuListener(mParent);
                     updateState(SHOW_LIST);
@@ -142,6 +140,9 @@ public class ManageSimMessages extends Activity
                 }
                 startManagingCursor(mCursor);
                 registerSimChangeObserver();
+            } else {
+                // Let user know the SIM is empty
+                updateState(SHOW_EMPTY);
             }
         }
     }

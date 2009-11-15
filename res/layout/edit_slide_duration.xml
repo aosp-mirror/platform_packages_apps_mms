@@ -42,7 +42,7 @@
         android:gravity="center_horizontal">
 
         <EditText android:id="@+id/text"
-            android:layout_width="wrap_content"
+            android:layout_width="60dip"
             android:layout_height="wrap_content"
             android:numeric="integer"
             android:maxLength="4"

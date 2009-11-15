@@ -19,11 +19,11 @@ package com.android.mms.ui;
 
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
+import com.android.mms.LogTag;
+import com.android.mms.data.WorkingMessage;
 import com.android.mms.model.MediaModel;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
-import com.android.mms.model.CarrierContentRestriction;
-import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.transaction.MmsMessageSender;
 import com.android.mms.util.AddressUtils;
 import com.google.android.mms.ContentType;
@@ -32,6 +32,7 @@ import com.google.android.mms.pdu.CharacterSets;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.MultimediaMessagePdu;
 import com.google.android.mms.pdu.NotificationInd;
+import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
@@ -41,9 +42,7 @@ import com.google.android.mms.util.SqliteWrapper;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -56,10 +55,8 @@ import android.graphics.Bitmap.CompressFormat;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
-import android.provider.Settings;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -67,9 +64,10 @@ import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.text.style.URLSpan;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.ref.WeakReference;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,10 +78,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MessageUtils {
     interface ResizeImageResultCallback {
-        void onResizeResult(PduPart part);
+        void onResizeResult(PduPart part, boolean append);
     }
 
-    private static final String TAG = "MessageUtils";
+    private static final String TAG = LogTag.TAG;
     private static String sLocalNumber;
 
     // Cache of both groups of space-separated ids to their full
@@ -96,14 +94,23 @@ public class MessageUtils {
     private static final Map<String, String> sRecipientAddress =
             new ConcurrentHashMap<String, String>(20 /* initial capacity */);
 
-    public static final int READ_THREAD   = 1;
 
-    // Cache the most previous lookup of whether we're in 24-hour
-    // display mode, as that's an expensive operation based on
-    // traceview results (as of 2008-12-27). These are both guarded
-    // by a class lock.
-    private static WeakReference<Context> s24HourLastContext;
-    private static boolean sCached24HourMode;
+    /**
+     * MMS address parsing data structures
+     */
+    // allowable phone number separators
+    private static final char[] NUMERIC_CHARS_SUGAR = {
+        '-', '.', ',', '(', ')', ' ', '/', '\\', '*', '#', '+'
+    };
+
+    private static HashMap numericSugarMap = new HashMap (NUMERIC_CHARS_SUGAR.length);
+
+    static {
+        for (int i = 0; i < NUMERIC_CHARS_SUGAR.length; i++) {
+            numericSugarMap.put(NUMERIC_CHARS_SUGAR[i], NUMERIC_CHARS_SUGAR[i]);
+        }
+    }
+
 
     private MessageUtils() {
         // Forbidden being instantiated.
@@ -233,7 +240,7 @@ public class MessageUtils {
         else {
             Log.w(TAG, "recipient list is empty!");
         }
-            
+
 
         // Bcc: ***
         if (msg instanceof SendReq) {
@@ -334,39 +341,39 @@ public class MessageUtils {
 
     public static int getAttachmentType(SlideshowModel model) {
         if (model == null) {
-            return AttachmentEditor.EMPTY;
+            return WorkingMessage.TEXT;
         }
 
         int numberOfSlides = model.size();
         if (numberOfSlides > 1) {
-            return AttachmentEditor.SLIDESHOW_ATTACHMENT;
+            return WorkingMessage.SLIDESHOW;
         } else if (numberOfSlides == 1) {
             // Only one slide in the slide-show.
             SlideModel slide = model.get(0);
             if (slide.hasVideo()) {
-                return AttachmentEditor.VIDEO_ATTACHMENT;
+                return WorkingMessage.VIDEO;
             }
 
             if (slide.hasAudio() && slide.hasImage()) {
-                return AttachmentEditor.SLIDESHOW_ATTACHMENT;
+                return WorkingMessage.SLIDESHOW;
             }
 
             if (slide.hasAudio()) {
-                return AttachmentEditor.AUDIO_ATTACHMENT;
+                return WorkingMessage.AUDIO;
             }
 
             if (slide.hasImage()) {
-                return AttachmentEditor.IMAGE_ATTACHMENT;
+                return WorkingMessage.IMAGE;
             }
 
             if (slide.hasText()) {
-                return AttachmentEditor.TEXT_ONLY;
+                return WorkingMessage.TEXT;
             }
         }
 
-        return AttachmentEditor.EMPTY;
+        return WorkingMessage.TEXT;
     }
-    
+
     public static String formatTimeStampString(Context context, long when) {
         return formatTimeStampString(context, when, false);
     }
@@ -381,15 +388,6 @@ public class MessageUtils {
         int format_flags = DateUtils.FORMAT_NO_NOON_MIDNIGHT |
                            DateUtils.FORMAT_ABBREV_ALL |
                            DateUtils.FORMAT_CAP_AMPM;
-        
-        // DateUtils does this for you, but it ultimately makes the call to the slow
-        // DateFormat.is24HourFormat() method that we cache the result of, so
-        // override that for now until is24HourFormat() is made to be fast.
-        if (get24HourMode(context)) {
-            format_flags |= DateUtils.FORMAT_24HOUR;
-        } else {
-            format_flags |= DateUtils.FORMAT_12HOUR;
-        }
 
         // If the message is from a different year, show the date and year.
         if (then.year != now.year) {
@@ -410,19 +408,6 @@ public class MessageUtils {
         }
 
         return DateUtils.formatDateTime(context, when, format_flags);
-    }
-    
-    /**
-     * @return true if clock is set to 24-hour mode
-     */
-    static synchronized boolean get24HourMode(final Context context) {
-        if (s24HourLastContext != null &&
-            s24HourLastContext.get() == context) {
-            return sCached24HourMode;
-        }
-        s24HourLastContext = new WeakReference<Context>(context);
-        sCached24HourMode = android.text.format.DateFormat.is24HourFormat(context);
-        return sCached24HourMode;
     }
 
     /**
@@ -472,7 +457,7 @@ public class MessageUtils {
                     try {
                         if (c.moveToFirst()) {
                             value = c.getString(0);
-                            sRecipientAddress.put(recipientId, value);                            
+                            sRecipientAddress.put(recipientId, value);
                         }
                     } finally {
                         c.close();
@@ -493,37 +478,13 @@ public class MessageUtils {
         return (addressBuf.length() == 0) ? null : addressBuf;
     }
 
-    public static String getAddressByThreadId(Context context, long threadId) {
-        String[] projection = new String[] { Threads.RECIPIENT_IDS };
-
-        Uri.Builder builder = Threads.CONTENT_URI.buildUpon();
-        builder.appendQueryParameter("simple", "true");
-        Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
-                            builder.build(), projection,
-                            Threads._ID + "=" + threadId, null, null);
-
-        if (cursor != null) {
-            try {
-                if ((cursor.getCount() == 1) && cursor.moveToFirst()) {
-                    String address = getRecipientsByIds(context,
-                            cursor.getString(0), true /* allow query */);
-                    if (!TextUtils.isEmpty(address)) {
-                        return address;
-                    }
-                }
-            } finally {
-                cursor.close();
-            }
-        }
-        return null;
-    }
-
     public static void selectAudio(Context context, int requestCode) {
         if (context instanceof Activity) {
             Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
             intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
             intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
-            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, 
+            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_INCLUDE_DRM, false);
+            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE,
                     context.getString(R.string.select_audio));
             ((Activity) context).startActivityForResult(intent, requestCode);
         }
@@ -574,14 +535,20 @@ public class MessageUtils {
         } else if (slide.hasVideo()) {
             mm = slide.getVideo();
         }
-        
+
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setType(mm.getContentType());
-        intent.setData(mm.getUri());
+
+        String contentType;
+        if (mm.isDrmProtected()) {
+            contentType = mm.getDrmObject().getContentType();
+        } else {
+            contentType = mm.getContentType();
+        }
+        intent.setDataAndType(mm.getUri(), contentType);
         context.startActivity(intent);
     }
-    
+
     public static void showErrorDialog(Context context,
             String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -597,9 +564,14 @@ public class MessageUtils {
      * The quality parameter which is used to compress JPEG images.
      */
     public static final int IMAGE_COMPRESSION_QUALITY = 80;
+    /**
+     * The minimum quality parameter which is used to compress JPEG images.
+     */
+    public static final int MINIMUM_IMAGE_COMPRESSION_QUALITY = 50;
 
     public static Uri saveBitmapAsPart(Context context, Uri messageUri, Bitmap bitmap)
             throws MmsException {
+
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         bitmap.compress(CompressFormat.JPEG, IMAGE_COMPRESSION_QUALITY, os);
 
@@ -611,34 +583,40 @@ public class MessageUtils {
         part.setContentId(contentId.getBytes());
         part.setData(os.toByteArray());
 
-        return PduPersister.getPduPersister(context).persistPart(part,
+        Uri retVal = PduPersister.getPduPersister(context).persistPart(part,
                         ContentUris.parseId(messageUri));
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("saveBitmapAsPart: persisted part with uri=" + retVal);
+        }
+
+        return retVal;
     }
+
+    /**
+     * Message overhead that reduces the maximum image byte size.
+     * 5000 is a realistic overhead number that allows for user to also include
+     * a small MIDI file or a couple pages of text along with the picture.
+     */
+    public static final int MESSAGE_OVERHEAD = 5000;
 
     public static void resizeImageAsync(final Context context,
             final Uri imageUri, final Handler handler,
-            final ResizeImageResultCallback cb) {
+            final ResizeImageResultCallback cb,
+            final boolean append) {
 
-        // Show a progress dialog if the resize hasn't finished
+        // Show a progress toast if the resize hasn't finished
         // within one second.
-
-        // Make the progress dialog.
-        final ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.setTitle(context.getText(R.string.image_too_large));
-        progressDialog.setMessage(context.getText(R.string.compressing));
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-        
         // Stash the runnable for showing it away so we can cancel
         // it later if the resize completes ahead of the deadline.
         final Runnable showProgress = new Runnable() {
             public void run() {
-                progressDialog.show();
+                Toast.makeText(context, R.string.compressing, Toast.LENGTH_SHORT).show();
             }
         };
         // Schedule it for one second from now.
         handler.postDelayed(showProgress, 1000);
-        
+
         new Thread(new Runnable() {
             public void run() {
                 final PduPart part;
@@ -646,17 +624,16 @@ public class MessageUtils {
                     UriImage image = new UriImage(context, imageUri);
                     part = image.getResizedImageAsPart(
                         MmsConfig.getMaxImageWidth(),
-                        MmsConfig.getMaxImageHeight());
+                        MmsConfig.getMaxImageHeight(),
+                        MmsConfig.getMaxMessageSize() - MESSAGE_OVERHEAD);
                 } finally {
-                    // Cancel pending show of the progress dialog if necessary.
+                    // Cancel pending show of the progress toast if necessary.
                     handler.removeCallbacks(showProgress);
-                    // Dismiss the progress dialog if it's around.
-                    progressDialog.dismiss();
                 }
 
                 handler.post(new Runnable() {
                     public void run() {
-                        cb.onResizeResult(part);
+                        cb.onResizeResult(part, append);
                     }
                 });
             }
@@ -674,7 +651,7 @@ public class MessageUtils {
                 .show();
     }
 
-    private static String getLocalNumber() {
+    public static String getLocalNumber() {
         if (null == sLocalNumber) {
             sLocalNumber = TelephonyManager.getDefault().getLine1Number();
         }
@@ -790,7 +767,7 @@ public class MessageUtils {
             return "";
         }
     }
-    
+
     public static ArrayList<String> extractUris(URLSpan[] spans) {
         int size = spans.length;
         ArrayList<String> accumulator = new ArrayList<String>();
@@ -814,22 +791,176 @@ public class MessageUtils {
      * @param sendReq the SendReq for updating the database
      */
     public static void viewMmsMessageAttachment(Context context, Uri msgUri,
-            SlideshowModel slideshow, PduPersister persister) {
+            SlideshowModel slideshow) {
         boolean isSimple = (slideshow == null) ? false : slideshow.isSimple();
         if (isSimple) {
             // In attachment-editor mode, we only ever have one slide.
             MessageUtils.viewSimpleSlideshow(context, slideshow);
         } else {
-            // Save the slideshow first.
-            if (slideshow != null && persister != null) {
-                final SendReq sendReq = new SendReq();
-                ComposeMessageActivity.updateTemporaryMmsMessage(
-                        msgUri, persister, slideshow, sendReq);
+            // If a slideshow was provided, save it to disk first.
+            if (slideshow != null) {
+                PduPersister persister = PduPersister.getPduPersister(context);
+                try {
+                    PduBody pb = slideshow.toPduBody();
+                    persister.updateParts(msgUri, pb);
+                    slideshow.sync(pb);
+                } catch (MmsException e) {
+                    Log.e(TAG, "Unable to save message for preview");
+                    return;
+                }
             }
             // Launch the slideshow activity to play/view.
             Intent intent = new Intent(context, SlideshowActivity.class);
             intent.setData(msgUri);
             context.startActivity(intent);
         }
+    }
+
+    public static void viewMmsMessageAttachment(Context context, WorkingMessage msg) {
+        SlideshowModel slideshow = msg.getSlideshow();
+        if (slideshow == null) {
+            throw new IllegalStateException("msg.getSlideshow() == null");
+        }
+        if (slideshow.isSimple()) {
+            MessageUtils.viewSimpleSlideshow(context, slideshow);
+        } else {
+            Uri uri = msg.saveAsMms(false);
+            viewMmsMessageAttachment(context, uri, slideshow);
+        }
+    }
+
+    /**
+     * Debugging
+     */
+    public static void writeHprofDataToFile(){
+        String filename = "/sdcard/mms_oom_hprof_data";
+        try {
+            android.os.Debug.dumpHprofData(filename);
+            Log.i(TAG, "##### written hprof data to " + filename);
+        } catch (IOException ex) {
+            Log.e(TAG, "writeHprofDataToFile: caught " + ex);
+        }
+    }
+
+    public static boolean isAlias(String string) {
+        if (!MmsConfig.isAliasEnabled()) {
+            return false;
+        }
+
+        if (TextUtils.isEmpty(string)) {
+            return false;
+        }
+
+        // TODO: not sure if this is the right thing to use. Mms.isPhoneNumber() is
+        // intended for searching for things that look like they might be phone numbers
+        // in arbitrary text, not for validating whether something is in fact a phone number.
+        // It will miss many things that are legitimate phone numbers.
+        if (Mms.isPhoneNumber(string)) {
+            return false;
+        }
+
+        if (!isAlphaNumeric(string)) {
+            return false;
+        }
+
+        int len = string.length();
+
+        if (len < MmsConfig.getAliasMinChars() || len > MmsConfig.getAliasMaxChars()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean isAlphaNumeric(String s) {
+        char[] chars = s.toCharArray();
+        for (int x = 0; x < chars.length; x++) {
+            char c = chars[x];
+
+            if ((c >= 'a') && (c <= 'z')) {
+                continue;
+            }
+            if ((c >= 'A') && (c <= 'Z')) {
+                continue;
+            }
+            if ((c >= '0') && (c <= '9')) {
+                continue;
+            }
+
+            return false;
+        }
+        return true;
+    }
+
+
+
+
+    /**
+     * Given a phone number, return the string without syntactic sugar, meaning parens,
+     * spaces, slashes, dots, dashes, etc. If the input string contains non-numeric
+     * non-punctuation characters, return null.
+     */
+    private static String parsePhoneNumberForMms(String address) {
+        StringBuilder builder = new StringBuilder();
+        int len = address.length();
+
+        for (int i = 0; i < len; i++) {
+            char c = address.charAt(i);
+
+            // accept the first '+' in the address
+            if (c == '+' && builder.length() == 0) {
+                builder.append(c);
+                continue;
+            }
+
+            if (Character.isDigit(c)) {
+                builder.append(c);
+                continue;
+            }
+
+            if (numericSugarMap.get(c) == null) {
+                return null;
+            }
+        }
+        return builder.toString();
+    }
+
+    /**
+     * Returns true if the address passed in is a valid MMS address.
+     */
+    public static boolean isValidMmsAddress(String address) {
+        String retVal = parseMmsAddress(address);
+        return (retVal != null);
+    }
+
+    /**
+     * parse the input address to be a valid MMS address.
+     * - if the address is an email address, leave it as is.
+     * - if the address can be parsed into a valid MMS phone number, return the parsed number.
+     * - if the address is a compliant alias address, leave it as is.
+     */
+    public static String parseMmsAddress(String address) {
+        // if it's a valid Email address, use that.
+        if (Mms.isEmailAddress(address)) {
+            return address;
+        }
+
+        // if we are able to parse the address to a MMS compliant phone number, take that.
+        String retVal = parsePhoneNumberForMms(address);
+        if (retVal != null) {
+            return retVal;
+        }
+
+        // if it's an alias compliant address, use that.
+        if (isAlias(address)) {
+            return address;
+        }
+
+        // it's not a valid MMS address, return null
+        return null;
+    }
+
+    private static void log(String msg) {
+        Log.d(TAG, "[MsgUtils] " + msg);
     }
 }

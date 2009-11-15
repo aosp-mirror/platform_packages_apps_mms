@@ -17,6 +17,8 @@
 
 package com.android.mms;
 
+import com.android.mms.data.Contact;
+import com.android.mms.data.Conversation;
 import com.android.mms.drm.DrmUtils;
 import com.android.mms.layout.LayoutManager;
 import com.android.mms.util.ContactInfoCache;
@@ -42,7 +44,9 @@ public class MmsApp extends Application {
 
         MmsConfig.init(this);
         ContactInfoCache.init(this);
+        Contact.init(this);
         DraftCache.init(this);
+        Conversation.init(this);
         DownloadManager.init(this);
         RateController.init(this);
         DrmUtils.cleanupStorage(this);
