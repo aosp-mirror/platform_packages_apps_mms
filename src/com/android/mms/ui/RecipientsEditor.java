@@ -264,7 +264,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
 
                 if (end != start) {
                     String number = getNumberAt(getText(), start, end, mContext);
-                    Contact c = Contact.get(number, true);
+                    Contact c = Contact.get(number, false);
                     return new RecipientContextMenuInfo(c);
                 }
             }
