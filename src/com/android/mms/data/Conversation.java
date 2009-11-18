@@ -132,7 +132,7 @@ public class Conversation {
             long threadId = getOrCreateThreadId(context, recipients);
             conv = new Conversation(context, threadId);
             conv.setRecipients(recipients);
- 
+
             try {
                 Cache.put(conv);
             } catch (IllegalStateException e) {
@@ -386,7 +386,7 @@ public class Conversation {
         HashSet<String> recipients = new HashSet<String>();
         Contact cacheContact = null;
         for (Contact c : list) {
-            cacheContact = Contact.get(c.getNumber(),true);
+            cacheContact = Contact.get(c.getNumber(), false);
             if (cacheContact != null) {
                 recipients.add(cacheContact.getNumber());
             } else {
