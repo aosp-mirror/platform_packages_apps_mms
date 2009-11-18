@@ -120,7 +120,7 @@ public class MessageItem {
                 mContact = meString;
             } else {
                 // For incoming messages, the ADDRESS field contains the sender.
-                mContact = Contact.get(mAddress, true).getName();
+                mContact = Contact.get(mAddress, false).getName();
             }
             mBody = cursor.getString(columnsMap.mColumnSmsBody);
 
@@ -239,7 +239,7 @@ public class MessageItem {
             // notification system uses.
             mAddress = AddressUtils.getFrom(mContext, messageUri);
         }
-        mContact = TextUtils.isEmpty(mAddress) ? "" : Contact.get(mAddress, true).getName();
+        mContact = TextUtils.isEmpty(mAddress) ? "" : Contact.get(mAddress, false).getName();
     }
 
     private int getTimestampStrId() {
