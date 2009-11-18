@@ -827,7 +827,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     private boolean isNumberInContacts(String phoneNumber) {
-        return Contact.get(phoneNumber, true).existsInDatabase();
+        return Contact.get(phoneNumber, false).existsInDatabase();
     }
 
     private final OnCreateContextMenuListener mMsgListMenuCreateListener =
