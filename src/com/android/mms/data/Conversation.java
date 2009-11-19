@@ -99,24 +99,22 @@ public class Conversation {
      * Find the conversation matching the provided thread ID.
      */
     public static Conversation get(Context context, long threadId) {
-        synchronized (Cache.getInstance()) {
-            Conversation conv = Cache.get(threadId);
-            if (conv != null)
-                return conv;
-
-            conv = new Conversation(context, threadId);
-            try {
-                Cache.put(conv);
-            } catch (IllegalStateException e) {
-                LogTag.error("Tried to add duplicate Conversation to Cache");
-            }
+        Conversation conv = Cache.get(threadId);
+        if (conv != null)
             return conv;
+
+        conv = new Conversation(context, threadId);
+        try {
+            Cache.put(conv);
+        } catch (IllegalStateException e) {
+            LogTag.error("Tried to add duplicate Conversation to Cache");
         }
+        return conv;
     }
 
     /**
      * Find the conversation matching the provided recipient set.
-     * When called with an empty recipient list, equivalent to {@link createEmpty}.
+     * When called with an empty recipient list, equivalent to {@link #createNew}.
      */
     public static Conversation get(Context context, ContactList recipients) {
         // If there are no recipients in the list, make a new conversation.
@@ -124,46 +122,42 @@ public class Conversation {
             return createNew(context);
         }
 
-        synchronized (Cache.getInstance()) {
-            Conversation conv = Cache.get(recipients);
-            if (conv != null)
-                return conv;
-
-            long threadId = getOrCreateThreadId(context, recipients);
-            conv = new Conversation(context, threadId);
-            conv.setRecipients(recipients);
-
-            try {
-                Cache.put(conv);
-            } catch (IllegalStateException e) {
-                LogTag.error("Tried to add duplicate Conversation to Cache");
-            }
-
+        Conversation conv = Cache.get(recipients);
+        if (conv != null)
             return conv;
+
+        long threadId = getOrCreateThreadId(context, recipients);
+        conv = new Conversation(context, threadId);
+        conv.setRecipients(recipients);
+
+        try {
+            Cache.put(conv);
+        } catch (IllegalStateException e) {
+            LogTag.error("Tried to add duplicate Conversation to Cache");
         }
+
+        return conv;
     }
 
     /**
      * Find the conversation matching in the specified Uri.  Example
      * forms: {@value content://mms-sms/conversations/3} or
      * {@value sms:+12124797990}.
-     * When called with a null Uri, equivalent to {@link createEmpty}.
+     * When called with a null Uri, equivalent to {@link #createNew}.
      */
     public static Conversation get(Context context, Uri uri) {
         if (uri == null) {
             return createNew(context);
         }
 
-        if (DEBUG) {
-            Log.v(TAG, "Conversation get URI: " + uri);
-        }
+        if (DEBUG) Log.v(TAG, "Conversation get URI: " + uri);
+
         // Handle a conversation URI
         if (uri.getPathSegments().size() >= 2) {
             try {
                 long threadId = Long.parseLong(uri.getPathSegments().get(1));
-                if (DEBUG) {
-                    Log.v(TAG, "Conversation get threadId: " + threadId);
-                }
+                if (DEBUG) Log.v(TAG, "Conversation get threadId: " + threadId);
+
                 return get(context, threadId);
             } catch (NumberFormatException exception) {
                 LogTag.error("Invalid URI: " + uri);
@@ -262,7 +256,7 @@ public class Conversation {
 
     /**
      * Returns the thread ID of this conversation.  Can be zero if
-     * {@link ensureThreadId} has not been called yet.
+     * {@link #ensureThreadId} has not been called yet.
      */
     public synchronized long getThreadId() {
         return mThreadId;
@@ -300,7 +294,7 @@ public class Conversation {
 
     /**
      * Sets the list of recipients associated with this conversation.
-     * If called, {@link ensureThreadId} must be called before the next
+     * If called, {@link #ensureThreadId} must be called before the next
      * operation that depends on this conversation existing in the
      * database (e.g. storing a draft message to it).
      */
@@ -340,7 +334,7 @@ public class Conversation {
 
     /**
      * Returns the time of the last update to this conversation in milliseconds,
-     * on the {@link System.currentTimeMillis} timebase.
+     * on the {@link System#currentTimeMillis} timebase.
      */
     public synchronized long getDate() {
         return mDate;
@@ -497,7 +491,7 @@ public class Conversation {
      * Fill the specified conversation with the values from the specified
      * cursor, possibly setting recipients to empty if {@value allowQuery}
      * is false and the recipient IDs are not in cache.  The cursor should
-     * be one made via {@link startQueryForAll}.
+     * be one made via {@link #startQueryForAll}.
      */
     private static void fillFromCursor(Context context, Conversation conv,
                                        Cursor c, boolean allowQuery) {
