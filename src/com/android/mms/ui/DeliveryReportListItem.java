@@ -54,8 +54,7 @@ public class DeliveryReportListItem extends LinearLayout {
 
     public final void bind(String recipient, String status) {
         // Recipient
-        // TODO: Make the call to Contact.get() guaranteed non-blocking.
-        mRecipientView.setText(Contact.get(recipient, true).getName());
+        mRecipientView.setText(Contact.get(recipient, false).getName());
 
         // Status text
         mStatusView.setText(status);
