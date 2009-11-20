@@ -201,7 +201,8 @@ public class Contact {
         }
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("asyncUpdateContact for " + c.toString());
+            log("asyncUpdateContact for " + c.toString() + " canBlock: " + canBlock +
+                " isStale: " + c.mIsStale);
         }
 
         Runnable r = new Runnable() {
@@ -221,7 +222,6 @@ public class Contact {
         if (c == null) {
             return;
         }
-        c.mIsStale = false;
 
         ContactInfoCache cache = ContactInfoCache.getInstance();
         ContactInfoCache.CacheEntry entry = cache.getContactInfo(c.mNumber);
@@ -239,6 +239,7 @@ public class Contact {
                 c.mPresenceResId = entry.presenceResId;
                 c.mPresenceText = entry.presenceText;
                 c.mAvatar = entry.mAvatar;
+                c.mIsStale = false;
 
                 // Check to see if this is the local ("me") number and update the name.
                 handleLocalNumber(c);
