@@ -3177,9 +3177,16 @@ public class ComposeMessageActivity extends Activity
         // Using an existing handler for the post, rather than conjuring up a new one.
         mMessageListItemHandler.post(new Runnable() {
             public void run() {
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    log("[CMA] onUpdate contact updated: " + updated);
+                }
                 ContactList recipients = isRecipientsEditorVisible() ?
                         mRecipientsEditor.constructContactsFromInput() : getRecipients();
                 updateTitle(recipients);
+
+                // The contact information for one (or more) of the recipients has changed.
+                // Rebuild the message list so each MessageItem will get the last contact info.
+                ComposeMessageActivity.this.mMsgListAdapter.notifyDataSetChanged();
             }
         });
     }
