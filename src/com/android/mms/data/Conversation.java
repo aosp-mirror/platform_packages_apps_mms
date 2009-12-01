@@ -73,9 +73,9 @@ public class Conversation {
         mThreadId = 0;
     }
 
-    private Conversation(Context context, long threadId) {
+    private Conversation(Context context, long threadId, boolean allowQuery) {
         mContext = context;
-        if (!loadFromThreadId(threadId)) {
+        if (!loadFromThreadId(threadId, allowQuery)) {
             mRecipients = new ContactList();
             mThreadId = 0;
         }
@@ -98,12 +98,12 @@ public class Conversation {
     /**
      * Find the conversation matching the provided thread ID.
      */
-    public static Conversation get(Context context, long threadId) {
+    public static Conversation get(Context context, long threadId, boolean allowQuery) {
         Conversation conv = Cache.get(threadId);
         if (conv != null)
             return conv;
 
-        conv = new Conversation(context, threadId);
+        conv = new Conversation(context, threadId, allowQuery);
         try {
             Cache.put(conv);
         } catch (IllegalStateException e) {
@@ -116,7 +116,7 @@ public class Conversation {
      * Find the conversation matching the provided recipient set.
      * When called with an empty recipient list, equivalent to {@link #createNew}.
      */
-    public static Conversation get(Context context, ContactList recipients) {
+    public static Conversation get(Context context, ContactList recipients, boolean allowQuery) {
         // If there are no recipients in the list, make a new conversation.
         if (recipients.size() < 1) {
             return createNew(context);
@@ -127,7 +127,7 @@ public class Conversation {
             return conv;
 
         long threadId = getOrCreateThreadId(context, recipients);
-        conv = new Conversation(context, threadId);
+        conv = new Conversation(context, threadId, allowQuery);
         conv.setRecipients(recipients);
 
         try {
@@ -145,7 +145,7 @@ public class Conversation {
      * {@value sms:+12124797990}.
      * When called with a null Uri, equivalent to {@link #createNew}.
      */
-    public static Conversation get(Context context, Uri uri) {
+    public static Conversation get(Context context, Uri uri, boolean allowQuery) {
         if (uri == null) {
             return createNew(context);
         }
@@ -156,9 +156,10 @@ public class Conversation {
         if (uri.getPathSegments().size() >= 2) {
             try {
                 long threadId = Long.parseLong(uri.getPathSegments().get(1));
-                if (DEBUG) Log.v(TAG, "Conversation get threadId: " + threadId);
-
-                return get(context, threadId);
+                if (DEBUG) {
+                    Log.v(TAG, "Conversation get threadId: " + threadId);
+                }
+                return get(context, threadId, allowQuery);
             } catch (NumberFormatException exception) {
                 LogTag.error("Invalid URI: " + uri);
             }
@@ -166,7 +167,7 @@ public class Conversation {
 
         String recipient = uri.getSchemeSpecificPart();
         return get(context, ContactList.getByNumbers(recipient,
-                false /* don't block */, true /* replace number */));
+                allowQuery /* don't block */, true /* replace number */), allowQuery);
     }
 
     /**
@@ -514,7 +515,7 @@ public class Conversation {
         // Fill in as much of the conversation as we can before doing the slow stuff of looking
         // up the contacts associated with this conversation.
         String recipientIds = c.getString(RECIPIENT_IDS);
-        ContactList recipients = ContactList.getByIds(recipientIds, allowQuery);;
+        ContactList recipients = ContactList.getByIds(recipientIds, allowQuery);
         synchronized (conv) {
             conv.mRecipients = recipients;
         }
@@ -720,12 +721,12 @@ public class Conversation {
        Cache.keepOnly(threadsOnDisk);
    }
 
-    private boolean loadFromThreadId(long threadId) {
+    private boolean loadFromThreadId(long threadId, boolean allowQuery) {
         Cursor c = mContext.getContentResolver().query(sAllThreadsUri, ALL_THREADS_PROJECTION,
                 "_id=" + Long.toString(threadId), null, null);
         try {
             if (c.moveToFirst()) {
-                fillFromCursor(mContext, this, c, true);
+                fillFromCursor(mContext, this, c, allowQuery);
             } else {
                 LogTag.error("loadFromThreadId: Can't find thread ID " + threadId);
                 return false;
