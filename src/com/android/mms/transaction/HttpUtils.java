@@ -157,6 +157,10 @@ public class HttpUtils {
                 String xWapProfileUrl = MmsConfig.getUaProfUrl();
 
                 if (xWapProfileUrl != null) {
+                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                        Log.d(LogTag.TRANSACTION,
+                                "[HttpUtils] httpConn: xWapProfUrl=" + xWapProfileUrl);
+                    }
                     req.addHeader(xWapProfileTagName, xWapProfileUrl);
                 }
             }
