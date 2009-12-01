@@ -151,22 +151,22 @@
     <string name="preferences_title" msgid="6650089610332670157">"Paramètres"</string>
     <string name="restore_default" msgid="7165341506551155053">"Rétablir les paramètres par défaut"</string>
     <string name="pref_notification_settings_title" msgid="4860726154770053004">"Paramètres de notification"</string>
-    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Paramètres des messages multimédia (MMS)"</string>
-    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Paramètres des messages SMS"</string>
+    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Paramètres des MMS"</string>
+    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Paramètres des SMS"</string>
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"Paramètres de stockage"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Gérer les messages enregistrés sur votre carte SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Demander un accusé de réception pour chaque message envoyé"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Demander une confirmation de lecture pour chaque message envoyé"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Demander un accusé de réception pour chaque message envoyé"</string>
-    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Supprimer les anciens messages lorsque la limite est atteinte"</string>
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Supprimer lorsque les limites suivantes sont atteintes"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> messages par conversation"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Gestion messages carte SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Accusés de réception"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Confirmations de lecture"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Accusés de réception"</string>
-    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Supprimer les anciens messages"</string>
-    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limite des messages"</string>
-    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite des messages MMS"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Anciens messages"</string>
+    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limite pour les SMS"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite pour les MMS"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notifications"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Afficher les notifications de message dans la barre d\'état"</string>
     <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"Vibreur"</string>
@@ -175,7 +175,7 @@
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Définir le nombre de messages à enregistrer"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Récupération auto"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Récupérer automatiquement les messages"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Réc. auto en itinérance"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Itinérance"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Récupérer automatiquement les messages en itinérance"</string>
     <string name="to_label" msgid="2355268818058389047">"À "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Supprimer"</string>

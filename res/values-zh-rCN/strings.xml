@@ -235,7 +235,7 @@
     <string name="attach_video" msgid="4264272693501538294">"视频"</string>
     <string name="attach_record_video" msgid="3099814114743078615">"拍摄视频"</string>
     <string name="attach_sound" msgid="3149325985970669609">"音频"</string>
-    <string name="attach_record_sound" msgid="6011431304469858929">"录制音频"</string>
+    <string name="attach_record_sound" msgid="6011431304469858929">"录音"</string>
     <string name="attach_slideshow" msgid="3497422151091037063">"幻灯片"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"底部文本"</string>
     <string name="select_top_text" msgid="6734183477539197815">"顶部文本"</string>
@@ -254,16 +254,16 @@
     <string name="type_video" msgid="8521556159545168441">"视频"</string>
     <string name="confirm" msgid="3155110885840591914">"确认"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"将会发送已读报告。"</string>
-    <string name="message_queued" msgid="8869479754825264671">"当前无法发送信息。信息将在服务可用时送出。"</string>
+    <string name="message_queued" msgid="8869479754825264671">"当前无法发送信息，将在服务恢复后发送。"</string>
     <string name="no_subject" msgid="4168963736134552285">"（无主题）"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"未知发送者"</string>
-    <string name="dl_failure_notification" msgid="2457080452886498701">"下载来自<xliff:g id="FROM">%s</xliff:g>的<xliff:g id="SUBJECT">%s</xliff:g>信息失败。"</string>
+    <string name="dl_failure_notification" msgid="2457080452886498701">"从 <xliff:g id="FROM">%s</xliff:g> 下载<xliff:g id="SUBJECT">%s</xliff:g>信息失败。"</string>
     <string name="dl_expired_notification" msgid="950390029992535809">"此短信已过期，将被删除。"</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"确认"</string>
-    <string name="confirm_rate_limit" msgid="234228299751243067">"即将发送大量多媒体信息。确定要这样做吗？"</string>
+    <string name="confirm_rate_limit" msgid="234228299751243067">"正在发送多条彩信。目前的速度如何？"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"信息未下载"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"信息未发送"</string>
-    <string name="message_failed_body" msgid="2740907094762116644">"选择查看信息并重试。"</string>
+    <string name="message_failed_body" msgid="2740907094762116644">"选择以查看信息并重试。"</string>
     <string name="download_later" msgid="4486286146421650880">"当前无法下载。请稍后再试。"</string>
     <string name="select_audio" msgid="3120822451872772124">"选择音频"</string>
     <string name="copy_to_sdcard" msgid="6056459122898138734">"将附件复制到 SD 卡"</string>
@@ -272,7 +272,7 @@
     <string name="save_ringtone" msgid="2310157075045201051">"另存为铃声"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"铃声已保存"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"无法保存铃声"</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"插入表情符"</string>
+    <string name="menu_insert_smiley" msgid="4964504393061025071">"插入表情符号"</string>
     <string name="select_link_title" msgid="600168208731216059">"选择操作"</string>
     <string name="slide_number" msgid="1923958526266726635">"幻灯片 <xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
