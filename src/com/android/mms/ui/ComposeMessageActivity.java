@@ -1753,7 +1753,7 @@ public class ComposeMessageActivity extends Activity
 
         boolean sameThread = false;
         if (threadId > 0) {
-            conversation = Conversation.get(this, threadId);
+            conversation = Conversation.get(this, threadId, false);
         } else {
             if (mConversation.getThreadId() == 0) {
                 // We've got a draft. See if the new intent's recipient is the same as
@@ -1765,7 +1765,7 @@ public class ComposeMessageActivity extends Activity
             if (!sameThread) {
                 // Otherwise, try to get a conversation based on the
                 // data URI passed to our intent.
-                conversation = Conversation.get(this, intentUri);
+                conversation = Conversation.get(this, intentUri, false);
             }
         }
 
@@ -1779,6 +1779,7 @@ public class ComposeMessageActivity extends Activity
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: same conversation");
             }
+            addRecipientsListeners();
         } else {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: different conversation, initialize...");
@@ -2951,7 +2952,8 @@ public class ComposeMessageActivity extends Activity
             String recipients = bundle.getString("recipients");
             mConversation = Conversation.get(this,
                     ContactList.getByNumbers(recipients,
-                            false /* don't block */, true /* replace number */));
+                            false /* don't block */, true /* replace number */), false);
+            addRecipientsListeners();
             mExitOnSent = bundle.getBoolean("exit_on_sent", false);
             mWorkingMessage.readStateFromBundle(bundle);
             return;
@@ -2961,24 +2963,25 @@ public class ComposeMessageActivity extends Activity
         // conversation.
         long threadId = intent.getLongExtra("thread_id", 0);
         if (threadId > 0) {
-            mConversation = Conversation.get(this, threadId);
+            mConversation = Conversation.get(this, threadId, false);
         } else {
             Uri intentData = intent.getData();
 
             if (intentData != null) {
                 // try to get a conversation based on the data URI passed to our intent.
-                mConversation = Conversation.get(this, intent.getData());
+                mConversation = Conversation.get(this, intent.getData(), false);
             } else {
                 // special intent extra parameter to specify the address
                 String address = intent.getStringExtra("address");
                 if (!TextUtils.isEmpty(address)) {
                     mConversation = Conversation.get(this, ContactList.getByNumbers(address,
-                            false /* don't block */, true /* replace number */));
+                            false /* don't block */, true /* replace number */), false);
                 } else {
                     mConversation = Conversation.createNew(this);
                 }
             }
         }
+        addRecipientsListeners();
 
         mExitOnSent = intent.getBooleanExtra("exit_on_sent", false);
         mWorkingMessage.setText(intent.getStringExtra("sms_body"));
@@ -3177,16 +3180,21 @@ public class ComposeMessageActivity extends Activity
         // Using an existing handler for the post, rather than conjuring up a new one.
         mMessageListItemHandler.post(new Runnable() {
             public void run() {
-                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                    log("[CMA] onUpdate contact updated: " + updated);
-                }
                 ContactList recipients = isRecipientsEditorVisible() ?
                         mRecipientsEditor.constructContactsFromInput() : getRecipients();
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    log("[CMA] onUpdate contact updated: " + updated);
+                    log("[CMA] onUpdate recipients: " + recipients);
+                }
                 updateTitle(recipients);
 
                 // The contact information for one (or more) of the recipients has changed.
                 // Rebuild the message list so each MessageItem will get the last contact info.
                 ComposeMessageActivity.this.mMsgListAdapter.notifyDataSetChanged();
+
+                if (mRecipientsEditor != null) {
+                    mRecipientsEditor.populate(recipients);
+                }
             }
         });
     }
