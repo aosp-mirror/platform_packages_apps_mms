@@ -129,8 +129,12 @@ public class ManageSimMessages extends Activity
                     // Let user know the SIM is empty
                     updateState(SHOW_EMPTY);
                 } else if (mListAdapter == null) {
+                    // Note that the MessageListAdapter doesn't support auto-requeries. If we
+                    // want to respond to changes we'd need to add a line like:
+                    //   mListAdapter.setOnDataSetChangedListener(mDataSetChangedListener);
+                    // See ComposeMessageActivity for an example.
                     mListAdapter = new MessageListAdapter(
-                            mParent, mCursor, mSimList, false, null, true);
+                            mParent, mCursor, mSimList, false, null);
                     mSimList.setAdapter(mListAdapter);
                     mSimList.setOnCreateContextMenuListener(mParent);
                     updateState(SHOW_LIST);

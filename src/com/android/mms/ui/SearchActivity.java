@@ -205,7 +205,11 @@ public class SearchActivity extends ListActivity
                         cursorCount,
                         searchString));
 
-                setListAdapter(new CursorAdapter(SearchActivity.this, c) {
+                // Note that we're telling the CursorAdapter not to do auto-requeries. If we
+                // want to dynamically respond to changes in the search results,
+                // we'll have have to add a setOnDataSetChangedListener().
+                setListAdapter(new CursorAdapter(SearchActivity.this,
+                        c, false /* no auto-requery */) {
                     @Override
                     public void bindView(View view, Context context, Cursor cursor) {
                         final TextView title = (TextView)(view.findViewById(R.id.title));

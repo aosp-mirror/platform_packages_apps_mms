@@ -130,8 +130,8 @@ public class MessageListAdapter extends CursorAdapter {
 
     public MessageListAdapter(
             Context context, Cursor c, ListView listView,
-            boolean useDefaultColumnsMap, String highlight, boolean autoRequery) {
-        super(context, c, autoRequery /* auto-requery */);
+            boolean useDefaultColumnsMap, String highlight) {
+        super(context, c, false /* auto-requery */);
         mHighlight = highlight != null ? highlight.toLowerCase() : null;
 
         mInflater = (LayoutInflater) context.getSystemService(
