@@ -315,11 +315,12 @@ public class WorkingMessage {
     }
 
     /**
-     * Returns true if the message has any text.
+     * Returns true if the message has any text. A message with just whitespace is not considered
+     * to have text.
      * @return
      */
     public boolean hasText() {
-        return !TextUtils.isEmpty(mText);
+        return mText != null && TextUtils.getTrimmedLength(mText) > 0;
     }
 
     /**
@@ -538,11 +539,12 @@ public class WorkingMessage {
     }
 
     /**
-     * Returns true if this message has an MMS subject.
+     * Returns true if this message has an MMS subject. A subject has to be more than just
+     * whitespace.
      * @return
      */
     public boolean hasSubject() {
-        return !TextUtils.isEmpty(mSubject);
+        return mSubject != null && TextUtils.getTrimmedLength(mSubject) > 0;
     }
 
     /**
@@ -1100,7 +1102,7 @@ public class WorkingMessage {
 
     /**
      * makeSendReq should always return a non-null SendReq, whether the dest addresses are
-     * valid or not. 
+     * valid or not.
      */
     private static SendReq makeSendReq(Conversation conv, CharSequence subject) {
         String[] dests = conv.getRecipients().getNumbers(true /* scrub for MMS address */);
