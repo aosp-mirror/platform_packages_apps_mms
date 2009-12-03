@@ -2758,7 +2758,7 @@ public class ComposeMessageActivity extends Activity
         String highlight = getIntent().getStringExtra("highlight");
 
         // Initialize the list adapter with a null cursor.
-        mMsgListAdapter = new MessageListAdapter(this, null, mMsgListView, true, highlight, false);
+        mMsgListAdapter = new MessageListAdapter(this, null, mMsgListView, true, highlight);
         mMsgListAdapter.setOnDataSetChangedListener(mDataSetChangedListener);
         mMsgListAdapter.setMsgListItemHandler(mMessageListItemHandler);
         mMsgListView.setAdapter(mMsgListAdapter);

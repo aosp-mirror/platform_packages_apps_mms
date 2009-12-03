@@ -66,7 +66,12 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
     private final ContentResolver mContentResolver;
 
     public RecipientsAdapter(Context context) {
-        super(context, R.layout.recipient_filter_item, null);
+        // Note that the RecipientsAdapter doesn't support auto-requeries. If we
+        // want to respond to changes in the contacts we're displaying in the drop-down,
+        // code using this adapter would have to add a line such as:
+        //   mRecipientsAdapter.setOnDataSetChangedListener(mDataSetChangedListener);
+        // See ComposeMessageActivity for an example.
+        super(context, R.layout.recipient_filter_item, null, false /* no auto-requery */);
         mContext = context;
         mContentResolver = context.getContentResolver();
     }
