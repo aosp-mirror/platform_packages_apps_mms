@@ -248,6 +248,8 @@ public class Contact {
                     if (V) Log.d(TAG, "updating " + l);
                     l.onUpdate(c);
                 }
+            } else {
+                c.mIsStale = false;
             }
         }
     }
