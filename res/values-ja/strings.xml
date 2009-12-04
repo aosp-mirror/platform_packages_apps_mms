@@ -175,7 +175,7 @@
     <string name="pref_messages_to_save" msgid="3202539743892934926">"保存するメッセージ件数を設定"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"自動で取得"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"メッセージを自動的に取得"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"ローミングを自動的に取得"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"ローミング時に自動取得"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"ローミング中にメッセージを自動的に取得する"</string>
     <string name="to_label" msgid="2355268818058389047">"To "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"削除"</string>
