@@ -20,7 +20,6 @@ import android.util.Log;
 
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.util.ContactInfoCache;
-import com.android.mms.util.TaskStack;
 import com.android.mms.LogTag;
 
 public class Contact {
@@ -63,6 +62,7 @@ public class Contact {
     private String mPresenceText;
     private BitmapDrawable mAvatar;
     private boolean mIsStale;
+    private boolean mQueryPending;
 
     @Override
     public synchronized String toString() {
@@ -114,13 +114,54 @@ public class Contact {
             throw new IllegalArgumentException("Contact.get called with null or empty number");
         }
 
+        // Always return a Contact object, if if we don't have an actual contact
+        // in the contacts db.
         Contact contact = Cache.get(number);
-        if (contact == null) {
-            contact = new Contact(number);
-            Cache.put(contact);
+        boolean queryPending = false;
+        Runnable r = null;
+        synchronized (contact) {
+            // If there's a query pending and we're willing to block then
+            // wait here until the query completes.
+            while (canBlock && contact.mQueryPending) {
+                try {
+                    contact.wait();
+                } catch (InterruptedException ex) {
+                    // try again by virtue of the loop unless mQueryPending is false
+                }
+            }
+
+            // If we're stale and we haven't already kicked off a query then kick
+            // it off here.
+            if (contact.mIsStale && !contact.mQueryPending) {
+                contact.mIsStale = false;
+
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    log("asyncUpdateContact for " + contact.toString() + " canBlock: " + canBlock +
+                            " isStale: " + contact.mIsStale);
+                }
+
+                final Contact c = contact;
+                r = new Runnable() {
+                    public void run() {
+                        updateContact(c);
+                    }
+                };
+
+                // set this to true while we have the lock on contact since we will
+                // either run the query directly (canBlock case) or push the query
+                // onto the queue.  In either case the mQueryPending will get set
+                // to false via updateContact.
+                contact.mQueryPending = true;
+            }
         }
-        if (contact.mIsStale) {
-            asyncUpdateContact(contact, canBlock);
+        // do this outside of the synchronized so we don't hold up any
+        // subsequent calls to "get" on other threads
+        if (r != null) {
+            if (canBlock) {
+                r.run();
+            } else {
+                sTaskStack.push(r);
+            }
         }
         return contact;
     }
@@ -195,29 +236,6 @@ public class Contact {
         return false;
     }
 
-    private static void asyncUpdateContact(final Contact c, boolean canBlock) {
-        if (c == null) {
-            return;
-        }
-
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("asyncUpdateContact for " + c.toString() + " canBlock: " + canBlock +
-                " isStale: " + c.mIsStale);
-        }
-
-        Runnable r = new Runnable() {
-            public void run() {
-                updateContact(c);
-            }
-        };
-
-        if (canBlock) {
-            r.run();
-        } else {
-            sTaskStack.push(r);
-        }
-    }
-
     private static void updateContact(final Contact c) {
         if (c == null) {
             return;
@@ -239,7 +257,6 @@ public class Contact {
                 c.mPresenceResId = entry.presenceResId;
                 c.mPresenceText = entry.presenceText;
                 c.mAvatar = entry.mAvatar;
-                c.mIsStale = false;
 
                 // Check to see if this is the local ("me") number and update the name.
                 handleLocalNumber(c);
@@ -248,8 +265,10 @@ public class Contact {
                     if (V) Log.d(TAG, "updating " + l);
                     l.onUpdate(c);
                 }
-            } else {
-                c.mIsStale = false;
+            }
+            synchronized (c) {
+                c.mQueryPending = false;
+                c.notifyAll();
             }
         }
     }
@@ -390,6 +409,45 @@ public class Contact {
         Cache.getContext().getContentResolver().unregisterContentObserver(sPresenceObserver);
     }
 
+    private static class TaskStack {
+        Thread mWorkerThread;
+        private final ArrayList<Runnable> mThingsToLoad;
+
+        public TaskStack() {
+            mThingsToLoad = new ArrayList<Runnable>();
+            mWorkerThread = new Thread(new Runnable() {
+                public void run() {
+                    while (true) {
+                        Runnable r = null;
+                        synchronized (mThingsToLoad) {
+                            if (mThingsToLoad.size() == 0) {
+                                try {
+                                    mThingsToLoad.wait();
+                                } catch (InterruptedException ex) {
+                                    // nothing to do
+                                }
+                            }
+                            if (mThingsToLoad.size() > 0) {
+                                r = mThingsToLoad.remove(0);
+                            }
+                        }
+                        if (r != null) {
+                            r.run();
+                        }
+                    }
+                }
+            });
+            mWorkerThread.start();
+        }
+
+        public void push(Runnable r) {
+            synchronized (mThingsToLoad) {
+                mThingsToLoad.add(r);
+                mThingsToLoad.notify();
+            }
+        }
+    }
+
     private static class Cache {
         private static Cache sInstance;
         static Cache getInstance() { return sInstance; }
@@ -441,18 +499,9 @@ public class Contact {
                         return c;
                     }
                 }
-                return null;
-            }
-        }
-
-        static void put(Contact c) {
-            synchronized (sInstance) {
-                // We update cache entries in place so people with long-
-                // held references get updated.
-                if (get(c.mNumber) != null) {
-                    throw new IllegalStateException("cache already contains " + c);
-                }
+                Contact c = new Contact(number);
                 sInstance.mCache.add(c);
+                return c;
             }
         }
 
