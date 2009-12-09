@@ -1,32 +1,40 @@
 package com.android.mms.data;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.ContentObserver;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.ContactsContract.Contacts;
+import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.Presence;
+import android.provider.ContactsContract.CommonDataKinds.Email;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.Telephony.Mms;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.mms.ui.MessageUtils;
-import com.android.mms.util.ContactInfoCache;
 import com.android.mms.LogTag;
+import com.google.android.mms.util.SqliteWrapper;
 
 public class Contact {
     private static final String TAG = "Contact";
     private static final boolean V = false;
-
-    private static final TaskStack sTaskStack = new TaskStack();
+    private static ContactsCache sContactCache;
 
 //    private static final ContentObserver sContactsObserver = new ContentObserver(new Handler()) {
 //        @Override
@@ -61,19 +69,17 @@ public class Contact {
     private int mPresenceResId;      // TODO: make this a state instead of a res ID
     private String mPresenceText;
     private BitmapDrawable mAvatar;
+    private byte [] mAvatarData;
     private boolean mIsStale;
     private boolean mQueryPending;
-
-    @Override
-    public synchronized String toString() {
-        return String.format("{ number=%s, name=%s, nameAndNumber=%s, label=%s, person_id=%d }",
-                mNumber, mName, mNameAndNumber, mLabel, mPersonId);
-    }
 
     public interface UpdateListener {
         public void onUpdate(Contact updated);
     }
 
+    /*
+     * Make a basic contact object with a phone number.
+     */
     private Contact(String number) {
         mName = "";
         setNumber(number);
@@ -82,6 +88,12 @@ public class Contact {
         mPersonId = 0;
         mPresenceResId = 0;
         mIsStale = true;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{ number=%s, name=%s, nameAndNumber=%s, label=%s, person_id=%d }",
+                mNumber, mName, mNameAndNumber, mLabel, mPersonId);
     }
 
     private static void logWithTrace(String msg, Object... format) {
@@ -108,74 +120,13 @@ public class Contact {
     }
 
     public static Contact get(String number, boolean canBlock) {
-        if (V) logWithTrace("get(%s, %s)", number, canBlock);
-
-        if (TextUtils.isEmpty(number)) {
-            throw new IllegalArgumentException("Contact.get called with null or empty number");
-        }
-
-        // Always return a Contact object, if if we don't have an actual contact
-        // in the contacts db.
-        Contact contact = Cache.get(number);
-        boolean queryPending = false;
-        Runnable r = null;
-        synchronized (contact) {
-            // If there's a query pending and we're willing to block then
-            // wait here until the query completes.
-            while (canBlock && contact.mQueryPending) {
-                try {
-                    contact.wait();
-                } catch (InterruptedException ex) {
-                    // try again by virtue of the loop unless mQueryPending is false
-                }
-            }
-
-            // If we're stale and we haven't already kicked off a query then kick
-            // it off here.
-            if (contact.mIsStale && !contact.mQueryPending) {
-                contact.mIsStale = false;
-
-                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                    log("asyncUpdateContact for " + contact.toString() + " canBlock: " + canBlock +
-                            " isStale: " + contact.mIsStale);
-                }
-
-                final Contact c = contact;
-                r = new Runnable() {
-                    public void run() {
-                        updateContact(c);
-                    }
-                };
-
-                // set this to true while we have the lock on contact since we will
-                // either run the query directly (canBlock case) or push the query
-                // onto the queue.  In either case the mQueryPending will get set
-                // to false via updateContact.
-                contact.mQueryPending = true;
-            }
-        }
-        // do this outside of the synchronized so we don't hold up any
-        // subsequent calls to "get" on other threads
-        if (r != null) {
-            if (canBlock) {
-                r.run();
-            } else {
-                sTaskStack.push(r);
-            }
-        }
-        return contact;
+        return sContactCache.get(number, canBlock);
     }
 
     public static void invalidateCache() {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             log("invalidateCache");
         }
-
-        // force invalidate the contact info cache, so we will query for fresh info again.
-        // This is so we can get fresh presence info again on the screen, since the presence
-        // info changes pretty quickly, and we can't get change notifications when presence is
-        // updated in the ContactsProvider.
-        ContactInfoCache.getInstance().invalidateCache();
 
         // While invalidating our local Cache doesn't remove the contacts, it will mark them
         // stale so the next time we're asked for a particular contact, we'll return that
@@ -184,93 +135,11 @@ public class Contact {
         // call addListener() so they immediately get notified when the contact has been
         // updated with the latest info. They redraw themselves when we call the
         // listener's onUpdate().
-        Cache.invalidate();
+        sContactCache.invalidate();
     }
 
     private static String emptyIfNull(String s) {
         return (s != null ? s : "");
-    }
-
-    private static boolean contactChanged(Contact orig, ContactInfoCache.CacheEntry newEntry) {
-        // The phone number should never change, so don't bother checking.
-        // TODO: Maybe update it if it has gotten longer, i.e. 650-234-5678 -> +16502345678?
-
-        String oldName = emptyIfNull(orig.mName);
-        String newName = emptyIfNull(newEntry.name);
-        if (!oldName.equals(newName)) {
-            if (V) Log.d(TAG, String.format("name changed: %s -> %s", oldName, newName));
-            return true;
-        }
-
-        String oldLabel = emptyIfNull(orig.mLabel);
-        String newLabel = emptyIfNull(newEntry.phoneLabel);
-        if (!oldLabel.equals(newLabel)) {
-            if (V) Log.d(TAG, String.format("label changed: %s -> %s", oldLabel, newLabel));
-            return true;
-        }
-
-        if (orig.mPersonId != newEntry.person_id) {
-            if (V) Log.d(TAG, "person id changed");
-            return true;
-        }
-
-        if (orig.mPresenceResId != newEntry.presenceResId) {
-            if (V) Log.d(TAG, "presence changed");
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Handles the special case where the local ("Me") number is being looked up.
-     * Updates the contact with the "me" name and returns true if it is the
-     * local number, no-ops and returns false if it is not.
-     */
-    private static boolean handleLocalNumber(Contact c) {
-        if (MessageUtils.isLocalNumber(c.mNumber)) {
-            c.mName = Cache.getContext().getString(com.android.internal.R.string.me);
-            c.updateNameAndNumber();
-            return true;
-        }
-        return false;
-    }
-
-    private static void updateContact(final Contact c) {
-        if (c == null) {
-            return;
-        }
-
-        ContactInfoCache cache = ContactInfoCache.getInstance();
-        ContactInfoCache.CacheEntry entry = cache.getContactInfo(c.mNumber);
-        synchronized (Cache.getInstance()) {
-            if (contactChanged(c, entry)) {
-                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                    log("updateContact: contact changed for " + entry.name);
-                }
-
-                //c.mNumber = entry.phoneNumber;
-                c.mName = entry.name;
-                c.updateNameAndNumber();
-                c.mLabel = entry.phoneLabel;
-                c.mPersonId = entry.person_id;
-                c.mPresenceResId = entry.presenceResId;
-                c.mPresenceText = entry.presenceText;
-                c.mAvatar = entry.mAvatar;
-
-                // Check to see if this is the local ("me") number and update the name.
-                handleLocalNumber(c);
-
-                for (UpdateListener l : c.mListeners) {
-                    if (V) Log.d(TAG, "updating " + l);
-                    l.onUpdate(c);
-                }
-            }
-            synchronized (c) {
-                c.mQueryPending = false;
-                c.notifyAll();
-            }
-        }
     }
 
     public static String formatNameAndNumber(String name, String number) {
@@ -378,12 +247,19 @@ public class Contact {
         return mPresenceText;
     }
 
-    public Drawable getAvatar(Drawable defaultValue) {
+    public synchronized Drawable getAvatar(Context context, Drawable defaultValue) {
+        if (mAvatar == null) {
+            if (mAvatarData != null) {
+                Bitmap b = BitmapFactory.decodeByteArray(mAvatarData, 0, mAvatarData.length);
+                mAvatar = new BitmapDrawable(context.getResources(), b);
+            }
+        }
         return mAvatar != null ? mAvatar : defaultValue;
     }
 
     public static void init(final Context context) {
-        Cache.init(context);
+        sContactCache = new ContactsCache(context);
+
         RecipientIdCache.init(context);
 
         // it maybe too aggressive to listen for *any* contact changes, and rebuild MMS contact
@@ -397,87 +273,411 @@ public class Contact {
     }
 
     public static void dump() {
-        Cache.dump();
+        sContactCache.dump();
     }
 
-    public static void startPresenceObserver() {
-        Cache.getContext().getContentResolver().registerContentObserver(
-                Presence.CONTENT_URI, true, sPresenceObserver);
-    }
+    private static class ContactsCache {
+        private final TaskStack mTaskQueue = new TaskStack();
+        private static final String SEPARATOR = ";";
 
-    public static void stopPresenceObserver() {
-        Cache.getContext().getContentResolver().unregisterContentObserver(sPresenceObserver);
-    }
+        // query params for caller id lookup
+        private static final String CALLER_ID_SELECTION = "PHONE_NUMBERS_EQUAL(" + Phone.NUMBER
+                + ",?) AND " + Data.MIMETYPE + "='" + Phone.CONTENT_ITEM_TYPE + "'";
 
-    private static class TaskStack {
-        Thread mWorkerThread;
-        private final ArrayList<Runnable> mThingsToLoad;
+        // Utilizing private API
+        private static final Uri PHONES_WITH_PRESENCE_URI = Data.CONTENT_URI;
 
-        public TaskStack() {
-            mThingsToLoad = new ArrayList<Runnable>();
-            mWorkerThread = new Thread(new Runnable() {
-                public void run() {
-                    while (true) {
-                        Runnable r = null;
-                        synchronized (mThingsToLoad) {
-                            if (mThingsToLoad.size() == 0) {
-                                try {
-                                    mThingsToLoad.wait();
-                                } catch (InterruptedException ex) {
-                                    // nothing to do
-                                }
-                            }
-                            if (mThingsToLoad.size() > 0) {
-                                r = mThingsToLoad.remove(0);
-                            }
-                        }
-                        if (r != null) {
-                            r.run();
-                        }
-                    }
-                }
-            });
-            mWorkerThread.start();
-        }
+        private static final String[] CALLER_ID_PROJECTION = new String[] {
+                Phone.NUMBER,                   // 0
+                Phone.LABEL,                    // 1
+                Phone.DISPLAY_NAME,             // 2
+                Phone.CONTACT_ID,               // 3
+                Phone.CONTACT_PRESENCE,         // 4
+                Phone.CONTACT_STATUS,           // 5
+        };
 
-        public void push(Runnable r) {
-            synchronized (mThingsToLoad) {
-                mThingsToLoad.add(r);
-                mThingsToLoad.notify();
-            }
-        }
-    }
+        private static final int PHONE_NUMBER_COLUMN = 0;
+        private static final int PHONE_LABEL_COLUMN = 1;
+        private static final int CONTACT_NAME_COLUMN = 2;
+        private static final int CONTACT_ID_COLUMN = 3;
+        private static final int CONTACT_PRESENCE_COLUMN = 4;
+        private static final int CONTACT_STATUS_COLUMN = 5;
 
-    private static class Cache {
-        private static Cache sInstance;
-        static Cache getInstance() { return sInstance; }
+        // query params for contact lookup by email
+        private static final Uri EMAIL_WITH_PRESENCE_URI = Data.CONTENT_URI;
+
+        private static final String EMAIL_SELECTION = Email.DATA + "=? AND " + Data.MIMETYPE + "='"
+                + Email.CONTENT_ITEM_TYPE + "'";
+
+        private static final String[] EMAIL_PROJECTION = new String[] {
+                Email.DISPLAY_NAME,           // 0
+                Email.CONTACT_PRESENCE,       // 1
+                Email.CONTACT_ID,             // 2
+                Phone.DISPLAY_NAME,           //
+        };
+        private static final int EMAIL_NAME_COLUMN = 0;
+        private static final int EMAIL_STATUS_COLUMN = 1;
+        private static final int EMAIL_ID_COLUMN = 2;
+        private static final int EMAIL_CONTACT_NAME_COLUMN = 3;
+
+        private String[] mContactInfoSelectionArgs = new String[1];
+
         private final List<Contact> mCache;
         private final Context mContext;
-        private Cache(Context context) {
+
+        private ContactsCache(Context context) {
             mCache = new ArrayList<Contact>();
             mContext = context;
         }
 
-        static void init(Context context) {
-            sInstance = new Cache(context);
-        }
-
-        static Context getContext() {
-            return sInstance.mContext;
-        }
-
-        static void dump() {
-            synchronized (sInstance) {
+        void dump() {
+            synchronized (ContactsCache.this) {
                 Log.d(TAG, "**** Contact cache dump ****");
-                for (Contact c : sInstance.mCache) {
+                for (Contact c : mCache) {
                     Log.d(TAG, c.toString());
                 }
             }
         }
 
-        private static Contact getEmail(String number) {
-            synchronized (sInstance) {
-                for (Contact c : sInstance.mCache) {
+        private static class TaskStack {
+            Thread mWorkerThread;
+            private final ArrayList<Runnable> mThingsToLoad;
+
+            public TaskStack() {
+                mThingsToLoad = new ArrayList<Runnable>();
+                mWorkerThread = new Thread(new Runnable() {
+                    public void run() {
+                        while (true) {
+                            Runnable r = null;
+                            synchronized (mThingsToLoad) {
+                                if (mThingsToLoad.size() == 0) {
+                                    try {
+                                        mThingsToLoad.wait();
+                                    } catch (InterruptedException ex) {
+                                        // nothing to do
+                                    }
+                                }
+                                if (mThingsToLoad.size() > 0) {
+                                    r = mThingsToLoad.remove(0);
+                                }
+                            }
+                            if (r != null) {
+                                r.run();
+                            }
+                        }
+                    }
+                });
+                mWorkerThread.start();
+            }
+
+            public void push(Runnable r) {
+                synchronized (mThingsToLoad) {
+                    mThingsToLoad.add(r);
+                    mThingsToLoad.notify();
+                }
+            }
+        }
+
+        public void pushTask(Runnable r) {
+            mTaskQueue.push(r);
+        }
+
+        public Contact get(String number, boolean canBlock) {
+            if (V) logWithTrace("get(%s, %s)", number, canBlock);
+
+            if (TextUtils.isEmpty(number)) {
+                throw new IllegalArgumentException("Contact.get called with null or empty number");
+            }
+
+            // Always return a Contact object, if if we don't have an actual contact
+            // in the contacts db.
+            Contact contact = sContactCache.get(number);
+            boolean queryPending = false;
+            Runnable r = null;
+            synchronized (contact) {
+                // If there's a query pending and we're willing to block then
+                // wait here until the query completes.
+                while (canBlock && contact.mQueryPending) {
+                    try {
+                        contact.wait();
+                    } catch (InterruptedException ex) {
+                        // try again by virtue of the loop unless mQueryPending is false
+                    }
+                }
+
+                // If we're stale and we haven't already kicked off a query then kick
+                // it off here.
+                if (contact.mIsStale && !contact.mQueryPending) {
+                    contact.mIsStale = false;
+
+                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                        log("asyncUpdateContact for " + contact.toString() + " canBlock: " + canBlock +
+                                " isStale: " + contact.mIsStale);
+                    }
+
+                    final Contact c = contact;
+                    r = new Runnable() {
+                        public void run() {
+                            updateContact(c);
+                        }
+                    };
+
+                    // set this to true while we have the lock on contact since we will
+                    // either run the query directly (canBlock case) or push the query
+                    // onto the queue.  In either case the mQueryPending will get set
+                    // to false via updateContact.
+                    contact.mQueryPending = true;
+                }
+            }
+            // do this outside of the synchronized so we don't hold up any
+            // subsequent calls to "get" on other threads
+            if (r != null) {
+                if (canBlock) {
+                    r.run();
+                } else {
+                    pushTask(r);
+                }
+            }
+            return contact;
+        }
+
+        private boolean contactChanged(Contact orig, Contact newContactData) {
+            // The phone number should never change, so don't bother checking.
+            // TODO: Maybe update it if it has gotten longer, i.e. 650-234-5678 -> +16502345678?
+
+            String oldName = emptyIfNull(orig.mName);
+            String newName = emptyIfNull(newContactData.mName);
+            if (!oldName.equals(newName)) {
+                if (V) Log.d(TAG, String.format("name changed: %s -> %s", oldName, newName));
+                return true;
+            }
+
+            String oldLabel = emptyIfNull(orig.mLabel);
+            String newLabel = emptyIfNull(newContactData.mLabel);
+            if (!oldLabel.equals(newLabel)) {
+                if (V) Log.d(TAG, String.format("label changed: %s -> %s", oldLabel, newLabel));
+                return true;
+            }
+
+            if (orig.mPersonId != newContactData.mPersonId) {
+                if (V) Log.d(TAG, "person id changed");
+                return true;
+            }
+
+            if (orig.mPresenceResId != newContactData.mPresenceResId) {
+                if (V) Log.d(TAG, "presence changed");
+                return true;
+            }
+
+            if (!Arrays.equals(orig.mAvatarData, newContactData.mAvatarData)) {
+                if (V) Log.d(TAG, "avatar changed");
+                return true;
+            }
+
+            return false;
+        }
+
+        private void updateContact(final Contact c) {
+            if (c == null) {
+                return;
+            }
+
+            Contact entry = getContactInfo(c.mNumber);
+            synchronized (ContactsCache.this) {
+                if (contactChanged(c, entry)) {
+                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                        log("updateContact: contact changed for " + entry.mName);
+                    }
+
+                    //c.mNumber = entry.phoneNumber;
+                    c.mName = entry.mName;
+                    c.mNumber = entry.mNumber;
+                    c.updateNameAndNumber();
+                    c.mLabel = entry.mLabel;
+                    c.mPersonId = entry.mPersonId;
+                    c.mPresenceResId = entry.mPresenceResId;
+                    c.mPresenceText = entry.mPresenceText;
+                    c.mAvatarData = entry.mAvatarData;
+                    c.mAvatar = entry.mAvatar;
+
+                    // Check to see if this is the local ("me") number and update the name.
+                    handleLocalNumber(c);
+
+                    for (UpdateListener l : c.mListeners) {
+                        if (V) Log.d(TAG, "updating " + l);
+                        l.onUpdate(c);
+                    }
+                }
+                synchronized (c) {
+                    c.mQueryPending = false;
+                    c.notifyAll();
+                }
+            }
+        }
+
+        /**
+         * Handles the special case where the local ("Me") number is being looked up.
+         * Updates the contact with the "me" name and returns true if it is the
+         * local number, no-ops and returns false if it is not.
+         */
+        private boolean handleLocalNumber(Contact c) {
+            if (MessageUtils.isLocalNumber(c.mNumber)) {
+                c.mName = mContext.getString(com.android.internal.R.string.me);
+                c.updateNameAndNumber();
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * Returns the caller info in Contact.
+         */
+        public Contact getContactInfo(String numberOrEmail) {
+            if (Mms.isEmailAddress(numberOrEmail)) {
+                return getContactInfoForEmailAddress(numberOrEmail);
+            } else {
+                return getContactInfoForPhoneNumber(numberOrEmail);
+            }
+        }
+
+        /**
+         * Queries the caller id info with the phone number.
+         * @return a Contact containing the caller id info corresponding to the number.
+         */
+        private Contact getContactInfoForPhoneNumber(String number) {
+            number = PhoneNumberUtils.stripSeparators(number);
+            Contact entry = new Contact(number);
+
+            //if (LOCAL_DEBUG) log("queryContactInfoByNumber: number=" + number);
+
+            mContactInfoSelectionArgs[0] = number;
+
+            Cursor cursor = mContext.getContentResolver().query(
+                    PHONES_WITH_PRESENCE_URI,
+                    CALLER_ID_PROJECTION,
+                    CALLER_ID_SELECTION,
+                    mContactInfoSelectionArgs,
+                    null);
+
+            if (cursor == null) {
+                Log.w(TAG, "queryContactInfoByNumber(" + number + ") returned NULL cursor!" +
+                        " contact uri used " + PHONES_WITH_PRESENCE_URI);
+                return entry;
+            }
+
+            try {
+                if (cursor.moveToFirst()) {
+                    entry.mLabel = cursor.getString(PHONE_LABEL_COLUMN);
+                    entry.mName = cursor.getString(CONTACT_NAME_COLUMN);
+                    entry.mPersonId = cursor.getLong(CONTACT_ID_COLUMN);
+                    entry.mPresenceResId = getPresenceIconResourceId(
+                            cursor.getInt(CONTACT_PRESENCE_COLUMN));
+                    entry.mPresenceText = cursor.getString(CONTACT_STATUS_COLUMN);
+                    if (V) {
+                        log("queryContactInfoByNumber: name=" + entry.mName + ", number=" + number +
+                                ", presence=" + entry.mPresenceResId);
+                    }
+
+                    loadAvatarData(entry, cursor);
+                }
+            } finally {
+                cursor.close();
+            }
+
+            return entry;
+        }
+
+        /*
+         * Load the avatar data from the cursor into memory.  Don't decode the data
+         * until someone calls for it (see getAvatar).  Hang onto the raw data so that
+         * we can compare it when the data is reloaded.
+         * TODO: consider comparing a checksum so that we don't have to hang onto
+         * the raw bytes after the image is decoded.
+         */
+        private void loadAvatarData(Contact entry, Cursor cursor) {
+            if (entry.mPersonId == 0 || entry.mAvatar != null) {
+                return;
+            }
+
+            Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, entry.mPersonId);
+
+            InputStream avatarDataStream =
+                Contacts.openContactPhotoInputStream(
+                        mContext.getContentResolver(),
+                        contactUri);
+            try {
+                if (avatarDataStream != null) {
+                    byte [] data = new byte[avatarDataStream.available()];
+                    avatarDataStream.read(data, 0, data.length);
+                    entry.mAvatarData = data;
+                }
+            } catch (IOException ex) {
+                //
+            } finally {
+                try {
+                    if (avatarDataStream != null) {
+                        avatarDataStream.close();
+                    }
+                } catch (IOException e) {
+                }
+            }
+        }
+
+        private int getPresenceIconResourceId(int presence) {
+            if (presence != Presence.OFFLINE) {
+                return Presence.getPresenceIconResourceId(presence);
+            }
+
+            return 0;
+        }
+
+        /**
+         * Query the contact email table to get the name of an email address.
+         */
+        private Contact getContactInfoForEmailAddress(String email) {
+            Contact entry = new Contact(email);
+
+            mContactInfoSelectionArgs[0] = email;
+
+            Cursor cursor = SqliteWrapper.query(mContext, mContext.getContentResolver(),
+                    EMAIL_WITH_PRESENCE_URI,
+                    EMAIL_PROJECTION,
+                    EMAIL_SELECTION,
+                    mContactInfoSelectionArgs,
+                    null);
+
+            if (cursor != null) {
+                try {
+                    while (cursor.moveToNext()) {
+                        entry.mPresenceResId = getPresenceIconResourceId(
+                                cursor.getInt(EMAIL_STATUS_COLUMN));
+                        entry.mPersonId = cursor.getLong(EMAIL_ID_COLUMN);
+
+                        String name = cursor.getString(EMAIL_NAME_COLUMN);
+                        if (TextUtils.isEmpty(name)) {
+                            name = cursor.getString(EMAIL_CONTACT_NAME_COLUMN);
+                        }
+                        if (!TextUtils.isEmpty(name)) {
+                            entry.mName = name;
+                            loadAvatarData(entry, cursor);
+                            if (V) {
+                                log("queryEmailDisplayName: name=" + entry.mName + ", email=" + email +
+                                        ", presence=" + entry.mPresenceResId);
+                            }
+                            break;
+                        }
+
+                    }
+                } finally {
+                    cursor.close();
+                }
+            }
+            return entry;
+        }
+
+        private Contact getEmail(String number) {
+            synchronized (ContactsCache.this) {
+                for (Contact c : mCache) {
                     if (number.equalsIgnoreCase(c.mNumber)) {
                         return c;
                     }
@@ -486,12 +686,12 @@ public class Contact {
             }
         }
 
-        static Contact get(String number) {
+        Contact get(String number) {
             if (Mms.isEmailAddress(number))
                 return getEmail(number);
 
-            synchronized (sInstance) {
-                for (Contact c : sInstance.mCache) {
+            synchronized (ContactsCache.this) {
+                for (Contact c : mCache) {
 
                     // if the numbers are an exact match (i.e. Google SMS), or if the phone
                     // number comparison returns a match, return the contact.
@@ -500,33 +700,33 @@ public class Contact {
                     }
                 }
                 Contact c = new Contact(number);
-                sInstance.mCache.add(c);
+                mCache.add(c);
                 return c;
             }
         }
 
-        static String[] getNumbers() {
-            synchronized (sInstance) {
-                String[] numbers = new String[sInstance.mCache.size()];
+        String[] getNumbers() {
+            synchronized (ContactsCache.this) {
+                String[] numbers = new String[mCache.size()];
                 int i = 0;
-                for (Contact c : sInstance.mCache) {
+                for (Contact c : mCache) {
                     numbers[i++] = c.getNumber();
                 }
                 return numbers;
             }
         }
 
-        static List<Contact> getContacts() {
-            synchronized (sInstance) {
-                return new ArrayList<Contact>(sInstance.mCache);
+        List<Contact> getContacts() {
+            synchronized (ContactsCache.this) {
+                return new ArrayList<Contact>(mCache);
             }
         }
 
-        static void invalidate() {
+        void invalidate() {
             // Don't remove the contacts. Just mark them stale so we'll update their
             // info, particularly their presence.
-            synchronized (sInstance) {
-                for (Contact c : sInstance.mCache) {
+            synchronized (ContactsCache.this) {
+                for (Contact c : mCache) {
                     c.mIsStale = true;
                 }
             }

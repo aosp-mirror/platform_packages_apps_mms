@@ -157,7 +157,7 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
         Drawable avatarDrawable;
         if (ch.getContacts().size() == 1) {
             Contact contact = ch.getContacts().get(0);
-            avatarDrawable = contact.getAvatar(sDefaultContactImage);
+            avatarDrawable = contact.getAvatar(mContext, sDefaultContactImage);
 
             if (contact.existsInDatabase()) {
                 mAvatarView.assignContactUri(contact.getUri());
