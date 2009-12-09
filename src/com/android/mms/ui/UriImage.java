@@ -189,7 +189,9 @@ public class UriImage {
         byte[] srcBytes = src.getBytes();
         part.setContentLocation(srcBytes);
         part.setFilename(srcBytes);
-        part.setContentId(src.substring(0, src.lastIndexOf(".")).getBytes());
+        int period = src.lastIndexOf(".");
+        byte[] contentId = period != -1 ? src.substring(0, period).getBytes() : srcBytes;
+        part.setContentId(contentId);
 
         return part;
     }
