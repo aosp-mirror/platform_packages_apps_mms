@@ -19,6 +19,8 @@ package com.android.mms.model;
 
 
 import com.android.mms.ContentRestrictionException;
+import com.android.mms.ExceedMessageSizeException;
+import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.dom.smil.parser.SmilXmlSerializer;
 import com.android.mms.drm.DrmWrapper;
@@ -42,7 +44,7 @@ import org.w3c.dom.smil.SMILParElement;
 import org.w3c.dom.smil.SMILRegionElement;
 import org.w3c.dom.smil.SMILRootLayoutElement;
 
-import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.drm.mobile1.DrmException;
 import android.net.Uri;
@@ -67,21 +69,24 @@ public class SlideshowModel extends Model
     private SMILDocument mDocumentCache;
     private PduBody mPduBodyCache;
     private int mCurrentMessageSize;
-    private ContentResolver mContentResolver;
+    private Context mContext;
 
-    private SlideshowModel(ContentResolver contentResolver) {
+    // amount of space to leave in a slideshow for text and overhead.
+    public static final int SLIDESHOW_SLOP = 1024;
+
+    private SlideshowModel(Context context) {
         mLayout = new LayoutModel();
         mSlides = new ArrayList<SlideModel>();
-        mContentResolver = contentResolver;
+        mContext = context;
     }
 
     private SlideshowModel (
             LayoutModel layouts, ArrayList<SlideModel> slides,
             SMILDocument documentCache, PduBody pbCache,
-            ContentResolver contentResolver) {
+            Context context) {
         mLayout = layouts;
         mSlides = slides;
-        mContentResolver = contentResolver;
+        mContext = context;
 
         mDocumentCache = documentCache;
         mPduBodyCache = pbCache;
@@ -92,7 +97,7 @@ public class SlideshowModel extends Model
     }
 
     public static SlideshowModel createNew(Context context) {
-        return new SlideshowModel(context.getContentResolver());
+        return new SlideshowModel(context);
     }
 
     public static SlideshowModel createFromMessageUri(
@@ -170,8 +175,7 @@ public class SlideshowModel extends Model
             slides.add(slide);
         }
 
-        SlideshowModel slideshow = new SlideshowModel(layouts, slides, document, pb,
-                context.getContentResolver());
+        SlideshowModel slideshow = new SlideshowModel(layouts, slides, document, pb, context);
         slideshow.registerModelChangedObserver(slideshow);
         return slideshow;
     }
@@ -183,7 +187,7 @@ public class SlideshowModel extends Model
         }
         return mPduBodyCache;
     }
-    
+
     private PduBody makePduBody(SMILDocument document) {
         return makePduBody(null, document, false);
     }
@@ -543,9 +547,9 @@ public class SlideshowModel extends Model
 
     public void checkMessageSize(int increaseSize) throws ContentRestrictionException {
         ContentRestriction cr = ContentRestrictionFactory.getContentRestriction();
-        cr.checkMessageSize(mCurrentMessageSize, increaseSize, mContentResolver);
+        cr.checkMessageSize(mCurrentMessageSize, increaseSize, mContext.getContentResolver());
     }
-    
+
     /**
      * Determines whether this is a "simple" slideshow.
      * Criteria:
@@ -557,29 +561,91 @@ public class SlideshowModel extends Model
         // There must be one (and only one) slide.
         if (size() != 1)
             return false;
-        
+
         SlideModel slide = get(0);
         // The slide must have either an image or video, but not both.
         if (!(slide.hasImage() ^ slide.hasVideo()))
             return false;
-     
+
         // No audio allowed.
         if (slide.hasAudio())
             return false;
-        
+
         return true;
     }
-    
+
     /**
      * Make sure the text in slide 0 is no longer holding onto a reference to the text
      * in the message text box.
-    */
+     */
     public void prepareForSend() {
         if (size() == 1) {
             TextModel text = get(0).getText();
             if (text != null) {
                 text.cloneText();
             }
+        }
+    }
+
+    /**
+     * Resize all the resizeable media objects to fit in the remaining size of the slideshow.
+     * This should be called off of the UI thread.
+     *
+     * @throws MmsException, ExceedMessageSizeException
+     */
+    public void finalResize(Uri messageUri) throws MmsException, ExceedMessageSizeException {
+//        Log.v(TAG, "Original message size: " + getCurrentMessageSize() + " getMaxMessageSize: "
+//                + MmsConfig.getMaxMessageSize());
+
+        // Figure out if we have any media items that need to be resized and total up the
+        // sizes of the items that can't be resized.
+        int resizableCnt = 0;
+        int fixedSizeTotal = 0;
+        for (SlideModel slide : mSlides) {
+            for (MediaModel media : slide) {
+                if (media.getMediaResizable()) {
+                    ++resizableCnt;
+                } else {
+                    fixedSizeTotal += media.getMediaSize();
+                }
+            }
+        }
+        if (resizableCnt > 0) {
+            int remainingSize = MmsConfig.getMaxMessageSize() - fixedSizeTotal - SLIDESHOW_SLOP;
+            if (remainingSize <= 0) {
+                throw new ExceedMessageSizeException("No room for pictures");
+            }
+            long messageId = ContentUris.parseId(messageUri);
+            int bytesPerMediaItem = remainingSize / resizableCnt;
+            // Resize the resizable media items to fit within their byte limit.
+            for (SlideModel slide : mSlides) {
+                for (MediaModel media : slide) {
+                    if (media.getMediaResizable()) {
+                        media.resizeMedia(bytesPerMediaItem, messageId);
+                    }
+                }
+            }
+            // One last time through to calc the real message size.
+            int totalSize = 0;
+            for (SlideModel slide : mSlides) {
+                for (MediaModel media : slide) {
+                    totalSize += media.getMediaSize();
+                }
+            }
+//            Log.v(TAG, "New message size: " + totalSize + " getMaxMessageSize: "
+//                    + MmsConfig.getMaxMessageSize());
+
+            if (totalSize > MmsConfig.getMaxMessageSize()) {
+                throw new ExceedMessageSizeException("After compressing pictures, message too big");
+            }
+            setCurrentMessageSize(totalSize);
+
+            onModelChanged(this, true);     // clear the cached pdu body
+            PduBody pb = toPduBody();
+            // This will write out all the new parts to:
+            //      /data/data/com.android.providers.telephony/app_parts
+            // and at the same time delete the old parts.
+            PduPersister.getPduPersister(mContext).updateParts(messageUri, pb);
         }
     }
 

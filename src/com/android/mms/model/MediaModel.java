@@ -56,6 +56,7 @@ public abstract class MediaModel extends Model implements EventListener {
     protected int mSize;
     protected int mSeekTo;
     protected DrmWrapper mDrmObjectWrapper;
+    protected boolean mMediaResizeable;
 
     private final ArrayList<MediaAction> mMediaActions;
     public static enum MediaAction {
@@ -210,6 +211,18 @@ public abstract class MediaModel extends Model implements EventListener {
         notifyModelChanged(true);
     }
 
+    /**
+     * @return whether the media is resizable or not. For instance, a picture can be resized
+     * to smaller dimensions or lower resolution. Other media, such as video and sounds, aren't
+     * currently able to be resized.
+     */
+    public boolean getMediaResizable() {
+        return mMediaResizeable;
+    }
+
+    /**
+     * @return the size of the attached media
+     */
     public int getMediaSize() {
         return mSize;
     }
@@ -329,5 +342,14 @@ public abstract class MediaModel extends Model implements EventListener {
         Intent i = new Intent(MUSIC_SERVICE_ACTION);
         i.putExtra("command", "pause");
         mContext.sendBroadcast(i);
+    }
+
+    /**
+     * If the attached media is resizeable, resize it to fit within the byteLimit. Save the
+     * new part in the pdu.
+     * @param byteLimit the max size of the media attachment
+     * @throws MmsException
+     */
+    protected void resizeMedia(int byteLimit, long messageId) throws MmsException {
     }
 }
