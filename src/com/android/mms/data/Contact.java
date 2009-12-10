@@ -2,8 +2,10 @@ package com.android.mms.data;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -92,8 +94,8 @@ public class Contact {
 
     @Override
     public String toString() {
-        return String.format("{ number=%s, name=%s, nameAndNumber=%s, label=%s, person_id=%d }",
-                mNumber, mName, mNameAndNumber, mLabel, mPersonId);
+        return String.format("{ number=%s, name=%s, nameAndNumber=%s, label=%s, person_id=%d, hash=%d }",
+                mNumber, mName, mNameAndNumber, mLabel, mPersonId, hashCode());
     }
 
     private static void logWithTrace(String msg, Object... format) {
@@ -322,19 +324,22 @@ public class Contact {
 
         private String[] mContactInfoSelectionArgs = new String[1];
 
-        private final List<Contact> mCache;
         private final Context mContext;
 
+        private final HashMap<String, ArrayList<Contact>> mContactsHash =
+            new HashMap<String, ArrayList<Contact>>();
+
         private ContactsCache(Context context) {
-            mCache = new ArrayList<Contact>();
             mContext = context;
         }
 
         void dump() {
             synchronized (ContactsCache.this) {
                 Log.d(TAG, "**** Contact cache dump ****");
-                for (Contact c : mCache) {
-                    Log.d(TAG, c.toString());
+                for (ArrayList<Contact> alc : mContactsHash.values()) {
+                    for (Contact c : alc) {
+                        Log.d(TAG, c.toString());
+                    }
                 }
             }
         }
@@ -675,50 +680,70 @@ public class Contact {
             return entry;
         }
 
-        private Contact getEmail(String number) {
-            synchronized (ContactsCache.this) {
-                for (Contact c : mCache) {
-                    if (number.equalsIgnoreCase(c.mNumber)) {
-                        return c;
+        // Invert and truncate to five characters the phoneNumber so that we
+        // can use it as the key in a hashtable.  We keep a mapping of this
+        // key to a list of all contacts which have the same key.
+        private CharSequence key(String phoneNumber, CharBuffer keyBuffer) {
+            keyBuffer.clear();
+            keyBuffer.mark();
+
+            int position = phoneNumber.length();
+            int resultCount = 0;
+            while (--position >= 0) {
+                char c = phoneNumber.charAt(position);
+                if (Character.isDigit(c)) {
+                    keyBuffer.put(c);
+                    if (++resultCount == STATIC_KEY_BUFFER_MAXIMUM_LENGTH) {
+                        break;
                     }
                 }
-                return null;
+            }
+            keyBuffer.reset();
+            if (resultCount > 0) {
+                return keyBuffer;
+            } else {
+                // there were no usable digits in the input phoneNumber
+                return phoneNumber;
             }
         }
 
-        Contact get(String number) {
-            if (Mms.isEmailAddress(number))
-                return getEmail(number);
+        // Reuse this so we don't have to allocate each time we go through this
+        // "get" function.
+        static final int STATIC_KEY_BUFFER_MAXIMUM_LENGTH = 5;
+        static CharBuffer sStaticKeyBuffer = CharBuffer.allocate(STATIC_KEY_BUFFER_MAXIMUM_LENGTH);
 
+        public Contact get(String numberOrEmail) {
             synchronized (ContactsCache.this) {
-                for (Contact c : mCache) {
+                // See if we can find "number" in the hashtable.
+                // If so, just return the result.
+                final boolean isNotRegularPhoneNumber =
+                       Mms.isEmailAddress(numberOrEmail)
+                    || MessageUtils.isAlias(numberOrEmail);
+                final CharSequence key = isNotRegularPhoneNumber ? numberOrEmail : key(numberOrEmail, sStaticKeyBuffer);
 
-                    // if the numbers are an exact match (i.e. Google SMS), or if the phone
-                    // number comparison returns a match, return the contact.
-                    if (number.equals(c.mNumber) || PhoneNumberUtils.compare(number, c.mNumber)) {
-                        return c;
+                ArrayList<Contact> candidates = mContactsHash.get(key);
+                if (candidates != null) {
+                    int length = candidates.size();
+                    for (int i = 0; i < length; i++) {
+                        Contact c= candidates.get(i);
+                        if (isNotRegularPhoneNumber) {
+                            if (numberOrEmail.equals(c.mNumber)) {
+                                return c;
+                            }
+                        } else {
+                            if (PhoneNumberUtils.compare(numberOrEmail, c.mNumber)) {
+                                return c;
+                            }
+                        }
                     }
+                } else {
+                    candidates = new ArrayList<Contact>();
+                    // call toString() since it may be the static CharBuffer
+                    mContactsHash.put(key.toString(), candidates);
                 }
-                Contact c = new Contact(number);
-                mCache.add(c);
+                Contact c = new Contact(numberOrEmail);
+                candidates.add(c);
                 return c;
-            }
-        }
-
-        String[] getNumbers() {
-            synchronized (ContactsCache.this) {
-                String[] numbers = new String[mCache.size()];
-                int i = 0;
-                for (Contact c : mCache) {
-                    numbers[i++] = c.getNumber();
-                }
-                return numbers;
-            }
-        }
-
-        List<Contact> getContacts() {
-            synchronized (ContactsCache.this) {
-                return new ArrayList<Contact>(mCache);
             }
         }
 
@@ -726,8 +751,10 @@ public class Contact {
             // Don't remove the contacts. Just mark them stale so we'll update their
             // info, particularly their presence.
             synchronized (ContactsCache.this) {
-                for (Contact c : mCache) {
-                    c.mIsStale = true;
+                for (ArrayList<Contact> alc : mContactsHash.values()) {
+                    for (Contact c : alc) {
+                        c.mIsStale = true;
+                    }
                 }
             }
         }
