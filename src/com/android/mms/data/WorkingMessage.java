@@ -165,6 +165,11 @@ public class WorkingMessage {
          * any more Mms's to be sent.
          */
         void onMaxPendingMessagesReached();
+
+        /**
+         * Called if there's an attachment error while resizing the images just before sending.
+         */
+        void onAttachmentError(int error);
     }
 
     private WorkingMessage(ComposeMessageActivity activity) {
@@ -924,13 +929,12 @@ public class WorkingMessage {
             final SlideshowModel slideshow = mSlideshow;
             final SendReq sendReq = makeSendReq(conv, mSubject);
 
-            // Make sure the text in slide 0 is no longer holding onto a reference to the text
-            // in the message text box.
-            slideshow.prepareForSend();
-
             // Do the dirty work of sending the message off of the main UI thread.
             new Thread(new Runnable() {
                 public void run() {
+                    // Make sure the text in slide 0 is no longer holding onto a reference to
+                    // the text in the message text box.
+                    slideshow.prepareForSend();
                     sendMmsWorker(conv, mmsUri, persister, slideshow, sendReq);
                 }
             }).start();
@@ -986,7 +990,7 @@ public class WorkingMessage {
 
             // Make sure this thread isn't over the limits in message count
             Recycler.getSmsRecycler().deleteOldMessagesByThreadId(mContext, threadId);
-       } catch (Exception e) {
+        } catch (Exception e) {
             Log.e(TAG, "Failed to send SMS message, threadId=" + threadId, e);
         }
 
@@ -1038,6 +1042,21 @@ public class WorkingMessage {
 
         // Be paranoid and clean any draft SMS up.
         deleteDraftSmsMessage(threadId);
+
+        // Resize all the resizeable attachments (e.g. pictures) to fit
+        // in the remaining space in the slideshow.
+        int error = 0;
+        try {
+            slideshow.finalResize(mmsUri);
+        } catch (ExceedMessageSizeException e1) {
+            error = MESSAGE_SIZE_EXCEEDED;
+        } catch (MmsException e1) {
+            error = UNKNOWN_ERROR;
+        }
+        if (error != 0) {
+            mStatusListener.onAttachmentError(error);
+            return;
+        }
 
         MessageSender sender = new MmsMessageSender(mContext, mmsUri,
                 slideshow.getCurrentMessageSize());

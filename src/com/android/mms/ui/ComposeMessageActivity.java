@@ -2092,6 +2092,14 @@ public class ComposeMessageActivity extends Activity
         });
     }
 
+    public void onAttachmentError(final int error) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                handleAddAttachmentError(error, R.string.type_picture);
+            }
+        });
+    }
+
     // We don't want to show the "call" option unless there is only one
     // recipient and it's a phone number.
     private boolean isRecipientCallable() {
@@ -2270,7 +2278,7 @@ public class ComposeMessageActivity extends Activity
 
             case AttachmentTypeSelectorAdapter.RECORD_VIDEO: {
                 // Set video size limit. Subtract 1K for some text.
-                long sizeLimit = MmsConfig.getMaxMessageSize() - 1024;
+                long sizeLimit = MmsConfig.getMaxMessageSize() - SlideshowModel.SLIDESHOW_SLOP;
                 if (slideShow != null) {
                     sizeLimit -= slideShow.getCurrentMessageSize();
 
