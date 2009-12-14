@@ -26,7 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.android.internal.widget.NumberPicker;
+import com.android.common.widget.NumberPicker;
 
 import com.android.mms.R;
 

@@ -29,11 +29,11 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.params.HttpConnectionParams;
 
+import com.android.common.AndroidHttpClient;
 import com.android.mms.MmsConfig;
 import com.android.mms.LogTag;
 
 import android.content.Context;
-import android.net.http.AndroidHttpClient;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Config;
