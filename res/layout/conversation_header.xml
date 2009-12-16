@@ -28,7 +28,7 @@
         android:visibility="gone"
         android:layout_marginLeft="7dip"
         android:layout_centerVertical="true"
-        style="@*android:style/Widget.QuickContactBadge.WindowSmall" />
+        style="?android:attr/quickContactBadgeStyleWindowSmall" />
 
     <ImageView
         android:id="@+id/presence"
