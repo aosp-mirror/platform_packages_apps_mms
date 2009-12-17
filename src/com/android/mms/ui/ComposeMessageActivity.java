@@ -23,36 +23,19 @@ import static com.android.mms.transaction.ProgressCallbackEntity.PROGRESS_COMPLE
 import static com.android.mms.transaction.ProgressCallbackEntity.PROGRESS_START;
 import static com.android.mms.transaction.ProgressCallbackEntity.PROGRESS_STATUS_ACTION;
 import static com.android.mms.ui.MessageListAdapter.COLUMN_ID;
+import static com.android.mms.ui.MessageListAdapter.COLUMN_MMS_LOCKED;
 import static com.android.mms.ui.MessageListAdapter.COLUMN_MSG_TYPE;
 import static com.android.mms.ui.MessageListAdapter.PROJECTION;
-import static com.android.mms.ui.MessageListAdapter.COLUMN_MMS_LOCKED;
 
-import com.android.internal.telephony.TelephonyIntents;
-import com.android.internal.telephony.TelephonyProperties;
-import com.android.internal.widget.ContactHeaderWidget;
-import com.android.mms.LogTag;
-import com.android.mms.MmsConfig;
-import com.android.mms.R;
-import com.android.mms.data.Contact;
-import com.android.mms.data.ContactList;
-import com.android.mms.data.Conversation;
-import com.android.mms.data.WorkingMessage;
-import com.android.mms.data.WorkingMessage.MessageStatusListener;
-import com.android.mms.model.SlideModel;
-import com.android.mms.model.SlideshowModel;
-import com.android.mms.transaction.MessagingNotification;
-import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
-import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
-import com.android.mms.util.SendingProgressTokenManager;
-import com.android.mms.util.SmileyParser;
-import com.google.android.mms.ContentType;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.EncodedStringValue;
-import com.google.android.mms.pdu.PduBody;
-import com.google.android.mms.pdu.PduPart;
-import com.google.android.mms.pdu.PduPersister;
-import com.google.android.mms.pdu.SendReq;
-import com.google.android.mms.util.SqliteWrapper;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -72,9 +55,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
-import android.drm.mobile1.DrmException;
-import android.drm.mobile1.DrmRawContent;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -82,14 +62,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
-import android.os.SystemProperties;
-import android.provider.ContactsContract.Contacts;
-import android.provider.DrmStore;
+import android.os.SystemProperties;  // TODO: fix for SDK
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Email;
-import android.provider.Telephony.Mms;
-import android.provider.Telephony.Sms;
 import android.telephony.SmsMessage;
 import android.text.ClipboardManager;
 import android.text.Editable;
@@ -110,7 +87,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
@@ -127,15 +103,36 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.android.mms.LogTag;
+import com.android.mms.MmsConfig;
+import com.android.mms.R;
+import com.android.mms.data.Contact;
+import com.android.mms.data.ContactList;
+import com.android.mms.data.Conversation;
+import com.android.mms.data.WorkingMessage;
+import com.android.mms.data.WorkingMessage.MessageStatusListener;
+import android.drm.mobile1.DrmException;
+import android.drm.mobile1.DrmRawContent;
+import android.provider.DrmStore;
+import com.google.android.mms.ContentType;
+import com.android.mms.mms.MmsException;
+import com.android.mms.mms.pdu.EncodedStringValue;
+import com.android.mms.mms.pdu.PduBody;
+import com.android.mms.mms.pdu.PduPart;
+import com.android.mms.mms.pdu.PduPersister;
+import com.android.mms.mms.pdu.SendReq;
+import com.android.mms.mms.util.SqliteWrapper;
+import com.android.mms.model.SlideModel;
+import com.android.mms.model.SlideshowModel;
+import com.android.mms.telephony.TelephonyIntents;
+import com.android.mms.telephony.TelephonyProperties;
+import com.android.mms.telephony.TelephonyProvider.Mms;
+import com.android.mms.telephony.TelephonyProvider.Sms;
+import com.android.mms.transaction.MessagingNotification;
+import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
+import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
+import com.android.mms.util.SendingProgressTokenManager;
+import com.android.mms.util.SmileyParser;
 
 /**
  * This is the main UI for:
@@ -2119,7 +2116,7 @@ public class ComposeMessageActivity extends Activity
 
         if (isRecipientCallable()) {
             menu.add(0, MENU_CALL_RECIPIENT, 0, R.string.menu_call).setIcon(
-                com.android.internal.R.drawable.ic_menu_call);
+                    R.drawable.ic_menu_call);
         }
 
         // Only add the "View contact" menu item when there's a single recipient and that
@@ -2133,7 +2130,7 @@ public class ComposeMessageActivity extends Activity
         if (MmsConfig.getMmsEnabled()) {
             if (!isSubjectEditorVisible()) {
                 menu.add(0, MENU_ADD_SUBJECT, 0, R.string.add_subject).setIcon(
-                        com.android.internal.R.drawable.ic_menu_edit);
+                        R.drawable.ic_menu_edit);
             }
 
             if (!mWorkingMessage.hasAttachment()) {
@@ -2147,7 +2144,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         menu.add(0, MENU_INSERT_SMILEY, 0, R.string.menu_insert_smiley).setIcon(
-                com.android.internal.R.drawable.ic_menu_emoticons);
+                R.drawable.ic_menu_emoticons);
 
         if (mMsgListAdapter.getCount() > 0) {
             // Removed search as part of b/1205708
@@ -2163,7 +2160,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         menu.add(0, MENU_CONVERSATION_LIST, 0, R.string.all_threads).setIcon(
-                com.android.internal.R.drawable.ic_menu_friendslist);
+                R.drawable.ic_menu_friendslist);
 
         buildAddAddressToContactMenuItem(menu);
         return true;
@@ -2246,6 +2243,12 @@ public class ComposeMessageActivity extends Activity
                 threadId, ConversationList.HAVE_LOCKED_MESSAGES_TOKEN);
     }
 
+//    static class SystemProperties { // TODO, temp class to get unbundling working
+//        static int getInt(String s, int value) {
+//            return value;       // just return the default value or now
+//        }
+//    }
+
     private int getVideoCaptureDurationLimit() {
         return SystemProperties.getInt("ro.media.enc.lprof.duration", 60);
     }
@@ -2293,8 +2296,8 @@ public class ComposeMessageActivity extends Activity
                     int durationLimit = getVideoCaptureDurationLimit();
                     Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                     intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
-                    intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, sizeLimit);
-                    intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, durationLimit);
+                    intent.putExtra("android.intent.extra.sizeLimit", sizeLimit);
+                    intent.putExtra("android.intent.extra.durationLimit", durationLimit);
                     startActivityForResult(intent, REQUEST_CODE_TAKE_VIDEO);
                 }
                 else {
@@ -2845,6 +2848,7 @@ public class ComposeMessageActivity extends Activity
 
     private void sendMessage(boolean bCheckEcmMode) {
         if (bCheckEcmMode) {
+            // TODO: expose this in telephony layer for SDK build
             String inEcm = SystemProperties.get(TelephonyProperties.PROPERTY_INECM_MODE);
             if (Boolean.parseBoolean(inEcm)) {
                 try {

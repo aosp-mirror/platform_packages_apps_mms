@@ -17,8 +17,8 @@
 
 package com.android.mms.ui;
 
-import com.google.android.mms.ContentType;
-import com.google.android.mms.MmsException;
+import com.android.mms.mms.ContentType;
+import com.android.mms.mms.MmsException;
 import com.android.mms.model.AudioModel;
 import com.android.mms.model.ImageModel;
 import com.android.mms.model.RegionModel;

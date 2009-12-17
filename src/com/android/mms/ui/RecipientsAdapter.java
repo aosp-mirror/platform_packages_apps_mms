@@ -17,7 +17,7 @@
 
 package com.android.mms.ui;
 
-import com.android.internal.database.ArrayListCursor;
+import com.android.common.ArrayListCursor;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 

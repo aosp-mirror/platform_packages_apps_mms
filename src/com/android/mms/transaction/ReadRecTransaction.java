@@ -17,16 +17,16 @@
 
 package com.android.mms.transaction;
 
-import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.PduComposer;
-import com.google.android.mms.pdu.PduPersister;
-import com.google.android.mms.pdu.ReadRecInd;
-import com.google.android.mms.pdu.EncodedStringValue;
+import com.android.mms.mms.MmsException;
+import com.android.mms.mms.pdu.PduComposer;
+import com.android.mms.mms.pdu.PduPersister;
+import com.android.mms.mms.pdu.ReadRecInd;
+import com.android.mms.mms.pdu.EncodedStringValue;
 import com.android.mms.ui.MessageUtils;
 
 import android.content.Context;
 import android.net.Uri;
-import android.provider.Telephony.Mms.Sent;
+import com.android.mms.telephony.TelephonyProvider.Mms.Sent;
 import android.util.Config;
 import android.util.Log;
 
