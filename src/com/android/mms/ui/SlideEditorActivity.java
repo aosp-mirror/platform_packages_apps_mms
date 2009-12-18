@@ -246,7 +246,9 @@ public class SlideEditorActivity extends Activity {
 
     private final OnTextChangedListener mOnTextChangedListener = new OnTextChangedListener() {
         public void onTextChanged(String s) {
-            mSlideshowEditor.changeText(mPosition, s);
+            if (!isFinishing()) {
+                mSlideshowEditor.changeText(mPosition, s);
+            }
         }
     };
 
