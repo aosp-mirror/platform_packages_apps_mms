@@ -336,9 +336,10 @@ public class Contact {
         void dump() {
             synchronized (ContactsCache.this) {
                 Log.d(TAG, "**** Contact cache dump ****");
-                for (ArrayList<Contact> alc : mContactsHash.values()) {
+                for (String key : mContactsHash.keySet()) {
+                    ArrayList<Contact> alc = mContactsHash.get(key);
                     for (Contact c : alc) {
-                        Log.d(TAG, c.toString());
+                        Log.d(TAG, key + " ==> " + c.toString());
                     }
                 }
             }
@@ -683,7 +684,7 @@ public class Contact {
         // Invert and truncate to five characters the phoneNumber so that we
         // can use it as the key in a hashtable.  We keep a mapping of this
         // key to a list of all contacts which have the same key.
-        private CharSequence key(String phoneNumber, CharBuffer keyBuffer) {
+        private String key(String phoneNumber, CharBuffer keyBuffer) {
             keyBuffer.clear();
             keyBuffer.mark();
 
@@ -700,7 +701,7 @@ public class Contact {
             }
             keyBuffer.reset();
             if (resultCount > 0) {
-                return keyBuffer;
+                return keyBuffer.toString();
             } else {
                 // there were no usable digits in the input phoneNumber
                 return phoneNumber;
@@ -719,7 +720,7 @@ public class Contact {
                 final boolean isNotRegularPhoneNumber =
                        Mms.isEmailAddress(numberOrEmail)
                     || MessageUtils.isAlias(numberOrEmail);
-                final CharSequence key = isNotRegularPhoneNumber ? numberOrEmail : key(numberOrEmail, sStaticKeyBuffer);
+                final String key = isNotRegularPhoneNumber ? numberOrEmail : key(numberOrEmail, sStaticKeyBuffer);
 
                 ArrayList<Contact> candidates = mContactsHash.get(key);
                 if (candidates != null) {
@@ -739,7 +740,7 @@ public class Contact {
                 } else {
                     candidates = new ArrayList<Contact>();
                     // call toString() since it may be the static CharBuffer
-                    mContactsHash.put(key.toString(), candidates);
+                    mContactsHash.put(key, candidates);
                 }
                 Contact c = new Contact(numberOrEmail);
                 candidates.add(c);
