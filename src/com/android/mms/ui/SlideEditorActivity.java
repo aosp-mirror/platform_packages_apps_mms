@@ -309,6 +309,9 @@ public class SlideEditorActivity extends Activity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        if (isFinishing()) {
+            return false;
+        }
         menu.clear();
 
         SlideModel slide = mSlideshowModel.get(mPosition);
