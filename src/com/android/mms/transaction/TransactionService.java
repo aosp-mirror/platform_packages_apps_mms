@@ -33,7 +33,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
-import android.net.NetworkConnectivityListener;
+import com.android.common.NetworkConnectivityListener;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Handler;

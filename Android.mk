@@ -7,6 +7,8 @@ LOCAL_SRC_FILES := $(call all-java-files-under, src)
 
 LOCAL_PACKAGE_NAME := Mms
 
+LOCAL_STATIC_JAVA_LIBRARIES += android-common
+
 LOCAL_REQUIRED_MODULES := SoundRecorder
 
 include $(BUILD_PACKAGE)

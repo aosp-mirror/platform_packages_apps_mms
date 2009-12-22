@@ -26,7 +26,7 @@ import android.content.res.XmlResourceParser;
 import android.util.Config;
 import android.util.Log;
 
-import com.android.internal.util.XmlUtils;
+import com.android.common.XmlUtils;
 
 public class MmsConfig {
     private static final String TAG = "MmsConfig";
@@ -66,7 +66,7 @@ public class MmsConfig {
 
     // This is the max amount of storage multiplied by mMaxMessageSize that we
     // allow of unsent messages before blocking the user from sending any more
-    // MMS's. 
+    // MMS's.
     private static int mMaxSizeScaleForPendingMmsAllowed = 4;       // default value
 
     // Email gateway alias support, including the master switch and different rules
