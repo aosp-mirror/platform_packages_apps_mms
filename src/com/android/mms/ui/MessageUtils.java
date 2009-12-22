@@ -17,6 +17,7 @@
 
 package com.android.mms.ui;
 
+import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.LogTag;
@@ -661,7 +662,7 @@ public class MessageUtils {
 
     public static String getLocalNumber() {
         if (null == sLocalNumber) {
-            sLocalNumber = TelephonyManager.getDefault().getLine1Number();
+            sLocalNumber = MmsApp.getApplication().getTelephonyManager().getLine1Number();
         }
         return sLocalNumber;
     }

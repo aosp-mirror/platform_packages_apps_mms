@@ -25,6 +25,7 @@ import static com.google.android.mms.pdu.PduHeaders.STATUS_DEFERRED;
 import static com.google.android.mms.pdu.PduHeaders.STATUS_RETRIEVED;
 import static com.google.android.mms.pdu.PduHeaders.STATUS_UNRECOGNIZED;
 
+import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.Recycler;
@@ -128,7 +129,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
     public void run() {
         DownloadManager downloadManager = DownloadManager.getInstance();
         boolean autoDownload = downloadManager.isAuto();
-        boolean dataSuspended = (TelephonyManager.getDefault().getDataState() ==
+        boolean dataSuspended = (MmsApp.getApplication().getTelephonyManager().getDataState() ==
                 TelephonyManager.DATA_SUSPENDED);
         try {
             if (LOCAL_LOGV) {

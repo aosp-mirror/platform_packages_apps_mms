@@ -62,6 +62,7 @@ import android.widget.LinearLayout;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
+import com.android.mms.MmsApp;
 import com.android.mms.R;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.transaction.Transaction;
@@ -224,7 +225,7 @@ public class MessageListItem extends LinearLayout implements
         if (!Sms.isOutgoingFolder(msgItem.mBoxId)) {
             addr = msgItem.mAddress;
         } else {
-            addr = TelephonyManager.getDefault().getLine1Number();
+            addr = MmsApp.getApplication().getTelephonyManager().getLine1Number();
         }
         if (!TextUtils.isEmpty(addr)) {
             MessageListAdapter.AvatarCache.ContactData contactData = avatarCache.get(addr);

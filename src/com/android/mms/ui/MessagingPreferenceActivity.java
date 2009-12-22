@@ -76,7 +76,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         mMmsLimitPref = findPreference("pref_key_mms_delete_limit");
         mClearHistoryPref = findPreference("pref_key_mms_clear_history");
 
-        if (!TelephonyManager.getDefault().hasIccCard()) {
+        if (!MmsApp.getApplication().getTelephonyManager().hasIccCard()) {
             // No SIM card, remove the SIM-related prefs
             PreferenceCategory smsCategory =
                 (PreferenceCategory)findPreference("pref_key_sms_settings");

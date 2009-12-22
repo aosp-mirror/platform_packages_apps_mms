@@ -28,18 +28,24 @@ import com.android.mms.util.RateController;
 import com.android.mms.MmsConfig;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
+import android.telephony.TelephonyManager;
 
 public class MmsApp extends Application {
     public static final String LOG_TAG = "Mms";
 
     private SearchRecentSuggestions mRecentSuggestions;
+    private TelephonyManager mTelephonyManager;
+    private static MmsApp sMmsApp = null;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        sMmsApp = this;
 
         // Load the default preference values
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -55,6 +61,10 @@ public class MmsApp extends Application {
         SmileyParser.init(this);
     }
 
+    synchronized public static MmsApp getApplication() {
+        return sMmsApp;
+    }
+
     @Override
     public void onTerminate() {
         DrmUtils.cleanupStorage(this);
@@ -63,6 +73,17 @@ public class MmsApp extends Application {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         LayoutManager.getInstance().onConfigurationChanged(newConfig);
+    }
+
+    /**
+     * @return Returns the TelephonyManager.
+     */
+    public TelephonyManager getTelephonyManager() {
+        if (mTelephonyManager == null) {
+            mTelephonyManager = (TelephonyManager)getApplicationContext()
+                    .getSystemService(Context.TELEPHONY_SERVICE);
+        }
+        return mTelephonyManager;
     }
 
     /**
