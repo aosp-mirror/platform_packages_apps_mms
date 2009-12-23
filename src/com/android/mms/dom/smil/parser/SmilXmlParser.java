@@ -17,6 +17,8 @@
 
 package com.android.mms.dom.smil.parser;
 
+import com.android.mms.mms.MmsException;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -26,7 +28,6 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 import org.w3c.dom.smil.SMILDocument;
 
-import com.google.android.mms.MmsException;
 import com.android.mms.dom.smil.parser.SmilContentHandler;
 
 public class SmilXmlParser {

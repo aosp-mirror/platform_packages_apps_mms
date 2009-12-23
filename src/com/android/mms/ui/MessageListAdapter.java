@@ -18,7 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
-import com.google.android.mms.MmsException;
+import com.android.mms.mms.MmsException;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
@@ -39,11 +39,11 @@ import android.provider.ContactsContract.RawContacts;
 import android.provider.ContactsContract.StatusUpdates;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Photo;
-import android.provider.Telephony.Mms;
-import android.provider.Telephony.MmsSms;
-import android.provider.Telephony.Sms;
-import android.provider.Telephony.MmsSms.PendingMessages;
-import android.provider.Telephony.Sms.Conversations;
+import com.android.mms.telephony.TelephonyProvider.Mms;
+import com.android.mms.telephony.TelephonyProvider.MmsSms;
+import com.android.mms.telephony.TelephonyProvider.Sms;
+import com.android.mms.telephony.TelephonyProvider.MmsSms.PendingMessages;
+import com.android.mms.telephony.TelephonyProvider.Sms.Conversations;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Config;
@@ -68,7 +68,7 @@ public class MessageListAdapter extends CursorAdapter {
     private static final boolean LOCAL_LOGV = Config.LOGV && DEBUG;
 
     static final String[] PROJECTION = new String[] {
-        // TODO: should move this symbol into android.provider.Telephony.
+        // TODO: should move this symbol into com.android.mms.telephony.Telephony.
         MmsSms.TYPE_DISCRIMINATOR_COLUMN,
         BaseColumns._ID,
         Conversations.THREAD_ID,
@@ -127,11 +127,13 @@ public class MessageListAdapter extends CursorAdapter {
     private OnDataSetChangedListener mOnDataSetChangedListener;
     private Handler mMsgListItemHandler;
     private String mHighlight;
+    private Context mContext;
 
     public MessageListAdapter(
             Context context, Cursor c, ListView listView,
             boolean useDefaultColumnsMap, String highlight) {
         super(context, c, false /* auto-requery */);
+        mContext = context;
         mHighlight = highlight != null ? highlight.toLowerCase() : null;
 
         mInflater = (LayoutInflater) context.getSystemService(
@@ -198,11 +200,7 @@ public class MessageListAdapter extends CursorAdapter {
 
     @Override
     protected void onContentChanged() {
-        if (mAutoRequery) {
-            super.onContentChanged();
-            return;
-        }
-        if (mCursor != null && !mCursor.isClosed()) {
+        if (getCursor() != null && !getCursor().isClosed()) {
             if (mOnDataSetChangedListener != null) {
                 mOnDataSetChangedListener.onContentChanged(this);
             }

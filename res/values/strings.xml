@@ -707,5 +707,8 @@
          outstanding unsent message. -->
     <string name="too_many_unsent_mms">Can\'t send message right now. There are too many unsent multimedia messages.</string>
 
+    <!-- Label for the "Me" number of this phone. -->
+    <string name="me">Me</string>
+
 </resources>
 

@@ -27,11 +27,12 @@ import static com.android.mms.dom.smil.SmilParElementImpl.SMIL_SLIDE_START_EVENT
 import com.android.mms.dom.smil.SmilDocumentImpl;
 import com.android.mms.dom.smil.parser.SmilXmlParser;
 import com.android.mms.dom.smil.parser.SmilXmlSerializer;
+import android.drm.mobile1.DrmException;
 import com.android.mms.drm.DrmWrapper;
-import com.google.android.mms.ContentType;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.PduBody;
-import com.google.android.mms.pdu.PduPart;
+import com.android.mms.mms.ContentType;
+import com.android.mms.mms.MmsException;
+import com.android.mms.mms.pdu.PduBody;
+import com.android.mms.mms.pdu.PduPart;
 
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.smil.SMILDocument;
@@ -44,7 +45,6 @@ import org.w3c.dom.smil.SMILRegionMediaElement;
 import org.w3c.dom.smil.SMILRootLayoutElement;
 import org.xml.sax.SAXException;
 
-import android.drm.mobile1.DrmException;
 import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
