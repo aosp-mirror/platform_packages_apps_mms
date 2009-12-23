@@ -10,9 +10,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.Telephony.MmsSms;
-import android.provider.Telephony.Threads;
-import android.provider.Telephony.Sms.Conversations;
+import com.android.mms.telephony.TelephonyProvider.MmsSms;
+import com.android.mms.telephony.TelephonyProvider.Threads;
+import com.android.mms.telephony.TelephonyProvider.Sms.Conversations;
 import android.text.TextUtils;
 import android.util.Log;
 

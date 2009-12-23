@@ -18,15 +18,16 @@
 package com.android.mms.transaction;
 
 import static android.content.Intent.ACTION_BOOT_COMPLETED;
-import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
+import static com.android.mms.telephony.TelephonyProvider.Sms.Intents.SMS_RECEIVED_ACTION;
+import static com.android.mms.telephony.TelephonyProvider.Sms.Intents.ACTION_SERVICE_STATE_CHANGED;
 
 
 import com.android.mms.data.Contact;
 import com.android.mms.ui.ClassZeroActivity;
 import com.android.mms.util.Recycler;
 import com.android.mms.util.SendingProgressTokenManager;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.util.SqliteWrapper;
+import com.android.mms.mms.MmsException;
+import com.android.mms.mms.util.SqliteWrapper;
 
 import android.app.Activity;
 import android.app.Service;
@@ -44,19 +45,17 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
-import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
-import android.provider.Telephony.Sms.Inbox;
-import android.provider.Telephony.Sms.Intents;
-import android.provider.Telephony.Sms.Outbox;
+import com.android.mms.telephony.TelephonyProvider.Sms;
+import com.android.mms.telephony.TelephonyProvider.Threads;
+import com.android.mms.telephony.TelephonyProvider.Sms.Inbox;
+import com.android.mms.telephony.TelephonyProvider.Sms.Intents;
+import com.android.mms.telephony.TelephonyProvider.Sms.Outbox;
 import android.telephony.ServiceState;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.internal.telephony.SmsResponse;
-import com.android.internal.telephony.TelephonyIntents;
 import com.android.mms.R;
 import com.android.mms.LogTag;
 
@@ -170,7 +169,7 @@ public class SmsReceiverService extends Service {
                     handleSmsReceived(intent, error);
                 } else if (ACTION_BOOT_COMPLETED.equals(action)) {
                     handleBootCompleted();
-                } else if (TelephonyIntents.ACTION_SERVICE_STATE_CHANGED.equals(action)) {
+                } else if (ACTION_SERVICE_STATE_CHANGED.equals(action)) {
                     handleServiceStateChanged(intent);
                 }
             }
@@ -486,7 +485,7 @@ public class SmsReceiverService extends Service {
         unRegisterForServiceStateChanges();
 
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED);
+        intentFilter.addAction(ACTION_SERVICE_STATE_CHANGED);
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "registerForServiceStateChanges");
         }

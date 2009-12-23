@@ -12,10 +12,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
-import android.provider.Telephony;
+import com.android.mms.telephony.TelephonyProvider;
 
-import com.google.android.mms.util.SqliteWrapper;
 import com.android.mms.LogTag;
+import com.android.mms.mms.util.SqliteWrapper;
 
 public class RecipientIdCache {
     private static final String TAG = "Mms/cache";
@@ -150,9 +150,9 @@ public class RecipientIdCache {
         }
 
         ContentValues values = new ContentValues();
-        values.put(Telephony.CanonicalAddressesColumns.ADDRESS, number);
+        values.put(TelephonyProvider.CanonicalAddressesColumns.ADDRESS, number);
 
-        StringBuilder buf = new StringBuilder(Telephony.CanonicalAddressesColumns._ID);
+        StringBuilder buf = new StringBuilder(TelephonyProvider.CanonicalAddressesColumns._ID);
         buf.append('=').append(id);
 
         Uri uri = ContentUris.withAppendedId(sSingleCanonicalAddressUri, id);

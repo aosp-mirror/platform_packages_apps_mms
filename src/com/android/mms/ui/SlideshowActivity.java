@@ -23,7 +23,7 @@ import com.android.mms.dom.smil.SmilPlayer;
 import com.android.mms.dom.smil.parser.SmilXmlSerializer;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.SmilHelper;
-import com.google.android.mms.MmsException;
+import com.android.mms.mms.MmsException;
 
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;

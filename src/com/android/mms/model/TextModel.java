@@ -18,14 +18,14 @@
 package com.android.mms.model;
 
 import com.android.mms.dom.smil.SmilMediaElementImpl;
+import android.drm.mobile1.DrmException;
 import com.android.mms.drm.DrmWrapper;
-import com.google.android.mms.pdu.CharacterSets;
+import com.android.mms.mms.pdu.CharacterSets;
 
 import org.w3c.dom.events.Event;
 import org.w3c.dom.smil.ElementTime;
 
 import android.content.Context;
-import android.drm.mobile1.DrmException;
 import android.util.Log;
 
 import java.io.IOException;
@@ -94,14 +94,14 @@ public class TextModel extends RegionMediaModel {
                 mText = e.getMessage();
             }
         }
-        
+
         // If our internal CharSequence is not already a String,
         // re-save it as a String so subsequent calls to getText will
         // be less expensive.
         if (!(mText instanceof String)) {
             mText = mText.toString();
         }
-        
+
         return mText.toString();
     }
 

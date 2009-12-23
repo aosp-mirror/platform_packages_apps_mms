@@ -19,7 +19,7 @@ package com.android.mms.util;
 import com.android.mms.MmsConfig;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.MessagingPreferenceActivity;
-import com.google.android.mms.util.SqliteWrapper;
+import com.android.mms.mms.util.SqliteWrapper;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -29,10 +29,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
-import android.provider.Telephony;
-import android.provider.Telephony.Mms;
-import android.provider.Telephony.Sms;
-import android.provider.Telephony.Sms.Conversations;
+import com.android.mms.telephony.TelephonyProvider;
+import com.android.mms.telephony.TelephonyProvider.Mms;
+import com.android.mms.telephony.TelephonyProvider.Sms;
+import com.android.mms.telephony.TelephonyProvider.Sms.Conversations;
 import android.util.Log;
 
 /**
@@ -131,7 +131,8 @@ public abstract class Recycler {
 
     public static class SmsRecycler extends Recycler {
         private static final String[] ALL_SMS_THREADS_PROJECTION = {
-            Telephony.Sms.Conversations.THREAD_ID, Telephony.Sms.Conversations.MESSAGE_COUNT
+            TelephonyProvider.Sms.Conversations.THREAD_ID,
+            TelephonyProvider.Sms.Conversations.MESSAGE_COUNT
         };
 
         private static final int ID             = 0;
@@ -181,7 +182,7 @@ public abstract class Recycler {
         protected Cursor getAllThreads(Context context) {
             ContentResolver resolver = context.getContentResolver();
             Cursor cursor = SqliteWrapper.query(context, resolver,
-                    Telephony.Sms.Conversations.CONTENT_URI,
+                    TelephonyProvider.Sms.Conversations.CONTENT_URI,
                     ALL_SMS_THREADS_PROJECTION, null, null, Conversations.DEFAULT_SORT_ORDER);
 
             return cursor;
@@ -306,7 +307,7 @@ public abstract class Recycler {
         protected Cursor getAllThreads(Context context) {
             ContentResolver resolver = context.getContentResolver();
             Cursor cursor = SqliteWrapper.query(context, resolver,
-                    Uri.withAppendedPath(Telephony.Mms.CONTENT_URI, "threads"),
+                    Uri.withAppendedPath(TelephonyProvider.Mms.CONTENT_URI, "threads"),
                     ALL_MMS_THREADS_PROJECTION, null, null, Conversations.DEFAULT_SORT_ORDER);
 
             return cursor;
@@ -323,7 +324,7 @@ public abstract class Recycler {
                 String msgId = uri.getLastPathSegment();
                 ContentResolver resolver = context.getContentResolver();
                 cursor = SqliteWrapper.query(context, resolver,
-                        Telephony.Mms.CONTENT_URI,
+                        TelephonyProvider.Mms.CONTENT_URI,
                         MMS_MESSAGE_PROJECTION,
                         "thread_id in (select thread_id from pdu where _id=" + msgId +
                             ") AND locked=0",
@@ -366,7 +367,7 @@ public abstract class Recycler {
             try {
                 ContentResolver resolver = context.getContentResolver();
                 cursor = SqliteWrapper.query(context, resolver,
-                        Telephony.Mms.CONTENT_URI,
+                        TelephonyProvider.Mms.CONTENT_URI,
                         MMS_MESSAGE_PROJECTION,
                         "thread_id=" + threadId + " AND locked=0",
                         null, "date DESC");     // get in newest to oldest order
@@ -395,7 +396,7 @@ public abstract class Recycler {
         private void deleteMessagesOlderThanDate(Context context, long threadId,
                 long latestDate) {
             long cntDeleted = SqliteWrapper.delete(context, context.getContentResolver(),
-                    Telephony.Mms.CONTENT_URI,
+                    TelephonyProvider.Mms.CONTENT_URI,
                     "thread_id=" + threadId + " AND locked=0 AND date<" + latestDate,
                     null);
             if (LOCAL_DEBUG) {
@@ -421,7 +422,7 @@ public abstract class Recycler {
                     long threadId = getThreadId(cursor);
                     ContentResolver resolver = context.getContentResolver();
                     Cursor msgs = SqliteWrapper.query(context, resolver,
-                            Telephony.Mms.CONTENT_URI,
+                            TelephonyProvider.Mms.CONTENT_URI,
                             MMS_MESSAGE_PROJECTION,
                             "thread_id=" + threadId + " AND locked=0",
                             null, "date DESC");     // get in newest to oldest order

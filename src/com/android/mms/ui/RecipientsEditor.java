@@ -22,7 +22,7 @@ import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 
 import android.content.Context;
-import android.provider.Telephony.Mms;
+import com.android.mms.telephony.TelephonyProvider.Mms;
 import android.telephony.PhoneNumberUtils;
 import android.text.Annotation;
 import android.text.Editable;
@@ -263,7 +263,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
                 int end = mTokenizer.findTokenEnd(text, start);
 
                 if (end != start) {
-                    String number = getNumberAt(getText(), start, end, mContext);
+                    String number = getNumberAt(getText(), start, end, getContext());
                     Contact c = Contact.get(number, false);
                     return new RecipientContextMenuInfo(c);
                 }

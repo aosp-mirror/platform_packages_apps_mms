@@ -17,7 +17,7 @@
 
 package com.android.mms.util;
 
-import com.google.android.mms.util.SqliteWrapper;
+import com.android.mms.mms.util.SqliteWrapper;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -25,7 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.provider.Telephony.Mms.Rate;
+import com.android.mms.telephony.TelephonyProvider.Mms.Rate;
 import android.util.Config;
 import android.util.Log;
 

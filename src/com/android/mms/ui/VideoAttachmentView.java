@@ -18,19 +18,17 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
+import android.media.MediaMetadataRetriever;        // TODO: remove dependency for SDK build
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import java.io.IOException;
 import java.util.Map;
 
 /**

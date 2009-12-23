@@ -22,8 +22,8 @@ import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.ui.MessageUtils;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.util.SqliteWrapper;
+import com.android.mms.mms.MmsException;
+import com.android.mms.mms.util.SqliteWrapper;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -33,8 +33,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.provider.Telephony.Mms;
-import android.provider.Telephony.Sms;
+import com.android.mms.telephony.TelephonyProvider.Mms;
+import com.android.mms.telephony.TelephonyProvider.Sms;
 import android.telephony.SmsManager;
 import android.util.Log;
 

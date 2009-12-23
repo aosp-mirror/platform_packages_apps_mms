@@ -17,22 +17,22 @@
 
 package com.android.mms.transaction;
 
-import static android.provider.Telephony.Sms.Intents.WAP_PUSH_RECEIVED_ACTION;
-import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_DELIVERY_IND;
-import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
-import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_READ_ORIG_IND;
+import static com.android.mms.telephony.TelephonyProvider.Sms.Intents.WAP_PUSH_RECEIVED_ACTION;
+import static com.android.mms.mms.pdu.PduHeaders.MESSAGE_TYPE_DELIVERY_IND;
+import static com.android.mms.mms.pdu.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
+import static com.android.mms.mms.pdu.PduHeaders.MESSAGE_TYPE_READ_ORIG_IND;
 
 import com.android.mms.MmsConfig;
-import com.google.android.mms.ContentType;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.DeliveryInd;
-import com.google.android.mms.pdu.GenericPdu;
-import com.google.android.mms.pdu.NotificationInd;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduParser;
-import com.google.android.mms.pdu.PduPersister;
-import com.google.android.mms.pdu.ReadOrigInd;
-import com.google.android.mms.util.SqliteWrapper;
+import com.android.mms.mms.ContentType;
+import com.android.mms.mms.MmsException;
+import com.android.mms.mms.pdu.DeliveryInd;
+import com.android.mms.mms.pdu.GenericPdu;
+import com.android.mms.mms.pdu.NotificationInd;
+import com.android.mms.mms.pdu.PduHeaders;
+import com.android.mms.mms.pdu.PduParser;
+import com.android.mms.mms.pdu.PduPersister;
+import com.android.mms.mms.pdu.ReadOrigInd;
+import com.android.mms.mms.util.SqliteWrapper;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -44,8 +44,8 @@ import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.PowerManager;
-import android.provider.Telephony.Mms;
-import android.provider.Telephony.Mms.Inbox;
+import com.android.mms.telephony.TelephonyProvider.Mms;
+import com.android.mms.telephony.TelephonyProvider.Mms.Inbox;
 import android.util.Config;
 import android.util.Log;
 
@@ -67,7 +67,7 @@ public class PushReceiver extends BroadcastReceiver {
         @Override
         protected Void doInBackground(Intent... intents) {
             Intent intent = intents[0];
-            
+
             // Get raw PDU push-data from the message and parse it
             byte[] pushData = intent.getByteArrayExtra("data");
             PduParser parser = new PduParser(pushData);
@@ -148,7 +148,7 @@ public class PushReceiver extends BroadcastReceiver {
             return null;
         }
     }
-    
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(WAP_PUSH_RECEIVED_ACTION)
@@ -156,7 +156,7 @@ public class PushReceiver extends BroadcastReceiver {
             if (LOCAL_LOGV) {
                 Log.v(TAG, "Received PUSH Intent: " + intent);
             }
-            
+
             // Hold a wake lock for 5 seconds, enough to give any
             // services we start time to take their own wake locks.
             PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
