@@ -21,11 +21,12 @@ import com.android.mms.util.SendingProgressTokenManager;
 
 import android.content.Context;
 import android.net.Uri;
-import android.net.NetworkUtils;
 import android.net.ConnectivityManager;
 import android.util.Log;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Transaction is an abstract class for notification transaction, send transaction
@@ -204,7 +205,7 @@ public abstract class Transaction extends Observable {
         int inetAddr;
         if (settings.isProxySet()) {
             String proxyAddr = settings.getProxyAddress();
-            inetAddr = NetworkUtils.lookupHost(proxyAddr);
+            inetAddr = lookupHost(proxyAddr);
             if (inetAddr == -1) {
                 throw new IOException("Cannot establish route for " + url + ": Unknown host");
             } else {
@@ -215,7 +216,7 @@ public abstract class Transaction extends Observable {
             }
         } else {
             Uri uri = Uri.parse(url);
-            inetAddr = NetworkUtils.lookupHost(uri.getHost());
+            inetAddr = lookupHost(uri.getHost());
             if (inetAddr == -1) {
                 throw new IOException("Cannot establish route for " + url + ": Unknown host");
             } else {
@@ -225,6 +226,31 @@ public abstract class Transaction extends Observable {
                 }
             }
         }
+    }
+
+    /**
+     * Look up a host name and return the result as an int. Works if the argument
+     * is an IP address in dot notation. Obviously, this can only be used for IPv4
+     * addresses.
+     * @param hostname the name of the host (or the IP address)
+     * @return the IP address as an {@code int} in network byte order
+     */
+    // TODO: move this to android-common
+    public static int lookupHost(String hostname) {
+        InetAddress inetAddress;
+        try {
+            inetAddress = InetAddress.getByName(hostname);
+        } catch (UnknownHostException e) {
+            return -1;
+        }
+        byte[] addrBytes;
+        int addr;
+        addrBytes = inetAddress.getAddress();
+        addr = ((addrBytes[3] & 0xff) << 24)
+                | ((addrBytes[2] & 0xff) << 16)
+                | ((addrBytes[1] & 0xff) << 8)
+                |  (addrBytes[0] & 0xff);
+        return addr;
     }
 
     @Override

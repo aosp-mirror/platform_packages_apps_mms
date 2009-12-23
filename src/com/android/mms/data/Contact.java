@@ -24,14 +24,14 @@ import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.Presence;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.provider.Telephony.Mms;
+import com.android.mms.telephony.TelephonyProvider.Mms;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.mms.mms.util.SqliteWrapper;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.LogTag;
-import com.google.android.mms.util.SqliteWrapper;
 
 public class Contact {
     private static final String TAG = "Contact";
@@ -528,7 +528,7 @@ public class Contact {
          */
         private boolean handleLocalNumber(Contact c) {
             if (MessageUtils.isLocalNumber(c.mNumber)) {
-                c.mName = mContext.getString(com.android.internal.R.string.me);
+                c.mName = mContext.getString(com.android.mms.R.string.me);
                 c.updateNameAndNumber();
                 return true;
             }
@@ -630,6 +630,7 @@ public class Contact {
         }
 
         private int getPresenceIconResourceId(int presence) {
+            // TODO: must fix for SDK
             if (presence != Presence.OFFLINE) {
                 return Presence.getPresenceIconResourceId(presence);
             }

@@ -17,16 +17,16 @@
 
 package com.android.mms.util;
 
-import com.android.internal.telephony.TelephonyIntents;
-import com.android.internal.telephony.TelephonyProperties;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.ui.MessagingPreferenceActivity;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.EncodedStringValue;
-import com.google.android.mms.pdu.NotificationInd;
-import com.google.android.mms.pdu.PduPersister;
-import com.google.android.mms.util.SqliteWrapper;
+import com.android.mms.mms.MmsException;
+import com.android.mms.mms.pdu.EncodedStringValue;
+import com.android.mms.mms.pdu.NotificationInd;
+import com.android.mms.mms.pdu.PduPersister;
+import com.android.mms.mms.util.SqliteWrapper;
+import com.android.mms.telephony.TelephonyIntents;
+import com.android.mms.telephony.TelephonyProperties;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -38,13 +38,14 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.SystemProperties;
 import android.preference.PreferenceManager;
-import android.provider.Telephony.Mms;
+import com.android.mms.telephony.TelephonyProvider.Mms;
 import android.telephony.ServiceState;
 import android.util.Config;
 import android.util.Log;
 import android.widget.Toast;
+
+import android.os.SystemProperties;
 
 public class DownloadManager {
     private static final String TAG = "DownloadManager";
@@ -174,6 +175,7 @@ public class DownloadManager {
     }
 
     static boolean isRoaming() {
+        // TODO: fix and put in Telephony layer
         String roaming = SystemProperties.get(
                 TelephonyProperties.PROPERTY_OPERATOR_ISROAMING, null);
         if (LOCAL_LOGV) {

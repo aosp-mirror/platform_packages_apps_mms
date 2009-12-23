@@ -29,7 +29,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Telephony;
+import com.android.mms.telephony.TelephonyProvider;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
@@ -279,7 +279,8 @@ public class SearchActivity extends ListActivity
         };
 
         // don't pass a projection since the search uri ignores it
-        Uri uri = Telephony.MmsSms.SEARCH_URI.buildUpon().appendQueryParameter("pattern", searchString).build();
+        Uri uri = TelephonyProvider.MmsSms.SEARCH_URI.buildUpon()
+                    .appendQueryParameter("pattern", searchString).build();
 
         // kick off a query for the threads which match the search string
         mQueryHandler.startQuery(0, null, uri, null, null, null, null);

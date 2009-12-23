@@ -19,17 +19,17 @@ package com.android.mms.model;
 
 import com.android.mms.R;
 import com.android.mms.LogTag;
-import com.android.mms.drm.DrmUtils;
+import android.drm.mobile1.DrmException;
 import com.android.mms.drm.DrmWrapper;
-import com.google.android.mms.MmsException;
+import android.media.MediaMetadataRetriever;        // TODO: remove dependency for SDK build
+import com.android.mms.mms.MmsException;
+import com.android.mms.drm.DrmUtils;
 
 import org.w3c.dom.events.EventListener;
 
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.drm.mobile1.DrmException;
-import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.util.Log;
 

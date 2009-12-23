@@ -22,7 +22,7 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.Telephony.Sms.Intents;
+import com.android.mms.telephony.TelephonyProvider.Sms.Intents;
 import android.os.PowerManager;
 
 /**

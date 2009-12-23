@@ -18,6 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
+import android.drm.mobile1.DrmException;
 import com.android.mms.model.AudioModel;
 import com.android.mms.model.ImageModel;
 import com.android.mms.model.LayoutModel;
@@ -33,7 +34,6 @@ import com.android.mms.model.MediaModel.MediaAction;
 import com.android.mms.ui.AdaptableSlideViewInterface.OnSizeChangedListener;
 
 import android.content.Context;
-import android.drm.mobile1.DrmException;
 import android.os.Handler;
 import android.util.Config;
 import android.util.Log;

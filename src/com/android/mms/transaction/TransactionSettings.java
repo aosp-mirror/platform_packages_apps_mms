@@ -17,13 +17,13 @@
 
 package com.android.mms.transaction;
 
-import com.android.internal.telephony.Phone;
-import com.google.android.mms.util.SqliteWrapper;
+import com.android.mms.mms.util.SqliteWrapper;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.Telephony;
+import com.android.mms.telephony.Phone;
+import com.android.mms.telephony.TelephonyProvider;
 import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
@@ -44,16 +44,16 @@ public class TransactionSettings {
     private int mProxyPort = -1;
 
     private static final String[] APN_PROJECTION = {
-            Telephony.Carriers.TYPE,            // 0
-            Telephony.Carriers.MMSC,            // 1
-            Telephony.Carriers.MMSPROXY,        // 2
-            Telephony.Carriers.MMSPORT          // 3
+            TelephonyProvider.Carriers.TYPE,            // 0
+            TelephonyProvider.Carriers.MMSC,            // 1
+            TelephonyProvider.Carriers.MMSPROXY,        // 2
+            TelephonyProvider.Carriers.MMSPORT          // 3
     };
     private static final int COLUMN_TYPE         = 0;
     private static final int COLUMN_MMSC         = 1;
     private static final int COLUMN_MMSPROXY     = 2;
     private static final int COLUMN_MMSPORT      = 3;
-    
+
     /**
      * Constructor that uses the default settings of the MMS Client.
      *
@@ -61,10 +61,10 @@ public class TransactionSettings {
      */
     public TransactionSettings(Context context, String apnName) {
         String selection = (apnName != null)?
-                Telephony.Carriers.APN + "='"+apnName+"'": null;
-        
+                TelephonyProvider.Carriers.APN + "='"+apnName+"'": null;
+
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
-                            Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI, "current"),
+                            Uri.withAppendedPath(TelephonyProvider.Carriers.CONTENT_URI, "current"),
                             APN_PROJECTION, selection, null, null);
 
         if (cursor == null) {
@@ -97,7 +97,7 @@ public class TransactionSettings {
         } finally {
             cursor.close();
         }
-        
+
         if (sawValidApn && TextUtils.isEmpty(mServiceCenter)) {
             Log.e(TAG, "Invalid APN setting: MMSC is empty");
         }
@@ -138,8 +138,8 @@ public class TransactionSettings {
         // If APN type is unspecified, assume APN_TYPE_ALL.
         if (TextUtils.isEmpty(types)) {
             return true;
-        } 
-        
+        }
+
         for (String t : types.split(",")) {
             if (t.equals(requestType) || t.equals(Phone.APN_TYPE_ALL)) {
                 return true;
