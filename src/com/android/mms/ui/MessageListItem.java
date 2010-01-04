@@ -18,6 +18,8 @@
 package com.android.mms.ui;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -335,7 +337,7 @@ public class MessageListItem extends LinearLayout implements
     ForegroundColorSpan mColorSpan = null;  // set in ctor
 
     private CharSequence formatMessage(String contact, String body, String subject,
-                                       String timestamp, String highlight) {
+                                       String timestamp, Pattern highlight) {
         CharSequence template = mContext.getResources().getText(R.string.name_colon);
         SpannableStringBuilder buf =
             new SpannableStringBuilder(TextUtils.replace(template,
@@ -368,17 +370,9 @@ public class MessageListItem extends LinearLayout implements
             buf.setSpan(mColorSpan, startOffset, buf.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         if (highlight != null) {
-            int highlightLen = highlight.length();
-
-            String s = buf.toString().toLowerCase();
-            int prev = 0;
-            while (true) {
-                int index = s.indexOf(highlight, prev);
-                if (index == -1) {
-                    break;
-                }
-                buf.setSpan(new StyleSpan(Typeface.BOLD), index, index + highlightLen, 0);
-                prev = index + highlightLen;
+            Matcher m = highlight.matcher(buf.toString());
+            while (m.find()) {
+                buf.setSpan(new StyleSpan(Typeface.BOLD), m.start(), m.end(), 0);
             }
         }
         buf.setSpan(mLeadingMarginSpan, 0, buf.length(), 0);

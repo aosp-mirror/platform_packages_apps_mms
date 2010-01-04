@@ -17,6 +17,8 @@
 
 package com.android.mms.ui;
 
+import java.util.regex.Pattern;
+
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.model.SlideModel;
@@ -66,7 +68,7 @@ public class MessageItem {
     String mAddress;
     String mContact;
     String mBody; // Body of SMS, first text of MMS.
-    String mHighlight; // portion of message to highlight (from search)
+    Pattern mHighlight; // portion of message to highlight (from search)
 
     // The only non-immutable field.  Not synchronized, as access will
     // only be from the main GUI thread.  Worst case if accessed from
@@ -85,10 +87,10 @@ public class MessageItem {
     int mErrorCode;
 
     MessageItem(Context context, String type, Cursor cursor,
-            ColumnsMap columnsMap, String highlight) throws MmsException {
+            ColumnsMap columnsMap, Pattern highlight) throws MmsException {
         mContext = context;
         mMsgId = cursor.getLong(columnsMap.mColumnMsgId);
-        mHighlight = highlight != null ? highlight.toLowerCase() : null;
+        mHighlight = highlight;
         mType = type;
 
         if ("sms".equals(type)) {

@@ -22,6 +22,8 @@
     android:hint="@string/search_hint"
 
     android:searchSuggestAuthority="com.android.mms.SuggestionsProvider"
-    android:searchSuggestSelection="query LIKE ?"
+    android:searchSuggestSelection="pattern"
     android:searchSuggestIntentAction="android.intent.action.SEARCH"
+
+    android:includeInGlobalSearch="true"
 />
