@@ -22,7 +22,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"Odeslat e-mail adresátovi <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Napsat"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Nastavení"</string>
-    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Přidat <xliff:g id="NAME">%s</xliff:g> mezi Kontakty"</string>
+    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Přidat <xliff:g id="NAME">%s</xliff:g> do Kontaktů"</string>
     <string name="menu_call" msgid="5877123227307074690">"Volat"</string>
     <string name="menu_delete_all" msgid="8853352701914512057">"Smazat konverzace"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Smazat konverzaci"</string>
@@ -30,8 +30,7 @@
     <string name="menu_view" msgid="7448852683948080108">"Zobrazit konverzaci"</string>
     <string name="refreshing" msgid="987335057871404222">"Obnovování..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Koncept"</string>
-    <!-- no translation found for broadcast_from_to (2050376286109362539) -->
-    <skip />
+    <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> pro <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
     <string name="anonymous_recipient" msgid="2501437626187039034">"Anonymní"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Předmět neuveden)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Já"</string>
@@ -86,8 +85,7 @@
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Otevřete klávesnici a napište zprávu."</string>
     <string name="image_too_large" msgid="261880224164478061">"Fotografie je příliš velká"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Přizpůsobit velikost fotografie před odesláním?"</string>
-    <!-- no translation found for compressing (1961357529661045180) -->
-    <skip />
+    <string name="compressing" msgid="1961357529661045180">"Fotografie je příliš velká. Probíhá komprese..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"<xliff:g id="NAME">%1$s</xliff:g> je v nepodporovaném formátu."</string>
     <string name="select_different_media" msgid="7573116916321879964">"Zvolte jinou položku <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Byl dosažen limit velikosti zprávy."</string>
@@ -104,13 +102,10 @@
     <string name="cannot_send_message" msgid="3918913277571649400">"Zprávu nelze odeslat"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Zpráva nemá žádné platné příjemce."</string>
     <string name="cannot_forward_drm_obj" msgid="84606990079390099">"Objekt DRM obsažený ve zprávě nelze přeposlat."</string>
-    <!-- no translation found for converting_to_picture_message (2980023239017588627) -->
-    <skip />
-    <!-- no translation found for converting_to_text_message (6374423235426015422) -->
-    <skip />
+    <string name="converting_to_picture_message" msgid="2980023239017588627">"Převádění na multimediální zprávu..."</string>
+    <string name="converting_to_text_message" msgid="6374423235426015422">"Převádění na textovou zprávu..."</string>
     <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"Další snímky nelze přidat."</string>
-    <!-- no translation found for cannot_add_picture_and_video (4721981351130823908) -->
-    <skip />
+    <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"Na jeden snímek nelze přidat video a obrázek."</string>
     <string name="cannot_save_message" msgid="5026354972915392301">"Zprávu se nepodařilo uložit."</string>
     <string name="cannot_load_message" msgid="2577010607550849892">"Zprávu nelze načíst."</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"Zpráva byla uložena jako koncept."</string>
@@ -127,10 +122,8 @@
     <string name="layout_top" msgid="6811021650398972346">"Rozložení (nahoře)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Rozložení (dole)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Zadejte text nebo nechte prázdné."</string>
-    <!-- no translation found for duration_not_a_number (8005480904677546322) -->
-    <skip />
-    <!-- no translation found for duration_zero (109945354056393575) -->
-    <skip />
+    <string name="duration_not_a_number" msgid="8005480904677546322">"Doba trvání musí být číslo"</string>
+    <string name="duration_zero" msgid="109945354056393575">"Doba trvání musí být větší než 0 sekund"</string>
     <string name="secs" msgid="6886003523109967972">"s"</string>
   <string-array name="select_dialog_items">
     <item msgid="4840183714016984112">"1 sekunda"</item>
@@ -146,7 +139,7 @@
     <item msgid="6238597861937337981">"Jiná..."</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"Zobrazit kontakt"</string>
-    <string name="menu_add_to_contacts" msgid="2978074583938544513">"Přidat mezi Kontakty"</string>
+    <string name="menu_add_to_contacts" msgid="2978074583938544513">"Přidat do kontaktů"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"Adresa skrytého odesílatele"</string>
     <string name="yes" msgid="3246158147503160811">"OK"</string>
     <string name="no" msgid="4289742508556913860">"Zrušit"</string>
@@ -158,10 +151,8 @@
     <string name="preferences_title" msgid="6650089610332670157">"Nastavení"</string>
     <string name="restore_default" msgid="7165341506551155053">"Obnovit výchozí nastavení"</string>
     <string name="pref_notification_settings_title" msgid="4860726154770053004">"Nastavení oznámení"</string>
-    <!-- no translation found for pref_mms_settings_title (2573616208360684392) -->
-    <skip />
-    <!-- no translation found for pref_sms_settings_title (9088516111717417514) -->
-    <skip />
+    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Nastavení multimediálních zpráv (MMS)"</string>
+    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Nastavení textových zpráv (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"Nastavení úložiště"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Umožňuje spravovat zprávy uložené na kartě SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"U každé odeslané zprávy požadovat potvrzení o doručení"</string>
@@ -174,10 +165,8 @@
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Potvrzení o přečtení"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Potvrzení o doručení"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Smazat staré zprávy"</string>
-    <!-- no translation found for pref_title_sms_delete (6890538316799296878) -->
-    <skip />
-    <!-- no translation found for pref_title_mms_delete (7265878070847351664) -->
-    <skip />
+    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limit textových zpráv"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limit multimediálních zpráv"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Oznámení"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Zobrazit oznámení o zprávě na stavovém řádku"</string>
     <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"Vibrace"</string>
@@ -190,13 +179,11 @@
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Automaticky načítat zprávy i při roamingu"</string>
     <string name="to_label" msgid="2355268818058389047">"Komu: "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Smazat"</string>
-    <!-- no translation found for confirm_dialog_locked_title (8179085718150932242) -->
-    <skip />
+    <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Smazat uzamčenou zprávu?"</string>
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Celá konverzace bude smazána."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Všechny konverzace budou smazány."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Zpráva bude smazána."</string>
-    <!-- no translation found for confirm_delete_locked_message (5863578342246077057) -->
-    <skip />
+    <string name="confirm_delete_locked_message" msgid="5863578342246077057">"Opravdu chcete tuto uzamčenou zprávu smazat?"</string>
     <string name="confirm_delete_all_messages" msgid="5836389073199814660">"Celá konverzace bude smazána."</string>
     <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"Všechny zprávy na kartě SIM budou smazány."</string>
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Tato zpráva na kartě SIM bude smazána."</string>
@@ -205,12 +192,9 @@
     <string name="cannot_get_details" msgid="6493664168168047746">"Podrobnosti se nepodařilo zobrazit."</string>
     <string name="message_details_title" msgid="9223295113731634528">"Podrobnosti zprávy"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Typ: "</string>
-    <!-- no translation found for text_message (8196464345251877972) -->
-    <skip />
-    <!-- no translation found for multimedia_message (1512644521083533071) -->
-    <skip />
-    <!-- no translation found for multimedia_notification (4124031788554972308) -->
-    <skip />
+    <string name="text_message" msgid="8196464345251877972">"Textová zpráva"</string>
+    <string name="multimedia_message" msgid="1512644521083533071">"Multimediální zpráva"</string>
+    <string name="multimedia_notification" msgid="4124031788554972308">"Upozornění na multimediální zprávu"</string>
     <string name="from_label" msgid="2055117571548171397">"Od: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Komu: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Skrytá kopie: "</string>
@@ -224,6 +208,8 @@
     <string name="priority_normal" msgid="5715227727384683550">"Běžná"</string>
     <string name="priority_low" msgid="8928782666023373987">"Nízká"</string>
     <string name="message_class_label" msgid="5115748690481550562">"Třída zprávy: "</string>
+    <!-- no translation found for error_code_label (5810068247647058769) -->
+    <skip />
     <string name="menu_edit" msgid="3056513240155967777">"Upravit"</string>
     <string name="menu_retry_sending" msgid="3146582005568302643">"Odeslat znovu"</string>
     <string name="menu_retry_sending_all" msgid="1870529976966340616">"Odeslat znovu všechny"</string>
@@ -233,8 +219,7 @@
     <string name="menu_unlock" msgid="5264877122797287929">"Odemknout zprávu"</string>
     <string name="sim_copy_to_phone_memory" msgid="5895767417844881971">"Kopírovat do paměti telefonu"</string>
     <string name="sim_delete" msgid="610790510655316922">"Smazat"</string>
-    <!-- no translation found for sim_manage_messages_title (3989147182100584333) -->
-    <skip />
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"Textové zprávy na kartě SIM"</string>
     <string name="sim_view" msgid="1997173541766393706">"Zobrazit"</string>
     <string name="sim_empty" msgid="1763174398613486328">"Na kartě SIM nejsou žádné zprávy."</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"Potvrzení"</string>
@@ -256,17 +241,17 @@
     <string name="attach_slideshow" msgid="3497422151091037063">"Prezentace"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"Dolní text"</string>
     <string name="select_top_text" msgid="6734183477539197815">"Horní text"</string>
+    <!-- no translation found for delivery_toast_body (4478305651728684364) -->
+    <skip />
     <string name="notification_multiple" msgid="7684007285202109490">"Nepřečtené zprávy: <xliff:g id="COUNT">%s</xliff:g>."</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"Nové zprávy"</string>
     <string name="notification_failed_multiple" msgid="4081781748475686236">"Několik zpráv nelze odeslat (počet: <xliff:g id="COUNT">%s</xliff:g>)."</string>
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"Zprávy nebyly odeslány"</string>
     <string name="sim_full_title" msgid="1809829051697702810">"Paměť karty SIM je plná"</string>
     <string name="sim_full_body" msgid="6241664980790322925">"Smažte některé zprávy a vytvořte tak místo pro nové."</string>
-    <!-- no translation found for sms_full_title (6041287140125011854) -->
-    <skip />
+    <string name="sms_full_title" msgid="6041287140125011854">"Paměť pro textové zprávy je plná"</string>
     <string name="sms_full_body" msgid="7757490997215434514">"Příchozí zpráva byla odmítnuta, protože paměť je zaplněna. Smažte prosím staré zprávy."</string>
-    <!-- no translation found for sms_rejected_title (8548394922491529811) -->
-    <skip />
+    <string name="sms_rejected_title" msgid="8548394922491529811">"Textová zpráva odmítnuta"</string>
     <string name="sms_rejected_body" msgid="7187754586609631934">"Příchozí zpráva byla odmítnuta z neznámého důvodu."</string>
     <string name="type_audio" msgid="3842064092332309756">"zvuk"</string>
     <string name="type_picture" msgid="4091928975383609443">"fotografie"</string>
@@ -310,8 +295,7 @@
     <string name="pick_numbers_activity" msgid="2083330191224178637">"Vybrat čísla"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Prezentace"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"Zpráva třídy 0"</string>
-    <!-- no translation found for send_using_mms_activity (3703434556280345726) -->
-    <skip />
+    <string name="send_using_mms_activity" msgid="3703434556280345726">"Odeslat jako multimediální zprávu…"</string>
     <string name="select_contact_method_activity" msgid="1743384358979323991">"Metoda výběru kontaktu"</string>
     <string name="search_label" msgid="6042598929386174964">"SMS a MMS"</string>
     <string name="search_hint" msgid="1340787800788064929">"Vyhledávání zpráv"</string>
@@ -319,13 +303,24 @@
     <string name="search_empty" msgid="645052646985297065">"Žádné shody"</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="675571420878010439">"Počet výsledků pro výraz „%s“: <xliff:g id="NUMBER">%s</xliff:g>"</item>
-    <item quantity="other" msgid="3778201725913692491">"Počet výsledků pro výraz %s: <xliff:g id="NUMBER">%s</xliff:g>"</item>
+    <item quantity="other" msgid="3778201725913692491">"Počet výsledků pro výraz „%s“: <xliff:g id="NUMBER">%s</xliff:g>"</item>
   </plurals>
+    <!-- no translation found for search_history (4127805495662693154) -->
+    <skip />
+    <!-- no translation found for confirm_clear_search_title (8510295993632032904) -->
+    <skip />
+    <!-- no translation found for confirm_clear_search_text (8731877031837077478) -->
+    <skip />
+    <!-- no translation found for pref_mms_clear_search_history_title (6159758850628148164) -->
+    <skip />
+    <!-- no translation found for pref_mms_clear_search_history_summary (7960005384066460035) -->
+    <skip />
     <string name="save" msgid="6847069284991531310">"Uložit"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"Omezit počet zpráv"</string>
     <string name="storage_limits_message" msgid="8729608389698270388">"Chcete omezit počet zpráv, které ukládáte u jednotlivých konverzací?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"Nastavit omezení"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Žádná omezení"</string>
-    <!-- no translation found for too_many_unsent_mms (8005932837414848242) -->
+    <string name="too_many_unsent_mms" msgid="8005932837414848242">"Zprávu nyní nelze odeslat. Máte příliš mnoho neodeslaných multimediálních zpráv."</string>
+    <!-- no translation found for me (341726346007839961) -->
     <skip />
 </resources>
