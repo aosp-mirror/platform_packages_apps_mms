@@ -19,7 +19,7 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:paddingTop="1dip"
@@ -35,7 +35,7 @@
 
     <TextView android:id="@+id/text1"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:textColor="@drawable/text_color_black"
         android:gravity="center_vertical"
         android:textAppearance="?android:attr/textAppearanceLarge"

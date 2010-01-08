@@ -20,7 +20,7 @@
 
 <com.android.mms.ui.SlideshowAttachmentView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/slideshow_attachment_view_landscape"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingRight="5dip"
@@ -34,26 +34,26 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/slideshow_image"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="0dip"
                 android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/slideshow_text"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@drawable/text_color_black" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center">
 
             <ImageButton
@@ -69,7 +69,7 @@
         android:orientation="vertical"
         android:gravity="center_vertical"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent">
+        android:layout_height="match_parent">
 
         <Button
             android:id="@+id/edit_slideshow_button"

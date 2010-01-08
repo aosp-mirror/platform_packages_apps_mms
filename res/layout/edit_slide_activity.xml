@@ -21,12 +21,12 @@
 <com.android.mms.ui.BasicSlideEditorView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/slide_editor_view"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="horizontal"
@@ -34,7 +34,7 @@
 
         <LinearLayout
             android:layout_width="0dip"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_marginTop="10dip"
             android:layout_marginBottom="10dip"
@@ -43,7 +43,7 @@
             android:orientation="vertical" >
 
             <ImageView android:id="@+id/image"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="0dip"
                 android:layout_weight="1"
                 android:background="@android:drawable/picture_frame" />
@@ -93,19 +93,19 @@
 
             <Button android:id="@+id/preview_button"
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="50dip"
                 android:text="@string/preview" />
 
             <Button android:id="@+id/replace_image_button"
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="50dip"
                 android:text="@string/replace_image" />
 
             <Button android:id="@+id/remove_slide_button"
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="50dip"
                 android:text="@string/remove_slide" />
         </LinearLayout>
@@ -113,7 +113,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:gravity="bottom"

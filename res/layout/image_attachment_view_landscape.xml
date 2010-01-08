@@ -20,7 +20,7 @@
 
 <com.android.mms.ui.ImageAttachmentView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/image_attachment_view_landscape"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical"
@@ -29,7 +29,7 @@
 
     <ImageView
         android:id="@+id/image_content"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="100dip"
         android:layout_weight="1" />
 

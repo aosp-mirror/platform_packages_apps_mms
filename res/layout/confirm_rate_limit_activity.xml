@@ -19,18 +19,18 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginLeft="14dip"
         android:layout_marginRight="14dip">
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
@@ -48,19 +48,19 @@
                 android:paddingLeft="10dip"
                 android:paddingTop="10dip"
                 android:paddingBottom="10dip"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="@string/rate_limit_surpassed" />
         </LinearLayout>
         <ImageView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@android:drawable/divider_horizontal_dark"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
         android:orientation="vertical"
@@ -68,27 +68,27 @@
         android:layout_marginRight="14dip">
         <TextView
             style="?android:attr/textAppearanceMedium"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dip"
             android:text="@string/confirm_rate_limit" />
     </LinearLayout>
 
     <LinearLayout android:id="@+id/buttonPanel"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="14dip"
         android:layout_marginRight="14dip"
         android:orientation="vertical" >
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="1dip"
             android:layout_marginBottom="2dip"
             android:background="@android:drawable/divider_horizontal_bright"
             android:orientation="vertical" />
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
             <Button android:id="@+id/btn_yes"

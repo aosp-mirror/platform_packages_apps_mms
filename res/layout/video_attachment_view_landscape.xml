@@ -20,7 +20,7 @@
 
 <com.android.mms.ui.VideoAttachmentView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/video_attachment_view_landscape"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical"
@@ -30,14 +30,14 @@
     <RelativeLayout
         android:layout_weight="1"
         android:gravity="center"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/video_thumbnail"
             android:scaleType="fitCenter"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <ImageView
             android:layout_width="wrap_content"

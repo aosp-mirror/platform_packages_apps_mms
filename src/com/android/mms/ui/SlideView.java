@@ -141,7 +141,7 @@ public class SlideView extends AbsoluteLayout implements
         TextView audioName = (TextView) mAudioInfoView.findViewById(R.id.name);
         audioName.setText(name);
         addView(mAudioInfoView, new LayoutParams(
-                LayoutParams.FILL_PARENT, AUDIO_INFO_HEIGHT,
+                LayoutParams.MATCH_PARENT, AUDIO_INFO_HEIGHT,
                 0, getHeight() - AUDIO_INFO_HEIGHT));
         if (DEBUG) {
             mAudioInfoView.setBackgroundColor(0xFFFF0000);

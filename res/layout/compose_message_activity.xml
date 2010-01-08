@@ -19,13 +19,13 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/recipients_subject_linear"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dip"
         android:paddingBottom="5dip"
@@ -37,12 +37,12 @@
 
         <ViewStub android:id="@+id/recipients_editor_stub"
             android:layout="@layout/recipients_editor"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
         />
 
         <EditText android:id="@+id/subject"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:capitalize="sentences"
             android:autoText="true"
@@ -53,15 +53,15 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@drawable/white_background"
         android:gravity="bottom">
 
         <view class="com.android.mms.ui.MessageListView"
             android:id="@+id/history"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="1.0"
             android:listSelector="@drawable/chat_history_selector"
@@ -78,65 +78,65 @@
         />
 
         <ScrollView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <view class="com.android.mms.ui.AttachmentEditor"
                     android:id="@+id/attachment_editor"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <ViewStub android:id="@+id/image_attachment_view_portrait_stub"
                         android:layout="@layout/image_attachment_view_portrait"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
                     <ViewStub android:id="@+id/video_attachment_view_portrait_stub"
                         android:layout="@layout/video_attachment_view_portrait"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
                     <ViewStub android:id="@+id/audio_attachment_view_portrait_stub"
                         android:layout="@layout/audio_attachment_view_portrait"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
                     <ViewStub android:id="@+id/slideshow_attachment_view_portrait_stub"
                         android:layout="@layout/slideshow_attachment_view_portrait"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
                     <ViewStub android:id="@+id/image_attachment_view_landscape_stub"
                         android:layout="@layout/image_attachment_view_landscape"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
                     <ViewStub android:id="@+id/video_attachment_view_landscape_stub"
                         android:layout="@layout/video_attachment_view_landscape"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
                     <ViewStub android:id="@+id/audio_attachment_view_landscape_stub"
                         android:layout="@layout/audio_attachment_view_landscape"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
                     <ViewStub android:id="@+id/slideshow_attachment_view_landscape_stub"
                         android:layout="@layout/slideshow_attachment_view_landscape"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                 </view>
 
                 <LinearLayout
                     android:id="@+id/bottom_panel"
                     android:orientation="horizontal"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="5dip"
                     android:paddingBottom="5dip"
@@ -154,7 +154,7 @@
 
                         <EditText
                             android:id="@+id/embedded_text_editor"
-                            android:layout_width="fill_parent"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:autoText="true"
                             android:capitalize="sentences"
@@ -186,7 +186,7 @@
                     <Button android:id="@+id/send_button"
                         android:layout_marginLeft="5dip"
                         android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
+                        android:layout_height="match_parent"
                         style="?android:attr/buttonStyle"
                         android:layout_gravity="center_vertical"
                         android:nextFocusLeft="@+id/embedded_text_editor"

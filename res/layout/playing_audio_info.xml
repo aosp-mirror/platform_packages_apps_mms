@@ -20,7 +20,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/playing_audio"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="82dip"
     android:orientation="horizontal"
     android:gravity="center"
@@ -29,12 +29,12 @@
     <ImageView
         android:id="@+id/audio_icon"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:src="@drawable/ic_launcher_record_audio" />
 
      <TextView android:id="@+id/name"
          android:layout_width="wrap_content"
-         android:layout_height="fill_parent"
+         android:layout_height="match_parent"
          android:singleLine="true"
          android:textStyle="bold"
          android:textColor="@drawable/text_color_offwhite" />

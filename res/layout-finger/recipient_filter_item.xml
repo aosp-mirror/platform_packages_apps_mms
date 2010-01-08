@@ -21,11 +21,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="?android:attr/dropDownItemStyle"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight">
 
     <LinearLayout android:id="@+id/name_and_label"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -49,7 +49,7 @@
 
     <TextView android:id="@+id/number"
         style="?android:attr/dropDownItemStyle"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
     />

@@ -26,11 +26,11 @@ This layout file is used by the AlertDialog when displaying a list of items.
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:layout_width="wrap_content"
-    android:layout_height="fill_parent" >
+    android:layout_height="match_parent" >
 
     <TextView
         android:gravity="center_horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/pref_messages_to_save"
         android:textSize="12sp"
@@ -40,6 +40,6 @@ This layout file is used by the AlertDialog when displaying a list of items.
         android:id="@+id/number_picker"
         android:layout_centerInParent="true"
         android:layout_width="100dip"
-        android:layout_height="fill_parent" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
