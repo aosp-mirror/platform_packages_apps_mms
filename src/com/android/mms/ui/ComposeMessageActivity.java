@@ -372,22 +372,15 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void updateCounter(CharSequence text, int start, int before, int count) {
-        // The worst case before we begin showing the text counter would be
-        // a UCS-2 message, providing space for 70 characters, minus
-        // CHARS_REMAINING_BEFORE_COUNTER_SHOWN.  Don't bother calling
-        // the relatively expensive SmsMessage.calculateLength() until that
-        // point is reached.
-        if (text.length() < (70-CHARS_REMAINING_BEFORE_COUNTER_SHOWN)) {
-            mTextCounter.setVisibility(View.GONE);
-            return;
-        }
-
-        // If we're not removing text (i.e. no chance of converting back to SMS
-        // because of this change) and we're in MMS mode, just bail out.
-        final boolean textAdded = (before < count);
-        if (textAdded && mWorkingMessage.requiresMms()) {
-            mTextCounter.setVisibility(View.GONE);
-            return;
+        if (mWorkingMessage.requiresMms()) {
+            // If we're not removing text (i.e. no chance of converting back to SMS
+            // because of this change) and we're in MMS mode, just bail out since we
+            // then won't have to calculate the length unnecessarily.
+            final boolean textRemoved = (before > count);
+            if (!textRemoved) {
+                showMmsMessageInPlaceOfTextCounter();
+                return;
+            }
         }
 
         int[] params = SmsMessage.calculateLength(text, false);
@@ -408,17 +401,29 @@ public class ComposeMessageActivity extends Activity
         // - We are going to send more than one message OR we are getting close
         boolean showCounter = false;
         if (!mWorkingMessage.requiresMms() &&
-            (msgCount > 1 || remainingInCurrentMessage <= CHARS_REMAINING_BEFORE_COUNTER_SHOWN)) {
+                (msgCount > 1 ||
+                 remainingInCurrentMessage <= CHARS_REMAINING_BEFORE_COUNTER_SHOWN)) {
             showCounter = true;
         }
 
         if (showCounter) {
             // Update the remaining characters and number of messages required.
-            mTextCounter.setText(remainingInCurrentMessage + " / " + msgCount);
+            String counterText = msgCount > 1 ? remainingInCurrentMessage + " / " + msgCount
+                    : String.valueOf(remainingInCurrentMessage);
+            mTextCounter.setText(counterText);
             mTextCounter.setVisibility(View.VISIBLE);
+            mSendButton.setText(R.string.send);
+        } else if (mWorkingMessage.requiresMms()) {
+            showMmsMessageInPlaceOfTextCounter();
         } else {
             mTextCounter.setVisibility(View.GONE);
         }
+    }
+
+    private void showMmsMessageInPlaceOfTextCounter() {
+        mSendButton.setText(R.string.send_mms);
+        mTextCounter.setText("");
+        mTextCounter.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -2657,6 +2662,23 @@ public class ComposeMessageActivity extends Activity
             updateSendButtonState();
 
             updateCounter(s, start, before, count);
+
+            ensureCorrectButtonHeight();
+        }
+
+        /**
+         * Ensures that if the text edit box extends past two lines then the
+         * button will be shifted up to allow enough space for the character
+         * counter string to be placed beneath it.
+         */
+        private void ensureCorrectButtonHeight() {
+            int currentTextLines = mTextEditor.getLineCount();
+            if (currentTextLines > 2 && mTextCounter.getVisibility() == View.GONE) {
+                // Making the counter invisible ensures that it is used to correctly
+                // calculate the position of the send button even if we choose not to
+                // display the text.
+                mTextCounter.setVisibility(View.INVISIBLE);
+            }
         }
 
         public void afterTextChanged(Editable s) {
@@ -3236,8 +3258,3 @@ public class ComposeMessageActivity extends Activity
         return intent;
    }
 }
-
-
-
-
-
