@@ -85,7 +85,11 @@ public class TransactionSettings {
                         try {
                             mProxyPort = Integer.parseInt(portString);
                         } catch (NumberFormatException e) {
-                            Log.e(TAG, "Bad port number format: " + portString, e);
+                            if (TextUtils.isEmpty(portString)) {
+                                Log.w(TAG, "mms port not set!");
+                            } else {
+                                Log.e(TAG, "Bad port number format: " + portString, e);
+                            }
                         }
                     }
                 }

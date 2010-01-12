@@ -17,16 +17,16 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="1503967887341230795">"信息"</string>
     <string name="new_message" msgid="1530369762346003973">"新信息"</string>
-    <string name="create_new_message" msgid="8735943333953093860">"编写新信息"</string>
+    <string name="create_new_message" msgid="8735943333953093860">"撰写新信息"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"呼叫<xliff:g id="NAME">%s</xliff:g>"</string>
-    <string name="menu_send_email" msgid="671366308915241664">"发送电子邮件至<xliff:g id="NAME">%s</xliff:g>"</string>
-    <string name="menu_compose_new" msgid="3763437973691046238">"编写"</string>
+    <string name="menu_send_email" msgid="671366308915241664">"发电子邮件给<xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_compose_new" msgid="3763437973691046238">"撰写"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"设置"</string>
-    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"将<xliff:g id="NAME">%s</xliff:g>添加到联系人"</string>
+    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"将<xliff:g id="NAME">%s</xliff:g>添加到“联系人”"</string>
     <string name="menu_call" msgid="5877123227307074690">"呼叫"</string>
     <string name="menu_delete_all" msgid="8853352701914512057">"删除会话"</string>
     <string name="menu_delete" msgid="1851666911396479006">"删除会话"</string>
-    <string name="menu_undelivered_messages" msgid="3896857623211780616">"未传送出去的信息"</string>
+    <string name="menu_undelivered_messages" msgid="3896857623211780616">"未能送出的信息"</string>
     <string name="menu_view" msgid="7448852683948080108">"查看会话"</string>
     <string name="refreshing" msgid="987335057871404222">"正在刷新..."</string>
     <string name="has_draft" msgid="2487465595514636160">"草稿"</string>
@@ -35,7 +35,7 @@
     <string name="no_subject_view" msgid="7795086723069563537">"（无主题）"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"我"</string>
     <string name="view_picture" msgid="4356315935277709195">"查看图片"</string>
-    <string name="view_slideshow" msgid="4990460971211388453">"查看幻灯片"</string>
+    <string name="view_slideshow" msgid="4990460971211388453">"观看幻灯片演示"</string>
     <string name="view_message_details" msgid="2443165773568096234">"查看信息详情"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"查看报告"</string>
     <string name="delete_message" msgid="8888447283788388395">"删除信息"</string>
@@ -51,7 +51,7 @@
     <string name="downloading" msgid="1779557575565350637">"正在下载"</string>
     <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>"： "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;主题：<xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
-    <string name="drm_protected_text" msgid="1396394157870730742">"* DRM 保护的文本 *"</string>
+    <string name="drm_protected_text" msgid="1396394157870730742">"* 受 DRM 保护的文本 *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"检测到 DRM 权限不足。"</string>
     <string name="copy_message_text" msgid="4640869459731924158">"复制信息文本"</string>
     <string name="message_options" msgid="6838806653341967550">"信息选项"</string>
@@ -60,7 +60,7 @@
     <string name="move_down" msgid="6356509518429479053">"下移"</string>
     <string name="remove_slide" msgid="2225604354024914900">"删除幻灯片"</string>
     <string name="add_slide" msgid="9140721399423564187">"添加幻灯片"</string>
-    <string name="add_slide_hint" msgid="563319570849475501">"选择该选项可创建新幻灯片。"</string>
+    <string name="add_slide_hint" msgid="563319570849475501">"选择以创建新幻灯片。"</string>
     <string name="discard_slideshow" msgid="5054239124146413609">"舍弃幻灯片"</string>
     <string name="slide_show_part" msgid="5077675385448696846">"第 <xliff:g id="PART">%1$s</xliff:g> 部分，共 <xliff:g id="TOTAL">%2$s</xliff:g> 部分"</string>
     <string name="remove_text" msgid="2164068850029476539">"删除文本"</string>
@@ -70,7 +70,7 @@
     <string name="remove_music" msgid="858889733416015223">"删除音乐"</string>
     <string name="add_video" msgid="7816866867806595144">"添加视频"</string>
     <string name="remove_video" msgid="5258603891528497799">"删除视频"</string>
-    <string name="compose_title" msgid="558578836596816068">"编写"</string>
+    <string name="compose_title" msgid="558578836596816068">"撰写"</string>
     <string name="to_hint" msgid="224029549150332986">"接收者"</string>
     <string name="subject_hint" msgid="4296714962311604126">"主题"</string>
     <string name="add_attachment" msgid="7103751293360532684">"附加"</string>
@@ -82,33 +82,33 @@
     <string name="send" msgid="4589898724889248486">"发送"</string>
     <string name="all_threads" msgid="2663426830306307194">"所有会话"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"输入内容"</string>
-    <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"打开键盘以编写信息"</string>
-    <string name="image_too_large" msgid="261880224164478061">"图片过大"</string>
-    <string name="ask_for_automatically_resize" msgid="7657603662407738758">"在发送之前自动调整图片的大小？"</string>
+    <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"打开键盘来写信息"</string>
+    <string name="image_too_large" msgid="261880224164478061">"图片太大"</string>
+    <string name="ask_for_automatically_resize" msgid="7657603662407738758">"发送前自动调整图片大小？"</string>
     <string name="compressing" msgid="1961357529661045180">"图片过大。正在压缩…"</string>
-    <string name="unsupported_media_format" msgid="5037111178813903722">"不支持<xliff:g id="NAME">%1$s</xliff:g>格式"</string>
-    <string name="select_different_media" msgid="7573116916321879964">"请选择另一个<xliff:g id="NAME">%1$s</xliff:g>。"</string>
+    <string name="unsupported_media_format" msgid="5037111178813903722">"不支持的<xliff:g id="NAME">%1$s</xliff:g>格式"</string>
+    <string name="select_different_media" msgid="7573116916321879964">"请选择其他<xliff:g id="NAME">%1$s</xliff:g>。"</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"已达到信息大小上限。"</string>
     <string name="message_too_big_for_video" msgid="2639367545165352543">"该短信太大，无法附加视频。"</string>
-    <string name="failed_to_add_media" msgid="8272471485019037446">"抱歉，您无法将此<xliff:g id="NAME">%1$s</xliff:g>添加到信息。"</string>
+    <string name="failed_to_add_media" msgid="8272471485019037446">"抱歉，无法将此<xliff:g id="NAME">%1$s</xliff:g>添加到信息中。"</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"未调整图片大小。"</string>
-    <string name="resize_image_error_information" msgid="4897031754321114959">"抱歉，即使此图片已调整过大小，但仍然过大而无法发送。"</string>
+    <string name="resize_image_error_information" msgid="4897031754321114959">"抱歉，此图片缩小后仍太大，无法发送。"</string>
     <string name="forward_prefix" msgid="276280492803486464">"转发： "</string>
     <string name="discard_message" msgid="6078326880056142781">"舍弃"</string>
-    <string name="discard_message_reason" msgid="2667664943003796133">"您的信息将被舍弃，因为没有有效的接收者。"</string>
+    <string name="discard_message_reason" msgid="2667664943003796133">"您的信息没有有效的接收者，将被舍弃。"</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"无效接收者：&lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="7643854177921895615">"输入的地址无效。"</string>
-    <string name="invalid_recipient_message" msgid="7315539322634238519">"请纠正接收者，否则他们将会无法收到信息。"</string>
+    <string name="invalid_recipient_message" msgid="7315539322634238519">"请更正接收者，否则他们将无法收到信息。"</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"无法发送此信息"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"您的信息没有有效的接收者。"</string>
     <string name="cannot_forward_drm_obj" msgid="84606990079390099">"无法转发信息中包含的 DRM 对象。"</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"正在转换为彩信…"</string>
     <string name="converting_to_text_message" msgid="6374423235426015422">"正在转换为短信…"</string>
-    <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"无法添加更多的幻灯片。"</string>
+    <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"无法再添加幻灯片。"</string>
     <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"无法将视频和图片添加到同一张幻灯片。"</string>
     <string name="cannot_save_message" msgid="5026354972915392301">"无法保存信息。"</string>
     <string name="cannot_load_message" msgid="2577010607550849892">"无法载入信息。"</string>
-    <string name="message_saved_as_draft" msgid="2503018972659880692">"信息已保存为草稿。"</string>
+    <string name="message_saved_as_draft" msgid="2503018972659880692">"信息已存为草稿。"</string>
     <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"无法删除锁定短信。"</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"此短信的收件人太多 (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>)。收件人数上限为 <xliff:g id="MAXLIMIT">%2$s</xliff:g> 个。"</string>
     <string name="multiple_recipients" msgid="8747754491343248141">"<xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g> 个收件人"</string>
@@ -121,7 +121,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"幻灯片布局 "</string>
     <string name="layout_top" msgid="6811021650398972346">"布局（顶部）"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"布局（底部）"</string>
-    <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"输入内容文本或保留为空白"</string>
+    <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"输入文字或保留空白"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"时长必须为数字"</string>
     <string name="duration_zero" msgid="109945354056393575">"时长必须大于 0 秒"</string>
     <string name="secs" msgid="6886003523109967972">"秒"</string>
@@ -139,8 +139,8 @@
     <item msgid="6238597861937337981">"其他..."</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"查看联系人"</string>
-    <string name="menu_add_to_contacts" msgid="2978074583938544513">"添加到联系人"</string>
-    <string name="hidden_sender_address" msgid="2776075636669924968">"隐藏发送者地址"</string>
+    <string name="menu_add_to_contacts" msgid="2978074583938544513">"添加到“联系人”"</string>
+    <string name="hidden_sender_address" msgid="2776075636669924968">"隐藏的发送者地址"</string>
     <string name="yes" msgid="3246158147503160811">"确定"</string>
     <string name="no" msgid="4289742508556913860">"取消"</string>
     <string name="set" msgid="4642365398263275979">"设置"</string>
@@ -154,35 +154,35 @@
     <string name="pref_mms_settings_title" msgid="2573616208360684392">"彩信 (MMS) 设置"</string>
     <string name="pref_sms_settings_title" msgid="9088516111717417514">"短信 (SMS) 设置"</string>
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"存储设置"</string>
-    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"管理存储在 SIM 卡上的信息"</string>
-    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"要求发送的每条信息都返回发送报告"</string>
-    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"要求发送的每条信息都返回已读报告"</string>
-    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"要求发送的每条信息都返回发送报告"</string>
-    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"达到上限时删除旧短信"</string>
-    <string name="pref_summary_delete_limit" msgid="597128041393045216">"每个会话限存储 <xliff:g id="COUNT">%1$s</xliff:g> 条短信"</string>
-    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"管理 SIM 卡上的信息"</string>
+    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"管理 SIM 卡中存储的信息"</string>
+    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"要求每次发送信息后都返回发送报告"</string>
+    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"要求每次发送信息后都返回已读回执"</string>
+    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"要求每次发送信息后都返回发送报告"</string>
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"达到数量上限时删除旧信息"</string>
+    <string name="pref_summary_delete_limit" msgid="597128041393045216">"每个会话限存储 <xliff:g id="COUNT">%1$s</xliff:g> 条信息"</string>
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"管理 SIM 卡中的信息"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"发送报告"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"已读报告"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"发送报告"</string>
-    <string name="pref_title_auto_delete" msgid="7227835692631701134">"删除旧短信"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"删除旧信息"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"短信限制"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"彩信限制"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"通知"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"在状态栏中显示信息通知"</string>
     <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"振动"</string>
-    <string name="pref_summary_notification_vibrate" msgid="6005751082181574289">"在收到通知的同时振动"</string>
+    <string name="pref_summary_notification_vibrate" msgid="6005751082181574289">"在收到通知的同时还振动"</string>
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"选择铃声"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"设置要保存的短信的数量"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"自动检索"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"自动检索信息"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"漫游自动检索"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"漫游时自动检索"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"漫游时自动检索信息"</string>
     <string name="to_label" msgid="2355268818058389047">"接收者 "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"删除"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"是否删除锁定的讯息？"</string>
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"将会删除整个会话。"</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"将会删除所有会话。"</string>
-    <string name="confirm_delete_message" msgid="9121480656609809591">"将会删除信息。"</string>
+    <string name="confirm_delete_message" msgid="9121480656609809591">"将会删除此信息。"</string>
     <string name="confirm_delete_locked_message" msgid="5863578342246077057">"确定要删除此锁定短信吗？"</string>
     <string name="confirm_delete_all_messages" msgid="5836389073199814660">"将会删除整个会话。"</string>
     <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"SIM 卡上的所有信息都会删除。"</string>
@@ -205,26 +205,26 @@
     <string name="message_size_label" msgid="4698016210013319786">"信息大小： "</string>
     <string name="priority_label" msgid="7397600367853359607">"优先级： "</string>
     <string name="priority_high" msgid="5627897207952009214">"高"</string>
-    <string name="priority_normal" msgid="5715227727384683550">"普通"</string>
+    <string name="priority_normal" msgid="5715227727384683550">"正常"</string>
     <string name="priority_low" msgid="8928782666023373987">"低"</string>
     <string name="message_class_label" msgid="5115748690481550562">"信息类别： "</string>
     <string name="menu_edit" msgid="3056513240155967777">"编辑"</string>
-    <string name="menu_retry_sending" msgid="3146582005568302643">"尝试重新发送"</string>
-    <string name="menu_retry_sending_all" msgid="1870529976966340616">"尝试全部重新发送"</string>
+    <string name="menu_retry_sending" msgid="3146582005568302643">"重试发送"</string>
+    <string name="menu_retry_sending_all" msgid="1870529976966340616">"重试发送全部"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"删除信息"</string>
-    <string name="retrying_dialog_body" msgid="4738260459043003431">"由于连接出现问题，未发送此<xliff:g id="MESSAGE">%s</xliff:g>信息。"\n"正在尝试重新发送..."</string>
+    <string name="retrying_dialog_body" msgid="4738260459043003431">"由于连接问题，此<xliff:g id="MESSAGE">%s</xliff:g>信息未送出。"\n"正在重试发送..."</string>
     <string name="menu_lock" msgid="136863583207382259">"锁定短信"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"解除短信的锁定"</string>
     <string name="sim_copy_to_phone_memory" msgid="5895767417844881971">"复制到手机内存"</string>
     <string name="sim_delete" msgid="610790510655316922">"删除"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"SIM 卡上的短信"</string>
     <string name="sim_view" msgid="1997173541766393706">"查看"</string>
-    <string name="sim_empty" msgid="1763174398613486328">"SIM 卡上无信息。"</string>
+    <string name="sim_empty" msgid="1763174398613486328">"SIM 卡中无信息。"</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"报告"</string>
     <string name="status_none" msgid="8253075950774894961">"（无）"</string>
     <string name="status_pending" msgid="2739860824607984892">"待发送"</string>
     <string name="status_read" msgid="7576195253780627332">"已读"</string>
-    <string name="status_received" msgid="7264334589461906965">"已接收"</string>
+    <string name="status_received" msgid="7264334589461906965">"已收到"</string>
     <string name="status_failed" msgid="1998776666856593544">"失败"</string>
     <string name="status_unread" msgid="8555305495998700198">"未读"</string>
     <string name="status_rejected" msgid="2613641949065942678">"已拒绝"</string>
@@ -235,7 +235,7 @@
     <string name="attach_video" msgid="4264272693501538294">"视频"</string>
     <string name="attach_record_video" msgid="3099814114743078615">"拍摄视频"</string>
     <string name="attach_sound" msgid="3149325985970669609">"音频"</string>
-    <string name="attach_record_sound" msgid="6011431304469858929">"录制音频"</string>
+    <string name="attach_record_sound" msgid="6011431304469858929">"录音"</string>
     <string name="attach_slideshow" msgid="3497422151091037063">"幻灯片"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"底部文本"</string>
     <string name="select_top_text" msgid="6734183477539197815">"顶部文本"</string>
@@ -254,25 +254,25 @@
     <string name="type_video" msgid="8521556159545168441">"视频"</string>
     <string name="confirm" msgid="3155110885840591914">"确认"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"将会发送已读报告。"</string>
-    <string name="message_queued" msgid="8869479754825264671">"当前无法发送您的信息。将在服务可用时发送该信息。"</string>
+    <string name="message_queued" msgid="8869479754825264671">"当前无法发送信息，将在服务恢复后发送。"</string>
     <string name="no_subject" msgid="4168963736134552285">"（无主题）"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"未知发送者"</string>
-    <string name="dl_failure_notification" msgid="2457080452886498701">"下载来自<xliff:g id="FROM">%s</xliff:g>的<xliff:g id="SUBJECT">%s</xliff:g>信息失败。"</string>
+    <string name="dl_failure_notification" msgid="2457080452886498701">"从 <xliff:g id="FROM">%s</xliff:g> 下载<xliff:g id="SUBJECT">%s</xliff:g>信息失败。"</string>
     <string name="dl_expired_notification" msgid="950390029992535809">"此短信已过期，将被删除。"</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"确认"</string>
-    <string name="confirm_rate_limit" msgid="234228299751243067">"即将发送大量多媒体信息。确定要这样做吗？"</string>
+    <string name="confirm_rate_limit" msgid="234228299751243067">"即将发送多条彩信。确定要这样做吗？"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"信息未下载"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"信息未发送"</string>
-    <string name="message_failed_body" msgid="2740907094762116644">"选择查看信息并重试。"</string>
+    <string name="message_failed_body" msgid="2740907094762116644">"选择以检查信息并重试。"</string>
     <string name="download_later" msgid="4486286146421650880">"当前无法下载。请稍后再试。"</string>
     <string name="select_audio" msgid="3120822451872772124">"选择音频"</string>
     <string name="copy_to_sdcard" msgid="6056459122898138734">"将附件复制到 SD 卡"</string>
     <string name="copy_to_sdcard_success" msgid="5322211009838330188">"已将附件复制到 SD 卡"</string>
-    <string name="copy_to_sdcard_fail" msgid="2726421767948392438">"将附件复制到 SD 卡失败"</string>
+    <string name="copy_to_sdcard_fail" msgid="2726421767948392438">"无法将附件复制到 SD 卡"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"另存为铃声"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"铃声已保存"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"无法保存铃声"</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"插入表情符"</string>
+    <string name="menu_insert_smiley" msgid="4964504393061025071">"插入表情符号"</string>
     <string name="select_link_title" msgid="600168208731216059">"选择操作"</string>
     <string name="slide_number" msgid="1923958526266726635">"幻灯片 <xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">

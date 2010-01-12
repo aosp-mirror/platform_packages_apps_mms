@@ -15,7 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"Envio msgs"</string>
+    <string name="app_label" msgid="1503967887341230795">"Mensagens"</string>
     <string name="new_message" msgid="1530369762346003973">"Nova mensagem"</string>
     <string name="create_new_message" msgid="8735943333953093860">"Escrever nova mensagem"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Chamar <xliff:g id="NAME">%s</xliff:g>"</string>
@@ -151,8 +151,8 @@
     <string name="preferences_title" msgid="6650089610332670157">"Configurações"</string>
     <string name="restore_default" msgid="7165341506551155053">"Restaurar as configurações padrão"</string>
     <string name="pref_notification_settings_title" msgid="4860726154770053004">"Configurações de notificação"</string>
-    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Configurações de mensagens multimídia (MMS)"</string>
-    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Configurações de mensagem de texto (SMS)"</string>
+    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Configurações mensagens multimídia (MMS)"</string>
+    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Configurações mensagens de texto (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"Configurações de armazenamento"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Gerencia mensagens armazenadas no seu cartão SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Solicita um relatório de entrega para cada mensagem enviada"</string>

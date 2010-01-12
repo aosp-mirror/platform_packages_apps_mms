@@ -549,7 +549,7 @@ public class ComposeMessageActivity extends Activity
             }
 
             mWorkingMessage.setWorkingRecipients(mRecipientsEditor.getNumbers());
-            mWorkingMessage.setHasEmail(mRecipientsEditor.containsEmail());
+            mWorkingMessage.setHasEmail(mRecipientsEditor.containsEmail(), true);
 
             checkForTooManyRecipients();
 
@@ -827,7 +827,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     private boolean isNumberInContacts(String phoneNumber) {
-        return Contact.get(phoneNumber, true).existsInDatabase();
+        return Contact.get(phoneNumber, false).existsInDatabase();
     }
 
     private final OnCreateContextMenuListener mMsgListMenuCreateListener =
@@ -1781,7 +1781,8 @@ public class ComposeMessageActivity extends Activity
             log("     new conversation=" + conversation + ", mConversation=" + mConversation);
         }
 
-        if (sameThread || conversation.getThreadId() == mConversation.getThreadId()) {
+        long convThreadId = conversation == null ? 0 : conversation.getThreadId();
+        if (sameThread || (convThreadId != 0 && convThreadId == mConversation.getThreadId())) {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: same conversation");
             }
@@ -3160,12 +3161,18 @@ public class ComposeMessageActivity extends Activity
         // Using an existing handler for the post, rather than conjuring up a new one.
         mMessageListItemHandler.post(new Runnable() {
             public void run() {
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    log("[CMA] onUpdate contact updated: " + updated);
+                }
                 ContactList recipients = getRecipients();
                 if (recipients.size() == 1) {
                     updatePresence(recipients.get(0));
                 } else {
                     updatePresence(null);
                 }
+                // The contact information for one (or more) of the recipients has changed.
+                // Rebuild the message list so each MessageItem will get the last contact info.
+                ComposeMessageActivity.this.mMsgListAdapter.notifyDataSetChanged();
             }
         });
     }

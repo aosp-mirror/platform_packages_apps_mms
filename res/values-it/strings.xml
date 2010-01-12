@@ -60,7 +60,7 @@
     <string name="move_down" msgid="6356509518429479053">"Sposta giù"</string>
     <string name="remove_slide" msgid="2225604354024914900">"Rimuovi diapositiva"</string>
     <string name="add_slide" msgid="9140721399423564187">"Aggiungi diapositiva"</string>
-    <string name="add_slide_hint" msgid="563319570849475501">"Seleziona per creare nuova diapositiva."</string>
+    <string name="add_slide_hint" msgid="563319570849475501">"Selez. per creare nuova dia."</string>
     <string name="discard_slideshow" msgid="5054239124146413609">"Ignora presentazione"</string>
     <string name="slide_show_part" msgid="5077675385448696846">"Parte <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text" msgid="2164068850029476539">"Rimuovi testo"</string>
@@ -81,7 +81,7 @@
     <string name="remove" msgid="4625444913256213175">"Rimuovi"</string>
     <string name="send" msgid="4589898724889248486">"Invia"</string>
     <string name="all_threads" msgid="2663426830306307194">"Tutti i thread"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Digita per comporre"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Digita un testo qui"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Apri tastiera per scrivere il messaggio"</string>
     <string name="image_too_large" msgid="261880224164478061">"Immagine troppo grande"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Ridimensionare automaticamente l\'immagine prima di inviarla?"</string>
@@ -121,7 +121,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"Layout presentazione "</string>
     <string name="layout_top" msgid="6811021650398972346">"Layout (superiore)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Layout (inferiore)"</string>
-    <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Digita per comporre il testo o lascia vuoto"</string>
+    <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Digita il testo o lascia vuoto"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"La durata deve essere un numero"</string>
     <string name="duration_zero" msgid="109945354056393575">"La durata deve essere superiore a zero secondi"</string>
     <string name="secs" msgid="6886003523109967972">"sec"</string>
@@ -166,7 +166,7 @@
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Rapporti consegna"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Elimina vecchi messaggi"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limite messaggio di testo"</string>
-    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite messaggio multimediale"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite mess. multimediale"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notifiche"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Visualizza notifiche messaggi nella barra di stato"</string>
     <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"Vibrazione"</string>

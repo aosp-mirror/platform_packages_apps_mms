@@ -15,7 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"Сообщения"</string>
+    <string name="app_label" msgid="1503967887341230795">"SMS/MMS"</string>
     <string name="new_message" msgid="1530369762346003973">"Новое сообщение"</string>
     <string name="create_new_message" msgid="8735943333953093860">"Написать новое сообщение"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Позвонить абоненту <xliff:g id="NAME">%s</xliff:g>"</string>
@@ -37,7 +37,7 @@
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Я"</string>
     <string name="view_picture" msgid="4356315935277709195">"Просмотреть картинку"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Просмотреть слайд-шоу"</string>
-    <string name="view_message_details" msgid="2443165773568096234">"Просмотреть сведения о сообщении"</string>
+    <string name="view_message_details" msgid="2443165773568096234">"Сведения о сообщении"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Просмотреть отчет"</string>
     <string name="delete_message" msgid="8888447283788388395">"Удалить сообщение"</string>
     <string name="sent_on" msgid="5868288548564632354">"Отправлено: <xliff:g id="DATE">%s</xliff:g>"</string>
@@ -74,7 +74,7 @@
     <string name="compose_title" msgid="558578836596816068">"Написать"</string>
     <string name="to_hint" msgid="224029549150332986">"Кому:"</string>
     <string name="subject_hint" msgid="4296714962311604126">"Тема"</string>
-    <string name="add_attachment" msgid="7103751293360532684">"Вложить"</string>
+    <string name="add_attachment" msgid="7103751293360532684">"Прикрепить файл"</string>
     <string name="add_subject" msgid="7616134948428265870">"Добавить тему"</string>
     <string name="discard" msgid="1624800293064498479">"Отменить"</string>
     <string name="view" msgid="7929667761715467136">"Просмотреть"</string>
@@ -159,20 +159,20 @@
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Запрашивать отчет о доставке для всех отправляемых сообщений"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Запрашивать отчет о прочтении для всех отправляемых сообщений"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Запрашивать отчет о доставке для всех отправляемых сообщений"</string>
-    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Удалять старые сообщения по достижении максимального количества"</string>
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Удалять старые сообщения по достижении макс. количества"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"Сообщений в цепочке: <xliff:g id="COUNT">%1$s</xliff:g>"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Управление сообщениями на SIM-карте"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Отчеты о доставке"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Отчеты о прочтении"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Отчеты о доставке"</string>
-    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Удалить старые сообщения"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Удалять старые"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Предел количества SMS"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Предел количества MMS"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Уведомления"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Отображать уведомления о сообщениях в строке состояния"</string>
-    <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"Вибрация"</string>
-    <string name="pref_summary_notification_vibrate" msgid="6005751082181574289">"Вибрировать при уведомлении"</string>
-    <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Выбрать мелодию звонка"</string>
+    <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"Вибровызов"</string>
+    <string name="pref_summary_notification_vibrate" msgid="6005751082181574289">"Вибросигнал при получении уведомления"</string>
+    <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Мелодия звонка"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Установить количество сообщений для сохранения"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Автополучение"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Автоматически получать сообщения"</string>
@@ -295,8 +295,8 @@
     <string name="send_using_mms_activity" msgid="3703434556280345726">"Отправить как MMS"</string>
     <string name="select_contact_method_activity" msgid="1743384358979323991">"Выбрать способ связи"</string>
     <string name="search_label" msgid="6042598929386174964">"Сообщения"</string>
-    <string name="search_hint" msgid="1340787800788064929">"Поиск по сообщениям"</string>
-    <string name="search" msgid="2008586577169316010">"Поиск по сообщениям"</string>
+    <string name="search_hint" msgid="1340787800788064929">"Поиск сообщений"</string>
+    <string name="search" msgid="2008586577169316010">"Поиск сообщений"</string>
     <string name="search_empty" msgid="645052646985297065">"Соответствий нет"</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="675571420878010439">"Результатов по запросу \"%s\": <xliff:g id="NUMBER">%s</xliff:g>"</item>

@@ -34,22 +34,25 @@ public class MmsConfig {
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
     private static final String DEFAULT_HTTP_KEY_X_WAP_PROFILE = "x-wap-profile";
-    private static final String DEFAULT_USER_AGENT = "Android-Mms/0.1";
+    private static final String DEFAULT_USER_AGENT = "Android-Mms/2.0";
+
+    private static final int MAX_IMAGE_HEIGHT = 480;
+    private static final int MAX_IMAGE_WIDTH = 640;
 
     /**
      * Whether to hide MMS functionality from the user (i.e. SMS only).
      */
     private static boolean mTransIdEnabled = false;
-    private static int mMmsEnabled = -1;        // an int so we can tell whether it's been inited
-    private static int mMaxMessageSize = 0;
-    private static String mUserAgent = null;
-    private static String mUaProfTagName = null;
+    private static int mMmsEnabled = 1;                         // default to true
+    private static int mMaxMessageSize = 300 * 1024;            // default to 300k max size
+    private static String mUserAgent = DEFAULT_USER_AGENT;
+    private static String mUaProfTagName = DEFAULT_HTTP_KEY_X_WAP_PROFILE;
     private static String mUaProfUrl = null;
     private static String mHttpParams = null;
     private static String mHttpParamsLine1Key = null;
     private static String mEmailGateway = null;
-    private static int mMaxImageHeight = 0;
-    private static int mMaxImageWidth = 0;
+    private static int mMaxImageHeight = MAX_IMAGE_HEIGHT;      // default value
+    private static int mMaxImageWidth = MAX_IMAGE_WIDTH;        // default value
     private static int mRecipientLimit = Integer.MAX_VALUE;     // default value
     private static int mDefaultSMSMessagesPerThread = 200;      // default value
     private static int mDefaultMMSMessagesPerThread = 20;       // default value
@@ -185,8 +188,7 @@ public class MmsConfig {
     }
 
     private static void loadMmsSettings(Context context) {
-        XmlResourceParser parser = context.getResources()
-                .getXml(R.xml.mms_config);
+        XmlResourceParser parser = context.getResources().getXml(R.xml.mms_config);
 
         try {
             XmlUtils.beginDocument(parser, "mms_config");
@@ -285,26 +287,8 @@ public class MmsConfig {
 
         String errorStr = null;
 
-        if (mMmsEnabled == -1) {
-            errorStr = "enableMMS";
-        }
-        if (mMaxMessageSize == 0) {
-            errorStr = "maxMessageSize";
-        }
-        if (mMaxImageHeight == 0) {
-            errorStr = "maxImageHeight";
-        }
-        if (mMaxImageWidth == 0) {
-            errorStr = "maxImageWidth";
-        }
         if (getMmsEnabled() && mUaProfUrl == null) {
             errorStr = "uaProfUrl";
-        }
-        if (mUaProfTagName == null) {
-            mUaProfTagName = DEFAULT_HTTP_KEY_X_WAP_PROFILE;
-        }
-        if (mUserAgent == null) {
-            mUserAgent = DEFAULT_USER_AGENT;
         }
 
         if (errorStr != null) {

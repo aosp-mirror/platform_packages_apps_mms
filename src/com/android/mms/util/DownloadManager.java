@@ -250,7 +250,7 @@ public class DownloadManager {
 
         v = ind.getFrom();
         String from = (v != null)
-                ? Contact.get(v.getString(), true).getName()
+                ? Contact.get(v.getString(), false).getName()
                 : mContext.getString(R.string.unknown_sender);
 
         return mContext.getString(R.string.dl_failure_notification, subject, from);
