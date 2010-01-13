@@ -204,6 +204,9 @@
                 <!-- TODO Do a better data match here. -->
                 <data android:scheme="content" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MESSAGE" />
+            </intent-filter>
         </receiver>
 
         <receiver android:name=".transaction.MessageStatusReceiver">
