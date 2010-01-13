@@ -25,8 +25,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-
-import com.android.common.widget.NumberPicker;
+import android.widget.NumberPicker;
 
 import com.android.mms.R;
 
@@ -142,10 +141,10 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
         @Override
         protected void changeCurrent(int current) {
             // Don't wrap. Pin instead.
-            if (current > mEnd) {
-                current = mEnd;
-            } else if (current < mStart) {
-                current = mStart;
+            if (current > getEndRange()) {
+                current = getEndRange();
+            } else if (current < getBeginRange()) {
+                current = getBeginRange();
             }
             super.changeCurrent(current);
         }
