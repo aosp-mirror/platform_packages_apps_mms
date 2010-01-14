@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -2766,7 +2767,8 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
-        String highlight = getIntent().getStringExtra("highlight");
+        String highlightString = getIntent().getStringExtra("highlight");
+        Pattern highlight = Pattern.compile(highlightString, Pattern.CASE_INSENSITIVE);
 
         // Initialize the list adapter with a null cursor.
         mMsgListAdapter = new MessageListAdapter(this, null, mMsgListView, true, highlight);

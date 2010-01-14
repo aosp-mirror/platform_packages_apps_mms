@@ -16,6 +16,9 @@
 
 package com.android.mms.ui;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.android.mms.MmsApp;
 import com.android.mms.R;
 import android.app.ListActivity;
@@ -29,6 +32,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
+
 import com.android.mms.telephony.TelephonyProvider;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -68,6 +73,7 @@ public class SearchActivity extends ListActivity
 
         private String mFullText;
         private String mTargetString;
+        private Pattern mPattern;
 
         public TextViewSnippet(Context context, AttributeSet attrs) {
             super(context, attrs);
@@ -90,9 +96,14 @@ public class SearchActivity extends ListActivity
             String fullTextLower = mFullText.toLowerCase();
             String targetStringLower = mTargetString.toLowerCase();
 
-            int startPos = fullTextLower.indexOf(targetStringLower);
+            int startPos = 0;
             int searchStringLength = targetStringLower.length();
             int bodyLength = fullTextLower.length();
+
+            Matcher m = mPattern.matcher(mFullText);
+            if (m.find(0)) {
+                startPos = m.start();
+            }
 
             TextPaint tp = getPaint();
 
@@ -143,17 +154,13 @@ public class SearchActivity extends ListActivity
                 }
             }
 
-            String snippetStringLower = snippetString.toLowerCase();
             SpannableString spannable = new SpannableString(snippetString);
             int start = 0;
-            while (true) {
-                int index = snippetStringLower.indexOf(targetStringLower, start);
-                if (index == -1) {
-                    break;
-                }
-//              spannable.setSpan(new ForegroundColorSpan(sHighlightColor), index, index+searchStringLength, 0);
-                spannable.setSpan(new StyleSpan(sTypefaceHighlight), index, index+searchStringLength, 0);
-                start = index + searchStringLength;
+
+            m = mPattern.matcher(snippetString);
+            while (m.find(start)) {
+                spannable.setSpan(new StyleSpan(sTypefaceHighlight), m.start(), m.end(), 0);
+                start = m.end();
             }
             setText(spannable);
 
@@ -162,6 +169,13 @@ public class SearchActivity extends ListActivity
         }
 
         public void setText(String fullText, String target) {
+            // Use a regular expression to locate the target string
+            // within the full text.  The target string must be
+            // found as a word start so we use \b which matches
+            // word boundaries.
+            String patternString = "\\b" + target;
+            mPattern = Pattern.compile(patternString, Pattern.CASE_INSENSITIVE);
+
             mFullText = fullText;
             mTargetString = target;
             requestLayout();
@@ -173,11 +187,15 @@ public class SearchActivity extends ListActivity
         super.onCreate(icicle);
         setContentView(R.layout.search_activity);
 
-        String searchStringParameter = getIntent().getStringExtra(SearchManager.QUERY).trim();
+        String searchStringParameter = getIntent().getStringExtra(SearchManager.QUERY);
+        if (searchStringParameter == null) {
+            searchStringParameter = getIntent().getStringExtra("intent_extra_data_key" /*SearchManager.SUGGEST_COLUMN_INTENT_EXTRA_DATA*/);
+        }
         final String searchString =
         	searchStringParameter != null ? searchStringParameter.trim() : searchStringParameter;
         ContentResolver cr = getContentResolver();
 
+        searchStringParameter = searchStringParameter.trim();
         final ListView listView = getListView();
         listView.setSelector(android.R.drawable.list_selector_background);
         listView.setItemsCanFocus(true);
@@ -269,11 +287,13 @@ public class SearchActivity extends ListActivity
 
                 // Remember the query if there are actual results
                 if (cursorCount > 0) {
-                    MmsApp mmsApp = (MmsApp)getApplication();
-                    mmsApp.getRecentSuggestions().saveRecentQuery(
-                            searchString,
-                            getString(R.string.search_history,
-                                    cursorCount, searchString));
+                    SearchRecentSuggestions recent = ((MmsApp)getApplication()).getRecentSuggestions();
+                    if (recent != null) {
+                        recent.saveRecentQuery(
+                                searchString,
+                                getString(R.string.search_history,
+                                        cursorCount, searchString));
+                    }
                 }
             }
         };

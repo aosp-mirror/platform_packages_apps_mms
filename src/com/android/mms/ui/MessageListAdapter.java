@@ -58,6 +58,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * The back-end data adapter of a message list.
@@ -126,15 +127,15 @@ public class MessageListAdapter extends CursorAdapter {
     private final ColumnsMap mColumnsMap;
     private OnDataSetChangedListener mOnDataSetChangedListener;
     private Handler mMsgListItemHandler;
-    private String mHighlight;
+    private Pattern mHighlight;
     private Context mContext;
 
     public MessageListAdapter(
             Context context, Cursor c, ListView listView,
-            boolean useDefaultColumnsMap, String highlight) {
+            boolean useDefaultColumnsMap, Pattern highlight) {
         super(context, c, false /* auto-requery */);
         mContext = context;
-        mHighlight = highlight != null ? highlight.toLowerCase() : null;
+        mHighlight = highlight;
 
         mInflater = (LayoutInflater) context.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);

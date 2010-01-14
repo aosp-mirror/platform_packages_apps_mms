@@ -31,6 +31,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.provider.SearchRecentSuggestions;
 import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -190,8 +191,11 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
                     .setMessage(R.string.confirm_clear_search_text)
                     .setPositiveButton(android.R.string.ok, new AlertDialog.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            MmsApp mmsApp = (MmsApp)getApplication();
-                            mmsApp.getRecentSuggestions().clearHistory();
+                            SearchRecentSuggestions recent =
+                                ((MmsApp)getApplication()).getRecentSuggestions();
+                            if (recent != null) {
+                                recent.clearHistory();
+                            }
                         }
                     })
                     .setNegativeButton(android.R.string.cancel, null)

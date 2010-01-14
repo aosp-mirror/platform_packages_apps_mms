@@ -91,10 +91,12 @@ public class MmsApp extends Application {
      * @return Returns the content provider wrapper that allows access to recent searches.
      */
     public SearchRecentSuggestions getRecentSuggestions() {
+        /*
         if (mRecentSuggestions == null) {
             mRecentSuggestions = new SearchRecentSuggestions(this,
                     SuggestionsProvider.AUTHORITY, SuggestionsProvider.MODE);
         }
+        */
         return mRecentSuggestions;
     }
 
