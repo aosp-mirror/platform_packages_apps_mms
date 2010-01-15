@@ -211,6 +211,9 @@ public class SearchActivity extends ListActivity
         // When the query completes cons up a new adapter and set our list adapter to that.
         mQueryHandler = new AsyncQueryHandler(cr) {
             protected void onQueryComplete(int token, Object cookie, Cursor c) {
+                if (c == null) {
+                    return;
+                }
                 final int threadIdPos = c.getColumnIndex("thread_id");
                 final int addressPos  = c.getColumnIndex("address");
                 final int bodyPos     = c.getColumnIndex("body");

@@ -2768,7 +2768,8 @@ public class ComposeMessageActivity extends Activity
         }
 
         String highlightString = getIntent().getStringExtra("highlight");
-        Pattern highlight = Pattern.compile(highlightString, Pattern.CASE_INSENSITIVE);
+        Pattern highlight = highlightString == null ? null :
+                            Pattern.compile(highlightString, Pattern.CASE_INSENSITIVE);
 
         // Initialize the list adapter with a null cursor.
         mMsgListAdapter = new MessageListAdapter(this, null, mMsgListView, true, highlight);
