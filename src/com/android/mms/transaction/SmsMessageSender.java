@@ -17,15 +17,11 @@
 
 package com.android.mms.transaction;
 
-import com.android.mms.MmsConfig;
 import com.android.mms.LogTag;
-import com.android.mms.MmsApp;
 import com.android.mms.ui.MessagingPreferenceActivity;
-import com.android.mms.ui.MessageUtils;
 import com.android.mms.mms.MmsException;
 import com.android.mms.mms.util.SqliteWrapper;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,21 +29,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import com.android.mms.telephony.TelephonyProvider.Mms;
 import com.android.mms.telephony.TelephonyProvider.Sms;
-import android.telephony.SmsManager;
 import android.util.Log;
 
-import java.util.ArrayList;
-
 public class SmsMessageSender implements MessageSender {
-    private final Context mContext;
-    private final int mNumberOfDests;
+    protected final Context mContext;
+    protected final int mNumberOfDests;
     private final String[] mDests;
-    private final String mMessageText;
-    private final String mServiceCenter;
-    private final long mThreadId;
-    private long mTimestamp;
+    protected final String mMessageText;
+    protected final String mServiceCenter;
+    protected final long mThreadId;
+    protected long mTimestamp;
 
     // Default preference values
     private static final boolean DEFAULT_DELIVERY_REPORT_MODE  = false;
@@ -63,96 +55,49 @@ public class SmsMessageSender implements MessageSender {
     public SmsMessageSender(Context context, String[] dests, String msgText, long threadId) {
         mContext = context;
         mMessageText = msgText;
-        mNumberOfDests = dests.length;
-        mDests = new String[mNumberOfDests];
-        System.arraycopy(dests, 0, mDests, 0, mNumberOfDests);
+        if (dests != null) {
+            mNumberOfDests = dests.length;
+            mDests = new String[mNumberOfDests];
+            System.arraycopy(dests, 0, mDests, 0, mNumberOfDests);
+        } else {
+            mNumberOfDests = 0;
+            mDests = null;
+        }
         mTimestamp = System.currentTimeMillis();
         mThreadId = threadId;
         mServiceCenter = getOutgoingServiceCenter(mThreadId);
     }
 
     public boolean sendMessage(long token) throws MmsException {
+        // In order to send the message one by one, instead of sending now, the message will split,
+        // and be put into the queue along with each destinations 
+        return queueMessage(token);
+    }
+
+    private boolean queueMessage(long token) throws MmsException {
         if ((mMessageText == null) || (mNumberOfDests == 0)) {
             // Don't try to send an empty message.
             throw new MmsException("Null message body or dest.");
         }
 
-        SmsManager smsManager = SmsManager.getDefault();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        boolean requestDeliveryReport = prefs.getBoolean(
+                MessagingPreferenceActivity.SMS_DELIVERY_REPORT_MODE,
+                DEFAULT_DELIVERY_REPORT_MODE);
 
         for (int i = 0; i < mNumberOfDests; i++) {
-            ArrayList<String> messages = null;
-            if ((MmsConfig.getEmailGateway() != null) &&
-                    (Mms.isEmailAddress(mDests[i]) || MessageUtils.isAlias(mDests[i]))) {
-                String msgText;
-                msgText = mDests[i] + " " + mMessageText;
-                mDests[i] = MmsConfig.getEmailGateway();
-                messages = smsManager.divideMessage(msgText);
-            } else {
-               messages = smsManager.divideMessage(mMessageText);
-               // remove spaces from destination number (e.g. "801 555 1212" -> "8015551212")
-               mDests[i] = mDests[i].replaceAll(" ", "");
-            }
-            int messageCount = messages.size();
-
-            if (messageCount == 0) {
-                // Don't try to send an empty message.
-                throw new MmsException("SmsMessageSender.sendMessage: divideMessage returned " +
-                        "empty messages. Original message is \"" + mMessageText + "\"");
-            }
-
-            ArrayList<PendingIntent> deliveryIntents =
-                    new ArrayList<PendingIntent>(messageCount);
-            ArrayList<PendingIntent> sentIntents =
-                    new ArrayList<PendingIntent>(messageCount);
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-            boolean requestDeliveryReport = prefs.getBoolean(
-                    MessagingPreferenceActivity.SMS_DELIVERY_REPORT_MODE,
-                    DEFAULT_DELIVERY_REPORT_MODE);
-            Uri uri = null;
             try {
-                uri = Sms.Outbox.addMessage(mContext.getContentResolver(), mDests[i],
-                            mMessageText, null, mTimestamp, requestDeliveryReport, mThreadId);
+                Sms.addMessageToUri(mContext.getContentResolver(), Uri.parse("content://sms/queued"), mDests[i],
+                        mMessageText, null, mTimestamp, true, requestDeliveryReport, mThreadId);
             } catch (SQLiteException e) {
                 SqliteWrapper.checkSQLiteException(mContext, e);
             }
-
-            for (int j = 0; j < messageCount; j++) {
-                if (requestDeliveryReport) {
-                    // TODO: Fix: It should not be necessary to
-                    // specify the class in this intent.  Doing that
-                    // unnecessarily limits customizability.
-                    deliveryIntents.add(PendingIntent.getBroadcast(
-                            mContext, 0,
-                            new Intent(
-                                    MessageStatusReceiver.MESSAGE_STATUS_RECEIVED_ACTION,
-                                    uri,
-                                    mContext,
-                                    MessageStatusReceiver.class),
-                            0));
-                }
-                sentIntents.add(PendingIntent.getBroadcast(
-                        mContext, 0,
-                        new Intent(SmsReceiverService.MESSAGE_SENT_ACTION,
-                                uri,
-                                mContext,
-                                SmsReceiver.class),
-                        0));
-            }
-
-            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                log("sendMessage: address[" + i + "]=" + mDests[i] + ", threadId=" + mThreadId +
-                        ", uri=" + uri + ", msgs.count=" + messageCount);
-            }
-
-            try {
-                smsManager.sendMultipartTextMessage(
-                        mDests[i], mServiceCenter, messages, sentIntents,
-                        deliveryIntents);
-            } catch (Exception ex) {
-                throw new MmsException("SmsMessageSender.sendMessage: caught " + ex +
-                        " from SmsManager.sendMultipartTextMessage()");
-            }
         }
+        // Notify the SmsReceiverService to send the message out
+        mContext.sendBroadcast(new Intent(SmsReceiverService.ACTION_SEND_MESSAGE,
+                null,
+                mContext,
+                SmsReceiver.class));
         return false;
     }
 

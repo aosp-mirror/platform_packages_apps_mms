@@ -69,9 +69,16 @@ public class SmsReceiverService extends Service {
 
     private ServiceHandler mServiceHandler;
     private Looper mServiceLooper;
+    private boolean mSending;
 
     public static final String MESSAGE_SENT_ACTION =
         "com.android.mms.transaction.MESSAGE_SENT";
+
+    // Indicates next message can be picked up and sent out.
+    public static final String EXTRA_MESSAGE_SENT_SEND_NEXT ="SendNextMsg";
+
+    public static final String ACTION_SEND_MESSAGE =
+        "com.android.mms.transaction.SEND_MESSAGE";
 
     // This must match the column IDs below.
     private static final String[] SEND_PROJECTION = new String[] {
@@ -79,6 +86,7 @@ public class SmsReceiverService extends Service {
         Sms.THREAD_ID,  //1
         Sms.ADDRESS,    //2
         Sms.BODY,       //3
+        Sms.STATUS,     //4
 
     };
 
@@ -95,6 +103,7 @@ public class SmsReceiverService extends Service {
     private static final int SEND_COLUMN_THREAD_ID  = 1;
     private static final int SEND_COLUMN_ADDRESS    = 2;
     private static final int SEND_COLUMN_BODY       = 3;
+    private static final int SEND_COLUMN_STATUS     = 4;
 
     private int mResultCode;
 
@@ -171,6 +180,8 @@ public class SmsReceiverService extends Service {
                     handleBootCompleted();
                 } else if (ACTION_SERVICE_STATE_CHANGED.equals(action)) {
                     handleServiceStateChanged(intent);
+                } else if (ACTION_SEND_MESSAGE.endsWith(action)) {
+                    handleSendMessage();
                 }
             }
             // NOTE: We MUST not call stopSelf() directly, since we need to
@@ -183,6 +194,12 @@ public class SmsReceiverService extends Service {
         // If service just returned, start sending out the queued messages
         ServiceState serviceState = ServiceState.newFromBundle(intent.getExtras());
         if (serviceState.getState() == ServiceState.STATE_IN_SERVICE) {
+            sendFirstQueuedMessage();
+        }
+    }
+
+    private void handleSendMessage() {
+        if (!mSending) {
             sendFirstQueuedMessage();
         }
     }
@@ -200,12 +217,12 @@ public class SmsReceiverService extends Service {
             try {
                 if (c.moveToFirst()) {
                     String msgText = c.getString(SEND_COLUMN_BODY);
-                    String[] address = new String[1];
-                    address[0] = c.getString(SEND_COLUMN_ADDRESS);
+                    String address = c.getString(SEND_COLUMN_ADDRESS);
                     int threadId = c.getInt(SEND_COLUMN_THREAD_ID);
+                    int status = c.getInt(SEND_COLUMN_STATUS);
 
-                    SmsMessageSender sender = new SmsMessageSender(this,
-                            address, msgText, threadId);
+                    SmsMessageSender sender = new SmsSingleRecipientSender(this,
+                            address, msgText, threadId, status == Sms.STATUS_PENDING);
 
                     int msgId = c.getInt(SEND_COLUMN_ID);
                     Uri msgUri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgId);
@@ -217,7 +234,8 @@ public class SmsReceiverService extends Service {
                                 ", body: " + msgText);
                     }
                     try {
-                        sender.sendMessage(SendingProgressTokenManager.NO_TOKEN);
+                        sender.sendMessage(SendingProgressTokenManager.NO_TOKEN);;
+                        mSending = true;
                     } catch (MmsException e) {
                         Log.e(TAG, "sendFirstQueuedMessage: failed to send message " + msgUri
                                 + ", caught ", e);
@@ -246,6 +264,8 @@ public class SmsReceiverService extends Service {
 
     private void handleSmsSent(Intent intent, int error) {
         Uri uri = intent.getData();
+        mSending = false;
+        boolean sendNextMsg = intent.getBooleanExtra(EXTRA_MESSAGE_SENT_SEND_NEXT, false);
 
         if (mResultCode == Activity.RESULT_OK) {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
@@ -254,7 +274,9 @@ public class SmsReceiverService extends Service {
             if (!Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_SENT, error)) {
                 Log.e(TAG, "handleSmsSent: failed to move message " + uri + " to sent folder");
             }
-            sendFirstQueuedMessage();
+            if (sendNextMsg) {
+                sendFirstQueuedMessage();
+            }
 
             // Update the notification for failed messages since they may be deleted.
             MessagingNotification.updateSendFailedNotification(this);
@@ -276,7 +298,9 @@ public class SmsReceiverService extends Service {
             }
             Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_FAILED, error);
             MessagingNotification.notifySendFailed(getApplicationContext(), true);
-            sendFirstQueuedMessage();
+            if (sendNextMsg) {
+                sendFirstQueuedMessage();
+            }
         }
     }
 
