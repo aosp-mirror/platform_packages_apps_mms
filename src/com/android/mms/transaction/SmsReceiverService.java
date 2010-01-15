@@ -90,13 +90,7 @@ public class SmsReceiverService extends Service {
 
     };
 
-    public Handler mToastHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            Toast.makeText(SmsReceiverService.this, getString(R.string.message_queued),
-                    Toast.LENGTH_SHORT).show();
-        }
-    };
+    public Handler mToastHandler = new Handler();
 
     // This must match SEND_PROJECTION.
     private static final int SEND_COLUMN_ID         = 0;
@@ -291,7 +285,12 @@ public class SmsReceiverService extends Service {
             registerForServiceStateChanges();
             // We couldn't send the message, put in the queue to retry later.
             Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_QUEUED, error);
-            mToastHandler.sendEmptyMessage(1);
+            mToastHandler.post(new Runnable() {
+                public void run() {
+                    Toast.makeText(SmsReceiverService.this, getString(R.string.message_queued),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
         } else {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleSmsSent msg failed uri: " + uri);
