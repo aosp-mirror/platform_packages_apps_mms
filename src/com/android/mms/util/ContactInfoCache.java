@@ -59,8 +59,13 @@ public class ContactInfoCache {
     private static final String SEPARATOR = ";";
 
     // query params for caller id lookup
+    // TODO this query uses non-public API. Figure out a way to expose this functionality
     private static final String CALLER_ID_SELECTION = "PHONE_NUMBERS_EQUAL(" + Phone.NUMBER
-            + ",?) AND " + Data.MIMETYPE + "='" + Phone.CONTENT_ITEM_TYPE + "'";
+            + ",?) AND " + Data.MIMETYPE + "='" + Phone.CONTENT_ITEM_TYPE + "'"
+            + " AND " + Data.RAW_CONTACT_ID + " IN "
+                    + "(SELECT raw_contact_id "
+                    + " FROM phone_lookup"
+                    + " WHERE normalized_number GLOB('+*'))";
 
     // Utilizing private API
     private static final Uri PHONES_WITH_PRESENCE_URI = Data.CONTENT_URI;
@@ -291,10 +296,15 @@ public class ContactInfoCache {
 
         mContactInfoSelectionArgs[0] = number;
 
+        // We need to include the phone number in the selection string itself rather then
+        // selection arguments, because SQLite needs to see the exact pattern of GLOB
+        // to generate the correct query plan
+        String selection = CALLER_ID_SELECTION.replace("+",
+                PhoneNumberUtils.getStrippedReversed(number));
         Cursor cursor = mContext.getContentResolver().query(
                 PHONES_WITH_PRESENCE_URI,
                 CALLER_ID_PROJECTION,
-                CALLER_ID_SELECTION,
+                selection,
                 mContactInfoSelectionArgs,
                 null);
 
