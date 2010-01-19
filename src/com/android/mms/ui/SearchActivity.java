@@ -197,7 +197,6 @@ public class SearchActivity extends ListActivity
 
         searchStringParameter = searchStringParameter.trim();
         final ListView listView = getListView();
-        listView.setSelector(android.R.drawable.list_selector_background);
         listView.setItemsCanFocus(true);
         listView.setFocusable(true);
         listView.setClickable(true);
