@@ -450,9 +450,7 @@ public class MessagingNotification {
         }
 
         notification.flags |= Notification.FLAG_SHOW_LIGHTS;
-        notification.ledARGB = 0xff00ff00;
-        notification.ledOnMS = 500;
-        notification.ledOffMS = 2000;
+        notification.defaults |= Notification.DEFAULT_LIGHTS;
 
         NotificationManager nm = (NotificationManager)
             context.getSystemService(Context.NOTIFICATION_SERVICE);
