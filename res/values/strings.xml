@@ -165,8 +165,8 @@
 
     <!-- Button in conversation screen for sending the SMS message currently being composed (imperative verb) -->
     <string name="send">Send</string>
-    <!-- Button in conversation screen for sending the MMS message currently being composed (imperative verb) -->
-    <string name="send_mms">Send\nMMS</string>
+    <!-- Text to appear directly below the "Send" text on the SMS/MMS send button. The "MMS" text is on a second line in a smaller font. This is similar to saying "Send (mms)". -->
+    <string name="mms">MMS</string>
 
     <!-- Menu item in conversation screen for returning to the conversation list -->
     <string name="all_threads">All threads</string>

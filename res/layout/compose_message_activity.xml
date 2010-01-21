@@ -159,7 +159,7 @@
                         android:background="@android:drawable/edit_text"
                         android:maxLength="1000"
                     />
-                    
+
                     <LinearLayout
                         android:id="@+id/button_with_counter"
                         android:orientation="vertical"

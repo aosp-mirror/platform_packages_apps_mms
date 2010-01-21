@@ -27,16 +27,33 @@ import static com.android.mms.ui.MessageListAdapter.COLUMN_MMS_LOCKED;
 import static com.android.mms.ui.MessageListAdapter.COLUMN_MSG_TYPE;
 import static com.android.mms.ui.MessageListAdapter.PROJECTION;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
+import com.android.mms.LogTag;
+import com.android.mms.MmsConfig;
+import com.android.mms.R;
+import com.android.mms.data.Contact;
+import com.android.mms.data.ContactList;
+import com.android.mms.data.Conversation;
+import com.android.mms.data.WorkingMessage;
+import com.android.mms.data.WorkingMessage.MessageStatusListener;
+import com.android.mms.mms.MmsException;
+import com.android.mms.mms.pdu.EncodedStringValue;
+import com.android.mms.mms.pdu.PduBody;
+import com.android.mms.mms.pdu.PduPart;
+import com.android.mms.mms.pdu.PduPersister;
+import com.android.mms.mms.pdu.SendReq;
+import com.android.mms.mms.util.SqliteWrapper;
+import com.android.mms.model.SlideModel;
+import com.android.mms.model.SlideshowModel;
+import com.android.mms.telephony.TelephonyIntents;
+import com.android.mms.telephony.TelephonyProperties;
+import com.android.mms.telephony.TelephonyProvider.Mms;
+import com.android.mms.telephony.TelephonyProvider.Sms;
+import com.android.mms.transaction.MessagingNotification;
+import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
+import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
+import com.android.mms.util.SendingProgressTokenManager;
+import com.android.mms.util.SmileyParser;
+import com.google.android.mms.ContentType;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -56,6 +73,8 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
+import android.drm.mobile1.DrmException;
+import android.drm.mobile1.DrmRawContent;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -63,7 +82,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
-import android.os.SystemProperties;  // TODO: fix for SDK
+import android.os.SystemProperties;
+import android.provider.DrmStore;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.ContactsContract.Contacts;
@@ -77,6 +97,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.TextKeyListener;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.Config;
@@ -104,36 +125,16 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.mms.LogTag;
-import com.android.mms.MmsConfig;
-import com.android.mms.R;
-import com.android.mms.data.Contact;
-import com.android.mms.data.ContactList;
-import com.android.mms.data.Conversation;
-import com.android.mms.data.WorkingMessage;
-import com.android.mms.data.WorkingMessage.MessageStatusListener;
-import android.drm.mobile1.DrmException;
-import android.drm.mobile1.DrmRawContent;
-import android.provider.DrmStore;
-import com.google.android.mms.ContentType;
-import com.android.mms.mms.MmsException;
-import com.android.mms.mms.pdu.EncodedStringValue;
-import com.android.mms.mms.pdu.PduBody;
-import com.android.mms.mms.pdu.PduPart;
-import com.android.mms.mms.pdu.PduPersister;
-import com.android.mms.mms.pdu.SendReq;
-import com.android.mms.mms.util.SqliteWrapper;
-import com.android.mms.model.SlideModel;
-import com.android.mms.model.SlideshowModel;
-import com.android.mms.telephony.TelephonyIntents;
-import com.android.mms.telephony.TelephonyProperties;
-import com.android.mms.telephony.TelephonyProvider.Mms;
-import com.android.mms.telephony.TelephonyProvider.Sms;
-import com.android.mms.transaction.MessagingNotification;
-import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
-import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
-import com.android.mms.util.SendingProgressTokenManager;
-import com.android.mms.util.SmileyParser;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * This is the main UI for:
@@ -374,13 +375,14 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void updateCounter(CharSequence text, int start, int before, int count) {
-        if (mWorkingMessage.requiresMms()) {
+        WorkingMessage workingMessage = mWorkingMessage;
+        if (workingMessage.requiresMms()) {
             // If we're not removing text (i.e. no chance of converting back to SMS
             // because of this change) and we're in MMS mode, just bail out since we
             // then won't have to calculate the length unnecessarily.
             final boolean textRemoved = (before > count);
             if (!textRemoved) {
-                showMmsMessageInPlaceOfTextCounter();
+                setSendButtonText(workingMessage.requiresMms());
                 return;
             }
         }
@@ -396,17 +398,19 @@ public class ComposeMessageActivity extends Activity
         int remainingInCurrentMessage = params[2];
 
         // Force send as MMS once the number of SMSes required reaches a configurable threshold.
-        mWorkingMessage.setLengthRequiresMms(msgCount >= MmsConfig.getSmsToMmsTextThreshold());
+        workingMessage.setLengthRequiresMms(msgCount >= MmsConfig.getSmsToMmsTextThreshold());
 
         // Show the counter only if:
         // - We are not in MMS mode
         // - We are going to send more than one message OR we are getting close
         boolean showCounter = false;
-        if (!mWorkingMessage.requiresMms() &&
+        if (!workingMessage.requiresMms() &&
                 (msgCount > 1 ||
                  remainingInCurrentMessage <= CHARS_REMAINING_BEFORE_COUNTER_SHOWN)) {
             showCounter = true;
         }
+
+        setSendButtonText(workingMessage.requiresMms());
 
         if (showCounter) {
             // Update the remaining characters and number of messages required.
@@ -414,18 +418,9 @@ public class ComposeMessageActivity extends Activity
                     : String.valueOf(remainingInCurrentMessage);
             mTextCounter.setText(counterText);
             mTextCounter.setVisibility(View.VISIBLE);
-            mSendButton.setText(R.string.send);
-        } else if (mWorkingMessage.requiresMms()) {
-            showMmsMessageInPlaceOfTextCounter();
         } else {
             mTextCounter.setVisibility(View.GONE);
         }
-    }
-
-    private void showMmsMessageInPlaceOfTextCounter() {
-        mSendButton.setText(R.string.send_mms);
-        mTextCounter.setText("");
-        mTextCounter.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -1109,7 +1104,7 @@ public class ComposeMessageActivity extends Activity
         } else {
             uri = Mms.CONTENT_URI;
         }
-        final Uri lockUri = ContentUris.withAppendedId(uri, msgItem.mMsgId);;
+        final Uri lockUri = ContentUris.withAppendedId(uri, msgItem.mMsgId);
 
         final ContentValues values = new ContentValues(1);
         values.put("locked", locked ? 1 : 0);
@@ -2070,6 +2065,22 @@ public class ComposeMessageActivity extends Activity
 
     public void onProtocolChanged(boolean mms) {
         toastConvertInfo(mms);
+        setSendButtonText(mms);
+    }
+
+    private void setSendButtonText(boolean isMms) {
+        Button sendButton = mSendButton;
+        sendButton.setText(R.string.send);
+
+        if (isMms) {
+            // Create and append the "MMS" text in a smaller font than the "Send" text.
+            sendButton.append("\n");
+            SpannableString spannable = new SpannableString(getString(R.string.mms));
+            int mmsTextSize = (int) (sendButton.getTextSize() * 0.75f);
+            spannable.setSpan(new AbsoluteSizeSpan(mmsTextSize), 0, spannable.length(), 0);
+            sendButton.append(spannable);
+            mTextCounter.setText("");
+        }
     }
 
     Runnable mResetMessageRunnable = new Runnable() {
@@ -2672,24 +2683,27 @@ public class ComposeMessageActivity extends Activity
             ensureCorrectButtonHeight();
         }
 
-        /**
-         * Ensures that if the text edit box extends past two lines then the
-         * button will be shifted up to allow enough space for the character
-         * counter string to be placed beneath it.
-         */
-        private void ensureCorrectButtonHeight() {
-            int currentTextLines = mTextEditor.getLineCount();
-            if (currentTextLines > 2 && mTextCounter.getVisibility() == View.GONE) {
-                // Making the counter invisible ensures that it is used to correctly
-                // calculate the position of the send button even if we choose not to
-                // display the text.
-                mTextCounter.setVisibility(View.INVISIBLE);
-            }
-        }
-
         public void afterTextChanged(Editable s) {
         }
     };
+
+    /**
+     * Ensures that if the text edit box extends past two lines then the
+     * button will be shifted up to allow enough space for the character
+     * counter string to be placed beneath it.
+     */
+    private void ensureCorrectButtonHeight() {
+        int currentTextLines = mTextEditor.getLineCount();
+        if (currentTextLines <= 2) {
+            mTextCounter.setVisibility(View.GONE);
+        }
+        else if (currentTextLines > 2 && mTextCounter.getVisibility() == View.GONE) {
+            // Making the counter invisible ensures that it is used to correctly
+            // calculate the position of the send button even if we choose not to
+            // display the text.
+            mTextCounter.setVisibility(View.INVISIBLE);
+        }
+    }
 
     private final TextWatcher mSubjectEditorWatcher = new TextWatcher() {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -2972,6 +2986,7 @@ public class ComposeMessageActivity extends Activity
             mAttachmentEditor.setCanSend(false);
         }
 
+        setSendButtonText(mWorkingMessage.requiresMms());
         mSendButton.setEnabled(enable);
         mSendButton.setFocusable(enable);
     }
