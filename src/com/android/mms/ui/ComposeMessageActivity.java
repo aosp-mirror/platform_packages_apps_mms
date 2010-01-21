@@ -1358,13 +1358,13 @@ public class ComposeMessageActivity extends Activity
 
             if (ContentType.isImageType(type) || ContentType.isVideoType(type) ||
                     ContentType.isAudioType(type)) {
-                result &= copyPart(part);   // all parts have to be successful for a valid result.
+                result &= copyPart(part, Long.toHexString(msgId));   // all parts have to be successful for a valid result.
             }
         }
         return result;
     }
 
-    private boolean copyPart(PduPart part) {
+    private boolean copyPart(PduPart part, String fallback) {
         Uri uri = part.getDataUri();
 
         InputStream input = null;
@@ -1382,9 +1382,15 @@ public class ComposeMessageActivity extends Activity
                     location = part.getContentLocation();
                 }
 
+                String fileName;
+                if (location == null) {
+                    // Use fallback name.
+                    fileName = fallback;
+                } else {
+                    fileName = new String(location);
+                }
                 // Depending on the location, there may be an
                 // extension already on the name or not
-                String fileName = new String(location);
                 String dir = "/sdcard/download/";
                 String extension;
                 int index;
