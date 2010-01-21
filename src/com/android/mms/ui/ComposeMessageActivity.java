@@ -254,6 +254,8 @@ public class ComposeMessageActivity extends Activity
     private int mLastRecipientCount;            // Used for warning the user on too many recipients.
     private AttachmentTypeSelectorAdapter mAttachmentTypeSelectorAdapter;
 
+    private boolean mSendingMessage;    // Indicates the current message is sending, and shouldn't send again.
+
     @SuppressWarnings("unused")
     private static void log(String logMsg) {
         Thread current = Thread.currentThread();
@@ -2894,13 +2896,15 @@ public class ComposeMessageActivity extends Activity
             }
         }
 
-        // send can change the recipients. Make sure we remove the listeners first and then add
-        // them back once the recipient list has settled.
-        removeRecipientsListeners();
-        mWorkingMessage.send();
-        mSentMessage = true;
-        addRecipientsListeners();
-
+        if (!mSendingMessage) {
+            // send can change the recipients. Make sure we remove the listeners first and then add
+            // them back once the recipient list has settled.
+            removeRecipientsListeners();
+            mWorkingMessage.send();
+            mSentMessage = true;
+            mSendingMessage = true;
+            addRecipientsListeners();
+        }
         // But bail out if we are supposed to exit after the message is sent.
         if (mExitOnSent) {
             finish();
@@ -2952,6 +2956,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         mLastRecipientCount = 0;
+        mSendingMessage = false;
    }
 
     private void updateSendButtonState() {
