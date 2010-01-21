@@ -18,17 +18,24 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
+import com.android.mms.dom.AttrImpl;
 import com.android.mms.dom.smil.SmilDocumentImpl;
 import com.android.mms.dom.smil.SmilPlayer;
 import com.android.mms.dom.smil.parser.SmilXmlSerializer;
+import com.android.mms.model.LayoutModel;
+import com.android.mms.model.RegionModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.SmilHelper;
 import com.android.mms.mms.MmsException;
 
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.smil.SMILDocument;
+import org.w3c.dom.smil.SMILElement;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -40,7 +47,9 @@ import android.util.Config;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
+import android.view.View.OnClickListener;
 import android.widget.MediaController;
 import android.widget.MediaController.MediaPlayerControl;
 
@@ -60,6 +69,85 @@ public class SlideshowActivity extends Activity implements EventListener {
     private Handler mHandler;
 
     private SMILDocument mSmilDoc;
+
+    private SlideView mSlideView;
+
+    /**
+     * @return whether the Smil has MMS conformance layout.
+     * Refer to MMS Conformance Document OMA-MMS-CONF-v1_2-20050301-A
+     */
+    private static final boolean isMMSConformance(SMILDocument smilDoc) {
+        SMILElement head = smilDoc.getHead();
+        if (head == null) {
+            // No 'head' element
+            return false;
+        }
+        NodeList children = head.getChildNodes();
+        if (children == null || children.getLength() != 1) {
+            // The 'head' element should have only one child.
+            return false;
+        }
+        Node layout = children.item(0);
+        if (layout == null || !"layout".equals(layout.getNodeName())) {
+            // The child is not layout element
+            return false;
+        }
+        NodeList layoutChildren = layout.getChildNodes();
+        if (layoutChildren == null) {
+            // The 'layout' element has no child.
+            return false;
+        }
+        int num = layoutChildren.getLength();
+        if (num <= 0) {
+            // The 'layout' element has no child.
+            return false;
+        }
+        for (int i = 0; i < num; i++) {
+            Node layoutChild = layoutChildren.item(i);
+            if (layoutChild == null) {
+                // The 'layout' child is null.
+                return false;
+            }
+            String name = layoutChild.getNodeName();
+            if ("root-layout".equals(name)) {
+                continue;
+            } else if ("region".equals(name)) {
+                NamedNodeMap map = layoutChild.getAttributes();
+                for (int j = 0; j < map.getLength(); j++) {
+                    Node node = map.item(j);
+                    if (node == null) {
+                        return false;
+                    }
+                    String attrName = node.getNodeName();
+                    // The attr should be one of left, top, height, width, fit and id
+                    if ("left".equals(attrName) || "top".equals(attrName) ||
+                            "height".equals(attrName) || "width".equals(attrName) ||
+                            "fit".equals(attrName)) {
+                        continue;
+                    } else if ("id".equals(attrName)) {
+                        String value;
+                        if (node instanceof AttrImpl) {
+                            value = ((AttrImpl)node).getValue();
+                        } else {
+                            return false;
+                        }
+                        if ("Text".equals(value) || "Image".equals(value)) {
+                            continue;
+                        } else {
+                            // The id attr is not 'Text' or 'Image'
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                // The 'layout' element has the child other than 'root-layout' or 'region'
+                return false;
+            }
+        }
+        return true;
+    }
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -83,8 +171,8 @@ public class SlideshowActivity extends Activity implements EventListener {
             return;
         }
 
-        SlideView view = (SlideView) findViewById(R.id.slide_view);
-        PresenterFactory.getPresenter("SlideshowPresenter", this, view, model);
+        mSlideView = (SlideView) findViewById(R.id.slide_view);
+        PresenterFactory.getPresenter("SlideshowPresenter", this, mSlideView, model);
 
         mHandler.post(new Runnable() {
             private boolean isRotating() {
@@ -96,10 +184,30 @@ public class SlideshowActivity extends Activity implements EventListener {
             public void run() {
                 mSmilPlayer = SmilPlayer.getPlayer();
                 initMediaController();
-
+                mSlideView.setMediaController(mMediaController);
                 // Use SmilHelper.getDocument() to ensure rebuilding the
                 // entire SMIL document.
                 mSmilDoc = SmilHelper.getDocument(model);
+                if (isMMSConformance(mSmilDoc)) {
+                    int imageLeft = 0;
+                    int imageTop = 0;
+                    int textLeft = 0;
+                    int textTop = 0;
+                    LayoutModel layout = model.getLayout();
+                    if (layout != null) {
+                        RegionModel imageRegion = layout.getImageRegion();
+                        if (imageRegion != null) {
+                            imageLeft = imageRegion.getLeft();
+                            imageTop = imageRegion.getTop();
+                        }
+                        RegionModel textRegion = layout.getTextRegion();
+                        if (textRegion != null) {
+                            textLeft = textRegion.getLeft();
+                            textTop = textRegion.getTop();
+                        }
+                    }
+                    mSlideView.enableMMSConformanceMode(textLeft, textTop, imageLeft, imageTop);
+                }
                 if (DEBUG) {
                     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
                     SmilXmlSerializer.serialize(mSmilDoc, ostream);
@@ -127,6 +235,17 @@ public class SlideshowActivity extends Activity implements EventListener {
         mMediaController = new MediaController(SlideshowActivity.this, false);
         mMediaController.setMediaPlayer(new SmilPlayerController(mSmilPlayer));
         mMediaController.setAnchorView(findViewById(R.id.slide_view));
+        mMediaController.setPrevNextListeners(
+            new OnClickListener() {
+              public void onClick(View v) {
+                  mSmilPlayer.next();
+              }
+            },
+            new OnClickListener() {
+              public void onClick(View v) {
+                  mSmilPlayer.prev();
+              }
+            });
     }
 
     @Override

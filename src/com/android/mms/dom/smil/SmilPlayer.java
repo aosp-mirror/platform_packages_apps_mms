@@ -33,6 +33,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 
 /**
  * The SmilPlayer is responsible for playing, stopping, pausing and resuming a SMIL tree.
@@ -59,6 +60,8 @@ public class SmilPlayer implements Runnable {
         STOP,
         PAUSE,
         START,
+        NEXT,
+        PREV
     }
 
     public static final String MEDIA_TIME_UPDATED_EVENT = "mediaTimeUpdated";
@@ -285,6 +288,14 @@ public class SmilPlayer implements Runnable {
         return mAction == SmilPlayerAction.RELOAD;
     }
 
+    private synchronized boolean isNextAction() {
+      return mAction == SmilPlayerAction.NEXT;
+    }
+
+    private synchronized boolean isPrevAction() {
+      return mAction == SmilPlayerAction.PREV;
+    }
+
     public synchronized void init(ElementTime root) {
         mRoot = root;
         mAllEntries = getTimeline(mRoot, 0, Long.MAX_VALUE);
@@ -347,6 +358,20 @@ public class SmilPlayer implements Runnable {
         } else if (isPlayedState()) {
             actionReload();
         }
+    }
+
+    public synchronized void next() {
+      if (isPlayingState() || isPausedState()) {
+        mAction = SmilPlayerAction.NEXT;
+        notifyAll();
+      }
+    }
+
+    public synchronized void prev() {
+      if (isPlayingState() || isPausedState()) {
+        mAction = SmilPlayerAction.PREV;
+        notifyAll();
+      }
     }
 
     private synchronized boolean isBeginOfSlide(TimelineEntry entry) {
@@ -416,7 +441,8 @@ public class SmilPlayer implements Runnable {
                 mCurrentTime += overhead;
             }
 
-            if (isStopAction() || isReloadAction() || isPauseAction()) {
+            if (isStopAction() || isReloadAction() || isPauseAction() || isNextAction() ||
+                isPrevAction()) {
                 return;
             }
 
@@ -474,7 +500,8 @@ public class SmilPlayer implements Runnable {
 
     private synchronized void waitForWakeUp() {
         try {
-            while ( !(isStartAction() || isStopAction() || isReloadAction()) ) {
+            while ( !(isStartAction() || isStopAction() || isReloadAction() ||
+                    isNextAction() || isPrevAction()) ) {
                 wait(TIMESLICE);
             }
             if (isStartAction()) {
@@ -513,6 +540,82 @@ public class SmilPlayer implements Runnable {
         return mAllEntries.get(mCurrentElement);
     }
 
+    private void stopCurrentSlide() {
+        HashSet<TimelineEntry> skippedEntries = new HashSet<TimelineEntry>();
+        int totalEntries = mAllEntries.size();
+        for (int i = mCurrentElement; i < totalEntries; i++) {
+            // Stop any started entries, and skip the not started entries until
+            // meeting the end of slide
+            TimelineEntry entry = mAllEntries.get(i);
+            int action = entry.getAction();
+            if (entry.getElement() instanceof SmilParElementImpl &&
+                    action == TimelineEntry.ACTION_END) {
+                actionEntry(entry);
+                mCurrentElement = i;
+                break;
+            } else if (action == TimelineEntry.ACTION_END && !skippedEntries.contains(entry)) {
+                    actionEntry(entry);
+            } else if (action == TimelineEntry.ACTION_BEGIN) {
+                skippedEntries.add(entry);
+            }
+        }
+    }
+
+    private TimelineEntry loadNextSlide() {
+      TimelineEntry entry;
+      int totalEntries = mAllEntries.size();
+      for (int i = mCurrentElement; i < totalEntries; i++) {
+          entry = mAllEntries.get(i);
+          if (isBeginOfSlide(entry)) {
+              mCurrentElement = i;
+              mCurrentSlide = i;
+              mCurrentTime = (long)(entry.getOffsetTime() * 1000);
+              return entry;
+          }
+      }
+      // No slide, finish play back
+      mCurrentElement++;
+      entry = null;
+      if (mCurrentElement < totalEntries) {
+          entry = mAllEntries.get(mCurrentElement);
+          mCurrentTime = (long)(entry.getOffsetTime() * 1000);
+      }
+      return entry;
+    }
+
+    private TimelineEntry loadPrevSlide() {
+      int skippedSlides = 1;
+      int latestBeginEntryIndex = -1;
+      for (int i = mCurrentSlide; i >= 0; i--) {
+        TimelineEntry entry = mAllEntries.get(i);
+        if (isBeginOfSlide(entry)) {
+            latestBeginEntryIndex = i;
+          if (0 == skippedSlides-- ) {
+            mCurrentElement = i;
+            mCurrentSlide = i;
+            mCurrentTime = (long)(entry.getOffsetTime() * 1000);
+            return entry;
+          }
+        }
+      }
+      if (latestBeginEntryIndex != -1) {
+          mCurrentElement = latestBeginEntryIndex;
+          mCurrentSlide = latestBeginEntryIndex;
+          return mAllEntries.get(mCurrentElement);
+      }
+      return null;
+    }
+
+    private synchronized TimelineEntry actionNext() {
+        stopCurrentSlide();
+        return loadNextSlide();
+   }
+
+    private synchronized TimelineEntry actionPrev() {
+        stopCurrentSlide();
+        return loadPrevSlide();
+    }
+
     private synchronized void actionPause() {
         pauseActiveElements();
         mState = SmilPlayerState.PAUSED;
@@ -537,7 +640,9 @@ public class SmilPlayer implements Runnable {
         if (isStoppedState()) {
             return;
         }
-
+        if (LOCAL_LOGV) {
+            dumpAllEntries();
+        }
         // Play the Element by following the timeline
         int size = mAllEntries.size();
         for (mCurrentElement = 0; mCurrentElement < size; mCurrentElement++) {
@@ -553,7 +658,8 @@ public class SmilPlayer implements Runnable {
                     Log.e(TAG, "Unexpected InterruptedException.", e);
                 }
 
-                while (isPauseAction() || isStopAction() || isReloadAction()) {
+                while (isPauseAction() || isStopAction() || isReloadAction() || isNextAction() ||
+                    isPrevAction()) {
                     if (isPauseAction()) {
                         actionPause();
                         waitForWakeUp();
@@ -570,6 +676,34 @@ public class SmilPlayer implements Runnable {
                         if (isPausedState()) {
                             mAction = SmilPlayerAction.PAUSE;
                         }
+                    }
+
+                    if (isNextAction()) {
+                        TimelineEntry nextEntry = actionNext();
+                        if (nextEntry != null) {
+                            entry = nextEntry;
+                        }
+                        if (mState == SmilPlayerState.PAUSED) {
+                            mAction = SmilPlayerAction.PAUSE;
+                            actionEntry(entry);
+                        } else {
+                            mAction = SmilPlayerAction.NO_ACTIVE_ACTION;
+                        }
+                        offset = mCurrentTime;
+                    }
+
+                    if (isPrevAction()) {
+                        TimelineEntry prevEntry = actionPrev();
+                        if (prevEntry != null) {
+                            entry = prevEntry;
+                        }
+                        if (mState == SmilPlayerState.PAUSED) {
+                            mAction = SmilPlayerAction.PAUSE;
+                            actionEntry(entry);
+                        } else {
+                            mAction = SmilPlayerAction.NO_ACTIVE_ACTION;
+                        }
+                        offset = mCurrentTime;
                     }
                 }
             }
@@ -604,6 +738,18 @@ public class SmilPlayer implements Runnable {
 
         public int getAction() {
             return mAction;
+        }
+
+        public String toString() {
+            return "Type = " + mElement + " offset = " + getOffsetTime() + " action = " + getAction();
+        }
+    }
+
+    private void dumpAllEntries() {
+        if (LOCAL_LOGV) {
+            for (TimelineEntry entry : mAllEntries) {
+                Log.v(TAG, "[Entry] "+ entry);
+            }
         }
     }
 }

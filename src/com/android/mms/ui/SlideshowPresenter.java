@@ -77,7 +77,12 @@ public class SlideshowPresenter extends Presenter {
                     width, layout.getLayoutWidth());
             mHeightTransformRatio = getHeightTransformRatio(
                     height, layout.getLayoutHeight());
-
+            // The ratio indicates how to reduce the source to match the View,
+            // so the larger one should be used.
+            float ratio = mWidthTransformRatio > mHeightTransformRatio ?
+                    mWidthTransformRatio : mHeightTransformRatio;
+            mWidthTransformRatio = ratio;
+            mHeightTransformRatio = ratio;
             if (LOCAL_LOGV) {
                 Log.v(TAG, "ratio_w = " + mWidthTransformRatio
                         + ", ratio_h = " + mHeightTransformRatio);
