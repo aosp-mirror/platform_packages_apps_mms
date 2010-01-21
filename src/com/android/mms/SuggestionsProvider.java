@@ -139,10 +139,11 @@ public class SuggestionsProvider extends android.content.ContentProvider {
                     int length       = offsets[j+3];
                     int endOffset = startOffset + length;
                     String candidate = message.substring(startOffset, endOffset);
-                    if (got.contains(candidate)) {
+                    String key = candidate.toLowerCase();
+                    if (got.contains(key)) {
                         continue;
                     }
-                    got.add(candidate);
+                    got.add(key);
                     mRows.add(new Row(i, message, startOffset, endOffset));
                 }
             }
