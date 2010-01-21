@@ -300,7 +300,7 @@ public class ContactInfoCache {
         // selection arguments, because SQLite needs to see the exact pattern of GLOB
         // to generate the correct query plan
         String selection = CALLER_ID_SELECTION.replace("+",
-                PhoneNumberUtils.getStrippedReversed(number));
+                PhoneNumberUtils.toCallerIDMinMatch(number));
         Cursor cursor = mContext.getContentResolver().query(
                 PHONES_WITH_PRESENCE_URI,
                 CALLER_ID_PROJECTION,
