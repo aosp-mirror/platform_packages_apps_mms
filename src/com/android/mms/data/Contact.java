@@ -58,7 +58,7 @@ public class Contact {
         }
     };
 
-    private final HashSet<UpdateListener> mListeners = new HashSet<UpdateListener>();
+    private final static HashSet<UpdateListener> mListeners = new HashSet<UpdateListener>();
 
     private String mNumber;
     private String mName;
@@ -223,19 +223,17 @@ public class Contact {
         return (mPersonId > 0);
     }
 
-    public synchronized void addListener(UpdateListener l) {
-        boolean added = mListeners.add(l);
-        if (V && added) dumpListeners();
+    public static synchronized void addListener(UpdateListener l) {
+        mListeners.add(l);
     }
 
-    public synchronized void removeListener(UpdateListener l) {
-        boolean removed = mListeners.remove(l);
-        if (V && removed) dumpListeners();
+    public static synchronized void removeListener(UpdateListener l) {
+        mListeners.remove(l);
     }
 
-    public synchronized void dumpListeners() {
-        int i=0;
-        Log.i(TAG, "[Contact] dumpListeners(" + mNumber + ") size=" + mListeners.size());
+    public static synchronized void dumpListeners() {
+        int i = 0;
+        Log.i(TAG, "[Contact] dumpListeners; size=" + mListeners.size());
         for (UpdateListener listener : mListeners) {
             Log.i(TAG, "["+ (i++) + "]" + listener);
         }
