@@ -16,6 +16,7 @@
 
 package com.android.mms.ui;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,6 +49,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.mms.data.Contact;
+import com.android.mms.data.Contact.UpdateListener;
 import com.android.mms.ui.ComposeMessageActivity;
 
 /***
@@ -60,7 +62,12 @@ import com.android.mms.ui.ComposeMessageActivity;
 
 public class SearchActivity extends ListActivity
 {
-    AsyncQueryHandler mQueryHandler;
+    private AsyncQueryHandler mQueryHandler;
+
+    // Track which TextView's show which Contact objects so that we can update
+    // appropriately when the Contact gets fully loaded.
+    private HashMap<Contact, TextView> mContactMap = new HashMap<Contact, TextView>();
+
 
     /*
      * Subclass of TextView which displays a snippet of text which matches the full text and
@@ -182,6 +189,22 @@ public class SearchActivity extends ListActivity
         }
     }
 
+    Contact.UpdateListener mContactListener = new Contact.UpdateListener() {
+        public void onUpdate(Contact updated) {
+            TextView tv = mContactMap.get(updated);
+            if (tv != null) {
+                tv.setText(updated.getNameAndNumber());
+            }
+        }
+    };
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Contact.removeListener(mContactListener);
+    }
+
+    @Override
     public void onCreate(Bundle icicle)
     {
         super.onCreate(icicle);
@@ -206,6 +229,8 @@ public class SearchActivity extends ListActivity
         // than beneficial.
         // This gets updated when the query completes.
         setTitle("");
+
+        Contact.addListener(mContactListener);
 
         // When the query completes cons up a new adapter and set our list adapter to that.
         mQueryHandler = new AsyncQueryHandler(cr) {
@@ -237,16 +262,6 @@ public class SearchActivity extends ListActivity
 
                         String address = cursor.getString(addressPos);
                         Contact contact = Contact.get(address, false);
-
-                        contact.addListener(new Contact.UpdateListener() {
-                            public void onUpdate(final Contact updated) {
-                                runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        title.setText(updated.getNameAndNumber());
-                                    }
-                                });
-                            }
-                        });
 
                         String titleString = contact.getNameAndNumber();
                         title.setText(titleString);

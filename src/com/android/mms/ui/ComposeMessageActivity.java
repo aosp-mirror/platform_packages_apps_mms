@@ -1585,7 +1585,6 @@ public class ComposeMessageActivity extends Activity
                 if (!hasFocus) {
                     RecipientsEditor editor = (RecipientsEditor) v;
                     ContactList contacts = editor.constructContactsFromInput();
-                    contacts.addListeners(ComposeMessageActivity.this);
                     updateTitle(contacts);
                 }
             }
@@ -1790,7 +1789,6 @@ public class ComposeMessageActivity extends Activity
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: same conversation");
             }
-            addRecipientsListeners();
         } else {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: different conversation, initialize...");
@@ -3248,13 +3246,11 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void addRecipientsListeners() {
-        ContactList recipients = getRecipients();
-        recipients.addListeners(this);
+        Contact.addListener(this);
     }
 
     private void removeRecipientsListeners() {
-        ContactList recipients = getRecipients();
-        recipients.removeListeners(this);
+        Contact.removeListener(this);
     }
 
     public static Intent createIntent(Context context, long threadId) {

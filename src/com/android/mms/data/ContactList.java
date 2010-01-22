@@ -48,7 +48,7 @@ public class ContactList extends ArrayList<Contact>  {
         for (RecipientIdCache.Entry entry : RecipientIdCache.getAddresses(spaceSepIds)) {
             if (entry != null && !TextUtils.isEmpty(entry.number)) {
                 Contact contact = Contact.get(entry.number, canBlock);
-                contact.setRecipientId(entry.id);                
+                contact.setRecipientId(entry.id);
                 list.add(contact);
             }
         }
@@ -61,18 +61,6 @@ public class ContactList extends ArrayList<Contact>  {
             return 0;
 
         return get(0).getPresenceResId();
-    }
-
-    public void addListeners(UpdateListener l) {
-        for (Contact c : this) {
-            c.addListener(l);
-        }
-    }
-
-    public void removeListeners(UpdateListener l) {
-        for (Contact c : this) {
-            c.removeListener(l);
-        }
     }
 
     public String formatNames(String separator) {
