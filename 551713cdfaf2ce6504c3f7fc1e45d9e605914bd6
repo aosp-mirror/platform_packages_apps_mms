@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3///XY\u003d",
+        "filename": "src/com/android/mms/ui/RecipientsEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1000492
+      },
+      "writtenOn": "2010-01-25T00:32:32Z",
+      "side": 1,
+      "message": "It seems sort of gross to add this to Recipient when it\u0027s more of a transitive state of the recipients text editor.  I don\u0027t feel strongly enough about it to -1 this change, but I thought it was worth mentioning.",
+      "revId": "551713cdfaf2ce6504c3f7fc1e45d9e605914bd6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
