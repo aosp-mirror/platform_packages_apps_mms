@@ -40,6 +40,8 @@ import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
@@ -72,12 +74,14 @@ import android.provider.ContactsContract;
 import android.provider.DrmStore;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.provider.ContactsContract.Intents;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.MediaStore.Images;
 import android.provider.MediaStore.Video;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.telephony.SmsMessage;
 import android.text.ClipboardManager;
 import android.text.Editable;
@@ -108,6 +112,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -165,6 +170,7 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_CREATE_SLIDESHOW = 16;
     public static final int REQUEST_CODE_ECM_EXIT_DIALOG  = 17;
     public static final int REQUEST_CODE_ADD_CONTACT      = 18;
+    public static final int REQUEST_CODE_PICK             = 19;
 
     private static final String TAG = "Mms/compose";
 
@@ -235,6 +241,7 @@ public class ComposeMessageActivity extends Activity
     public MessageListAdapter mMsgListAdapter;  // and its corresponding ListAdapter
 
     private RecipientsEditor mRecipientsEditor;  // UI control for editing recipients
+    private ImageButton mRecipientsPicker;       // UI control for recipients picker
 
     private boolean mIsKeyboardOpen;             // Whether the hardware keyboard is visible
     private boolean mIsLandscape;                // Whether we're in landscape mode
@@ -1592,18 +1599,26 @@ public class ComposeMessageActivity extends Activity
 
         ViewStub stub = (ViewStub)findViewById(R.id.recipients_editor_stub);
         if (stub != null) {
-            mRecipientsEditor = (RecipientsEditor) stub.inflate();
+            View stubView = stub.inflate();
+            mRecipientsEditor = (RecipientsEditor) stubView.findViewById(R.id.recipients_editor);
+            mRecipientsPicker = (ImageButton) stubView.findViewById(R.id.recipients_picker);
         } else {
             mRecipientsEditor = (RecipientsEditor)findViewById(R.id.recipients_editor);
             mRecipientsEditor.setVisibility(View.VISIBLE);
+            mRecipientsPicker = (ImageButton)findViewById(R.id.recipients_picker);
         }
+        mRecipientsPicker.setOnClickListener(this);
 
         mRecipientsEditor.setAdapter(new RecipientsAdapter(this));
         mRecipientsEditor.populate(recipients);
         mRecipientsEditor.setOnCreateContextMenuListener(mRecipientsMenuCreateListener);
         mRecipientsEditor.addTextChangedListener(mRecipientsWatcher);
-        mRecipientsEditor.setFilters(new InputFilter[] {
-                new InputFilter.LengthFilter(RECIPIENTS_MAX_LENGTH) });
+        // TODO : Remove the max length limitation due to the multiple phone picker is added and the
+        // user is able to select a large number of recipients from the Contacts. The coming
+        // potential issue is that it is hard for user to edit a recipient from hundred of
+        // recipients in the editor box. We may redesign the editor box UI for this use case.
+        // mRecipientsEditor.setFilters(new InputFilter[] {
+        //         new InputFilter.LengthFilter(RECIPIENTS_MAX_LENGTH) });
         mRecipientsEditor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // After the user selects an item in the pop-up contacts list, move the
@@ -1626,7 +1641,7 @@ public class ComposeMessageActivity extends Activity
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     RecipientsEditor editor = (RecipientsEditor) v;
-                    ContactList contacts = editor.constructContactsFromInput();
+                    ContactList contacts = editor.constructContactsFromInput(false);
                     updateTitle(contacts);
                 }
             }
@@ -1938,7 +1953,7 @@ public class ComposeMessageActivity extends Activity
         mMessageListItemHandler.postDelayed(new Runnable() {
             public void run() {
                 ContactList recipients = isRecipientsEditorVisible() ?
-                        mRecipientsEditor.constructContactsFromInput() : getRecipients();
+                        mRecipientsEditor.constructContactsFromInput(false) : getRecipients();
                 updateTitle(recipients);
             }
         }, 100);
@@ -2463,6 +2478,10 @@ public class ComposeMessageActivity extends Activity
             mWorkingMessage.removeFakeMmsForDraft();
         }
 
+        if (requestCode == REQUEST_CODE_PICK) {
+            mWorkingMessage.asyncDeleteDraftSmsMessage(mConversation);
+        }
+
         // If there's no data (because the user didn't select a picture and
         // just hit BACK, for example), there's nothing to do.
         if (requestCode != REQUEST_CODE_TAKE_PICTURE) {
@@ -2550,10 +2569,70 @@ public class ComposeMessageActivity extends Activity
                 }
                 break;
 
+            case REQUEST_CODE_PICK:
+                processPickResult(data);
+                break;
             default:
                 // TODO
                 break;
         }
+    }
+
+    private void processPickResult(final Intent data) {
+        // The EXTRA_PHONE_URIS stores the phone's urls that were selected by user in the
+        // multiple phone picker.
+        final Parcelable[] uris =
+            data.getParcelableArrayExtra(Intents.EXTRA_PHONE_URIS);
+
+        final int recipientCount = uris != null ? uris.length : 0;
+
+        final int recipientLimit = MmsConfig.getRecipientLimit();
+        if (recipientLimit != Integer.MAX_VALUE && recipientCount > recipientLimit) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.pick_too_many_recipients)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setMessage(getString(R.string.too_many_recipients, recipientCount, recipientLimit))
+                    .setPositiveButton(android.R.string.ok, null)
+                    .create().show();
+            return;
+        }
+
+        final Handler handler = new Handler();
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle(getText(R.string.pick_too_many_recipients));
+        progressDialog.setMessage(getText(R.string.adding_recipients));
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+
+        final Runnable showProgress = new Runnable() {
+            public void run() {
+                progressDialog.show();
+            }
+        };
+        // Only show the progress dialog if we can not finish off parsing the return data in 1s,
+        // otherwise the dialog could flicker.
+        handler.postDelayed(showProgress, 1000);
+
+        new Thread(new Runnable() {
+            public void run() {
+                final ContactList list;
+                 try {
+                    list = ContactList.blockingGetByUris(uris);
+                } finally {
+                    handler.removeCallbacks(showProgress);
+                    progressDialog.dismiss();
+                }
+                // TODO: there is already code to update the contact header widget and recipients
+                // editor if the contacts change. we can re-use that code.
+                final Runnable populateWorker = new Runnable() {
+                    public void run() {
+                        mRecipientsEditor.populate(list);
+                        updateTitle(list);
+                    }
+                };
+                handler.post(populateWorker);
+            }
+        }).start();
     }
 
     private final ResizeImageResultCallback mResizeImageCallback = new ResizeImageResultCallback() {
@@ -2807,7 +2886,30 @@ public class ComposeMessageActivity extends Activity
     public void onClick(View v) {
         if ((v == mSendButton) && isPreparedForSending()) {
             confirmSendMessageIfNeeded();
+        } else if ((v == mRecipientsPicker)) {
+            launchMultiplePhonePicker();
         }
+    }
+
+    private void launchMultiplePhonePicker() {
+        Intent intent = new Intent(Intents.ACTION_GET_MULTIPLE_PHONES);
+        intent.addCategory("android.intent.category.DEFAULT");
+        intent.setType(Phone.CONTENT_TYPE);
+        // We have to wait for the constructing complete.
+        ContactList contacts = mRecipientsEditor.constructContactsFromInput(true);
+        int recipientsCount = 0;
+        int urisCount = 0;
+        Uri[] uris = new Uri[contacts.size()];
+        urisCount = 0;
+        for (Contact contact : contacts) {
+            if (Contact.CONTACT_METHOD_TYPE_PHONE == contact.getContactMethodType()) {
+                    uris[urisCount++] = contact.getPhoneUri();
+            }
+        }
+        if (urisCount > 0) {
+            intent.putExtra(Intents.EXTRA_PHONE_URIS, uris);
+        }
+        startActivityForResult(intent, REQUEST_CODE_PICK);
     }
 
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -3403,7 +3505,7 @@ public class ComposeMessageActivity extends Activity
         mMessageListItemHandler.post(new Runnable() {
             public void run() {
                 ContactList recipients = isRecipientsEditorVisible() ?
-                        mRecipientsEditor.constructContactsFromInput() : getRecipients();
+                        mRecipientsEditor.constructContactsFromInput(false) : getRecipients();
                 if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     log("[CMA] onUpdate contact updated: " + updated);
                     log("[CMA] onUpdate recipients: " + recipients);

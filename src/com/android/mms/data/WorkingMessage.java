@@ -1458,7 +1458,7 @@ public class WorkingMessage {
         }).start();
     }
 
-    private void asyncDeleteDraftSmsMessage(Conversation conv) {
+    public void asyncDeleteDraftSmsMessage(Conversation conv) {
         long threadId = conv.getThreadId();
         if (threadId > 0) {
             asyncDelete(ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),

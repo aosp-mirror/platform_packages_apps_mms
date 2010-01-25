@@ -3,6 +3,8 @@ package com.android.mms.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.net.Uri;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -34,6 +36,31 @@ public class ContactList extends ArrayList<Contact>  {
                     contact.setNumber(number);
                 }
                 list.add(contact);
+            }
+        }
+        return list;
+    }
+
+    /**
+     * Returns a ContactList for the corresponding recipient URIs passed in. This method will
+     * always block to query provider. The given URIs could be the phone data URIs or tel URI
+     * for the numbers don't belong to any contact.
+     *
+     * @param uris phone URI to create the ContactList
+     */
+    public static ContactList blockingGetByUris(Parcelable[] uris) {
+        ContactList list = new ContactList();
+        if (uris != null && uris.length > 0) {
+            for (Parcelable p : uris) {
+                Uri uri = (Uri) p;
+                if ("tel".equals(uri.getScheme())) {
+                    Contact contact = Contact.get(uri.getSchemeSpecificPart(), true);
+                    list.add(contact);
+                }
+            }
+            final List<Contact> contacts = Contact.getByPhoneUris(uris);
+            if (contacts != null) {
+                list.addAll(contacts);
             }
         }
         return list;

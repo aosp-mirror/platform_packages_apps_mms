@@ -124,11 +124,11 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         return mTokenizer.getNumbers();
     }
 
-    public ContactList constructContactsFromInput() {
+    public ContactList constructContactsFromInput(boolean blocking) {
         List<String> numbers = mTokenizer.getNumbers();
         ContactList list = new ContactList();
         for (String number : numbers) {
-            Contact contact = Contact.get(number, false);
+            Contact contact = Contact.get(number, blocking);
             contact.setNumber(number);
             list.add(contact);
         }

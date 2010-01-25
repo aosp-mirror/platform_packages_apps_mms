@@ -753,5 +753,11 @@
     <!-- Brief small label shown to right of message when it is being sent. -->
     <string name="sending_message">Sending\u2026</string>
 
+    <!-- Title of progress dialog for picker -->
+    <string name="pick_too_many_recipients">Too many recipients</string>
+
+    <!-- Message of progress dialog for picker -->
+    <string name="adding_recipients">Adding recipients\u2026</string>
+
 </resources>
 

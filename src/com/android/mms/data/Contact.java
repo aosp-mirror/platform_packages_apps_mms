@@ -19,6 +19,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.Presence;
@@ -34,6 +35,12 @@ import com.android.mms.ui.MessageUtils;
 import com.android.mms.LogTag;
 
 public class Contact {
+    public static final int CONTACT_METHOD_TYPE_UNKNOWN = 0;
+    public static final int CONTACT_METHOD_TYPE_PHONE = 1;
+    public static final int CONTACT_METHOD_TYPE_EMAIL = 2;
+    public static final String TEL_SCHEME = "tel";
+    public static final String CONTENT_SCHEME = "content";
+    private static final int CONTACT_METHOD_ID_UNKNOWN = -1;
     private static final String TAG = "Contact";
     private static final boolean V = false;
     private static ContactsCache sContactCache;
@@ -60,6 +67,10 @@ public class Contact {
 
     private final static HashSet<UpdateListener> mListeners = new HashSet<UpdateListener>();
 
+    private long mContactMethodId;   // Id in phone or email Uri returned by provider of current
+                                     // Contact, -1 is invalid. e.g. contact method id is 20 when
+                                     // current contact has phone content://.../phones/20.
+    private int mContactMethodType;
     private String mNumber;
     private String mName;
     private String mNameAndNumber;   // for display, e.g. Fred Flintstone <670-782-1123>
@@ -79,11 +90,19 @@ public class Contact {
         public void onUpdate(Contact updated);
     }
 
+    private Contact(String number, String name) {
+        init(number, name);
+    }
     /*
      * Make a basic contact object with a phone number.
      */
     private Contact(String number) {
-        mName = "";
+        init(number, "");
+    }
+
+    private void init(String number, String name) {
+        mContactMethodId = CONTACT_METHOD_ID_UNKNOWN;
+        mName = name;
         setNumber(number);
         mNumberIsModified = false;
         mLabel = "";
@@ -91,15 +110,15 @@ public class Contact {
         mPresenceResId = 0;
         mIsStale = true;
     }
-
     @Override
     public String toString() {
-        return String.format("{ number=%s, name=%s, nameAndNumber=%s, label=%s, person_id=%d, hash=%d }",
+        return String.format("{ number=%s, name=%s, nameAndNumber=%s, label=%s, person_id=%d, hash=%d method_id=%d }",
                 (mNumber != null ? mNumber : "null"),
                 (mName != null ? mName : "null"),
                 (mNameAndNumber != null ? mNameAndNumber : "null"),
                 (mLabel != null ? mLabel : "null"),
-                mPersonId, hashCode());
+                mPersonId, hashCode(),
+                mContactMethodId);
     }
 
     private static void logWithTrace(String msg, Object... format) {
@@ -127,6 +146,10 @@ public class Contact {
 
     public static Contact get(String number, boolean canBlock) {
         return sContactCache.get(number, canBlock);
+    }
+
+    public static List<Contact> getByPhoneUris(Parcelable[] uris) {
+        return sContactCache.getContactInfoForPhoneUris(uris);
     }
 
     public static void invalidateCache() {
@@ -256,6 +279,25 @@ public class Contact {
         return mPresenceText;
     }
 
+    public int getContactMethodType() {
+        return mContactMethodType;
+    }
+
+    public long getContactMethodId() {
+        return mContactMethodId;
+    }
+
+    public synchronized Uri getPhoneUri() {
+        if (existsInDatabase()) {
+            return ContentUris.withAppendedId(Phone.CONTENT_URI, mContactMethodId);
+        } else {
+            Uri.Builder ub = new Uri.Builder();
+            ub.scheme(TEL_SCHEME);
+            ub.encodedOpaquePart(mNumber);
+            return ub.build();
+        }
+    }
+
     public synchronized Drawable getAvatar(Context context, Drawable defaultValue) {
         if (mAvatar == null) {
             if (mAvatarData != null) {
@@ -301,20 +343,22 @@ public class Contact {
         private static final Uri PHONES_WITH_PRESENCE_URI = Data.CONTENT_URI;
 
         private static final String[] CALLER_ID_PROJECTION = new String[] {
-                Phone.NUMBER,                   // 0
-                Phone.LABEL,                    // 1
-                Phone.DISPLAY_NAME,             // 2
-                Phone.CONTACT_ID,               // 3
-                Phone.CONTACT_PRESENCE,         // 4
-                Phone.CONTACT_STATUS,           // 5
+                Phone._ID,                      // 0
+                Phone.NUMBER,                   // 1
+                Phone.LABEL,                    // 2
+                Phone.DISPLAY_NAME,             // 3
+                Phone.CONTACT_ID,               // 4
+                Phone.CONTACT_PRESENCE,         // 5
+                Phone.CONTACT_STATUS,           // 6
         };
 
-        private static final int PHONE_NUMBER_COLUMN = 0;
-        private static final int PHONE_LABEL_COLUMN = 1;
-        private static final int CONTACT_NAME_COLUMN = 2;
-        private static final int CONTACT_ID_COLUMN = 3;
-        private static final int CONTACT_PRESENCE_COLUMN = 4;
-        private static final int CONTACT_STATUS_COLUMN = 5;
+        private static final int PHONE_ID_COLUMN = 0;
+        private static final int PHONE_NUMBER_COLUMN = 1;
+        private static final int PHONE_LABEL_COLUMN = 2;
+        private static final int CONTACT_NAME_COLUMN = 3;
+        private static final int CONTACT_ID_COLUMN = 4;
+        private static final int CONTACT_PRESENCE_COLUMN = 5;
+        private static final int CONTACT_STATUS_COLUMN = 6;
 
         // query params for contact lookup by email
         private static final Uri EMAIL_WITH_PRESENCE_URI = Data.CONTENT_URI;
@@ -323,15 +367,17 @@ public class Contact {
                 + Data.MIMETYPE + "='" + Email.CONTENT_ITEM_TYPE + "'";
 
         private static final String[] EMAIL_PROJECTION = new String[] {
-                Email.DISPLAY_NAME,           // 0
-                Email.CONTACT_PRESENCE,       // 1
-                Email.CONTACT_ID,             // 2
-                Phone.DISPLAY_NAME,           //
+                Email._ID,                    // 0
+                Email.DISPLAY_NAME,           // 1
+                Email.CONTACT_PRESENCE,       // 2
+                Email.CONTACT_ID,             // 3
+                Phone.DISPLAY_NAME,           // 4
         };
-        private static final int EMAIL_NAME_COLUMN = 0;
-        private static final int EMAIL_STATUS_COLUMN = 1;
-        private static final int EMAIL_ID_COLUMN = 2;
-        private static final int EMAIL_CONTACT_NAME_COLUMN = 3;
+        private static final int EMAIL_ID_COLUMN = 0;
+        private static final int EMAIL_NAME_COLUMN = 1;
+        private static final int EMAIL_STATUS_COLUMN = 2;
+        private static final int EMAIL_CONTACT_ID_COLUMN = 3;
+        private static final int EMAIL_CONTACT_NAME_COLUMN = 4;
 
         private final Context mContext;
 
@@ -456,9 +502,82 @@ public class Contact {
             return contact;
         }
 
+        /**
+         * Get CacheEntry list for given phone URIs. This method will do single one query to
+         * get expected contacts from provider. Be sure passed in URIs are not null and contains
+         * only valid URIs.
+         */
+        public List<Contact> getContactInfoForPhoneUris(Parcelable[] uris) {
+            if (uris.length == 0) {
+                return null;
+            }
+            StringBuilder idSetBuilder = new StringBuilder();
+            boolean first = true;
+            for (Parcelable p : uris) {
+                Uri uri = (Uri) p;
+                if ("content".equals(uri.getScheme())) {
+                    if (first) {
+                        first = false;
+                        idSetBuilder.append(uri.getLastPathSegment());
+                    } else {
+                        idSetBuilder.append(',').append(uri.getLastPathSegment());
+                    }
+                }
+            }
+            // Check whether there is content URI.
+            if (first) return null;
+            Cursor cursor = null;
+            if (idSetBuilder.length() > 0) {
+                final String whereClause = Phone._ID + " IN (" + idSetBuilder.toString() + ")";
+                cursor = mContext.getContentResolver().query(
+                        PHONES_WITH_PRESENCE_URI, CALLER_ID_PROJECTION, whereClause, null, null);
+            }
+
+            if (cursor == null) {
+                return null;
+            }
+
+            List<Contact> entries = new ArrayList<Contact>();
+
+            try {
+                while (cursor.moveToNext()) {
+                    Contact entry = new Contact(cursor.getString(PHONE_NUMBER_COLUMN),
+                            cursor.getString(CONTACT_NAME_COLUMN));
+                    fillPhoneTypeContact(entry, cursor);
+                    ArrayList<Contact> value = new ArrayList<Contact>();
+                    value.add(entry);
+                    // Put the result in the cache.
+                    mContactsHash.put(key(entry.mNumber, sStaticKeyBuffer), value);
+                    entries.add(entry);
+                }
+            } finally {
+                cursor.close();
+            }
+            return entries;
+        }
+
         private boolean contactChanged(Contact orig, Contact newContactData) {
             // The phone number should never change, so don't bother checking.
             // TODO: Maybe update it if it has gotten longer, i.e. 650-234-5678 -> +16502345678?
+
+            // Do the quick check first.
+            if (orig.mContactMethodType != newContactData.mContactMethodType) {
+                return true;
+            }
+
+            if (orig.mContactMethodId != newContactData.mContactMethodId) {
+                return true;
+            }
+
+            if (orig.mPersonId != newContactData.mPersonId) {
+                if (V) Log.d(TAG, "person id changed");
+                return true;
+            }
+
+            if (orig.mPresenceResId != newContactData.mPresenceResId) {
+                if (V) Log.d(TAG, "presence changed");
+                return true;
+            }
 
             String oldName = emptyIfNull(orig.mName);
             String newName = emptyIfNull(newContactData.mName);
@@ -471,16 +590,6 @@ public class Contact {
             String newLabel = emptyIfNull(newContactData.mLabel);
             if (!oldLabel.equals(newLabel)) {
                 if (V) Log.d(TAG, String.format("label changed: %s -> %s", oldLabel, newLabel));
-                return true;
-            }
-
-            if (orig.mPersonId != newContactData.mPersonId) {
-                if (V) Log.d(TAG, "person id changed");
-                return true;
-            }
-
-            if (orig.mPresenceResId != newContactData.mPresenceResId) {
-                if (V) Log.d(TAG, "presence changed");
                 return true;
             }
 
@@ -511,7 +620,8 @@ public class Contact {
                     c.mPresenceText = entry.mPresenceText;
                     c.mAvatarData = entry.mAvatarData;
                     c.mAvatar = entry.mAvatar;
-
+                    c.mContactMethodId = entry.mContactMethodId;
+                    c.mContactMethodType = entry.mContactMethodType;
                     // Check to see if this is the local ("me") number and update the name.
                     if (MessageUtils.isLocalNumber(c.mNumber)) {
                         c.mName = mContext.getString(com.android.mms.R.string.me);
@@ -553,6 +663,7 @@ public class Contact {
         private Contact getContactInfoForPhoneNumber(String number) {
             number = PhoneNumberUtils.stripSeparators(number);
             Contact entry = new Contact(number);
+            entry.mContactMethodType = CONTACT_METHOD_TYPE_PHONE;
 
             //if (LOCAL_DEBUG) log("queryContactInfoByNumber: number=" + number);
 
@@ -576,25 +687,7 @@ public class Contact {
 
             try {
                 if (cursor.moveToFirst()) {
-                    synchronized (entry) {
-                        entry.mLabel = cursor.getString(PHONE_LABEL_COLUMN);
-                        entry.mName = cursor.getString(CONTACT_NAME_COLUMN);
-                        entry.mPersonId = cursor.getLong(CONTACT_ID_COLUMN);
-                        entry.mPresenceResId = getPresenceIconResourceId(
-                                cursor.getInt(CONTACT_PRESENCE_COLUMN));
-                        entry.mPresenceText = cursor.getString(CONTACT_STATUS_COLUMN);
-                        if (V) {
-                            log("queryContactInfoByNumber: name=" + entry.mName +
-                                    ", number=" + number + ", presence=" + entry.mPresenceResId);
-                        }
-                    }
-
-                    byte[] data = loadAvatarData(entry);
-
-                    synchronized (entry) {
-                        entry.mAvatarData = data;
-                    }
-
+                    fillPhoneTypeContact(entry, cursor);
                 }
             } finally {
                 cursor.close();
@@ -603,6 +696,27 @@ public class Contact {
             return entry;
         }
 
+        private void fillPhoneTypeContact(final Contact contact, final Cursor cursor) {
+            synchronized (contact) {
+                contact.mContactMethodType = CONTACT_METHOD_TYPE_PHONE;
+                contact.mContactMethodId = cursor.getLong(PHONE_ID_COLUMN);
+                contact.mLabel = cursor.getString(PHONE_LABEL_COLUMN);
+                contact.mName = cursor.getString(CONTACT_NAME_COLUMN);
+                contact.mPersonId = cursor.getLong(CONTACT_ID_COLUMN);
+                contact.mPresenceResId = getPresenceIconResourceId(
+                        cursor.getInt(CONTACT_PRESENCE_COLUMN));
+                contact.mPresenceText = cursor.getString(CONTACT_STATUS_COLUMN);
+                if (V) {
+                    log("queryContactInfoByNumber: name=" + contact.mName + ", number="
+                            + contact.mNumber + ", presence=" + contact.mPresenceResId);
+                }
+            }
+            byte[] data = loadAvatarData(contact);
+
+            synchronized (contact) {
+                contact.mAvatarData = data;
+            }
+        }
         /*
          * Load the avatar data from the cursor into memory.  Don't decode the data
          * until someone calls for it (see getAvatar).  Hang onto the raw data so that
@@ -655,6 +769,7 @@ public class Contact {
          */
         private Contact getContactInfoForEmailAddress(String email) {
             Contact entry = new Contact(email);
+            entry.mContactMethodType = CONTACT_METHOD_TYPE_EMAIL;
 
             Cursor cursor = SqliteWrapper.query(mContext, mContext.getContentResolver(),
                     EMAIL_WITH_PRESENCE_URI,
@@ -667,6 +782,10 @@ public class Contact {
                 try {
                     while (cursor.moveToNext()) {
                         boolean found = false;
+                        entry.mContactMethodId = cursor.getLong(EMAIL_ID_COLUMN);
+                        entry.mPresenceResId = getPresenceIconResourceId(
+                                cursor.getInt(EMAIL_STATUS_COLUMN));
+                        entry.mPersonId = cursor.getLong(EMAIL_CONTACT_ID_COLUMN);
 
                         synchronized (entry) {
                             entry.mPresenceResId = getPresenceIconResourceId(
