@@ -95,7 +95,11 @@ public class Contact {
     @Override
     public String toString() {
         return String.format("{ number=%s, name=%s, nameAndNumber=%s, label=%s, person_id=%d, hash=%d }",
-                mNumber, mName, mNameAndNumber, mLabel, mPersonId, hashCode());
+                (mNumber != null ? mNumber : "null"),
+                (mName != null ? mName : "null"),
+                (mNameAndNumber != null ? mNameAndNumber : "null"),
+                (mLabel != null ? mLabel : "null"),
+                mPersonId, hashCode());
     }
 
     private static void logWithTrace(String msg, Object... format) {

@@ -49,10 +49,16 @@ import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.SlideshowEditor;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -72,6 +78,24 @@ import android.util.Log;
 public class WorkingMessage {
     private static final String TAG = "WorkingMessage";
     private static final boolean DEBUG = false;
+
+    // Public intents
+    public static final String ACTION_SENDING_SMS = "android.intent.action.SENDING_SMS";
+
+    // Intent extras
+    public static final String EXTRA_SMS_MESSAGE = "android.mms.extra.MESSAGE";
+    public static final String EXTRA_SMS_RECIPIENTS = "android.mms.extra.RECIPIENTS";
+    public static final String EXTRA_SMS_THREAD_ID = "android.mms.extra.THREAD_ID";
+
+    // GoogleVoice integration
+    public static final String GOOGLE_VOICE_PACKAGE = "com.google.android.apps.googlevoice";
+    public static final String GOOGLE_VOICE_SENDER =
+                                        "com.google.android.apps.googlevoice.SmsSenderActivity";
+    private static boolean mGoogleVoiceInstalled;   // don't reference directly, use
+                                                    // getter: googleVoiceInstalled()
+    private static boolean mCheckedForGoogleVoice;  // gets reset when GoogleVoice is installed
+                                                    // while Messaging app is running.
+    private static PackageInstallReceiver mPackageInstallReceiver;
 
     // Database access stuff
     private final Context mContext;
@@ -135,7 +159,6 @@ public class WorkingMessage {
     };
 
     private static final int MMS_MESSAGE_SIZE_INDEX  = 1;
-
 
     /**
      * Callback interface for communicating important state changes back to
@@ -947,7 +970,7 @@ public class WorkingMessage {
             final String msgText = mText.toString();
             new Thread(new Runnable() {
                 public void run() {
-                    sendSmsWorker(conv, msgText);
+                    preSendSmsWorker(conv, msgText);
                 }
             }).start();
         }
@@ -981,16 +1004,82 @@ public class WorkingMessage {
 
     // Message sending stuff
 
-    private void sendSmsWorker(Conversation conv, String msgText) {
+    private boolean googleVoiceInstalled() {
+        if (!mCheckedForGoogleVoice) {
+            PackageManager manager = mContext.getPackageManager();
+            Intent broadcastIntent = new Intent(ACTION_SENDING_SMS);
+            final List<ResolveInfo> activities = manager.queryIntentActivities(broadcastIntent, 0);
+            LogTag.debug("getSendInterceptor activities: " + activities);
+            if (activities != null) {
+                int len = activities.size();
+                for (int i = 0; i < len; i++) {
+                    ResolveInfo info = activities.get(i);
+                    LogTag.debug("getSendInterceptor " +
+                            info.activityInfo.applicationInfo.packageName + " - " +
+                            info.activityInfo.name);
+                    if (GOOGLE_VOICE_PACKAGE.equals(info.activityInfo.applicationInfo.packageName)
+                            && GOOGLE_VOICE_SENDER.equals(info.activityInfo.name)) {
+                        mGoogleVoiceInstalled = true;
+                        break;
+                    }
+                }
+            }
+            if (mPackageInstallReceiver == null) {
+                // Register a receiver to listen for changes to packages so we can run
+                // this code again in case GoogleVoice gets installed or removed.
+                mPackageInstallReceiver = new PackageInstallReceiver();
+                IntentFilter filter = new IntentFilter(Intent.ACTION_PACKAGE_ADDED);
+                filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+                filter.addDataScheme("package");
+                mContext.registerReceiver(mPackageInstallReceiver, filter);
+                // TODO: where can we unregister this receiver?
+            }
+            mCheckedForGoogleVoice = true;
+        }
+        return mGoogleVoiceInstalled;
+    }
+
+    private void preSendSmsWorker(Conversation conv, String msgText) {
         // If user tries to send the message, it's a signal the inputted text is what they wanted.
         UserHappinessSignals.userAcceptedImeText(mContext);
 
         mStatusListener.onPreMessageSent();
+
         // Make sure we are still using the correct thread ID for our
         // recipient set.
         long threadId = conv.ensureThreadId();
-        String[] dests = conv.getRecipients().getNumbers();
 
+        final String semiSepRecipients = conv.getRecipients().serialize();
+
+        if (googleVoiceInstalled()) {
+
+            // Broadcast an intent to give other apps the opportunity to handle the sending
+            // of the SMS message. If no one handles the sending, we'll take care of it in
+            // SendingSmsReceiver.
+            Intent broadcastIntent = new Intent(ACTION_SENDING_SMS);
+            broadcastIntent.putExtra(EXTRA_SMS_MESSAGE, msgText);
+            // a semicolon-separated list of numbers
+            broadcastIntent.putExtra(EXTRA_SMS_RECIPIENTS, semiSepRecipients);
+            broadcastIntent.putExtra(EXTRA_SMS_THREAD_ID, threadId);
+            broadcastIntent.setClassName(GOOGLE_VOICE_PACKAGE, GOOGLE_VOICE_SENDER);
+
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                LogTag.debug("Broadcasting intent " + broadcastIntent);
+            }
+            mContext.sendOrderedBroadcast(broadcastIntent, android.Manifest.permission.SEND_SMS,
+                    new SendingSmsReceiver(), null, Activity.RESULT_CANCELED, null, null);
+        } else {
+            // just do a regular send. We're already on a non-ui thread so no need to fire
+            // off another thread to do this work.
+            sendSmsWorker(msgText, semiSepRecipients, threadId);
+        }
+    }
+
+    private void sendSmsWorker(String msgText, String semiSepRecipients, long threadId) {
+        String[] dests = TextUtils.split(semiSepRecipients, ";");
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            LogTag.debug("sendSmsWorker sending message");
+        }
         MessageSender sender = new SmsMessageSender(mContext, dests, msgText, threadId);
         try {
             sender.sendMessage(threadId);
@@ -1343,6 +1432,54 @@ public class WorkingMessage {
     private void asyncDeleteDraftMmsMessage(long threadId) {
         final String where = Mms.THREAD_ID + " = " + threadId;
         asyncDelete(Mms.Draft.CONTENT_URI, where, null);
+    }
+
+    /**
+     * SendingSmsReceiver finishes NEW_SENDING_SMS broadcasts, starting
+     * the actual SMS sending if the broadcast has not been handled by
+     * another app.
+     * TODO: need to figure out how to call mStatusListener.onMessageSent() when
+     * the NEW_SENDING_MMS intent is handled and we don't get called back -- need to
+     * work with the GV folks.
+     */
+    public class SendingSmsReceiver extends BroadcastReceiver {
+        public void onReceive(Context context, Intent intent) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) LogTag.debug("doReceive: " + intent +
+                    " resultCode: " + getResultCode());
+
+            if (getResultCode() == android.app.Activity.RESULT_OK) {
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    LogTag.debug("doReceive: sending the SMS was handled by googlevoice");
+                }
+                mStatusListener.onMessageSent();
+                return;
+            }
+            final String msgText = intent.getStringExtra(EXTRA_SMS_MESSAGE);
+            final String semiSepRecipients = intent.getStringExtra(EXTRA_SMS_RECIPIENTS);
+            final long threadId = intent.getLongExtra(EXTRA_SMS_THREAD_ID, 0);
+
+            new Thread(new Runnable() {
+                public void run() {
+                    sendSmsWorker(msgText, semiSepRecipients, threadId);
+                }
+            }).start();
+        }
+    }
+
+    /**
+     * PackageInstallReceiver listens for package installations and removals. This is used
+     * to find out if GoogleVoice has been installed or removed while the Messaging app is
+     * running.
+     */
+    public class PackageInstallReceiver extends BroadcastReceiver {
+        public void onReceive(Context context, Intent intent) {
+            // Whenever the GoogleVoice package is added or removed, force us to look for google
+            // voice on the next send.
+            final String packageName = intent.getData().getSchemeSpecificPart();
+            if (GOOGLE_VOICE_PACKAGE.equals(packageName)) {
+                mCheckedForGoogleVoice = false;
+            }
+        }
     }
 
 }
