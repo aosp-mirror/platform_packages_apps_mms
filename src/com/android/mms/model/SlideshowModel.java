@@ -433,7 +433,7 @@ public class SlideshowModel extends Model
     }
 
     public SlideModel get(int location) {
-        return mSlides.get(location);
+        return (location >= 0 && location < mSlides.size()) ? mSlides.get(location) : null;
     }
 
     public int indexOf(Object object) {
