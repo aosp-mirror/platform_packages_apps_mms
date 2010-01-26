@@ -167,7 +167,7 @@ public class Contact {
 
     public synchronized void setNumber(String number) {
         mNumber = number;
-        updateNameAndNumber();
+        notSynchronizedUpdateNameAndNumber();
         mNumberIsModified = true;
     }
 
@@ -191,7 +191,11 @@ public class Contact {
         return mNameAndNumber;
     }
 
-    private void updateNameAndNumber() {
+    private synchronized void updateNameAndNumber() {
+       notSynchronizedUpdateNameAndNumber();
+    }
+
+    private void notSynchronizedUpdateNameAndNumber() {
         mNameAndNumber = formatNameAndNumber(mName, mNumber);
     }
 
@@ -209,10 +213,6 @@ public class Contact {
 
     public synchronized Uri getUri() {
         return ContentUris.withAppendedId(Contacts.CONTENT_URI, mPersonId);
-    }
-
-    public long getPersonId() {
-        return mPersonId;
     }
 
     public synchronized int getPresenceResId() {
@@ -282,7 +282,11 @@ public class Contact {
 
         // query params for caller id lookup
         private static final String CALLER_ID_SELECTION = "PHONE_NUMBERS_EQUAL(" + Phone.NUMBER
-                + ",?) AND " + Data.MIMETYPE + "='" + Phone.CONTENT_ITEM_TYPE + "'";
+                + ",?) AND " + Data.MIMETYPE + "='" + Phone.CONTENT_ITEM_TYPE + "'"
+                + " AND " + Data.RAW_CONTACT_ID + " IN "
+                        + "(SELECT raw_contact_id "
+                        + " FROM phone_lookup"
+                        + " WHERE normalized_number GLOB('+*'))";
 
         // Utilizing private API
         private static final Uri PHONES_WITH_PRESENCE_URI = Data.CONTENT_URI;
@@ -319,8 +323,6 @@ public class Contact {
         private static final int EMAIL_STATUS_COLUMN = 1;
         private static final int EMAIL_ID_COLUMN = 2;
         private static final int EMAIL_CONTACT_NAME_COLUMN = 3;
-
-        private String[] mContactInfoSelectionArgs = new String[1];
 
         private final Context mContext;
 
@@ -395,9 +397,9 @@ public class Contact {
 
             // Always return a Contact object, if if we don't have an actual contact
             // in the contacts db.
-            Contact contact = sContactCache.get(number);
-            boolean queryPending = false;
+            Contact contact = get(number);
             Runnable r = null;
+
             synchronized (contact) {
                 // If there's a query pending and we're willing to block then
                 // wait here until the query completes.
@@ -415,7 +417,7 @@ public class Contact {
                     contact.mIsStale = false;
 
                     if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                        log("asyncUpdateContact for " + contact.toString() + " canBlock: " + canBlock +
+                        log("async update for " + contact.toString() + " canBlock: " + canBlock +
                                 " isStale: " + contact.mIsStale);
                     }
 
@@ -487,16 +489,13 @@ public class Contact {
             }
 
             Contact entry = getContactInfo(c.mNumber);
-            synchronized (ContactsCache.this) {
+            synchronized (c) {
                 if (contactChanged(c, entry)) {
                     if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                         log("updateContact: contact changed for " + entry.mName);
                     }
 
-                    //c.mNumber = entry.phoneNumber;
-                    c.mName = entry.mName;
                     c.mNumber = entry.mNumber;
-                    c.updateNameAndNumber();
                     c.mLabel = entry.mLabel;
                     c.mPersonId = entry.mPersonId;
                     c.mPresenceResId = entry.mPresenceResId;
@@ -505,7 +504,13 @@ public class Contact {
                     c.mAvatar = entry.mAvatar;
 
                     // Check to see if this is the local ("me") number and update the name.
-                    handleLocalNumber(c);
+                    if (MessageUtils.isLocalNumber(c.mNumber)) {
+                        c.mName = mContext.getString(com.android.mms.R.string.me);
+                    } else {
+                        c.mName = entry.mName;
+                    }
+
+                    c.notSynchronizedUpdateNameAndNumber();
 
                     for (UpdateListener l : c.mListeners) {
                         if (V) Log.d(TAG, "updating " + l);
@@ -517,20 +522,6 @@ public class Contact {
                     c.notifyAll();
                 }
             }
-        }
-
-        /**
-         * Handles the special case where the local ("Me") number is being looked up.
-         * Updates the contact with the "me" name and returns true if it is the
-         * local number, no-ops and returns false if it is not.
-         */
-        private boolean handleLocalNumber(Contact c) {
-            if (MessageUtils.isLocalNumber(c.mNumber)) {
-                c.mName = mContext.getString(com.android.mms.R.string.me);
-                c.updateNameAndNumber();
-                return true;
-            }
-            return false;
         }
 
         /**
@@ -554,13 +545,16 @@ public class Contact {
 
             //if (LOCAL_DEBUG) log("queryContactInfoByNumber: number=" + number);
 
-            mContactInfoSelectionArgs[0] = number;
-
+            // We need to include the phone number in the selection string itself rather then
+            // selection arguments, because SQLite needs to see the exact pattern of GLOB
+            // to generate the correct query plan
+            String selection = CALLER_ID_SELECTION.replace("+",
+                    PhoneNumberUtils.toCallerIDMinMatch(number));
             Cursor cursor = mContext.getContentResolver().query(
                     PHONES_WITH_PRESENCE_URI,
                     CALLER_ID_PROJECTION,
-                    CALLER_ID_SELECTION,
-                    mContactInfoSelectionArgs,
+                    selection,
+                    new String[] { number },
                     null);
 
             if (cursor == null) {
@@ -571,18 +565,25 @@ public class Contact {
 
             try {
                 if (cursor.moveToFirst()) {
-                    entry.mLabel = cursor.getString(PHONE_LABEL_COLUMN);
-                    entry.mName = cursor.getString(CONTACT_NAME_COLUMN);
-                    entry.mPersonId = cursor.getLong(CONTACT_ID_COLUMN);
-                    entry.mPresenceResId = getPresenceIconResourceId(
-                            cursor.getInt(CONTACT_PRESENCE_COLUMN));
-                    entry.mPresenceText = cursor.getString(CONTACT_STATUS_COLUMN);
-                    if (V) {
-                        log("queryContactInfoByNumber: name=" + entry.mName + ", number=" + number +
-                                ", presence=" + entry.mPresenceResId);
+                    synchronized (entry) {
+                        entry.mLabel = cursor.getString(PHONE_LABEL_COLUMN);
+                        entry.mName = cursor.getString(CONTACT_NAME_COLUMN);
+                        entry.mPersonId = cursor.getLong(CONTACT_ID_COLUMN);
+                        entry.mPresenceResId = getPresenceIconResourceId(
+                                cursor.getInt(CONTACT_PRESENCE_COLUMN));
+                        entry.mPresenceText = cursor.getString(CONTACT_STATUS_COLUMN);
+                        if (V) {
+                            log("queryContactInfoByNumber: name=" + entry.mName +
+                                    ", number=" + number + ", presence=" + entry.mPresenceResId);
+                        }
                     }
 
-                    loadAvatarData(entry, cursor);
+                    byte[] data = loadAvatarData(entry);
+
+                    synchronized (entry) {
+                        entry.mAvatarData = data;
+                    }
+
                 }
             } finally {
                 cursor.close();
@@ -598,22 +599,22 @@ public class Contact {
          * TODO: consider comparing a checksum so that we don't have to hang onto
          * the raw bytes after the image is decoded.
          */
-        private void loadAvatarData(Contact entry, Cursor cursor) {
+        private byte[] loadAvatarData(Contact entry) {
+            byte [] data = null;
+
             if (entry.mPersonId == 0 || entry.mAvatar != null) {
-                return;
+                return null;
             }
 
             Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, entry.mPersonId);
 
-            InputStream avatarDataStream =
-                Contacts.openContactPhotoInputStream(
+            InputStream avatarDataStream = Contacts.openContactPhotoInputStream(
                         mContext.getContentResolver(),
                         contactUri);
             try {
                 if (avatarDataStream != null) {
-                    byte [] data = new byte[avatarDataStream.available()];
+                    data = new byte[avatarDataStream.available()];
                     avatarDataStream.read(data, 0, data.length);
-                    entry.mAvatarData = data;
                 }
             } catch (IOException ex) {
                 //
@@ -625,6 +626,8 @@ public class Contact {
                 } catch (IOException e) {
                 }
             }
+
+            return data;
         }
 
         private int getPresenceIconResourceId(int presence) {
@@ -642,36 +645,46 @@ public class Contact {
         private Contact getContactInfoForEmailAddress(String email) {
             Contact entry = new Contact(email);
 
-            mContactInfoSelectionArgs[0] = email;
-
             Cursor cursor = SqliteWrapper.query(mContext, mContext.getContentResolver(),
                     EMAIL_WITH_PRESENCE_URI,
                     EMAIL_PROJECTION,
                     EMAIL_SELECTION,
-                    mContactInfoSelectionArgs,
+                    new String[] { email },
                     null);
 
             if (cursor != null) {
                 try {
                     while (cursor.moveToNext()) {
-                        entry.mPresenceResId = getPresenceIconResourceId(
-                                cursor.getInt(EMAIL_STATUS_COLUMN));
-                        entry.mPersonId = cursor.getLong(EMAIL_ID_COLUMN);
+                        boolean found = false;
 
-                        String name = cursor.getString(EMAIL_NAME_COLUMN);
-                        if (TextUtils.isEmpty(name)) {
-                            name = cursor.getString(EMAIL_CONTACT_NAME_COLUMN);
-                        }
-                        if (!TextUtils.isEmpty(name)) {
-                            entry.mName = name;
-                            loadAvatarData(entry, cursor);
-                            if (V) {
-                                log("queryEmailDisplayName: name=" + entry.mName + ", email=" + email +
-                                        ", presence=" + entry.mPresenceResId);
+                        synchronized (entry) {
+                            entry.mPresenceResId = getPresenceIconResourceId(
+                                    cursor.getInt(EMAIL_STATUS_COLUMN));
+                            entry.mPersonId = cursor.getLong(EMAIL_ID_COLUMN);
+
+                            String name = cursor.getString(EMAIL_NAME_COLUMN);
+                            if (TextUtils.isEmpty(name)) {
+                                name = cursor.getString(EMAIL_CONTACT_NAME_COLUMN);
                             }
+                            if (!TextUtils.isEmpty(name)) {
+                                entry.mName = name;
+                                if (V) {
+                                    log("getContactInfoForEmailAddress: name=" + entry.mName +
+                                            ", email=" + email + ", presence=" +
+                                            entry.mPresenceResId);
+                                }
+                                found = true;
+                            }
+                        }
+
+                        if (found) {
+                            byte[] data = loadAvatarData(entry);
+                            synchronized (entry) {
+                                entry.mAvatarData = data;
+                            }
+
                             break;
                         }
-
                     }
                 } finally {
                     cursor.close();
@@ -716,10 +729,10 @@ public class Contact {
             synchronized (ContactsCache.this) {
                 // See if we can find "number" in the hashtable.
                 // If so, just return the result.
-                final boolean isNotRegularPhoneNumber =
-                       Mms.isEmailAddress(numberOrEmail)
-                    || MessageUtils.isAlias(numberOrEmail);
-                final String key = isNotRegularPhoneNumber ? numberOrEmail : key(numberOrEmail, sStaticKeyBuffer);
+                final boolean isNotRegularPhoneNumber = Mms.isEmailAddress(numberOrEmail) ||
+                        MessageUtils.isAlias(numberOrEmail);
+                final String key = isNotRegularPhoneNumber ?
+                        numberOrEmail : key(numberOrEmail, sStaticKeyBuffer);
 
                 ArrayList<Contact> candidates = mContactsHash.get(key);
                 if (candidates != null) {
@@ -753,7 +766,9 @@ public class Contact {
             synchronized (ContactsCache.this) {
                 for (ArrayList<Contact> alc : mContactsHash.values()) {
                     for (Contact c : alc) {
-                        c.mIsStale = true;
+                        synchronized (c) {
+                            c.mIsStale = true;
+                        }
                     }
                 }
             }
