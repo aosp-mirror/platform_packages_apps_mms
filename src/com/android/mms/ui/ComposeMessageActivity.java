@@ -543,8 +543,9 @@ public class ComposeMessageActivity extends Activity
                         "afterTextChanged called with invisible mRecipientsEditor");
                 // Make sure the crash is uploaded to the service so we
                 // can see if this is happening in the field.
-                Log.e(TAG, "RecipientsWatcher called incorrectly", e);
-                throw e;
+                Log.w(TAG,
+                     "RecipientsWatcher: afterTextChanged called with invisible mRecipientsEditor");
+                return;
             }
 
             mWorkingMessage.setWorkingRecipients(mRecipientsEditor.getNumbers());
@@ -2042,6 +2043,7 @@ public class ComposeMessageActivity extends Activity
 
     private void hideRecipientEditor() {
         if (mRecipientsEditor != null) {
+            mRecipientsEditor.removeTextChangedListener(mRecipientsWatcher);
             mRecipientsEditor.setVisibility(View.GONE);
             hideOrShowTopPanel();
         }
