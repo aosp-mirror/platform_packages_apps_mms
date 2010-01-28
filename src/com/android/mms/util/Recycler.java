@@ -19,7 +19,7 @@ package com.android.mms.util;
 import com.android.mms.MmsConfig;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.MessagingPreferenceActivity;
-import com.android.mms.mms.util.SqliteWrapper;
+import android.database.sqlite.SqliteWrapper;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -29,10 +29,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
-import com.android.mms.telephony.TelephonyProvider;
-import com.android.mms.telephony.TelephonyProvider.Mms;
-import com.android.mms.telephony.TelephonyProvider.Sms;
-import com.android.mms.telephony.TelephonyProvider.Sms.Conversations;
+import com.android.mmscommon.telephony.TelephonyProvider;
+import com.android.mmscommon.telephony.TelephonyProvider.Mms;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms.Conversations;
 import android.util.Log;
 
 /**

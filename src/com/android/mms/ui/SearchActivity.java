@@ -35,7 +35,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 
-import com.android.mms.telephony.TelephonyProvider;
+import com.android.mmscommon.telephony.TelephonyProvider;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;

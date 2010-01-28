@@ -17,7 +17,7 @@
 
 package com.android.mms.transaction;
 
-import com.android.mms.mms.util.PduCache;
+import com.android.mmscommon.mms.util.PduCache;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,7 +25,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import com.android.mms.telephony.Phone;
-import com.android.mms.telephony.TelephonyProvider.Mms;
+import com.android.mmscommon.telephony.TelephonyProvider.Mms;
 import com.android.mms.telephony.TelephonyIntents;
 import android.util.Log;
 import com.android.mms.LogTag;

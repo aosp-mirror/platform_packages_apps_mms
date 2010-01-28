@@ -17,22 +17,22 @@
 
 package com.android.mms.transaction;
 
-import static com.android.mms.telephony.TelephonyProvider.Sms.Intents.WAP_PUSH_RECEIVED_ACTION;
-import static com.android.mms.mms.pdu.PduHeaders.MESSAGE_TYPE_DELIVERY_IND;
-import static com.android.mms.mms.pdu.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
-import static com.android.mms.mms.pdu.PduHeaders.MESSAGE_TYPE_READ_ORIG_IND;
+import static com.android.mmscommon.telephony.TelephonyProvider.Sms.Intents.WAP_PUSH_RECEIVED_ACTION;
+import static com.android.mmscommon.PduHeaders.MESSAGE_TYPE_DELIVERY_IND;
+import static com.android.mmscommon.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
+import static com.android.mmscommon.PduHeaders.MESSAGE_TYPE_READ_ORIG_IND;
 
 import com.android.mms.MmsConfig;
-import com.android.mms.mms.ContentType;
-import com.android.mms.mms.MmsException;
-import com.android.mms.mms.pdu.DeliveryInd;
-import com.android.mms.mms.pdu.GenericPdu;
-import com.android.mms.mms.pdu.NotificationInd;
-import com.android.mms.mms.pdu.PduHeaders;
-import com.android.mms.mms.pdu.PduParser;
-import com.android.mms.mms.pdu.PduPersister;
-import com.android.mms.mms.pdu.ReadOrigInd;
-import com.android.mms.mms.util.SqliteWrapper;
+import com.android.mmscommon.ContentType;
+import com.android.mmscommon.MmsException;
+import com.android.mmscommon.mms.pdu.DeliveryInd;
+import com.android.mmscommon.mms.pdu.GenericPdu;
+import com.android.mmscommon.mms.pdu.NotificationInd;
+import com.android.mmscommon.PduHeaders;
+import com.android.mmscommon.mms.pdu.PduParser;
+import com.android.mmscommon.mms.pdu.PduPersister;
+import com.android.mmscommon.mms.pdu.ReadOrigInd;
+import android.database.sqlite.SqliteWrapper;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -44,8 +44,8 @@ import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.PowerManager;
-import com.android.mms.telephony.TelephonyProvider.Mms;
-import com.android.mms.telephony.TelephonyProvider.Mms.Inbox;
+import com.android.mmscommon.telephony.TelephonyProvider.Mms;
+import com.android.mmscommon.telephony.TelephonyProvider.Mms.Inbox;
 import android.util.Config;
 import android.util.Log;
 

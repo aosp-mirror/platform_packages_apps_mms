@@ -18,7 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
-import com.android.mms.mms.MmsException;
+import com.android.mmscommon.MmsException;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
@@ -39,11 +39,11 @@ import android.provider.ContactsContract.RawContacts;
 import android.provider.ContactsContract.StatusUpdates;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Photo;
-import com.android.mms.telephony.TelephonyProvider.Mms;
-import com.android.mms.telephony.TelephonyProvider.MmsSms;
-import com.android.mms.telephony.TelephonyProvider.Sms;
-import com.android.mms.telephony.TelephonyProvider.MmsSms.PendingMessages;
-import com.android.mms.telephony.TelephonyProvider.Sms.Conversations;
+import com.android.mmscommon.telephony.TelephonyProvider.Mms;
+import com.android.mmscommon.telephony.TelephonyProvider.MmsSms;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms;
+import com.android.mmscommon.telephony.TelephonyProvider.MmsSms.PendingMessages;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms.Conversations;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Config;

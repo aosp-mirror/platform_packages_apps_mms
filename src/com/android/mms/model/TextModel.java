@@ -20,7 +20,7 @@ package com.android.mms.model;
 import com.android.mms.dom.smil.SmilMediaElementImpl;
 import android.drm.mobile1.DrmException;
 import com.android.mms.drm.DrmWrapper;
-import com.android.mms.mms.pdu.CharacterSets;
+import com.android.mmscommon.CharacterSets;
 
 import org.w3c.dom.events.Event;
 import org.w3c.dom.smil.ElementTime;

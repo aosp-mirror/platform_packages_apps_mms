@@ -17,7 +17,7 @@
 
 package com.android.mms.dom.smil.parser;
 
-import com.android.mms.mms.MmsException;
+import com.android.mmscommon.MmsException;
 
 import java.io.IOException;
 import java.io.InputStream;

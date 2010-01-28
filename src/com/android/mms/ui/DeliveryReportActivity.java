@@ -18,16 +18,16 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
-import com.android.mms.mms.pdu.PduHeaders;
-import com.android.mms.mms.util.SqliteWrapper;
+import com.android.mmscommon.PduHeaders;
+import android.database.sqlite.SqliteWrapper;
 
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import com.android.mms.telephony.TelephonyProvider.Mms;
-import com.android.mms.telephony.TelephonyProvider.Sms;
+import com.android.mmscommon.telephony.TelephonyProvider.Mms;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;

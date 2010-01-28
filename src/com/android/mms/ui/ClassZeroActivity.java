@@ -30,8 +30,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import com.android.mms.telephony.TelephonyProvider.Sms;
-import com.android.mms.telephony.TelephonyProvider.Sms.Inbox;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms.Inbox;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.util.Log;
@@ -42,7 +42,7 @@ import com.android.mms.R;
 import com.android.mms.transaction.SmsReceiverService;
 import com.android.mms.transaction.MessagingNotification;
 
-import com.android.mms.mms.util.SqliteWrapper;
+import android.database.sqlite.SqliteWrapper;
 
 /**
  * Display a class-zero SMS message to the user. Wait for the user to dismiss

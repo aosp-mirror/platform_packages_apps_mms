@@ -22,8 +22,8 @@ import com.android.mms.LogTag;
 import com.android.mms.dom.events.EventImpl;
 import com.android.mms.dom.smil.SmilMediaElementImpl;
 import com.android.mms.drm.DrmWrapper;
-import com.android.mms.mms.MmsException;
-import com.android.mms.mms.util.SqliteWrapper;
+import com.android.mmscommon.MmsException;
+import android.database.sqlite.SqliteWrapper;
 
 import org.w3c.dom.events.Event;
 import org.w3c.dom.smil.ElementTime;

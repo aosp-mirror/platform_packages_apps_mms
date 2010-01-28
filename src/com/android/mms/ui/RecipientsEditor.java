@@ -22,7 +22,7 @@ import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 
 import android.content.Context;
-import com.android.mms.telephony.TelephonyProvider.Mms;
+import com.android.mmscommon.telephony.TelephonyProvider.Mms;
 import android.telephony.PhoneNumberUtils;
 import android.text.Annotation;
 import android.text.Editable;

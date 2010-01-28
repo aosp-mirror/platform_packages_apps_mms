@@ -18,16 +18,16 @@
 package com.android.mms.transaction;
 
 import static android.content.Intent.ACTION_BOOT_COMPLETED;
-import static com.android.mms.telephony.TelephonyProvider.Sms.Intents.SMS_RECEIVED_ACTION;
-import static com.android.mms.telephony.TelephonyProvider.Sms.Intents.ACTION_SERVICE_STATE_CHANGED;
+import static com.android.mmscommon.telephony.TelephonyProvider.Sms.Intents.SMS_RECEIVED_ACTION;
+import static com.android.mmscommon.telephony.TelephonyProvider.Sms.Intents.ACTION_SERVICE_STATE_CHANGED;
 
 
 import com.android.mms.data.Contact;
 import com.android.mms.ui.ClassZeroActivity;
 import com.android.mms.util.Recycler;
 import com.android.mms.util.SendingProgressTokenManager;
-import com.android.mms.mms.MmsException;
-import com.android.mms.mms.util.SqliteWrapper;
+import com.android.mmscommon.MmsException;
+import android.database.sqlite.SqliteWrapper;
 
 import android.app.Activity;
 import android.app.Service;
@@ -45,11 +45,11 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
-import com.android.mms.telephony.TelephonyProvider.Sms;
-import com.android.mms.telephony.TelephonyProvider.Threads;
-import com.android.mms.telephony.TelephonyProvider.Sms.Inbox;
-import com.android.mms.telephony.TelephonyProvider.Sms.Intents;
-import com.android.mms.telephony.TelephonyProvider.Sms.Outbox;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms;
+import com.android.mmscommon.telephony.TelephonyProvider.Threads;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms.Inbox;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms.Intents;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms.Outbox;
 import android.telephony.ServiceState;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;

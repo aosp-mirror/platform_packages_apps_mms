@@ -24,12 +24,12 @@ import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.Presence;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import com.android.mms.telephony.TelephonyProvider.Mms;
+import com.android.mmscommon.telephony.TelephonyProvider.Mms;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.android.mms.mms.util.SqliteWrapper;
+import android.database.sqlite.SqliteWrapper;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.LogTag;
 

@@ -36,9 +36,9 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Browser;
-import com.android.mms.telephony.TelephonyProvider.Mms;
-import com.android.mms.telephony.TelephonyProvider.MmsSms;
-import com.android.mms.telephony.TelephonyProvider.Sms;
+import com.android.mmscommon.telephony.TelephonyProvider.Mms;
+import com.android.mmscommon.telephony.TelephonyProvider.MmsSms;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.Html;
@@ -73,8 +73,8 @@ import com.android.mms.transaction.TransactionBundle;
 import com.android.mms.transaction.TransactionService;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.SmileyParser;
-import com.android.mms.mms.ContentType;
-import com.android.mms.mms.pdu.PduHeaders;
+import com.android.mmscommon.ContentType;
+import com.android.mmscommon.PduHeaders;
 
 /**
  * This class provides view of a message in the messages list.

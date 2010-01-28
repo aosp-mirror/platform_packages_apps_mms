@@ -22,7 +22,7 @@ import com.android.mms.LogTag;
 import android.drm.mobile1.DrmException;
 import com.android.mms.drm.DrmWrapper;
 import android.media.MediaMetadataRetriever;        // TODO: remove dependency for SDK build
-import com.android.mms.mms.MmsException;
+import com.android.mmscommon.MmsException;
 import com.android.mms.drm.DrmUtils;
 
 import org.w3c.dom.events.EventListener;

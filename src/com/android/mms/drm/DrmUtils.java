@@ -17,7 +17,7 @@
 
 package com.android.mms.drm;
 
-import com.google.android.mms.util.SqliteWrapper;
+import android.database.sqlite.SqliteWrapper;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;

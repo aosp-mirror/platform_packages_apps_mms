@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import android.content.ContentResolver;
 
-import com.android.mms.mms.ContentType;
+import com.android.mmscommon.ContentType;
 import com.android.mms.ContentRestrictionException;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.MmsConfig;

@@ -25,10 +25,10 @@ import android.drm.mobile1.DrmException;
 import com.android.mms.drm.DrmWrapper;
 import com.android.mms.ui.UriImage;
 import com.android.mms.ui.MessageUtils;
-import com.android.mms.mms.MmsException;
-import com.android.mms.mms.pdu.PduBody;
-import com.android.mms.mms.pdu.PduPart;
-import com.android.mms.mms.pdu.PduPersister;
+import com.android.mmscommon.MmsException;
+import com.android.mmscommon.mms.pdu.PduBody;
+import com.android.mmscommon.mms.pdu.PduPart;
+import com.android.mmscommon.mms.pdu.PduPersister;
 
 import org.w3c.dom.events.Event;
 import org.w3c.dom.smil.ElementTime;

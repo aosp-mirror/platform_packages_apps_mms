@@ -18,7 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
-import com.android.mms.mms.util.SqliteWrapper;
+import android.database.sqlite.SqliteWrapper;
 import com.android.mms.transaction.MessagingNotification;
 
 import android.app.Activity;
@@ -35,7 +35,7 @@ import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import com.android.mms.telephony.TelephonyProvider.Sms;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.ContextMenu;

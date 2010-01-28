@@ -17,13 +17,13 @@
 
 package com.android.mms.transaction;
 
-import com.android.mms.mms.util.SqliteWrapper;
+import android.database.sqlite.SqliteWrapper;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import com.android.mms.telephony.Phone;
-import com.android.mms.telephony.TelephonyProvider;
+import com.android.mmscommon.telephony.TelephonyProvider;
 import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;

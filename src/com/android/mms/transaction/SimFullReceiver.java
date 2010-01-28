@@ -27,7 +27,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
-import com.android.mms.telephony.TelephonyProvider;
+import com.android.mmscommon.telephony.TelephonyProvider;
 
 /**
  * Receive Intent.SIM_FULL_ACTION.  Handle notification that SIM is full.

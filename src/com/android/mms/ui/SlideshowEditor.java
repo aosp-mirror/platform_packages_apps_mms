@@ -17,8 +17,8 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.mms.ContentType;
-import com.android.mms.mms.MmsException;
+import com.android.mmscommon.ContentType;
+import com.android.mmscommon.MmsException;
 import com.android.mms.model.AudioModel;
 import com.android.mms.model.ImageModel;
 import com.android.mms.model.RegionModel;
@@ -90,7 +90,7 @@ public class SlideshowEditor {
     public void removeSlide(int position) {
         mModel.remove(position);
     }
-    
+
     /**
      * Remove all slides.
      */

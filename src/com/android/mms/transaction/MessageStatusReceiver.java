@@ -24,11 +24,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import com.android.mms.telephony.TelephonyProvider.Sms;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
-import com.android.mms.mms.util.SqliteWrapper;
+import android.database.sqlite.SqliteWrapper;
 import com.android.mms.LogTag;
 
 public class MessageStatusReceiver extends BroadcastReceiver {

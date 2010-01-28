@@ -21,8 +21,8 @@ import com.android.mms.ContentRestrictionException;
 import com.android.mms.dom.events.EventImpl;
 import com.android.mms.dom.smil.SmilMediaElementImpl;
 import com.android.mms.drm.DrmWrapper;
-import com.android.mms.mms.MmsException;
-import com.android.mms.mms.util.SqliteWrapper;
+import com.android.mmscommon.MmsException;
+import android.database.sqlite.SqliteWrapper;
 
 import org.w3c.dom.events.Event;
 
@@ -31,7 +31,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore.Audio;
-import com.android.mms.telephony.TelephonyProvider.Mms.Part;
+import com.android.mmscommon.telephony.TelephonyProvider.Mms.Part;
 import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;

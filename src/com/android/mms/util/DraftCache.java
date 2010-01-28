@@ -16,7 +16,7 @@
 
 package com.android.mms.util;
 
-import com.android.mms.mms.util.SqliteWrapper;
+import android.database.sqlite.SqliteWrapper;
 import com.android.mms.LogTag;
 
 import java.util.HashSet;
@@ -24,8 +24,8 @@ import java.util.Set;
 
 import android.content.Context;
 import android.database.Cursor;
-import com.android.mms.telephony.TelephonyProvider.MmsSms;
-import com.android.mms.telephony.TelephonyProvider.Sms.Conversations;
+import com.android.mmscommon.telephony.TelephonyProvider.MmsSms;
+import com.android.mmscommon.telephony.TelephonyProvider.Sms.Conversations;
 import android.util.Log;
 
 /**
