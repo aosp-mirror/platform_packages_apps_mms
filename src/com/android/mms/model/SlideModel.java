@@ -19,6 +19,7 @@ package com.android.mms.model;
 
 import com.android.mms.ContentRestrictionException;
 import com.android.mms.dom.smil.SmilParElementImpl;
+import com.android.mms.mms.ContentType;
 
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -100,7 +101,8 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
 
         if (media.isText()) {
             String contentType = media.getContentType();
-            if (TextUtils.isEmpty(contentType) || "text/plain".equals(contentType)) {
+            if (TextUtils.isEmpty(contentType) || ContentType.TEXT_PLAIN.equals(contentType)
+                    || ContentType.TEXT_HTML.equals(contentType)) {
                 internalAddOrReplace(mText, media);
                 mText = media;
             } else {

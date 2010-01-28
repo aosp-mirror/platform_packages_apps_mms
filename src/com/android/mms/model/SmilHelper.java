@@ -224,7 +224,8 @@ public class SmilHelper {
             }
 
             if (contentType.equals(ContentType.TEXT_PLAIN)
-                    || contentType.equalsIgnoreCase(ContentType.APP_WAP_XHTML)) {
+                    || contentType.equalsIgnoreCase(ContentType.APP_WAP_XHTML)
+                    || contentType.equals(ContentType.TEXT_HTML)) {
                 SMILMediaElement textElement = createMediaElement(
                         ELEMENT_TAG_TEXT, document, part.generateLocation());
                 par.appendChild(textElement);
