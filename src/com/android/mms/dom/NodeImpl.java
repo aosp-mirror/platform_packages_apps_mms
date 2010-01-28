@@ -25,6 +25,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventException;
 import org.w3c.dom.events.EventListener;
@@ -219,5 +220,54 @@ public abstract class NodeImpl implements Node, EventTarget {
 
     public boolean dispatchEvent(Event evt) throws EventException {
         return mEventTarget.dispatchEvent(evt);
+    }
+
+    public String getBaseURI() {
+        return null;
+    }
+
+    public short compareDocumentPosition(Node other) throws DOMException {
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, null);
+    }
+
+    public String getTextContent() throws DOMException {
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, null);
+    }
+
+    public void setTextContent(String textContent) throws DOMException {
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, null);
+    }
+
+    public boolean isSameNode(Node other) {
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, null);
+    }
+
+    public String lookupPrefix(String namespaceURI) {
+        return null;
+    }
+
+    public boolean isDefaultNamespace(String namespaceURI) {
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, null);
+    }
+
+    public String lookupNamespaceURI(String prefix) {
+        return null;
+    }
+
+    public boolean isEqualNode(Node arg) {
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, null);
+    }
+
+    public Object getFeature(String feature, String version) {
+        return null;
+    }
+
+    public Object setUserData(String key, Object data,
+            UserDataHandler handler) {
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, null);
+    }
+
+    public Object getUserData(String key) {
+        return null;
     }
 }

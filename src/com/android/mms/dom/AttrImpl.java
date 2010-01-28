@@ -21,6 +21,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.TypeInfo;
 
 public class AttrImpl extends NodeImpl implements Attr {
     private String mName;
@@ -95,5 +96,13 @@ public class AttrImpl extends NodeImpl implements Attr {
 	@Override
 	public void setNodeValue(String nodeValue) throws DOMException {
         setValue(nodeValue);
+    }
+
+    public TypeInfo getSchemaTypeInfo() {
+        return null;
+    }
+
+    public boolean isId() {
+        return false;
     }
 }

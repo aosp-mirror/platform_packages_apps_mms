@@ -22,6 +22,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.TypeInfo;
 
 public class ElementImpl extends NodeImpl implements Element {
     private String mTagName;
@@ -149,5 +150,23 @@ public class ElementImpl extends NodeImpl implements Element {
     @Override
     public boolean hasAttributes() {
         return (mAttributes.getLength() > 0);
+    }
+
+    public TypeInfo getSchemaTypeInfo() {
+        return null;
+    }
+
+    public void setIdAttribute(String name, boolean isId) throws DOMException {
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, null);
+    }
+
+    public void setIdAttributeNS(String namespaceURI, String localName,
+            boolean isId) throws DOMException {
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, null);
+    }
+
+    public void setIdAttributeNode(Attr idAttr, boolean isId)
+            throws DOMException {
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, null);
     }
 }
