@@ -18,6 +18,7 @@
 package com.android.mms.model;
 
 import com.android.mms.ContentRestrictionException;
+import com.android.mms.dom.events.EventImpl;
 import com.android.mms.dom.smil.SmilMediaElementImpl;
 import com.android.mms.drm.DrmWrapper;
 import com.android.mms.mms.MmsException;
@@ -144,7 +145,7 @@ public class AudioModel extends MediaModel {
             action = MediaAction.PAUSE;
         } else if (evtType.equals(SmilMediaElementImpl.SMIL_MEDIA_SEEK_EVENT)) {
             action = MediaAction.SEEK;
-            mSeekTo = evt.getSeekTo();
+            mSeekTo = ((EventImpl) evt).getSeekTo();
         }
 
         appendAction(action);
