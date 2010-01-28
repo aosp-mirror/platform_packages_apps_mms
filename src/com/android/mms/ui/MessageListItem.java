@@ -41,6 +41,7 @@ import com.android.mms.telephony.TelephonyProvider.MmsSms;
 import com.android.mms.telephony.TelephonyProvider.Sms;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
+import android.text.Html;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -72,6 +73,7 @@ import com.android.mms.transaction.TransactionBundle;
 import com.android.mms.transaction.TransactionService;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.SmileyParser;
+import com.android.mms.mms.ContentType;
 import com.android.mms.mms.pdu.PduHeaders;
 
 /**
@@ -176,7 +178,7 @@ public class MessageListItem extends LinearLayout implements
 
         mBodyTextView.setText(formatMessage(msgItem.mContact, null, msgItem.mSubject,
                                             msgSizeText + "\n" + msgItem.mTimestamp,
-                                            msgItem.mHighlight));
+                                            msgItem.mHighlight, msgItem.mTextContentType));
 
         int state = DownloadManager.getInstance().getState(msgItem.mMessageUri);
         switch (state) {
@@ -246,7 +248,7 @@ public class MessageListItem extends LinearLayout implements
         if (formattedMessage == null) {
             formattedMessage = formatMessage(msgItem.mContact, msgItem.mBody,
                                              msgItem.mSubject, msgItem.mTimestamp,
-                                             msgItem.mHighlight);
+                                             msgItem.mHighlight, msgItem.mTextContentType);
             msgItem.setCachedFormattedMessage(formattedMessage);
         }
         mBodyTextView.setText(formattedMessage);
@@ -337,7 +339,7 @@ public class MessageListItem extends LinearLayout implements
     ForegroundColorSpan mColorSpan = null;  // set in ctor
 
     private CharSequence formatMessage(String contact, String body, String subject,
-                                       String timestamp, Pattern highlight) {
+                                       String timestamp, Pattern highlight, String contentType) {
         CharSequence template = mContext.getResources().getText(R.string.name_colon);
         SpannableStringBuilder buf =
             new SpannableStringBuilder(TextUtils.replace(template,
@@ -350,11 +352,17 @@ public class MessageListItem extends LinearLayout implements
         }
 
         if (!TextUtils.isEmpty(body)) {
-            if (hasSubject) {
-                buf.append(" - ");
+            // Converts html to spannable if ContentType is "text/html".
+            if (contentType != null && ContentType.TEXT_HTML.equals(contentType)) {
+                buf.append("\n");
+                buf.append(Html.fromHtml(body));
+            } else {
+                if (hasSubject) {
+                    buf.append(" - ");
+                }
+                SmileyParser parser = SmileyParser.getInstance();
+                buf.append(parser.addSmileySpans(body));
             }
-            SmileyParser parser = SmileyParser.getInstance();
-            buf.append(parser.addSmileySpans(body));
         }
         if (!TextUtils.isEmpty(timestamp)) {
             buf.append("\n");

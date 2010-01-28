@@ -68,6 +68,7 @@ public class MessageItem {
     String mAddress;
     String mContact;
     String mBody; // Body of SMS, first text of MMS.
+    String mTextContentType; // ContentType of text of MMS.
     Pattern mHighlight; // portion of message to highlight (from search)
 
     // The only non-immutable field.  Not synchronized, as access will
@@ -217,6 +218,7 @@ public class MessageItem {
                     } else {
                         mBody = tm.getText();
                     }
+                    mTextContentType = tm.getContentType();
                 }
 
                 mMessageSize = mSlideshow.getCurrentMessageSize();
