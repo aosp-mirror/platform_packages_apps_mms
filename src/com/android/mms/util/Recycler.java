@@ -317,6 +317,9 @@ public abstract class Recycler {
             if (LOCAL_DEBUG) {
                 Log.v(TAG, "MMS: deleteOldMessagesByUri");
             }
+            if (!isAutoDeleteEnabled(context)) {
+                return;
+            }
             Cursor cursor = null;
             long latestDate = 0;
             long threadId = 0;
