@@ -18,6 +18,7 @@ package com.android.mms.data;
 
 import java.util.List;
 
+import com.android.common.userhappiness.UserHappinessSignals;
 import com.android.mms.MmsConfig;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.ResolutionException;
@@ -978,6 +979,9 @@ public class WorkingMessage {
     // Message sending stuff
 
     private void sendSmsWorker(Conversation conv, String msgText) {
+        // If user tries to send the message, it's a signal the inputted text is what they wanted.
+        UserHappinessSignals.userAcceptedImeText(mContext);
+        
         mStatusListener.onPreMessageSent();
         // Make sure we are still using the correct thread ID for our
         // recipient set.
@@ -999,6 +1003,9 @@ public class WorkingMessage {
 
     private void sendMmsWorker(Conversation conv, Uri mmsUri, PduPersister persister,
                                SlideshowModel slideshow, SendReq sendReq) {
+        // If user tries to send the message, it's a signal the inputted text is what they wanted.
+        UserHappinessSignals.userAcceptedImeText(mContext);
+        
         // First make sure we don't have too many outstanding unsent message.
         Cursor cursor = null;
         try {
