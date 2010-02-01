@@ -49,8 +49,8 @@ import android.widget.TextView;
 /**
  * This class manages the view for given conversation.
  */
-public class ConversationHeaderView extends RelativeLayout implements Contact.UpdateListener {
-    private static final String TAG = "ConversationHeaderView";
+public class ConversationListItem extends RelativeLayout implements Contact.UpdateListener {
+    private static final String TAG = "ConversationListItem";
     private static final boolean DEBUG = false;
 
     private TextView mSubjectView;
@@ -66,15 +66,15 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
     // For posting UI update Runnables from other threads:
     private Handler mHandler = new Handler();
 
-    private ConversationHeader mConversationHeader;
+    private ConversationListItemData mConversationHeader;
 
     private static final StyleSpan STYLE_BOLD = new StyleSpan(Typeface.BOLD);
 
-    public ConversationHeaderView(Context context) {
+    public ConversationListItem(Context context) {
         super(context);
     }
 
-    public ConversationHeaderView(Context context, AttributeSet attrs) {
+    public ConversationListItem(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         if (sDefaultContactImage == null) {
@@ -105,11 +105,11 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
         }
     }
 
-    public ConversationHeader getConversationHeader() {
+    public ConversationListItemData getConversationHeader() {
         return mConversationHeader;
     }
 
-    private void setConversationHeader(ConversationHeader header) {
+    private void setConversationHeader(ConversationListItemData header) {
         mConversationHeader = header;
     }
 
@@ -121,7 +121,7 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
         mSubjectView.setText(explain);
     }
 
-    private CharSequence formatMessage(ConversationHeader ch) {
+    private CharSequence formatMessage(ConversationListItemData ch) {
         final int size = android.R.style.TextAppearance_Small;
         final int color = android.R.styleable.Theme_textColorSecondary;
         String from = ch.getFrom();
@@ -152,7 +152,7 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
     }
 
     private void updateAvatarView() {
-        ConversationHeader ch = mConversationHeader;
+        ConversationListItemData ch = mConversationHeader;
 
         Drawable avatarDrawable;
         if (ch.getContacts().size() == 1) {
@@ -174,7 +174,7 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
     }
 
     private void updateFromView() {
-        ConversationHeader ch = mConversationHeader;
+        ConversationListItemData ch = mConversationHeader;
         ch.updateRecipients();
         mFromView.setText(formatMessage(ch));
         setPresenceIcon(ch.getContacts().getPresenceResId());
@@ -189,7 +189,7 @@ public class ConversationHeaderView extends RelativeLayout implements Contact.Up
         });
     }
 
-    public final void bind(Context context, final ConversationHeader ch) {
+    public final void bind(Context context, final ConversationListItemData ch) {
         //if (DEBUG) Log.v(TAG, "bind()");
 
         setConversationHeader(ch);

@@ -25,7 +25,7 @@ import com.android.mms.data.Conversation;
 /**
  * A holder class for a conversation header.
  */
-public class ConversationHeader {
+public class ConversationListItemData {
     private Conversation mConversation;
     private long mThreadId;
     private String mSubject;
@@ -43,7 +43,7 @@ public class ConversationHeader {
     // the presence icon resource id displayed for the conversation thread.
     private int mPresenceResId;
 
-    public ConversationHeader(Context context, Conversation conv) {
+    public ConversationListItemData(Context context, Conversation conv) {
         mConversation = conv;
         mThreadId = conv.getThreadId();
         mPresenceResId = 0;

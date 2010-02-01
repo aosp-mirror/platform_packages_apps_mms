@@ -23,4 +23,7 @@
     android:layout_height="match_parent"
     android:drawSelectorOnTop="false"
     android:scrollbarStyle="insideOverlay"
+    android:background="@android:color/white"
+    android:cacheColorHint="@android:color/white"
+    android:divider="@drawable/divider_horizontal"
     android:fadingEdgeLength="16dip" />
