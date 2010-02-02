@@ -47,27 +47,27 @@ public class ConversationListAdapter extends CursorAdapter implements AbsListVie
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        if (!(view instanceof ConversationHeaderView)) {
+        if (!(view instanceof ConversationListItem)) {
             Log.e(TAG, "Unexpected bound view: " + view);
             return;
         }
 
-        ConversationHeaderView headerView = (ConversationHeaderView) view;
+        ConversationListItem headerView = (ConversationListItem) view;
         Conversation conv = Conversation.from(context, cursor);
 
-        ConversationHeader ch = new ConversationHeader(context, conv);
+        ConversationListItemData ch = new ConversationListItemData(context, conv);
         headerView.bind(context, ch);
     }
 
     public void onMovedToScrapHeap(View view) {
-        ConversationHeaderView headerView = (ConversationHeaderView)view;
+        ConversationListItem headerView = (ConversationListItem)view;
         headerView.unbind();
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         if (LOCAL_LOGV) Log.v(TAG, "inflating new view");
-        return mFactory.inflate(R.layout.conversation_header, parent, false);
+        return mFactory.inflate(R.layout.conversation_list_item, parent, false);
     }
 
     public interface OnContentChangedListener {

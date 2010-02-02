@@ -18,9 +18,10 @@
  */
 -->
 
-<com.android.mms.ui.ConversationHeaderView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.mms.ui.ConversationListItem xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="@android:color/white"
     android:paddingRight="10dip" >
 
     <android.widget.QuickContactBadge
@@ -44,7 +45,7 @@
     <TextView android:id="@+id/from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceMediumInverse"
         android:singleLine="true"
         android:layout_marginTop="6dip"
         android:layout_marginRight="5dip"
@@ -61,8 +62,7 @@
         android:layout_marginLeft="5dip"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="?android:attr/textColorSecondary"
+        android:textAppearance="?android:attr/textAppearanceSmallInverse"
         android:singleLine="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true" />
@@ -88,7 +88,7 @@
     <TextView android:id="@+id/subject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textAppearance="?android:attr/textAppearanceSmallInverse"
         android:singleLine="true"
         android:layout_marginBottom="10dip"
         android:layout_marginLeft="7dip"
@@ -98,4 +98,4 @@
         android:layout_toLeftOf="@id/date"
         android:ellipsize="end" />
 
-</com.android.mms.ui.ConversationHeaderView>
+</com.android.mms.ui.ConversationListItem>

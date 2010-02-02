@@ -108,8 +108,8 @@ public class ConversationList extends ListActivity
 
         ListView listView = getListView();
         LayoutInflater inflater = LayoutInflater.from(this);
-        ConversationHeaderView headerView = (ConversationHeaderView)
-                inflater.inflate(R.layout.conversation_header, listView, false);
+        ConversationListItem headerView = (ConversationListItem)
+                inflater.inflate(R.layout.conversation_list_item, listView, false);
         headerView.bind(getString(R.string.new_message),
                 getString(R.string.create_new_message));
         listView.addHeaderView(headerView, null, true);
@@ -343,9 +343,9 @@ public class ConversationList extends ListActivity
 
         if (position == 0) {
             createNewMessage();
-        } else if (v instanceof ConversationHeaderView) {
-            ConversationHeaderView headerView = (ConversationHeaderView) v;
-            ConversationHeader ch = headerView.getConversationHeader();
+        } else if (v instanceof ConversationListItem) {
+            ConversationListItem headerView = (ConversationListItem) v;
+            ConversationListItemData ch = headerView.getConversationHeader();
             openThread(ch.getThreadId());
         }
     }
