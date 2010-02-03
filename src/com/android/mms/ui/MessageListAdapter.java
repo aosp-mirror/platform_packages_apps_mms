@@ -498,12 +498,12 @@ public class MessageListAdapter extends CursorAdapter {
             private boolean onContactInfoLoaded(Cursor c) {
                 if (c == null || !c.moveToFirst()) return false;
 
-                mContactId = c.getLong(PHOTO_ID);
-                mContactUri = ContentUris.withAppendedId(Data.CONTENT_URI, mContactId);
+                long photoId = c.getLong(PHOTO_ID);
+                Uri contactUri  = ContentUris.withAppendedId(Data.CONTENT_URI, photoId);
                 mQueryHandler.startQuery(
                         TOKEN_PHOTO_DATA,
                         this,
-                        mContactUri,
+                        contactUri,
                         new String[] { Photo.PHOTO },
                         null,
                         null,
@@ -521,11 +521,11 @@ public class MessageListAdapter extends CursorAdapter {
 
                 mContactId = c.getLong(contactIdColumn);
                 String lookupKey = c.getString(lookupKeyColumn);
-                Uri contactUri = Contacts.getLookupUri(mContactId, lookupKey);
+                mContactUri = Contacts.getLookupUri(mContactId, lookupKey);
                 mQueryHandler.startQuery(
                         TOKEN_CONTACT_INFO,
                         this,
-                        contactUri,
+                        mContactUri,
                         COLUMNS,
                         null,
                         null,

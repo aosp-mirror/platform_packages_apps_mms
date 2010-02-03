@@ -234,7 +234,15 @@ public class MessageListItem extends LinearLayout implements
         if (!TextUtils.isEmpty(addr)) {
             MessageListAdapter.AvatarCache.ContactData contactData = avatarCache.get(addr);
             mAvatar.setImageDrawable(contactData.getAvatar());
-            mAvatar.assignContactUri(contactData.getContactUri());
+            Uri contactUri = contactData.getContactUri();
+            // Since we load the contact info in the background, on the first screenfull of
+            // messages, it's likely we haven't loaded the contact URI info yet. In that case,
+            // fall back and use the phone number.
+            if (contactUri != null) {
+                mAvatar.assignContactUri(contactUri);
+            } else {
+                mAvatar.assignContactFromPhone(addr, true);
+            }
         } else {
             mAvatar.setImageDrawable(null);
             mAvatar.assignContactUri(null);
