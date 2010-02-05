@@ -25,7 +25,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
+import com.android.mms.ui.NumberPicker;
 
 import com.android.mms.R;
 
@@ -91,7 +91,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
 
         LayoutInflater inflater =
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.number_picker, null);
+        View view = inflater.inflate(R.layout.number_picker_dialog, null);
         setView(view);
         mNumberPicker = (NonWrapNumberPicker) view.findViewById(R.id.number_picker);
 

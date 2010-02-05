@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-/*
 **
-** Copyright 2009, Google Inc.
+** Copyright 2008, The Android Open Source Project
 **
 ** Licensed under the Apache License, Version 2.0 (the "License");
 ** you may not use this file except in compliance with the License.
@@ -18,28 +17,26 @@
 */
 -->
 
-<!--
-This layout file is used by the AlertDialog when displaying a list of items.
--->
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent" >
-
-    <TextView
-        android:gravity="center_horizontal"
+    <com.android.mms.ui.NumberPickerButton android:id="@+id/increment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/pref_messages_to_save"
-        android:textSize="12sp"
-        android:padding="1dip" />
+        android:background="@drawable/timepicker_up_btn" />
 
-    <view class="com.android.mms.ui.NumberPickerDialog$NonWrapNumberPicker"
-        android:id="@+id/number_picker"
-        android:layout_centerInParent="true"
-        android:layout_width="100dip"
-        android:layout_height="match_parent" />
+    <EditText android:id="@+id/timepicker_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:singleLine="true"
+        style="?android:attr/textAppearanceLargeInverse"
+        android:textColor="@android:color/primary_text_light"
+        android:textSize="30sp"
+        android:background="@drawable/timepicker_input" />
 
-</LinearLayout>
+    <com.android.mms.ui.NumberPickerButton android:id="@+id/decrement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/timepicker_down_btn" />
+
+</merge>
