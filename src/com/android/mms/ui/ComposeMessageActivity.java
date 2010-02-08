@@ -2121,6 +2121,7 @@ public class ComposeMessageActivity extends Activity
         runOnUiThread(new Runnable() {
             public void run() {
                 handleAddAttachmentError(error, R.string.type_picture);
+                onMessageSent();        // now requery the list of messages
             }
         });
     }

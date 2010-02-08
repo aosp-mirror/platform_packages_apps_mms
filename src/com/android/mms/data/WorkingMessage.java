@@ -27,6 +27,8 @@ import com.android.mms.LogTag;
 import com.android.mmscommon.ContentType;
 import com.android.mmscommon.MmsException;
 import com.android.mmscommon.EncodedStringValue;
+import com.android.mmscommon.PduHeaders;
+import com.android.mmscommon.mms.pdu.GenericPdu;
 import com.android.mmscommon.mms.pdu.PduBody;
 import com.android.mmscommon.mms.pdu.PduPersister;
 import com.android.mmscommon.mms.pdu.SendReq;
@@ -54,8 +56,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Telephony.MmsSms;
+
 import com.android.mmscommon.telephony.TelephonyProvider.Mms;
 import com.android.mmscommon.telephony.TelephonyProvider.Sms;
+import com.android.mmscommon.telephony.TelephonyProvider.MmsSms.PendingMessages;
+
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.util.Log;
@@ -981,7 +987,7 @@ public class WorkingMessage {
     private void sendSmsWorker(Conversation conv, String msgText) {
         // If user tries to send the message, it's a signal the inputted text is what they wanted.
         UserHappinessSignals.userAcceptedImeText(mContext);
-        
+
         mStatusListener.onPreMessageSent();
         // Make sure we are still using the correct thread ID for our
         // recipient set.
@@ -1005,7 +1011,7 @@ public class WorkingMessage {
                                SlideshowModel slideshow, SendReq sendReq) {
         // If user tries to send the message, it's a signal the inputted text is what they wanted.
         UserHappinessSignals.userAcceptedImeText(mContext);
-        
+
         // First make sure we don't have too many outstanding unsent message.
         Cursor cursor = null;
         try {
@@ -1061,6 +1067,7 @@ public class WorkingMessage {
             error = UNKNOWN_ERROR;
         }
         if (error != 0) {
+            markMmsMessageWithError(mmsUri);
             mStatusListener.onAttachmentError(error);
             return;
         }
@@ -1081,6 +1088,27 @@ public class WorkingMessage {
         }
 
         mStatusListener.onMessageSent();
+    }
+
+    private void markMmsMessageWithError(Uri mmsUri) {
+        try {
+            PduPersister p = PduPersister.getPduPersister(mContext);
+            // Move the message into MMS Outbox. A trigger will create an entry in
+            // the "pending_msgs" table.
+            p.move(mmsUri, Mms.Outbox.CONTENT_URI);
+
+            // Now update the pending_msgs table with an error for that new item.
+            ContentValues values = new ContentValues(1);
+            values.put(PendingMessages.ERROR_TYPE, MmsSms.ERR_TYPE_GENERIC_PERMANENT);
+            long msgId = ContentUris.parseId(mmsUri);
+            SqliteWrapper.update(mContext, mContentResolver,
+                    PendingMessages.CONTENT_URI,
+                    values, PendingMessages._ID + "=" + msgId, null);
+        } catch (MmsException e) {
+            // Not much we can do here. If the p.move throws an exception, we'll just
+            // leave the message in the draft box.
+            Log.e(TAG, "Failed to move message to outbox and mark as error: " + mmsUri, e);
+        }
     }
 
     // Draft message stuff

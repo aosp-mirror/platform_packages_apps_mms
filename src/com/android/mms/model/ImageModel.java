@@ -18,6 +18,7 @@
 package com.android.mms.model;
 
 import com.android.mms.ContentRestrictionException;
+import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.dom.smil.SmilMediaElementImpl;
@@ -26,14 +27,12 @@ import com.android.mms.drm.DrmWrapper;
 import com.android.mms.ui.UriImage;
 import com.android.mms.ui.MessageUtils;
 import com.android.mmscommon.MmsException;
-import com.android.mmscommon.mms.pdu.PduBody;
 import com.android.mmscommon.mms.pdu.PduPart;
 import com.android.mmscommon.mms.pdu.PduPersister;
 
 import org.w3c.dom.events.Event;
 import org.w3c.dom.smil.ElementTime;
 
-import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -202,6 +201,9 @@ public class ImageModel extends RegionMediaModel {
     @Override
     protected void resizeMedia(int byteLimit, long messageId) throws MmsException {
         UriImage image = new UriImage(mContext, getUri());
+        if (image == null) {
+            throw new ExceedMessageSizeException("No room to resize picture: " + getUri());
+        }
         PduPart part = image.getResizedImageAsPart(
                 MmsConfig.getMaxImageWidth(),
                 MmsConfig.getMaxImageHeight(),
