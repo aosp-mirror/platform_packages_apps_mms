@@ -30,6 +30,7 @@
         android:layout_width="240dip"
         android:layout_height="180dip"
         android:layout_gravity="center"
+        android:layout_weight="1"
         android:background="@android:drawable/picture_frame" >
 
         <LinearLayout
