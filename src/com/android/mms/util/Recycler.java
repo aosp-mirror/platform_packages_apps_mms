@@ -78,8 +78,8 @@ public abstract class Recycler {
         }
 
         Cursor cursor = getAllThreads(context);
-        int limit = getMessageLimit(context);
         try {
+            int limit = getMessageLimit(context);
             while (cursor.moveToNext()) {
                 long threadId = getThreadId(cursor);
                 deleteMessagesForThread(context, threadId, limit);
@@ -193,24 +193,28 @@ public abstract class Recycler {
                 Log.v(TAG, "SMS: deleteMessagesForThread");
             }
             ContentResolver resolver = context.getContentResolver();
-            Cursor cursor = SqliteWrapper.query(context, resolver,
-                    ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
-                    SMS_MESSAGE_PROJECTION,
-                    "locked=0",
-                    null, "date DESC");     // get in newest to oldest order
-
-            int count = cursor.getCount();
-            int numberToDelete = count - keep;
-            if (LOCAL_DEBUG) {
-                Log.v(TAG, "SMS: deleteMessagesForThread keep: " + keep +
-                        " count: " + count +
-                        " numberToDelete: " + numberToDelete);
-            }
-            if (numberToDelete <= 0) {
-                return;
-            }
+            Cursor cursor = null;
             try {
-                // Move to the keep limit and then delete everything older than that one.
+                cursor = SqliteWrapper.query(context, resolver,
+                        ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
+                        SMS_MESSAGE_PROJECTION,
+                        "locked=0",
+                        null, "date DESC");     // get in newest to oldest order
+                if (cursor == null) {
+                    Log.e(TAG, "SMS: deleteMessagesForThread got back null cursor");
+                    return;
+                }
+                int count = cursor.getCount();
+                int numberToDelete = count - keep;
+                if (LOCAL_DEBUG) {
+                    Log.v(TAG, "SMS: deleteMessagesForThread keep: " + keep +
+                            " count: " + count +
+                            " numberToDelete: " + numberToDelete);
+                }
+                if (numberToDelete <= 0) {
+                    return;
+                }
+               // Move to the keep limit and then delete everything older than that one.
                 cursor.move(keep);
                 long latestDate = cursor.getLong(COLUMN_SMS_DATE);
 
@@ -222,7 +226,9 @@ public abstract class Recycler {
                     Log.v(TAG, "SMS: deleteMessagesForThread cntDeleted: " + cntDeleted);
                 }
             } finally {
-                cursor.close();
+                if (cursor != null) {
+                    cursor.close();
+                }
             }
         }
 
@@ -332,6 +338,10 @@ public abstract class Recycler {
                         "thread_id in (select thread_id from pdu where _id=" + msgId +
                             ") AND locked=0",
                         null, "date DESC");     // get in newest to oldest order
+                if (cursor == null) {
+                    Log.e(TAG, "MMS: deleteOldMessagesInSameThreadAsMessage got back null cursor");
+                    return;
+                }
 
                 int count = cursor.getCount();
                 int keep = getMessageLimit(context);
@@ -374,6 +384,10 @@ public abstract class Recycler {
                         MMS_MESSAGE_PROJECTION,
                         "thread_id=" + threadId + " AND locked=0",
                         null, "date DESC");     // get in newest to oldest order
+                if (cursor == null) {
+                    Log.e(TAG, "MMS: deleteMessagesForThread got back null cursor");
+                    return;
+                }
 
                 int count = cursor.getCount();
                 int numberToDelete = count - keep;

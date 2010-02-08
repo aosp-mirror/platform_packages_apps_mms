@@ -140,9 +140,8 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
 
         runTestOnUiThread(new Runnable() {
             public void run() {
-                assertEquals("mMsgListAdapter.getCount", 0, mMsgListAdapter.getCount());
                 checkFocused(mRecipientsView);
-                mRecipientsView.setText("4258365498");
+                mRecipientsView.setText("2012130903");
                 mTextEditor.setText("This is a test message");
                 Button send = (Button)a.findViewById(R.id.send_button);
                 send.performClick();

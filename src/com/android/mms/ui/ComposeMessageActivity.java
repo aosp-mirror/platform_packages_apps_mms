@@ -1671,7 +1671,7 @@ public class ComposeMessageActivity extends Activity
         mTopPanel.setVisibility(anySubViewsVisible ? View.VISIBLE : View.GONE);
     }
 
-    private void initialize(Bundle savedInstanceState) {
+    public void initialize(Bundle savedInstanceState) {
         Intent intent = getIntent();
 
         // Create a new empty working message.
@@ -1828,7 +1828,7 @@ public class ComposeMessageActivity extends Activity
         updateTitle(mConversation.getRecipients());
     }
 
-    private void loadMessageContent() {
+    public void loadMessageContent() {
         startMsgListQuery();
         updateSendFailedNotification();
         drawBottomPanel();

@@ -15,7 +15,7 @@
  */
 
 
-package src.com.android.mms;
+package com.android.mms;
 
 import com.android.mms.R;
 import com.android.mms.ui.ComposeMessageActivity;
