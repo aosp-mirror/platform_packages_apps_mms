@@ -77,123 +77,118 @@
             android:cacheColorHint="@android:color/white"
         />
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <view class="com.android.mms.ui.AttachmentEditor"
+                android:id="@+id/attachment_editor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <view class="com.android.mms.ui.AttachmentEditor"
-                    android:id="@+id/attachment_editor"
+                <ViewStub android:id="@+id/image_attachment_view_portrait_stub"
+                    android:layout="@layout/image_attachment_view_portrait"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <ViewStub android:id="@+id/video_attachment_view_portrait_stub"
+                    android:layout="@layout/video_attachment_view_portrait"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <ViewStub android:id="@+id/audio_attachment_view_portrait_stub"
+                    android:layout="@layout/audio_attachment_view_portrait"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <ViewStub android:id="@+id/slideshow_attachment_view_portrait_stub"
+                    android:layout="@layout/slideshow_attachment_view_portrait"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <ViewStub android:id="@+id/image_attachment_view_landscape_stub"
+                    android:layout="@layout/image_attachment_view_landscape"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <ViewStub android:id="@+id/video_attachment_view_landscape_stub"
+                    android:layout="@layout/video_attachment_view_landscape"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <ViewStub android:id="@+id/audio_attachment_view_landscape_stub"
+                    android:layout="@layout/audio_attachment_view_landscape"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <ViewStub android:id="@+id/slideshow_attachment_view_landscape_stub"
+                    android:layout="@layout/slideshow_attachment_view_landscape"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </view>
+
+            <LinearLayout
+                android:id="@+id/bottom_panel"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dip"
+                android:paddingBottom="5dip"
+                android:paddingLeft="5dip"
+                android:paddingRight="5dip"
+                android:background="@drawable/bottombar_landscape_565">
+
+                <EditText
+                    android:id="@+id/embedded_text_editor"
+                    android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ViewStub android:id="@+id/image_attachment_view_portrait_stub"
-                        android:layout="@layout/image_attachment_view_portrait"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                    <ViewStub android:id="@+id/video_attachment_view_portrait_stub"
-                        android:layout="@layout/video_attachment_view_portrait"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                    <ViewStub android:id="@+id/audio_attachment_view_portrait_stub"
-                        android:layout="@layout/audio_attachment_view_portrait"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                    <ViewStub android:id="@+id/slideshow_attachment_view_portrait_stub"
-                        android:layout="@layout/slideshow_attachment_view_portrait"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                    <ViewStub android:id="@+id/image_attachment_view_landscape_stub"
-                        android:layout="@layout/image_attachment_view_landscape"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                    <ViewStub android:id="@+id/video_attachment_view_landscape_stub"
-                        android:layout="@layout/video_attachment_view_landscape"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                    <ViewStub android:id="@+id/audio_attachment_view_landscape_stub"
-                        android:layout="@layout/audio_attachment_view_landscape"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                    <ViewStub android:id="@+id/slideshow_attachment_view_landscape_stub"
-                        android:layout="@layout/slideshow_attachment_view_landscape"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </view>
+                    android:layout_weight="1.0"
+                    android:autoText="true"
+                    android:capitalize="sentences"
+                    android:nextFocusRight="@+id/send_button"
+                    android:hint="@string/type_to_compose_text_enter_to_send"
+                    android:maxLines="3"
+                    android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
+                    android:imeOptions="actionSend|flagNoEnterAction"
+                    android:background="@android:drawable/edit_text"
+                    android:maxLength="1000"
+                />
 
                 <LinearLayout
-                    android:id="@+id/bottom_panel"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5dip"
-                    android:paddingBottom="5dip"
-                    android:paddingLeft="5dip"
-                    android:paddingRight="5dip"
-                    android:background="@drawable/bottombar_landscape_565">
+                    android:id="@+id/button_with_counter"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0">
 
-                    <EditText
-                        android:id="@+id/embedded_text_editor"
-                        android:layout_width="0dip"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.0"
-                        android:autoText="true"
-                        android:capitalize="sentences"
-                        android:nextFocusRight="@+id/send_button"
-                        android:hint="@string/type_to_compose_text_enter_to_send"
-                        android:maxLines="3"
-                        android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
-                        android:imeOptions="actionSend|flagNoEnterAction"
-                        android:background="@android:drawable/edit_text"
-                        android:maxLength="1000"
-                    />
-
-                    <LinearLayout
-                        android:id="@+id/button_with_counter"
-                        android:orientation="vertical"
+                    <Button
+                        android:id="@+id/send_button"
+                        android:layout_marginLeft="5dip"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="0">
+                        android:layout_weight="1.0"
+                        style="?android:attr/buttonStyle"
+                        android:nextFocusLeft="@+id/embedded_text_editor"
+                        android:text="@string/send"
+                    />
 
-                        <Button
-                            android:id="@+id/send_button"
-                            android:layout_marginLeft="5dip"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1.0"
-                            style="?android:attr/buttonStyle"
-                            android:nextFocusLeft="@+id/embedded_text_editor"
-                            android:text="@string/send"
-                        />
-
-                        <TextView
-                            android:id="@+id/text_counter"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal|bottom"
-                            android:textColor="#ffffffff"
-                            android:textSize="11sp"
-                            android:textStyle="bold"
-                            android:paddingLeft="3dip"
-                            android:paddingRight="3dip"
-                            android:paddingBottom="5dip"
-                            android:visibility="gone"
-                        />
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/text_counter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal|bottom"
+                        android:textColor="#ffffffff"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:paddingLeft="3dip"
+                        android:paddingRight="3dip"
+                        android:paddingBottom="5dip"
+                        android:visibility="gone"
+                    />
                 </LinearLayout>
             </LinearLayout>
-        </ScrollView>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
