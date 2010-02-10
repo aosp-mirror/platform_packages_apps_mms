@@ -119,7 +119,7 @@ public class HttpUtils {
                     hostUrl.getHost(), hostUrl.getPort(),
                     HttpHost.DEFAULT_SCHEME_NAME);
 
-            client = createHttpClient();
+            client = createHttpClient(context);
             HttpRequest req = null;
             switch(method) {
                 case HTTP_POST_METHOD:
@@ -253,9 +253,9 @@ public class HttpUtils {
         throw new IOException(exception.getMessage());
     }
 
-    private static AndroidHttpClient createHttpClient() {
+    private static AndroidHttpClient createHttpClient(Context context) {
         String userAgent = MmsConfig.getUserAgent();
-        AndroidHttpClient client = AndroidHttpClient.newInstance(userAgent);
+        AndroidHttpClient client = AndroidHttpClient.newInstance(userAgent, context);
         HttpParams params = client.getParams();
         HttpProtocolParams.setContentCharset(params, "UTF-8");
 
