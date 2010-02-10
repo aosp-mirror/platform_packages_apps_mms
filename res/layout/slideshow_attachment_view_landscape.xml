@@ -26,45 +26,58 @@
     android:paddingRight="5dip"
     android:background="@drawable/attachment_editor_bg">
 
-    <FrameLayout
-        android:layout_width="200dip"
-        android:layout_height="100dip"
-        android:layout_gravity="center"
+    <!-- This LinearLayout is used to push the send and edit button to the right of the
+         screen.
+    -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@android:drawable/picture_frame" >
+        android:gravity="center">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <!-- This FrameLayout makes the play_slideshow_button on the top of slideshow
+             image and text, and puts the picture_frame exactly around the slideshow
+             image.
+        -->
+        <FrameLayout
+            android:layout_width="200dip"
+            android:layout_height="100dip"
+            android:layout_gravity="center"
+            android:background="@android:drawable/picture_frame" >
 
-            <ImageView
-                android:id="@+id/slideshow_image"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="1" />
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/slideshow_text"
+                <ImageView
+                    android:id="@+id/slideshow_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/slideshow_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@drawable/text_color_black" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@drawable/text_color_black" />
+                android:layout_height="match_parent"
+                android:gravity="center">
 
-        </LinearLayout>
+                <ImageButton
+                    android:id="@+id/play_slideshow_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/mms_play_btn" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
-
-            <ImageButton
-                android:id="@+id/play_slideshow_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/mms_play_btn" />
-
-        </LinearLayout>
-    </FrameLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"

@@ -26,12 +26,24 @@
     android:paddingRight="5dip"
     android:background="@drawable/attachment_editor_bg">
 
-    <FrameLayout
-        android:layout_width="240dip"
-        android:layout_height="180dip"
-        android:layout_gravity="center"
+    <!-- This LinearLayout is used to push the send and edit button to the right of the
+         screen.
+    -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@android:drawable/picture_frame" >
+        android:gravity="center">
+
+        <!-- This FrameLayout makes the play_slideshow_button on the top of slideshow
+             image and text, and puts the picture_frame exactly around the slideshow
+             image.
+        -->
+        <FrameLayout
+            android:layout_width="240dip"
+            android:layout_height="180dip"
+            android:layout_gravity="center"
+            android:background="@android:drawable/picture_frame" >
 
         <LinearLayout
             android:orientation="vertical"
@@ -63,8 +75,9 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/mms_play_btn" />
 
-        </LinearLayout>
-    </FrameLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
