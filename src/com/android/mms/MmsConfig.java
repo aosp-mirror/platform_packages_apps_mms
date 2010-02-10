@@ -58,7 +58,6 @@ public class MmsConfig {
     private static int mDefaultMMSMessagesPerThread = 20;       // default value
     private static int mMinMessageCountPerThread = 2;           // default value
     private static int mMaxMessageCountPerThread = 5000;        // default value
-    private static int mSmsToMmsTextThreshold = 4;              // default value
     private static int mHttpSocketTimeout = 60*1000;            // default to 1 min
     private static int mMinimumSlideElementDuration = 7;        // default to 7 sec
     private static boolean mNotifyWapMMSC = false;
@@ -151,10 +150,6 @@ public class MmsConfig {
         return mMaxMessageCountPerThread;
     }
 
-    public static int getSmsToMmsTextThreshold() {
-        return mSmsToMmsTextThreshold;
-    }
-
     public static int getHttpSocketTimeout() {
         return mHttpSocketTimeout;
     }
@@ -239,8 +234,6 @@ public class MmsConfig {
                             mMinMessageCountPerThread = Integer.parseInt(text);
                         } else if ("maxMessageCountPerThread".equalsIgnoreCase(value)) {
                             mMaxMessageCountPerThread = Integer.parseInt(text);
-                        } else if ("smsToMmsTextThreshold".equalsIgnoreCase(value)) {
-                            mSmsToMmsTextThreshold = Integer.parseInt(text);
                         } else if ("recipientLimit".equalsIgnoreCase(value)) {
                             mRecipientLimit = Integer.parseInt(text);
                             if (mRecipientLimit < 0) {

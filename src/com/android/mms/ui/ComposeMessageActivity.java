@@ -230,7 +230,7 @@ public class ComposeMessageActivity extends Activity
     private AttachmentEditor mAttachmentEditor;
 
     private MessageListView mMsgListView;        // ListView for messages in this conversation
-    private MessageListAdapter mMsgListAdapter;  // and its corresponding ListAdapter
+    public MessageListAdapter mMsgListAdapter;  // and its corresponding ListAdapter
 
     private RecipientsEditor mRecipientsEditor;  // UI control for editing recipients
 
@@ -361,7 +361,7 @@ public class ComposeMessageActivity extends Activity
         }
     };
 
-    private MessageItem getMessageItem(String type, long msgId) {
+    public MessageItem getMessageItem(String type, long msgId) {
         // Check whether the cursor is valid or not.
         Cursor cursor = mMsgListAdapter.getCursor();
         if (cursor.isClosed() || cursor.isBeforeFirst() || cursor.isAfterLast()) {
@@ -399,9 +399,6 @@ public class ComposeMessageActivity extends Activity
              */
         int msgCount = params[0];
         int remainingInCurrentMessage = params[2];
-
-        // Force send as MMS once the number of SMSes required reaches a configurable threshold.
-        workingMessage.setLengthRequiresMms(msgCount >= MmsConfig.getSmsToMmsTextThreshold());
 
         // Show the counter only if:
         // - We are not in MMS mode
@@ -2742,19 +2739,6 @@ public class ComposeMessageActivity extends Activity
         mTopPanel.setFocusable(false);
         mAttachmentEditor = (AttachmentEditor) findViewById(R.id.attachment_editor);
         mAttachmentEditor.setHandler(mAttachmentEditorHandler);
-
-        if (!MmsConfig.getMmsEnabled()) {
-            // If this config doesn't support Mms, make sure we limit the message length to
-            // the point where we'd ordinarily convert the message into a Mms message. It'd be
-            // nicer if we could set the limit to an exact limit of N split-up messages, but
-            // the length of each message is dependent on its contents. Only
-            // SmsMessage.calculateLength can accurately tell us the length and number of
-            // sub-messages of a complete message. Here we just set an approximate limit
-            // to the length of a total message. The downside is that it is unlikely the last
-            // char of the last message will end on limit for the last sub-message (i.e. 0/160).
-            mTextEditor.setFilters(new InputFilter[] {
-                    new InputFilter.LengthFilter(MmsConfig.getSmsToMmsTextThreshold() * 160) });
-        }
     }
 
     private void confirmDeleteDialog(OnClickListener listener, boolean locked) {

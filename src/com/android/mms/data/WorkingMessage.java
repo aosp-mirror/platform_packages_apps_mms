@@ -837,14 +837,6 @@ public class WorkingMessage {
         return (mMmsState > 0);
     }
 
-    /**
-     * Set whether or not we want to send this message via MMS in order to
-     * avoid sending an excessive number of concatenated SMS messages.
-     */
-    public void setLengthRequiresMms(boolean mmsRequired) {
-        updateState(LENGTH_REQUIRES_MMS, mmsRequired, true);
-    }
-
     private static String stateString(int state) {
         if (state == 0)
             return "<none>";
