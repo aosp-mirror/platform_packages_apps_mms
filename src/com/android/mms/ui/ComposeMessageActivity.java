@@ -3261,12 +3261,10 @@ public class ComposeMessageActivity extends Activity
     }
 
     public static Intent createIntent(Context context, long threadId) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Intent intent = new Intent(context, ComposeMessageActivity.class);
 
         if (threadId > 0) {
             intent.setData(Conversation.getUri(threadId));
-        } else {
-            intent.setComponent(new ComponentName(context, ComposeMessageActivity.class));
         }
 
         return intent;
