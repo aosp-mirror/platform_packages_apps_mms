@@ -20,6 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.android.mms">
 
+    <original-package android:name="com.android.mms" />
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
