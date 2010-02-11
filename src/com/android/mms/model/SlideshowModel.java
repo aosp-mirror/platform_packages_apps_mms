@@ -429,6 +429,10 @@ public class SlideshowModel extends Model
     }
 
     public SlideModel get(int location) {
+        if (mSlides.size() == 0) {
+            return null;
+        }
+        
         return mSlides.get(location);
     }
 

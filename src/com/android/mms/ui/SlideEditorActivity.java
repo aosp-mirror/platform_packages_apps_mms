@@ -259,7 +259,7 @@ public class SlideEditorActivity extends Activity {
     private final OnClickListener mOnReplaceImage = new OnClickListener() {
         public void onClick(View v) {
             SlideModel slide = mSlideshowModel.get(mPosition);
-            if (slide.hasVideo()) {
+            if (slide != null && slide.hasVideo()) {
                 Toast.makeText(SlideEditorActivity.this, R.string.cannot_add_picture_and_video,
                         Toast.LENGTH_SHORT).show();
                 return;
@@ -310,6 +310,10 @@ public class SlideEditorActivity extends Activity {
         menu.clear();
 
         SlideModel slide = mSlideshowModel.get(mPosition);
+
+        if (slide == null) {
+            return false;
+        }
 
         // Preview slideshow.
         menu.add(0, MENU_PREVIEW_SLIDESHOW, 0, R.string.preview_slideshow).setIcon(
@@ -388,7 +392,9 @@ public class SlideEditorActivity extends Activity {
 
             case MENU_REMOVE_TEXT:
                 SlideModel slide = mSlideshowModel.get(mPosition);
-                slide.removeText();
+                if (slide != null) {
+                    slide.removeText();
+                }
                 break;
 
             case MENU_ADD_PICTURE:
