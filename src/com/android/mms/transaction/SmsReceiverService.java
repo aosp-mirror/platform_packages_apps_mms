@@ -215,14 +215,15 @@ public class SmsReceiverService extends Service {
                     int threadId = c.getInt(SEND_COLUMN_THREAD_ID);
                     int status = c.getInt(SEND_COLUMN_STATUS);
 
-                    SmsMessageSender sender = new SmsSingleRecipientSender(this,
-                            address, msgText, threadId, status == Sms.STATUS_PENDING);
-
                     int msgId = c.getInt(SEND_COLUMN_ID);
                     Uri msgUri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgId);
 
+                    SmsMessageSender sender = new SmsSingleRecipientSender(this,
+                            address, msgText, threadId, status == Sms.STATUS_PENDING,
+                            msgUri);
+
                     if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                        Log.v(TAG, "sendFirstQueuedMessage and delete old msgUri " + msgUri +
+                        Log.v(TAG, "sendFirstQueuedMessage " + msgUri +
                                 ", address: " + address +
                                 ", threadId: " + threadId +
                                 ", body: " + msgText);
@@ -234,15 +235,6 @@ public class SmsReceiverService extends Service {
                         Log.e(TAG, "sendFirstQueuedMessage: failed to send message " + msgUri
                                 + ", caught ", e);
                         success = false;
-                    } finally {
-                        // Since sendMessage adds a new message to the outbox rather than
-                        // moving the old one, the old one must be deleted here
-
-                        int result = SqliteWrapper.delete(this, resolver, msgUri, null, null);
-                        if (result != 1) {
-                            Log.e(TAG, "sendFirstQueuedMessage: failed to delete old msgUri " +
-                                    msgUri + ", result=" + result);
-                        }
                     }
                 }
             } finally {

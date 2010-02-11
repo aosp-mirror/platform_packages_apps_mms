@@ -14,7 +14,6 @@ import android.util.Log;
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mmscommon.MmsException;
-import android.database.sqlite.SqliteWrapper;
 import com.android.mmscommon.telephony.TelephonyProvider.Sms;
 import com.android.mms.ui.MessageUtils;
 
@@ -22,12 +21,14 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
 
     private final boolean mRequestDeliveryReport;
     private String mDest;
+    private Uri mUri;
 
     public SmsSingleRecipientSender(Context context, String dest, String msgText, long threadId,
-            boolean requestDeliveryReport) {
+            boolean requestDeliveryReport, Uri uri) {
         super(context, null, msgText, threadId);
         mRequestDeliveryReport = requestDeliveryReport;
         mDest = dest;
+        mUri = uri;
     }
 
     public boolean sendMessage(long token) throws MmsException {
@@ -57,13 +58,10 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
                     "empty messages. Original message is \"" + mMessageText + "\"");
         }
 
-        
-        Uri uri = null;
-        try {
-            uri = Sms.Outbox.addMessage(mContext.getContentResolver(), mDest,
-                    mMessageText, null, mTimestamp, mRequestDeliveryReport, mThreadId);
-        } catch (SQLiteException e) {
-            SqliteWrapper.checkSQLiteException(mContext, e);
+        boolean moved = Sms.moveMessageToFolder(mContext, mUri, Sms.MESSAGE_TYPE_OUTBOX, 0);
+        if (!moved) {
+            throw new MmsException("SmsMessageSender.sendMessage: couldn't move message " +
+                    "to outbox: " + mUri);
         }
 
         ArrayList<PendingIntent> deliveryIntents =  new ArrayList<PendingIntent>(messageCount);
@@ -77,13 +75,13 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
                         mContext, 0,
                         new Intent(
                                 MessageStatusReceiver.MESSAGE_STATUS_RECEIVED_ACTION,
-                                uri,
+                                mUri,
                                 mContext,
                                 MessageStatusReceiver.class),
                         0));
             }
             Intent intent  = new Intent(SmsReceiverService.MESSAGE_SENT_ACTION,
-                    uri,
+                    mUri,
                     mContext,
                     SmsReceiver.class);
             if (i == messageCount -1) {
@@ -100,7 +98,7 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
         }
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             log("sendMessage: address=" + mDest + ", threadId=" + mThreadId +
-                    ", uri=" + uri + ", msgs.count=" + messageCount);
+                    ", uri=" + mUri + ", msgs.count=" + messageCount);
         }
         return false;
     }
