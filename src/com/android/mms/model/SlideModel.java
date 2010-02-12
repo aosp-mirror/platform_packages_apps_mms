@@ -349,6 +349,10 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
     }
 
     public MediaModel get(int location) {
+        if (mMedia.size() == 0) {
+            return null;
+        }
+
         return mMedia.get(location);
     }
 
