@@ -965,6 +965,15 @@ public class ComposeMessageActivity extends Activity
 
         mAttachmentEditor.update(mWorkingMessage);
         drawTopPanel();
+        
+        // WorkingMessage.load() above only loads the slideshow. Set the
+        // subject here because we already know what it is and avoid doing
+        // another DB lookup in load() just to get it.
+        mWorkingMessage.setSubject(msgItem.mSubject, false);
+        
+        if (mWorkingMessage.hasSubject()) {
+            showSubjectEditor(true);
+        }
     }
 
     private void copyToClipboard(String str) {
