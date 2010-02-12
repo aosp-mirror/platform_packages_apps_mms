@@ -429,6 +429,11 @@ public class WorkingMessage {
         SlideModel slide = mSlideshow.get(0);
         MediaModel media;
 
+        if (slide == null) {
+            Log.w(LogTag.TAG, "[WorkingMessage] changeMedia: no slides!");
+            return;
+        }
+
         // Remove any previous attachments.
         slide.removeImage();
         slide.removeVideo();
@@ -592,7 +597,7 @@ public class WorkingMessage {
         }
 
         SlideModel slide = mSlideshow.get(0);
-        if (!slide.hasText()) {
+        if (slide == null || !slide.hasText()) {
             return;
         }
 
