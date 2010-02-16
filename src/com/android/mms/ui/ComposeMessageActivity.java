@@ -2543,8 +2543,8 @@ public class ComposeMessageActivity extends Activity
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("addImage: resize image " + uri);
             }
-            // We no longer resize the image at attachment-time. Now we resize at send-time.
-            // Previously, we'd resize the image at this point. Leaving this breadcrumb comment.
+            MessageUtils.resizeImageAsync(this,
+                    uri, mAttachmentEditorHandler, mResizeImageCallback, append);
             return;
         }
         handleAddAttachmentError(result, R.string.type_picture);
