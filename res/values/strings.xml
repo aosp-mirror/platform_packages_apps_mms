@@ -234,6 +234,12 @@
     <string name="locked_message_cannot_be_deleted">Locked message cannot be deleted.</string>
     <!-- Brief message that appears when too many recipients have been added -->
     <string name="too_many_recipients">This message has too many recipients (<xliff:g id="currentCount">%1$s</xliff:g>). There is a limit of <xliff:g id="maxLimit">%2$s</xliff:g> recipients.</string>
+    <!-- Brief message that appears when too many videos/pictures are imported -->
+    <string name="too_many_attachments">There is a limit of <xliff:g id="maxLimit">%1$s</xliff:g> attachments. Only the first <xliff:g id="currentCount">%2$s</xliff:g> will be added.</string>
+    <!-- Alert dialog title when adding attachments is taking a while -->
+    <string name="adding_attachments_title">Adding attachments</string>
+    <!-- Alert dialog when adding attachments is taking a while -->
+    <string name="adding_attachments">Please wait while the items are added to the slideshow.</string>
 
     <!-- Titlebar string when there are more than one recipients -->
     <string name="multiple_recipients"><xliff:g id="recipientCount">%1$s</xliff:g> recipients</string>

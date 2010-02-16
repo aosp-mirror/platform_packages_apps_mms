@@ -37,7 +37,7 @@ import android.util.Log;
 public class SlideshowEditor {
     private static final String TAG = "Mms:slideshow";
 
-    private static final int MAX_SLIDE_NUM = 10;
+    public static final int MAX_SLIDE_NUM = 10;
 
     private final Context mContext;
     private final SlideshowModel mModel;

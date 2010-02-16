@@ -436,8 +436,8 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void toastConvertInfo(boolean toMms) {
-        int resId = toMms  ? R.string.converting_to_picture_message
-                           : R.string.converting_to_text_message;
+        final int resId = toMms ? R.string.converting_to_picture_message
+                : R.string.converting_to_text_message;
         Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
     }
 
@@ -965,12 +965,12 @@ public class ComposeMessageActivity extends Activity
 
         mAttachmentEditor.update(mWorkingMessage);
         drawTopPanel();
-        
+
         // WorkingMessage.load() above only loads the slideshow. Set the
         // subject here because we already know what it is and avoid doing
         // another DB lookup in load() just to get it.
         mWorkingMessage.setSubject(msgItem.mSubject, false);
-        
+
         if (mWorkingMessage.hasSubject()) {
             showSubjectEditor(true);
         }
@@ -2071,14 +2071,26 @@ public class ComposeMessageActivity extends Activity
     }
 
     public void onAttachmentChanged() {
-        drawBottomPanel();
-        updateSendButtonState();
-        mAttachmentEditor.update(mWorkingMessage);
+        // Have to make sure we're on the UI thread. This function can be called off of the UI
+        // thread when we're adding multi-attachments
+        runOnUiThread(new Runnable() {
+            public void run() {
+                drawBottomPanel();
+                updateSendButtonState();
+                mAttachmentEditor.update(mWorkingMessage);
+            }
+        });
     }
 
-    public void onProtocolChanged(boolean mms) {
-        toastConvertInfo(mms);
-        setSendButtonText(mms);
+    public void onProtocolChanged(final boolean mms) {
+        // Have to make sure we're on the UI thread. This function can be called off of the UI
+        // thread when we're adding multi-attachments
+        runOnUiThread(new Runnable() {
+            public void run() {
+                toastConvertInfo(mms);
+                setSendButtonText(mms);
+            }
+        });
     }
 
     private void setSendButtonText(boolean isMms) {
@@ -2531,8 +2543,8 @@ public class ComposeMessageActivity extends Activity
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("addImage: resize image " + uri);
             }
-            MessageUtils.resizeImageAsync(this,
-                    uri, mAttachmentEditorHandler, mResizeImageCallback, append);
+            // We no longer resize the image at attachment-time. Now we resize at send-time.
+            // Previously, we'd resize the image at this point. Leaving this breadcrumb comment.
             return;
         }
         handleAddAttachmentError(result, R.string.type_picture);
@@ -2584,7 +2596,7 @@ public class ComposeMessageActivity extends Activity
             return false;
         }
 
-        String mimeType = intent.getType();
+        final String mimeType = intent.getType();
         String action = intent.getAction();
         if (Intent.ACTION_SEND.equals(action)) {
             if (extras.containsKey(Intent.EXTRA_STREAM)) {
@@ -2597,10 +2609,49 @@ public class ComposeMessageActivity extends Activity
             }
         } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) &&
                 extras.containsKey(Intent.EXTRA_STREAM)) {
-            ArrayList<Parcelable> uris = extras.getParcelableArrayList(Intent.EXTRA_STREAM);
-            for (Parcelable uri : uris) {
-                addAttachment(mimeType, (Uri) uri, true);
+            SlideshowModel slideShow = mWorkingMessage.getSlideshow();
+            final ArrayList<Parcelable> uris = extras.getParcelableArrayList(Intent.EXTRA_STREAM);
+            int currentSlideCount = slideShow != null ? slideShow.size() : 0;
+            int importCount = uris.size();
+            if (importCount + currentSlideCount > SlideshowEditor.MAX_SLIDE_NUM) {
+                importCount = Math.min(SlideshowEditor.MAX_SLIDE_NUM - currentSlideCount,
+                        importCount);
+                Toast.makeText(ComposeMessageActivity.this,
+                        getString(R.string.too_many_attachments,
+                                SlideshowEditor.MAX_SLIDE_NUM, importCount),
+                                Toast.LENGTH_LONG).show();
             }
+
+            // Attach all the pictures/videos off of the UI thread.
+            // Show a progress alert if adding all the slides hasn't finished
+            // within one second.
+            // Stash the runnable for showing it away so we can cancel
+            // it later if adding completes ahead of the deadline.
+            final AlertDialog dialog = new AlertDialog.Builder(ComposeMessageActivity.this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(R.string.adding_attachments_title)
+                .setMessage(R.string.adding_attachments)
+                .create();
+            final Runnable showProgress = new Runnable() {
+                public void run() {
+                    dialog.show();
+                }
+            };
+            // Schedule it for one second from now.
+            mAttachmentEditorHandler.postDelayed(showProgress, 1000);
+
+            final int numberToImport = importCount;
+            new Thread(new Runnable() {
+                public void run() {
+                    for (int i = 0; i < numberToImport; i++) {
+                        Parcelable uri = uris.get(i);
+                        addAttachment(mimeType, (Uri) uri, true);
+                    }
+                    // Cancel pending show of the progress alert if necessary.
+                    mAttachmentEditorHandler.removeCallbacks(showProgress);
+                    dialog.dismiss();
+                }
+            }).start();
             return true;
         }
 
