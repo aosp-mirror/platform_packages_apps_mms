@@ -77,13 +77,16 @@ public class SlideshowEditActivity extends ListActivity {
     private Uri mUri;
     private Intent mResultIntent;
     private boolean mDirty;
+    private View mAddSlideItem;
 
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
         mList = getListView();
-        mList.addFooterView(createAddSlideItem());
+        mAddSlideItem = createAddSlideItem();
+        mList.addFooterView(mAddSlideItem);
+        mAddSlideItem.setVisibility(View.GONE);
 
         if (icicle != null) {
             // Retrieve previously saved state of this activity.
@@ -105,9 +108,10 @@ public class SlideshowEditActivity extends ListActivity {
         // Return the Uri of the message to whoever invoked us.
         mResultIntent = new Intent();
         mResultIntent.setData(mUri);
-        
+
         try {
             initSlideList();
+            adjustAddSlideVisibility();
         } catch (MmsException e) {
             Log.e(TAG, "Failed to initialize the slide-list.", e);
             finish();
@@ -290,6 +294,14 @@ public class SlideshowEditActivity extends ListActivity {
         startActivityForResult(intent, REQUEST_CODE_EDIT_SLIDE);
     }
 
+    private void adjustAddSlideVisibility() {
+        if (mSlideshowModel.size() >= SlideshowEditor.MAX_SLIDE_NUM) {
+            mAddSlideItem.setVisibility(View.GONE);
+        } else {
+            mAddSlideItem.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void addNewSlide() {
         if ( mSlideshowEditor.addNewSlide() ) {
             // add successfully
@@ -387,6 +399,7 @@ public class SlideshowEditActivity extends ListActivity {
                     mDirty = true;
                 }
                 setResult(RESULT_OK, mResultIntent);
+                adjustAddSlideVisibility();
             }
         };
 }
