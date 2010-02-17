@@ -129,7 +129,6 @@ public class ImageModel extends RegionMediaModel {
     protected void checkContentRestriction() throws ContentRestrictionException {
         ContentRestriction cr = ContentRestrictionFactory.getContentRestriction();
         cr.checkImageContentType(mContentType);
-        cr.checkResolution(mWidth, mHeight);
     }
 
     public Bitmap getBitmap() {
