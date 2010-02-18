@@ -73,21 +73,21 @@
             android:id="@+id/play_audio_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
-            android:layout_height="50dip"
+            android:layout_height="45dip"
             android:text="@string/play" />
 
         <Button
             android:id="@+id/replace_audio_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
-            android:layout_height="50dip"
+            android:layout_height="45dip"
             android:text="@string/replace" />
 
         <Button
             android:id="@+id/remove_audio_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
-            android:layout_height="50dip"
+            android:layout_height="45dip"
             android:text="@string/remove" />
 
     </LinearLayout>

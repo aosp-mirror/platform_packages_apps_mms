@@ -55,21 +55,21 @@
             android:id="@+id/view_video_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
-            android:layout_height="50dip"
+            android:layout_height="45dip"
             android:text="@string/view" />
 
         <Button
             android:id="@+id/replace_video_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
-            android:layout_height="50dip"
+            android:layout_height="45dip"
             android:text="@string/replace" />
 
         <Button
             android:id="@+id/remove_video_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
-            android:layout_height="50dip"
+            android:layout_height="45dip"
             android:text="@string/remove" />
 
     </LinearLayout>
