@@ -89,14 +89,14 @@
             android:id="@+id/edit_slideshow_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="80dip"
-            android:layout_height="50dip"
+            android:layout_height="45dip"
             android:text="@string/edit" />
 
         <Button
             android:id="@+id/send_slideshow_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="80dip"
-            android:layout_height="50dip"
+            android:layout_height="45dip"
             android:text="@string/send" />
 
     </LinearLayout>
