@@ -228,15 +228,15 @@ public class HttpUtils {
             }
             return body;
         } catch (URISyntaxException e) {
-            handleHttpConnectionException(e);
+            handleHttpConnectionException(e, url);
         } catch (IllegalStateException e) {
-            handleHttpConnectionException(e);
+            handleHttpConnectionException(e, url);
         } catch (IllegalArgumentException e) {
-            handleHttpConnectionException(e);
+            handleHttpConnectionException(e, url);
         } catch (SocketException e) {
-            handleHttpConnectionException(e);
+            handleHttpConnectionException(e, url);
         } catch (Exception e) {
-            handleHttpConnectionException(e);
+            handleHttpConnectionException(e, url);
         }
         finally {
             if (client != null) {
@@ -246,11 +246,13 @@ public class HttpUtils {
         return null;
     }
 
-    private static void handleHttpConnectionException(Exception exception)
+    private static void handleHttpConnectionException(Exception exception, String url)
             throws IOException {
         // Inner exception should be logged to make life easier.
-        Log.e(TAG, exception.getMessage());
-        throw new IOException(exception.getMessage());
+        Log.e(TAG, "Url: " + url + "\n" + exception.getMessage());
+        IOException e = new IOException(exception.getMessage());
+        e.initCause(exception);
+        throw e;
     }
 
     private static AndroidHttpClient createHttpClient() {
