@@ -21,6 +21,7 @@
     android:label="@string/search_label"
     android:hint="@string/search_hint"
 
+    android:searchSettingsDescription="@string/search_setting_description"
     android:searchSuggestAuthority="com.android.mms.SuggestionsProvider"
     android:searchSuggestSelection="pattern"
     android:searchSuggestIntentAction="android.intent.action.SEARCH"
