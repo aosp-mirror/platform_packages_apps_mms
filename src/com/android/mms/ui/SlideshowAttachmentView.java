@@ -72,10 +72,16 @@ public class SlideshowAttachmentView extends LinearLayout implements
 
     public void setImage(String name, Bitmap bitmap) {
         if (null == bitmap) {
-            bitmap = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.ic_missing_thumbnail_picture);
+            try {
+                bitmap = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.ic_missing_thumbnail_picture);
+            } catch (java.lang.OutOfMemoryError e) {
+                // We don't even have enough memory to load the "missing thumbnail" image
+            }
         }
-        mImageView.setImageBitmap(bitmap);
+        if (bitmap != null) {
+            mImageView.setImageBitmap(bitmap);      // implementation doesn't appear to be null-safe
+        }
     }
 
     public void setImageRegionFit(String fit) {
