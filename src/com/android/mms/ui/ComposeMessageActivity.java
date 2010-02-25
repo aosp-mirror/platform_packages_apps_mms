@@ -948,10 +948,23 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void editSmsMessageItem(MessageItem msgItem) {
+        // When the message being edited is the only message in the conversation, the delete
+        // below does something subtle. The trigger "delete_obsolete_threads_pdu" sees that a
+        // thread contains no messages and silently deletes the thread. Meanwhile, the mConversation
+        // object still holds onto the old thread_id and code thinks there's a backing thread in
+        // the DB when it really has been deleted. Here we try and notice that situation and
+        // clear out the thread_id. Later on, when Conversation.ensureThreadId() is called, we'll
+        // create a new thread if necessary.
+        synchronized(mConversation) {
+            if (mConversation.getMessageCount() <= 1) {
+                mConversation.clearThreadId();
+            }
+        }
         // Delete the old undelivered SMS and load its content.
         Uri uri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgItem.mMsgId);
         SqliteWrapper.delete(ComposeMessageActivity.this,
                 mContentResolver, uri, null, null);
+
         mWorkingMessage.setText(msgItem.mBody);
     }
 
