@@ -371,13 +371,6 @@ public class MessagingNotification {
         nm.cancel(notificationId);
     }
 
-    private static Intent getAppIntent() {
-        Intent appIntent = new Intent(Intent.ACTION_MAIN, Threads.CONTENT_URI);
-
-        appIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        return appIntent;
-   }
-
     private static void updateDeliveryNotification(
 	    Context context,
 	    boolean isNew,
