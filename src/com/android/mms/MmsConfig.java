@@ -26,8 +26,6 @@ import android.content.res.XmlResourceParser;
 import android.util.Config;
 import android.util.Log;
 
-import com.android.common.XmlUtils;
-
 public class MmsConfig {
     private static final String TAG = "MmsConfig";
     private static final boolean DEBUG = false;
@@ -182,14 +180,41 @@ public class MmsConfig {
         return mAllowAttachAudio;
     }
 
+    public static final void beginDocument(XmlPullParser parser, String firstElementName) throws XmlPullParserException, IOException
+    {
+        int type;
+        while ((type=parser.next()) != parser.START_TAG
+                   && type != parser.END_DOCUMENT) {
+            ;
+        }
+
+        if (type != parser.START_TAG) {
+            throw new XmlPullParserException("No start tag found");
+        }
+
+        if (!parser.getName().equals(firstElementName)) {
+            throw new XmlPullParserException("Unexpected start tag: found " + parser.getName() +
+                    ", expected " + firstElementName);
+        }
+    }
+
+    public static final void nextElement(XmlPullParser parser) throws XmlPullParserException, IOException
+    {
+        int type;
+        while ((type=parser.next()) != parser.START_TAG
+                   && type != parser.END_DOCUMENT) {
+            ;
+        }
+    }
+    
     private static void loadMmsSettings(Context context) {
         XmlResourceParser parser = context.getResources().getXml(R.xml.mms_config);
 
         try {
-            XmlUtils.beginDocument(parser, "mms_config");
+            beginDocument(parser, "mms_config");
 
             while (true) {
-                XmlUtils.nextElement(parser);
+                nextElement(parser);
                 String tag = parser.getName();
                 if (tag == null) {
                     break;
