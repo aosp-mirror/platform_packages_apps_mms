@@ -94,6 +94,7 @@ public class ConversationList extends ListActivity
     private CharSequence mTitle;
     private SharedPreferences mPrefs;
     private Handler mHandler;
+    private boolean mNeedToMarkAsSeen;
 
     static private final String CHECKED_MESSAGE_LIMITS = "checked_message_limits";
 
@@ -218,6 +219,8 @@ public class ConversationList extends ListActivity
                 SmsRejectedReceiver.SMS_REJECTED_NOTIFICATION_ID);
 
         try {
+            // TODO: why do we need to do this? This calls ContentResolver.delete(), which can
+            // TODO: be very expensive. And this is done in the main thread!!!
             Conversation.cleanup(this);
         } catch (SQLiteFullException e) {
             Log.e(TAG, "ConversationList.onStart disk probably full - finishing: " + e);
@@ -245,6 +248,8 @@ public class ConversationList extends ListActivity
         if (!Conversation.loadingThreads()) {
             Contact.invalidateCache();
         }
+
+        mNeedToMarkAsSeen = true;
     }
 
     protected void privateOnStart() {
@@ -568,6 +573,12 @@ public class ConversationList extends ListActivity
                 mListAdapter.changeCursor(cursor);
                 setTitle(mTitle);
                 setProgressBarIndeterminateVisibility(false);
+
+                if (mNeedToMarkAsSeen) {
+                    mNeedToMarkAsSeen = false;
+                    Conversation.markAllConversationsAsSeen(getApplicationContext());                    
+                }
+
                 break;
 
             case HAVE_LOCKED_MESSAGES_TOKEN:

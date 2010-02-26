@@ -189,6 +189,7 @@ public class ClassZeroActivity extends Activity {
         values.put(Inbox.DATE, new Long(System.currentTimeMillis()));
         values.put(Inbox.PROTOCOL, sms.getProtocolIdentifier());
         values.put(Inbox.READ, Integer.valueOf(mRead ? 1 : 0));
+        values.put(Inbox.SEEN, Integer.valueOf(mRead ? 1 : 0));
 
         if (sms.getPseudoSubject().length() > 0) {
             values.put(Inbox.SUBJECT, sms.getPseudoSubject());

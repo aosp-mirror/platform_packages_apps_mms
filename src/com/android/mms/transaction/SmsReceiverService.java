@@ -50,6 +50,7 @@ import com.android.mmscommon.telephony.TelephonyProvider.Threads;
 import com.android.mmscommon.telephony.TelephonyProvider.Sms.Inbox;
 import com.android.mmscommon.telephony.TelephonyProvider.Sms.Intents;
 import com.android.mmscommon.telephony.TelephonyProvider.Sms.Outbox;
+import com.android.mmscommon.telephony.TelephonyProvider;
 import android.telephony.ServiceState;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
@@ -439,8 +440,8 @@ public class SmsReceiverService extends Service {
         }
 
         if (((threadId == null) || (threadId == 0)) && (address != null)) {
-            values.put(Sms.THREAD_ID, Threads.getOrCreateThreadId(
-                               context, address));
+            threadId = Threads.getOrCreateThreadId(context, address);
+            values.put(Sms.THREAD_ID, threadId);
         }
 
         ContentResolver resolver = context.getContentResolver();
@@ -448,9 +449,7 @@ public class SmsReceiverService extends Service {
         Uri insertedUri = SqliteWrapper.insert(context, resolver, Inbox.CONTENT_URI, values);
 
         // Now make sure we're not over the limit in stored messages
-        threadId = values.getAsLong(Sms.THREAD_ID);
-        Recycler.getSmsRecycler().deleteOldMessagesByThreadId(getApplicationContext(),
-                threadId);
+        Recycler.getSmsRecycler().deleteOldMessagesByThreadId(getApplicationContext(), threadId);
 
         return insertedUri;
     }
@@ -469,7 +468,8 @@ public class SmsReceiverService extends Service {
         // drift between the handset and the SMSC.
         values.put(Inbox.DATE, new Long(System.currentTimeMillis()));
         values.put(Inbox.PROTOCOL, sms.getProtocolIdentifier());
-        values.put(Inbox.READ, Integer.valueOf(0));
+        values.put(Inbox.READ, 0);
+        values.put(Inbox.SEEN, 0);
         if (sms.getPseudoSubject().length() > 0) {
             values.put(Inbox.SUBJECT, sms.getPseudoSubject());
         }

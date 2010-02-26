@@ -1,6 +1,5 @@
 package com.android.mms.data;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -9,11 +8,13 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import com.android.mmscommon.telephony.TelephonyProvider.MmsSms;
 import com.android.mmscommon.telephony.TelephonyProvider.Threads;
 import com.android.mmscommon.telephony.TelephonyProvider.Sms.Conversations;
+import com.android.mmscommon.telephony.TelephonyProvider;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -38,9 +39,15 @@ public class Conversation {
         Threads.SNIPPET, Threads.SNIPPET_CHARSET, Threads.READ, Threads.ERROR,
         Threads.HAS_ATTACHMENT
     };
+
     private static final String[] READ_PROJECTION = {
         Threads._ID, Threads.READ
     };
+
+    private static final String[] SEEN_PROJECTION = new String[] {
+        "seen"
+    };
+
     private static final int ID             = 0;
     private static final int DATE           = 1;
     private static final int MESSAGE_COUNT  = 2;
@@ -92,9 +99,9 @@ public class Conversation {
     }
 
     /**
-     * Create a new conversation with no recipients.  {@link setRecipients} can
+     * Create a new conversation with no recipients.  {@link #setRecipients} can
      * be called as many times as you like; the conversation will not be
-     * created in the database until {@link ensureThreadId} is called.
+     * created in the database until {@link #ensureThreadId} is called.
      */
     public static Conversation createNew(Context context) {
         return new Conversation(context);
@@ -198,7 +205,7 @@ public class Conversation {
     /**
      * Returns a temporary Conversation (not representing one on disk) wrapping
      * the contents of the provided cursor.  The cursor should be the one
-     * returned to your AsyncQueryHandler passed in to {@link startQueryForAll}.
+     * returned to your AsyncQueryHandler passed in to {@link #startQueryForAll}.
      * The recipient list of this conversation can be empty if the results
      * were not in cache.
      */
@@ -209,8 +216,9 @@ public class Conversation {
 
     private void buildReadContentValues() {
         if (mReadContentValues == null) {
-            mReadContentValues = new ContentValues(1);
+            mReadContentValues = new ContentValues(2);
             mReadContentValues.put("read", 1);
+            mReadContentValues.put("seen", 1);
         }
     }
 
@@ -260,8 +268,9 @@ public class Conversation {
                         }
                     }
                 }
+
                 // Always update notifications regardless of the read state.
-                MessagingNotification.updateAllNotifications(mContext);
+                MessagingNotification.blockingUpdateAllNotifications(mContext);
             }
         }).start();
     }
@@ -278,6 +287,7 @@ public class Conversation {
                     mMarkAsBlockedSyncer.notifyAll();
                 }
             }
+
         }
     }
 
@@ -698,75 +708,162 @@ public class Conversation {
         }).start();
     }
 
+    public static void markAllConversationsAsSeen(final Context context) {
+        if (DEBUG) {
+            LogTag.debug("Conversation.markAllConversationsAsSeen");
+        }
+
+        new Thread(new Runnable() {
+            public void run() {
+                blockingMarkAllSmsMessagesAsSeen(context);
+                blockingMarkAllMmsMessagesAsSeen(context);
+
+                // Always update notifications regardless of the read state.
+                MessagingNotification.blockingUpdateAllNotifications(context);
+            }
+        }).start();
+    }
+
+    private static void blockingMarkAllSmsMessagesAsSeen(final Context context) {
+        ContentResolver resolver = context.getContentResolver();
+        Cursor cursor = resolver.query(TelephonyProvider.Sms.Inbox.CONTENT_URI,
+                SEEN_PROJECTION,
+                "seen=0",
+                null,
+                null);
+
+        int count = 0;
+
+        if (cursor != null) {
+            try {
+                count = cursor.getCount();
+            } finally {
+                cursor.close();
+            }
+        }
+
+        if (count == 0) {
+            return;
+        }
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.d(TAG, "mark " + count + " SMS msgs as seen");
+        }
+
+        ContentValues values = new ContentValues(1);
+        values.put("seen", 1);
+
+        resolver.update(TelephonyProvider.Sms.Inbox.CONTENT_URI,
+                values,
+                "seen=0",
+                null);
+    }
+
+    private static void blockingMarkAllMmsMessagesAsSeen(final Context context) {
+        ContentResolver resolver = context.getContentResolver();
+        Cursor cursor = resolver.query(TelephonyProvider.Mms.Inbox.CONTENT_URI,
+                SEEN_PROJECTION,
+                "seen=0",
+                null,
+                null);
+
+        int count = 0;
+
+        if (cursor != null) {
+            try {
+                count = cursor.getCount();
+            } finally {
+                cursor.close();
+            }
+        }
+
+        if (count == 0) {
+            return;
+        }
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.d(TAG, "mark " + count + " MMS msgs as seen");
+        }
+
+        ContentValues values = new ContentValues(1);
+        values.put("seen", 1);
+
+        resolver.update(TelephonyProvider.Mms.Inbox.CONTENT_URI,
+                values,
+                "seen=0",
+                null);
+
+    }
+
     /**
      * Are we in the process of loading and caching all the threads?.
      */
-   public static boolean loadingThreads() {
-       synchronized (Cache.getInstance()) {
-           return mLoadingThreads;
-       }
+    public static boolean loadingThreads() {
+        synchronized (Cache.getInstance()) {
+            return mLoadingThreads;
+        }
     }
 
-   private static void cacheAllThreads(Context context) {
-       if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-           LogTag.debug("[Conversation] cacheAllThreads");
-       }
-       synchronized (Cache.getInstance()) {
-           if (mLoadingThreads) {
-              return;
-           }
-           mLoadingThreads = true;
-       }
+    private static void cacheAllThreads(Context context) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("[Conversation] cacheAllThreads");
+        }
+        synchronized (Cache.getInstance()) {
+            if (mLoadingThreads) {
+                return;
+                }
+            mLoadingThreads = true;
+        }
 
-       // Keep track of what threads are now on disk so we
-       // can discard anything removed from the cache.
-       HashSet<Long> threadsOnDisk = new HashSet<Long>();
+        // Keep track of what threads are now on disk so we
+        // can discard anything removed from the cache.
+        HashSet<Long> threadsOnDisk = new HashSet<Long>();
 
-       // Query for all conversations.
-       Cursor c = context.getContentResolver().query(sAllThreadsUri,
-               ALL_THREADS_PROJECTION, null, null, null);
-       try {
-           if (c != null) {
-               while (c.moveToNext()) {
-                   long threadId = c.getLong(ID);
-                   threadsOnDisk.add(threadId);
+        // Query for all conversations.
+        Cursor c = context.getContentResolver().query(sAllThreadsUri,
+                ALL_THREADS_PROJECTION, null, null, null);
+        try {
+            if (c != null) {
+                while (c.moveToNext()) {
+                    long threadId = c.getLong(ID);
+                    threadsOnDisk.add(threadId);
 
-                   // Try to find this thread ID in the cache.
-                   Conversation conv;
-                   synchronized (Cache.getInstance()) {
-                       conv = Cache.get(threadId);
-                   }
+                    // Try to find this thread ID in the cache.
+                    Conversation conv;
+                    synchronized (Cache.getInstance()) {
+                        conv = Cache.get(threadId);
+                    }
 
-                   if (conv == null) {
-                       // Make a new Conversation and put it in
-                       // the cache if necessary.
-                       conv = new Conversation(context, c, true);
-                       try {
-                           synchronized (Cache.getInstance()) {
-                               Cache.put(conv);
-                           }
-                       } catch (IllegalStateException e) {
-                           LogTag.error("Tried to add duplicate Conversation to Cache");
-                       }
-                   } else {
-                       // Or update in place so people with references
-                       // to conversations get updated too.
-                       fillFromCursor(context, conv, c, true);
-                   }
-               }
-           }
-       } finally {
-           if (c != null) {
-               c.close();
-           }
-           synchronized (Cache.getInstance()) {
-               mLoadingThreads = false;
-           }
-       }
+                    if (conv == null) {
+                        // Make a new Conversation and put it in
+                        // the cache if necessary.
+                        conv = new Conversation(context, c, true);
+                        try {
+                            synchronized (Cache.getInstance()) {
+                                Cache.put(conv);
+                            }
+                        } catch (IllegalStateException e) {
+                            LogTag.error("Tried to add duplicate Conversation to Cache");
+                        }
+                    } else {
+                        // Or update in place so people with references
+                        // to conversations get updated too.
+                        fillFromCursor(context, conv, c, true);
+                    }
+                }
+            }
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+            synchronized (Cache.getInstance()) {
+                mLoadingThreads = false;
+            }
+        }
 
-       // Purge the cache of threads that no longer exist on disk.
-       Cache.keepOnly(threadsOnDisk);
-   }
+        // Purge the cache of threads that no longer exist on disk.
+        Cache.keepOnly(threadsOnDisk);
+    }
 
     private boolean loadFromThreadId(long threadId, boolean allowQuery) {
         Cursor c = mContext.getContentResolver().query(sAllThreadsUri, ALL_THREADS_PROJECTION,

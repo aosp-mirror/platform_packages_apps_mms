@@ -93,7 +93,7 @@ public class MessagingNotification {
 
     private static final String NEW_INCOMING_SM_CONSTRAINT =
             "(" + Sms.TYPE + " = " + Sms.MESSAGE_TYPE_INBOX
-            + " AND " + Sms.READ + " = 0)";
+            + " AND " + Sms.SEEN + " = 0)";
 
     private static final String NEW_DELIVERY_SM_CONSTRAINT =
 	    "(" + Sms.TYPE + " = " + Sms.MESSAGE_TYPE_SENT
@@ -101,7 +101,7 @@ public class MessagingNotification {
 
     private static final String NEW_INCOMING_MM_CONSTRAINT =
             "(" + Mms.MESSAGE_BOX + "=" + Mms.MESSAGE_BOX_INBOX
-            + " AND " + Mms.READ + "=0"
+            + " AND " + Mms.SEEN + "=0"
             + " AND (" + Mms.MESSAGE_TYPE + "=" + MESSAGE_TYPE_NOTIFICATION_IND
             + " OR " + Mms.MESSAGE_TYPE + "=" + MESSAGE_TYPE_RETRIEVE_CONF + "))";
 
@@ -114,7 +114,7 @@ public class MessagingNotification {
     }
 
     /**
-     * Checks to see if there are any unread messages or delivery
+     * Checks to see if there are any "unseen" messages or delivery
      * reports.  Shows the most recent notification if there is one.
      *
      * @param context the context to use
@@ -124,7 +124,7 @@ public class MessagingNotification {
     }
 
     /**
-     * Checks to see if there are any unread messages or delivery
+     * Checks to see if there are any "unseen" messages or delivery
      * reports.  Shows the most recent notification if there is one.
      *
      * @param context the context to use
@@ -133,7 +133,7 @@ public class MessagingNotification {
     public static void updateNewMessageIndicator(Context context, boolean isNew) {
         SortedSet<MmsSmsNotificationInfo> accumulator =
                 new TreeSet<MmsSmsNotificationInfo>(INFO_COMPARATOR);
-	MmsSmsDeliveryInfo delivery = null;
+	    MmsSmsDeliveryInfo delivery = null;
         Set<Long> threads = new HashSet<Long>(4);
         
         int count = 0;
@@ -147,25 +147,21 @@ public class MessagingNotification {
             accumulator.first().deliver(context, isNew, count, threads.size());
         }
 	
-	// And deals with delivery reports (which use Toasts)
-	delivery = getSmsNewDeliveryInfo(context);
-	if (delivery != null)
-	    delivery.deliver(context, isNew);
+        // And deals with delivery reports (which use Toasts)
+        delivery = getSmsNewDeliveryInfo(context);
+        if (delivery != null) {
+            delivery.deliver(context, isNew);
+        }
     }
 
     /**
      * Updates all pending notifications, clearing or updating them as
-     * necessary.  This task is completed in the background on a worker
-     * thread.
+     * necessary.  This task is completed in the background on a worker thread.
      */
-    public static void updateAllNotifications(final Context context) {
-        new Thread(new Runnable() {
-            public void run() {
-                updateNewMessageIndicator(context);
-                updateSendFailedNotification(context);
-                updateDownloadFailedNotification(context);
-            }
-        }).start();
+    public static void blockingUpdateAllNotifications(final Context context) {
+        updateNewMessageIndicator(context);
+        updateSendFailedNotification(context);
+        updateDownloadFailedNotification(context);
     }
     
     private static final int accumulateNotificationInfo(
@@ -276,30 +272,29 @@ public class MessagingNotification {
         }
     }
 
-    public static final MmsSmsDeliveryInfo getSmsNewDeliveryInfo(
-	    Context context) {
-	ContentResolver resolver = context.getContentResolver();
-	Cursor cursor = SqliteWrapper.query(context, resolver, Sms.CONTENT_URI,
-			    SMS_STATUS_PROJECTION, NEW_DELIVERY_SM_CONSTRAINT,
-			    null, Sms.DATE + " desc");
+    public static final MmsSmsDeliveryInfo getSmsNewDeliveryInfo(Context context) {
+        ContentResolver resolver = context.getContentResolver();
+        Cursor cursor = SqliteWrapper.query(context, resolver, Sms.CONTENT_URI,
+                    SMS_STATUS_PROJECTION, NEW_DELIVERY_SM_CONSTRAINT,
+                    null, Sms.DATE + " desc");
 
-	if (cursor == null)
-	    return null;
+        if (cursor == null)
+            return null;
 
-	try {
-	    if (!cursor.moveToFirst())
-		return null;
+        try {
+            if (!cursor.moveToFirst())
+            return null;
 
-	    String address = cursor.getString(COLUMN_SMS_ADDRESS);
-	    long timeMillis = 3000;
+            String address = cursor.getString(COLUMN_SMS_ADDRESS);
+            long timeMillis = 3000;
 
-	    return new MmsSmsDeliveryInfo(String.format(
-			context.getString(R.string.delivery_toast_body), address),
-		    timeMillis);
+            return new MmsSmsDeliveryInfo(String.format(
+                context.getString(R.string.delivery_toast_body), address),
+                timeMillis);
 
-	} finally {
-	    cursor.close();
-	}
+        } finally {
+            cursor.close();
+        }
     }
 
     public static final MmsSmsNotificationInfo getSmsNewMessageNotificationInfo(
@@ -424,7 +419,7 @@ public class MessagingNotification {
         
         // If there is more than one message, change the description (which
         // would normally be a snippet of the individual message text) to
-        // a string indicating how many unread messages there are.
+        // a string indicating how many "unseen" messages there are.
         if (messageCount > 1) {
             description = context.getString(R.string.notification_multiple,
                     Integer.toString(messageCount));
@@ -444,8 +439,8 @@ public class MessagingNotification {
                 notification.defaults |= Notification.DEFAULT_VIBRATE;
             }
 
-            String ringtoneStr = sp
-                    .getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE, null);
+            String ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE,
+                    null);
             notification.sound = TextUtils.isEmpty(ringtoneStr) ? null : Uri.parse(ringtoneStr);
         }
 

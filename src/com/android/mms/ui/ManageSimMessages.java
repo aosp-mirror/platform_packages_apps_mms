@@ -236,7 +236,7 @@ public class ManageSimMessages extends Activity
 
         try {
             if (isIncomingMessage(cursor)) {
-                Sms.Inbox.addMessage(mContentResolver, address, body, null, date, true);
+                Sms.Inbox.addMessage(mContentResolver, address, body, null, date, true /* read */);
             } else {
                 Sms.Sent.addMessage(mContentResolver, address, body, null, date);
             }

@@ -87,8 +87,12 @@ public class SmsMessageSender implements MessageSender {
 
         for (int i = 0; i < mNumberOfDests; i++) {
             try {
-                Sms.addMessageToUri(mContext.getContentResolver(), Uri.parse("content://sms/queued"), mDests[i],
-                        mMessageText, null, mTimestamp, true, requestDeliveryReport, mThreadId);
+                Sms.addMessageToUri(mContext.getContentResolver(), 
+                        Uri.parse("content://sms/queued"), mDests[i],
+                        mMessageText, null, mTimestamp,
+                        true /* read */,
+                        requestDeliveryReport,
+                        mThreadId);
             } catch (SQLiteException e) {
                 SqliteWrapper.checkSQLiteException(mContext, e);
             }
