@@ -80,6 +80,7 @@ import android.drm.mobile1.DrmException;
 import android.drm.mobile1.DrmRawContent;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
+import android.media.CamcorderProfile;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -2312,7 +2313,7 @@ public class ComposeMessageActivity extends Activity
 //    }
 
     private int getVideoCaptureDurationLimit() {
-        return SystemProperties.getInt("ro.media.enc.lprof.duration", 60);
+        return CamcorderProfile.getMmsRecordingDurationInSeconds();
     }
 
     private void addAttachment(int type, boolean replace) {
