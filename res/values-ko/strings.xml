@@ -80,6 +80,7 @@
     <string name="replace" msgid="7587904998114459388">"바꾸기"</string>
     <string name="remove" msgid="4625444913256213175">"삭제"</string>
     <string name="send" msgid="4589898724889248486">"전송"</string>
+    <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"전체 대화목록"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"메시지를 입력하세요."</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"키보드를 사용하여 메시지 쓰기"</string>
@@ -93,7 +94,7 @@
     <string name="failed_to_add_media" msgid="8272471485019037446">"죄송합니다. <xliff:g id="NAME">%1$s</xliff:g>님은 메시지에 추가할 수 없습니다."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"사진 크기가 조정되지 않았습니다."</string>
     <string name="resize_image_error_information" msgid="4897031754321114959">"죄송합니다. 사진의 크기를 조정했지만 사진이 너무 커 아직도 전송할 수 없습니다."</string>
-    <string name="forward_prefix" msgid="276280492803486464">"전달: "</string>
+    <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
     <string name="discard_message" msgid="6078326880056142781">"삭제"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"유효한 수신자가 없으므로 메시지가 삭제됩니다."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"유효하지 않은 수신자: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
@@ -111,6 +112,9 @@
     <string name="message_saved_as_draft" msgid="2503018972659880692">"메일이 임시보관함에 저장되었습니다."</string>
     <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"잠겨진 메시지는 삭제할 수 없습니다."</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"메시지에 수신자가 너무 많습니다(<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>명). 수신자는 <xliff:g id="MAXLIMIT">%2$s</xliff:g>명으로 제한되어 있습니다."</string>
+    <string name="too_many_attachments" msgid="3774037894899750070">"첨부파일 수가 <xliff:g id="MAXLIMIT">%1$s</xliff:g>개로 제한되어 있으므로 처음 <xliff:g id="CURRENTCOUNT">%2$s</xliff:g>개만 추가됩니다."</string>
+    <string name="adding_attachments_title" msgid="2034535554212405529">"첨부파일을 추가하는 중"</string>
+    <string name="adding_attachments" msgid="2423616900586221924">"항목이 슬라이드쇼에 추가되는 동안 기다려 주세요."</string>
     <string name="multiple_recipients" msgid="8747754491343248141">"수신자 <xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g>명"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"오디오를 재생할 수 없습니다."</string>
     <string name="preview" msgid="5438149136136446756">"미리보기"</string>
@@ -208,8 +212,7 @@
     <string name="priority_normal" msgid="5715227727384683550">"보통"</string>
     <string name="priority_low" msgid="8928782666023373987">"낮음"</string>
     <string name="message_class_label" msgid="5115748690481550562">"메시지 클래스: "</string>
-    <!-- no translation found for error_code_label (5810068247647058769) -->
-    <skip />
+    <string name="error_code_label" msgid="5810068247647058769">"오류 코드: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"수정"</string>
     <string name="menu_retry_sending" msgid="3146582005568302643">"재전송 시도"</string>
     <string name="menu_retry_sending_all" msgid="1870529976966340616">"모두 재전송 시도"</string>
@@ -241,8 +244,7 @@
     <string name="attach_slideshow" msgid="3497422151091037063">"슬라이드쇼"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"텍스트를 아래쪽에"</string>
     <string name="select_top_text" msgid="6734183477539197815">"텍스트를 위쪽에"</string>
-    <!-- no translation found for delivery_toast_body (4478305651728684364) -->
-    <skip />
+    <string name="delivery_toast_body" msgid="4478305651728684364">"%s에서 받은 메시지"</string>
     <string name="notification_multiple" msgid="7684007285202109490">"읽지 않은 메시지가 <xliff:g id="COUNT">%s</xliff:g>개 있습니다."</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"새 메시지"</string>
     <string name="notification_failed_multiple" msgid="4081781748475686236">"메시지 <xliff:g id="COUNT">%s</xliff:g>개를 보내지 못했습니다."</string>
@@ -299,28 +301,25 @@
     <string name="select_contact_method_activity" msgid="1743384358979323991">"연락처 선택 방법"</string>
     <string name="search_label" msgid="6042598929386174964">"메시지"</string>
     <string name="search_hint" msgid="1340787800788064929">"메시지 검색"</string>
-    <string name="search" msgid="2008586577169316010">"메시지 검색"</string>
+    <!-- no translation found for search (7560238620274735199) -->
+    <skip />
+    <!-- no translation found for search_setting_description (4104004595086437572) -->
+    <skip />
     <string name="search_empty" msgid="645052646985297065">"검색결과 없음"</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="675571420878010439">"\'%s\'에 대한 결과 <xliff:g id="NUMBER">%s</xliff:g>개"</item>
     <item quantity="other" msgid="3778201725913692491">"\'%s\'에 대한 결과 <xliff:g id="NUMBER">%s</xliff:g>개"</item>
   </plurals>
-    <!-- no translation found for search_history (4127805495662693154) -->
-    <skip />
-    <!-- no translation found for confirm_clear_search_title (8510295993632032904) -->
-    <skip />
-    <!-- no translation found for confirm_clear_search_text (8731877031837077478) -->
-    <skip />
-    <!-- no translation found for pref_mms_clear_search_history_title (6159758850628148164) -->
-    <skip />
-    <!-- no translation found for pref_mms_clear_search_history_summary (7960005384066460035) -->
-    <skip />
+    <string name="search_history" msgid="4127805495662693154">"\'<xliff:g id="SEARCH">%s</xliff:g>\'에 대한 검색결과 <xliff:g id="COUNT">%s</xliff:g>개"</string>
+    <string name="confirm_clear_search_title" msgid="8510295993632032904">"지우기"</string>
+    <string name="confirm_clear_search_text" msgid="8731877031837077478">"검색기록이 지워집니다."</string>
+    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"검색기록 지우기"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"검색창에 표시되지 않도록 이전 메시지 검색기록 지우기"</string>
     <string name="save" msgid="6847069284991531310">"저장"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"메시지 저장한도"</string>
     <string name="storage_limits_message" msgid="8729608389698270388">"대화당 저장하는 메시지의 개수를 제한하시겠습니까?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"한도 설정"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"한도 없음"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"현재 메시지를 보낼 수 없습니다. 보내지 않은 멀티미디어 메시지가 너무 많습니다."</string>
-    <!-- no translation found for me (341726346007839961) -->
-    <skip />
+    <string name="me" msgid="341726346007839961">"나"</string>
 </resources>

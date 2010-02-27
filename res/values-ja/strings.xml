@@ -80,6 +80,7 @@
     <string name="replace" msgid="7587904998114459388">"変更"</string>
     <string name="remove" msgid="4625444913256213175">"削除"</string>
     <string name="send" msgid="4589898724889248486">"送信"</string>
+    <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"スレッド一覧"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"メッセージを入力"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"キーボードを表示してメッセージを入力してください"</string>
@@ -111,6 +112,9 @@
     <string name="message_saved_as_draft" msgid="2503018972659880692">"メッセージを下書き保存しました。"</string>
     <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"このメッセージはロックされているため削除できません。"</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"このメッセージには<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>件の宛先が指定されています。宛先の上限は<xliff:g id="MAXLIMIT">%2$s</xliff:g>件です。"</string>
+    <string name="too_many_attachments" msgid="3774037894899750070">"添付ファイル数の上限は<xliff:g id="MAXLIMIT">%1$s</xliff:g>個です。最初の<xliff:g id="CURRENTCOUNT">%2$s</xliff:g>個のみ追加されました。"</string>
+    <string name="adding_attachments_title" msgid="2034535554212405529">"添付ファイルを追加中"</string>
+    <string name="adding_attachments" msgid="2423616900586221924">"スライドショーにスライドが追加されるまでお待ちください。"</string>
     <string name="multiple_recipients" msgid="8747754491343248141">"<xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g>件の宛先"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"オーディオを再生できません。"</string>
     <string name="preview" msgid="5438149136136446756">"プレビュー"</string>
@@ -208,8 +212,7 @@
     <string name="priority_normal" msgid="5715227727384683550">"中"</string>
     <string name="priority_low" msgid="8928782666023373987">"低"</string>
     <string name="message_class_label" msgid="5115748690481550562">"メッセージクラス: "</string>
-    <!-- no translation found for error_code_label (5810068247647058769) -->
-    <skip />
+    <string name="error_code_label" msgid="5810068247647058769">"エラーコード: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"編集"</string>
     <string name="menu_retry_sending" msgid="3146582005568302643">"送信を再試行"</string>
     <string name="menu_retry_sending_all" msgid="1870529976966340616">"すべて再送信する"</string>
@@ -241,8 +244,7 @@
     <string name="attach_slideshow" msgid="3497422151091037063">"スライドショー"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"テキストを下に配置"</string>
     <string name="select_top_text" msgid="6734183477539197815">"テキストを上に配置"</string>
-    <!-- no translation found for delivery_toast_body (4478305651728684364) -->
-    <skip />
+    <string name="delivery_toast_body" msgid="4478305651728684364">"%sさん宛てのメッセージ"</string>
     <string name="notification_multiple" msgid="7684007285202109490">"未読メッセージ<xliff:g id="COUNT">%s</xliff:g>通"</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"新着メッセージ"</string>
     <string name="notification_failed_multiple" msgid="4081781748475686236">"<xliff:g id="COUNT">%s</xliff:g>件のメッセージを送信できませんでした。"</string>
@@ -299,28 +301,25 @@
     <string name="select_contact_method_activity" msgid="1743384358979323991">"連絡方法を選択"</string>
     <string name="search_label" msgid="6042598929386174964">"メッセージ"</string>
     <string name="search_hint" msgid="1340787800788064929">"メッセージ検索"</string>
-    <string name="search" msgid="2008586577169316010">"メッセージ検索"</string>
+    <!-- no translation found for search (7560238620274735199) -->
+    <skip />
+    <!-- no translation found for search_setting_description (4104004595086437572) -->
+    <skip />
     <string name="search_empty" msgid="645052646985297065">"該当なし"</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="675571420878010439">"「%s」の検索結果<xliff:g id="NUMBER">%s</xliff:g>件"</item>
     <item quantity="other" msgid="3778201725913692491">"「%s」の検索結果<xliff:g id="NUMBER">%s</xliff:g>件"</item>
   </plurals>
-    <!-- no translation found for search_history (4127805495662693154) -->
-    <skip />
-    <!-- no translation found for confirm_clear_search_title (8510295993632032904) -->
-    <skip />
-    <!-- no translation found for confirm_clear_search_text (8731877031837077478) -->
-    <skip />
-    <!-- no translation found for pref_mms_clear_search_history_title (6159758850628148164) -->
-    <skip />
-    <!-- no translation found for pref_mms_clear_search_history_summary (7960005384066460035) -->
-    <skip />
+    <string name="search_history" msgid="4127805495662693154">"「<xliff:g id="SEARCH">%s</xliff:g>」の検索結果<xliff:g id="COUNT">%s</xliff:g>件"</string>
+    <string name="confirm_clear_search_title" msgid="8510295993632032904">"クリア"</string>
+    <string name="confirm_clear_search_text" msgid="8731877031837077478">"検索履歴を消去します。"</string>
+    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"検索履歴を消去"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"メッセージの以前の検索内容を消去して、検索ボックスに表示されないようにする"</string>
     <string name="save" msgid="6847069284991531310">"保存"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"メッセージ数を制限"</string>
     <string name="storage_limits_message" msgid="8729608389698270388">"スレッドごとに保存するメッセージ数を制限しますか？"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"制限を設定"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"制限しない"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"今すぐメッセージを送信することはできません。未送信のマルチメディアメッセージが多すぎます。"</string>
-    <!-- no translation found for me (341726346007839961) -->
-    <skip />
+    <string name="me" msgid="341726346007839961">"自分"</string>
 </resources>

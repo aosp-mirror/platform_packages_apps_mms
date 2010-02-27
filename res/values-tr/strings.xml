@@ -80,6 +80,7 @@
     <string name="replace" msgid="7587904998114459388">"Değiştir"</string>
     <string name="remove" msgid="4625444913256213175">"Kaldır"</string>
     <string name="send" msgid="4589898724889248486">"Gönder"</string>
+    <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Tüm ileti dizileri"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Oluşturmak için yazın"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"İletiyi oluşturmak için tuş takımını aç"</string>
@@ -93,7 +94,7 @@
     <string name="failed_to_add_media" msgid="8272471485019037446">"Maalesef, <xliff:g id="NAME">%1$s</xliff:g> öğesini iletinize ekleyemezsiniz."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Resim yeniden boyutlandırılmadı."</string>
     <string name="resize_image_error_information" msgid="4897031754321114959">"Maalesef, yeniden boyutlandırılsa bile bu resim gönderilemeyecek kadar büyük."</string>
-    <string name="forward_prefix" msgid="276280492803486464">"Yön: "</string>
+    <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
     <string name="discard_message" msgid="6078326880056142781">"Sil"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"İletiniz geçerli alıcısı olmadığı için silinecek."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Geçersiz alıcılar: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
@@ -111,6 +112,9 @@
     <string name="message_saved_as_draft" msgid="2503018972659880692">"İleti taslak olarak kaydedildi."</string>
     <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"Kilitli ileti silinemez"</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"Bu iletinin çok fazla alıcısı var (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). En fazla <xliff:g id="MAXLIMIT">%2$s</xliff:g> alıcı olabilir."</string>
+    <string name="too_many_attachments" msgid="3774037894899750070">"Ek sayısı en çok <xliff:g id="MAXLIMIT">%1$s</xliff:g> olabilir. Yalnızca ilk <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> öğe eklenecektir."</string>
+    <string name="adding_attachments_title" msgid="2034535554212405529">"Ekler ekleniyor"</string>
+    <string name="adding_attachments" msgid="2423616900586221924">"Lütfen öğeler slayt gösterisine eklenirken bekleyin."</string>
     <string name="multiple_recipients" msgid="8747754491343248141">"<xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g> alıcı"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"Ses yürütülemiyor."</string>
     <string name="preview" msgid="5438149136136446756">"Önizleme"</string>
@@ -208,8 +212,7 @@
     <string name="priority_normal" msgid="5715227727384683550">"Normal"</string>
     <string name="priority_low" msgid="8928782666023373987">"Düşük"</string>
     <string name="message_class_label" msgid="5115748690481550562">"İleti sınıfı: "</string>
-    <!-- no translation found for error_code_label (5810068247647058769) -->
-    <skip />
+    <string name="error_code_label" msgid="5810068247647058769">"Hata kodu: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Düzenle"</string>
     <string name="menu_retry_sending" msgid="3146582005568302643">"Göndermeyi tekrar dene"</string>
     <string name="menu_retry_sending_all" msgid="1870529976966340616">"Tümünü göndermeyi tekrar dene"</string>
@@ -241,8 +244,7 @@
     <string name="attach_slideshow" msgid="3497422151091037063">"Slayt Gösterisi"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"Metin altta"</string>
     <string name="select_top_text" msgid="6734183477539197815">"Metin üstte"</string>
-    <!-- no translation found for delivery_toast_body (4478305651728684364) -->
-    <skip />
+    <string name="delivery_toast_body" msgid="4478305651728684364">"Mesaj %s tarafından alındı"</string>
     <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> okunmamış ileti."</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"Yeni iletiler"</string>
     <string name="notification_failed_multiple" msgid="4081781748475686236">"<xliff:g id="COUNT">%s</xliff:g> ileti gönderilemedi."</string>
@@ -299,28 +301,25 @@
     <string name="select_contact_method_activity" msgid="1743384358979323991">"İletişim Yöntemini Seç"</string>
     <string name="search_label" msgid="6042598929386174964">"Mesajlaşma"</string>
     <string name="search_hint" msgid="1340787800788064929">"Mesajlaşma Araması"</string>
-    <string name="search" msgid="2008586577169316010">"Mesajlaşma Araması"</string>
+    <!-- no translation found for search (7560238620274735199) -->
+    <skip />
+    <!-- no translation found for search_setting_description (4104004595086437572) -->
+    <skip />
     <string name="search_empty" msgid="645052646985297065">"Eşleşme yok"</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="675571420878010439">"\"%s\" için <xliff:g id="NUMBER">%s</xliff:g> sonuç"</item>
     <item quantity="other" msgid="3778201725913692491">"\"%s\" için <xliff:g id="NUMBER">%s</xliff:g> sonuç"</item>
   </plurals>
-    <!-- no translation found for search_history (4127805495662693154) -->
-    <skip />
-    <!-- no translation found for confirm_clear_search_title (8510295993632032904) -->
-    <skip />
-    <!-- no translation found for confirm_clear_search_text (8731877031837077478) -->
-    <skip />
-    <!-- no translation found for pref_mms_clear_search_history_title (6159758850628148164) -->
-    <skip />
-    <!-- no translation found for pref_mms_clear_search_history_summary (7960005384066460035) -->
-    <skip />
+    <string name="search_history" msgid="4127805495662693154">"\"<xliff:g id="SEARCH">%s</xliff:g>\" için <xliff:g id="COUNT">%s</xliff:g> sonuç"</string>
+    <string name="confirm_clear_search_title" msgid="8510295993632032904">"Temizle"</string>
+    <string name="confirm_clear_search_text" msgid="8731877031837077478">"Arama geçmişi temizlenecek."</string>
+    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Arama geçmişini temizle"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Önceki Mesajlaşma aramalarını, Arama kutusunda gösterilmeyecek biçimde temizleyin"</string>
     <string name="save" msgid="6847069284991531310">"Kaydet"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"İletileri sınırla"</string>
     <string name="storage_limits_message" msgid="8729608389698270388">"İleti dizisi başına kaydettiğiniz iletilerin sayısını sınırlandırmak istiyor musunuz?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"Sınırları ayarla"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Sınır yok"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"İleti şu anda gönderilemiyor. Gönderilmemiş çok fazla multimedya iletisi var."</string>
-    <!-- no translation found for me (341726346007839961) -->
-    <skip />
+    <string name="me" msgid="341726346007839961">"Ben"</string>
 </resources>
