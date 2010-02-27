@@ -80,6 +80,7 @@
     <string name="replace" msgid="7587904998114459388">"Zastąp"</string>
     <string name="remove" msgid="4625444913256213175">"Usuń"</string>
     <string name="send" msgid="4589898724889248486">"Wyślij"</string>
+    <string name="mms" msgid="1587631213714914559">"Wiadomość MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Wszystkie wątki"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Wpisz, aby utworzyć"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Otwórz klawiaturę, aby utworzyć wiadomość"</string>
@@ -111,6 +112,9 @@
     <string name="message_saved_as_draft" msgid="2503018972659880692">"Wiadomość została zapisana jako wersja robocza."</string>
     <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"Nie można usunąć zablokowanej wiadomości."</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"Ta wiadomość ma zbyt wielu odbiorców (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). Istnieje limit odbiorców wynoszący <xliff:g id="MAXLIMIT">%2$s</xliff:g>."</string>
+    <string name="too_many_attachments" msgid="3774037894899750070">"Obowiązujący limit załączników to <xliff:g id="MAXLIMIT">%1$s</xliff:g>. Liczba pierwszych załączników, które zostaną dodane, wynosi <xliff:g id="CURRENTCOUNT">%2$s</xliff:g>."</string>
+    <string name="adding_attachments_title" msgid="2034535554212405529">"Dodawanie załączników"</string>
+    <string name="adding_attachments" msgid="2423616900586221924">"Poczekaj na zakończenie dodawania elementów do pokazu slajdów."</string>
     <string name="multiple_recipients" msgid="8747754491343248141">"Liczba odbiorców: <xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g>"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"Nie można odtworzyć nagrania audio."</string>
     <string name="preview" msgid="5438149136136446756">"Podgląd"</string>
@@ -208,8 +212,7 @@
     <string name="priority_normal" msgid="5715227727384683550">"Normalny"</string>
     <string name="priority_low" msgid="8928782666023373987">"Niski"</string>
     <string name="message_class_label" msgid="5115748690481550562">"Klasa wiadomości: "</string>
-    <!-- no translation found for error_code_label (5810068247647058769) -->
-    <skip />
+    <string name="error_code_label" msgid="5810068247647058769">"Kod błędu: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Edytuj"</string>
     <string name="menu_retry_sending" msgid="3146582005568302643">"Spróbuj wysłać ponownie"</string>
     <string name="menu_retry_sending_all" msgid="1870529976966340616">"Spróbuj wysłać wszystkie ponownie"</string>
@@ -241,8 +244,7 @@
     <string name="attach_slideshow" msgid="3497422151091037063">"Pokaz slajdów"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"Tekst na dole"</string>
     <string name="select_top_text" msgid="6734183477539197815">"Tekst na górze"</string>
-    <!-- no translation found for delivery_toast_body (4478305651728684364) -->
-    <skip />
+    <string name="delivery_toast_body" msgid="4478305651728684364">"Wiadomość odebrana przez: %s"</string>
     <string name="notification_multiple" msgid="7684007285202109490">"Liczba nieprzeczytanych wiadomości: <xliff:g id="COUNT">%s</xliff:g>."</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"Nowe wiadomości"</string>
     <string name="notification_failed_multiple" msgid="4081781748475686236">"Nie można wysłać <xliff:g id="COUNT">%s</xliff:g> wiadomości."</string>
@@ -299,28 +301,25 @@
     <string name="select_contact_method_activity" msgid="1743384358979323991">"Wybierz metodę kontaktu"</string>
     <string name="search_label" msgid="6042598929386174964">"Wiadomości"</string>
     <string name="search_hint" msgid="1340787800788064929">"Wyszukiwanie wiadomości"</string>
-    <string name="search" msgid="2008586577169316010">"Wyszukiwanie wiadomości"</string>
+    <!-- no translation found for search (7560238620274735199) -->
+    <skip />
+    <!-- no translation found for search_setting_description (4104004595086437572) -->
+    <skip />
     <string name="search_empty" msgid="645052646985297065">"Brak wyników"</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="675571420878010439">"Liczba wyników dla zapytania „%s”: <xliff:g id="NUMBER">%s</xliff:g>"</item>
     <item quantity="other" msgid="3778201725913692491">"Liczba wyników dla zapytania „%s”: <xliff:g id="NUMBER">%s</xliff:g>"</item>
   </plurals>
-    <!-- no translation found for search_history (4127805495662693154) -->
-    <skip />
-    <!-- no translation found for confirm_clear_search_title (8510295993632032904) -->
-    <skip />
-    <!-- no translation found for confirm_clear_search_text (8731877031837077478) -->
-    <skip />
-    <!-- no translation found for pref_mms_clear_search_history_title (6159758850628148164) -->
-    <skip />
-    <!-- no translation found for pref_mms_clear_search_history_summary (7960005384066460035) -->
-    <skip />
+    <string name="search_history" msgid="4127805495662693154">"Liczba wyników dla zapytania „<xliff:g id="SEARCH">%s</xliff:g>”: <xliff:g id="COUNT">%s</xliff:g>"</string>
+    <string name="confirm_clear_search_title" msgid="8510295993632032904">"Wyczyść"</string>
+    <string name="confirm_clear_search_text" msgid="8731877031837077478">"Historia wyszukiwania zostanie wyczyszczona."</string>
+    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Wyczyść historię wyszukiwania"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Wyczyść poprzednie wyszukiwania wiadomości wyświetlane w polu wyszukiwania"</string>
     <string name="save" msgid="6847069284991531310">"Zapisz"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"Ogranicz liczbę wiadomości"</string>
     <string name="storage_limits_message" msgid="8729608389698270388">"Czy chcesz ograniczyć liczbę wiadomości zapisywanych w wątku?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"Ustaw limity"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Brak limitów"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Nie można teraz wysłać wiadomości. Istnieje zbyt wiele niewysłanych wiadomości multimedialnych."</string>
-    <!-- no translation found for me (341726346007839961) -->
-    <skip />
+    <string name="me" msgid="341726346007839961">"Ja"</string>
 </resources>

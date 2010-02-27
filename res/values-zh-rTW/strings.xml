@@ -27,7 +27,7 @@
     <string name="menu_delete_all" msgid="8853352701914512057">"刪除會話群組"</string>
     <string name="menu_delete" msgid="1851666911396479006">"刪除串連"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"無法傳送的簡訊"</string>
-    <string name="menu_view" msgid="7448852683948080108">"串連檢視"</string>
+    <string name="menu_view" msgid="7448852683948080108">"檢視串連"</string>
     <string name="refreshing" msgid="987335057871404222">"重新整理中..."</string>
     <string name="has_draft" msgid="2487465595514636160">"草稿"</string>
     <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g>寄送給<xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
@@ -80,6 +80,8 @@
     <string name="replace" msgid="7587904998114459388">"取代"</string>
     <string name="remove" msgid="4625444913256213175">"移除"</string>
     <string name="send" msgid="4589898724889248486">"傳送"</string>
+    <!-- no translation found for mms (1587631213714914559) -->
+    <skip />
     <string name="all_threads" msgid="2663426830306307194">"所有會話群組"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"輸入內容"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"開啟鍵盤以撰寫簡訊"</string>
@@ -93,7 +95,7 @@
     <string name="failed_to_add_media" msgid="8272471485019037446">"很抱歉，無法在簡訊中新增 <xliff:g id="NAME">%1$s</xliff:g>。"</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"圖片大小未改變。"</string>
     <string name="resize_image_error_information" msgid="4897031754321114959">"很抱歉，縮小後的圖片仍然太大、無法傳送。"</string>
-    <string name="forward_prefix" msgid="276280492803486464">"轉寄： "</string>
+    <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
     <string name="discard_message" msgid="6078326880056142781">"放棄"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"由於收件者地址無效，您的訊息將被捨棄。"</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"無效收件者：(<xliff:g id="NAME">%1$s</xliff:g>)"</string>
@@ -111,6 +113,12 @@
     <string name="message_saved_as_draft" msgid="2503018972659880692">"簡訊已存成草稿。"</string>
     <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"無法刪除鎖定的訊息。"</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"這則訊息的收件者過多 (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g> 位)，上限為 <xliff:g id="MAXLIMIT">%2$s</xliff:g> 位收件者。"</string>
+    <!-- no translation found for too_many_attachments (3774037894899750070) -->
+    <skip />
+    <!-- no translation found for adding_attachments_title (2034535554212405529) -->
+    <skip />
+    <!-- no translation found for adding_attachments (2423616900586221924) -->
+    <skip />
     <string name="multiple_recipients" msgid="8747754491343248141">"<xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g> 位收件者"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"無法播放音訊。"</string>
     <string name="preview" msgid="5438149136136446756">"預覽"</string>
@@ -299,7 +307,10 @@
     <string name="select_contact_method_activity" msgid="1743384358979323991">"選取聯絡方式"</string>
     <string name="search_label" msgid="6042598929386174964">"傳送訊息"</string>
     <string name="search_hint" msgid="1340787800788064929">"搜尋訊息"</string>
-    <string name="search" msgid="2008586577169316010">"搜尋訊息"</string>
+    <!-- no translation found for search (7560238620274735199) -->
+    <skip />
+    <!-- no translation found for search_setting_description (4104004595086437572) -->
+    <skip />
     <string name="search_empty" msgid="645052646985297065">"找不到相符項目"</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> 項符合「%s」的結果"</item>
