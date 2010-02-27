@@ -1,5 +1,6 @@
 package com.android.mms.data;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -37,6 +38,9 @@ public class Conversation {
         Threads.SNIPPET, Threads.SNIPPET_CHARSET, Threads.READ, Threads.ERROR,
         Threads.HAS_ATTACHMENT
     };
+    private static final String[] READ_PROJECTION = {
+        Threads._ID, Threads.READ
+    };
     private static final int ID             = 0;
     private static final int DATE           = 1;
     private static final int MESSAGE_COUNT  = 2;
@@ -65,7 +69,8 @@ public class Conversation {
 
     private static ContentValues mReadContentValues;
     private static boolean mLoadingThreads;
-
+    private boolean mMarkAsReadBlocked;
+    private Object mMarkAsBlockedSyncer = new Object();
 
     private Conversation(Context context) {
         mContext = context;
@@ -214,23 +219,66 @@ public class Conversation {
      * relevant notifications.  This method returns immediately;
      * work is dispatched to a background thread.
      */
-    public synchronized void markAsRead() {
+    public void markAsRead() {
         // If we have no Uri to mark (as in the case of a conversation that
         // has not yet made its way to disk), there's nothing to do.
         final Uri threadUri = getUri();
 
         new Thread(new Runnable() {
             public void run() {
-                if (threadUri != null) {
-                    buildReadContentValues();
-                    mContext.getContentResolver().update(threadUri, mReadContentValues,
-                            "read=0", null);
-                    mHasUnreadMessages = false;
+                synchronized(mMarkAsBlockedSyncer) {
+                    if (mMarkAsReadBlocked) {
+                        try {
+                            mMarkAsBlockedSyncer.wait();
+                        } catch (InterruptedException e) {
+                        }
+                    }
+                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                        LogTag.debug("markAsRead running with threadid uri: " + threadUri);
+                    }
+                    if (threadUri != null) {
+                        buildReadContentValues();
+
+                        // Check the read flag first. It's much faster to do a query than
+                        // to do an update. Timing this function show it's about 10x faster to
+                        // do the query compared to the update, even when there's nothing to
+                        // update.
+                        mHasUnreadMessages = true;
+
+                        Cursor c = mContext.getContentResolver().query(threadUri,
+                                READ_PROJECTION, "read=0", null, null);
+                        if (c != null) {
+                            try {
+                                mHasUnreadMessages = c.getCount() > 0;
+                            } finally {
+                                c.close();
+                            }
+                        }
+                        if (mHasUnreadMessages) {
+                            mContext.getContentResolver().update(threadUri, mReadContentValues,
+                                    "read=0", null);
+                        }
+                    }
                 }
                 // Always update notifications regardless of the read state.
                 MessagingNotification.updateAllNotifications(mContext);
             }
         }).start();
+    }
+
+    public void blockMarkAsRead(boolean block) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("blockMarkAsRead: " + block);
+        }
+
+        synchronized(mMarkAsBlockedSyncer) {
+            if (block != mMarkAsReadBlocked) {
+                mMarkAsReadBlocked = block;
+                if (!mMarkAsReadBlocked) {
+                    mMarkAsBlockedSyncer.notifyAll();
+                }
+            }
+        }
     }
 
     /**

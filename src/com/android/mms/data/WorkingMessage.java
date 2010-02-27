@@ -1345,20 +1345,23 @@ public class WorkingMessage {
 
         Cursor c = SqliteWrapper.query(context, cr,
                         thread_uri, SMS_BODY_PROJECTION, SMS_DRAFT_WHERE, null, null);
+        boolean haveDraft = false;
         try {
             if (c.moveToFirst()) {
                 body = c.getString(SMS_BODY_INDEX);
+                haveDraft = true;
             }
         } finally {
             c.close();
         }
 
-        // Clean out drafts for this thread -- if the recipient set changes,
-        // we will lose track of the original draft and be unable to delete
-        // it later.  The message will be re-saved if necessary upon exit of
-        // the activity.
-        SqliteWrapper.delete(context, cr, thread_uri, SMS_DRAFT_WHERE, null);
-
+        if (haveDraft) {
+            // Clean out drafts for this thread -- if the recipient set changes,
+            // we will lose track of the original draft and be unable to delete
+            // it later.  The message will be re-saved if necessary upon exit of
+            // the activity.
+            SqliteWrapper.delete(context, cr, thread_uri, SMS_DRAFT_WHERE, null);
+        }
         // We found a draft, and if there are no messages in the conversation,
         // that means we deleted the thread, too. Must reset the thread id
         // so we'll eventually create a new thread.

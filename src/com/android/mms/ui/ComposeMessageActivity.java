@@ -1718,9 +1718,6 @@ public class ComposeMessageActivity extends Activity
         // Set up the message history ListAdapter
         initMessageList();
 
-        // Mark the current thread as read.
-        mConversation.markAsRead();
-
         // Load the draft for this thread, if we aren't already handling
         // existing data, such as a shared picture or forwarded message.
         boolean isForwardedMessage = false;
@@ -1805,7 +1802,13 @@ public class ComposeMessageActivity extends Activity
             log("     new conversation=" + conversation + ", mConversation=" + mConversation);
         }
 
-        long convThreadId = conversation == null ? 0 : conversation.getThreadId();
+        long convThreadId = 0;
+        if (conversation != null) {
+            // Don't let any markAsRead DB updates occur before we've loaded the messages for
+            // the thread.
+            conversation.blockMarkAsRead(true);
+            convThreadId = conversation.getThreadId();
+        }
         if (sameThread || (convThreadId != 0 && convThreadId == mConversation.getThreadId())) {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: same conversation");
@@ -1829,12 +1832,12 @@ public class ComposeMessageActivity extends Activity
         if (mWorkingMessage.isDiscarded()) {
             mWorkingMessage.unDiscard();    // it was discarded in onStop().
         }
-        mConversation.markAsRead();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        mConversation.blockMarkAsRead(true);
 
         initFocus();
 
@@ -1922,6 +1925,9 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onStop() {
         super.onStop();
+
+        // Allow any blocked calls to update the thread's read status.
+        mConversation.blockMarkAsRead(false);
 
         if (mMsgListAdapter != null) {
             mMsgListAdapter.changeCursor(null);
@@ -3193,6 +3199,7 @@ public class ComposeMessageActivity extends Activity
                     // one, set it back to TextEditor forcely.
                     mTextEditor.requestFocus();
 
+                    mConversation.blockMarkAsRead(false);
                     return;
 
                 case ConversationList.HAVE_LOCKED_MESSAGES_TOKEN:
