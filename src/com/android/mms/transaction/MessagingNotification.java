@@ -42,6 +42,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -110,7 +112,33 @@ public class MessagingNotification {
     
     private static final Uri UNDELIVERED_URI = Uri.parse("content://mms-sms/undelivered");
 
+
+    private final static String NOTIFICATION_DELETED_ACTION =
+            "com.android.mms.NOTIFICATION_DELETED_ACTION";
+
+    public static class OnDeletedReceiver extends BroadcastReceiver {
+        public void onReceive(Context context, Intent intent) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                Log.d(TAG, "[MessagingNotification] clear notification: mark all msgs seen");
+            }
+
+            Conversation.markAllConversationsAsSeen(context);
+        }
+    };
+    private static OnDeletedReceiver sNotificationDeletedReceiver = new OnDeletedReceiver();
+    private static Intent sNotificationOnDeleteIntent;
+
     private MessagingNotification() {
+    }
+
+    public static void init(Context context) {
+        // set up the intent filter for notification deleted action
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(NOTIFICATION_DELETED_ACTION);
+        context.registerReceiver(sNotificationDeletedReceiver, intentFilter);
+
+        // initialize the notification deleted action
+        sNotificationOnDeleteIntent = new Intent(NOTIFICATION_DELETED_ACTION);
     }
 
     /**
@@ -366,21 +394,20 @@ public class MessagingNotification {
         nm.cancel(notificationId);
     }
 
-    private static void updateDeliveryNotification(
-	    Context context,
-	    boolean isNew,
-	    CharSequence message,
-	    long timeMillis) {
-	SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+    private static void updateDeliveryNotification(Context context,
+                                                   boolean isNew,
+                                                   CharSequence message,
+                                                   long timeMillis) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
-	if (!sp.getBoolean(
-		    MessagingPreferenceActivity.NOTIFICATION_ENABLED, true))
-	    return;
+        if (!sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_ENABLED, true)) {
+            return;
+        }
 
-	if (isNew) {
+        if (isNew) {
             Toast toast = Toast.makeText(context, message, (int)timeMillis);
             toast.show();
-	}
+        }
     }
 
     private static void updateNotification(
@@ -446,6 +473,10 @@ public class MessagingNotification {
 
         notification.flags |= Notification.FLAG_SHOW_LIGHTS;
         notification.defaults |= Notification.DEFAULT_LIGHTS;
+
+        // set up delete intent
+        notification.deleteIntent = PendingIntent.getBroadcast(context, 0,
+                sNotificationOnDeleteIntent, 0);
 
         NotificationManager nm = (NotificationManager)
             context.getSystemService(Context.NOTIFICATION_SERVICE);

@@ -26,6 +26,7 @@ import com.android.mms.drm.DrmUtils;
 import com.android.mms.util.SmileyParser;
 import com.android.mms.util.RateController;
 import com.android.mms.MmsConfig;
+import com.android.mms.transaction.MessagingNotification;
 
 import android.app.Application;
 import android.content.Context;
@@ -59,6 +60,7 @@ public class MmsApp extends Application {
         DrmUtils.cleanupStorage(this);
         LayoutManager.init(this);
         SmileyParser.init(this);
+        MessagingNotification.init(this);
     }
 
     synchronized public static MmsApp getApplication() {
