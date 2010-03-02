@@ -158,6 +158,9 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
         }
 
         Uri uri = Uri.withAppendedPath(Phone.CONTENT_FILTER_URI, Uri.encode(cons));
+        /*
+         * if we decide to filter based on phone types use a selection
+         * like this.
         String selection = String.format("%s=%s OR %s=%s OR %s=%s",
                 Phone.TYPE,
                 Phone.TYPE_MOBILE,
@@ -165,10 +168,11 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
                 Phone.TYPE_WORK_MOBILE,
                 Phone.TYPE,
                 Phone.TYPE_MMS);
+         */
         Cursor phoneCursor =
             mContentResolver.query(uri,
                     PROJECTION_PHONE,
-                    selection,
+                    null, //selection,
                     null,
                     SORT_ORDER);
 
