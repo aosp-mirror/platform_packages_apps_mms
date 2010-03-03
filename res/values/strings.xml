@@ -670,7 +670,7 @@
     <string name="search_label">Messaging</string>
 
     <!-- Search hint -->
-    <string name="search_hint">Messaging Search</string>
+    <string name="search_hint">Search Messaging</string>
 
     <!-- Search activity name -->
     <string name="search">Messaging</string>
