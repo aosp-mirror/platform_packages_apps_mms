@@ -17,6 +17,8 @@ LOCAL_STATIC_JAVA_LIBRARIES += mms-common
 
 LOCAL_REQUIRED_MODULES := SoundRecorder
 
+LOCAL_PROGUARD_FLAGS := -include $(LOCAL_PATH)/proguard.flags
+
 include $(BUILD_PACKAGE)
 
 # This finds and builds the test apk as well, so a single make does both.
