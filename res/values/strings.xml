@@ -723,5 +723,8 @@
     <!-- Label for the "Me" number of this phone. -->
     <string name="me">Me</string>
 
+    <!-- Brief small label shown to right of message when it is being sent. -->
+    <string name="sending_message">Sending\u2026</string>
+
 </resources>
 
