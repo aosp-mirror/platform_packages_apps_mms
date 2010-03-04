@@ -78,16 +78,17 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
 
     @Override
     public final CharSequence convertToString(Cursor cursor) {
+        String number = cursor.getString(RecipientsAdapter.NUMBER_INDEX);
+        if (number == null) {
+            return "";
+        }
+        number = number.trim();
+
         String name = cursor.getString(RecipientsAdapter.NAME_INDEX);
         int type = cursor.getInt(RecipientsAdapter.TYPE_INDEX);
-        String number = cursor.getString(RecipientsAdapter.NUMBER_INDEX).trim();
 
         String label = cursor.getString(RecipientsAdapter.LABEL_INDEX);
         CharSequence displayLabel = Phone.getDisplayLabel(mContext, type, label);
-
-        if (number.length() == 0) {
-            return number;
-        }
 
         if (name == null) {
             name = "";
