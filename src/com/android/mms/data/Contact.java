@@ -314,8 +314,8 @@ public class Contact {
         // query params for contact lookup by email
         private static final Uri EMAIL_WITH_PRESENCE_URI = Data.CONTENT_URI;
 
-        private static final String EMAIL_SELECTION = Email.DATA + "=? AND " + Data.MIMETYPE + "='"
-                + Email.CONTENT_ITEM_TYPE + "'";
+        private static final String EMAIL_SELECTION = "UPPER(" + Email.DATA + ")=UPPER(?) AND "
+                + Data.MIMETYPE + "='" + Email.CONTENT_ITEM_TYPE + "'";
 
         private static final String[] EMAIL_PROJECTION = new String[] {
                 Email.DISPLAY_NAME,           // 0
