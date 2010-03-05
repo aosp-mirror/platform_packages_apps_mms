@@ -354,7 +354,7 @@ public class SuggestionsProvider extends android.content.ContentProvider {
         }
 
         public Bundle getExtras() {
-            return null;
+            return Bundle.EMPTY;
         }
 
         public float getFloat(int columnIndex) {
