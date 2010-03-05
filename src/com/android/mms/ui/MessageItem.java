@@ -40,6 +40,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import com.android.mmscommon.telephony.TelephonyProvider.Mms;
+import com.android.mmscommon.telephony.TelephonyProvider.MmsSms;
 import com.android.mmscommon.telephony.TelephonyProvider.Sms;
 import android.text.TextUtils;
 import android.util.Log;
@@ -76,6 +77,12 @@ public class MessageItem {
     // another thread is it'll return null and be set again from that
     // thread.
     CharSequence mCachedFormattedMessage;
+
+    // The last message is cached above in mCachedFormattedMessage. In the latest design, we
+    // show "Sending..." in place of the timestamp when a message is being sent. mLastSendingState
+    // is used to keep track of the last sending state so that if the current sending state is
+    // different, we can clear the message cache so it will get rebuilt and recached.
+    boolean mLastSendingState;
 
     // Fields for MMS only.
     Uri mMessageUri;
@@ -275,6 +282,19 @@ public class MessageItem {
         return isOutgoingMms || isOutgoingSms;
     }
 
+    public boolean isSending() {
+        return !isFailedMessage() && (isOutgoingMessage() ||
+                mDeliveryStatus == MessageItem.DeliveryStatus.PENDING);
+    }
+
+    public boolean isFailedMessage() {
+        boolean isFailedMms = isMms()
+                            && (mErrorType >= MmsSms.ERR_TYPE_GENERIC_PERMANENT);
+        boolean isFailedSms = isSms()
+                            && (mBoxId == Sms.MESSAGE_TYPE_FAILED);
+        return isFailedMms || isFailedSms;
+    }
+
     // Note: This is the only mutable field in this class.  Think of
     // mCachedFormattedMessage as a C++ 'mutable' field on a const
     // object, with this being a lazy accessor whose logic to set it
@@ -285,6 +305,12 @@ public class MessageItem {
     }
 
     public CharSequence getCachedFormattedMessage() {
+        boolean isSending = isSending();
+        if (isSending != mLastSendingState) {
+            mLastSendingState = isSending;
+            mCachedFormattedMessage = null;         // clear cache so we'll rebuild the message
+                                                    // to show "Sending..." or the sent date.
+        }
         return mCachedFormattedMessage;
     }
 
