@@ -92,7 +92,9 @@ public class MessageListItem extends LinearLayout implements
     private View mMsgListItem;
     private View mMmsView;
     private ImageView mImageView;
-    private ImageView mRightStatusIndicator;
+    private ImageView mLockedIndicator;
+    private ImageView mDeliveredIndicator;
+    private ImageView mDetailsIndicator;
     private ImageButton mSlideShowButton;
     private TextView mBodyTextView;
     private Button mDownloadButton;
@@ -118,7 +120,9 @@ public class MessageListItem extends LinearLayout implements
 
         mMsgListItem = findViewById(R.id.msg_list_item);
         mBodyTextView = (TextView) findViewById(R.id.text_view);
-        mRightStatusIndicator = (ImageView) findViewById(R.id.right_status_indicator);
+        mLockedIndicator = (ImageView) findViewById(R.id.locked_indicator);
+        mDeliveredIndicator = (ImageView) findViewById(R.id.delivered_indicator);
+        mDetailsIndicator = (ImageView) findViewById(R.id.details_indicator);
         mAvatar = (QuickContactBadge) findViewById(R.id.avatar);
 
         ViewGroup.MarginLayoutParams badgeParams = (MarginLayoutParams)mAvatar.getLayoutParams();
@@ -176,7 +180,7 @@ public class MessageListItem extends LinearLayout implements
                                 + String.valueOf((msgItem.mMessageSize + 1023) / 1024)
                                 + mContext.getString(R.string.kilobyte);
 
-        mBodyTextView.setText(formatMessage(msgItem.mContact, null, msgItem.mSubject,
+        mBodyTextView.setText(formatMessage(msgItem, msgItem.mContact, null, msgItem.mSubject,
                                             msgSizeText + "\n" + msgItem.mTimestamp,
                                             msgItem.mHighlight, msgItem.mTextContentType));
 
@@ -209,8 +213,10 @@ public class MessageListItem extends LinearLayout implements
                 break;
         }
 
-        // Hide the error indicator.
-        mRightStatusIndicator.setVisibility(View.GONE);
+        // Hide the indicators.
+        mLockedIndicator.setVisibility(View.GONE);
+        mDeliveredIndicator.setVisibility(View.GONE);
+        mDetailsIndicator.setVisibility(View.GONE);
 
         drawLeftStatusIndicator(msgItem.mBoxId);
     }
@@ -254,10 +260,9 @@ public class MessageListItem extends LinearLayout implements
         // expensive formatMessage() call is very high.
         CharSequence formattedMessage = msgItem.getCachedFormattedMessage();
         if (formattedMessage == null) {
-            formattedMessage = formatMessage(msgItem.mContact, msgItem.mBody,
+            formattedMessage = formatMessage(msgItem, msgItem.mContact, msgItem.mBody,
                                              msgItem.mSubject, msgItem.mTimestamp,
                                              msgItem.mHighlight, msgItem.mTextContentType);
-            msgItem.setCachedFormattedMessage(formattedMessage);
         }
         mBodyTextView.setText(formattedMessage);
 
@@ -346,8 +351,9 @@ public class MessageListItem extends LinearLayout implements
 
     ForegroundColorSpan mColorSpan = null;  // set in ctor
 
-    private CharSequence formatMessage(String contact, String body, String subject,
-                                       String timestamp, Pattern highlight, String contentType) {
+    private CharSequence formatMessage(MessageItem msgItem, String contact, String body,
+                                       String subject, String timestamp, Pattern highlight,
+                                       String contentType) {
         CharSequence template = mContext.getResources().getText(R.string.name_colon);
         SpannableStringBuilder buf =
             new SpannableStringBuilder(TextUtils.replace(template,
@@ -371,6 +377,11 @@ public class MessageListItem extends LinearLayout implements
                 SmileyParser parser = SmileyParser.getInstance();
                 buf.append(parser.addSmileySpans(body));
             }
+        }
+        // If we're in the process of sending a message (i.e. pending), then we show a "Sending..."
+        // string in place of the timestamp.
+        if (msgItem.isSending()) {
+            timestamp = mContext.getResources().getString(R.string.sending_message);
         }
         if (!TextUtils.isEmpty(timestamp)) {
             buf.append("\n");
@@ -545,14 +556,6 @@ public class MessageListItem extends LinearLayout implements
         }
     }
 
-    public static boolean isFailedMessage(MessageItem msgItem) {
-        boolean isFailedMms = msgItem.isMms()
-                            && (msgItem.mErrorType >= MmsSms.ERR_TYPE_GENERIC_PERMANENT);
-        boolean isFailedSms = msgItem.isSms()
-                            && (msgItem.mBoxId == Sms.MESSAGE_TYPE_FAILED);
-        return isFailedMms || isFailedSms;
-    }
-
     private void setErrorIndicatorClickListener(final MessageItem msgItem) {
         String type = msgItem.mType;
         final int what;
@@ -561,7 +564,7 @@ public class MessageListItem extends LinearLayout implements
         } else {
             what = MSG_LIST_EDIT_MMS;
         }
-        mRightStatusIndicator.setOnClickListener(new OnClickListener() {
+        mDeliveredIndicator.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 if (null != mHandler) {
                     Message msg = Message.obtain(mHandler, what);
@@ -573,31 +576,37 @@ public class MessageListItem extends LinearLayout implements
     }
 
     private void drawRightStatusIndicator(MessageItem msgItem) {
-        if (msgItem.isOutgoingMessage()) {
-            if (isFailedMessage(msgItem)) {
-                mRightStatusIndicator.setImageResource(R.drawable.ic_sms_mms_not_delivered);
-                setErrorIndicatorClickListener(msgItem);
-            } else {
-                mRightStatusIndicator.setImageResource(R.drawable.ic_email_pending);
-            }
-            mRightStatusIndicator.setVisibility(View.VISIBLE);
-        } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.INFO || msgItem.mReadReport) {
-            mRightStatusIndicator.setImageResource(R.drawable.ic_mms_message_details);
-            mRightStatusIndicator.setVisibility(View.VISIBLE);
-        } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.PENDING) {
-            mRightStatusIndicator.setImageResource(R.drawable.ic_sms_mms_pending);
-            mRightStatusIndicator.setVisibility(View.VISIBLE);
-        } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.FAILED) {
-            mRightStatusIndicator.setImageResource(R.drawable.ic_sms_mms_not_delivered);
-            mRightStatusIndicator.setVisibility(View.VISIBLE);
-        } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.RECEIVED) {
-            mRightStatusIndicator.setImageResource(R.drawable.ic_sms_mms_delivered);
-            mRightStatusIndicator.setVisibility(View.VISIBLE);
-        } else if (msgItem.mLocked) {
-            mRightStatusIndicator.setImageResource(R.drawable.ic_lock_message_sms);
-            mRightStatusIndicator.setVisibility(View.VISIBLE);
+        // Locked icon
+        if (msgItem.mLocked) {
+            mLockedIndicator.setImageResource(R.drawable.ic_lock_message_sms);
+            mLockedIndicator.setVisibility(View.VISIBLE);
         } else {
-            mRightStatusIndicator.setVisibility(View.GONE);
+            mLockedIndicator.setVisibility(View.GONE);
+        }
+
+        // Delivery icon
+        if (msgItem.isOutgoingMessage()) {
+            if (msgItem.isFailedMessage()) {
+                mDeliveredIndicator.setImageResource(R.drawable.ic_sms_mms_not_delivered);
+                setErrorIndicatorClickListener(msgItem);
+                mDeliveredIndicator.setVisibility(View.VISIBLE);
+            }
+        } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.FAILED) {
+            mDeliveredIndicator.setImageResource(R.drawable.ic_sms_mms_not_delivered);
+            mDeliveredIndicator.setVisibility(View.VISIBLE);
+        } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.RECEIVED) {
+            mDeliveredIndicator.setImageResource(R.drawable.ic_sms_mms_delivered);
+            mDeliveredIndicator.setVisibility(View.VISIBLE);
+        } else {
+            mDeliveredIndicator.setVisibility(View.GONE);
+        }
+
+        // Message details icon
+        if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.INFO || msgItem.mReadReport) {
+            mDetailsIndicator.setImageResource(R.drawable.ic_sms_mms_details);
+            mDetailsIndicator.setVisibility(View.VISIBLE);
+        } else {
+            mDetailsIndicator.setVisibility(View.GONE);
         }
     }
 

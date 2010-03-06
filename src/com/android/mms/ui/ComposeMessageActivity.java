@@ -942,7 +942,7 @@ public class ComposeMessageActivity extends Activity
         } else {
             editMmsMessageItem(msgItem);
         }
-        if (MessageListItem.isFailedMessage(msgItem) && mMsgListAdapter.getCount() <= 1) {
+        if (msgItem.isFailedMessage() && mMsgListAdapter.getCount() <= 1) {
             // For messages with bad addresses, let the user re-edit the recipients.
             initRecipientsEditor();
         }

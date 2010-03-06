@@ -47,6 +47,7 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import com.android.mmscommon.telephony.TelephonyProvider.Mms;
 import com.android.mmscommon.telephony.TelephonyProvider.Sms;
@@ -109,7 +110,7 @@ public class MessagingNotification {
 
     private static final MmsSmsNotificationInfoComparator INFO_COMPARATOR =
             new MmsSmsNotificationInfoComparator();
-    
+
     private static final Uri UNDELIVERED_URI = Uri.parse("content://mms-sms/undelivered");
 
 
@@ -127,6 +128,7 @@ public class MessagingNotification {
     };
     private static OnDeletedReceiver sNotificationDeletedReceiver = new OnDeletedReceiver();
     private static Intent sNotificationOnDeleteIntent;
+    private static Handler mToastHandler = new Handler();
 
     private MessagingNotification() {
     }
@@ -163,7 +165,7 @@ public class MessagingNotification {
                 new TreeSet<MmsSmsNotificationInfo>(INFO_COMPARATOR);
 	    MmsSmsDeliveryInfo delivery = null;
         Set<Long> threads = new HashSet<Long>(4);
-        
+
         int count = 0;
         count += accumulateNotificationInfo(
                 accumulator, getMmsNewMessageNotificationInfo(context, threads));
@@ -174,7 +176,7 @@ public class MessagingNotification {
         if (!accumulator.isEmpty()) {
             accumulator.first().deliver(context, isNew, count, threads.size());
         }
-	
+
         // And deals with delivery reports (which use Toasts)
         delivery = getSmsNewDeliveryInfo(context);
         if (delivery != null) {
@@ -191,7 +193,7 @@ public class MessagingNotification {
         updateSendFailedNotification(context);
         updateDownloadFailedNotification(context);
     }
-    
+
     private static final int accumulateNotificationInfo(
             SortedSet set, MmsSmsNotificationInfo info) {
         if (info != null) {
@@ -270,7 +272,7 @@ public class MessagingNotification {
         if (cursor == null) {
             return null;
         }
-        
+
         try {
             if (!cursor.moveToFirst()) {
                 return null;
@@ -335,7 +337,7 @@ public class MessagingNotification {
         if (cursor == null) {
             return null;
         }
-        
+
         try {
             if (!cursor.moveToFirst()) {
                 return null;
@@ -394,10 +396,10 @@ public class MessagingNotification {
         nm.cancel(notificationId);
     }
 
-    private static void updateDeliveryNotification(Context context,
+    private static void updateDeliveryNotification(final Context context,
                                                    boolean isNew,
-                                                   CharSequence message,
-                                                   long timeMillis) {
+                                                   final CharSequence message,
+                                                   final long timeMillis) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (!sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_ENABLED, true)) {
@@ -405,8 +407,11 @@ public class MessagingNotification {
         }
 
         if (isNew) {
-            Toast toast = Toast.makeText(context, message, (int)timeMillis);
-            toast.show();
+            mToastHandler.post(new Runnable() {
+                public void run() {
+                    Toast.makeText(context, message, (int)timeMillis).show();
+                }
+            });
         }
     }
 
@@ -443,7 +448,7 @@ public class MessagingNotification {
 
             clickIntent.setType("vnd.android-dir/mms-sms");
         }
-        
+
         // If there is more than one message, change the description (which
         // would normally be a snippet of the individual message text) to
         // a string indicating how many "unseen" messages there are.
@@ -487,7 +492,7 @@ public class MessagingNotification {
     protected static CharSequence buildTickerMessage(
             Context context, String address, String subject, String body) {
         String displayAddress = Contact.get(address, true).getName();
-        
+
         StringBuilder buf = new StringBuilder(
                 displayAddress == null
                 ? ""
@@ -529,7 +534,7 @@ public class MessagingNotification {
     public static void notifySendFailed(Context context, boolean noisy) {
         notifyFailed(context, false, 0, noisy);
     }
-    
+
     private static void notifyFailed(Context context, boolean isDownload, long threadId,
                                      boolean noisy) {
         // TODO factor out common code for creating notifications
@@ -542,17 +547,17 @@ public class MessagingNotification {
 
         NotificationManager nm = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
-        
+
         // Strategy:
         // a. If there is a single failure notification, tapping on the notification goes
         //    to the compose view.
-        // b. If there are two failure it stays in the thread view. Selecting one undelivered 
+        // b. If there are two failure it stays in the thread view. Selecting one undelivered
         //    thread will dismiss one undelivered notification but will still display the
         //    notification.If you select the 2nd undelivered one it will dismiss the notification.
-        
+
         long[] msgThreadId = {0};
         int totalFailedCount = getUndeliveredMessageCount(context, msgThreadId);
-        
+
         Intent failedIntent;
         Notification notification = new Notification();
         String title;
@@ -567,7 +572,7 @@ public class MessagingNotification {
             title = isDownload ?
                         context.getString(R.string.message_download_failed_title) :
                         context.getString(R.string.message_send_failed_title);
-            
+
             description = context.getString(R.string.message_failed_body);
             failedIntent = new Intent(context, ComposeMessageActivity.class);
             if (isDownload) {
@@ -576,8 +581,8 @@ public class MessagingNotification {
             } else {
                 threadId = (msgThreadId[0] != 0 ? msgThreadId[0] : 0);
                 failedIntent.putExtra("undelivered_flag", true);
-            }            
-            failedIntent.putExtra("thread_id", threadId);         
+            }
+            failedIntent.putExtra("thread_id", threadId);
         }
 
         failedIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -601,14 +606,14 @@ public class MessagingNotification {
                     null);
             notification.sound = TextUtils.isEmpty(ringtoneStr) ? null : Uri.parse(ringtoneStr);
         }
-        
+
         if (isDownload) {
             nm.notify(DOWNLOAD_FAILED_NOTIFICATION_ID, notification);
         } else {
             nm.notify(MESSAGE_FAILED_NOTIFICATION_ID, notification);
         }
     }
-    
+
     // threadIdResult[0] contains the thread id of the first message.
     // threadIdResult[1] is nonzero if the thread ids of all the messages are the same.
     // You can pass in null for threadIdResult.
@@ -623,7 +628,7 @@ public class MessagingNotification {
         try {
             if (threadIdResult != null && undeliveredCursor.moveToFirst()) {
                 threadIdResult[0] = undeliveredCursor.getLong(0);
-                
+
                 if (threadIdResult.length >= 2) {
                     // Test to see if all the undelivered messages belong to the same thread.
                     long firstId = threadIdResult[0];
@@ -649,19 +654,19 @@ public class MessagingNotification {
             notifySendFailed(context);      // rebuild and adjust the message count if necessary.
         }
     }
-    
-    /** 
+
+    /**
      *  If all the undelivered messages belong to "threadId", cancel the notification.
      */
     public static void updateSendFailedNotificationForThread(Context context, long threadId) {
         long[] msgThreadId = {0, 0};
-        if (getUndeliveredMessageCount(context, msgThreadId) > 0 
+        if (getUndeliveredMessageCount(context, msgThreadId) > 0
                 && msgThreadId[0] == threadId
                 && msgThreadId[1] != 0) {
             cancelNotification(context, MESSAGE_FAILED_NOTIFICATION_ID);
         }
     }
-    
+
     private static int getDownloadFailedMessageCount(Context context) {
         // Look for any messages in the MMS Inbox that are of the type
         // NOTIFICATION_IND (i.e. not already downloaded) and in the
@@ -687,7 +692,7 @@ public class MessagingNotification {
             cancelNotification(context, DOWNLOAD_FAILED_NOTIFICATION_ID);
         }
     }
-    
+
     public static boolean isFailedToDeliver(Intent intent) {
         return (intent != null) && intent.getBooleanExtra("undelivered_flag", false);
     }
