@@ -471,7 +471,11 @@ public class NumberPicker extends LinearLayout {
 
     private int getSelectedPos(String str) {
         if (mDisplayedValues == null) {
-            return Integer.parseInt(str);
+            try {
+                return Integer.parseInt(str);
+            } catch (NumberFormatException e) {
+                /* Ignore as if it's not a number we don't care */
+            }            
         } else {
             for (int i = 0; i < mDisplayedValues.length; i++) {
 
