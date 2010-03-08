@@ -401,7 +401,7 @@ public class WorkingMessage {
 
         // Set HAS_ATTACHMENT if we need it.
         updateState(HAS_ATTACHMENT, hasAttachment(), true);
-
+        correctAttachmentState();
         return result;
     }
 
