@@ -2418,7 +2418,12 @@ public class ComposeMessageActivity extends Activity
             log("onActivityResult: requestCode=" + requestCode
                     + ", resultCode=" + resultCode + ", data=" + data);
         }
-        mWaitingForSubActivity = false;     // We're back!
+        mWaitingForSubActivity = false;          // We're back!
+        if (mWorkingMessage.isFakeMmsForDraft()) {
+            // We no longer have to fake the fact we're an Mms. At this point we are or we aren't,
+            // based on attachments and other Mms attrs.
+            mWorkingMessage.removeFakeMmsForDraft();
+        }
 
         // If there's no data (because the user didn't select a picture and
         // just hit BACK, for example), there's nothing to do.

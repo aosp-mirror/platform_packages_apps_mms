@@ -422,11 +422,21 @@ public class WorkingMessage {
         // When saveAsMms() has been called, we set FORCE_MMS to represent
         // sort of an "invisible attachment" so that the message isn't thrown
         // away when we are shipping it off to other activities.
-        if ((mMmsState & FORCE_MMS) > 0) {
+        if (isFakeMmsForDraft()) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Returns true if FORCE_MMS is set.
+     * When saveAsMms() has been called, we set FORCE_MMS to represent
+     * sort of an "invisible attachment" so that the message isn't thrown
+     * away when we are shipping it off to other activities.
+     */
+    public boolean isFakeMmsForDraft() {
+        return (mMmsState & FORCE_MMS) > 0;
     }
 
     /**
@@ -663,6 +673,12 @@ public class WorkingMessage {
         }
     }
 
+    // Call when we've returned from adding an attachment. We're no longer forcing the message
+    // into a Mms message. At this point we either have the goods to make the message a Mms
+    // or we don't. No longer fake it.
+    public void removeFakeMmsForDraft() {
+        updateState(FORCE_MMS, false, false);
+    }
 
     /**
      * Force the message to be saved as MMS and return the Uri of the message.
