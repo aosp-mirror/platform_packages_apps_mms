@@ -283,8 +283,7 @@ public class MessageItem {
     }
 
     public boolean isSending() {
-        return !isFailedMessage() && (isOutgoingMessage() ||
-                mDeliveryStatus == MessageItem.DeliveryStatus.PENDING);
+        return !isFailedMessage() && isOutgoingMessage();
     }
 
     public boolean isFailedMessage() {
