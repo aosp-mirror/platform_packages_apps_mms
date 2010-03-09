@@ -62,6 +62,16 @@ public class RetrieveTransaction extends Transaction implements Runnable {
 
     private final Uri mUri;
     private final String mContentLocation;
+    private boolean mLocked;
+
+    static final String[] PROJECTION = new String[] {
+        Mms.CONTENT_LOCATION,
+        Mms.LOCKED
+    };
+
+    // The indexes of the columns which must be consistent with above PROJECTION.
+    static final int COLUMN_CONTENT_LOCATION      = 0;
+    static final int COLUMN_LOCKED                = 1;
 
     public RetrieveTransaction(Context context, int serviceId,
             TransactionSettings connectionSettings, String uri)
@@ -83,15 +93,19 @@ public class RetrieveTransaction extends Transaction implements Runnable {
         attach(RetryScheduler.getInstance(context));
     }
 
-    private static String getContentLocation(Context context, Uri uri)
+    private String getContentLocation(Context context, Uri uri)
             throws MmsException {
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
-                            uri, new String[] {Mms.CONTENT_LOCATION}, null, null, null);
+                            uri, PROJECTION, null, null, null);
+        mLocked = false;
 
         if (cursor != null) {
             try {
                 if ((cursor.getCount() == 1) && cursor.moveToFirst()) {
-                    return cursor.getString(0);
+                    // Get the locked flag from the M-Notification.ind so it can be transferred
+                    // to the real message after the download.
+                    mLocked = cursor.getInt(COLUMN_LOCKED) == 1;
+                    return cursor.getString(COLUMN_CONTENT_LOCATION);
                 }
             } finally {
                 cursor.close();
@@ -141,7 +155,9 @@ public class RetrieveTransaction extends Transaction implements Runnable {
                 mTransactionState.setContentUri(msgUri);
                 // Remember the location the message was downloaded from.
                 // Since it's not critical, it won't fail the transaction.
-                updateContentLocation(mContext, msgUri, mContentLocation);
+                // Copy over the locked flag from the M-Notification.ind in case
+                // the user locked the message before activating the download.
+                updateContentLocation(mContext, msgUri, mContentLocation, mLocked);
             }
 
             // Delete the corresponding M-Notification.ind.
@@ -220,9 +236,11 @@ public class RetrieveTransaction extends Transaction implements Runnable {
     }
 
     private static void updateContentLocation(Context context, Uri uri,
-                                              String contentLocation) {
-        ContentValues values = new ContentValues(1);
+                                              String contentLocation,
+                                              boolean locked) {
+        ContentValues values = new ContentValues(2);
         values.put(Mms.CONTENT_LOCATION, contentLocation);
+        values.put(Mms.LOCKED, locked);     // preserve the state of the M-Notification.ind lock.
         SqliteWrapper.update(context, context.getContentResolver(),
                              uri, values, null, null);
     }
