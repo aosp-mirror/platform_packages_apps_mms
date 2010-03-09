@@ -5,21 +5,22 @@ import java.util.Iterator;
 import java.util.Set;
 
 import android.content.AsyncQueryHandler;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
-import com.android.mmscommon.telephony.TelephonyProvider.MmsSms;
-import com.android.mmscommon.telephony.TelephonyProvider.Threads;
-import com.android.mmscommon.telephony.TelephonyProvider.Sms.Conversations;
-import com.android.mmscommon.telephony.TelephonyProvider;
+import android.provider.Telephony.Mms;
+import android.provider.Telephony.MmsSms;
+import android.provider.Telephony.Sms;
+import android.provider.Telephony.Threads;
+import android.provider.Telephony.Sms.Conversations;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.android.mms.R;
 import com.android.mms.LogTag;
+import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.util.DraftCache;
@@ -742,7 +743,7 @@ public class Conversation {
 
     private static void blockingMarkAllSmsMessagesAsSeen(final Context context) {
         ContentResolver resolver = context.getContentResolver();
-        Cursor cursor = resolver.query(TelephonyProvider.Sms.Inbox.CONTENT_URI,
+        Cursor cursor = resolver.query(Sms.Inbox.CONTENT_URI,
                 SEEN_PROJECTION,
                 "seen=0",
                 null,
@@ -769,7 +770,7 @@ public class Conversation {
         ContentValues values = new ContentValues(1);
         values.put("seen", 1);
 
-        resolver.update(TelephonyProvider.Sms.Inbox.CONTENT_URI,
+        resolver.update(Sms.Inbox.CONTENT_URI,
                 values,
                 "seen=0",
                 null);
@@ -777,7 +778,7 @@ public class Conversation {
 
     private static void blockingMarkAllMmsMessagesAsSeen(final Context context) {
         ContentResolver resolver = context.getContentResolver();
-        Cursor cursor = resolver.query(TelephonyProvider.Mms.Inbox.CONTENT_URI,
+        Cursor cursor = resolver.query(Mms.Inbox.CONTENT_URI,
                 SEEN_PROJECTION,
                 "seen=0",
                 null,
@@ -804,7 +805,7 @@ public class Conversation {
         ContentValues values = new ContentValues(1);
         values.put("seen", 1);
 
-        resolver.update(TelephonyProvider.Mms.Inbox.CONTENT_URI,
+        resolver.update(Mms.Inbox.CONTENT_URI,
                 values,
                 "seen=0",
                 null);

@@ -19,7 +19,7 @@ package com.android.mms.model;
 
 import com.android.mms.drm.DrmWrapper;
 
-import com.android.mmscommon.MmsException;
+import com.google.android.mms.MmsException;
 
 import android.content.Context;
 import android.net.Uri;

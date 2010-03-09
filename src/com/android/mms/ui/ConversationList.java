@@ -26,7 +26,7 @@ import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.transaction.SmsRejectedReceiver;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.Recycler;
-import com.android.mmscommon.PduHeaders;
+import com.google.android.mms.pdu.PduHeaders;
 import android.database.sqlite.SqliteWrapper;
 
 import android.app.AlertDialog;
@@ -47,7 +47,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
-import com.android.mmscommon.telephony.TelephonyProvider.Mms;
+import android.provider.Telephony.Mms;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;

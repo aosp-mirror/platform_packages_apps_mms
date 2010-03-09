@@ -26,7 +26,7 @@ import com.android.mms.model.LayoutModel;
 import com.android.mms.model.RegionModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.SmilHelper;
-import com.android.mmscommon.MmsException;
+import com.google.android.mms.MmsException;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;

@@ -17,18 +17,18 @@
 
 package com.android.mms.transaction;
 
-import com.android.mmscommon.mms.util.PduCache;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import com.android.mms.telephony.Phone;
-import com.android.mmscommon.telephony.TelephonyProvider.Mms;
-import com.android.mms.telephony.TelephonyIntents;
+import android.provider.Telephony.Mms;
 import android.util.Log;
+
+import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.TelephonyIntents;
 import com.android.mms.LogTag;
+import com.google.android.mms.util.PduCache;
 
 /**
  * MmsSystemEventReceiver receives the

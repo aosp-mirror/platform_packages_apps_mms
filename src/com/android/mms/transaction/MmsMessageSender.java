@@ -19,14 +19,14 @@ package com.android.mms.transaction;
 
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.SendingProgressTokenManager;
-import com.android.mmscommon.InvalidHeaderValueException;
-import com.android.mmscommon.MmsException;
-import com.android.mmscommon.EncodedStringValue;
-import com.android.mmscommon.mms.pdu.GenericPdu;
-import com.android.mmscommon.PduHeaders;
-import com.android.mmscommon.mms.pdu.PduPersister;
-import com.android.mmscommon.mms.pdu.ReadRecInd;
-import com.android.mmscommon.mms.pdu.SendReq;
+import com.google.android.mms.InvalidHeaderValueException;
+import com.google.android.mms.MmsException;
+import com.google.android.mms.pdu.EncodedStringValue;
+import com.google.android.mms.pdu.GenericPdu;
+import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mms.pdu.ReadRecInd;
+import com.google.android.mms.pdu.SendReq;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -34,7 +34,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import com.android.mmscommon.telephony.TelephonyProvider.Mms;
+import android.provider.Telephony.Mms;
 import android.util.Log;
 
 public class MmsMessageSender implements MessageSender {

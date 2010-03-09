@@ -18,7 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
-import com.android.mmscommon.PduHeaders;
+import com.google.android.mms.pdu.PduHeaders;
 import android.database.sqlite.SqliteWrapper;
 
 import android.app.ListActivity;
@@ -26,8 +26,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import com.android.mmscommon.telephony.TelephonyProvider.Mms;
-import com.android.mmscommon.telephony.TelephonyProvider.Sms;
+import android.provider.Telephony.Mms;
+import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;

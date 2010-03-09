@@ -19,7 +19,7 @@ package com.android.mms.ui;
 
 import com.android.mms.model.ImageModel;
 import com.android.mms.LogTag;
-import com.android.mmscommon.mms.pdu.PduPart;
+import com.google.android.mms.pdu.PduPart;
 import android.database.sqlite.SqliteWrapper;
 
 import android.content.Context;
@@ -29,7 +29,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
 import android.provider.MediaStore.Images;
-import com.android.mmscommon.telephony.TelephonyProvider.Mms.Part;
+import android.provider.Telephony.Mms.Part;
 import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;

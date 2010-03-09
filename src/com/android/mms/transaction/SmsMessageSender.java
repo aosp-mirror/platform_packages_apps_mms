@@ -19,7 +19,7 @@ package com.android.mms.transaction;
 
 import com.android.mms.LogTag;
 import com.android.mms.ui.MessagingPreferenceActivity;
-import com.android.mmscommon.MmsException;
+import com.google.android.mms.MmsException;
 import android.database.sqlite.SqliteWrapper;
 
 import android.content.Context;
@@ -29,7 +29,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import com.android.mmscommon.telephony.TelephonyProvider.Sms;
+import android.provider.Telephony.Sms;
 import android.util.Log;
 
 public class SmsMessageSender implements MessageSender {

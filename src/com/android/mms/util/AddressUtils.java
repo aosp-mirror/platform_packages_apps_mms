@@ -17,16 +17,16 @@
 package com.android.mms.util;
 
 import com.android.mms.R;
-import com.android.mmscommon.EncodedStringValue;
-import com.android.mmscommon.PduHeaders;
-import com.android.mmscommon.mms.pdu.PduPersister;
+import com.google.android.mms.pdu.EncodedStringValue;
+import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mms.pdu.PduPersister;
 import android.database.sqlite.SqliteWrapper;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import com.android.mmscommon.telephony.TelephonyProvider.Mms;
-import com.android.mmscommon.telephony.TelephonyProvider.Mms.Addr;
+import android.provider.Telephony.Mms;
+import android.provider.Telephony.Mms.Addr;
 import android.text.TextUtils;
 import android.telephony.PhoneNumberUtils;
 

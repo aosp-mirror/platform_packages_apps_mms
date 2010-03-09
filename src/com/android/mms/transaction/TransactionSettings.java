@@ -22,8 +22,8 @@ import android.database.sqlite.SqliteWrapper;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import com.android.mms.telephony.Phone;
-import com.android.mmscommon.telephony.TelephonyProvider;
+import com.android.internal.telephony.Phone;
+import android.provider.Telephony;
 import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
@@ -44,10 +44,10 @@ public class TransactionSettings {
     private int mProxyPort = -1;
 
     private static final String[] APN_PROJECTION = {
-            TelephonyProvider.Carriers.TYPE,            // 0
-            TelephonyProvider.Carriers.MMSC,            // 1
-            TelephonyProvider.Carriers.MMSPROXY,        // 2
-            TelephonyProvider.Carriers.MMSPORT          // 3
+            Telephony.Carriers.TYPE,            // 0
+            Telephony.Carriers.MMSC,            // 1
+            Telephony.Carriers.MMSPROXY,        // 2
+            Telephony.Carriers.MMSPORT          // 3
     };
     private static final int COLUMN_TYPE         = 0;
     private static final int COLUMN_MMSC         = 1;
@@ -61,10 +61,10 @@ public class TransactionSettings {
      */
     public TransactionSettings(Context context, String apnName) {
         String selection = (apnName != null)?
-                TelephonyProvider.Carriers.APN + "='"+apnName+"'": null;
+                Telephony.Carriers.APN + "='"+apnName+"'": null;
 
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
-                            Uri.withAppendedPath(TelephonyProvider.Carriers.CONTENT_URI, "current"),
+                            Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI, "current"),
                             APN_PROJECTION, selection, null, null);
 
         if (cursor == null) {

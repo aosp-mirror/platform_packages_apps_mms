@@ -20,30 +20,30 @@ package com.android.mms.transaction;
 import static com.android.mms.transaction.TransactionState.FAILED;
 import static com.android.mms.transaction.TransactionState.INITIALIZED;
 import static com.android.mms.transaction.TransactionState.SUCCESS;
-import static com.android.mmscommon.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
-import static com.android.mmscommon.PduHeaders.STATUS_DEFERRED;
-import static com.android.mmscommon.PduHeaders.STATUS_RETRIEVED;
-import static com.android.mmscommon.PduHeaders.STATUS_UNRECOGNIZED;
+import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
+import static com.google.android.mms.pdu.PduHeaders.STATUS_DEFERRED;
+import static com.google.android.mms.pdu.PduHeaders.STATUS_RETRIEVED;
+import static com.google.android.mms.pdu.PduHeaders.STATUS_UNRECOGNIZED;
 
 import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.Recycler;
-import com.android.mmscommon.MmsException;
-import com.android.mmscommon.mms.pdu.GenericPdu;
-import com.android.mmscommon.mms.pdu.NotificationInd;
-import com.android.mmscommon.mms.pdu.NotifyRespInd;
-import com.android.mmscommon.mms.pdu.PduComposer;
-import com.android.mmscommon.PduHeaders;
-import com.android.mmscommon.mms.pdu.PduParser;
-import com.android.mmscommon.mms.pdu.PduPersister;
+import com.google.android.mms.MmsException;
+import com.google.android.mms.pdu.GenericPdu;
+import com.google.android.mms.pdu.NotificationInd;
+import com.google.android.mms.pdu.NotifyRespInd;
+import com.google.android.mms.pdu.PduComposer;
+import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mms.pdu.PduParser;
+import com.google.android.mms.pdu.PduPersister;
 import android.database.sqlite.SqliteWrapper;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import com.android.mmscommon.telephony.TelephonyProvider.Mms;
-import com.android.mmscommon.telephony.TelephonyProvider.Mms.Inbox;
+import android.provider.Telephony.Mms;
+import android.provider.Telephony.Mms.Inbox;
 import android.telephony.TelephonyManager;
 import android.util.Config;
 import android.util.Log;
@@ -119,7 +119,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
 
     /*
      * (non-Javadoc)
-     * @see com.android.mms.mms.Transaction#process()
+     * @see com.google.android.mms.pdu.Transaction#process()
      */
     @Override
     public void process() {

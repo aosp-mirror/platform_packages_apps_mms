@@ -17,21 +17,21 @@
 
 package com.android.mms.transaction;
 
-import static com.android.mmscommon.telephony.TelephonyProvider.Sms.Intents.WAP_PUSH_RECEIVED_ACTION;
-import static com.android.mmscommon.PduHeaders.MESSAGE_TYPE_DELIVERY_IND;
-import static com.android.mmscommon.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
-import static com.android.mmscommon.PduHeaders.MESSAGE_TYPE_READ_ORIG_IND;
+import static android.provider.Telephony.Sms.Intents.WAP_PUSH_RECEIVED_ACTION;
+import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_DELIVERY_IND;
+import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
+import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_READ_ORIG_IND;
 
 import com.android.mms.MmsConfig;
-import com.android.mmscommon.ContentType;
-import com.android.mmscommon.MmsException;
-import com.android.mmscommon.mms.pdu.DeliveryInd;
-import com.android.mmscommon.mms.pdu.GenericPdu;
-import com.android.mmscommon.mms.pdu.NotificationInd;
-import com.android.mmscommon.PduHeaders;
-import com.android.mmscommon.mms.pdu.PduParser;
-import com.android.mmscommon.mms.pdu.PduPersister;
-import com.android.mmscommon.mms.pdu.ReadOrigInd;
+import com.google.android.mms.ContentType;
+import com.google.android.mms.MmsException;
+import com.google.android.mms.pdu.DeliveryInd;
+import com.google.android.mms.pdu.GenericPdu;
+import com.google.android.mms.pdu.NotificationInd;
+import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mms.pdu.PduParser;
+import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mms.pdu.ReadOrigInd;
 import android.database.sqlite.SqliteWrapper;
 
 import android.content.BroadcastReceiver;
@@ -44,8 +44,8 @@ import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.PowerManager;
-import com.android.mmscommon.telephony.TelephonyProvider.Mms;
-import com.android.mmscommon.telephony.TelephonyProvider.Mms.Inbox;
+import android.provider.Telephony.Mms;
+import android.provider.Telephony.Mms.Inbox;
 import android.util.Config;
 import android.util.Log;
 

@@ -18,37 +18,6 @@ package com.android.mms.data;
 
 import java.util.List;
 
-import com.android.common.userhappiness.UserHappinessSignals;
-import com.android.mms.MmsConfig;
-import com.android.mms.ExceedMessageSizeException;
-import com.android.mms.ResolutionException;
-import com.android.mms.UnsupportContentTypeException;
-import com.android.mms.LogTag;
-import com.android.mmscommon.ContentType;
-import com.android.mmscommon.MmsException;
-import com.android.mmscommon.EncodedStringValue;
-import com.android.mmscommon.PduHeaders;
-import com.android.mmscommon.mms.pdu.GenericPdu;
-import com.android.mmscommon.mms.pdu.PduBody;
-import com.android.mmscommon.mms.pdu.PduPersister;
-import com.android.mmscommon.mms.pdu.SendReq;
-import android.database.sqlite.SqliteWrapper;
-import com.android.mms.model.AudioModel;
-import com.android.mms.model.ImageModel;
-import com.android.mms.model.MediaModel;
-import com.android.mms.model.SlideModel;
-import com.android.mms.model.SlideshowModel;
-import com.android.mms.model.TextModel;
-import com.android.mms.model.VideoModel;
-import com.android.mms.transaction.MessageSender;
-import com.android.mms.transaction.MmsMessageSender;
-import com.android.mms.util.Recycler;
-import com.android.mms.util.DraftCache;
-import com.android.mms.transaction.SmsMessageSender;
-import com.android.mms.ui.ComposeMessageActivity;
-import com.android.mms.ui.MessageUtils;
-import com.android.mms.ui.SlideshowEditor;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -60,17 +29,43 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
-
-import com.android.mmscommon.telephony.TelephonyProvider.Mms;
-import com.android.mmscommon.telephony.TelephonyProvider.Sms;
-import com.android.mmscommon.telephony.TelephonyProvider.MmsSms.PendingMessages;
-
+import android.provider.Telephony.Sms;
+import android.provider.Telephony.MmsSms.PendingMessages;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.android.common.userhappiness.UserHappinessSignals;
+import com.android.mms.ExceedMessageSizeException;
+import com.android.mms.LogTag;
+import com.android.mms.MmsConfig;
+import com.android.mms.ResolutionException;
+import com.android.mms.UnsupportContentTypeException;
+import com.android.mms.model.AudioModel;
+import com.android.mms.model.ImageModel;
+import com.android.mms.model.MediaModel;
+import com.android.mms.model.SlideModel;
+import com.android.mms.model.SlideshowModel;
+import com.android.mms.model.TextModel;
+import com.android.mms.model.VideoModel;
+import com.android.mms.transaction.MessageSender;
+import com.android.mms.transaction.MmsMessageSender;
+import com.android.mms.transaction.SmsMessageSender;
+import com.android.mms.ui.ComposeMessageActivity;
+import com.android.mms.ui.MessageUtils;
+import com.android.mms.ui.SlideshowEditor;
+import com.android.mms.util.Recycler;
+import com.google.android.mms.ContentType;
+import com.google.android.mms.MmsException;
+import com.google.android.mms.pdu.EncodedStringValue;
+import com.google.android.mms.pdu.PduBody;
+import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mms.pdu.SendReq;
 
 /**
  * Contains all state related to a message being edited by the user.

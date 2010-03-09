@@ -17,15 +17,15 @@
 
 package com.android.mms.ui;
 
-import com.android.mmscommon.MmsException;
+import com.google.android.mms.MmsException;
 import com.android.mms.R;
 import com.android.mms.model.IModelChangedObserver;
 import com.android.mms.model.Model;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 
-import com.android.mmscommon.mms.pdu.PduBody;
-import com.android.mmscommon.mms.pdu.PduPersister;
+import com.google.android.mms.pdu.PduBody;
+import com.google.android.mms.pdu.PduPersister;
 
 import android.app.ListActivity;
 import android.content.Context;

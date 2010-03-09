@@ -17,8 +17,8 @@
 
 package com.android.mms.transaction;
 
-import static com.android.mmscommon.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
-import static com.android.mmscommon.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
+import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
+import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
 
 import com.android.mms.R;
 import com.android.mms.LogTag;
@@ -30,9 +30,9 @@ import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.AddressUtils;
 import com.android.mms.util.DownloadManager;
 
-import com.android.mmscommon.EncodedStringValue;
-import com.android.mmscommon.PduHeaders;
-import com.android.mmscommon.mms.pdu.PduPersister;
+import com.google.android.mms.pdu.EncodedStringValue;
+import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mms.pdu.PduPersister;
 import android.database.sqlite.SqliteWrapper;
 
 import android.app.Notification;
@@ -49,8 +49,8 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import com.android.mmscommon.telephony.TelephonyProvider.Mms;
-import com.android.mmscommon.telephony.TelephonyProvider.Sms;
+import android.provider.Telephony.Mms;
+import android.provider.Telephony.Sms;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;

@@ -24,8 +24,8 @@ import java.util.Set;
 
 import android.content.Context;
 import android.database.Cursor;
-import com.android.mmscommon.telephony.TelephonyProvider.MmsSms;
-import com.android.mmscommon.telephony.TelephonyProvider.Sms.Conversations;
+import android.provider.Telephony.MmsSms;
+import android.provider.Telephony.Sms.Conversations;
 import android.util.Log;
 
 /**

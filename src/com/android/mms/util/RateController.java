@@ -25,7 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import com.android.mmscommon.telephony.TelephonyProvider.Mms.Rate;
+import android.provider.Telephony.Mms.Rate;
 import android.util.Config;
 import android.util.Log;
 

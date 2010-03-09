@@ -35,7 +35,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 
-import com.android.mmscommon.telephony.TelephonyProvider;
+import android.provider.Telephony;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
@@ -316,7 +316,7 @@ public class SearchActivity extends ListActivity
         };
 
         // don't pass a projection since the search uri ignores it
-        Uri uri = TelephonyProvider.MmsSms.SEARCH_URI.buildUpon()
+        Uri uri = Telephony.MmsSms.SEARCH_URI.buildUpon()
                     .appendQueryParameter("pattern", searchString).build();
 
         // kick off a query for the threads which match the search string

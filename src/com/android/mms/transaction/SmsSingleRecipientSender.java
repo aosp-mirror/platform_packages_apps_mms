@@ -13,8 +13,8 @@ import android.util.Log;
 
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
-import com.android.mmscommon.MmsException;
-import com.android.mmscommon.telephony.TelephonyProvider.Sms;
+import com.google.android.mms.MmsException;
+import android.provider.Telephony.Sms;
 import com.android.mms.ui.MessageUtils;
 
 public class SmsSingleRecipientSender extends SmsMessageSender {

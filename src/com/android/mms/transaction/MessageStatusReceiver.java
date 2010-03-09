@@ -24,7 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import com.android.mmscommon.telephony.TelephonyProvider.Sms;
+import android.provider.Telephony.Sms;
 import android.telephony.SmsMessage;
 import android.util.Log;
 

@@ -35,7 +35,7 @@ import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import com.android.mmscommon.telephony.TelephonyProvider.Sms;
+import android.provider.Telephony.Sms;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.ContextMenu;

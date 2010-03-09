@@ -17,9 +17,9 @@
 
 package com.android.mms.ui;
 
-import com.android.mmscommon.ContentType;
+import com.google.android.mms.ContentType;
 import com.android.mms.ExceedMessageSizeException;
-import com.android.mmscommon.MmsException;
+import com.google.android.mms.MmsException;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.ResolutionException;
@@ -29,9 +29,9 @@ import com.android.mms.model.LayoutModel;
 import com.android.mms.model.Model;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
-import com.android.mmscommon.mms.pdu.PduBody;
-import com.android.mmscommon.mms.pdu.PduPart;
-import com.android.mmscommon.mms.pdu.PduPersister;
+import com.google.android.mms.pdu.PduBody;
+import com.google.android.mms.pdu.PduPart;
+import com.google.android.mms.pdu.PduPersister;
 import com.android.mms.ui.BasicSlideEditorView.OnTextChangedListener;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 

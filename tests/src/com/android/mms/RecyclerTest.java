@@ -22,9 +22,9 @@ import java.util.Random;
 
 import com.android.mms.data.Contact;
 import com.android.mms.util.Recycler;
-import com.android.mmscommon.telephony.TelephonyProvider.Sms;
-import com.android.mmscommon.telephony.TelephonyProvider.Threads;
-import com.android.mmscommon.telephony.TelephonyProvider.Sms.Inbox;
+import android.provider.Telephony.Sms;
+import android.provider.Telephony.Threads;
+import android.provider.Telephony.Sms.Inbox;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
