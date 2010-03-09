@@ -1769,6 +1769,7 @@ public class ComposeMessageActivity extends Activity
         setIntent(intent);
 
         Conversation conversation = null;
+        mSentMessage = false;
 
         // If we have been passed a thread_id, use that to find our
         // conversation.
