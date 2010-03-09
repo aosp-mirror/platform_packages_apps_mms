@@ -710,6 +710,10 @@ public class Conversation {
                     }
                 }
             }
+            if (DEBUG) {
+                LogTag.debug("after keepOnly");
+                dumpCache();
+            }
         }
     }
 

@@ -576,7 +576,7 @@ public class ConversationList extends ListActivity
 
                 if (mNeedToMarkAsSeen) {
                     mNeedToMarkAsSeen = false;
-                    Conversation.markAllConversationsAsSeen(getApplicationContext());                    
+                    Conversation.markAllConversationsAsSeen(getApplicationContext());
                 }
 
                 break;
@@ -610,8 +610,6 @@ public class ConversationList extends ListActivity
 
                 // Make sure the list reflects the delete
                 startAsyncQuery();
-
-                onContentChanged();
                 break;
             }
         }
