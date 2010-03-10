@@ -755,16 +755,13 @@ public class WorkingMessage {
         mConversation.setDraftState(true);
     }
 
-    public void discard() {
+    synchronized public void discard() {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             LogTag.debug("discard");
         }
 
-        // Technically, we could probably just bail out here.  But discard() is
-        // really meant to be called if you never want to use the message again,
-        // so keep this assert in as a debugging aid.
         if (mDiscarded == true) {
-            throw new IllegalStateException("discard() called twice");
+            return;
         }
 
         // Mark this message as discarded in order to make saveDraft() no-op.
