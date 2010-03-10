@@ -585,12 +585,10 @@ public class MessageListItem extends LinearLayout implements
         }
 
         // Delivery icon
-        if (msgItem.isOutgoingMessage()) {
-            if (msgItem.isFailedMessage()) {
-                mDeliveredIndicator.setImageResource(R.drawable.ic_sms_mms_not_delivered);
-                setErrorIndicatorClickListener(msgItem);
-                mDeliveredIndicator.setVisibility(View.VISIBLE);
-            }
+        if (msgItem.isOutgoingMessage() && msgItem.isFailedMessage()) {
+            mDeliveredIndicator.setImageResource(R.drawable.ic_sms_mms_not_delivered);
+            setErrorIndicatorClickListener(msgItem);
+            mDeliveredIndicator.setVisibility(View.VISIBLE);
         } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.FAILED) {
             mDeliveredIndicator.setImageResource(R.drawable.ic_sms_mms_not_delivered);
             mDeliveredIndicator.setVisibility(View.VISIBLE);
