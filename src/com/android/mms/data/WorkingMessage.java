@@ -1040,6 +1040,12 @@ public class WorkingMessage {
                 filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
                 filter.addDataScheme("package");
                 mContext.registerReceiver(mPackageInstallReceiver, filter);
+                // Register for notifications related to enabling
+                // disabling applications on external media
+                IntentFilter sdFilter = new IntentFilter();
+                sdFilter.addAction(Intent.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE);
+                sdFilter.addAction(Intent.ACTION_EXTERNAL_APPLICATIONS_UNAVAILABLE);
+                mContext.registerReceiver(mPackageInstallReceiver, sdFilter);
                 // TODO: where can we unregister this receiver?
             }
             mCheckedForGoogleVoice = true;
@@ -1489,11 +1495,24 @@ public class WorkingMessage {
         public void onReceive(Context context, Intent intent) {
             // Whenever the GoogleVoice package is added or removed, force us to look for google
             // voice on the next send.
-            final String packageName = intent.getData().getSchemeSpecificPart();
-            if (GOOGLE_VOICE_PACKAGE.equals(packageName)) {
-                mCheckedForGoogleVoice = false;
+            String action = intent.getAction();
+            String[] pkgList = null;
+            if (Intent.ACTION_PACKAGE_ADDED.equals(action) ||
+                    Intent.ACTION_PACKAGE_REMOVED.equals(action)) {
+                final String packageName = intent.getData().getSchemeSpecificPart();
+                pkgList = new String[] { packageName };
+            } else if (Intent.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE.equals(action) ||
+                    Intent.ACTION_EXTERNAL_APPLICATIONS_UNAVAILABLE.equals(action)) {
+                pkgList = intent.getStringArrayExtra(Intent.EXTRA_CHANGED_PACKAGE_LIST);
+            }
+            if (pkgList != null) {
+                for (String packageName : pkgList) {
+                    if (GOOGLE_VOICE_PACKAGE.equals(packageName)) {
+                        mCheckedForGoogleVoice = false;
+                        break;
+                    }
+                }
             }
         }
     }
-
 }
