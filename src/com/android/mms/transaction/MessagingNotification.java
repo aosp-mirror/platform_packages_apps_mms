@@ -99,8 +99,8 @@ public class MessagingNotification {
             + " AND " + Sms.SEEN + " = 0)";
 
     private static final String NEW_DELIVERY_SM_CONSTRAINT =
-	    "(" + Sms.TYPE + " = " + Sms.MESSAGE_TYPE_SENT
-	    + " AND " + Sms.STATUS + " = "+ Sms.STATUS_COMPLETE +")";
+        "(" + Sms.TYPE + " = " + Sms.MESSAGE_TYPE_SENT
+        + " AND " + Sms.STATUS + " = "+ Sms.STATUS_COMPLETE +")";
 
     private static final String NEW_INCOMING_MM_CONSTRAINT =
             "(" + Mms.MESSAGE_BOX + "=" + Mms.MESSAGE_BOX_INBOX
@@ -150,7 +150,7 @@ public class MessagingNotification {
      * @param context the context to use
      */
     public static void updateNewMessageIndicator(Context context) {
-        updateNewMessageIndicator(context, false);
+        updateNewMessageIndicator(context, false, false);
     }
 
     /**
@@ -160,10 +160,11 @@ public class MessagingNotification {
      * @param context the context to use
      * @param isNew if notify a new message comes, it should be true, otherwise, false.
      */
-    public static void updateNewMessageIndicator(Context context, boolean isNew) {
+    public static void updateNewMessageIndicator(Context context, boolean isNew,
+            boolean isStatusMessage) {
         SortedSet<MmsSmsNotificationInfo> accumulator =
                 new TreeSet<MmsSmsNotificationInfo>(INFO_COMPARATOR);
-	    MmsSmsDeliveryInfo delivery = null;
+        MmsSmsDeliveryInfo delivery = null;
         Set<Long> threads = new HashSet<Long>(4);
 
         int count = 0;
@@ -180,7 +181,7 @@ public class MessagingNotification {
         // And deals with delivery reports (which use Toasts)
         delivery = getSmsNewDeliveryInfo(context);
         if (delivery != null) {
-            delivery.deliver(context, isNew);
+            delivery.deliver(context, isStatusMessage);
         }
     }
 
@@ -206,19 +207,18 @@ public class MessagingNotification {
     }
 
     private static final class MmsSmsDeliveryInfo {
-	public CharSequence mTicker;
-	public long mTimeMillis;
+        public CharSequence mTicker;
+        public long mTimeMillis;
 
-	public MmsSmsDeliveryInfo(
-		CharSequence ticker, long timeMillis) {
-	    mTicker = ticker;
-	    mTimeMillis = timeMillis;
-	}
+        public MmsSmsDeliveryInfo(CharSequence ticker, long timeMillis) {
+            mTicker = ticker;
+            mTimeMillis = timeMillis;
+        }
 
-	public void deliver(Context context, boolean isNew) {
-	    updateDeliveryNotification(
-		    context, isNew, mTicker, mTimeMillis);
-	}
+        public void deliver(Context context, boolean isStatusMessage) {
+            updateDeliveryNotification(
+                    context, isStatusMessage, mTicker, mTimeMillis);
+        }
     }
 
     private static final class MmsSmsNotificationInfo {
@@ -397,22 +397,24 @@ public class MessagingNotification {
     }
 
     private static void updateDeliveryNotification(final Context context,
-                                                   boolean isNew,
+                                                   boolean isStatusMessage,
                                                    final CharSequence message,
                                                    final long timeMillis) {
+        if (!isStatusMessage) {
+            return;
+        }
+
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (!sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_ENABLED, true)) {
             return;
         }
 
-        if (isNew) {
-            mToastHandler.post(new Runnable() {
-                public void run() {
-                    Toast.makeText(context, message, (int)timeMillis).show();
-                }
-            });
-        }
+        mToastHandler.post(new Runnable() {
+            public void run() {
+                Toast.makeText(context, message, (int)timeMillis).show();
+            }
+        });
     }
 
     private static void updateNotification(

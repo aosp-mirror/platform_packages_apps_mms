@@ -93,7 +93,7 @@ public class ClassZeroActivity extends Activity {
             messageUri = storeMessage(mMessage);
         }
         if (!mRead && messageUri != null) {
-            MessagingNotification.updateNewMessageIndicator(this, true);
+            MessagingNotification.updateNewMessageIndicator(this, true, false);
         }
     }
 

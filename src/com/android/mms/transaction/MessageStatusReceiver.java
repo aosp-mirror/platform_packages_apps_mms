@@ -48,14 +48,15 @@ public class MessageStatusReceiver extends BroadcastReceiver {
             Uri messageUri = intent.getData();
             byte[] pdu = (byte[]) intent.getExtra("pdu");
 
-            updateMessageStatus(context, messageUri, pdu);
-            MessagingNotification.updateNewMessageIndicator(context, true);
+            boolean isStatusMessage = updateMessageStatus(context, messageUri, pdu);
+            MessagingNotification.updateNewMessageIndicator(context, true, isStatusMessage);
        }
     }
 
-    private void updateMessageStatus(Context context, Uri messageUri, byte[] pdu) {
+    private boolean updateMessageStatus(Context context, Uri messageUri, byte[] pdu) {
         // Create a "status/#" URL and use it to update the
         // message's status in the database.
+        boolean isStatusReport = false;
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
                             messageUri, ID_PROJECTION, null, null, null);
         try {
@@ -65,10 +66,12 @@ public class MessageStatusReceiver extends BroadcastReceiver {
                 Uri updateUri = ContentUris.withAppendedId(STATUS_URI, messageId);
                 SmsMessage message = SmsMessage.createFromPdu(pdu);
                 int status = message.getStatus();
+                isStatusReport = message.isStatusReportMessage();
                 ContentValues contentValues = new ContentValues(1);
 
                 if (Log.isLoggable(LogTag.TAG, Log.DEBUG)) {
-                    log("updateMessageStatus: msgUrl=" + messageUri + ", status=" + status);
+                    log("updateMessageStatus: msgUrl=" + messageUri + ", status=" + status +
+                            ", isStatusReport=" + isStatusReport);
                 }
 
                 contentValues.put(Sms.STATUS, status);
@@ -80,12 +83,13 @@ public class MessageStatusReceiver extends BroadcastReceiver {
         } finally {
             cursor.close();
         }
+        return isStatusReport;
     }
 
     private void error(String message) {
         Log.e(LOG_TAG, "[MessageStatusReceiver] " + message);
     }
-    
+
     private void log(String message) {
         Log.d(LOG_TAG, "[MessageStatusReceiver] " + message);
     }

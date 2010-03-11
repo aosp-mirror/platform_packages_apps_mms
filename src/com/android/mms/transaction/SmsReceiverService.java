@@ -308,7 +308,7 @@ public class SmsReceiverService extends Service {
         }
 
         if (messageUri != null) {
-            MessagingNotification.updateNewMessageIndicator(this, true);
+            MessagingNotification.updateNewMessageIndicator(this, true, false);
         }
     }
 
