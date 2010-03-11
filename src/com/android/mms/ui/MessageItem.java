@@ -192,7 +192,7 @@ public class MessageItem {
                     try {
                         reportInt = Integer.parseInt(report);
                         if (reportInt == PduHeaders.VALUE_YES) {
-                            mDeliveryStatus = DeliveryStatus.INFO;
+                            mDeliveryStatus = DeliveryStatus.RECEIVED;
                         } else {
                             mDeliveryStatus = DeliveryStatus.NONE;
                         }
