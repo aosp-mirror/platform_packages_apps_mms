@@ -286,6 +286,8 @@ public class MessageListItem extends LinearLayout implements
 
         drawLeftStatusIndicator(msgItem.mBoxId);
         drawRightStatusIndicator(msgItem);
+
+        requestLayout();
     }
 
     private void hideMmsViewIfNeeded() {
