@@ -60,12 +60,12 @@
         android:gravity="bottom">
 
         <view class="com.android.mms.ui.MessageListView"
+            style="?android:attr/listViewWhiteStyle"
             android:id="@+id/history"
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="1.0"
             android:listSelector="@drawable/chat_history_selector"
-            android:divider="@android:drawable/divider_horizontal_bright"
             android:drawSelectorOnTop="true"
             android:transcriptMode="alwaysScroll"
             android:scrollbarAlwaysDrawVerticalTrack="true"
@@ -87,52 +87,52 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-	            <view class="com.android.mms.ui.AttachmentEditor"
-	                android:id="@+id/attachment_editor"
-	                android:layout_width="match_parent"
-	                android:layout_height="wrap_content"
-	                android:orientation="vertical">
+              <view class="com.android.mms.ui.AttachmentEditor"
+                  android:id="@+id/attachment_editor"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
 
-	                <ViewStub android:id="@+id/image_attachment_view_portrait_stub"
-	                    android:layout="@layout/image_attachment_view_portrait"
-	                    android:layout_width="match_parent"
-	                    android:layout_height="wrap_content"/>
+                  <ViewStub android:id="@+id/image_attachment_view_portrait_stub"
+                      android:layout="@layout/image_attachment_view_portrait"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
 
-	                <ViewStub android:id="@+id/video_attachment_view_portrait_stub"
-	                    android:layout="@layout/video_attachment_view_portrait"
-	                    android:layout_width="match_parent"
-	                    android:layout_height="wrap_content"/>
+                  <ViewStub android:id="@+id/video_attachment_view_portrait_stub"
+                      android:layout="@layout/video_attachment_view_portrait"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
 
-	                <ViewStub android:id="@+id/audio_attachment_view_portrait_stub"
-	                    android:layout="@layout/audio_attachment_view_portrait"
-	                    android:layout_width="match_parent"
-	                    android:layout_height="wrap_content"/>
+                  <ViewStub android:id="@+id/audio_attachment_view_portrait_stub"
+                      android:layout="@layout/audio_attachment_view_portrait"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
 
-	                <ViewStub android:id="@+id/slideshow_attachment_view_portrait_stub"
-	                    android:layout="@layout/slideshow_attachment_view_portrait"
-	                    android:layout_width="match_parent"
-	                    android:layout_height="wrap_content"/>
+                  <ViewStub android:id="@+id/slideshow_attachment_view_portrait_stub"
+                      android:layout="@layout/slideshow_attachment_view_portrait"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
 
-	                <ViewStub android:id="@+id/image_attachment_view_landscape_stub"
-	                    android:layout="@layout/image_attachment_view_landscape"
-	                    android:layout_width="match_parent"
-	                    android:layout_height="wrap_content"/>
+                  <ViewStub android:id="@+id/image_attachment_view_landscape_stub"
+                      android:layout="@layout/image_attachment_view_landscape"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
 
-	                <ViewStub android:id="@+id/video_attachment_view_landscape_stub"
-	                    android:layout="@layout/video_attachment_view_landscape"
-	                    android:layout_width="match_parent"
-	                    android:layout_height="wrap_content"/>
+                  <ViewStub android:id="@+id/video_attachment_view_landscape_stub"
+                      android:layout="@layout/video_attachment_view_landscape"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
 
-	                <ViewStub android:id="@+id/audio_attachment_view_landscape_stub"
-	                    android:layout="@layout/audio_attachment_view_landscape"
-	                    android:layout_width="match_parent"
-	                    android:layout_height="wrap_content"/>
+                  <ViewStub android:id="@+id/audio_attachment_view_landscape_stub"
+                      android:layout="@layout/audio_attachment_view_landscape"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
 
-	                <ViewStub android:id="@+id/slideshow_attachment_view_landscape_stub"
-	                    android:layout="@layout/slideshow_attachment_view_landscape"
-	                    android:layout_width="match_parent"
-	                    android:layout_height="wrap_content"/>
-	            </view>
+                  <ViewStub android:id="@+id/slideshow_attachment_view_landscape_stub"
+                      android:layout="@layout/slideshow_attachment_view_landscape"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
+              </view>
             </ScrollView>
 
             <LinearLayout
