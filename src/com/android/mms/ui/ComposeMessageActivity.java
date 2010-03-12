@@ -359,15 +359,21 @@ public class ComposeMessageActivity extends Activity
         }
     };
 
-    public MessageItem getMessageItem(String type, long msgId) {
+    private MessageItem getMessageItem(String type, long msgId) {
+        if (!isCursorValid()) {
+            return null;
+        }
+        return mMsgListAdapter.getCachedMessageItem(type, msgId, mMsgListAdapter.getCursor());
+    }
+
+    private boolean isCursorValid() {
         // Check whether the cursor is valid or not.
         Cursor cursor = mMsgListAdapter.getCursor();
         if (cursor.isClosed() || cursor.isBeforeFirst() || cursor.isAfterLast()) {
             Log.e(TAG, "Bad cursor.", new RuntimeException());
-            return null;
+            return false;
         }
-
-        return mMsgListAdapter.getCachedMessageItem(type, msgId, cursor);
+        return true;
     }
 
     private void resetCounter() {
@@ -1040,6 +1046,9 @@ public class ComposeMessageActivity extends Activity
      */
     private final class MsgListMenuClickListener implements MenuItem.OnMenuItemClickListener {
         public boolean onMenuItemClick(MenuItem item) {
+            if (!isCursorValid()) {
+                return false;
+            }
             Cursor cursor = mMsgListAdapter.getCursor();
             String type = cursor.getString(COLUMN_MSG_TYPE);
             long msgId = cursor.getLong(COLUMN_ID);
