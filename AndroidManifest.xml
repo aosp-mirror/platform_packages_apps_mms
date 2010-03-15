@@ -253,7 +253,15 @@
 
         <!-- Search Suggestions Provider -->
         <provider android:name="SuggestionsProvider"
-            android:authorities="com.android.mms.SuggestionsProvider" />
-	
+            android:readPermission="android.permission.READ_SMS"
+            android:authorities="com.android.mms.SuggestionsProvider" >
+            <path-permission
+                    android:pathPrefix="/search_suggest_query"
+                    android:readPermission="android.permission.GLOBAL_SEARCH" />
+            <path-permission
+                    android:pathPrefix="/search_suggest_shortcut"
+                    android:readPermission="android.permission.GLOBAL_SEARCH" />
+        </provider>
+
     </application>
 </manifest>
