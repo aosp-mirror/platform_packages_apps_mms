@@ -21,7 +21,7 @@
 <com.android.mms.ui.ConversationListItem xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:background="@android:color/white"
+    android:background="@drawable/conversation_item_background_unread"
     android:paddingRight="10dip" >
 
     <android.widget.QuickContactBadge
