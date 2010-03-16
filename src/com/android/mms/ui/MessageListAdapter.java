@@ -130,6 +130,9 @@ public class MessageListAdapter extends CursorAdapter {
     private Pattern mHighlight;
     private Context mContext;
 
+    private HashMap<String, HashSet<MessageListItem>> mAddressToMessageListItems
+        = new HashMap<String, HashSet<MessageListItem>>();
+
     public MessageListAdapter(
             Context context, Cursor c, ListView listView,
             boolean useDefaultColumnsMap, Pattern highlight) {
@@ -165,8 +168,38 @@ public class MessageListAdapter extends CursorAdapter {
 
             MessageItem msgItem = getCachedMessageItem(type, msgId, cursor);
             if (msgItem != null) {
-                ((MessageListItem) view).bind(mAvatarCache, msgItem);
-                ((MessageListItem) view).setMsgListItemHandler(mMsgListItemHandler);
+                MessageListItem mli = (MessageListItem) view;
+
+                // Remove previous item from mapping
+                MessageItem oldMessageItem = mli.getMessageItem();
+                if (oldMessageItem != null) {
+                    String oldAddress = oldMessageItem.mAddress;
+                    if (oldAddress != null) {
+                        HashSet<MessageListItem> set = mAddressToMessageListItems.get(oldAddress);
+                        if (set != null) {
+                            set.remove(mli);
+                        }
+                    }
+                }
+
+                mli.bind(mAvatarCache, msgItem);
+                mli.setMsgListItemHandler(mMsgListItemHandler);
+
+                // Add current item to mapping
+
+                String addr;
+                if (!Sms.isOutgoingFolder(msgItem.mBoxId)) {
+                    addr = msgItem.mAddress;
+                } else {
+                    addr = MessageUtils.getLocalNumber();
+                }
+
+                HashSet<MessageListItem> set = mAddressToMessageListItems.get(addr);
+                if (set == null) {
+                    set = new HashSet<MessageListItem>();
+                    mAddressToMessageListItems.put(addr, set);
+                }
+                set.add(mli);
             }
         }
     }
@@ -182,6 +215,15 @@ public class MessageListAdapter extends CursorAdapter {
 
     public void setMsgListItemHandler(Handler handler) {
         mMsgListItemHandler = handler;
+    }
+
+    public void notifyImageLoaded(String address) {
+        HashSet<MessageListItem> set = mAddressToMessageListItems.get(address);
+        if (set != null) {
+            for (MessageListItem mli : set) {
+                mli.bind(mAvatarCache, mli.getMessageItem());
+            }
+        }
     }
 
     @Override
@@ -586,7 +628,7 @@ public class MessageListAdapter extends CursorAdapter {
                         if (!cookie.onPhotoDataLoaded(cursor)) {
                             cookie.loadDefaultAvatar();
                         } else {
-                            MessageListAdapter.this.notifyDataSetChanged();
+                            MessageListAdapter.this.notifyImageLoaded(cookie.mAddress);
                         }
                         break;
                     }
