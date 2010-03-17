@@ -46,6 +46,7 @@ import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -467,9 +468,26 @@ public class MessagingNotification {
         notification.setLatestEventInfo(context, title, description, pendingIntent);
 
         if (isNew) {
-            boolean vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE,
-                    false /* don't vibrate by default */);
-            if (vibrate) {
+            String vibrateWhen;
+            if (sp.contains(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN)) {
+                vibrateWhen =
+                    sp.getString(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN, null);
+            } else if (sp.contains(MessagingPreferenceActivity.NOTIFICATION_VIBRATE)) {
+                vibrateWhen = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE, false) ?
+                    context.getString(R.string.prefDefault_vibrate_true) :
+                    context.getString(R.string.prefDefault_vibrate_false);
+            } else {
+                vibrateWhen = context.getString(R.string.prefDefault_vibrateWhen);
+            }
+
+            boolean vibrateAlways = vibrateWhen.equals("always");
+            boolean vibrateSilent = vibrateWhen.equals("silent");
+            AudioManager audioManager =
+                (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+            boolean nowSilent =
+                audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
+
+            if (vibrateAlways || vibrateSilent && nowSilent) {
                 notification.defaults |= Notification.DEFAULT_VIBRATE;
             }
 
