@@ -18,6 +18,7 @@
 package com.android.mms.transaction;
 
 import com.android.mms.util.SendingProgressTokenManager;
+import com.android.mms.LogTag;
 
 import android.content.Context;
 import android.net.Uri;
@@ -146,7 +147,13 @@ public abstract class Transaction extends Observable {
      *         an HTTP error code(>=400) returned from the server.
      */
     protected byte[] sendPdu(long token, byte[] pdu) throws IOException {
-        return sendPdu(token, pdu, mTransactionSettings.getMmscUrl());
+        String mmscUrl = mTransactionSettings.getMmscUrl();
+
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.d(LogTag.TRANSACTION, "Transaction.sendPdu: mmscUrl=" + mmscUrl +
+                    ", token=" + token + ", payload_size=" + (pdu != null ? pdu.length : 0));
+        }
+        return sendPdu(token, pdu, mmscUrl);
     }
 
     /**

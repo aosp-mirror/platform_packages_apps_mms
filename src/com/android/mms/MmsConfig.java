@@ -227,6 +227,10 @@ public class MmsConfig {
                         // int config tags go here
                         if ("maxMessageSize".equalsIgnoreCase(value)) {
                             mMaxMessageSize = Integer.parseInt(text);
+                            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                                Log.d(LogTag.APP, "MmsConfig: MAX MESSAGE SIZE is " +
+                                        mMaxMessageSize);
+                            }
                         } else if ("maxImageHeight".equalsIgnoreCase(value)) {
                             mMaxImageHeight = Integer.parseInt(text);
                         } else if ("maxImageWidth".equalsIgnoreCase(value)) {
