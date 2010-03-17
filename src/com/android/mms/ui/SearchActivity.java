@@ -261,9 +261,9 @@ public class SearchActivity extends ListActivity
                         final TextViewSnippet snippet = (TextViewSnippet)(view.findViewById(R.id.subtitle));
 
                         String address = cursor.getString(addressPos);
-                        Contact contact = Contact.get(address, false);
+                        Contact contact = address != null ? Contact.get(address, false) : null;
 
-                        String titleString = contact.getNameAndNumber();
+                        String titleString = contact != null ? contact.getNameAndNumber() : "";
                         title.setText(titleString);
 
                         snippet.setText(cursor.getString(bodyPos), searchString);
