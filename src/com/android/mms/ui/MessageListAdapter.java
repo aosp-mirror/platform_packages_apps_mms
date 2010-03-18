@@ -257,7 +257,7 @@ public class MessageListAdapter extends CursorAdapter {
 
     public MessageItem getCachedMessageItem(String type, long msgId, Cursor c) {
         MessageItem item = mMessageItemCache.get(getKey(type, msgId));
-        if (item == null) {
+        if (item == null && c != null && isCursorValid(c)) {
             try {
                 item = new MessageItem(mContext, type, c, mColumnsMap, mHighlight);
                 mMessageItemCache.put(getKey(item.mType, item.mMsgId), item);
@@ -266,6 +266,14 @@ public class MessageListAdapter extends CursorAdapter {
             }
         }
         return item;
+    }
+
+    private boolean isCursorValid(Cursor cursor) {
+        // Check whether the cursor is valid or not.
+        if (cursor.isClosed() || cursor.isBeforeFirst() || cursor.isAfterLast()) {
+            return false;
+        }
+        return true;
     }
 
     private static long getKey(String type, long id) {

@@ -334,7 +334,7 @@ public class ComposeMessageActivity extends Activity
                     return;
             }
 
-            MessageItem msgItem = getMessageItem(type, (Long) msg.obj);
+            MessageItem msgItem = getMessageItem(type, (Long) msg.obj, false);
             if (msgItem != null) {
                 editMessageItem(msgItem);
                 drawBottomPanel();
@@ -359,11 +359,20 @@ public class ComposeMessageActivity extends Activity
         }
     };
 
-    private MessageItem getMessageItem(String type, long msgId) {
-        if (!isCursorValid()) {
-            return null;
-        }
-        return mMsgListAdapter.getCachedMessageItem(type, msgId, mMsgListAdapter.getCursor());
+    /**
+     * Return the messageItem associated with the type ("mms" or "sms") and message id.
+     * @param type Type of the message: "mms" or "sms"
+     * @param msgId Message id of the message. This is the _id of the sms or pdu row and is
+     * stored in the MessageItem
+     * @param createFromCursorIfNotInCache true if the item is not found in the MessageListAdapter's
+     * cache and the code can create a new MessageItem based on the position of the current cursor.
+     * If false, the function returns null if the MessageItem isn't in the cache.
+     * @return MessageItem or null if not found and createFromCursorIfNotInCache is false
+     */
+    private MessageItem getMessageItem(String type, long msgId,
+            boolean createFromCursorIfNotInCache) {
+        return mMsgListAdapter.getCachedMessageItem(type, msgId,
+                createFromCursorIfNotInCache ? mMsgListAdapter.getCursor() : null);
     }
 
     private boolean isCursorValid() {
@@ -1052,7 +1061,7 @@ public class ComposeMessageActivity extends Activity
             Cursor cursor = mMsgListAdapter.getCursor();
             String type = cursor.getString(COLUMN_MSG_TYPE);
             long msgId = cursor.getLong(COLUMN_ID);
-            MessageItem msgItem = getMessageItem(type, msgId);
+            MessageItem msgItem = getMessageItem(type, msgId, true);
 
             if (msgItem == null) {
                 return false;
