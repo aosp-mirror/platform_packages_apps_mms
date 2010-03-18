@@ -385,19 +385,20 @@ public class MessageListItem extends LinearLayout implements
         if (msgItem.isSending()) {
             timestamp = mContext.getResources().getString(R.string.sending_message);
         }
-        if (!TextUtils.isEmpty(timestamp)) {
-            buf.append("\n");
-            int startOffset = buf.length();
+        // We always show two lines because the optional icon bottoms are aligned with the
+        // bottom of the text field, assuming there are two lines for the message and the sent time.
+        buf.append("\n");
+        int startOffset = buf.length();
 
-            startOffset = buf.length();
-            buf.append(timestamp);
+        startOffset = buf.length();
+        buf.append(TextUtils.isEmpty(timestamp) ? " " : timestamp);
 
-            buf.setSpan(mTextSmallSpan, startOffset, buf.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            buf.setSpan(mSpan, startOffset+1, buf.length(), 0);
+        buf.setSpan(mTextSmallSpan, startOffset, buf.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        buf.setSpan(mSpan, startOffset+1, buf.length(), 0);
 
-            // Make the timestamp text not as dark
-            buf.setSpan(mColorSpan, startOffset, buf.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
+        // Make the timestamp text not as dark
+        buf.setSpan(mColorSpan, startOffset, buf.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
         if (highlight != null) {
             Matcher m = highlight.matcher(buf.toString());
             while (m.find()) {
@@ -588,11 +589,11 @@ public class MessageListItem extends LinearLayout implements
 
         // Delivery icon
         if (msgItem.isOutgoingMessage() && msgItem.isFailedMessage()) {
-            mDeliveredIndicator.setImageResource(R.drawable.ic_sms_mms_not_delivered);
+            mDeliveredIndicator.setImageResource(R.drawable.ic_list_alert_sms_failed);
             setErrorIndicatorClickListener(msgItem);
             mDeliveredIndicator.setVisibility(View.VISIBLE);
         } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.FAILED) {
-            mDeliveredIndicator.setImageResource(R.drawable.ic_sms_mms_not_delivered);
+            mDeliveredIndicator.setImageResource(R.drawable.ic_list_alert_sms_failed);
             mDeliveredIndicator.setVisibility(View.VISIBLE);
         } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.RECEIVED) {
             mDeliveredIndicator.setImageResource(R.drawable.ic_sms_mms_delivered);
