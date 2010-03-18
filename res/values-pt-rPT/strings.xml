@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
+<!-- 
+/*
+ * Copyright (C) 2007-2008 Esmertec AG.
+ * Copyright (C) 2007-2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ -->
 
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-
-          http://www.apache.org/licenses/LICENSE-2.0
-
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="1503967887341230795">"Mensagens"</string>
@@ -300,11 +305,9 @@
     <string name="send_using_mms_activity" msgid="3703434556280345726">"Enviar como mensagem multimédia..."</string>
     <string name="select_contact_method_activity" msgid="1743384358979323991">"Método de selecção de contacto"</string>
     <string name="search_label" msgid="6042598929386174964">"Mensagens"</string>
-    <string name="search_hint" msgid="1340787800788064929">"Pesquisa de Mensagens"</string>
-    <!-- no translation found for search (7560238620274735199) -->
-    <skip />
-    <!-- no translation found for search_setting_description (4104004595086437572) -->
-    <skip />
+    <string name="search_hint" msgid="7183732852849365466">"Pesquisar mensagens"</string>
+    <string name="search" msgid="7560238620274735199">"Mensagens"</string>
+    <string name="search_setting_description" msgid="4104004595086437572">"Texto nas mensagens"</string>
     <string name="search_empty" msgid="645052646985297065">"Sem correspondência"</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> resultado para \"%s\""</item>
@@ -322,4 +325,5 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Sem limites"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Não é possível enviar a mensagem neste momento. Existem demasiadas mensagens multimédia por enviar."</string>
     <string name="me" msgid="341726346007839961">"Eu"</string>
+    <string name="sending_message" msgid="222836893217450538">"A enviar…"</string>
 </resources>
