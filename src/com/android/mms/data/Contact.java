@@ -516,7 +516,9 @@ public class Contact {
 
                     c.notSynchronizedUpdateNameAndNumber();
 
-                    for (UpdateListener l : c.mListeners) {
+                    // clone the list of listeners in case the onUpdate call turns around and
+                    // modifies the list of listeners
+                    for (UpdateListener l : (HashSet<UpdateListener>)Contact.mListeners.clone()) {
                         if (V) Log.d(TAG, "updating " + l);
                         l.onUpdate(c);
                     }
