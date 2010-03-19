@@ -68,6 +68,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
 import android.os.SystemProperties;
+import android.provider.ContactsContract;
 import android.provider.DrmStore;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -161,6 +162,7 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_RECORD_SOUND     = 15;
     public static final int REQUEST_CODE_CREATE_SLIDESHOW = 16;
     public static final int REQUEST_CODE_ECM_EXIT_DIALOG  = 17;
+    public static final int REQUEST_CODE_ADD_CONTACT      = 18;
 
     private static final String TAG = "Mms/compose";
 
@@ -257,6 +259,8 @@ public class ComposeMessageActivity extends Activity
     private AttachmentTypeSelectorAdapter mAttachmentTypeSelectorAdapter;
 
     private boolean mSendingMessage;    // Indicates the current message is sending, and shouldn't send again.
+
+    private Intent mAddContactIntent;   // Intent used to add a new contact
 
     @SuppressWarnings("unused")
     private static void log(String logMsg) {
@@ -644,9 +648,10 @@ public class ComposeMessageActivity extends Activity
                     return true;
                 }
                 case MENU_ADD_TO_CONTACTS: {
-                    Intent intent = ConversationList.createAddContactIntent(
+                    mAddContactIntent = ConversationList.createAddContactIntent(
                             mRecipient.getNumber());
-                    ComposeMessageActivity.this.startActivity(intent);
+                    ComposeMessageActivity.this.startActivityForResult(mAddContactIntent,
+                            REQUEST_CODE_ADD_CONTACT);
                     return true;
                 }
             }
@@ -2316,7 +2321,9 @@ public class ComposeMessageActivity extends Activity
                 break;
             }
             case MENU_ADD_ADDRESS_TO_CONTACTS:
-                return false;   // so the intent attached to the menu item will get launched.
+                mAddContactIntent = item.getIntent();
+                startActivityForResult(mAddContactIntent, REQUEST_CODE_ADD_CONTACT);
+                break;
         }
 
         return true;
@@ -2502,6 +2509,28 @@ public class ComposeMessageActivity extends Activity
                 boolean outOfEmergencyMode = data.getBooleanExtra(EXIT_ECM_RESULT, false);
                 if (outOfEmergencyMode) {
                     sendMessage(false);
+                }
+                break;
+
+            case REQUEST_CODE_ADD_CONTACT:
+                // The user just added a new contact. We saved the contact info in
+                // mAddContactIntent. Get the contact and force our cached contact to
+                // get reloaded with the new info (such as contact name). After the
+                // contact is reloaded, the function onUpdate() in this file will get called
+                // and it will update the title bar, etc.
+                if (mAddContactIntent != null) {
+                    String address =
+                        mAddContactIntent.getStringExtra(ContactsContract.Intents.Insert.EMAIL);
+                    if (address == null) {
+                        address =
+                            mAddContactIntent.getStringExtra(ContactsContract.Intents.Insert.PHONE);
+                    }
+                    if (address != null) {
+                        Contact contact = Contact.get(address, false);
+                        if (contact != null) {
+                            contact.reload();
+                        }
+                    }
                 }
                 break;
 

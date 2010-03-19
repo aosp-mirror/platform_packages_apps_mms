@@ -165,6 +165,11 @@ public class Contact {
         }
     }
 
+    public synchronized void reload() {
+        mIsStale = true;
+        sContactCache.get(mNumber, false);
+    }
+
     public synchronized String getNumber() {
         return mNumber;
     }
