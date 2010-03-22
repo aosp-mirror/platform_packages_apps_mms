@@ -603,7 +603,8 @@ public class ConversationList extends ListActivity
 
                 // Update the notification for new messages since they
                 // may be deleted.
-                MessagingNotification.updateNewMessageIndicator(ConversationList.this);
+                MessagingNotification.nonBlockingUpdateNewMessageIndicator(ConversationList.this,
+                        false, false);
                 // Update the notification for failed messages since they
                 // may be deleted.
                 MessagingNotification.updateSendFailedNotification(ConversationList.this);

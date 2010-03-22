@@ -147,11 +147,18 @@ public class MessagingNotification {
     /**
      * Checks to see if there are any "unseen" messages or delivery
      * reports.  Shows the most recent notification if there is one.
+     * Does its work and query in a worker thread.
      *
      * @param context the context to use
      */
-    public static void updateNewMessageIndicator(Context context) {
-        updateNewMessageIndicator(context, false, false);
+    public static void nonBlockingUpdateNewMessageIndicator(final Context context,
+            final boolean isNew,
+            final boolean isStatusMessage) {
+        new Thread(new Runnable() {
+            public void run() {
+                blockingUpdateNewMessageIndicator(context, isNew, isStatusMessage);
+            }
+        }).start();
     }
 
     /**
@@ -161,7 +168,7 @@ public class MessagingNotification {
      * @param context the context to use
      * @param isNew if notify a new message comes, it should be true, otherwise, false.
      */
-    public static void updateNewMessageIndicator(Context context, boolean isNew,
+    public static void blockingUpdateNewMessageIndicator(Context context, boolean isNew,
             boolean isStatusMessage) {
         SortedSet<MmsSmsNotificationInfo> accumulator =
                 new TreeSet<MmsSmsNotificationInfo>(INFO_COMPARATOR);
@@ -179,7 +186,8 @@ public class MessagingNotification {
             accumulator.first().deliver(context, isNew, count, threads.size());
         }
 
-        // And deals with delivery reports (which use Toasts)
+        // And deals with delivery reports (which use Toasts). It's safe to call in a worker
+        // thread because the toast will eventually get posted to a handler.
         delivery = getSmsNewDeliveryInfo(context);
         if (delivery != null) {
             delivery.deliver(context, isStatusMessage);
@@ -188,10 +196,10 @@ public class MessagingNotification {
 
     /**
      * Updates all pending notifications, clearing or updating them as
-     * necessary.  This task is completed in the background on a worker thread.
+     * necessary.
      */
     public static void blockingUpdateAllNotifications(final Context context) {
-        updateNewMessageIndicator(context);
+        nonBlockingUpdateNewMessageIndicator(context, false, false);
         updateSendFailedNotification(context);
         updateDownloadFailedNotification(context);
     }
@@ -263,9 +271,15 @@ public class MessagingNotification {
         }
     }
 
-    public static final MmsSmsNotificationInfo getMmsNewMessageNotificationInfo(
+    private static final MmsSmsNotificationInfo getMmsNewMessageNotificationInfo(
             Context context, Set<Long> threads) {
         ContentResolver resolver = context.getContentResolver();
+
+        // This query looks like this when logged:
+        // I/Database(  147): elapsedTime4Sql|/data/data/com.android.providers.telephony/databases/
+        // mmssms.db|0.362 ms|SELECT thread_id, date, _id, sub, sub_cs FROM pdu WHERE ((msg_box=1
+        // AND seen=0 AND (m_type=130 OR m_type=132))) ORDER BY date desc
+
         Cursor cursor = SqliteWrapper.query(context, resolver, Mms.CONTENT_URI,
                             MMS_STATUS_PROJECTION, NEW_INCOMING_MM_CONSTRAINT,
                             null, Mms.DATE + " desc");
@@ -303,7 +317,7 @@ public class MessagingNotification {
         }
     }
 
-    public static final MmsSmsDeliveryInfo getSmsNewDeliveryInfo(Context context) {
+    private static final MmsSmsDeliveryInfo getSmsNewDeliveryInfo(Context context) {
         ContentResolver resolver = context.getContentResolver();
         Cursor cursor = SqliteWrapper.query(context, resolver, Sms.CONTENT_URI,
                     SMS_STATUS_PROJECTION, NEW_DELIVERY_SM_CONSTRAINT,
@@ -328,7 +342,7 @@ public class MessagingNotification {
         }
     }
 
-    public static final MmsSmsNotificationInfo getSmsNewMessageNotificationInfo(
+    private static final MmsSmsNotificationInfo getSmsNewMessageNotificationInfo(
             Context context, Set<Long> threads) {
         ContentResolver resolver = context.getContentResolver();
         Cursor cursor = SqliteWrapper.query(context, resolver, Sms.CONTENT_URI,

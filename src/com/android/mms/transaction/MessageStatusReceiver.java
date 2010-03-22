@@ -49,7 +49,10 @@ public class MessageStatusReceiver extends BroadcastReceiver {
             byte[] pdu = (byte[]) intent.getExtra("pdu");
 
             boolean isStatusMessage = updateMessageStatus(context, messageUri, pdu);
-            MessagingNotification.updateNewMessageIndicator(context, true, isStatusMessage);
+
+            // Called on the UI thread so don't block.
+            MessagingNotification.nonBlockingUpdateNewMessageIndicator(context,
+                    true, isStatusMessage);
        }
     }
 

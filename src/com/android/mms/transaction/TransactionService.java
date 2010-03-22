@@ -414,7 +414,10 @@ public class TransactionService extends Service implements Observer {
                     switch (transaction.getType()) {
                         case Transaction.NOTIFICATION_TRANSACTION:
                         case Transaction.RETRIEVE_TRANSACTION:
-                            MessagingNotification.updateNewMessageIndicator(this, true, false);
+                            // We're already in a non-UI thread called from
+                            // NotificationTransacation.run(), so ok to block here.
+                            MessagingNotification.blockingUpdateNewMessageIndicator(this, true,
+                                    false);
                             MessagingNotification.updateDownloadFailedNotification(this);
                             break;
                         case Transaction.SEND_TRANSACTION:

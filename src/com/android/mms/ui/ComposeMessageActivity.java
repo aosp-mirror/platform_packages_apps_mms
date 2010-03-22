@@ -3270,8 +3270,8 @@ public class ComposeMessageActivity extends Activity
             case ConversationList.DELETE_CONVERSATION_TOKEN:
                 // Update the notification for new messages since they
                 // may be deleted.
-                MessagingNotification.updateNewMessageIndicator(
-                        ComposeMessageActivity.this);
+                MessagingNotification.nonBlockingUpdateNewMessageIndicator(
+                        ComposeMessageActivity.this, false, false);
                 // Update the notification for failed messages since they
                 // may be deleted.
                 updateSendFailedNotification();

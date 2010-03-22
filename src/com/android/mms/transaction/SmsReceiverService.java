@@ -308,14 +308,17 @@ public class SmsReceiverService extends Service {
         }
 
         if (messageUri != null) {
-            MessagingNotification.updateNewMessageIndicator(this, true, false);
+            // Called off of the UI thread so ok to block.
+            MessagingNotification.blockingUpdateNewMessageIndicator(this, true, false);
         }
     }
 
     private void handleBootCompleted() {
         moveOutboxMessagesToQueuedBox();
         sendFirstQueuedMessage();
-        MessagingNotification.updateNewMessageIndicator(this);
+
+        // Called off of the UI thread so ok to block.
+        MessagingNotification.blockingUpdateNewMessageIndicator(this, true, false);
     }
 
     private void moveOutboxMessagesToQueuedBox() {

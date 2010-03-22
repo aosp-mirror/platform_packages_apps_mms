@@ -512,6 +512,12 @@ public class Conversation {
      */
     public static void startQueryForAll(AsyncQueryHandler handler, int token) {
         handler.cancelOperation(token);
+
+        // This query looks like this in the log:
+        // I/Database(  147): elapsedTime4Sql|/data/data/com.android.providers.telephony/databases/
+        // mmssms.db|2.253 ms|SELECT _id, date, message_count, recipient_ids, snippet, snippet_cs,
+        // read, error, has_attachment FROM threads ORDER BY  date DESC
+
         handler.startQuery(token, null, sAllThreadsUri,
                 ALL_THREADS_PROJECTION, null, null, Conversations.DEFAULT_SORT_ORDER);
     }
