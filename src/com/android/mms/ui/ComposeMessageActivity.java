@@ -2944,7 +2944,9 @@ public class ComposeMessageActivity extends Activity
         mMsgListView.setOnCreateContextMenuListener(mMsgListMenuCreateListener);
         mMsgListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((MessageListItem) view).onMessageListItemClick();
+                if (view != null) {
+                    ((MessageListItem) view).onMessageListItemClick();
+                }
             }
         });
     }
