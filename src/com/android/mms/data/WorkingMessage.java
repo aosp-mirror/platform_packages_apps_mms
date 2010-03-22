@@ -1046,11 +1046,18 @@ public class WorkingMessage {
                 sdFilter.addAction(Intent.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE);
                 sdFilter.addAction(Intent.ACTION_EXTERNAL_APPLICATIONS_UNAVAILABLE);
                 mContext.registerReceiver(mPackageInstallReceiver, sdFilter);
-                // TODO: where can we unregister this receiver?
             }
             mCheckedForGoogleVoice = true;
         }
         return mGoogleVoiceInstalled;
+    }
+
+    public void unregisterReceivers() {
+        if (mPackageInstallReceiver != null) {
+            mContext.unregisterReceiver(mPackageInstallReceiver);
+            mPackageInstallReceiver = null;
+            mCheckedForGoogleVoice = false;
+        }
     }
 
     private void preSendSmsWorker(Conversation conv, String msgText) {

@@ -1960,6 +1960,8 @@ public class ComposeMessageActivity extends Activity
 
         // Cleanup the BroadcastReceiver.
         unregisterReceiver(mHttpProgressReceiver);
+
+        mWorkingMessage.unregisterReceivers();
     }
 
     @Override
