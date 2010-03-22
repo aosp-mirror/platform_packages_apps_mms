@@ -18,6 +18,7 @@ import com.android.mms.LogTag;
 import android.database.sqlite.SqliteWrapper;
 
 public class RecipientIdCache {
+    private static final boolean LOCAL_DEBUG = false;
     private static final String TAG = "Mms/cache";
 
     private static Uri sAllCanonical =
@@ -160,10 +161,13 @@ public class RecipientIdCache {
     }
 
     public static void dump() {
-        synchronized (sInstance) {
-            Log.d(TAG, "*** Recipient ID cache dump ***");
-            for (Long id : sInstance.mCache.keySet()) {
-                Log.d(TAG, id + ": " + sInstance.mCache.get(id));
+        if (LOCAL_DEBUG) {
+            // Only dump user private data if we're in special debug mode
+            synchronized (sInstance) {
+                Log.d(TAG, "*** Recipient ID cache dump ***");
+                for (Long id : sInstance.mCache.keySet()) {
+                    Log.d(TAG, id + ": " + sInstance.mCache.get(id));
+                }
             }
         }
     }
