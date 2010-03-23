@@ -2569,37 +2569,41 @@ public class ComposeMessageActivity extends Activity
         }
     };
 
-    private void handleAddAttachmentError(int error, int mediaTypeStringId) {
+    private void handleAddAttachmentError(final int error, final int mediaTypeStringId) {
         if (error == WorkingMessage.OK) {
             return;
         }
 
-        Resources res = getResources();
-        String mediaType = res.getString(mediaTypeStringId);
-        String title, message;
+        runOnUiThread(new Runnable() {
+            public void run() {
+                Resources res = getResources();
+                String mediaType = res.getString(mediaTypeStringId);
+                String title, message;
 
-        switch(error) {
-        case WorkingMessage.UNKNOWN_ERROR:
-            message = res.getString(R.string.failed_to_add_media, mediaType);
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            return;
-        case WorkingMessage.UNSUPPORTED_TYPE:
-            title = res.getString(R.string.unsupported_media_format, mediaType);
-            message = res.getString(R.string.select_different_media, mediaType);
-            break;
-        case WorkingMessage.MESSAGE_SIZE_EXCEEDED:
-            title = res.getString(R.string.exceed_message_size_limitation, mediaType);
-            message = res.getString(R.string.failed_to_add_media, mediaType);
-            break;
-        case WorkingMessage.IMAGE_TOO_LARGE:
-            title = res.getString(R.string.failed_to_resize_image);
-            message = res.getString(R.string.resize_image_error_information);
-            break;
-        default:
-            throw new IllegalArgumentException("unknown error " + error);
-        }
+                switch(error) {
+                case WorkingMessage.UNKNOWN_ERROR:
+                    message = res.getString(R.string.failed_to_add_media, mediaType);
+                    Toast.makeText(ComposeMessageActivity.this, message, Toast.LENGTH_SHORT).show();
+                    return;
+                case WorkingMessage.UNSUPPORTED_TYPE:
+                    title = res.getString(R.string.unsupported_media_format, mediaType);
+                    message = res.getString(R.string.select_different_media, mediaType);
+                    break;
+                case WorkingMessage.MESSAGE_SIZE_EXCEEDED:
+                    title = res.getString(R.string.exceed_message_size_limitation, mediaType);
+                    message = res.getString(R.string.failed_to_add_media, mediaType);
+                    break;
+                case WorkingMessage.IMAGE_TOO_LARGE:
+                    title = res.getString(R.string.failed_to_resize_image);
+                    message = res.getString(R.string.resize_image_error_information);
+                    break;
+                default:
+                    throw new IllegalArgumentException("unknown error " + error);
+                }
 
-        MessageUtils.showErrorDialog(this, title, message);
+                MessageUtils.showErrorDialog(ComposeMessageActivity.this, title, message);
+            }
+        });
     }
 
     private void addImage(Uri uri, boolean append) {
