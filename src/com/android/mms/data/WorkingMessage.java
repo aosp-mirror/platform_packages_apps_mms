@@ -1316,11 +1316,12 @@ public class WorkingMessage {
                 } else {
                     updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
                 }
+
+                // Be paranoid and delete any SMS drafts that might be lying around. Must do
+                // this after ensureThreadId so conv has the correct thread id.
+                asyncDeleteDraftSmsMessage(conv);
             }
         }).start();
-
-        // Be paranoid and delete any SMS drafts that might be lying around.
-        asyncDeleteDraftSmsMessage(conv);
     }
 
     private static void updateDraftMmsMessage(Uri uri, PduPersister persister,
