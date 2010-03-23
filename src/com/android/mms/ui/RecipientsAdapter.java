@@ -134,10 +134,20 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
 
         TextView label = (TextView) view.findViewById(R.id.label);
         int type = cursor.getInt(TYPE_INDEX);
-        label.setText(Phone.getDisplayLabel(mContext, type, cursor.getString(LABEL_INDEX)));
+        CharSequence labelText = Phone.getDisplayLabel(mContext, type,
+                cursor.getString(LABEL_INDEX));
+        // When there's no label, getDisplayLabel() returns a CharSequence of length==1 containing
+        // a unicode non-breaking space. Need to check for that and consider that as "no label".
+        if (labelText.length() == 0 ||
+                (labelText.length() == 1 && labelText.charAt(0) == '\u00A0')) {
+            label.setVisibility(View.GONE);
+        } else {
+            label.setText(labelText);
+            label.setVisibility(View.VISIBLE);
+        }
 
         TextView number = (TextView) view.findViewById(R.id.number);
-        number.setText("(" + cursor.getString(NUMBER_INDEX) + ")");
+        number.setText(cursor.getString(NUMBER_INDEX));
     }
 
     @Override
