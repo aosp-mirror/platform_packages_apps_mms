@@ -21,6 +21,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/white_background"
     android:orientation="vertical">
 
     <LinearLayout
@@ -31,7 +32,6 @@
         android:paddingBottom="5dip"
         android:paddingLeft="5dip"
         android:paddingRight="5dip"
-        android:background="@drawable/white_background"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -56,7 +56,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/white_background"
         android:gravity="bottom">
 
         <view class="com.android.mms.ui.MessageListView"
@@ -84,8 +83,9 @@
 
             <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:overscrollMode="never"
+                android:layout_weight="1.0"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="0dip">
 
               <view class="com.android.mms.ui.AttachmentEditor"
                   android:id="@+id/attachment_editor"
@@ -166,14 +166,13 @@
                     android:id="@+id/button_with_counter"
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0">
+                    android:layout_height="match_parent" >
 
                     <Button
                         android:id="@+id/send_button"
                         android:layout_marginLeft="5dip"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="0dip"
                         android:layout_weight="1.0"
                         style="?android:attr/buttonStyle"
                         android:nextFocusLeft="@+id/embedded_text_editor"
