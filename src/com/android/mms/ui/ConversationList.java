@@ -73,9 +73,10 @@ public class ConversationList extends ListActivity
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG;
 
-    private static final int THREAD_LIST_QUERY_TOKEN = 1701;
-    public static final int DELETE_CONVERSATION_TOKEN = 1801;
-    public static final int HAVE_LOCKED_MESSAGES_TOKEN = 1802;
+    private static final int THREAD_LIST_QUERY_TOKEN       = 1701;
+    public static final int DELETE_CONVERSATION_TOKEN      = 1801;
+    public static final int HAVE_LOCKED_MESSAGES_TOKEN     = 1802;
+    private static final int DELETE_OBSOLETE_THREADS_TOKEN = 1803;
 
     // IDs of the main menu items.
     public static final int MENU_COMPOSE_NEW          = 0;
@@ -208,7 +209,7 @@ public class ConversationList extends ListActivity
     @Override
     protected void onNewIntent(Intent intent) {
         // Handle intents that occur after the activity has already been created.
-        privateOnStart();
+        startAsyncQuery();
     }
 
     @Override
@@ -218,25 +219,17 @@ public class ConversationList extends ListActivity
         MessagingNotification.cancelNotification(getApplicationContext(),
                 SmsRejectedReceiver.SMS_REJECTED_NOTIFICATION_ID);
 
-        try {
-            // TODO: why do we need to do this? This calls ContentResolver.delete(), which can
-            // TODO: be very expensive. And this is done in the main thread!!!
-            Conversation.cleanup(this);
-        } catch (SQLiteFullException e) {
-            Log.e(TAG, "ConversationList.onStart disk probably full - finishing: " + e);
-            finish();
-            return;
-        }
-
         DraftCache.getInstance().addOnDraftChangedListener(this);
+
+        mNeedToMarkAsSeen = true;
+
+        startAsyncQuery();
 
         // We used to refresh the DraftCache here, but
         // refreshing the DraftCache each time we go to the ConversationList seems overly
         // aggressive. We already update the DraftCache when leaving CMA in onStop() and
         // onNewIntent(), and when we delete threads or delete all in CMA or this activity.
         // I hope we don't have to do such a heavy operation each time we enter here.
-
-        privateOnStart();
 
         // we invalidate the contact cache here because we want to get updated presence
         // and any contact changes. We don't invalidate the cache by observing presence and contact
@@ -248,14 +241,7 @@ public class ConversationList extends ListActivity
         if (!Conversation.loadingThreads()) {
             Contact.invalidateCache();
         }
-
-        mNeedToMarkAsSeen = true;
     }
-
-    protected void privateOnStart() {
-        startAsyncQuery();
-    }
-
 
     @Override
     protected void onStop() {
@@ -577,8 +563,12 @@ public class ConversationList extends ListActivity
                 if (mNeedToMarkAsSeen) {
                     mNeedToMarkAsSeen = false;
                     Conversation.markAllConversationsAsSeen(getApplicationContext());
-                }
 
+                    // Delete any obsolete threads. Obsolete threads are threads that aren't
+                    // referenced by at least one message in the pdu or sms tables.
+                    Conversation.asyncDeleteObsoleteThreads(mQueryHandler,
+                            DELETE_OBSOLETE_THREADS_TOKEN);
+                }
                 break;
 
             case HAVE_LOCKED_MESSAGES_TOKEN:
@@ -611,6 +601,10 @@ public class ConversationList extends ListActivity
 
                 // Make sure the list reflects the delete
                 startAsyncQuery();
+                break;
+
+            case DELETE_OBSOLETE_THREADS_TOKEN:
+                // Nothing to do here.
                 break;
             }
         }

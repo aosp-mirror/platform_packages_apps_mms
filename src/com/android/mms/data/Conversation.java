@@ -494,12 +494,11 @@ public class Conversation {
     }
 
     /**
-     * Remove any obsolete conversations sitting around on disk.
-     * @deprecated
+     * Remove any obsolete conversations sitting around on disk. Obsolete threads are threads
+     * that aren't referenced by any message in the pdu or sms tables.
      */
-    public static void cleanup(Context context) {
-        // TODO: Get rid of this awful hack.
-        context.getContentResolver().delete(Threads.OBSOLETE_THREADS_URI, null, null);
+    public static void asyncDeleteObsoleteThreads(AsyncQueryHandler handler, int token) {
+        handler.startDelete(token, null, Threads.OBSOLETE_THREADS_URI, null, null);
     }
 
     /**
