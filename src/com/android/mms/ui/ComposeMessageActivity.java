@@ -74,6 +74,8 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Email;
+import android.provider.MediaStore.Images;
+import android.provider.MediaStore.Video;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.SmsMessage;
@@ -2733,11 +2735,23 @@ public class ComposeMessageActivity extends Activity
         return false;
     }
 
+    // mVideoUri will look like this: content://media/external/video/media
+    private static final String mVideoUri = Video.Media.getContentUri("external").toString();
+    // mImageUri will look like this: content://media/external/images/media
+    private static final String mImageUri = Images.Media.getContentUri("external").toString();
+
     private void addAttachment(String type, Uri uri, boolean append) {
         if (uri != null) {
-            if (type.startsWith("image/")) {
+            // When we're handling Intent.ACTION_SEND_MULTIPLE, the passed in items can be
+            // videos, and/or images, and/or some other unknown types we don't handle. When
+            // a single attachment is "shared" the type will specify an image or video. When
+            // there are multiple types, the type passed in is "*/*". In that case, we've got
+            // to look at the uri to figure out if it is an image or video.
+            boolean wildcard = "*/*".equals(type);
+            if (type.startsWith("image/") || (wildcard && uri.toString().startsWith(mImageUri))) {
                 addImage(uri, append);
-            } else if (type.startsWith("video/")) {
+            } else if (type.startsWith("video/") ||
+                    (wildcard && uri.toString().startsWith(mVideoUri))) {
                 addVideo(uri, append);
             }
         }
