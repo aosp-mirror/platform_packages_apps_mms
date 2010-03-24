@@ -30,6 +30,7 @@ import android.database.CrossProcessCursor;
 import android.database.Cursor;
 import android.database.CursorWindow;
 import android.database.DataSetObserver;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -96,7 +97,14 @@ public class SuggestionsProvider extends android.content.ContentProvider {
             mDatabaseCursor = cursor;
 
             mColumnCount = cursor.getColumnCount();
-            computeRows();
+            try {
+                computeRows();
+            } catch (SQLiteException ex) {
+                // This can happen if the user enters -n (anything starting with -).
+                // sqlite3/fts3 can't handle it.  Google for "logic error or missing database fts3"
+                // for commentary on it.
+                mRows.clear(); // assume no results
+            }
         }
 
         public int getCount() {
