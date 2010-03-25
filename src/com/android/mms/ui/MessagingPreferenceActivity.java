@@ -25,7 +25,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
@@ -64,6 +66,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
     private Preference mMmsLimitPref;
     private Preference mManageSimPref;
     private Preference mClearHistoryPref;
+    private ListPreference mVibrateWhenPref;
     private Recycler mSmsRecycler;
     private Recycler mMmsRecycler;
     private static final int CONFIRM_CLEAR_SEARCH_HISTORY_DIALOG = 3;
@@ -77,6 +80,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
         mMmsLimitPref = findPreference("pref_key_mms_delete_limit");
         mClearHistoryPref = findPreference("pref_key_mms_clear_history");
+        mVibrateWhenPref = (ListPreference) findPreference(NOTIFICATION_VIBRATE_WHEN);
 
         if (!MmsApp.getApplication().getTelephonyManager().hasIccCard()) {
             // No SIM card, remove the SIM-related prefs
@@ -93,6 +97,16 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
             PreferenceCategory storageOptions =
                 (PreferenceCategory)findPreference("pref_key_storage_settings");
             storageOptions.removePreference(findPreference("pref_key_mms_delete_limit"));
+        }
+
+        // If needed, migrate vibration setting from a previous version
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!sharedPreferences.contains(NOTIFICATION_VIBRATE_WHEN) &&
+                sharedPreferences.contains(NOTIFICATION_VIBRATE)) {
+            int stringId = sharedPreferences.getBoolean(NOTIFICATION_VIBRATE, false) ?
+                    R.string.prefDefault_vibrate_true :
+                    R.string.prefDefault_vibrate_false;
+            mVibrateWhenPref.setValue(getString(stringId));
         }
 
         mSmsRecycler = Recycler.getSmsRecycler();
