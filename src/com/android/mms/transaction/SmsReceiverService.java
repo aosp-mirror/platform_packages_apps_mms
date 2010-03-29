@@ -86,7 +86,7 @@ public class SmsReceiverService extends Service {
     public Handler mToastHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            Toast.makeText(SmsReceiverService.this, getString(R.string.message_queued),
+            Toast.makeText(SmsReceiverService.this, getString(msg.what),
                     Toast.LENGTH_SHORT).show();
         }
     };
@@ -265,7 +265,9 @@ public class SmsReceiverService extends Service {
             registerForServiceStateChanges();
             // We couldn't send the message, put in the queue to retry later.
             Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_QUEUED);
-            mToastHandler.sendEmptyMessage(1);
+            mToastHandler.sendEmptyMessage(R.string.message_queued);
+        } else if (mResultCode == SmsManager.RESULT_ERROR_FDN_CHECK_FAILURE) {
+            mToastHandler.sendEmptyMessage(R.string.fdn_check_failure);
         } else {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleSmsSent msg failed uri: " + uri);
