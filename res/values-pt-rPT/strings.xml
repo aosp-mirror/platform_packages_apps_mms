@@ -174,14 +174,21 @@
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Relatórios de leitura"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Relatórios de entrega"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Eliminar mensagens antigas"</string>
-    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limite da mensagem de texto"</string>
-    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite da mensagem multimédia"</string>
+    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limite de mensagens de texto"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite de mensagens multimédia"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notificações"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Apresentar notificações de mensagem na barra de estado"</string>
-    <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"Vibrar"</string>
-    <string name="pref_summary_notification_vibrate" msgid="6005751082181574289">"Vibrar também quando notificado"</string>
+    <!-- no translation found for pref_title_notification_vibrateWhen (4251208067092761057) -->
+    <skip />
+    <!-- no translation found for pref_summary_notification_vibrateWhen (669655090822561447) -->
+    <skip />
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Seleccionar toque"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Definir o número de mensagens a guardar"</string>
+    <!-- no translation found for prefEntries_vibrateWhen:0 (2520871831815631409) -->
+    <!-- no translation found for prefEntries_vibrateWhen:1 (6069709696037750627) -->
+    <!-- no translation found for prefEntries_vibrateWhen:2 (7486145357487111435) -->
+    <!-- no translation found for prefDialogTitle_vibrateWhen (6419655771690242118) -->
+    <skip />
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Retoma automática"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Retomar mensagens automaticamente"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Retoma automática em roaming"</string>

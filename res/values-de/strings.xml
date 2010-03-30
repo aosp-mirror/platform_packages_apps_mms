@@ -160,7 +160,7 @@
     <string name="preferences_title" msgid="6650089610332670157">"Einstellungen"</string>
     <string name="restore_default" msgid="7165341506551155053">"Standardeinstellungen wiederherstellen"</string>
     <string name="pref_notification_settings_title" msgid="4860726154770053004">"Benachrichtigungseinstellungen"</string>
-    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Einstellungen für Multimedia-Nachrichten (MMS)"</string>
+    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Einstellungen für Multimedia-Nachr. (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="9088516111717417514">"Einstellungen für Textnachrichten (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"Speichereinstellungen"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Auf der SIM-Karte gespeicherte Nachrichten verwalten"</string>
@@ -175,13 +175,20 @@
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Zustellberichte"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Alte Nachrichten löschen"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Höchstzahl an Textnachrichten"</string>
-    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Höchstzahl an Multimedia-Nachrichten"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Max. Multimedia-Nachr."</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Benachrichtigungen"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Bei Nachrichteneingang Benachrichtigung in Statuszeile anzeigen"</string>
-    <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"Vibrieren"</string>
-    <string name="pref_summary_notification_vibrate" msgid="6005751082181574289">"Bei Benachrichtigung vibrieren"</string>
+    <!-- no translation found for pref_title_notification_vibrateWhen (4251208067092761057) -->
+    <skip />
+    <!-- no translation found for pref_summary_notification_vibrateWhen (669655090822561447) -->
+    <skip />
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Klingelton auswählen"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Anzahl der zu speichernden Nachrichten festlegen"</string>
+    <!-- no translation found for prefEntries_vibrateWhen:0 (2520871831815631409) -->
+    <!-- no translation found for prefEntries_vibrateWhen:1 (6069709696037750627) -->
+    <!-- no translation found for prefEntries_vibrateWhen:2 (7486145357487111435) -->
+    <!-- no translation found for prefDialogTitle_vibrateWhen (6419655771690242118) -->
+    <skip />
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Automatisch abrufen"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Nachrichten automatisch empfangen"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Autom. Roaming-Abruf"</string>

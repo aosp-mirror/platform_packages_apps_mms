@@ -152,7 +152,7 @@
     <string name="hidden_sender_address" msgid="2776075636669924968">"Skjult afsenderadresse"</string>
     <string name="yes" msgid="3246158147503160811">"OK"</string>
     <string name="no" msgid="4289742508556913860">"Annuller"</string>
-    <string name="set" msgid="4642365398263275979">"Indstil"</string>
+    <string name="set" msgid="4642365398263275979">"Angiv"</string>
     <string name="play" msgid="1888432400937785115">"Afspil"</string>
     <string name="edit" msgid="5912118407791492696">"Rediger"</string>
     <string name="resize" msgid="4308912589984220360">"Rediger størrelse"</string>
@@ -171,20 +171,26 @@
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> beskeder pr. samtale"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Adm. SIM-kortbeskeder"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Leveringsrapporter"</string>
-    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Læs rapporter"</string>
+    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Læsningsrapporter"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Leveringsrapporter"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Slet gamle beskeder"</string>
-    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Grænse for sms"</string>
+    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Sms-begrænsning"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Mms-begrænsning"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Meddelelser"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Vis beskedmeddelelser i statuslinjen"</string>
-    <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"Vibration"</string>
-    <string name="pref_summary_notification_vibrate" msgid="6005751082181574289">"Vibration ved meddelt"</string>
+    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Vis meddelelser om beskeder på statusbjælken"</string>
+    <!-- no translation found for pref_title_notification_vibrateWhen (4251208067092761057) -->
+    <skip />
+    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibration ved meddelelse"</string>
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Vælg ringetone"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Angiv det antal beskeder, der skal gemmes"</string>
+    <!-- no translation found for prefEntries_vibrateWhen:0 (2520871831815631409) -->
+    <!-- no translation found for prefEntries_vibrateWhen:1 (6069709696037750627) -->
+    <!-- no translation found for prefEntries_vibrateWhen:2 (7486145357487111435) -->
+    <!-- no translation found for prefDialogTitle_vibrateWhen (6419655771690242118) -->
+    <skip />
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Automatisk hentning"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Hent automatisk beskeder"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Aut. hent. u. roam."</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Aut. hent. u. roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Hent automatisk beskeder under roaming"</string>
     <string name="to_label" msgid="2355268818058389047">"Til "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Slet"</string>
@@ -305,7 +311,7 @@
     <string name="send_using_mms_activity" msgid="3703434556280345726">"Send som mms-besked ..."</string>
     <string name="select_contact_method_activity" msgid="1743384358979323991">"Vælg kontaktmetode"</string>
     <string name="search_label" msgid="6042598929386174964">"Beskeder"</string>
-    <string name="search_hint" msgid="7183732852849365466">"Søg i beskeder"</string>
+    <string name="search_hint" msgid="7183732852849365466">"Søg i Beskeder"</string>
     <string name="search" msgid="7560238620274735199">"Beskeder"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"Tekst i dine beskeder"</string>
     <string name="search_empty" msgid="645052646985297065">"Der er ingen matches"</string>
@@ -317,7 +323,7 @@
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Ryd"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"Søgeoversigten ryddes."</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Ryd søgeoversigt"</string>
-    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Ryd tidligere Beskedsøgninger, så de ikke vises i søgefeltet"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Ryd tidligere søgninger i Beskeder, så de ikke vises i søgefeltet"</string>
     <string name="save" msgid="6847069284991531310">"Gem"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"Begræns beskeder"</string>
     <string name="storage_limits_message" msgid="8729608389698270388">"Ønsker du at begrænse antallet af beskeder, du gemmer pr. samtale?"</string>

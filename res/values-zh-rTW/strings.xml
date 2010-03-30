@@ -80,7 +80,7 @@
     <string name="subject_hint" msgid="4296714962311604126">"主旨"</string>
     <string name="add_attachment" msgid="7103751293360532684">"附加"</string>
     <string name="add_subject" msgid="7616134948428265870">"新增主旨"</string>
-    <string name="discard" msgid="1624800293064498479">"放棄"</string>
+    <string name="discard" msgid="1624800293064498479">"捨棄"</string>
     <string name="view" msgid="7929667761715467136">"檢視"</string>
     <string name="replace" msgid="7587904998114459388">"取代"</string>
     <string name="remove" msgid="4625444913256213175">"移除"</string>
@@ -100,7 +100,7 @@
     <string name="failed_to_resize_image" msgid="5608354151631833669">"圖片大小未改變。"</string>
     <string name="resize_image_error_information" msgid="4897031754321114959">"很抱歉，縮小後的圖片仍然太大、無法傳送。"</string>
     <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
-    <string name="discard_message" msgid="6078326880056142781">"放棄"</string>
+    <string name="discard_message" msgid="6078326880056142781">"捨棄"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"由於收件者地址無效，您的訊息將被捨棄。"</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"無效收件者：(<xliff:g id="NAME">%1$s</xliff:g>)"</string>
     <string name="invalid_destination" msgid="7643854177921895615">"您輸入的地址無效。"</string>
@@ -178,10 +178,17 @@
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"多媒體訊息限制"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"通知"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"在狀態列顯示簡訊通知"</string>
-    <string name="pref_title_notification_vibrate" msgid="7076203487928035310">"震動"</string>
-    <string name="pref_summary_notification_vibrate" msgid="6005751082181574289">"收到通知時震動提醒"</string>
+    <!-- no translation found for pref_title_notification_vibrateWhen (4251208067092761057) -->
+    <skip />
+    <!-- no translation found for pref_summary_notification_vibrateWhen (669655090822561447) -->
+    <skip />
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"選取鈴聲"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"設定儲存的訊息數量"</string>
+    <!-- no translation found for prefEntries_vibrateWhen:0 (2520871831815631409) -->
+    <!-- no translation found for prefEntries_vibrateWhen:1 (6069709696037750627) -->
+    <!-- no translation found for prefEntries_vibrateWhen:2 (7486145357487111435) -->
+    <!-- no translation found for prefDialogTitle_vibrateWhen (6419655771690242118) -->
+    <skip />
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"自動擷取"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"自動擷取簡訊"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"漫遊時自動擷取"</string>
