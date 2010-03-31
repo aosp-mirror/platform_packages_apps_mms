@@ -2345,7 +2345,7 @@ public class ComposeMessageActivity extends Activity
 //    }
 
     private int getVideoCaptureDurationLimit() {
-        return CamcorderProfile.getMmsRecordingDurationInSeconds();
+        return CamcorderProfile.get(CamcorderProfile.QUALITY_LOW).duration;
     }
 
     private void addAttachment(int type, boolean replace) {
