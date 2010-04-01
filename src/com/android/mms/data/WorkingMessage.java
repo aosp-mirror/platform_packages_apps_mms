@@ -90,6 +90,7 @@ public class WorkingMessage {
                                                     // getter: googleVoiceInstalled()
     private static boolean mCheckedForGoogleVoice;  // gets reset when GoogleVoice is installed
                                                     // while Messaging app is running.
+    private static boolean mDidCallUnregisterReceivers;
     private static PackageInstallReceiver mPackageInstallReceiver;
 
     // Database access stuff
@@ -1013,50 +1014,64 @@ public class WorkingMessage {
     // Message sending stuff
 
     private boolean googleVoiceInstalled() {
-        if (!mCheckedForGoogleVoice) {
-            PackageManager manager = mContext.getPackageManager();
-            Intent broadcastIntent = new Intent(ACTION_SENDING_SMS);
-            final List<ResolveInfo> activities = manager.queryIntentActivities(broadcastIntent, 0);
-            LogTag.debug("getSendInterceptor activities: " + activities);
-            if (activities != null) {
-                int len = activities.size();
-                for (int i = 0; i < len; i++) {
-                    ResolveInfo info = activities.get(i);
-                    LogTag.debug("getSendInterceptor " +
-                            info.activityInfo.applicationInfo.packageName + " - " +
-                            info.activityInfo.name);
-                    if (GOOGLE_VOICE_PACKAGE.equals(info.activityInfo.applicationInfo.packageName)
-                            && GOOGLE_VOICE_SENDER.equals(info.activityInfo.name)) {
-                        mGoogleVoiceInstalled = true;
-                        break;
+        synchronized (this) {
+            if (!mCheckedForGoogleVoice) {
+                PackageManager manager = mContext.getPackageManager();
+                Intent broadcastIntent = new Intent(ACTION_SENDING_SMS);
+                final List<ResolveInfo> activities = manager.queryIntentActivities(broadcastIntent, 0);
+                LogTag.debug("getSendInterceptor activities: " + activities);
+                if (activities != null) {
+                    int len = activities.size();
+                    for (int i = 0; i < len; i++) {
+                        ResolveInfo info = activities.get(i);
+                        LogTag.debug("getSendInterceptor " +
+                                info.activityInfo.applicationInfo.packageName + " - " +
+                                info.activityInfo.name);
+                        if (GOOGLE_VOICE_PACKAGE.equals(info.activityInfo.applicationInfo.packageName)
+                                && GOOGLE_VOICE_SENDER.equals(info.activityInfo.name)) {
+                            mGoogleVoiceInstalled = true;
+                            break;
+                        }
+                    }
+                }
+                mCheckedForGoogleVoice = true;
+                if (!mDidCallUnregisterReceivers) {
+                    if (mPackageInstallReceiver == null) {
+                        // Register a receiver to listen for changes to packages so we can run
+                        // this code again in case GoogleVoice gets installed or removed.
+                        mPackageInstallReceiver = new PackageInstallReceiver();
+                        IntentFilter filter = new IntentFilter(Intent.ACTION_PACKAGE_ADDED);
+                        filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+                        filter.addDataScheme("package");
+                        mContext.registerReceiver(mPackageInstallReceiver, filter);
+                        // Register for notifications related to enabling
+                        // disabling applications on external media
+                        IntentFilter sdFilter = new IntentFilter();
+                        sdFilter.addAction(Intent.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE);
+                        sdFilter.addAction(Intent.ACTION_EXTERNAL_APPLICATIONS_UNAVAILABLE);
+                        mContext.registerReceiver(mPackageInstallReceiver, sdFilter);
                     }
                 }
             }
-            if (mPackageInstallReceiver == null) {
-                // Register a receiver to listen for changes to packages so we can run
-                // this code again in case GoogleVoice gets installed or removed.
-                mPackageInstallReceiver = new PackageInstallReceiver();
-                IntentFilter filter = new IntentFilter(Intent.ACTION_PACKAGE_ADDED);
-                filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
-                filter.addDataScheme("package");
-                mContext.registerReceiver(mPackageInstallReceiver, filter);
-                // Register for notifications related to enabling
-                // disabling applications on external media
-                IntentFilter sdFilter = new IntentFilter();
-                sdFilter.addAction(Intent.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE);
-                sdFilter.addAction(Intent.ACTION_EXTERNAL_APPLICATIONS_UNAVAILABLE);
-                mContext.registerReceiver(mPackageInstallReceiver, sdFilter);
-            }
-            mCheckedForGoogleVoice = true;
         }
         return mGoogleVoiceInstalled;
     }
 
-    public void unregisterReceivers() {
-        if (mPackageInstallReceiver != null) {
-            mContext.unregisterReceiver(mPackageInstallReceiver);
-            mPackageInstallReceiver = null;
+    public void onStart() {
+        synchronized (this) {
             mCheckedForGoogleVoice = false;
+            mDidCallUnregisterReceivers = false;
+        }
+    }
+
+    public void onStop() {
+        synchronized (this) {
+            if (mPackageInstallReceiver != null) {
+                mContext.unregisterReceiver(mPackageInstallReceiver);
+                mPackageInstallReceiver = null;
+                mCheckedForGoogleVoice = false;
+            }
+            mDidCallUnregisterReceivers = true;
         }
     }
 

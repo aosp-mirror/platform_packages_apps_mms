@@ -1871,6 +1871,7 @@ public class ComposeMessageActivity extends Activity
         // Update the fasttrack info in case any of the recipients' contact info changed
         // while we were paused. This can happen, for example, if a user changes or adds
         // an avatar associated with a contact.
+        mWorkingMessage.onStart();
         mWorkingMessage.syncWorkingRecipients();
         updateTitle(mConversation.getRecipients());
     }
@@ -1963,7 +1964,7 @@ public class ComposeMessageActivity extends Activity
         // Cleanup the BroadcastReceiver.
         unregisterReceiver(mHttpProgressReceiver);
 
-        mWorkingMessage.unregisterReceivers();
+        mWorkingMessage.onStop();
     }
 
     @Override
