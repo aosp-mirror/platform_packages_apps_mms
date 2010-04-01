@@ -180,7 +180,7 @@ public class SearchActivity extends ListActivity
             // within the full text.  The target string must be
             // found as a word start so we use \b which matches
             // word boundaries.
-            String patternString = "\\b" + target;
+            String patternString = "\\b" + Pattern.quote(target);
             mPattern = Pattern.compile(patternString, Pattern.CASE_INSENSITIVE);
 
             mFullText = fullText;
