@@ -21,6 +21,7 @@ import com.android.mms.R;
 import com.android.mms.data.Contact;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -54,8 +55,11 @@ public class DeliveryReportListItem extends LinearLayout {
 
     public final void bind(String recipient, String status) {
         // Recipient
-        mRecipientView.setText(Contact.get(recipient, false).getName());
-
+        if (!TextUtils.isEmpty(recipient)) {
+            mRecipientView.setText(Contact.get(recipient, false).getName());
+        } else {
+            mRecipientView.setText("");
+        }
         // Status text
         mStatusView.setText(status);
 
