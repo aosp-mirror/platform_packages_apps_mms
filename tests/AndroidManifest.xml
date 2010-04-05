@@ -34,4 +34,7 @@
                      android:targetPackage="com.android.mms"
                      android:label="Tests for Mms."/>
 
+    <instrumentation android:name="com.android.mms.MmsLaunchPerformance"
+                     android:targetPackage="com.android.mms"
+                     android:label="Mms Launch Performance Test"/>
 </manifest>
