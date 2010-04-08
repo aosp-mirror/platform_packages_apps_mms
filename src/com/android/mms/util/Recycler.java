@@ -427,8 +427,10 @@ public abstract class Recycler {
                             null, "date DESC");     // get in newest to oldest order
 
                     if (msgs.getCount() >= limit) {
+                        msgs.close();
                         return true;
                     }
+                    msgs.close();
                 }
             } finally {
                 cursor.close();
