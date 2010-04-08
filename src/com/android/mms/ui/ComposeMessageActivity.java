@@ -1723,11 +1723,9 @@ public class ComposeMessageActivity extends Activity
         // Read parameters or previously saved state of this activity.
         initActivityState(savedInstanceState, intent);
 
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("initialize: savedInstanceState = " + savedInstanceState +
-                    " intent = " + intent +
-                    " recipients = " + getRecipients());
-        }
+        log("initialize: savedInstanceState = " + savedInstanceState +
+                " intent = " + intent +
+                " mConversation = " + mConversation);
 
         if (cancelFailedToDeliverNotification(getIntent(), this)) {
             // Show a pop-up dialog to inform user the message was
@@ -1777,6 +1775,10 @@ public class ComposeMessageActivity extends Activity
         mIsKeyboardOpen = config.keyboardHidden == KEYBOARDHIDDEN_NO;
         mIsLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE;
         onKeyboardStateChanged(mIsKeyboardOpen);
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("initialize: update title, mConversation=" + mConversation.toString());
+        }
 
         updateTitle(mConversation.getRecipients());
 
@@ -1873,6 +1875,11 @@ public class ComposeMessageActivity extends Activity
         // an avatar associated with a contact.
         mWorkingMessage.onStart();
         mWorkingMessage.syncWorkingRecipients();
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("onStart: update title, mConversation=" + mConversation.toString());
+        }
+
         updateTitle(mConversation.getRecipients());
     }
 
@@ -1920,6 +1927,10 @@ public class ComposeMessageActivity extends Activity
         //Contact.startPresenceObserver();
 
         addRecipientsListeners();
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("onResume: update title, mConversation=" + mConversation.toString());
+        }
 
         // There seems to be a bug in the framework such that setting the title
         // here gets overwritten to the original title.  Do this delayed as a
@@ -2934,6 +2945,10 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("startMsgListQuery for " + conversationUri);
+        }
+        
         // Cancel any pending queries
         mBackgroundQueryHandler.cancelOperation(MESSAGE_LIST_QUERY_TOKEN);
         try {
@@ -3175,7 +3190,7 @@ public class ComposeMessageActivity extends Activity
 
             if (intentData != null) {
                 // try to get a conversation based on the data URI passed to our intent.
-                mConversation = Conversation.get(this, intent.getData(), false);
+                mConversation = Conversation.get(this, intentData, false);
             } else {
                 // special intent extra parameter to specify the address
                 String address = intent.getStringExtra("address");

@@ -57,6 +57,10 @@ public class RecipientIdCache {
     }
 
     public static void fill() {
+        if (Log.isLoggable(LogTag.THREAD_CACHE, Log.VERBOSE)) {
+            LogTag.debug("[RecipientIdCache] fill: begin");
+        }
+
         Context context = sInstance.mContext;
         Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
                 sAllCanonical, null, null, null, null);
@@ -75,6 +79,11 @@ public class RecipientIdCache {
             }
         } finally {
             c.close();
+        }
+
+        if (Log.isLoggable(LogTag.THREAD_CACHE, Log.VERBOSE)) {
+            LogTag.debug("[RecipientIdCache] fill: finished");
+            dump();
         }
     }
 
@@ -96,7 +105,10 @@ public class RecipientIdCache {
 
                 if (number == null) {
                     Log.w(TAG, "RecipientId " + longId + " not in cache!");
-                    dump();
+                    if (Log.isLoggable(LogTag.THREAD_CACHE, Log.VERBOSE)) {
+                        dump();
+                    }
+                    
                     fill();
                     number = sInstance.mCache.get(longId);
                 }
@@ -161,13 +173,11 @@ public class RecipientIdCache {
     }
 
     public static void dump() {
-        if (LOCAL_DEBUG) {
-            // Only dump user private data if we're in special debug mode
-            synchronized (sInstance) {
-                Log.d(TAG, "*** Recipient ID cache dump ***");
-                for (Long id : sInstance.mCache.keySet()) {
-                    Log.d(TAG, id + ": " + sInstance.mCache.get(id));
-                }
+        // Only dump user private data if we're in special debug mode
+        synchronized (sInstance) {
+            Log.d(TAG, "*** Recipient ID cache dump ***");
+            for (Long id : sInstance.mCache.keySet()) {
+                Log.d(TAG, id + ": " + sInstance.mCache.get(id));
             }
         }
     }

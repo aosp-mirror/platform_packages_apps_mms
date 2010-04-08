@@ -23,6 +23,7 @@ public class LogTag {
 
     public static final String TRANSACTION = "Mms:transaction";
     public static final String APP = "Mms:app";
+    public static final String THREAD_CACHE = "Mms:threadcache";
 
     private static String prettyArray(String[] array) {
         if (array.length == 0) {
