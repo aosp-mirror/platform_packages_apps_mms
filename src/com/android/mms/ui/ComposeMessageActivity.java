@@ -834,6 +834,11 @@ public class ComposeMessageActivity extends Activity
         new OnCreateContextMenuListener() {
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
             Cursor cursor = mMsgListAdapter.getCursor();
+            //Validate the cursor before creating the menu
+            if (cursor.isClosed() || cursor.isBeforeFirst() || cursor.isAfterLast()) {
+                Log.e(TAG, "Bad cursor.", new RuntimeException());
+                return;
+            }
             String type = cursor.getString(COLUMN_MSG_TYPE);
             long msgId = cursor.getLong(COLUMN_ID);
 
@@ -1020,6 +1025,11 @@ public class ComposeMessageActivity extends Activity
     private final class MsgListMenuClickListener implements MenuItem.OnMenuItemClickListener {
         public boolean onMenuItemClick(MenuItem item) {
             Cursor cursor = mMsgListAdapter.getCursor();
+            //Validate the cursor before performing the click operation
+            if (cursor.isClosed() || cursor.isBeforeFirst() || cursor.isAfterLast()) {
+                Log.e(TAG, "Bad cursor.", new RuntimeException());
+                return false;
+            }
             String type = cursor.getString(COLUMN_MSG_TYPE);
             long msgId = cursor.getLong(COLUMN_ID);
             MessageItem msgItem = getMessageItem(type, msgId);
