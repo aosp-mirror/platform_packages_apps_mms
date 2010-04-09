@@ -41,9 +41,12 @@ public class Conversation {
         Threads.HAS_ATTACHMENT
     };
 
-    private static final String[] READ_PROJECTION = {
-        Threads._ID, Threads.READ
+    private static final String[] UNREAD_PROJECTION = {
+        Threads._ID,
+        Threads.READ
     };
+
+    private static final String UNREAD_SELECTION = "read=0 OR seen=0";
 
     private static final String[] SEEN_PROJECTION = new String[] {
         "seen"
@@ -264,9 +267,7 @@ public class Conversation {
                         } catch (InterruptedException e) {
                         }
                     }
-                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                        LogTag.debug("markAsRead running with threadid uri: " + threadUri);
-                    }
+
                     if (threadUri != null) {
                         buildReadContentValues();
 
@@ -274,21 +275,26 @@ public class Conversation {
                         // to do an update. Timing this function show it's about 10x faster to
                         // do the query compared to the update, even when there's nothing to
                         // update.
-                        mHasUnreadMessages = true;
+                        boolean needUpdate = true;
 
                         Cursor c = mContext.getContentResolver().query(threadUri,
-                                READ_PROJECTION, "read=0", null, null);
+                                UNREAD_PROJECTION, UNREAD_SELECTION, null, null);
                         if (c != null) {
                             try {
-                                mHasUnreadMessages = c.getCount() > 0;
+                                needUpdate = c.getCount() > 0;
                             } finally {
                                 c.close();
                             }
                         }
-                        if (mHasUnreadMessages) {
+
+                        if (needUpdate) {
+                            LogTag.debug("markAsRead: update read/seen for thread uri: " +
+                                    threadUri);
                             mContext.getContentResolver().update(threadUri, mReadContentValues,
-                                    "read=0", null);
+                                    UNREAD_SELECTION, null);
                         }
+
+                        setHasUnreadMessages(false);
                     }
                 }
 
@@ -439,8 +445,16 @@ public class Conversation {
     /**
      * Returns true if there are any unread messages in the conversation.
      */
-    public synchronized boolean hasUnreadMessages() {
-        return mHasUnreadMessages;
+    public boolean hasUnreadMessages() {
+        synchronized (this) {
+            return mHasUnreadMessages;
+        }
+    }
+
+    private void setHasUnreadMessages(boolean flag) {
+        synchronized (this) {
+            mHasUnreadMessages = flag;
+        }
     }
 
     /**
@@ -596,7 +610,7 @@ public class Conversation {
             }
             conv.mSnippet = snippet;
 
-            conv.mHasUnreadMessages = (c.getInt(READ) == 0);
+            conv.setHasUnreadMessages(c.getInt(READ) == 0);
             conv.mHasError = (c.getInt(ERROR) != 0);
             conv.mHasAttachment = (c.getInt(HAS_ATTACHMENT) != 0);
         }

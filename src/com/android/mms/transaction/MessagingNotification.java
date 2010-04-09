@@ -183,6 +183,10 @@ public class MessagingNotification {
 
         cancelNotification(context, NOTIFICATION_ID);
         if (!accumulator.isEmpty()) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                Log.d(TAG, "blockingUpdateNewMessageIndicator: count=" + count +
+                        ", isNew=" + isNew);
+            }
             accumulator.first().deliver(context, isNew, count, threads.size());
         }
 
@@ -301,6 +305,11 @@ public class MessagingNotification {
             long threadId = cursor.getLong(COLUMN_THREAD_ID);
             long timeMillis = cursor.getLong(COLUMN_DATE) * 1000;
 
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                Log.d(TAG, "getMmsNewMessageNotificationInfo: count=" + cursor.getCount() +
+                        ", first addr = " + address + ", thread_id=" + threadId);
+            }
+
             MmsSmsNotificationInfo info = getNewMessageNotificationInfo(
                     address, subject, context,
                     R.drawable.stat_notify_mms, null, threadId,
@@ -362,6 +371,12 @@ public class MessagingNotification {
             String body = cursor.getString(COLUMN_SMS_BODY);
             long threadId = cursor.getLong(COLUMN_THREAD_ID);
             long timeMillis = cursor.getLong(COLUMN_DATE);
+
+            //if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) 
+            {
+                Log.d(TAG, "getSmsNewMessageNotificationInfo: count=" + cursor.getCount() +
+                        ", first addr=" + address + ", thread_id=" + threadId);
+            }
 
             MmsSmsNotificationInfo info = getNewMessageNotificationInfo(
                     address, body, context, R.drawable.stat_notify_sms,
