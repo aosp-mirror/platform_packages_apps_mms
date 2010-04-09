@@ -655,9 +655,8 @@ public class MessageListAdapter extends CursorAdapter {
                 // off another query.
                 ContactData cookie = new ContactData(address);
                 mImageCache.put(address, cookie);
-                if (!cookie.startInitialQuery()) {
-                    cookie.loadDefaultAvatar();
-                }
+                cookie.startInitialQuery();
+                cookie.loadDefaultAvatar();
                 return cookie;
             }
         }
