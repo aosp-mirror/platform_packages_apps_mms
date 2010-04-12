@@ -16,6 +16,24 @@
       "revId": "83c6ff51acff7dae449d6a1ab084d07d6ed63a86",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///UA\u003d",
+        "filename": "src/com/android/mms/transaction/SmsReceiverService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-04-12T18:22:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAwX///VM\u003d",
+      "revId": "83c6ff51acff7dae449d6a1ab084d07d6ed63a86",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
