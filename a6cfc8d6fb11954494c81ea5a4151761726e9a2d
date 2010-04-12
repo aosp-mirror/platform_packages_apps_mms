@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwX///SE\u003d",
+        "filename": "src/com/android/mms/dom/smil/SmilPlayer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2010-04-12T20:20:05Z",
+      "side": 1,
+      "message": "Style nit:  single space after the \"//\".\n\nHere and elsewhere in the patch.",
+      "revId": "a6cfc8d6fb11954494c81ea5a4151761726e9a2d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///SA\u003d",
+        "filename": "src/com/android/mms/transaction/SmsReceiverService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2010-04-12T20:20:05Z",
+      "side": 1,
+      "message": "Does this need to be localized?  If not and this is just a dummy sentinel value, does it need to be in English anyway?",
+      "revId": "a6cfc8d6fb11954494c81ea5a4151761726e9a2d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///R8\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2010-04-12T20:20:05Z",
+      "side": 1,
+      "message": "Is this an expected-but-rare condition (just a race between the data model and the UI thread), or is it truly a run-time error that shouldn\u0027t happen?  If the former, I\u0027d leave a comment like \"Cursor no longer valid.\" and use an exception rather than RunTimeException.  If the latter, I\u0027m more curious how this was happening to being with.",
+      "revId": "a6cfc8d6fb11954494c81ea5a4151761726e9a2d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
