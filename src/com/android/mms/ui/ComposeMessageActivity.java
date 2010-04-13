@@ -861,6 +861,9 @@ public class ComposeMessageActivity extends Activity
     private final OnCreateContextMenuListener mMsgListMenuCreateListener =
         new OnCreateContextMenuListener() {
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+            if (!isCursorValid()) {
+                return;
+            }
             Cursor cursor = mMsgListAdapter.getCursor();
             String type = cursor.getString(COLUMN_MSG_TYPE);
             long msgId = cursor.getLong(COLUMN_ID);
@@ -3050,7 +3053,7 @@ public class ComposeMessageActivity extends Activity
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             log("startMsgListQuery for " + conversationUri);
         }
-        
+
         // Cancel any pending queries
         mBackgroundQueryHandler.cancelOperation(MESSAGE_LIST_QUERY_TOKEN);
         try {
