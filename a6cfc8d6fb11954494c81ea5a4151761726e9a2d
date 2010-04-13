@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAwn///9o\u003d",
+        "filename": "src/com/android/mms/dom/smil/SmilPlayer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-04-13T19:41:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAwX///SE\u003d",
+      "revId": "a6cfc8d6fb11954494c81ea5a4151761726e9a2d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAwX///SA\u003d",
         "filename": "src/com/android/mms/transaction/SmsReceiverService.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2010-04-12T20:20:05Z",
       "side": 1,
       "message": "Does this need to be localized?  If not and this is just a dummy sentinel value, does it need to be in English anyway?",
+      "revId": "a6cfc8d6fb11954494c81ea5a4151761726e9a2d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///9g\u003d",
+        "filename": "src/com/android/mms/transaction/SmsReceiverService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-04-13T19:41:22Z",
+      "side": 1,
+      "message": "I can use getString(R.string.unknown_sender) here.",
+      "parentUuid": "AAAAwX///SA\u003d",
       "revId": "a6cfc8d6fb11954494c81ea5a4151761726e9a2d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAwn///9k\u003d",
+        "filename": "src/com/android/mms/transaction/SmsReceiverService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-04-13T19:41:22Z",
+      "side": 1,
+      "message": "You can reproduce this problem by sending broadcast SMS in CDMA. Without this change, the address is null and app crashes.",
+      "parentUuid": "AAAAwn///+A\u003d",
+      "revId": "a6cfc8d6fb11954494c81ea5a4151761726e9a2d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAwX///R8\u003d",
         "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2010-04-12T20:20:05Z",
       "side": 1,
       "message": "Is this an expected-but-rare condition (just a race between the data model and the UI thread), or is it truly a run-time error that shouldn\u0027t happen?  If the former, I\u0027d leave a comment like \"Cursor no longer valid.\" and use an exception rather than RunTimeException.  If the latter, I\u0027m more curious how this was happening to being with.",
+      "revId": "a6cfc8d6fb11954494c81ea5a4151761726e9a2d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///9Y\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-04-13T19:41:22Z",
+      "side": 1,
+      "message": "Run Monkey test on MMS package with seed\u003d100, count\u003d1000000. MMS crashes with Curosr OutOfBounds exception. Cursor is pointing to an invalid position due to race condition. So, validating the position the cursor is pointing to, before performing the operation, fixes the issue. But since this change has already been merged to Froyo, Ill just remove this change for now.You can change the string in Froyo as per your comment.",
+      "parentUuid": "AAAAwX///R8\u003d",
       "revId": "a6cfc8d6fb11954494c81ea5a4151761726e9a2d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAwn///9c\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-04-13T19:41:22Z",
+      "side": 1,
+      "message": "Done. I will remove this change. I am assuming that the change above in this file is also in Froyo. If not, please let me know.",
+      "parentUuid": "AAAAwn///90\u003d",
+      "revId": "a6cfc8d6fb11954494c81ea5a4151761726e9a2d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAwn///9w\u003d",
         "filename": "src/com/android/mms/util/Recycler.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2010-04-13T19:06:07Z",
       "side": 1,
       "message": "This change has already been fixed in Froyo (the whole block of getting the cursor is protected with the finally clause of closing the cursor). If this change is going into master, then this file should probably be removed from this change.",
+      "revId": "a6cfc8d6fb11954494c81ea5a4151761726e9a2d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///9U\u003d",
+        "filename": "src/com/android/mms/util/Recycler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003413
+      },
+      "writtenOn": "2010-04-13T19:41:22Z",
+      "side": 1,
+      "message": "Ok. I will remove this change.",
+      "parentUuid": "AAAAwn///9w\u003d",
       "revId": "a6cfc8d6fb11954494c81ea5a4151761726e9a2d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
