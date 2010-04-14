@@ -52,6 +52,7 @@ import android.provider.Telephony.Sms.Outbox;
 import android.telephony.ServiceState;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -411,9 +412,14 @@ public class SmsReceiverService extends Service {
         // excess messages.
         Long threadId = values.getAsLong(Sms.THREAD_ID);
         String address = values.getAsString(Sms.ADDRESS);
-        Contact cacheContact = Contact.get(address,true);
-        if (cacheContact != null) {
-            address = cacheContact.getNumber();
+        if (!TextUtils.isEmpty(address)) {
+            Contact cacheContact = Contact.get(address,true);
+            if (cacheContact != null) {
+                address = cacheContact.getNumber();
+            }
+        } else {
+            address = getString(R.string.unknown_sender);
+            values.put(Sms.ADDRESS, address);
         }
 
         if (((threadId == null) || (threadId == 0)) && (address != null)) {
