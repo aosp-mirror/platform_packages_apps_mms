@@ -64,6 +64,10 @@ public class RecipientIdCache {
         Context context = sInstance.mContext;
         Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
                 sAllCanonical, null, null, null, null);
+        if (c == null) {
+            Log.w(TAG, "null Cursor in fill()");
+            return;
+        }
 
         try {
             synchronized (sInstance) {
