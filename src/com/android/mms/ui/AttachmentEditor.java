@@ -66,13 +66,16 @@ public class AttachmentEditor extends LinearLayout {
         mContext = context;
     }
 
-    public void update(WorkingMessage msg) {
+    /**
+     * Returns true if the attachment editor has an attachment to show.
+     */
+    public boolean update(WorkingMessage msg) {
         hideView();
         mView = null;
 
         // If there's no attachment, we have nothing to do.
         if (!msg.hasAttachment()) {
-            return;
+            return false;
         }
 
         // Get the slideshow from the message.
@@ -88,6 +91,7 @@ public class AttachmentEditor extends LinearLayout {
         }
 
         mPresenter.present();
+        return true;
     }
 
     public void setHandler(Handler handler) {

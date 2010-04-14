@@ -236,6 +236,7 @@ public class ComposeMessageActivity extends Activity
     private EditText mSubjectTextEditor;    // Text editor for MMS subject
 
     private AttachmentEditor mAttachmentEditor;
+    private View mAttachmentEditorScrollView;
 
     private MessageListView mMsgListView;        // ListView for messages in this conversation
     public MessageListAdapter mMsgListAdapter;  // and its corresponding ListAdapter
@@ -1005,7 +1006,6 @@ public class ComposeMessageActivity extends Activity
         mWorkingMessage = WorkingMessage.load(this, msgItem.mMessageUri);
         mWorkingMessage.setConversation(mConversation);
 
-        mAttachmentEditor.update(mWorkingMessage);
         drawTopPanel();
 
         // WorkingMessage.load() above only loads the slideshow. Set the
@@ -1787,7 +1787,6 @@ public class ComposeMessageActivity extends Activity
 
         drawTopPanel();
         drawBottomPanel();
-        mAttachmentEditor.update(mWorkingMessage);
 
         Configuration config = getResources().getConfiguration();
         mIsKeyboardOpen = config.keyboardHidden == KEYBOARDHIDDEN_NO;
@@ -2019,7 +2018,7 @@ public class ComposeMessageActivity extends Activity
 
             // Have to re-layout the attachment editor because we have different layouts
             // depending on whether we're portrait or landscape.
-            mAttachmentEditor.update(mWorkingMessage);
+            drawTopPanel();
         }
         onKeyboardStateChanged(mIsKeyboardOpen);
     }
@@ -2151,7 +2150,7 @@ public class ComposeMessageActivity extends Activity
             public void run() {
                 drawBottomPanel();
                 updateSendButtonState();
-                mAttachmentEditor.update(mWorkingMessage);
+                drawTopPanel();
             }
         });
     }
@@ -2503,7 +2502,6 @@ public class ComposeMessageActivity extends Activity
                     if (newMessage != null) {
                         mWorkingMessage = newMessage;
                         mWorkingMessage.setConversation(mConversation);
-                        mAttachmentEditor.update(mWorkingMessage);
                         drawTopPanel();
                         updateSendButtonState();
                     }
@@ -2879,6 +2877,8 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void drawTopPanel() {
+        boolean showingAttachment = mAttachmentEditor.update(mWorkingMessage);
+        mAttachmentEditorScrollView.setVisibility(showingAttachment ? View.VISIBLE : View.GONE);
         showSubjectEditor(mWorkingMessage.hasSubject());
     }
 
@@ -3007,6 +3007,7 @@ public class ComposeMessageActivity extends Activity
         mTopPanel.setFocusable(false);
         mAttachmentEditor = (AttachmentEditor) findViewById(R.id.attachment_editor);
         mAttachmentEditor.setHandler(mAttachmentEditorHandler);
+        mAttachmentEditorScrollView = findViewById(R.id.attachment_editor_scroll_view);
     }
 
     private void confirmDeleteDialog(OnClickListener listener, boolean locked) {
@@ -3195,6 +3196,7 @@ public class ComposeMessageActivity extends Activity
 
         // Make the attachment editor hide its view.
         mAttachmentEditor.hideView();
+        mAttachmentEditorScrollView.setVisibility(View.GONE);
 
         // Hide the subject editor.
         showSubjectEditor(false);
