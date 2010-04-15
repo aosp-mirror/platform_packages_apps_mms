@@ -178,17 +178,16 @@
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"MMS-begränsning"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Aviseringar"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Visa meddelandeaviseringar i statusfältet"</string>
-    <!-- no translation found for pref_title_notification_vibrateWhen (4251208067092761057) -->
-    <skip />
-    <!-- no translation found for pref_summary_notification_vibrateWhen (669655090822561447) -->
-    <skip />
+    <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibrera"</string>
+    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibrera även vid aviseringar"</string>
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Välj ringsignal"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Ange hur många meddelanden som ska sparas"</string>
-    <!-- no translation found for prefEntries_vibrateWhen:0 (2520871831815631409) -->
-    <!-- no translation found for prefEntries_vibrateWhen:1 (6069709696037750627) -->
-    <!-- no translation found for prefEntries_vibrateWhen:2 (7486145357487111435) -->
-    <!-- no translation found for prefDialogTitle_vibrateWhen (6419655771690242118) -->
-    <skip />
+  <string-array name="prefEntries_vibrateWhen">
+    <item msgid="2520871831815631409">"Alltid"</item>
+    <item msgid="6069709696037750627">"Bara vid tyst"</item>
+    <item msgid="7486145357487111435">"Aldrig"</item>
+  </string-array>
+    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibrera"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Autohämtning"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Hämta meddelanden automatiskt"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Autohämtning vid roam."</string>

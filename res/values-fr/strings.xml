@@ -178,17 +178,16 @@
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite pour les MMS"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notifications"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Afficher les notifications de message dans la barre d\'état"</string>
-    <!-- no translation found for pref_title_notification_vibrateWhen (4251208067092761057) -->
-    <skip />
-    <!-- no translation found for pref_summary_notification_vibrateWhen (669655090822561447) -->
-    <skip />
+    <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibreur"</string>
+    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibrer également à la réception d\'une notification"</string>
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Sélectionner une sonnerie"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Définir le nombre de messages à enregistrer"</string>
-    <!-- no translation found for prefEntries_vibrateWhen:0 (2520871831815631409) -->
-    <!-- no translation found for prefEntries_vibrateWhen:1 (6069709696037750627) -->
-    <!-- no translation found for prefEntries_vibrateWhen:2 (7486145357487111435) -->
-    <!-- no translation found for prefDialogTitle_vibrateWhen (6419655771690242118) -->
-    <skip />
+  <string-array name="prefEntries_vibrateWhen">
+    <item msgid="2520871831815631409">"Toujours"</item>
+    <item msgid="6069709696037750627">"Seulement en mode silencieux"</item>
+    <item msgid="7486145357487111435">"Jamais"</item>
+  </string-array>
+    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibreur"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Récupération auto"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Récupérer automatiquement les messages"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Itinérance"</string>
