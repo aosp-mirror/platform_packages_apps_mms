@@ -60,7 +60,7 @@
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Derechos DRM insuficientes"</string>
     <string name="copy_message_text" msgid="4640869459731924158">"Copiar texto del mensaje"</string>
     <string name="message_options" msgid="6838806653341967550">"Opciones del mensaje"</string>
-    <string name="done" msgid="7479926268660505871">"Hecho"</string>
+    <string name="done" msgid="7479926268660505871">"Listo"</string>
     <string name="move_up" msgid="7307578107431739359">"Mover arriba"</string>
     <string name="move_down" msgid="6356509518429479053">"Mover abajo"</string>
     <string name="remove_slide" msgid="2225604354024914900">"Eliminar diapositiva"</string>
@@ -178,17 +178,16 @@
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Límite de mensajes multimedia"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notificaciones"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Mostrar notificación de mensajes en la barra de estado"</string>
-    <!-- no translation found for pref_title_notification_vibrateWhen (4251208067092761057) -->
-    <skip />
-    <!-- no translation found for pref_summary_notification_vibrateWhen (669655090822561447) -->
-    <skip />
+    <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibración"</string>
+    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibrar también al notificar"</string>
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Seleccionar tono"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Establecer número de mensajes que quieres guardar"</string>
-    <!-- no translation found for prefEntries_vibrateWhen:0 (2520871831815631409) -->
-    <!-- no translation found for prefEntries_vibrateWhen:1 (6069709696037750627) -->
-    <!-- no translation found for prefEntries_vibrateWhen:2 (7486145357487111435) -->
-    <!-- no translation found for prefDialogTitle_vibrateWhen (6419655771690242118) -->
-    <skip />
+  <string-array name="prefEntries_vibrateWhen">
+    <item msgid="2520871831815631409">"Siempre"</item>
+    <item msgid="6069709696037750627">"Solo en modo silencio"</item>
+    <item msgid="7486145357487111435">"Nunca"</item>
+  </string-array>
+    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibración"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Recuperación auto."</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Recuperar mensajes automáticamente"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recup. auto. en itinerancia"</string>
