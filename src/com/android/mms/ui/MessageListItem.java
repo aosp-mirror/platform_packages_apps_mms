@@ -250,7 +250,7 @@ public class MessageListItem extends LinearLayout implements
                 mAvatar.assignContactFromPhone(addr, true);
             }
         } else {
-            mAvatar.setImageDrawable(null);
+            mAvatar.setImageToDefault();
             mAvatar.assignContactUri(null);
         }
 
