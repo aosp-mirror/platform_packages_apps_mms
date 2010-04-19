@@ -412,6 +412,11 @@ public class SmsReceiverService extends Service {
         return storeMessage(context, msgs, error);
     }
 
+    public static String replaceFormFeeds(String s) {
+        // Some providers send formfeeds in their messages. Convert those formfeeds to newlines.
+        return s.replace('\f', '\n');
+    }
+
     private Uri storeMessage(Context context, SmsMessage[] msgs, int error) {
         SmsMessage sms = msgs[0];
 
@@ -422,7 +427,7 @@ public class SmsReceiverService extends Service {
 
         if (pduCount == 1) {
             // There is only one part, so grab the body directly.
-            values.put(Inbox.BODY, sms.getDisplayMessageBody());
+            values.put(Inbox.BODY, replaceFormFeeds(sms.getDisplayMessageBody()));
         } else {
             // Build up the body from the parts.
             StringBuilder body = new StringBuilder();
@@ -430,7 +435,7 @@ public class SmsReceiverService extends Service {
                 sms = msgs[i];
                 body.append(sms.getDisplayMessageBody());
             }
-            values.put(Inbox.BODY, body.toString());
+            values.put(Inbox.BODY, replaceFormFeeds(body.toString()));
         }
 
         // Make sure we've got a thread id so after the insert we'll be able to delete
