@@ -136,7 +136,7 @@ public class MessageListAdapter extends CursorAdapter {
     public MessageListAdapter(
             Context context, Cursor c, ListView listView,
             boolean useDefaultColumnsMap, Pattern highlight) {
-        super(context, c, false /* auto-requery */);
+        super(context, c, FLAG_REGISTER_CONTENT_OBSERVER);
         mContext = context;
         mHighlight = highlight;
 
