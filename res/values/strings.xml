@@ -39,7 +39,7 @@
     <!-- Menu item to call the recipient of the conversation on the phone (imperative verb) -->
     <string name="menu_call">Call</string>
     <!-- Menu item for deleting all conversations -->
-    <string name="menu_delete_all">Delete threads</string>
+    <string name="menu_delete_all">Delete all threads</string>
     <!-- Context menu item on an individual conversation for deleting that conversation -->
     <string name="menu_delete">Delete thread</string>
     <!-- This string is no longer used. It used to be the menu item for viewing all messages that
