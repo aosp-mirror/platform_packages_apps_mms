@@ -423,7 +423,11 @@ public class SlideEditorActivity extends Activity {
                 break;
 
             case MENU_RECORD_SOUND:
-                MessageUtils.recordSound(this, REQUEST_CODE_RECORD_SOUND);
+                slide = mSlideshowModel.get(mPosition);
+                int currentSlideSize = slide.getSlideSize();
+                long sizeLimit = ComposeMessageActivity.computeAttachmentSizeLimit(mSlideshowModel,
+                        currentSlideSize);
+                MessageUtils.recordSound(this, REQUEST_CODE_RECORD_SOUND, sizeLimit);
                 break;
 
             case MENU_DEL_AUDIO:

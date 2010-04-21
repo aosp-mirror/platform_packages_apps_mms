@@ -2373,10 +2373,6 @@ public class ComposeMessageActivity extends Activity
 //        }
 //    }
 
-    private int getVideoCaptureDurationLimit() {
-        return CamcorderProfile.get(CamcorderProfile.QUALITY_LOW).duration;
-    }
-
     private void addAttachment(int type, boolean replace) {
         // Calculate the size of the current slide if we're doing a replace so the
         // slide size can optionally be used in computing how much room is left for an attachment.
@@ -2404,27 +2400,10 @@ public class ComposeMessageActivity extends Activity
                 break;
 
             case AttachmentTypeSelectorAdapter.RECORD_VIDEO: {
-                // Set video size limit. Subtract 1K for some text.
-                long sizeLimit = MmsConfig.getMaxMessageSize() - SlideshowModel.SLIDESHOW_SLOP;
-                if (slideShow != null) {
-                    sizeLimit -= slideShow.getCurrentMessageSize();
-
-                    // We're about to ask the camera to capture some video which will
-                    // eventually replace the content on the current slide. Since the current
-                    // slide already has some content (which was subtracted out just above)
-                    // and that content is going to get replaced, we can add the size of the
-                    // current slide into the available space used to capture a video.
-                    sizeLimit += currentSlideSize;
-                }
+                long sizeLimit = computeAttachmentSizeLimit(slideShow, currentSlideSize);
                 if (sizeLimit > 0) {
-                    int durationLimit = getVideoCaptureDurationLimit();
-                    Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                    intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
-                    intent.putExtra("android.intent.extra.sizeLimit", sizeLimit);
-                    intent.putExtra("android.intent.extra.durationLimit", durationLimit);
-                    startActivityForResult(intent, REQUEST_CODE_TAKE_VIDEO);
-                }
-                else {
+                    MessageUtils.recordVideo(this, REQUEST_CODE_TAKE_VIDEO, sizeLimit);
+                } else {
                     Toast.makeText(this,
                             getString(R.string.message_too_big_for_video),
                             Toast.LENGTH_SHORT).show();
@@ -2437,7 +2416,8 @@ public class ComposeMessageActivity extends Activity
                 break;
 
             case AttachmentTypeSelectorAdapter.RECORD_SOUND:
-                MessageUtils.recordSound(this, REQUEST_CODE_RECORD_SOUND);
+                long sizeLimit = computeAttachmentSizeLimit(slideShow, currentSlideSize);
+                MessageUtils.recordSound(this, REQUEST_CODE_RECORD_SOUND, sizeLimit);
                 break;
 
             case AttachmentTypeSelectorAdapter.ADD_SLIDESHOW:
@@ -2447,6 +2427,22 @@ public class ComposeMessageActivity extends Activity
             default:
                 break;
         }
+    }
+
+    public static long computeAttachmentSizeLimit(SlideshowModel slideShow, int currentSlideSize) {
+        // Computer attachment size limit. Subtract 1K for some text.
+        long sizeLimit = MmsConfig.getMaxMessageSize() - SlideshowModel.SLIDESHOW_SLOP;
+        if (slideShow != null) {
+            sizeLimit -= slideShow.getCurrentMessageSize();
+
+            // We're about to ask the camera to capture some video (or the sound recorder
+            // to record some audio) which will eventually replace the content on the current
+            // slide. Since the current slide already has some content (which was subtracted
+            // out just above) and that content is going to get replaced, we can add the size of the
+            // current slide into the available space used to capture a video (or audio).
+            sizeLimit += currentSlideSize;
+        }
+        return sizeLimit;
     }
 
     private void showAddAttachmentDialog(final boolean replace) {

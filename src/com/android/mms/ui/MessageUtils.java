@@ -53,10 +53,12 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.media.CamcorderProfile;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
@@ -500,15 +502,32 @@ public class MessageUtils {
         }
     }
 
-    public static void recordSound(Context context, int requestCode) {
+    public static void recordSound(Context context, int requestCode, long sizeLimit) {
         if (context instanceof Activity) {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType(ContentType.AUDIO_AMR);
             intent.setClassName("com.android.soundrecorder",
                     "com.android.soundrecorder.SoundRecorder");
+            intent.putExtra(android.provider.MediaStore.Audio.Media.EXTRA_MAX_BYTES, sizeLimit);
 
             ((Activity) context).startActivityForResult(intent, requestCode);
         }
+    }
+
+    public static void recordVideo(Context context, int requestCode, long sizeLimit) {
+        if (context instanceof Activity) {
+            int durationLimit = getVideoCaptureDurationLimit();
+            Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+            intent.putExtra("android.intent.extra.sizeLimit", sizeLimit);
+            intent.putExtra("android.intent.extra.durationLimit", durationLimit);
+
+            ((Activity) context).startActivityForResult(intent, requestCode);
+        }
+    }
+
+    private static int getVideoCaptureDurationLimit() {
+        return CamcorderProfile.get(CamcorderProfile.QUALITY_LOW).duration;
     }
 
     public static void selectVideo(Context context, int requestCode) {
