@@ -85,7 +85,7 @@ public class WorkingMessage {
     // GoogleVoice integration
     public static final String GOOGLE_VOICE_PACKAGE = "com.google.android.apps.googlevoice";
     public static final String GOOGLE_VOICE_SENDER =
-                                        "com.google.android.apps.googlevoice.SmsSenderActivity";
+                                     "com.google.android.apps.googlevoice.sms.SendingSmsReceiver";
     private static boolean mGoogleVoiceInstalled;   // don't reference directly, use
                                                     // getter: googleVoiceInstalled()
     private static boolean mCheckedForGoogleVoice;  // gets reset when GoogleVoice is installed
@@ -1018,12 +1018,14 @@ public class WorkingMessage {
             if (!mCheckedForGoogleVoice) {
                 PackageManager manager = mContext.getPackageManager();
                 Intent broadcastIntent = new Intent(ACTION_SENDING_SMS);
-                final List<ResolveInfo> activities = manager.queryIntentActivities(broadcastIntent, 0);
-                LogTag.debug("getSendInterceptor activities: " + activities);
-                if (activities != null) {
-                    int len = activities.size();
+                final List<ResolveInfo> receivers =
+                    manager.queryBroadcastReceivers(broadcastIntent, PackageManager.GET_META_DATA);
+                LogTag.debug("getSendInterceptor broadcast receivers: " + receivers);
+                mGoogleVoiceInstalled = false;
+                if (receivers != null) {
+                    int len = receivers.size();
                     for (int i = 0; i < len; i++) {
-                        ResolveInfo info = activities.get(i);
+                        ResolveInfo info = receivers.get(i);
                         LogTag.debug("getSendInterceptor " +
                                 info.activityInfo.applicationInfo.packageName + " - " +
                                 info.activityInfo.name);
