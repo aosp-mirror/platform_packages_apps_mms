@@ -46,7 +46,7 @@ public class Conversation {
         Threads.READ
     };
 
-    private static final String UNREAD_SELECTION = "read=0 OR seen=0";
+    private static final String UNREAD_SELECTION = "(read=0 OR seen=0)";
 
     private static final String[] SEEN_PROJECTION = new String[] {
         "seen"
@@ -616,7 +616,7 @@ public class Conversation {
         }
         // Fill in as much of the conversation as we can before doing the slow stuff of looking
         // up the contacts associated with this conversation.
-        String recipientIds = c.getString(RECIPIENT_IDS);       
+        String recipientIds = c.getString(RECIPIENT_IDS);
         ContactList recipients = ContactList.getByIds(recipientIds, allowQuery);
         synchronized (conv) {
             conv.mRecipients = recipients;
@@ -922,7 +922,7 @@ public class Conversation {
         try {
             if (c.moveToFirst()) {
                 fillFromCursor(mContext, this, c, allowQuery);
-                
+
                 if (threadId != mThreadId) {
                     LogTag.error("loadFromThreadId: fillFromCursor returned differnt thread_id!" +
                             " threadId=" + threadId + ", mThreadId=" + mThreadId);
