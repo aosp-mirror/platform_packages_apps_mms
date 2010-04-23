@@ -62,7 +62,7 @@ public class HttpUtils {
     private static final String HDR_VALUE_ACCEPT_LANGUAGE;
 
     static {
-        HDR_VALUE_ACCEPT_LANGUAGE = getHttpAcceptLanguage();
+        HDR_VALUE_ACCEPT_LANGUAGE = getCurrentAcceptLanguage(Locale.getDefault());
     }
 
     // Definition for necessary HTTP headers.
@@ -272,33 +272,55 @@ public class HttpUtils {
         return client;
     }
 
+    private static final String ACCEPT_LANG_FOR_US_LOCALE = "en-US";
+
     /**
      * Return the Accept-Language header.  Use the current locale plus
      * US if we are in a different locale than US.
+     * This code copied from the browser's WebSettings.java
+     * @return Current AcceptLanguage String.
      */
-    private static String getHttpAcceptLanguage() {
-        Locale locale = Locale.getDefault();
-        StringBuilder builder = new StringBuilder();
+    public static String getCurrentAcceptLanguage(Locale locale) {
+        StringBuilder buffer = new StringBuilder();
+        addLocaleToHttpAcceptLanguage(buffer, locale);
 
-        addLocaleToHttpAcceptLanguage(builder, locale);
-        if (!locale.equals(Locale.US)) {
-            if (builder.length() > 0) {
-                builder.append(", ");
+        if (!Locale.US.equals(locale)) {
+            if (buffer.length() > 0) {
+                buffer.append(", ");
             }
-            addLocaleToHttpAcceptLanguage(builder, Locale.US);
+            buffer.append(ACCEPT_LANG_FOR_US_LOCALE);
         }
-        return builder.toString();
+
+        return buffer.toString();
     }
 
-    private static void addLocaleToHttpAcceptLanguage(
-            StringBuilder builder, Locale locale) {
-        String language = locale.getLanguage();
+    /**
+     * Convert obsolete language codes, including Hebrew/Indonesian/Yiddish,
+     * to new standard.
+     */
+    private static String convertObsoleteLanguageCodeToNew(String langCode) {
+        if (langCode == null) {
+            return null;
+        }
+        if ("iw".equals(langCode)) {
+            // Hebrew
+            return "he";
+        } else if ("in".equals(langCode)) {
+            // Indonesian
+            return "id";
+        } else if ("ji".equals(langCode)) {
+            // Yiddish
+            return "yi";
+        }
+        return langCode;
+    }
 
+    private static void addLocaleToHttpAcceptLanguage(StringBuilder builder,
+                                                      Locale locale) {
+        String language = convertObsoleteLanguageCodeToNew(locale.getLanguage());
         if (language != null) {
             builder.append(language);
-
             String country = locale.getCountry();
-
             if (country != null) {
                 builder.append("-");
                 builder.append(country);
