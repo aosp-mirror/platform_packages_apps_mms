@@ -23,7 +23,7 @@
     <string name="app_label" msgid="1503967887341230795">"메시지"</string>
     <string name="new_message" msgid="1530369762346003973">"새 메시지"</string>
     <string name="create_new_message" msgid="8735943333953093860">"새 메시지 쓰기"</string>
-    <string name="menu_call_back" msgid="7538482331117914146">"<xliff:g id="NAME">%s</xliff:g>님에게 전화"</string>
+    <string name="menu_call_back" msgid="7538482331117914146">"<xliff:g id="NAME">%s</xliff:g>님에게 전화걸기"</string>
     <string name="menu_send_email" msgid="671366308915241664">"<xliff:g id="NAME">%s</xliff:g>에게 이메일 보내기"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"편지쓰기"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"설정"</string>
@@ -76,7 +76,7 @@
     <string name="add_video" msgid="7816866867806595144">"동영상 추가"</string>
     <string name="remove_video" msgid="5258603891528497799">"동영상 삭제"</string>
     <string name="compose_title" msgid="558578836596816068">"편지쓰기"</string>
-    <string name="to_hint" msgid="224029549150332986">"받는사람"</string>
+    <string name="to_hint" msgid="224029549150332986">"다음 언어로 번역:"</string>
     <string name="subject_hint" msgid="4296714962311604126">"제목"</string>
     <string name="add_attachment" msgid="7103751293360532684">"첨부"</string>
     <string name="add_subject" msgid="7616134948428265870">"제목 추가"</string>
@@ -98,7 +98,7 @@
     <string name="message_too_big_for_video" msgid="2639367545165352543">"메시지가 너무 커서 동영상을 첨부할 수 없습니다."</string>
     <string name="failed_to_add_media" msgid="8272471485019037446">"죄송합니다. <xliff:g id="NAME">%1$s</xliff:g>님은 메시지에 추가할 수 없습니다."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"사진 크기가 조정되지 않았습니다."</string>
-    <string name="resize_image_error_information" msgid="4897031754321114959">"죄송합니다. 사진의 크기를 조정했지만 사진이 너무 커 아직도 전송할 수 없습니다."</string>
+    <string name="resize_image_error_information" msgid="4897031754321114959">"사진이 너무 커서 크기 조정 후에도 전송할 수 없습니다."</string>
     <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
     <string name="discard_message" msgid="6078326880056142781">"삭제"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"유효한 수신자가 없으므로 메시지가 삭제됩니다."</string>
@@ -107,7 +107,7 @@
     <string name="invalid_recipient_message" msgid="7315539322634238519">"수신자를 바르게 설정해야 메시지를 수신할 수 있습니다."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"메시지를 보낼 수 없음"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"메시지의 유효한 수신자가 없습니다."</string>
-    <string name="cannot_forward_drm_obj" msgid="84606990079390099">"메시지에 포함된 DRM 개체는 전달할 수 없습니다."</string>
+    <string name="cannot_forward_drm_obj" msgid="84606990079390099">"저작권이 있는 개체는 전달할 수 없습니다."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"멀티미디어 메시지로 변환 중..."</string>
     <string name="converting_to_text_message" msgid="6374423235426015422">"문자 메시지로 변환 중..."</string>
     <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"슬라이드를 더 이상 추가할 수 없습니다."</string>
@@ -145,7 +145,7 @@
     <item msgid="3400770414689795703">"8초"</item>
     <item msgid="4358760614161107970">"9초"</item>
     <item msgid="2618179407176906471">"10초"</item>
-    <item msgid="6238597861937337981">"기타..."</item>
+    <item msgid="6238597861937337981">"기타…"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"연락처 보기"</string>
     <string name="menu_add_to_contacts" msgid="2978074583938544513">"주소록에 추가"</string>
@@ -154,7 +154,7 @@
     <string name="no" msgid="4289742508556913860">"취소"</string>
     <string name="set" msgid="4642365398263275979">"설정"</string>
     <string name="play" msgid="1888432400937785115">"재생"</string>
-    <string name="edit" msgid="5912118407791492696">"수정"</string>
+    <string name="edit" msgid="5912118407791492696">"편집"</string>
     <string name="resize" msgid="4308912589984220360">"크기 조정"</string>
     <string name="try_to_send" msgid="1996751738286080976">"전송 시도"</string>
     <string name="preferences_title" msgid="6650089610332670157">"설정"</string>
@@ -190,7 +190,7 @@
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"진동"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"자동 검색"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"메시지를 자동으로 검색"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"로밍 중에 자동 검색"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"로밍 중 자동 수신"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"로밍 중에 메시지를 자동으로 검색"</string>
     <string name="to_label" msgid="2355268818058389047">"받는사람 "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"삭제"</string>
@@ -213,8 +213,8 @@
     <string name="from_label" msgid="2055117571548171397">"보낸사람: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"받는사람: "</string>
     <string name="bcc_label" msgid="530867161453958774">"숨은 참조: "</string>
-    <string name="sent_label" msgid="2722190650145251584">"보낸 시간: "</string>
-    <string name="received_label" msgid="8618029024731693906">"받은 시간: "</string>
+    <string name="sent_label" msgid="2722190650145251584">"보낸편지함: "</string>
+    <string name="received_label" msgid="8618029024731693906">"수신전화: "</string>
     <string name="saved_label" msgid="4183160415593488207">"저장됨: "</string>
     <string name="subject_label" msgid="8721241914144101631">"제목: "</string>
     <string name="message_size_label" msgid="4698016210013319786">"메시지 크기: "</string>
@@ -302,7 +302,7 @@
     <string name="add_attachment_activity" msgid="5324811371129695320">"첨부파일 추가:"</string>
     <string name="select_layout_activity" msgid="5041916695464513848">"레이아웃 선택"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"표시 기간 변경"</string>
-    <string name="edit_text_activity" msgid="5915226413346879213">"텍스트 수정"</string>
+    <string name="edit_text_activity" msgid="5915226413346879213">"텍스트 편집"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"슬라이드쇼 편집"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"슬라이드 편집"</string>
     <string name="pick_numbers_activity" msgid="2083330191224178637">"번호 선택"</string>

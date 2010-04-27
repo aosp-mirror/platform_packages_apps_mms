@@ -37,14 +37,14 @@
     <string name="has_draft" msgid="2487465595514636160">"Rascunho"</string>
     <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> para <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
     <string name="anonymous_recipient" msgid="2501437626187039034">"Anônimo"</string>
-    <string name="no_subject_view" msgid="7795086723069563537">"(Sem assunto)"</string>
+    <string name="no_subject_view" msgid="7795086723069563537">"(Sem título)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Eu"</string>
     <string name="view_picture" msgid="4356315935277709195">"Visualizar imagem"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Visualizar apresentação de slides"</string>
     <string name="view_message_details" msgid="2443165773568096234">"Visualizar detalhes da mensagem"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Visualizar relatório"</string>
     <string name="delete_message" msgid="8888447283788388395">"Excluir mensagem"</string>
-    <string name="sent_on" msgid="5868288548564632354">"Enviado: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="sent_on" msgid="5868288548564632354">"Enviada em: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"Expira: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"Kb"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Mensagem não entregue"</string>
@@ -213,15 +213,15 @@
     <string name="from_label" msgid="2055117571548171397">"De: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Para: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Cco: "</string>
-    <string name="sent_label" msgid="2722190650145251584">"Enviada: "</string>
+    <string name="sent_label" msgid="2722190650145251584">"Enviados: "</string>
     <string name="received_label" msgid="8618029024731693906">"Recebido: "</string>
     <string name="saved_label" msgid="4183160415593488207">"Salvo: "</string>
     <string name="subject_label" msgid="8721241914144101631">"Assunto: "</string>
     <string name="message_size_label" msgid="4698016210013319786">"Tamanho da mensagem: "</string>
     <string name="priority_label" msgid="7397600367853359607">"Prioridade: "</string>
-    <string name="priority_high" msgid="5627897207952009214">"Alto"</string>
+    <string name="priority_high" msgid="5627897207952009214">"Alta"</string>
     <string name="priority_normal" msgid="5715227727384683550">"Normal"</string>
-    <string name="priority_low" msgid="8928782666023373987">"Baixo"</string>
+    <string name="priority_low" msgid="8928782666023373987">"Baixa"</string>
     <string name="message_class_label" msgid="5115748690481550562">"Classe da mensagem: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"Código do erro: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Editar"</string>
@@ -240,7 +240,7 @@
     <string name="status_none" msgid="8253075950774894961">"(Nenhum)"</string>
     <string name="status_pending" msgid="2739860824607984892">"Pendente"</string>
     <string name="status_read" msgid="7576195253780627332">"Ler"</string>
-    <string name="status_received" msgid="7264334589461906965">"Recebido"</string>
+    <string name="status_received" msgid="7264334589461906965">"Recebidas"</string>
     <string name="status_failed" msgid="1998776666856593544">"Falha"</string>
     <string name="status_unread" msgid="8555305495998700198">"Não lidas"</string>
     <string name="status_rejected" msgid="2613641949065942678">"Rejeitado"</string>
@@ -272,7 +272,7 @@
     <string name="confirm" msgid="3155110885840591914">"Confirmar"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Um relatório de leitura será enviado."</string>
     <string name="message_queued" msgid="8869479754825264671">"No momento, não é possível enviar a sua mensagem. Ela será enviada quando o serviço ficar disponível."</string>
-    <string name="no_subject" msgid="4168963736134552285">"(Sem assunto)"</string>
+    <string name="no_subject" msgid="4168963736134552285">"(Sem título)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Remetente desconhecido"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"O download da mensagem <xliff:g id="SUBJECT">%s</xliff:g> de <xliff:g id="FROM">%s</xliff:g> falhou."</string>
     <string name="dl_expired_notification" msgid="950390029992535809">"Esta mensagem expirou e será excluída."</string>

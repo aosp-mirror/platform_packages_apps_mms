@@ -27,7 +27,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"Send en e-mail til <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Skriv"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Indstillinger"</string>
-    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Føj <xliff:g id="NAME">%s</xliff:g> til kontakter"</string>
+    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Føj <xliff:g id="NAME">%s</xliff:g> til kontaktpersoner"</string>
     <string name="menu_call" msgid="5877123227307074690">"Ring til"</string>
     <string name="menu_delete_all" msgid="8853352701914512057">"Slet tråde"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Slet tråd"</string>
@@ -36,7 +36,7 @@
     <string name="refreshing" msgid="987335057871404222">"Opdaterer ..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Kladde"</string>
     <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> til <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
-    <string name="anonymous_recipient" msgid="2501437626187039034">"Anonym"</string>
+    <string name="anonymous_recipient" msgid="2501437626187039034">"Anonyme"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Intet emne)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Mig"</string>
     <string name="view_picture" msgid="4356315935277709195">"Vis billede"</string>
@@ -48,7 +48,7 @@
     <string name="expire_on" msgid="4436268382742593921">"Udløber: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"Kb"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Ikke afleveret besked"</string>
-    <string name="undelivered_msg_dialog_body" msgid="3574032060588309397">"Beskeden kunne ikke sendes."\n" Antal forsøg: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_msg_dialog_body" msgid="3574032060588309397">"Beskeden kunne ikke sendes."\n" Forsøg foretaget: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="6755818550013032420">"Beskeden kunne ikke sendes."</string>
     <string name="delete_thread" msgid="757258847736632791">"Slet tråd"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Videresend"</string>
@@ -236,12 +236,12 @@
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Sms-beskeder på SIM-kort"</string>
     <string name="sim_view" msgid="1997173541766393706">"Vis"</string>
     <string name="sim_empty" msgid="1763174398613486328">"Der er ingen beskeder på SIM-kortet."</string>
-    <string name="delivery_header_title" msgid="5361719578869045764">"Rapport"</string>
+    <string name="delivery_header_title" msgid="5361719578869045764">"Rapporter"</string>
     <string name="status_none" msgid="8253075950774894961">"(Ingen)"</string>
     <string name="status_pending" msgid="2739860824607984892">"Afventer"</string>
     <string name="status_read" msgid="7576195253780627332">"Læs"</string>
     <string name="status_received" msgid="7264334589461906965">"Modtaget"</string>
-    <string name="status_failed" msgid="1998776666856593544">"Mislykket"</string>
+    <string name="status_failed" msgid="1998776666856593544">"Mislykkedes"</string>
     <string name="status_unread" msgid="8555305495998700198">"Ulæste"</string>
     <string name="status_rejected" msgid="2613641949065942678">"Afvist"</string>
     <string name="recipient_label" msgid="3922667485312634446">"Modtager: "</string>
@@ -311,7 +311,7 @@
     <string name="send_using_mms_activity" msgid="3703434556280345726">"Send som mms-besked ..."</string>
     <string name="select_contact_method_activity" msgid="1743384358979323991">"Vælg kontaktmetode"</string>
     <string name="search_label" msgid="6042598929386174964">"Beskeder"</string>
-    <string name="search_hint" msgid="7183732852849365466">"Søg i Beskeder"</string>
+    <string name="search_hint" msgid="7183732852849365466">"Søg i beskeder"</string>
     <string name="search" msgid="7560238620274735199">"Beskeder"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"Tekst i dine beskeder"</string>
     <string name="search_empty" msgid="645052646985297065">"Der er ingen matches"</string>
