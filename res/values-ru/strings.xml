@@ -23,9 +23,9 @@
     <string name="app_label" msgid="1503967887341230795">"SMS/MMS"</string>
     <string name="new_message" msgid="1530369762346003973">"Новое сообщение"</string>
     <string name="create_new_message" msgid="8735943333953093860">"Написать новое сообщение"</string>
-    <string name="menu_call_back" msgid="7538482331117914146">"Позвонить абоненту <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_call_back" msgid="7538482331117914146">"Вызов: <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Написать письмо пользователю <xliff:g id="NAME">%s</xliff:g>"</string>
-    <string name="menu_compose_new" msgid="3763437973691046238">"Написать"</string>
+    <string name="menu_compose_new" msgid="3763437973691046238">"Новое сообщение"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Настройки"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Добавить пользователя <xliff:g id="NAME">%s</xliff:g> в Контакты"</string>
     <string name="menu_call" msgid="5877123227307074690">"Позвонить"</string>
@@ -47,7 +47,7 @@
     <string name="delete_message" msgid="8888447283788388395">"Удалить сообщение"</string>
     <string name="sent_on" msgid="5868288548564632354">"Отправлено: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"Срок истекает: <xliff:g id="DATE">%s</xliff:g>"</string>
-    <string name="kilobyte" msgid="534782148965716631">"Кб"</string>
+    <string name="kilobyte" msgid="534782148965716631">"КБ"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Недоставленное сообщение"</string>
     <string name="undelivered_msg_dialog_body" msgid="3574032060588309397">"Невозможно отправить сообщение."\n"Попыток: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="6755818550013032420">"Не удается отправить это сообщение."</string>
@@ -76,13 +76,13 @@
     <string name="remove_music" msgid="858889733416015223">"Удалить музыку"</string>
     <string name="add_video" msgid="7816866867806595144">"Добавить видео"</string>
     <string name="remove_video" msgid="5258603891528497799">"Удалить видео"</string>
-    <string name="compose_title" msgid="558578836596816068">"Написать"</string>
+    <string name="compose_title" msgid="558578836596816068">"Новое сообщение"</string>
     <string name="to_hint" msgid="224029549150332986">"Кому:"</string>
     <string name="subject_hint" msgid="4296714962311604126">"Тема"</string>
     <string name="add_attachment" msgid="7103751293360532684">"Прикрепить файл"</string>
     <string name="add_subject" msgid="7616134948428265870">"Добавить тему"</string>
     <string name="discard" msgid="1624800293064498479">"Отменить"</string>
-    <string name="view" msgid="7929667761715467136">"Просмотреть"</string>
+    <string name="view" msgid="7929667761715467136">"Просмотр"</string>
     <string name="replace" msgid="7587904998114459388">"Заменить"</string>
     <string name="remove" msgid="4625444913256213175">"Удалить"</string>
     <string name="send" msgid="4589898724889248486">"Отправить"</string>
@@ -115,7 +115,7 @@
     <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"Нельзя добавить на слайд и картинку, и видео."</string>
     <string name="cannot_save_message" msgid="5026354972915392301">"Не удается сохранить сообщение."</string>
     <string name="cannot_load_message" msgid="2577010607550849892">"Не удается загрузить сообщение."</string>
-    <string name="message_saved_as_draft" msgid="2503018972659880692">"Сообщение сохранено как черновик."</string>
+    <string name="message_saved_as_draft" msgid="2503018972659880692">"Черновик сообщения сохранен."</string>
     <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"Заблокированное сообщение нельзя удалить"</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"У этого сообщения слишком много получателей (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). Максимальное число получателей: <xliff:g id="MAXLIMIT">%2$s</xliff:g>."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"Для вложений установлено ограничение: <xliff:g id="MAXLIMIT">%1$s</xliff:g>. Будет добавлено вложений: <xliff:g id="CURRENTCOUNT">%2$s</xliff:g>."</string>
@@ -137,16 +137,16 @@
     <string name="secs" msgid="6886003523109967972">"с."</string>
   <string-array name="select_dialog_items">
     <item msgid="4840183714016984112">"1 секунда"</item>
-    <item msgid="3734955613666864447">"2 секунды"</item>
-    <item msgid="6032232473048379828">"3 секунды"</item>
-    <item msgid="5978471781525927827">"4 секунды"</item>
+    <item msgid="3734955613666864447">"2 сек."</item>
+    <item msgid="6032232473048379828">"3 сек."</item>
+    <item msgid="5978471781525927827">"4 сек."</item>
     <item msgid="4888440297621208402">"5 секунд"</item>
     <item msgid="6047246213264166841">"6 секунд"</item>
     <item msgid="2327501250056533797">"7 секунд"</item>
     <item msgid="3400770414689795703">"8 секунд"</item>
     <item msgid="4358760614161107970">"9 секунд"</item>
     <item msgid="2618179407176906471">"10 секунд"</item>
-    <item msgid="6238597861937337981">"Другая..."</item>
+    <item msgid="6238597861937337981">"Другое…"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"Просмотреть контакт"</string>
     <string name="menu_add_to_contacts" msgid="2978074583938544513">"Добавить в Контакты"</string>
@@ -185,7 +185,7 @@
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Установить количество сообщений для сохранения"</string>
   <string-array name="prefEntries_vibrateWhen">
     <item msgid="2520871831815631409">"Всегда"</item>
-    <item msgid="6069709696037750627">"Только в тихом режиме"</item>
+    <item msgid="6069709696037750627">"Только в режиме без звука"</item>
     <item msgid="7486145357487111435">"Никогда"</item>
   </string-array>
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Вибросигнал"</string>
@@ -214,8 +214,8 @@
     <string name="from_label" msgid="2055117571548171397">"От: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Кому: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Скрытая копия: "</string>
-    <string name="sent_label" msgid="2722190650145251584">"Отправлено: "</string>
-    <string name="received_label" msgid="8618029024731693906">"Получено: "</string>
+    <string name="sent_label" msgid="2722190650145251584">"Отправленные: "</string>
+    <string name="received_label" msgid="8618029024731693906">"Полученные: "</string>
     <string name="saved_label" msgid="4183160415593488207">"Сохранено: "</string>
     <string name="subject_label" msgid="8721241914144101631">"Тема: "</string>
     <string name="message_size_label" msgid="4698016210013319786">"Размер сообщения: "</string>
@@ -235,13 +235,13 @@
     <string name="sim_copy_to_phone_memory" msgid="5895767417844881971">"Копировать в память телефона"</string>
     <string name="sim_delete" msgid="610790510655316922">"Удалить"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Текстовые сообщения на SIM-карте"</string>
-    <string name="sim_view" msgid="1997173541766393706">"Просмотреть"</string>
+    <string name="sim_view" msgid="1997173541766393706">"Просмотр"</string>
     <string name="sim_empty" msgid="1763174398613486328">"На SIM-карте сообщений нет."</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"Отчет"</string>
     <string name="status_none" msgid="8253075950774894961">"(Нет)"</string>
     <string name="status_pending" msgid="2739860824607984892">"Ожидает"</string>
     <string name="status_read" msgid="7576195253780627332">"Прочитанные"</string>
-    <string name="status_received" msgid="7264334589461906965">"Получено"</string>
+    <string name="status_received" msgid="7264334589461906965">"Полученные"</string>
     <string name="status_failed" msgid="1998776666856593544">"Сбой"</string>
     <string name="status_unread" msgid="8555305495998700198">"Непрочитанные"</string>
     <string name="status_rejected" msgid="2613641949065942678">"Отклоненные"</string>

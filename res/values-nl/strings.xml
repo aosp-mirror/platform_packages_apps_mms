@@ -27,7 +27,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"E-mail verzenden aan <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Opstellen"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Instellingen"</string>
-    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"<xliff:g id="NAME">%s</xliff:g> toevoegen aan contacten"</string>
+    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"<xliff:g id="NAME">%s</xliff:g> toevoegen aan contactpersonen"</string>
     <string name="menu_call" msgid="5877123227307074690">"Bellen"</string>
     <string name="menu_delete_all" msgid="8853352701914512057">"Threads verwijderen"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Thread verwijderen"</string>
@@ -173,7 +173,7 @@
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Ontvangstbevestigingen"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Leesbevestigingen"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Ontvangstbevestigingen"</string>
-    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Oude berichten verwijderen"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Oude berich. verwijderen"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limiet voor sms"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limiet voor MMS"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Meldingen"</string>
@@ -190,7 +190,7 @@
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Trillen"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Automatisch ophalen"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Berichten automatisch ophalen"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Automatisch ophalen tijdens roaming"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Ophalen tijdens roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Berichten automatisch ophalen tijdens roaming"</string>
     <string name="to_label" msgid="2355268818058389047">"Aan "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Verwijderen"</string>

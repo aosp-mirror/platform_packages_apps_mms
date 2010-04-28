@@ -131,7 +131,7 @@
     <string name="layout_top" msgid="6811021650398972346">"Diseño (arriba)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Diseño (abajo)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Introduce algún texto o deja el campo vacío."</string>
-    <string name="duration_not_a_number" msgid="8005480904677546322">"El valor de duración debe ser un número."</string>
+    <string name="duration_not_a_number" msgid="8005480904677546322">"El valor de duración debe ser un número.\n"</string>
     <string name="duration_zero" msgid="109945354056393575">"La duración debe ser superior a cero segundos."</string>
     <string name="secs" msgid="6886003523109967972">"s"</string>
   <string-array name="select_dialog_items">
@@ -159,13 +159,13 @@
     <string name="try_to_send" msgid="1996751738286080976">"Intentar envío"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Ajustes"</string>
     <string name="restore_default" msgid="7165341506551155053">"Restaurar configuración predeterminada"</string>
-    <string name="pref_notification_settings_title" msgid="4860726154770053004">"Configuración de notificaciones"</string>
-    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Configuración de mensajes multimedia (MMS)"</string>
-    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Configuración de mensajes de texto (SMS)"</string>
-    <string name="pref_sms_storage_title" msgid="2531726671883516470">"Configuración de almacenamiento"</string>
+    <string name="pref_notification_settings_title" msgid="4860726154770053004">"Ajustes de notificaciones"</string>
+    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Ajustes de mensajes multimedia (MMS)"</string>
+    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Ajustes de mensajes de texto (SMS)"</string>
+    <string name="pref_sms_storage_title" msgid="2531726671883516470">"Ajustes de almacenamiento"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Administrar mensajes almacenados en la tarjeta SIM"</string>
-    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Solicitar un informe de entrega cada vez que se envíe un mensaje"</string>
-    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Solicitar un informe de mensaje leído cada vez que se envíe un mensaje"</string>
+    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Solicitar un informe de entrega al enviar un mensaje"</string>
+    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Solicitar un informe de mensaje leído al enviar un mensaje"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Solicitar un informe de entrega cada vez que se envíe un mensaje"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Eliminar mensajes antiguos al superar los límites"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> mensajes por conversación"</string>
@@ -181,19 +181,19 @@
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibración"</string>
     <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibrar también al notificar"</string>
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Seleccionar tono"</string>
-    <string name="pref_messages_to_save" msgid="3202539743892934926">"Establecer número de mensajes que quieres guardar"</string>
+    <string name="pref_messages_to_save" msgid="3202539743892934926">"Establece el número de mensajes que quieres guardar"</string>
   <string-array name="prefEntries_vibrateWhen">
     <item msgid="2520871831815631409">"Siempre"</item>
     <item msgid="6069709696037750627">"Solo en modo silencio"</item>
     <item msgid="7486145357487111435">"Nunca"</item>
   </string-array>
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibración"</string>
-    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Recuperación auto."</string>
+    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Recuperar automáticamente"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Recuperar mensajes automáticamente"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recup. auto. en itinerancia"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recuperar autom en itinerancia"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Recuperar automáticamente mensajes en itinerancia"</string>
     <string name="to_label" msgid="2355268818058389047">"Para "</string>
-    <string name="confirm_dialog_title" msgid="5810813994465120375">"Suprimir"</string>
+    <string name="confirm_dialog_title" msgid="5810813994465120375">"Eliminar"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"¿Quieres eliminar el mensaje bloqueado?"</string>
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Se eliminará toda la cadena."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Se eliminarán todas las cadenas."</string>
@@ -232,7 +232,7 @@
     <string name="menu_lock" msgid="136863583207382259">"Bloquear mensaje"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Desbloquear mensaje"</string>
     <string name="sim_copy_to_phone_memory" msgid="5895767417844881971">"Copiar a memoria del teléfono"</string>
-    <string name="sim_delete" msgid="610790510655316922">"Suprimir"</string>
+    <string name="sim_delete" msgid="610790510655316922">"Eliminar"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Mensajes de texto de tarjeta SIM"</string>
     <string name="sim_view" msgid="1997173541766393706">"Ver"</string>
     <string name="sim_empty" msgid="1763174398613486328">"No hay mensajes en la tarjeta SIM."</string>
@@ -291,7 +291,7 @@
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Error al guardar tono"</string>
     <string name="menu_insert_smiley" msgid="4964504393061025071">"Insertar emoticono"</string>
     <string name="select_link_title" msgid="600168208731216059">"Seleccionar acción"</string>
-    <string name="slide_number" msgid="1923958526266726635">"Diapositiva <xliff:g id="NUMBER">%s</xliff:g>"</string>
+    <string name="slide_number" msgid="1923958526266726635">"Diapositiva <xliff:g id="NUMBER">%s</xliff:g>\n"</string>
   <plurals name="slide_duration">
     <item quantity="one" msgid="1654101988340583935">"<xliff:g id="NUMBER">%s</xliff:g> segundos"</item>
     <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g> segundos"</item>

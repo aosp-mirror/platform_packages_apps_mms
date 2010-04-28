@@ -160,22 +160,22 @@
     <string name="preferences_title" msgid="6650089610332670157">"Ustawienia"</string>
     <string name="restore_default" msgid="7165341506551155053">"Przywróć ustawienia domyślne"</string>
     <string name="pref_notification_settings_title" msgid="4860726154770053004">"Ustawienia powiadomień"</string>
-    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Ustawienia wiadomości multimedialnych (MMS)"</string>
-    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Ustawienia wiadomości tekstowych (SMS)"</string>
+    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Ustawienia wiadomości MMS"</string>
+    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Ustawienia wiadomości SMS"</string>
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"Ustawienia pamięci"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Zarządzanie wiadomościami zapisanymi na karcie SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Żądaj potwierdzenia dostarczenia każdej wysłanej wiadomości"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Żądanie raportu przeczytania każdej wysłanej wiadomości"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Żądaj potwierdzenia dostarczenia każdej wysłanej wiadomości"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Usuń stare wiadomości po osiągnięciu limitów"</string>
-    <string name="pref_summary_delete_limit" msgid="597128041393045216">"Liczba wiadomości w wątku: <xliff:g id="COUNT">%1$s</xliff:g>"</string>
+    <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> wiadomości w wątku"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Wiadomości na karcie SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Raporty dostarczenia"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Raporty odczytu"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Raporty dostarczenia"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Usuń stare wiadomości"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limit wiadomości tekstowych"</string>
-    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limit wiadomości multimedialnych"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limit wiadomości MMS"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Powiadomienia"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Wyświetlaj powiadomienie o wiadomości na pasku stanu"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Wibracje"</string>
@@ -311,13 +311,13 @@
     <string name="send_using_mms_activity" msgid="3703434556280345726">"Wyślij jako wiadomość multimedialną..."</string>
     <string name="select_contact_method_activity" msgid="1743384358979323991">"Wybierz metodę kontaktu"</string>
     <string name="search_label" msgid="6042598929386174964">"Wiadomości"</string>
-    <string name="search_hint" msgid="7183732852849365466">"Szukaj w wiadomościach"</string>
+    <string name="search_hint" msgid="7183732852849365466">"Przeszukaj wiadomości"</string>
     <string name="search" msgid="7560238620274735199">"Wiadomości"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"Tekst w wiadomościach"</string>
     <string name="search_empty" msgid="645052646985297065">"Brak wyników"</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="675571420878010439">"Liczba wyników dla zapytania „%s”: <xliff:g id="NUMBER">%s</xliff:g>"</item>
-    <item quantity="other" msgid="3778201725913692491">"Liczba wyników dla zapytania „%s”: <xliff:g id="NUMBER">%s</xliff:g>"</item>
+    <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> wynik dla zapytania „%s”"</item>
+    <item quantity="other" msgid="3778201725913692491">"<xliff:g id="NUMBER">%s</xliff:g> wyniki(-ów) dla zapytania „%s”"</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"Liczba wyników dla zapytania „<xliff:g id="SEARCH">%s</xliff:g>”: <xliff:g id="COUNT">%s</xliff:g>"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Wyczyść"</string>

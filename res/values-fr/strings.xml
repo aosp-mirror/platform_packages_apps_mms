@@ -27,7 +27,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"Envoyer un e-mail à <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Nouveau message"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Paramètres"</string>
-    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Ajouter <xliff:g id="NAME">%s</xliff:g> aux contacts"</string>
+    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Ajouter \"<xliff:g id="NAME">%s</xliff:g>\" aux contacts"</string>
     <string name="menu_call" msgid="5877123227307074690">"Appeler"</string>
     <string name="menu_delete_all" msgid="8853352701914512057">"Supprimer les fils"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Supprimer le fil de discussion"</string>
@@ -44,17 +44,17 @@
     <string name="view_message_details" msgid="2443165773568096234">"Afficher les détails du message"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Afficher le rapport"</string>
     <string name="delete_message" msgid="8888447283788388395">"Supprimer le message"</string>
-    <string name="sent_on" msgid="5868288548564632354">"Date d\'envoi : <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="sent_on" msgid="5868288548564632354">"Envoyé : <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"Date d\'expiration : <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"Ko"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Message non transmis"</string>
-    <string name="undelivered_msg_dialog_body" msgid="3574032060588309397">"Impossible d\'envoyer ce message."\n"Dernière tentative :<xliff:g id="MESSAGE">%s</xliff:g>"</string>
+    <string name="undelivered_msg_dialog_body" msgid="3574032060588309397">"Impossible d\'envoyer ce message."\n"Dernière tentative : <xliff:g id="MESSAGE">%s</xliff:g>"</string>
     <string name="undelivered_sms_dialog_body" msgid="6755818550013032420">"Impossible d\'envoyer ce message."</string>
     <string name="delete_thread" msgid="757258847736632791">"Supprimer le fil"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Transférer"</string>
     <string name="download" msgid="4488877642230207631">"Télécharger"</string>
     <string name="downloading" msgid="1779557575565350637">"Téléchargement…"</string>
-    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>" : "</string>
+    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Objet : <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Texte protégé par GDN *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Privilèges GDN insuffisants détectés."</string>
@@ -96,7 +96,7 @@
     <string name="select_different_media" msgid="7573116916321879964">"Sélectionnez un autre <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Taille maximale atteinte pour ce message."</string>
     <string name="message_too_big_for_video" msgid="2639367545165352543">"Impossible de joindre une vidéo. Le message est trop volumineux."</string>
-    <string name="failed_to_add_media" msgid="8272471485019037446">"Désolé, vous ne pouvez pas ajouter cet élément à votre message : <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="failed_to_add_media" msgid="8272471485019037446">"Désolé, vous ne pouvez pas ajouter cet élément à votre message : <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"L\'image n\'a pas été redimensionnée."</string>
     <string name="resize_image_error_information" msgid="4897031754321114959">"Désolé, l\'image redimensionnée est toujours trop lourde."</string>
     <string name="forward_prefix" msgid="276280492803486464">"TR : "</string>

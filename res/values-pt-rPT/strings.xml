@@ -20,10 +20,10 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"Mensagens"</string>
+    <string name="app_label" msgid="1503967887341230795">"Mensag."</string>
     <string name="new_message" msgid="1530369762346003973">"Nova mensagem"</string>
     <string name="create_new_message" msgid="8735943333953093860">"Redigir nova mensagem"</string>
-    <string name="menu_call_back" msgid="7538482331117914146">"Telefonar a <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_call_back" msgid="7538482331117914146">"Ligar a <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Enviar e-mail a <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Redigir"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Definições"</string>
@@ -173,9 +173,9 @@
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Relatórios de entrega"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Relatórios de leitura"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Relatórios de entrega"</string>
-    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Eliminar mensagens antigas"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Eliminar mens. antigas"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limite de mensagens de texto"</string>
-    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite de mensagens multimédia"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite mens. multimédia"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notificações"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Apresentar notificações de mensagem na barra de estado"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibrar"</string>
@@ -190,7 +190,7 @@
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibrar"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Retoma automática"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Retomar mensagens automaticamente"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Retoma automática em roaming"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recuper. em roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Retomar mensagens automaticamente em roaming"</string>
     <string name="to_label" msgid="2355268818058389047">"Para "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Eliminar"</string>
@@ -274,7 +274,7 @@
     <string name="message_queued" msgid="8869479754825264671">"De momento não é possível enviar a mensagem. Esta será enviada quando o serviço estiver disponível."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Sem assunto)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Remetente desconhecido"</string>
-    <string name="dl_failure_notification" msgid="2457080452886498701">"Falha ao transferir a mensagem <xliff:g id="SUBJECT">%s</xliff:g> de <xliff:g id="FROM">%s</xliff:g>."</string>
+    <string name="dl_failure_notification" msgid="2457080452886498701">"Falha·ao·transferir·a·mensagem <xliff:g id="SUBJECT">%s</xliff:g> de <xliff:g id="FROM">%s</xliff:g>."</string>
     <string name="dl_expired_notification" msgid="950390029992535809">"Esta mensagem expirou e vai ser eliminada."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Confirmar"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Está a ser enviado um grande número de mensagens multimédia. Está de acordo?"</string>
@@ -294,7 +294,7 @@
     <string name="slide_number" msgid="1923958526266726635">"Diapositivo <xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
     <item quantity="one" msgid="1654101988340583935">"<xliff:g id="NUMBER">%s</xliff:g> seg"</item>
-    <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g> segundos"</item>
+    <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g> seg"</item>
     <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g> seg"</item>
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"Relatório de entrega"</string>
@@ -310,9 +310,9 @@
     <string name="class_0_message_activity" msgid="8474176218999130627">"Mensagem de classe 0"</string>
     <string name="send_using_mms_activity" msgid="3703434556280345726">"Enviar como mensagem multimédia..."</string>
     <string name="select_contact_method_activity" msgid="1743384358979323991">"Método de selecção de contacto"</string>
-    <string name="search_label" msgid="6042598929386174964">"Mensagens"</string>
+    <string name="search_label" msgid="6042598929386174964">"Mensag."</string>
     <string name="search_hint" msgid="7183732852849365466">"Pesquisar mensagens"</string>
-    <string name="search" msgid="7560238620274735199">"Mensagens"</string>
+    <string name="search" msgid="7560238620274735199">"Mensag."</string>
     <string name="search_setting_description" msgid="4104004595086437572">"Texto nas mensagens"</string>
     <string name="search_empty" msgid="645052646985297065">"Sem correspondência"</string>
   <plurals name="search_results_title">

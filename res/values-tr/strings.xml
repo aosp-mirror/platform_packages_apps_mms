@@ -23,7 +23,7 @@
     <string name="app_label" msgid="1503967887341230795">"Mesajlaş."</string>
     <string name="new_message" msgid="1530369762346003973">"Yeni ileti"</string>
     <string name="create_new_message" msgid="8735943333953093860">"Yeni ileti oluştur"</string>
-    <string name="menu_call_back" msgid="7538482331117914146">"Çağrı yap (<xliff:g id="NAME">%s</xliff:g>)"</string>
+    <string name="menu_call_back" msgid="7538482331117914146">"Şunu sesli ara: <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"<xliff:g id="NAME">%s</xliff:g> kişisine e-posta gönder"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Oluştur"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Ayarlar"</string>
@@ -44,7 +44,7 @@
     <string name="view_message_details" msgid="2443165773568096234">"İleti ayrıntılarını görüntüle"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Raporu görüntüle"</string>
     <string name="delete_message" msgid="8888447283788388395">"İletiyi sil"</string>
-    <string name="sent_on" msgid="5868288548564632354">"Gönderildi: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="sent_on" msgid="5868288548564632354">"Gönderme Zamanı: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"Sona erme tarihi: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Teslim edilmemiş ileti"</string>

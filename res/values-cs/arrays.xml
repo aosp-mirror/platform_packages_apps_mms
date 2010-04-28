@@ -38,22 +38,22 @@
     <item msgid="4888792634429693183">"o_O"</item>
   </string-array>
   <string-array name="default_smiley_names">
-    <item msgid="1831934949361041701">"Happy"</item>
-    <item msgid="1601611480575517120">"Smutný"</item>
-    <item msgid="1531181614218625881">"Mrkající"</item>
+    <item msgid="1831934949361041701">"Štěstím bez sebe"</item>
+    <item msgid="1601611480575517120">"Ach jo"</item>
+    <item msgid="1531181614218625881">"Mrknutí"</item>
     <item msgid="3858808057949077894">"Vypláznutý jazyk"</item>
-    <item msgid="7835238297967185651">"Překvapený"</item>
+    <item msgid="7835238297967185651">"Překvapení"</item>
     <item msgid="1756223535005296033">"Pusa"</item>
-    <item msgid="1093906245140165107">"Hej!"</item>
+    <item msgid="1093906245140165107">"Zlobím se!"</item>
     <item msgid="888834839864150170">"Cool"</item>
     <item msgid="6320683740534773967">"Cinkání zlaťáků"</item>
     <item msgid="6610111212478853990">"Trapas!"</item>
-    <item msgid="1706035208563940251">"V rozpacích"</item>
+    <item msgid="1706035208563940251">"Rozpaky"</item>
     <item msgid="9079275787422313427">"Andílek"</item>
-    <item msgid="4630490399784004880">"Nerozhodný"</item>
+    <item msgid="4630490399784004880">"Ještě nevím"</item>
     <item msgid="7002574538342357456">"Bůůů, fňuk, fňuk"</item>
     <item msgid="850324578089267455">"Ani muk"</item>
-    <item msgid="6334637439528489607">"Smějící se"</item>
-    <item msgid="7602915122893958066">"Zmatený"</item>
+    <item msgid="6334637439528489607">"Smích"</item>
+    <item msgid="7602915122893958066">"Zmatek"</item>
   </string-array>
 </resources>
