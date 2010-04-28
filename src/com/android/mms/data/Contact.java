@@ -633,7 +633,12 @@ public class Contact {
 
                     // clone the list of listeners in case the onUpdate call turns around and
                     // modifies the list of listeners
-                    for (UpdateListener l : (HashSet<UpdateListener>)Contact.mListeners.clone()) {
+                    // access to mListeners is synchronized on ContactsCache
+                    HashSet<UpdateListener> iterator;
+                    synchronized (ContactsCache.class) {
+                        iterator = (HashSet<UpdateListener>)Contact.mListeners.clone();
+                    }
+                    for (UpdateListener l : iterator) {
                         if (V) Log.d(TAG, "updating " + l);
                         l.onUpdate(c);
                     }
