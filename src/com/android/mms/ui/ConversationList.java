@@ -370,7 +370,7 @@ public class ConversationList extends ListActivity
         public void onCreateContextMenu(ContextMenu menu, View v,
                 ContextMenuInfo menuInfo) {
             Cursor cursor = mListAdapter.getCursor();
-            if (cursor.getPosition() < 0) {
+            if (cursor == null || cursor.getPosition() < 0) {
                 return;
             }
             Conversation conv = Conversation.from(ConversationList.this, cursor);
@@ -399,7 +399,7 @@ public class ConversationList extends ListActivity
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         Cursor cursor = mListAdapter.getCursor();
-        if (cursor.getPosition() >= 0) {
+        if (cursor != null && cursor.getPosition() >= 0) {
             Conversation conv = Conversation.from(ConversationList.this, cursor);
             long threadId = conv.getThreadId();
             switch (item.getItemId()) {
