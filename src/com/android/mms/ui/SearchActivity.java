@@ -204,18 +204,70 @@ public class SearchActivity extends ListActivity
         Contact.removeListener(mContactListener);
     }
 
+    private long getThreadId(long sourceId, long which) {
+        Uri.Builder b = Uri.parse("content://mms-sms/messageIdToThread").buildUpon();
+        b = b.appendQueryParameter("row_id", String.valueOf(sourceId));
+        b = b.appendQueryParameter("table_to_use", String.valueOf(which));
+        String s = b.build().toString();
+
+        Cursor c = getContentResolver().query(
+                Uri.parse(s),
+                null,
+                null,
+                null,
+                null);
+        if (c != null) {
+            try {
+                if (c.moveToFirst()) {
+                    return c.getLong(c.getColumnIndex("thread_id"));
+                }
+            } finally {
+                c.close();
+            }
+        }
+        return -1;
+    }
+
     @Override
-    public void onCreate(Bundle icicle)
-    {
+    public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        setContentView(R.layout.search_activity);
 
         String searchStringParameter = getIntent().getStringExtra(SearchManager.QUERY);
         if (searchStringParameter == null) {
             searchStringParameter = getIntent().getStringExtra("intent_extra_data_key" /*SearchManager.SUGGEST_COLUMN_INTENT_EXTRA_DATA*/);
         }
         final String searchString =
-        	searchStringParameter != null ? searchStringParameter.trim() : searchStringParameter;
+            searchStringParameter != null ? searchStringParameter.trim() : searchStringParameter;
+
+        // If we're being launched with a source_id then just go to that particular thread.
+        // Work around the fact that suggestions can only launch the search activity, not some
+        // arbitrary activity (such as ComposeMessageActivity).
+        final Uri u = getIntent().getData();
+        if (u != null && u.getQueryParameter("source_id") != null) {
+            Thread t = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        long sourceId = Long.parseLong(u.getQueryParameter("source_id"));
+                        long whichTable = Long.parseLong(u.getQueryParameter("which_table"));
+                        long threadId = getThreadId(sourceId, whichTable);
+
+                        final Intent onClickIntent = new Intent(SearchActivity.this, ComposeMessageActivity.class);
+                        onClickIntent.putExtra("highlight", searchString);
+                        onClickIntent.putExtra("select_id", sourceId);
+                        onClickIntent.putExtra("thread_id", threadId);
+                        startActivity(onClickIntent);
+                        finish();
+                        return;
+                    } catch (NumberFormatException ex) {
+                        // ok, we do not have a thread id so continue
+                    }
+                }
+            });
+            t.start();
+            return;
+        }
+
+        setContentView(R.layout.search_activity);
         ContentResolver cr = getContentResolver();
 
         searchStringParameter = searchStringParameter.trim();
