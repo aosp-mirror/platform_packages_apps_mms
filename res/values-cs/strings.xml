@@ -23,11 +23,11 @@
     <string name="app_label" msgid="1503967887341230795">"SMS a MMS"</string>
     <string name="new_message" msgid="1530369762346003973">"Nová zpráva"</string>
     <string name="create_new_message" msgid="8735943333953093860">"Napsat novou zprávu"</string>
-    <string name="menu_call_back" msgid="7538482331117914146">"Volat odesílatele <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_call_back" msgid="7538482331117914146">"Volat kontakt <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Odeslat e-mail adresátovi <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Napsat"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Nastavení"</string>
-    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Přidat <xliff:g id="NAME">%s</xliff:g> do Kontaktů"</string>
+    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Přidat <xliff:g id="NAME">%s</xliff:g> mezi Kontakty"</string>
     <string name="menu_call" msgid="5877123227307074690">"Volat"</string>
     <string name="menu_delete_all" msgid="8853352701914512057">"Smazat konverzace"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Smazat konverzaci"</string>
@@ -76,11 +76,11 @@
     <string name="add_video" msgid="7816866867806595144">"Přidat video"</string>
     <string name="remove_video" msgid="5258603891528497799">"Odstranit video"</string>
     <string name="compose_title" msgid="558578836596816068">"Napsat"</string>
-    <string name="to_hint" msgid="224029549150332986">"Komu:"</string>
+    <string name="to_hint" msgid="224029549150332986">"Do"</string>
     <string name="subject_hint" msgid="4296714962311604126">"Předmět"</string>
     <string name="add_attachment" msgid="7103751293360532684">"Připojit přílohu"</string>
     <string name="add_subject" msgid="7616134948428265870">"Přidat předmět"</string>
-    <string name="discard" msgid="1624800293064498479">"Zahodit"</string>
+    <string name="discard" msgid="1624800293064498479">"Zrušit"</string>
     <string name="view" msgid="7929667761715467136">"Zobrazit"</string>
     <string name="replace" msgid="7587904998114459388">"Nahradit"</string>
     <string name="remove" msgid="4625444913256213175">"Odstranit"</string>
@@ -100,7 +100,7 @@
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Velikost fotografie se nepodařilo přizpůsobit."</string>
     <string name="resize_image_error_information" msgid="4897031754321114959">"Velikost fotografie byla přizpůsobena. Přesto je příliš velká a nelze ji odeslat."</string>
     <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
-    <string name="discard_message" msgid="6078326880056142781">"Zahodit"</string>
+    <string name="discard_message" msgid="6078326880056142781">"Zrušit"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Zpráva bude zrušena, protože neobsahuje žádné platné příjemce."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Neplatní příjemci: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="7643854177921895615">"Zadali jste neplatnou adresu."</string>
@@ -159,7 +159,7 @@
     <string name="try_to_send" msgid="1996751738286080976">"Pokusit se odeslat"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Nastavení"</string>
     <string name="restore_default" msgid="7165341506551155053">"Obnovit výchozí nastavení"</string>
-    <string name="pref_notification_settings_title" msgid="4860726154770053004">"Nastavení oznámení"</string>
+    <string name="pref_notification_settings_title" msgid="4860726154770053004">"Nastavení upozornění"</string>
     <string name="pref_mms_settings_title" msgid="2573616208360684392">"Nastavení multimediálních zpráv (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="9088516111717417514">"Nastavení textových zpráv (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"Nastavení úložiště"</string>
@@ -192,7 +192,7 @@
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Automaticky načítat zprávy"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Automatické načítání při roamingu"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Automaticky načítat zprávy i při roamingu"</string>
-    <string name="to_label" msgid="2355268818058389047">"Komu: "</string>
+    <string name="to_label" msgid="2355268818058389047">"Do "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Smazat"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Smazat uzamčenou zprávu?"</string>
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Celá konverzace bude smazána."</string>
@@ -213,14 +213,14 @@
     <string name="from_label" msgid="2055117571548171397">"Od: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Komu: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Skrytá kopie: "</string>
-    <string name="sent_label" msgid="2722190650145251584">"Odesláno: "</string>
-    <string name="received_label" msgid="8618029024731693906">"Přijato: "</string>
+    <string name="sent_label" msgid="2722190650145251584">"Odeslaná pošta: "</string>
+    <string name="received_label" msgid="8618029024731693906">"Přijaté: "</string>
     <string name="saved_label" msgid="4183160415593488207">"Uloženo: "</string>
     <string name="subject_label" msgid="8721241914144101631">"Předmět: "</string>
     <string name="message_size_label" msgid="4698016210013319786">"Velikost zprávy: "</string>
     <string name="priority_label" msgid="7397600367853359607">"Priorita: "</string>
     <string name="priority_high" msgid="5627897207952009214">"Vysoká"</string>
-    <string name="priority_normal" msgid="5715227727384683550">"Běžná"</string>
+    <string name="priority_normal" msgid="5715227727384683550">"Normální"</string>
     <string name="priority_low" msgid="8928782666023373987">"Nízká"</string>
     <string name="message_class_label" msgid="5115748690481550562">"Třída zprávy: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"Kód chyby: "</string>
@@ -236,13 +236,13 @@
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Textové zprávy na kartě SIM"</string>
     <string name="sim_view" msgid="1997173541766393706">"Zobrazit"</string>
     <string name="sim_empty" msgid="1763174398613486328">"Na kartě SIM nejsou žádné zprávy."</string>
-    <string name="delivery_header_title" msgid="5361719578869045764">"Potvrzení"</string>
+    <string name="delivery_header_title" msgid="5361719578869045764">"Nahlásit"</string>
     <string name="status_none" msgid="8253075950774894961">"(Není)"</string>
     <string name="status_pending" msgid="2739860824607984892">"Čeká na vyřízení"</string>
     <string name="status_read" msgid="7576195253780627332">"Přečtena"</string>
-    <string name="status_received" msgid="7264334589461906965">"Přijato"</string>
-    <string name="status_failed" msgid="1998776666856593544">"Nedoručeno"</string>
-    <string name="status_unread" msgid="8555305495998700198">"Nepřečtena"</string>
+    <string name="status_received" msgid="7264334589461906965">"Přijaté"</string>
+    <string name="status_failed" msgid="1998776666856593544">"Neúspěšné"</string>
+    <string name="status_unread" msgid="8555305495998700198">"Nepřečtené"</string>
     <string name="status_rejected" msgid="2613641949065942678">"Odmítnuta"</string>
     <string name="recipient_label" msgid="3922667485312634446">"Příjemce: "</string>
     <string name="status_label" msgid="7283375460919181660">"Stav: "</string>
@@ -271,7 +271,7 @@
     <string name="type_video" msgid="8521556159545168441">"video"</string>
     <string name="confirm" msgid="3155110885840591914">"Potvrdit"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Bude odesláno potvrzení o přečtení."</string>
-    <string name="message_queued" msgid="8869479754825264671">"Zprávu momentálně nelze odeslat. Zpráva bude odeslána, jakmile bude služba dostupná."</string>
+    <string name="message_queued" msgid="8869479754825264671">"Momentálně nelze zprávu odeslat. Zpráva bude odeslána, jakmile bude služba dostupná."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Předmět neuveden)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Neznámý odesílatel"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"Stažení zprávy <xliff:g id="SUBJECT">%s</xliff:g> od uživatele <xliff:g id="FROM">%s</xliff:g> se nezdařilo."</string>
@@ -317,7 +317,7 @@
     <string name="search_empty" msgid="645052646985297065">"Žádné shody"</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="675571420878010439">"Počet výsledků pro výraz „%s“: <xliff:g id="NUMBER">%s</xliff:g>"</item>
-    <item quantity="other" msgid="3778201725913692491">"Počet výsledků pro výraz „%s“: <xliff:g id="NUMBER">%s</xliff:g>"</item>
+    <item quantity="other" msgid="3778201725913692491">"Počet výsledků pro výraz %s: <xliff:g id="NUMBER">%s</xliff:g>"</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"Počet výsledků pro výraz <xliff:g id="SEARCH">%s</xliff:g>: <xliff:g id="COUNT">%s</xliff:g>"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Vymazat"</string>

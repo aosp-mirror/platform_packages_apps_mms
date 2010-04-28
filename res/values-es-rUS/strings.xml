@@ -25,10 +25,10 @@
     <string name="create_new_message" msgid="8735943333953093860">"Componer mensaje nuevo"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Llamar a <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Enviar correo electrónico para <xliff:g id="NAME">%s</xliff:g>"</string>
-    <string name="menu_compose_new" msgid="3763437973691046238">"Componer"</string>
+    <string name="menu_compose_new" msgid="3763437973691046238">"Redactar"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Configuración"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Agregar <xliff:g id="NAME">%s</xliff:g> a Contactos"</string>
-    <string name="menu_call" msgid="5877123227307074690">"Llamar a"</string>
+    <string name="menu_call" msgid="5877123227307074690">"Llamar"</string>
     <string name="menu_delete_all" msgid="8853352701914512057">"Eliminar artículos"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Eliminar artículo"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Mensajes que no se pueden entregar"</string>
@@ -38,13 +38,13 @@
     <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> a <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
     <string name="anonymous_recipient" msgid="2501437626187039034">"Anónimo"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Sin asunto)"</string>
-    <string name="messagelist_sender_self" msgid="3579016854116401602">"Me"</string>
+    <string name="messagelist_sender_self" msgid="3579016854116401602">"Yo"</string>
     <string name="view_picture" msgid="4356315935277709195">"Ver imagen"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Ver presentación de diapositivas"</string>
     <string name="view_message_details" msgid="2443165773568096234">"Ver detalles del mensaje"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Ver informe"</string>
     <string name="delete_message" msgid="8888447283788388395">"Eliminar mensaje"</string>
-    <string name="sent_on" msgid="5868288548564632354">"Enviado: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="sent_on" msgid="5868288548564632354">"Enviados: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"Expira: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Mensaje no entregado"</string>
@@ -53,12 +53,12 @@
     <string name="delete_thread" msgid="757258847736632791">"Eliminar artículo"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Reenviar"</string>
     <string name="download" msgid="4488877642230207631">"Descargar"</string>
-    <string name="downloading" msgid="1779557575565350637">"Descargando"</string>
+    <string name="downloading" msgid="1779557575565350637">"Descarga"</string>
     <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Asunto: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Texto protegido por DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Se detectaron derechos de DRM insuficientes."</string>
-    <string name="copy_message_text" msgid="4640869459731924158">"Copiar texto del mensaje"</string>
+    <string name="copy_message_text" msgid="4640869459731924158">"Copiar el texto del mensaje"</string>
     <string name="message_options" msgid="6838806653341967550">"Opciones de mensaje"</string>
     <string name="done" msgid="7479926268660505871">"Finalizado"</string>
     <string name="move_up" msgid="7307578107431739359">"Mover arriba"</string>
@@ -75,19 +75,19 @@
     <string name="remove_music" msgid="858889733416015223">"Roaming de recup. Auto."</string>
     <string name="add_video" msgid="7816866867806595144">"Agregar video"</string>
     <string name="remove_video" msgid="5258603891528497799">"Suprimir video"</string>
-    <string name="compose_title" msgid="558578836596816068">"Componer"</string>
+    <string name="compose_title" msgid="558578836596816068">"Redactar"</string>
     <string name="to_hint" msgid="224029549150332986">"Para"</string>
     <string name="subject_hint" msgid="4296714962311604126">"Asunto"</string>
     <string name="add_attachment" msgid="7103751293360532684">"Adjuntar"</string>
     <string name="add_subject" msgid="7616134948428265870">"Agregar asunto"</string>
-    <string name="discard" msgid="1624800293064498479">"Eliminar"</string>
+    <string name="discard" msgid="1624800293064498479">"Descartar"</string>
     <string name="view" msgid="7929667761715467136">"Ver"</string>
     <string name="replace" msgid="7587904998114459388">"Reemplazar"</string>
     <string name="remove" msgid="4625444913256213175">"Eliminar"</string>
     <string name="send" msgid="4589898724889248486">"Enviar"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Todos los artículos"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Escribir para componer"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Tipear para redactar"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Abrir teclado para componer mensaje"</string>
     <string name="image_too_large" msgid="261880224164478061">"Imagen muy grande"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"¿Deseas ajustar el tamaño de la imagen automáticamente antes de enviar?"</string>
@@ -99,8 +99,8 @@
     <string name="failed_to_add_media" msgid="8272471485019037446">"Lo sentimos, pero no puedes agregar este nombre <xliff:g id="NAME">%1$s</xliff:g> a tu mensaje."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"El tamaño de la imagen no se ajustó."</string>
     <string name="resize_image_error_information" msgid="4897031754321114959">"Lo sentimos, pero aunque se ajuste el tamaño, esta imagen es demasiado grande para enviarse."</string>
-    <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
-    <string name="discard_message" msgid="6078326880056142781">"Eliminar"</string>
+    <string name="forward_prefix" msgid="276280492803486464">"Rv: "</string>
+    <string name="discard_message" msgid="6078326880056142781">"Descartar"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Tu mensaje se rechazará por no tener destinatarios válidos."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Destinatario(s) no válido(s): &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="7643854177921895615">"La dirección ingresada no es válida."</string>
@@ -133,7 +133,7 @@
     <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Escribe para componer o deja en blanco"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"La duración debe ser un número"</string>
     <string name="duration_zero" msgid="109945354056393575">"La duración debe ser superior a cero segundos"</string>
-    <string name="secs" msgid="6886003523109967972">"seg."</string>
+    <string name="secs" msgid="6886003523109967972">"segundos"</string>
   <string-array name="select_dialog_items">
     <item msgid="4840183714016984112">"1 segundo"</item>
     <item msgid="3734955613666864447">"2 segundos"</item>
@@ -145,7 +145,7 @@
     <item msgid="3400770414689795703">"8 segundos"</item>
     <item msgid="4358760614161107970">"9 segundos"</item>
     <item msgid="2618179407176906471">"10 segundos"</item>
-    <item msgid="6238597861937337981">"Otros…"</item>
+    <item msgid="6238597861937337981">"Otro…"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"Ver contacto"</string>
     <string name="menu_add_to_contacts" msgid="2978074583938544513">"Agregar a Contactos"</string>
@@ -193,7 +193,7 @@
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recup. Aut. en roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Recuperar mensajes automáticamente durante el roaming"</string>
     <string name="to_label" msgid="2355268818058389047">"Para "</string>
-    <string name="confirm_dialog_title" msgid="5810813994465120375">"Eliminar"</string>
+    <string name="confirm_dialog_title" msgid="5810813994465120375">"Suprimir"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"¿Deseas suprimir el mensaje bloqueado?"</string>
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Se eliminará todo el artículo."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Todos los artículos se eliminarán."</string>
@@ -214,12 +214,12 @@
     <string name="to_address_label" msgid="5837363600471845801">"Para: "</string>
     <string name="bcc_label" msgid="530867161453958774">"CCO: "</string>
     <string name="sent_label" msgid="2722190650145251584">"Enviado: "</string>
-    <string name="received_label" msgid="8618029024731693906">"Recibido: "</string>
+    <string name="received_label" msgid="8618029024731693906">"Recibidos: "</string>
     <string name="saved_label" msgid="4183160415593488207">"Guardado: "</string>
     <string name="subject_label" msgid="8721241914144101631">"Asunto: "</string>
     <string name="message_size_label" msgid="4698016210013319786">"Tamaño del mensaje: "</string>
     <string name="priority_label" msgid="7397600367853359607">"Prioridad: "</string>
-    <string name="priority_high" msgid="5627897207952009214">"High"</string>
+    <string name="priority_high" msgid="5627897207952009214">"Alta"</string>
     <string name="priority_normal" msgid="5715227727384683550">"Normal"</string>
     <string name="priority_low" msgid="8928782666023373987">"Bajo"</string>
     <string name="message_class_label" msgid="5115748690481550562">"Clase de mensaje: "</string>
@@ -232,7 +232,7 @@
     <string name="menu_lock" msgid="136863583207382259">"Bloquear mensaje"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Desbloquear mensaje"</string>
     <string name="sim_copy_to_phone_memory" msgid="5895767417844881971">"Copiar a memoria del teléfono"</string>
-    <string name="sim_delete" msgid="610790510655316922">"Eliminar"</string>
+    <string name="sim_delete" msgid="610790510655316922">"Suprimir"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Mensajes de texto en tarjeta SIM"</string>
     <string name="sim_view" msgid="1997173541766393706">"Ver"</string>
     <string name="sim_empty" msgid="1763174398613486328">"No hay mensajes en la tarjeta SIM."</string>
@@ -240,8 +240,8 @@
     <string name="status_none" msgid="8253075950774894961">"(Ninguno)"</string>
     <string name="status_pending" msgid="2739860824607984892">"Pendiente"</string>
     <string name="status_read" msgid="7576195253780627332">"Leídos"</string>
-    <string name="status_received" msgid="7264334589461906965">"Recibido"</string>
-    <string name="status_failed" msgid="1998776666856593544">"No es correcto"</string>
+    <string name="status_received" msgid="7264334589461906965">"Recibidos"</string>
+    <string name="status_failed" msgid="1998776666856593544">"Incorrecto"</string>
     <string name="status_unread" msgid="8555305495998700198">"No leídos"</string>
     <string name="status_rejected" msgid="2613641949065942678">"Rechazada"</string>
     <string name="recipient_label" msgid="3922667485312634446">"Destinatario: "</string>
@@ -274,7 +274,7 @@
     <string name="message_queued" msgid="8869479754825264671">"En este momento, no es posible enviar tu mensaje. Se enviará cuando el servicio esté disponible."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Sin asunto)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Emisor desconocido"</string>
-    <string name="dl_failure_notification" msgid="2457080452886498701">"La descarga sobre <xliff:g id="SUBJECT">%s</xliff:g> del mensaje desde \n <xliff:g id="FROM">%s</xliff:g> no se ha realizado correctamente."</string>
+    <string name="dl_failure_notification" msgid="2457080452886498701">"La descarga sobre <xliff:g id="SUBJECT">%s</xliff:g> del mensaje desde  <xliff:g id="FROM">%s</xliff:g> no se ha realizado correctamente."</string>
     <string name="dl_expired_notification" msgid="950390029992535809">"Este mensaje ha vencido y será eliminado."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Confirmar"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Se está enviando una gran cantidad de mensajes multimedia. ¿Es correcto?"</string>
@@ -294,7 +294,7 @@
     <string name="slide_number" msgid="1923958526266726635">"Diapositiva <xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
     <item quantity="one" msgid="1654101988340583935">"<xliff:g id="NUMBER">%s</xliff:g>segundo"</item>
-    <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g>segundos"</item>
+    <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g> segundos"</item>
     <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g>segundos"</item>
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"Informe de entrega"</string>

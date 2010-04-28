@@ -102,7 +102,7 @@
     <string name="forward_prefix" msgid="276280492803486464">"WG: "</string>
     <string name="discard_message" msgid="6078326880056142781">"Verwerfen"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Die Nachricht wird verworfen, da keine gültigen Empfänger für sie vorhanden sind."</string>
-    <string name="has_invalid_recipient" msgid="1485388396900997383">"Ungültige Empfänger: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
+    <string name="has_invalid_recipient" msgid="1485388396900997383">"Ungültige(r) Empfänger: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="7643854177921895615">"Sie haben eine ungültige Adresse eingegeben."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Korrigieren Sie die Empfänger, da sie die Nachricht sonst nicht empfangen können."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Nachricht kann nicht gesendet werden."</string>
@@ -125,7 +125,7 @@
     <string name="preview" msgid="5438149136136446756">"Vorschau"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Vorschau"</string>
     <string name="replace_image" msgid="3171240952601443619">"Bild ersetzen"</string>
-    <string name="duration_sec" msgid="6617032324007824096">"Dauer (<xliff:g id="DURATION">%s</xliff:g> s)"</string>
+    <string name="duration_sec" msgid="6617032324007824096">"Dauer (<xliff:g id="DURATION">%s</xliff:g> Sek.)"</string>
     <string name="duration_selector_title" msgid="5981097971537625852">"Dauer für Dia "</string>
     <string name="layout_selector_title" msgid="7344600117972450771">"Layout der Diashow "</string>
     <string name="layout_top" msgid="6811021650398972346">"Layout (oben)"</string>
