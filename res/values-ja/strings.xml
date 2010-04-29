@@ -184,7 +184,7 @@
     <string name="pref_messages_to_save" msgid="3202539743892934926">"保存するメッセージ件数を設定"</string>
   <string-array name="prefEntries_vibrateWhen">
     <item msgid="2520871831815631409">"常に使用"</item>
-    <item msgid="6069709696037750627">"マナーモード設定時のみ"</item>
+    <item msgid="6069709696037750627">"マナーモード時のみ"</item>
     <item msgid="7486145357487111435">"使用しない"</item>
   </string-array>
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"バイブレーション"</string>

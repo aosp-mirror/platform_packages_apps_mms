@@ -131,7 +131,7 @@
     <string name="layout_top" msgid="6811021650398972346">"Diseño (arriba)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Diseño (abajo)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Introduce algún texto o deja el campo vacío."</string>
-    <string name="duration_not_a_number" msgid="8005480904677546322">"El valor de duración debe ser un número.\n"</string>
+    <string name="duration_not_a_number" msgid="8005480904677546322">"El valor de duración debe ser un número."</string>
     <string name="duration_zero" msgid="109945354056393575">"La duración debe ser superior a cero segundos."</string>
     <string name="secs" msgid="6886003523109967972">"s"</string>
   <string-array name="select_dialog_items">
@@ -291,7 +291,7 @@
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Error al guardar tono"</string>
     <string name="menu_insert_smiley" msgid="4964504393061025071">"Insertar emoticono"</string>
     <string name="select_link_title" msgid="600168208731216059">"Seleccionar acción"</string>
-    <string name="slide_number" msgid="1923958526266726635">"Diapositiva <xliff:g id="NUMBER">%s</xliff:g>\n"</string>
+    <string name="slide_number" msgid="1923958526266726635">"Diapositiva <xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
     <item quantity="one" msgid="1654101988340583935">"<xliff:g id="NUMBER">%s</xliff:g> segundos"</item>
     <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g> segundos"</item>

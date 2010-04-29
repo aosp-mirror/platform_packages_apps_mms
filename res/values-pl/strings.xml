@@ -316,8 +316,8 @@
     <string name="search_setting_description" msgid="4104004595086437572">"Tekst w wiadomościach"</string>
     <string name="search_empty" msgid="645052646985297065">"Brak wyników"</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> wynik dla zapytania „%s”"</item>
-    <item quantity="other" msgid="3778201725913692491">"<xliff:g id="NUMBER">%s</xliff:g> wyniki(-ów) dla zapytania „%s”"</item>
+    <item quantity="one" msgid="675571420878010439">"Liczba wyników dla zapytania „%s”: <xliff:g id="NUMBER">%s</xliff:g>"</item>
+    <item quantity="other" msgid="3778201725913692491">"Liczba wyników dla zapytania „%s”: <xliff:g id="NUMBER">%s</xliff:g>"</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"Liczba wyników dla zapytania „<xliff:g id="SEARCH">%s</xliff:g>”: <xliff:g id="COUNT">%s</xliff:g>"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Wyczyść"</string>
