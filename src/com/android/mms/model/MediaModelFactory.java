@@ -61,6 +61,7 @@ public class MediaModelFactory {
         PduPart part = null;
 
         if (src != null) {
+            src = unescapeXML(src);
             if (src.startsWith("cid:")) {
                 part = pb.getPartByContentId("<" + src.substring("cid:".length()) + ">");
             } else {
@@ -79,6 +80,14 @@ public class MediaModelFactory {
         }
 
         throw new IllegalArgumentException("No part found for the model.");
+    }
+
+    private static String unescapeXML(String str) {
+        return str.replaceAll("&lt;","<")
+            .replaceAll("&gt;", ">")
+            .replaceAll("&quot;","\"")
+            .replaceAll("&apos;","'")
+            .replaceAll("&amp;", "&");
     }
 
     private static MediaModel getRegionMediaModel(Context context,
