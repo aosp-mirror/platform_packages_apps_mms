@@ -251,6 +251,7 @@ public class ComposeMessageActivity extends Activity
     private WorkingMessage mWorkingMessage;         // The message currently being composed.
 
     private AlertDialog mSmileyDialog;
+    private int Threshold=MessagingPreferenceActivity.pages;
 
     private boolean mWaitingForSubActivity;
     private int mLastRecipientCount;            // Used for warning the user on too many recipients.
@@ -404,7 +405,7 @@ public class ComposeMessageActivity extends Activity
         int remainingInCurrentMessage = params[2];
 
         // Force send as MMS once the number of SMSes required reaches a configurable threshold.
-        mWorkingMessage.setLengthRequiresMms(msgCount >= MmsConfig.getSmsToMmsTextThreshold());
+        mWorkingMessage.setLengthRequiresMms(msgCount >= Threshold);
 
         // Show the counter only if:
         // - We are not in MMS mode

@@ -20,6 +20,8 @@ package com.android.mms.ui;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -57,8 +59,14 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
     private Preference mSmsLimitPref;
     private Preference mMmsLimitPref;
     private Preference mManageSimPref;
+    private Preference mManagesmspages;
     private Recycler mSmsRecycler;
     private Recycler mMmsRecycler;
+    AlertDialog ab;
+    private  int index=0;
+    private static int position=0;
+    public static int pages=4;
+    final String items[] = {"3 (default)","4","5","6"};
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -68,6 +76,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         mManageSimPref = findPreference("pref_key_manage_sim_messages");
         mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
         mMmsLimitPref = findPreference("pref_key_mms_delete_limit");
+        mManagesmspages = findPreference("pref_key_message_page_setting");
 
         if (!TelephonyManager.getDefault().hasIccCard()) {
             // No SIM card, remove the SIM-related prefs
@@ -142,6 +151,33 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
                     R.string.pref_title_mms_delete).show();
         } else if (preference == mManageSimPref) {
             startActivity(new Intent(this, ManageSimMessages.class));
+        } else if (preference == mManagesmspages) {
+            AlertDialog.Builder ab=new AlertDialog.Builder(this);
+                   ab.setTitle(com.android.mms.R.string.no_of_msg_pages);
+                   ab.setSingleChoiceItems(items, position,new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int whichButton) {
+ 		                  index=whichButton;
+ 		            }
+ 	        })
+ 	        .setPositiveButton(com.android.mms.R.string.dlg_ok, new DialogInterface.OnClickListener() {
+ 	            public void onClick(DialogInterface dialog, int whichButton) {
+ 	            	position=index;
+ 	            	if(index==0){
+ 	            		pages=4;
+ 	            	}
+ 	            	else{
+ 	            	pages=Integer.parseInt(items[index].trim())+1;
+ 	            	}
+ 		                    
+ 	                            }
+ 		        })
+ 		        .setNegativeButton(com.android.mms.R.string.dlg_cancel, new             DialogInterface.OnClickListener() {
+ 		            public void onClick(DialogInterface dialog, int whichButton) {
+ 		            	
+ 		            	dialog.cancel();
+ 	            }
+ 	        });
+ 		        ab.show();
         }
 
         return super.onPreferenceTreeClick(preferenceScreen, preference);

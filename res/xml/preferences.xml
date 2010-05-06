@@ -44,6 +44,9 @@
     <Preference android:key="pref_key_manage_sim_messages"
                       android:summary="@string/pref_summary_manage_sim_messages"
                       android:title="@string/pref_title_manage_sim_messages" />
+    <Preference android:key="pref_key_message_page_setting"
+                     android:summary="@string/pref_summary_messages_setting"
+                     android:title="@string/pref_title_messages_setting"/>
   </PreferenceCategory>
   <PreferenceCategory android:title="@string/pref_mms_settings_title"
                       android:key="pref_key_mms_settings">

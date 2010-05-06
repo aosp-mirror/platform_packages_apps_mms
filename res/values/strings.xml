@@ -107,6 +107,16 @@
     <string name="copy_message_text">Copy message text</string>
     <!-- Header for context menu on an individual message -->
     <string name="message_options">Message options</string>
+    <!-- Title for Setting Number of pages in SMS -->
+    <string name="pref_title_messages_setting">No.of Pages For SMS</string>
+    <!-- Summary for Setting Number of pages in SMS-->
+    <string name="pref_summary_messages_setting">Select No.of Pages for sending sms</string>
+    <!-- Dialog Header for Setting Number of pages -->
+    <string name="no_of_msg_pages">No.of Message Pages</string>
+    <!-- OK button title -->
+    <string name="dlg_ok">Ok</string>
+    <!-- Cancel button title -->
+    <string name="dlg_cancel">Cancel</string>
 
     <!-- Button text on edit slide screen indicating the user wants to finish editing that slide -->
     <string name="done">Done</string>
