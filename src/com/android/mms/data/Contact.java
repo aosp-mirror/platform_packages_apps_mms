@@ -401,7 +401,10 @@ public class Contact {
             if (V) logWithTrace("get(%s, %s)", number, canBlock);
 
             if (TextUtils.isEmpty(number)) {
-                throw new IllegalArgumentException("Contact.get called with null or empty number");
+                number = "";        // In some places (such as Korea), it's possible to receive
+                                    // a message without the sender's address. In this case,
+                                    // all such anonymous messages will get added to the same
+                                    // thread.
             }
 
             // Always return a Contact object, if if we don't have an actual contact
