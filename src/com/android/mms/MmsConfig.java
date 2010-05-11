@@ -58,7 +58,7 @@ public class MmsConfig {
     private static int mDefaultMMSMessagesPerThread = 20;       // default value
     private static int mMinMessageCountPerThread = 2;           // default value
     private static int mMaxMessageCountPerThread = 5000;        // default value
-    private static int mSmsToMmsTextThreshold = 4;              // default value
+    private static int mSmsToMmsTextThreshold = 7;              // default value
     private static int mHttpSocketTimeout = 60*1000;            // default to 1 min
     private static int mMinimumSlideElementDuration = 7;        // default to 7 sec
     private static boolean mNotifyWapMMSC = false;
