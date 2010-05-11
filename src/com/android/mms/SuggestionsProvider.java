@@ -17,7 +17,6 @@
 package com.android.mms;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Map;
 
 import android.app.SearchManager;
@@ -92,9 +91,11 @@ public class SuggestionsProvider extends android.content.ContentProvider {
         int mColumnCount;
         int mCurrentRow;
         ArrayList<Row> mRows = new ArrayList<Row>();
+        String mQuery;
 
         public SuggestionsCursor(Cursor cursor, String query) {
             mDatabaseCursor = cursor;
+            mQuery = query;
 
             mColumnCount = cursor.getColumnCount();
             try {
@@ -112,48 +113,54 @@ public class SuggestionsProvider extends android.content.ContentProvider {
         }
 
         private class Row {
-            public Row(int row, String text, int startOffset, int endOffset) {
+            public Row(int row, long sourceId, long which, String text, int startOffset, int endOffset) {
                 mText = text;
                 mRowNumber = row;
                 mStartOffset = startOffset;
                 mEndOffset = endOffset;
+                mSourceId = sourceId;
+                mWhich = which;
             }
             String mText;
             int mRowNumber;
             int mStartOffset;
             int mEndOffset;
+            long mSourceId;
+            long mWhich;
 
             public String getWord() {
-                return mText.substring(mStartOffset, mEndOffset);
+                return mText;
             }
         }
 
+        /*
+         * Compute 1 or more rows for each row in the database.  This is necessary if
+         * we decide to show multiple matches for a given row (for example, foo giving
+         * a result for food and another result for fool.
+         *
+         * In the current implementation of this method we only return a single result
+         * for each database row.
+         */
         private void computeRows() {
-            HashSet<String> got = new HashSet<String>();
-
             int textColumn = mDatabaseCursor.getColumnIndex("index_text");
             int offsetsColumn = mDatabaseCursor.getColumnIndex("offsets(words)");
+            int sourceIdColumn = mDatabaseCursor.getColumnIndex("source_id");
+            int whichColumn = mDatabaseCursor.getColumnIndex("table_to_use");
 
             int count = mDatabaseCursor.getCount();
             for (int i = 0; i < count; i++) {
                 mDatabaseCursor.moveToPosition(i);
                 String message = mDatabaseCursor.getString(textColumn);
+                long which = mDatabaseCursor.getLong(whichColumn);
 
                 int [] offsets = computeOffsets(mDatabaseCursor.getString(offsetsColumn));
-                for (int j = 0; j < offsets.length; j += 4) {
-//                  int columnNumber = offsets[j+0];
-//                  int termNumber   = offsets[j+1];
-                    int startOffset  = offsets[j+2];
-                    int length       = offsets[j+3];
-                    int endOffset = startOffset + length;
-                    String candidate = message.substring(startOffset, endOffset);
-                    String key = candidate.toLowerCase();
-                    if (got.contains(key)) {
-                        continue;
-                    }
-                    got.add(key);
-                    mRows.add(new Row(i, message, startOffset, endOffset));
-                }
+
+                // just use the first match
+                int startOffset  = offsets[2];
+                int length       = offsets[3];
+                int endOffset    = startOffset + length;
+                long sourceId    = mDatabaseCursor.getLong(sourceIdColumn);
+                mRows.add(new Row(i, sourceId, which, message, startOffset, endOffset));
             }
         }
 
@@ -225,7 +232,7 @@ public class SuggestionsProvider extends android.content.ContentProvider {
                 SearchManager.SUGGEST_COLUMN_INTENT_DATA,
                 SearchManager.SUGGEST_COLUMN_INTENT_ACTION,
                 SearchManager.SUGGEST_COLUMN_INTENT_EXTRA_DATA,
-                SearchManager.SUGGEST_COLUMN_TEXT_1
+                SearchManager.SUGGEST_COLUMN_TEXT_1,
             };
 
         // Cursor column offsets for the above virtual columns.
@@ -297,19 +304,28 @@ public class SuggestionsProvider extends android.content.ContentProvider {
         }
 
         public String getString(int column) {
+            // if we're returning one of the columns in the underlying database column
+            // then do so here
             if (column < mColumnCount) {
                 return mDatabaseCursor.getString(column);
             }
 
+            // otherwise we're returning one of the synthetic columns.
+            // the constants like INTENT_DATA_COLUMN are offsets relative to
+            // mColumnCount.
             Row row = mRows.get(mCurrentRow);
             switch (column - mColumnCount) {
                 case INTENT_DATA_COLUMN:
-                    Uri u = Uri.parse("content://mms-sms/search").buildUpon().appendQueryParameter("pattern", row.getWord()).build();
+                    Uri.Builder b = Uri.parse("content://mms-sms/search").buildUpon();
+                    b = b.appendQueryParameter("pattern", SuggestionsCursor.this.mQuery);
+                    b = b.appendQueryParameter("source_id", String.valueOf(row.mSourceId));
+                    b = b.appendQueryParameter("which_table", String.valueOf(row.mWhich));
+                    Uri u = b.build();
                     return u.toString();
                 case INTENT_ACTION_COLUMN:
                     return Intent.ACTION_SEARCH;
                 case INTENT_EXTRA_DATA_COLUMN:
-                    return getString(getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
+                    return SuggestionsCursor.this.mQuery;
                 case INTENT_TEXT_COLUMN:
                     return row.getWord();
                 default:
