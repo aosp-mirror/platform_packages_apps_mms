@@ -333,19 +333,8 @@ public class SuggestionsProvider extends android.content.ContentProvider {
             }
         }
 
-        public void abortUpdates() {
-        }
-
         public void close() {
             mDatabaseCursor.close();
-        }
-
-        public boolean commitUpdates() {
-            return false;
-        }
-
-        public boolean commitUpdates(Map<? extends Long, ? extends Map<String, Object>> values) {
-            return false;
         }
 
         public void copyStringToBuffer(int columnIndex, CharArrayBuffer buffer) {
@@ -354,10 +343,6 @@ public class SuggestionsProvider extends android.content.ContentProvider {
 
         public void deactivate() {
             mDatabaseCursor.deactivate();
-        }
-
-        public boolean deleteRow() {
-            return false;
         }
 
         public byte[] getBlob(int columnIndex) {
@@ -405,10 +390,6 @@ public class SuggestionsProvider extends android.content.ContentProvider {
             return false;
         }
 
-        public boolean hasUpdates() {
-            return false;
-        }
-
         public boolean isAfterLast() {
             return mCurrentRow >= mRows.size();
         }
@@ -453,48 +434,12 @@ public class SuggestionsProvider extends android.content.ContentProvider {
             mDatabaseCursor.setNotificationUri(cr, uri);
         }
 
-        public boolean supportsUpdates() {
-            return false;
-        }
-
         public void unregisterContentObserver(ContentObserver observer) {
             mDatabaseCursor.unregisterContentObserver(observer);
         }
 
         public void unregisterDataSetObserver(DataSetObserver observer) {
             mDatabaseCursor.unregisterDataSetObserver(observer);
-        }
-
-        public boolean updateBlob(int columnIndex, byte[] value) {
-            return false;
-        }
-
-        public boolean updateDouble(int columnIndex, double value) {
-            return false;
-        }
-
-        public boolean updateFloat(int columnIndex, float value) {
-            return false;
-        }
-
-        public boolean updateInt(int columnIndex, int value) {
-            return false;
-        }
-
-        public boolean updateLong(int columnIndex, long value) {
-            return false;
-        }
-
-        public boolean updateShort(int columnIndex, short value) {
-            return false;
-        }
-
-        public boolean updateString(int columnIndex, String value) {
-            return false;
-        }
-
-        public boolean updateToNull(int columnIndex) {
-            return false;
         }
     }
 }
