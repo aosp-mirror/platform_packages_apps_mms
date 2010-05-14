@@ -12,7 +12,7 @@ LOCAL_PACKAGE_NAME := Mms
 # Builds against the public SDK
 #LOCAL_SDK_VERSION := current
 
-LOCAL_STATIC_JAVA_LIBRARIES += android-common
+LOCAL_STATIC_JAVA_LIBRARIES += android-common jsr305
 
 LOCAL_REQUIRED_MODULES := SoundRecorder
 
