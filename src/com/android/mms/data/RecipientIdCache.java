@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.concurrent.GuardedBy;
-import javax.annotation.concurrent.ThreadSafe;
-
 import android.content.Context;
 import android.content.ContentValues;
 import android.content.ContentUris;
@@ -20,7 +17,6 @@ import android.provider.Telephony;
 import com.android.mms.LogTag;
 import android.database.sqlite.SqliteWrapper;
 
-@ThreadSafe
 public class RecipientIdCache {
     private static final boolean LOCAL_DEBUG = false;
     private static final String TAG = "Mms/cache";
@@ -33,10 +29,7 @@ public class RecipientIdCache {
 
     private static RecipientIdCache sInstance;
     static RecipientIdCache getInstance() { return sInstance; }
-
-    @GuardedBy("this")
     private final Map<Long, String> mCache;
-
     private final Context mContext;
 
     public static class Entry {
@@ -119,7 +112,7 @@ public class RecipientIdCache {
                     if (Log.isLoggable(LogTag.THREAD_CACHE, Log.VERBOSE)) {
                         dump();
                     }
-
+                    
                     fill();
                     number = sInstance.mCache.get(longId);
                 }
@@ -151,24 +144,17 @@ public class RecipientIdCache {
             }
 
             String number1 = contact.getNumber();
-            boolean needsDbUpdate = false;
-            synchronized (sInstance) {
-                String number2 = sInstance.mCache.get(recipientId);
+            String number2 = sInstance.mCache.get(recipientId);
 
-                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                    Log.d(TAG, "[RecipientIdCache] updateNumbers: comparing " + number1 +
-                          " with " + number2);
-                }
-
-                // if the numbers don't match, let's update the RecipientIdCache's number
-                // with the new number in the contact.
-                if (!number1.equalsIgnoreCase(number2)) {
-                    sInstance.mCache.put(recipientId, number1);
-                    needsDbUpdate = true;
-                }
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                Log.d(TAG, "[RecipientIdCache] updateNumbers: comparing " + number1 +
+                        " with " + number2);
             }
-            if (needsDbUpdate) {
-                // Do this without the lock held.
+
+            // if the numbers don't match, let's update the RecipientIdCache's number
+            // with the new number in the contact.
+            if (!number1.equalsIgnoreCase(number2)) {
+                sInstance.mCache.put(recipientId, number1);
                 sInstance.updateCanonicalAddressInDb(recipientId, number1);
             }
         }
