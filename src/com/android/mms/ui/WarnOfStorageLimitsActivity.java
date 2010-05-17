@@ -23,8 +23,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 
 import com.android.internal.app.AlertActivity;
 import com.android.internal.app.AlertController;
@@ -36,7 +34,7 @@ public class WarnOfStorageLimitsActivity extends AlertActivity
             implements DialogInterface.OnClickListener {
     private static final String LOG_TAG = "WarnOfStorageLimitsActivity";
 
-    private static final int POSITIVE_BUTTON = AlertDialog.BUTTON1;
+    private static final int POSITIVE_BUTTON = AlertDialog.BUTTON_POSITIVE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
