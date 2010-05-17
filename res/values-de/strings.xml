@@ -313,7 +313,7 @@
     <string name="search_label" msgid="6042598929386174964">"SMS/MMS"</string>
     <string name="search_hint" msgid="7183732852849365466">"SMS/MMS durchsuchen"</string>
     <string name="search" msgid="7560238620274735199">"SMS/MMS"</string>
-    <string name="search_setting_description" msgid="4104004595086437572">"Text in Ihren Nachrichten"</string>
+    <string name="search_setting_description" msgid="4104004595086437572">"Text in meinen Nachrichten"</string>
     <string name="search_empty" msgid="645052646985297065">"Keine Übereinstimmungen"</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> Ergebnis für \"%s\""</item>

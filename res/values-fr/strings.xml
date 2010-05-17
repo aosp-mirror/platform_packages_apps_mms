@@ -96,7 +96,7 @@
     <string name="select_different_media" msgid="7573116916321879964">"Sélectionnez un autre <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Taille maximale atteinte pour ce message."</string>
     <string name="message_too_big_for_video" msgid="2639367545165352543">"Impossible de joindre une vidéo. Le message est trop volumineux."</string>
-    <string name="failed_to_add_media" msgid="8272471485019037446">"Désolé, vous ne pouvez pas ajouter cet élément à votre message : <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="failed_to_add_media" msgid="8272471485019037446">"Désolé, vous ne pouvez pas ajouter cet élément à votre message : <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"L\'image n\'a pas été redimensionnée."</string>
     <string name="resize_image_error_information" msgid="4897031754321114959">"Désolé, l\'image redimensionnée est toujours trop lourde."</string>
     <string name="forward_prefix" msgid="276280492803486464">"TR : "</string>
@@ -180,11 +180,11 @@
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Afficher les notifications de message dans la barre d\'état"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibreur"</string>
     <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibrer également à la réception d\'une notification"</string>
-    <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Sélectionner une sonnerie"</string>
+    <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Sonnerie"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Définir le nombre de messages à enregistrer"</string>
   <string-array name="prefEntries_vibrateWhen">
     <item msgid="2520871831815631409">"Toujours"</item>
-    <item msgid="6069709696037750627">"Seulement en mode silencieux"</item>
+    <item msgid="6069709696037750627">"En mode silencieux"</item>
     <item msgid="7486145357487111435">"Jamais"</item>
   </string-array>
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibreur"</string>
@@ -277,7 +277,7 @@
     <string name="dl_failure_notification" msgid="2457080452886498701">"Le téléchargement du message <xliff:g id="SUBJECT">%s</xliff:g> de <xliff:g id="FROM">%s</xliff:g> a échoué."</string>
     <string name="dl_expired_notification" msgid="950390029992535809">"Ce message est arrivé à expiration et sera supprimé."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Confirmer"</string>
-    <string name="confirm_rate_limit" msgid="234228299751243067">"Un grand nombre de messages multimédia est en cours d\'envoi. Voulez-vous continuer ?"</string>
+    <string name="confirm_rate_limit" msgid="234228299751243067">"Un grand nombre de messages multimédias est en cours d\'envoi. Voulez-vous continuer ?"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"Message non téléchargé"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"Le message n\'a pas été envoyé."</string>
     <string name="message_failed_body" msgid="2740907094762116644">"Sélectionnez le message pour le relire, puis réessayez."</string>
@@ -329,7 +329,7 @@
     <string name="storage_limits_message" msgid="8729608389698270388">"Souhaitez-vous limiter le nombre de messages enregistrés par conversation ?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"Définir les limites"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Aucune limite"</string>
-    <string name="too_many_unsent_mms" msgid="8005932837414848242">"Impossible d\'envoyer le message maintenant. Il existe un trop grand nombre de messages multimédia non envoyés."</string>
+    <string name="too_many_unsent_mms" msgid="8005932837414848242">"Impossible d\'envoyer le message maintenant. Il existe un trop grand nombre de messages multimédias non envoyés."</string>
     <string name="me" msgid="341726346007839961">"Moi"</string>
     <string name="sending_message" msgid="222836893217450538">"Envoi en cours…"</string>
 </resources>
