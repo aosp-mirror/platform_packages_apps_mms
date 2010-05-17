@@ -25,7 +25,7 @@
     <string name="create_new_message" msgid="8735943333953093860">"새 메시지 쓰기"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"<xliff:g id="NAME">%s</xliff:g>님에게 전화걸기"</string>
     <string name="menu_send_email" msgid="671366308915241664">"<xliff:g id="NAME">%s</xliff:g>에게 이메일 보내기"</string>
-    <string name="menu_compose_new" msgid="3763437973691046238">"편지쓰기"</string>
+    <string name="menu_compose_new" msgid="3763437973691046238">"새 메시지"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"설정"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"주소록에 <xliff:g id="NAME">%s</xliff:g>님을 추가"</string>
     <string name="menu_call" msgid="5877123227307074690">"전화걸기"</string>
@@ -75,8 +75,8 @@
     <string name="remove_music" msgid="858889733416015223">"음악 삭제"</string>
     <string name="add_video" msgid="7816866867806595144">"동영상 추가"</string>
     <string name="remove_video" msgid="5258603891528497799">"동영상 삭제"</string>
-    <string name="compose_title" msgid="558578836596816068">"편지쓰기"</string>
-    <string name="to_hint" msgid="224029549150332986">"다음 언어로 번역:"</string>
+    <string name="compose_title" msgid="558578836596816068">"새 메시지"</string>
+    <string name="to_hint" msgid="224029549150332986">"받는사람"</string>
     <string name="subject_hint" msgid="4296714962311604126">"제목"</string>
     <string name="add_attachment" msgid="7103751293360532684">"첨부"</string>
     <string name="add_subject" msgid="7616134948428265870">"제목 추가"</string>
