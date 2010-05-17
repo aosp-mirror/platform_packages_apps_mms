@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzH///iQ\u003d",
+        "filename": "src/com/android/mms/ui/NumberPickerDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000492
+      },
+      "writtenOn": "2010-05-17T19:40:14Z",
+      "side": 1,
+      "message": "This line exceeds 100 columns.",
+      "revId": "5f593e0ee83654a7ef40166feb4f9df3945e4327",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
