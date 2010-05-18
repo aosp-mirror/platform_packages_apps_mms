@@ -26,9 +26,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 
 /**
  * This is the UI for telling the user about the storage limit setting.
@@ -49,7 +47,7 @@ public class WarnOfStorageLimitsActivity extends Activity implements DialogInter
 
     private static final String LOG_TAG = "WarnOfStorageLimitsActivity";
 
-    private static final int POSITIVE_BUTTON = AlertDialog.BUTTON1;
+    private static final int POSITIVE_BUTTON = AlertDialog.BUTTON_POSITIVE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
