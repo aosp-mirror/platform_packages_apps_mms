@@ -255,19 +255,25 @@ public class Contact {
         return (mPersonId > 0);
     }
 
-    public static synchronized void addListener(UpdateListener l) {
-        mListeners.add(l);
+    public static void addListener(UpdateListener l) {
+        synchronized (mListeners) {
+            mListeners.add(l);
+        }
     }
 
-    public static synchronized void removeListener(UpdateListener l) {
-        mListeners.remove(l);
+    public static void removeListener(UpdateListener l) {
+        synchronized (mListeners) {
+            mListeners.remove(l);
+        }
     }
 
-    public static synchronized void dumpListeners() {
-        int i = 0;
-        Log.i(TAG, "[Contact] dumpListeners; size=" + mListeners.size());
-        for (UpdateListener listener : mListeners) {
-            Log.i(TAG, "["+ (i++) + "]" + listener);
+    public static void dumpListeners() {
+        synchronized (mListeners) {
+            int i = 0;
+            Log.i(TAG, "[Contact] dumpListeners; size=" + mListeners.size());
+            for (UpdateListener listener : mListeners) {
+                Log.i(TAG, "["+ (i++) + "]" + listener);
+            }
         }
     }
 
@@ -638,7 +644,7 @@ public class Contact {
                     // modifies the list of listeners
                     // access to mListeners is synchronized on ContactsCache
                     HashSet<UpdateListener> iterator;
-                    synchronized (ContactsCache.class) {
+                    synchronized (mListeners) {
                         iterator = (HashSet<UpdateListener>)Contact.mListeners.clone();
                     }
                     for (UpdateListener l : iterator) {
