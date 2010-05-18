@@ -44,7 +44,8 @@
 
     <!-- Minimum value for the number of messages kept per conversation. The user can never
          set the limit below this value. -->
-    <int name="minMessageCountPerThread">10</int>
+   <!-- Minimum value set in MMS Config.Java file for mMinMessageCountPerThread is 2 -->
+    <int name="minMessageCountPerThread">2</int>
 
     <!-- Maximum value for the number of messages kept per conversation. The user can never
          set the limit above this value. -->
