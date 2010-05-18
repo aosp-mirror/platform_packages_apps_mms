@@ -410,6 +410,10 @@ public class SuggestionsProvider extends android.content.ContentProvider {
             return mCurrentRow == mRows.size() - 1;
         }
 
+        public int getType(int columnIndex) {
+            throw new UnsupportedOperationException();  // TODO revisit
+        }
+
         public boolean isNull(int columnIndex) {
             return false;  // TODO revisit
         }
