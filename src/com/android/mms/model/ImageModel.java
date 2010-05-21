@@ -179,7 +179,9 @@ public class ImageModel extends RegionMediaModel {
             Log.e(TAG, e.getMessage(), e);
             return null;
         } catch (OutOfMemoryError ex) {
-            MessageUtils.writeHprofDataToFile();
+            if (DEBUG) {
+                MessageUtils.writeHprofDataToFile();
+            }
             throw ex;
         } finally {
             if (input != null) {
