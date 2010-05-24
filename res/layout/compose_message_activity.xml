@@ -69,6 +69,7 @@
             android:transcriptMode="alwaysScroll"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollbarStyle="insideInset"
+            android:smoothScrollbar="false"
             android:stackFromBottom="true"
             android:visibility="gone"
             android:fadingEdge="none"
