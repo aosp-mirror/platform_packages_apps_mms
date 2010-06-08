@@ -256,6 +256,8 @@ public class ComposeMessageActivity extends Activity
     private int mLastRecipientCount;            // Used for warning the user on too many recipients.
     private ContactHeaderWidget mContactHeader;
     private AttachmentTypeSelectorAdapter mAttachmentTypeSelectorAdapter;
+    
+    private CharSequence mSubjectText; 
 
     @SuppressWarnings("unused")
     private static void log(String logMsg) {
@@ -1641,16 +1643,24 @@ public class ComposeMessageActivity extends Activity
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             log("showSubjectEditor: " + show);
         }
-
+        
         if (mSubjectTextEditor == null) {
+        	
             // Don't bother to initialize the subject editor if
             // we're just going to hide it.
             if (show == false) {
                 return;
             }
             mSubjectTextEditor = (EditText)findViewById(R.id.subject);
+        }else{
+        	 if(mSubjectText==null)mSubjectText=mSubjectTextEditor.getText(); 
+        	 
+	     	 if(mSubjectText!=null){         		
+	        		show = true;
+	        		mWorkingMessage.setSubject(mSubjectText, true);
+	        	}
         }
-
+      
         mSubjectTextEditor.setOnKeyListener(show ? mSubjectKeyListener : null);
 
         if (show) {
@@ -2176,6 +2186,8 @@ public class ComposeMessageActivity extends Activity
                 mSubjectTextEditor.requestFocus();
                 break;
             case MENU_ADD_ATTACHMENT:
+            	if(mSubjectTextEditor!=null)
+                     mSubjectText=mSubjectTextEditor.getText();      	
                 // Launch the add-attachment list dialog
                 showAddAttachmentDialog();
                 break;
@@ -2311,6 +2323,7 @@ public class ComposeMessageActivity extends Activity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	
         if (DEBUG) {
             log("onActivityResult: requestCode=" + requestCode
                     + ", resultCode=" + resultCode + ", data=" + data);
