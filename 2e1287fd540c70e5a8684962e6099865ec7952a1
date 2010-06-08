@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX///Qo\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1654,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2010-06-08T15:13:32Z",
+      "side": 1,
+      "message": "} else {",
+      "revId": "2e1287fd540c70e5a8684962e6099865ec7952a1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///Qk\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1655,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2010-06-08T15:13:32Z",
+      "side": 1,
+      "message": "if (mSubjectText \u003d\u003d null) {\n   mSubjectText \u003d mSubjectTextEditor.getText();\n}\n....",
+      "revId": "2e1287fd540c70e5a8684962e6099865ec7952a1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///Qg\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1661,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2010-06-08T15:13:32Z",
+      "side": 1,
+      "message": "random, bogus indentation",
+      "revId": "2e1287fd540c70e5a8684962e6099865ec7952a1",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
