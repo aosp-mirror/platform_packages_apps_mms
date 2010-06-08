@@ -257,6 +257,8 @@ public class ComposeMessageActivity extends Activity
     private ContactHeaderWidget mContactHeader;
     private AttachmentTypeSelectorAdapter mAttachmentTypeSelectorAdapter;
 
+    private CharSequence mSubjectText;
+
     @SuppressWarnings("unused")
     private static void log(String logMsg) {
         Thread current = Thread.currentThread();
@@ -1649,6 +1651,14 @@ public class ComposeMessageActivity extends Activity
                 return;
             }
             mSubjectTextEditor = (EditText)findViewById(R.id.subject);
+        }else{
+                 if(mSubjectText==null)
+                      mSubjectText=mSubjectTextEditor.getText();
+
+                  if(mSubjectText!=null){
+                          show = true;
+                          mWorkingMessage.setSubject(mSubjectText, true);
+                      }
         }
 
         mSubjectTextEditor.setOnKeyListener(show ? mSubjectKeyListener : null);
@@ -2176,6 +2186,8 @@ public class ComposeMessageActivity extends Activity
                 mSubjectTextEditor.requestFocus();
                 break;
             case MENU_ADD_ATTACHMENT:
+                if(mSubjectTextEditor!=null)
+                     mSubjectText=mSubjectTextEditor.getText();
                 // Launch the add-attachment list dialog
                 showAddAttachmentDialog();
                 break;
