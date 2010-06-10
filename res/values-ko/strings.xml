@@ -44,7 +44,7 @@
     <string name="view_message_details" msgid="2443165773568096234">"메시지 세부정보 보기"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"보고서 보기"</string>
     <string name="delete_message" msgid="8888447283788388395">"메시지 삭제"</string>
-    <string name="sent_on" msgid="5868288548564632354">"보낸 날짜: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="sent_on" msgid="5868288548564632354">"보낸 시간: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"만료 날짜: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"전송되지 않은 메시지"</string>
