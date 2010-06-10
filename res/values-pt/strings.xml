@@ -175,7 +175,7 @@
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Relatórios de entrega"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Excluir antigas"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limite de mensagens de texto"</string>
-    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite de mensagens multimídia"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite de mens. multimídia"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notificações"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Exibe notificações de mensagem na barra de status"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibrar"</string>
