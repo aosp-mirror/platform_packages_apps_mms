@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAzX//+Wc\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2189,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2010-06-15T14:43:07Z",
+      "side": 1,
+      "message": "also, we use braces around single-single if bodies....\n\nif (mSubjectTextEditor !\u003d null) {\n    mSubjectText \u003d mSubjectTextEditor.getText();\n}",
+      "revId": "664e3ca9ba6f92f8af0ac65d067f1226de30dea3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAzX//+Wo\u003d",
         "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
         "patchSetId": 1
