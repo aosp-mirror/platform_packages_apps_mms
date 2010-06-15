@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX//+W4\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1655,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2010-06-15T14:41:32Z",
+      "side": 1,
+      "message": "spaces around \u003d\u003d",
+      "revId": "664e3ca9ba6f92f8af0ac65d067f1226de30dea3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+W0\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1656,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2010-06-15T14:41:32Z",
+      "side": 1,
+      "message": "spaces around \u003d",
+      "revId": "664e3ca9ba6f92f8af0ac65d067f1226de30dea3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Ww\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1658,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2010-06-15T14:41:32Z",
+      "side": 1,
+      "message": "spaces around !\u003d",
+      "revId": "664e3ca9ba6f92f8af0ac65d067f1226de30dea3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Ws\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2189,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2010-06-15T14:41:32Z",
+      "side": 1,
+      "message": "spaces around !\u003d",
+      "revId": "664e3ca9ba6f92f8af0ac65d067f1226de30dea3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Wo\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2190,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2010-06-15T14:41:32Z",
+      "side": 1,
+      "message": "spaces around \u003d",
+      "revId": "664e3ca9ba6f92f8af0ac65d067f1226de30dea3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
