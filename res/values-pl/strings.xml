@@ -274,7 +274,7 @@
     <string name="message_queued" msgid="8869479754825264671">"Nie można w tej chwili wysłać wiadomości. Zostanie ona wysłana, gdy usługa będzie dostępna."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Brak tematu)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Nieznany nadawca"</string>
-    <string name="dl_failure_notification" msgid="2457080452886498701">"Pobieranie wiadomości <xliff:g id="SUBJECT">%s</xliff:g> od <xliff:g id="FROM">%s</xliff:g> zakończyło się niepowodzeniem."</string>
+    <string name="dl_failure_notification" msgid="2457080452886498701">"Pobieranie wiadomości <xliff:g id="SUBJECT">%1$s</xliff:g> od <xliff:g id="FROM">%2$s</xliff:g> zakończyło się niepowodzeniem."</string>
     <string name="dl_expired_notification" msgid="950390029992535809">"Ta wiadomość wygasła i zostanie usunięta."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Potwierdź"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Wysyłanych jest wiele wiadomości multimedialnych. Czy to jest OK?"</string>
@@ -316,10 +316,10 @@
     <string name="search_setting_description" msgid="4104004595086437572">"Tekst w wiadomościach"</string>
     <string name="search_empty" msgid="645052646985297065">"Brak wyników"</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="675571420878010439">"Liczba wyników dla zapytania „%s”: <xliff:g id="NUMBER">%s</xliff:g>"</item>
-    <item quantity="other" msgid="3778201725913692491">"Liczba wyników dla zapytania „%s”: <xliff:g id="NUMBER">%s</xliff:g>"</item>
+    <item quantity="one" msgid="675571420878010439">"Liczba wyników dla zapytania „%2$s”: <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
+    <item quantity="other" msgid="3778201725913692491">"Liczba wyników dla zapytania „%2$s”: <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
   </plurals>
-    <string name="search_history" msgid="4127805495662693154">"Liczba wyników dla zapytania „<xliff:g id="SEARCH">%s</xliff:g>”: <xliff:g id="COUNT">%s</xliff:g>"</string>
+    <string name="search_history" msgid="4127805495662693154">"Liczba wyników dla zapytania „<xliff:g id="SEARCH">%2$s</xliff:g>”: <xliff:g id="COUNT">%1$s</xliff:g>"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Wyczyść"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"Historia wyszukiwania zostanie wyczyszczona."</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Wyczyść historię wyszukiwania"</string>
