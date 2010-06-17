@@ -275,7 +275,7 @@
     <string name="message_queued" msgid="8869479754825264671">"В настоящий момент отправить сообщение невозможно. Сообщение будет отправлено, когда появится доступ к службе."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Без темы)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Неизвестный отправитель"</string>
-    <string name="dl_failure_notification" msgid="2457080452886498701">"Загрузка сообщения <xliff:g id="SUBJECT">%s</xliff:g> от пользователя <xliff:g id="FROM">%s</xliff:g> не удалась."</string>
+    <string name="dl_failure_notification" msgid="2457080452886498701">"Загрузка сообщения <xliff:g id="SUBJECT">%1$s</xliff:g> от пользователя <xliff:g id="FROM">%2$s</xliff:g> не удалась."</string>
     <string name="dl_expired_notification" msgid="950390029992535809">"Это сообщение устарело и будет удалено."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Подтвердить"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Отправляется большое количество MMS. Продолжить?"</string>
@@ -317,10 +317,10 @@
     <string name="search_setting_description" msgid="4104004595086437572">"Текст в сообщениях"</string>
     <string name="search_empty" msgid="645052646985297065">"Соответствий нет"</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="675571420878010439">"Результатов по запросу \"%s\": <xliff:g id="NUMBER">%s</xliff:g>"</item>
-    <item quantity="other" msgid="3778201725913692491">"Результатов по запросу \"%s\": <xliff:g id="NUMBER">%s</xliff:g>"</item>
+    <item quantity="one" msgid="675571420878010439">"Результатов по запросу \"%2$s\": <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
+    <item quantity="other" msgid="3778201725913692491">"Результатов по запросу \"%2$s\": <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
   </plurals>
-    <string name="search_history" msgid="4127805495662693154">"Результатов для \"<xliff:g id="SEARCH">%s</xliff:g>\": <xliff:g id="COUNT">%s</xliff:g>"</string>
+    <string name="search_history" msgid="4127805495662693154">"Результатов для \"<xliff:g id="SEARCH">%2$s</xliff:g>\": <xliff:g id="COUNT">%1$s</xliff:g>"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Очистить"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"История поиска будет удалена."</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Очистить историю поиска"</string>

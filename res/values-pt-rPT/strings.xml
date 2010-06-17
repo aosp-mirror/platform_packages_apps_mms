@@ -274,7 +274,7 @@
     <string name="message_queued" msgid="8869479754825264671">"De momento não é possível enviar a mensagem. Esta será enviada quando o serviço estiver disponível."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Sem assunto)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Remetente desconhecido"</string>
-    <string name="dl_failure_notification" msgid="2457080452886498701">"Falha·ao·transferir·a·mensagem <xliff:g id="SUBJECT">%s</xliff:g> de <xliff:g id="FROM">%s</xliff:g>."</string>
+    <string name="dl_failure_notification" msgid="2457080452886498701">"Falha·ao·transferir·a·mensagem <xliff:g id="SUBJECT">%1$s</xliff:g> de <xliff:g id="FROM">%2$s</xliff:g>."</string>
     <string name="dl_expired_notification" msgid="950390029992535809">"Esta mensagem expirou e vai ser eliminada."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Confirmar"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Está a ser enviado um grande número de mensagens multimédia. Está de acordo?"</string>
@@ -319,7 +319,7 @@
     <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> resultado para \"%s\""</item>
     <item quantity="other" msgid="3778201725913692491">"<xliff:g id="NUMBER">%s</xliff:g> resultados para \"%s\""</item>
   </plurals>
-    <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%s</xliff:g> resultados para \"<xliff:g id="SEARCH">%s</xliff:g>\""</string>
+    <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> resultados para \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Limpar"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"O histórico de pesquisas será limpo."</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Limpar histórico de pesquisas"</string>

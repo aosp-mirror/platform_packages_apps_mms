@@ -274,7 +274,7 @@
     <string name="message_queued" msgid="8869479754825264671">"Δεν είναι δυνατή η αποστολή του μηνύματός σας αυτήν τη στιγμή. Η αποστολή θα πραγματοποιηθεί όταν η υπηρεσία θα είναι διαθέσιμη."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Χωρίς θέμα)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Άγνωστος αποστολέας"</string>
-    <string name="dl_failure_notification" msgid="2457080452886498701">"Η λήψη του μηνύματος <xliff:g id="SUBJECT">%s</xliff:g> από <xliff:g id="FROM">%s</xliff:g> απέτυχε."</string>
+    <string name="dl_failure_notification" msgid="2457080452886498701">"Η λήψη του μηνύματος <xliff:g id="SUBJECT">%1$s</xliff:g> από <xliff:g id="FROM">%2$s</xliff:g> απέτυχε."</string>
     <string name="dl_expired_notification" msgid="950390029992535809">"Αυτό το μήνυμα έχει λήξει και θα διαγραφεί."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Επιβεβαίωση"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Γίνεται αποστολή μεγάλου αριθμού μηνυμάτων πολυμέσων. OK;"</string>
@@ -319,7 +319,7 @@
     <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> αποτέλεσμα για \"%s\""</item>
     <item quantity="other" msgid="3778201725913692491">"<xliff:g id="NUMBER">%s</xliff:g> αποτελέσματα για \"%s\""</item>
   </plurals>
-    <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%s</xliff:g> αποτελέσματα για \"<xliff:g id="SEARCH">%s</xliff:g>\""</string>
+    <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> αποτελέσματα για \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Εκκαθάριση"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"Το ιστορικό αναζήτησης θα εκκαθαριστεί."</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Εκκαθάριση ιστορικού αναζήτησης"</string>

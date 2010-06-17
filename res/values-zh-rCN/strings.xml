@@ -274,7 +274,7 @@
     <string name="message_queued" msgid="8869479754825264671">"当前无法发送信息，将在服务恢复后发送。"</string>
     <string name="no_subject" msgid="4168963736134552285">"（无主题）"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"未知发送者"</string>
-    <string name="dl_failure_notification" msgid="2457080452886498701">"下载来自<xliff:g id="FROM">%s</xliff:g>的<xliff:g id="SUBJECT">%s</xliff:g>信息失败。"</string>
+    <string name="dl_failure_notification" msgid="2457080452886498701">"下载来自<xliff:g id="FROM">%2$s</xliff:g>的<xliff:g id="SUBJECT">%1$s</xliff:g>信息失败。"</string>
     <string name="dl_expired_notification" msgid="950390029992535809">"此短信已过期，将被删除。"</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"确认"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"即将发送多条彩信。确定要这样做吗？"</string>
@@ -319,7 +319,7 @@
     <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> 项符合“%s”的搜索结果"</item>
     <item quantity="other" msgid="3778201725913692491">"<xliff:g id="NUMBER">%s</xliff:g> 项符合“%s”的搜索结果"</item>
   </plurals>
-    <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%s</xliff:g> 项符合“<xliff:g id="SEARCH">%s</xliff:g>”的搜索结果"</string>
+    <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> 项符合“<xliff:g id="SEARCH">%2$s</xliff:g>”的搜索结果"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"清除"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"搜索历史记录将被清除。"</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"清除搜索历史记录"</string>
