@@ -79,6 +79,7 @@ import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
@@ -1382,7 +1383,7 @@ public class ComposeMessageActivity extends Activity
                 // Depending on the location, there may be an
                 // extension already on the name or not
                 String fileName = new String(location);
-                String dir = "/sdcard/download/";
+                String dir = Environment.getExternalStorageDirectory() + "/download/";
                 String extension;
                 int index;
                 if ((index = fileName.indexOf(".")) == -1) {

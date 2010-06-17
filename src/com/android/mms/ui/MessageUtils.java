@@ -54,6 +54,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
@@ -833,7 +834,8 @@ public class MessageUtils {
      * Debugging
      */
     public static void writeHprofDataToFile(){
-        String filename = "/sdcard/mms_oom_hprof_data";
+        String filename =
+            Environment.getExternalStorageDirectory() + "/mms_oom_hprof_data";
         try {
             android.os.Debug.dumpHprofData(filename);
             Log.i(TAG, "##### written hprof data to " + filename);
