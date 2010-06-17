@@ -274,7 +274,7 @@
     <string name="message_queued" msgid="8869479754825264671">"Şu an için iletiniz gönderilemiyor. Hizmet kullanılabilir olduğunda gönderilecektir."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Konu yok)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Bilinmeyen gönderen"</string>
-    <string name="dl_failure_notification" msgid="2457080452886498701">"<xliff:g id="FROM">%s</xliff:g> adlı gönderenden gelen <xliff:g id="SUBJECT">%s</xliff:g> konulu ileti indirilemedi."</string>
+    <string name="dl_failure_notification" msgid="2457080452886498701">"<xliff:g id="FROM">%2$s</xliff:g> adlı gönderenden gelen <xliff:g id="SUBJECT">%1$s</xliff:g> konulu ileti indirilemedi."</string>
     <string name="dl_expired_notification" msgid="950390029992535809">"Bu iletinin geçerliliği sona ermiştir ve silinecektir."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Doğrula"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Çok sayıda multimedya iletisi gönderiliyor. Onaylıyor musunuz?"</string>
@@ -316,10 +316,10 @@
     <string name="search_setting_description" msgid="4104004595086437572">"Mesajlarınızdaki metin"</string>
     <string name="search_empty" msgid="645052646985297065">"Eşleşme yok"</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="675571420878010439">"\"%s\" için <xliff:g id="NUMBER">%s</xliff:g> sonuç"</item>
-    <item quantity="other" msgid="3778201725913692491">"\"%s\" için <xliff:g id="NUMBER">%s</xliff:g> sonuç"</item>
+    <item quantity="one" msgid="675571420878010439">"\"%2$s\" için <xliff:g id="NUMBER">%1$s</xliff:g> sonuç"</item>
+    <item quantity="other" msgid="3778201725913692491">"\"%2$s\" için <xliff:g id="NUMBER">%1$s</xliff:g> sonuç"</item>
   </plurals>
-    <string name="search_history" msgid="4127805495662693154">"\"<xliff:g id="SEARCH">%s</xliff:g>\" için <xliff:g id="COUNT">%s</xliff:g> sonuç"</string>
+    <string name="search_history" msgid="4127805495662693154">"\"<xliff:g id="SEARCH">%2$s</xliff:g>\" için <xliff:g id="COUNT">%1$s</xliff:g> sonuç"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Temizle"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"Arama geçmişi temizlenecek."</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Arama geçmişini temizle"</string>

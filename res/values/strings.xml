@@ -603,7 +603,7 @@
     <string name="unknown_sender">Unknown sender</string>
     <!-- When an error occurs downloading a new message, display this message.
          An example: Download of message Wanna get pizza from dorkman was unsuccessful. -->
-    <string name="dl_failure_notification">Download of message <xliff:g id="subject">%s</xliff:g> from <xliff:g id="from">%s</xliff:g> was unsuccessful.</string>
+    <string name="dl_failure_notification">Download of message <xliff:g id="subject">%1$s</xliff:g> from <xliff:g id="from">%2$s</xliff:g> was unsuccessful.</string>
 
     <!-- While downloading a message, if that message has expired, display this message. -->
     <string name="dl_expired_notification">This message has expired and will be deleted.</string>
@@ -713,13 +713,13 @@
     <!--  Search results title -->
     <plurals name="search_results_title">
         <!-- Case of 1 result. -->
-        <item quantity="one"><xliff:g id="number" example="1">%s</xliff:g> result for \"%s\"</item>
+        <item quantity="one"><xliff:g id="number" example="1">%1$s</xliff:g> result for \"<xliff:g id="search" example="???">%2$s</xliff:g>\"</item>
         <!-- Case of 0 or 2 or more results. -->
-        <item quantity="other"><xliff:g id="number" example="15">%s</xliff:g> results for \"%s\"</item>
+        <item quantity="other"><xliff:g id="number" example="15">%1$s</xliff:g> results for \"<xliff:g id="search" example="???">%2$s</xliff:g>\"</item>
     </plurals>
 
     <!--- String saved in history searches. -->
-    <string name="search_history"><xliff:g id="count">%s</xliff:g> results for \"<xliff:g id="search">%s</xliff:g>\"</string>
+    <string name="search_history"><xliff:g id="count">%1$s</xliff:g> results for \"<xliff:g id="search">%2$s</xliff:g>\"</string>
 
     <!-- Button title in Messaging preferences. -->
     <string name="confirm_clear_search_title">Clear</string>
