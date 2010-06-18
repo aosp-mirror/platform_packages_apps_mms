@@ -1843,17 +1843,23 @@ public class ComposeMessageActivity extends Activity
             log("     new conversation=" + conversation + ", mConversation=" + mConversation);
         }
 
-        long convThreadId = 0;
         if (conversation != null) {
             // Don't let any markAsRead DB updates occur before we've loaded the messages for
             // the thread.
             conversation.blockMarkAsRead(true);
-            convThreadId = conversation.getThreadId();
+
+            // this is probably paranoia to compare both thread_ids and recipient lists,
+            // but we want to make double sure because this is a last minute fix for Froyo
+            // and the previous code checked thread ids only.
+            // (we cannot just compare thread ids because there is a case where mConversation
+            // has a stale/obsolete thread id (=1) that could collide against the new thread_id(=1),
+            // even though the recipient lists are different)
+            sameThread = (conversation.getThreadId() == mConversation.getThreadId() &&
+                    conversation.equals(mConversation));
         }
-        if (sameThread || (convThreadId != 0 && convThreadId == mConversation.getThreadId())) {
-            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                log("onNewIntent: same conversation");
-            }
+
+        if (sameThread) {
+            log("onNewIntent: same conversation");
         } else {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: different conversation, initialize...");
