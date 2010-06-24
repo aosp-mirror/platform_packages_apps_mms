@@ -1860,7 +1860,16 @@ public class ComposeMessageActivity extends Activity
         super.onRestart();
 
         if (mWorkingMessage.isDiscarded()) {
-            mWorkingMessage.unDiscard();    // it was discarded in onStop().
+            // If the message isn't worth saving, don't resurrect it. Doing so can lead to
+            // a situation where a new incoming message gets the old thread id of the discarded
+            // draft. This activity can end up displaying the recipients of the old message with
+            // the contents of the new message. Recognize that dangerous situation and bail out
+            // to the ConversationList where the user can enter this in a clean manner.
+            if (mWorkingMessage.isWorthSaving()) {
+                mWorkingMessage.unDiscard();    // it was discarded in onStop().
+            } else {
+                goToConversationList();
+            }
         }
     }
 
