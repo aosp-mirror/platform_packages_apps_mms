@@ -283,6 +283,11 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
             return null;
         }
 
+        public void setShowAsAction(int actionEnum) {
+            // TODO Auto-generated method stub
+            
+        }
+
     }
 
     private abstract class MessageRunnable implements Runnable {
