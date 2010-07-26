@@ -84,11 +84,16 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
                     mUri,
                     mContext,
                     SmsReceiver.class);
+
+            int requestCode = 0;
             if (i == messageCount -1) {
+                // Changing the requestCode so that a different pending intent
+                // is created for the last fragment with
+                // EXTRA_MESSAGE_SENT_SEND_NEXT set to true.
+                requestCode = 1;
                 intent.putExtra(SmsReceiverService.EXTRA_MESSAGE_SENT_SEND_NEXT, true);
             }
-            sentIntents.add(PendingIntent.getBroadcast(
-                    mContext, 0, intent, 0));
+            sentIntents.add(PendingIntent.getBroadcast(mContext, requestCode, intent, 0));
         }
         try {
             smsManager.sendMultipartTextMessage(mDest, mServiceCenter, messages, sentIntents, deliveryIntents);
