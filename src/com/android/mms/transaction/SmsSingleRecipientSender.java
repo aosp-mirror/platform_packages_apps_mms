@@ -86,9 +86,10 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
                     SmsReceiver.class);
             if (i == messageCount -1) {
                 intent.putExtra(SmsReceiverService.EXTRA_MESSAGE_SENT_SEND_NEXT, true);
+                sentIntents.add(PendingIntent.getBroadcast(mContext, 1, intent, 0));
+            } else {
+                sentIntents.add(PendingIntent.getBroadcast(mContext, 0, intent, 0));
             }
-            sentIntents.add(PendingIntent.getBroadcast(
-                    mContext, 0, intent, 0));
         }
         try {
             smsManager.sendMultipartTextMessage(mDest, mServiceCenter, messages, sentIntents, deliveryIntents);
