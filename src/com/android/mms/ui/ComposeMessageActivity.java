@@ -828,7 +828,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     private boolean haveEmailContact(String emailAddress) {
-        Cursor cursor = SqliteWrapper.query(this, getContentResolver(),
+        Cursor cursor = SqliteWrapper.query(getApplicationContext(), getContentResolver(),
                 Uri.withAppendedPath(Email.CONTENT_LOOKUP_URI, Uri.encode(emailAddress)),
                 new String[] { Contacts.DISPLAY_NAME }, null, null, null);
 
