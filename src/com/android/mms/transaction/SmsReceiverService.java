@@ -234,6 +234,9 @@ public class SmsReceiverService extends Service {
                     } catch (MmsException e) {
                         Log.e(TAG, "sendFirstQueuedMessage: failed to send message " + msgUri
                                 + ", caught ", e);
+
+                        mSending = false;
+                        messageFailedToSend(msgUri, SmsManager.RESULT_ERROR_GENERIC_FAILURE);
                         success = false;
                     }
                 }
@@ -284,15 +287,19 @@ public class SmsReceiverService extends Service {
                 }
             });
         } else {
-            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                Log.v(TAG, "handleSmsSent msg failed uri: " + uri);
-            }
-            Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_FAILED, error);
-            MessagingNotification.notifySendFailed(getApplicationContext(), true);
+            messageFailedToSend(uri, error);
             if (sendNextMsg) {
                 sendFirstQueuedMessage();
             }
         }
+    }
+
+    private void messageFailedToSend(Uri uri, int error) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG, "messageFailedToSend msg failed uri: " + uri);
+        }
+        Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_FAILED, error);
+        MessagingNotification.notifySendFailed(getApplicationContext(), true);
     }
 
     private void handleSmsReceived(Intent intent, int error) {
