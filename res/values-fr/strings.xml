@@ -272,6 +272,7 @@
     <string name="confirm" msgid="3155110885840591914">"Confirmer"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Une confirmation de lecture sera envoyée."</string>
     <string name="message_queued" msgid="8869479754825264671">"Votre message ne peut pas être envoyé pour l\'instant. Il sera transmis lorsque le service sera à nouveau disponible."</string>
+    <string name="fdn_check_failure" msgid="7880740763778173551">"Vous pouvez envoyer des messages uniquement vers vos numéros autorisés."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Aucun objet)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Expéditeur inconnu"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"Le téléchargement du message <xliff:g id="SUBJECT">%1$s</xliff:g> de <xliff:g id="FROM">%2$s</xliff:g> a échoué."</string>
@@ -316,8 +317,8 @@
     <string name="search_setting_description" msgid="4104004595086437572">"Texte de vos messages"</string>
     <string name="search_empty" msgid="645052646985297065">"Aucune correspondance"</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> résultat pour \"%s\""</item>
-    <item quantity="other" msgid="3778201725913692491">"<xliff:g id="NUMBER">%s</xliff:g> résultats pour \"%s\""</item>
+    <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> résultat pour \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
+    <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> résultats pour \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> résultats pour \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Effacer"</string>

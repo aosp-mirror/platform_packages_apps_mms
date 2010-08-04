@@ -188,10 +188,10 @@
     <item msgid="7486145357487111435">"안함"</item>
   </string-array>
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"진동"</string>
-    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"자동 검색"</string>
-    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"메시지를 자동으로 검색"</string>
+    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"자동 수신"</string>
+    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"메시지를 자동으로 수신"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"로밍 중 자동 수신"</string>
-    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"로밍 중에 메시지를 자동으로 검색"</string>
+    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"로밍 중에 메시지를 자동으로 수신"</string>
     <string name="to_label" msgid="2355268818058389047">"받는사람 "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"삭제"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"잠겨 있는 메시지를 삭제하시겠습니까?"</string>
@@ -272,6 +272,7 @@
     <string name="confirm" msgid="3155110885840591914">"확인"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"읽음 여부 보고가 전송됩니다."</string>
     <string name="message_queued" msgid="8869479754825264671">"메시지를 보낼 수 없습니다. 서비스가 복구되면 전송됩니다."</string>
+    <string name="fdn_check_failure" msgid="7880740763778173551">"발신 허용 번호로만 메시지를 보낼 수 있습니다."</string>
     <string name="no_subject" msgid="4168963736134552285">"(제목 없음)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"알 수 없는 발신자"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"<xliff:g id="FROM">%2$s</xliff:g>에서 <xliff:g id="SUBJECT">%1$s</xliff:g> 메시지를 다운로드하지 못했습니다."</string>
@@ -316,8 +317,8 @@
     <string name="search_setting_description" msgid="4104004595086437572">"메시지의 문자"</string>
     <string name="search_empty" msgid="645052646985297065">"검색결과 없음"</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="675571420878010439">"\'%2$s\'에 대한 결과 <xliff:g id="NUMBER">%1$s</xliff:g>개"</item>
-    <item quantity="other" msgid="3778201725913692491">"\'%2$s\'에 대한 결과 <xliff:g id="NUMBER">%1$s</xliff:g>개"</item>
+    <item quantity="one" msgid="4657073733087431350">"\'<xliff:g id="SEARCH">%2$s</xliff:g>\'에 대한 검색결과 <xliff:g id="NUMBER">%1$s</xliff:g>개"</item>
+    <item quantity="other" msgid="6196382287749539209">"\'<xliff:g id="SEARCH">%2$s</xliff:g>\'에 대한 검색결과 <xliff:g id="NUMBER">%1$s</xliff:g>개"</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"\'<xliff:g id="SEARCH">%2$s</xliff:g>\'에 대한 검색결과 <xliff:g id="COUNT">%1$s</xliff:g>개"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"지우기"</string>

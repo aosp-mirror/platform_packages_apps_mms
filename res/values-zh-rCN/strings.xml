@@ -272,6 +272,7 @@
     <string name="confirm" msgid="3155110885840591914">"确认"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"将会发送已读报告。"</string>
     <string name="message_queued" msgid="8869479754825264671">"当前无法发送信息，将在服务恢复后发送。"</string>
+    <string name="fdn_check_failure" msgid="7880740763778173551">"您只能向固定拨号号码发送信息。"</string>
     <string name="no_subject" msgid="4168963736134552285">"（无主题）"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"未知发送者"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"下载来自<xliff:g id="FROM">%2$s</xliff:g>的<xliff:g id="SUBJECT">%1$s</xliff:g>信息失败。"</string>
@@ -316,8 +317,8 @@
     <string name="search_setting_description" msgid="4104004595086437572">"消息中的文字"</string>
     <string name="search_empty" msgid="645052646985297065">"没有匹配项"</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> 项符合“%s”的搜索结果"</item>
-    <item quantity="other" msgid="3778201725913692491">"<xliff:g id="NUMBER">%s</xliff:g> 项符合“%s”的搜索结果"</item>
+    <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> 条符合“<xliff:g id="SEARCH">%2$s</xliff:g>”的搜索结果"</item>
+    <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> 条符合“<xliff:g id="SEARCH">%2$s</xliff:g>”的搜索结果"</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> 项符合“<xliff:g id="SEARCH">%2$s</xliff:g>”的搜索结果"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"清除"</string>

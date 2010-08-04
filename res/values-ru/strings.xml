@@ -102,12 +102,12 @@
     <string name="resize_image_error_information" msgid="4897031754321114959">"Картинка слишком велика даже после уменьшения. Ее нельзя отправить."</string>
     <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
     <string name="discard_message" msgid="6078326880056142781">"Отменить"</string>
-    <string name="discard_message_reason" msgid="2667664943003796133">"Сообщение будет отменено, поскольку у него нет действительных получателей."</string>
+    <string name="discard_message_reason" msgid="2667664943003796133">"Сообщение будет удалено, так как не указан ни один реальный получатель."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Недопустимые получатели: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="7643854177921895615">"Введен недопустимый адрес."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Укажите получателей правильно. В противном случае сообщения не будут им доставлены."</string>
-    <string name="cannot_send_message" msgid="3918913277571649400">"Не удается отправить это сообщение"</string>
-    <string name="cannot_send_message_reason" msgid="8745080126044054343">"Действительные получатели сообщения отсутствуют."</string>
+    <string name="cannot_send_message" msgid="3918913277571649400">"Сообщение об ошибке"</string>
+    <string name="cannot_send_message_reason" msgid="8745080126044054343">"Не указано ни одного реального получателя."</string>
     <string name="cannot_forward_drm_obj" msgid="84606990079390099">"Пересылка DRM-объекта из этого сообщения невозможна."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"Преобразование в сообщение MMS..."</string>
     <string name="converting_to_text_message" msgid="6374423235426015422">"Преобразование в сообщение SMS..."</string>
@@ -273,6 +273,7 @@
     <string name="confirm" msgid="3155110885840591914">"Подтвердить"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Будет отправлен отчет о прочтении."</string>
     <string name="message_queued" msgid="8869479754825264671">"В настоящий момент отправить сообщение невозможно. Сообщение будет отправлено, когда появится доступ к службе."</string>
+    <string name="fdn_check_failure" msgid="7880740763778173551">"Вы можете отправлять сообщения только на номера из своего списка разрешенных номеров."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Без темы)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Неизвестный отправитель"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"Загрузка сообщения <xliff:g id="SUBJECT">%1$s</xliff:g> от пользователя <xliff:g id="FROM">%2$s</xliff:g> не удалась."</string>
@@ -317,8 +318,8 @@
     <string name="search_setting_description" msgid="4104004595086437572">"Текст в сообщениях"</string>
     <string name="search_empty" msgid="645052646985297065">"Соответствий нет"</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="675571420878010439">"Результатов по запросу \"%2$s\": <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
-    <item quantity="other" msgid="3778201725913692491">"Результатов по запросу \"%2$s\": <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
+    <item quantity="one" msgid="4657073733087431350">"Количество результатов для \"<xliff:g id="SEARCH">%2$s</xliff:g>\": <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
+    <item quantity="other" msgid="6196382287749539209">"Результатов для \"<xliff:g id="SEARCH">%2$s</xliff:g>\": <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"Результатов для \"<xliff:g id="SEARCH">%2$s</xliff:g>\": <xliff:g id="COUNT">%1$s</xliff:g>"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Очистить"</string>
