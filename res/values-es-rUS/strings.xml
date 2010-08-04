@@ -196,7 +196,7 @@
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Suprimir"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"¿Deseas suprimir el mensaje bloqueado?"</string>
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Se eliminará todo el artículo."</string>
-    <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Todos los artículos se eliminarán."</string>
+    <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Todos los artículos se eliminarán.\n "</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"El mensaje se eliminará."</string>
     <string name="confirm_delete_locked_message" msgid="5863578342246077057">"¿Estás seguro de que deseas suprimir el mensaje bloqueado?"</string>
     <string name="confirm_delete_all_messages" msgid="5836389073199814660">"Se eliminará todo el artículo."</string>
@@ -235,7 +235,7 @@
     <string name="sim_delete" msgid="610790510655316922">"Suprimir"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Mensajes de texto en tarjeta SIM"</string>
     <string name="sim_view" msgid="1997173541766393706">"Ver"</string>
-    <string name="sim_empty" msgid="1763174398613486328">"No hay mensajes en la tarjeta SIM."</string>
+    <string name="sim_empty" msgid="1763174398613486328">"No hay mensajes en la tarjeta SIM.\n "</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"Notificar"</string>
     <string name="status_none" msgid="8253075950774894961">"(Ninguno)"</string>
     <string name="status_pending" msgid="2739860824607984892">"Pendiente"</string>
@@ -253,7 +253,7 @@
     <string name="attach_sound" msgid="3149325985970669609">"Audio"</string>
     <string name="attach_record_sound" msgid="6011431304469858929">"Grabar audio"</string>
     <string name="attach_slideshow" msgid="3497422151091037063">"Presentación de diapositivas"</string>
-    <string name="select_bottom_text" msgid="4201966447623311931">"Texto en la parte inferior"</string>
+    <string name="select_bottom_text" msgid="4201966447623311931">"Texto en la parte inferior\n "</string>
     <string name="select_top_text" msgid="6734183477539197815">"Texto en la parte superior"</string>
     <string name="delivery_toast_body" msgid="4478305651728684364">"Mensaje recibido por %s"</string>
     <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> mensajes no leídos."</string>
@@ -272,8 +272,9 @@
     <string name="confirm" msgid="3155110885840591914">"Confirmar"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Se enviará un informe de lectura."</string>
     <string name="message_queued" msgid="8869479754825264671">"En este momento, no es posible enviar tu mensaje. Se enviará cuando el servicio esté disponible."</string>
+    <string name="fdn_check_failure" msgid="7880740763778173551">"Sólo puedes enviar mensajes a tus números de marcación fija."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Sin asunto)"</string>
-    <string name="unknown_sender" msgid="4929330613278853635">"Emisor desconocido"</string>
+    <string name="unknown_sender" msgid="4929330613278853635">"Emisor desconocido\n "</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"La descarga sobre <xliff:g id="SUBJECT">%1$s</xliff:g> del mensaje desde  <xliff:g id="FROM">%2$s</xliff:g> no se ha realizado correctamente."</string>
     <string name="dl_expired_notification" msgid="950390029992535809">"Este mensaje ha vencido y será eliminado."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Confirmar"</string>
@@ -316,8 +317,8 @@
     <string name="search_setting_description" msgid="4104004595086437572">"Enviar texto en tus mensajes"</string>
     <string name="search_empty" msgid="645052646985297065">"Sin coincidencias"</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> resultado para \"%s\""</item>
-    <item quantity="other" msgid="3778201725913692491">"<xliff:g id="NUMBER">%s</xliff:g> resultados para \"%s\""</item>
+    <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> resultado para \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
+    <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> resultados para \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> resultados para \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Borrar"</string>
