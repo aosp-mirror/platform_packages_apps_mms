@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4H///8U\u003d",
+        "filename": "src/com/android/mms/transaction/MessagingNotification.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1004300
+      },
+      "writtenOn": "2010-08-05T10:04:07Z",
+      "side": 0,
+      "message": "When messages are queried in descending order, since the timestamps are same for all the messages which are sent to different recipients at the same, the messages are retrieved in the same order as in the database. Hence when the first message is picked from this list, it  is always the message sent to the first recipient.\n\nWe think that displaying the most recent message does not solve this problem. There may be a situation like the delivery report of first recipient reaching after the last recipient\u0027s delivery report(say first recipient switched off the phone) in which case we display the details of last recipient even for the first recipient, which is wrong.\n\nBetter fix would be to use the Uri in the pending intent to get the details to display the delivery status. This required passing Uri information to MessagingNotification.java from MessageStatusReceiver.java.\n\nPlease let us know your thought on this.",
+      "revId": "c8d1dbb68fbd6214a3160114b63a3a48bf2f074b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
