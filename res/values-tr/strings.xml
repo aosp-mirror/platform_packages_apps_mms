@@ -29,7 +29,7 @@
     <string name="menu_preferences" msgid="4693148116114749414">"Ayarlar"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"<xliff:g id="NAME">%s</xliff:g> Kişilere eklensin mi?"</string>
     <string name="menu_call" msgid="5877123227307074690">"Çağrı"</string>
-    <string name="menu_delete_all" msgid="8853352701914512057">"İleti dizilerini sil"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"Tüm ileti dizilerini sil"</string>
     <string name="menu_delete" msgid="1851666911396479006">"İleti dizisini sil"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Teslim edilmemiş iletiler"</string>
     <string name="menu_view" msgid="7448852683948080108">"İleti dizisini görüntüle"</string>
@@ -272,6 +272,7 @@
     <string name="confirm" msgid="3155110885840591914">"Doğrula"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Okundu raporu gönderilecek."</string>
     <string name="message_queued" msgid="8869479754825264671">"Şu an için iletiniz gönderilemiyor. Hizmet kullanılabilir olduğunda gönderilecektir."</string>
+    <string name="fdn_check_failure" msgid="7880740763778173551">"Sadece sabit arama numaralarınıza ileti gönderebilirsiniz."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Konu yok)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Bilinmeyen gönderen"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"<xliff:g id="FROM">%2$s</xliff:g> adlı gönderenden gelen <xliff:g id="SUBJECT">%1$s</xliff:g> konulu ileti indirilemedi."</string>
@@ -316,8 +317,8 @@
     <string name="search_setting_description" msgid="4104004595086437572">"Mesajlarınızdaki metin"</string>
     <string name="search_empty" msgid="645052646985297065">"Eşleşme yok"</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="675571420878010439">"\"%2$s\" için <xliff:g id="NUMBER">%1$s</xliff:g> sonuç"</item>
-    <item quantity="other" msgid="3778201725913692491">"\"%2$s\" için <xliff:g id="NUMBER">%1$s</xliff:g> sonuç"</item>
+    <item quantity="one" msgid="4657073733087431350">"\"<xliff:g id="SEARCH">%2$s</xliff:g>\" için <xliff:g id="NUMBER">%1$s</xliff:g> sonuç"</item>
+    <item quantity="other" msgid="6196382287749539209">"\"<xliff:g id="SEARCH">%2$s</xliff:g>\" için <xliff:g id="NUMBER">%1$s</xliff:g> sonuç"</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"\"<xliff:g id="SEARCH">%2$s</xliff:g>\" için <xliff:g id="COUNT">%1$s</xliff:g> sonuç"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Temizle"</string>
@@ -332,4 +333,6 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"İleti şu anda gönderilemiyor. Gönderilmemiş çok fazla multimedya iletisi var."</string>
     <string name="me" msgid="341726346007839961">"Ben"</string>
     <string name="sending_message" msgid="222836893217450538">"Gönderiliyor…"</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"Çok fazla alıcı"</string>
+    <string name="adding_recipients" msgid="2962810172527532357">"Alıcılar ekleniyor…"</string>
 </resources>

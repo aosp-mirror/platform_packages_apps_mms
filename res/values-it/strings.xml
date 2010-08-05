@@ -29,7 +29,7 @@
     <string name="menu_preferences" msgid="4693148116114749414">"Impostazioni"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Aggiungi \"<xliff:g id="NAME">%s</xliff:g>\" ai contatti"</string>
     <string name="menu_call" msgid="5877123227307074690">"Chiama"</string>
-    <string name="menu_delete_all" msgid="8853352701914512057">"Elimina thread"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"Elimina tutti i thread"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Elimina thread"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Messaggi non consegnati"</string>
     <string name="menu_view" msgid="7448852683948080108">"Visualizza thread"</string>
@@ -272,6 +272,7 @@
     <string name="confirm" msgid="3155110885840591914">"Conferma"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Verra inviata una conferma di lettura."</string>
     <string name="message_queued" msgid="8869479754825264671">"Al momento è impossibile inviare il messaggio. Il messaggio verrà inviato non appena il servizio diventa disponibile."</string>
+    <string name="fdn_check_failure" msgid="7880740763778173551">"Puoi inviare messaggi solo ai tuoi numeri di selezione fissa."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Nessun oggetto)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Mittente sconosciuto"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"Download del messaggio <xliff:g id="SUBJECT">%1$s</xliff:g> di <xliff:g id="FROM">%2$s</xliff:g> non riuscito."</string>
@@ -316,8 +317,8 @@
     <string name="search_setting_description" msgid="4104004595086437572">"Testo nei tuoi messaggi"</string>
     <string name="search_empty" msgid="645052646985297065">"Nessuna corrispondenza"</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="675571420878010439">"<xliff:g id="NUMBER">%s</xliff:g> risultato per \"%s\""</item>
-    <item quantity="other" msgid="3778201725913692491">"<xliff:g id="NUMBER">%s</xliff:g> risultati per \"%s\""</item>
+    <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> risultato per \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
+    <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> risultati per \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> risultati per \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Cancella"</string>
@@ -332,4 +333,6 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Impossibile inviare il messaggio in questo momento. Troppi messaggi multimediali non inviati."</string>
     <string name="me" msgid="341726346007839961">"Io"</string>
     <string name="sending_message" msgid="222836893217450538">"Invio in corso..."</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"Troppi destinatari"</string>
+    <string name="adding_recipients" msgid="2962810172527532357">"Aggiunta destinatari in corso…"</string>
 </resources>

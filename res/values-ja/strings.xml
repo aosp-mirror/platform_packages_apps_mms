@@ -29,7 +29,7 @@
     <string name="menu_preferences" msgid="4693148116114749414">"設定"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"連絡先に<xliff:g id="NAME">%s</xliff:g>さんを追加"</string>
     <string name="menu_call" msgid="5877123227307074690">"発信"</string>
-    <string name="menu_delete_all" msgid="8853352701914512057">"スレッドを削除"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"すべてのスレッドを削除"</string>
     <string name="menu_delete" msgid="1851666911396479006">"スレッドを削除"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"未配信メッセージ"</string>
     <string name="menu_view" msgid="7448852683948080108">"スレッド一覧表示"</string>
@@ -272,6 +272,7 @@
     <string name="confirm" msgid="3155110885840591914">"確認"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"開封確認レポートが送信されます。"</string>
     <string name="message_queued" msgid="8869479754825264671">"現在メッセージを送信できません。サービスが利用できる状態になり次第送信されます。"</string>
+    <string name="fdn_check_failure" msgid="7880740763778173551">"発信番号制限で指定された宛先にのみメッセージを送信できます。"</string>
     <string name="no_subject" msgid="4168963736134552285">"(件名なし)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"送信者不明"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"<xliff:g id="FROM">%2$s</xliff:g>さんからのメッセージ「<xliff:g id="SUBJECT">%1$s</xliff:g>」をダウンロードできませんでした。"</string>
@@ -316,8 +317,8 @@
     <string name="search_setting_description" msgid="4104004595086437572">"メッセージ内のテキスト"</string>
     <string name="search_empty" msgid="645052646985297065">"該当なし"</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="675571420878010439">"「%2$s」の検索結果<xliff:g id="NUMBER">%1$s</xliff:g>件"</item>
-    <item quantity="other" msgid="3778201725913692491">"「%2$s」の検索結果<xliff:g id="NUMBER">%1$s</xliff:g>件"</item>
+    <item quantity="one" msgid="4657073733087431350">"「<xliff:g id="SEARCH">%2$s</xliff:g>」の検索結果<xliff:g id="NUMBER">%1$s</xliff:g>件"</item>
+    <item quantity="other" msgid="6196382287749539209">"「<xliff:g id="SEARCH">%2$s</xliff:g>」の検索結果<xliff:g id="NUMBER">%1$s</xliff:g>件"</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"「<xliff:g id="SEARCH">%2$s</xliff:g>」の検索結果<xliff:g id="COUNT">%1$s</xliff:g>件"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"クリア"</string>
@@ -332,4 +333,6 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"今すぐメッセージを送信することはできません。未送信のマルチメディアメッセージが多すぎます。"</string>
     <string name="me" msgid="341726346007839961">"自分"</string>
     <string name="sending_message" msgid="222836893217450538">"送信中..."</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"宛先が多すぎます"</string>
+    <string name="adding_recipients" msgid="2962810172527532357">"宛先を追加しています..."</string>
 </resources>
