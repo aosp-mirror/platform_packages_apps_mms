@@ -272,7 +272,7 @@
     <string name="confirm" msgid="3155110885840591914">"Doğrula"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Okundu raporu gönderilecek."</string>
     <string name="message_queued" msgid="8869479754825264671">"Şu an için iletiniz gönderilemiyor. Hizmet kullanılabilir olduğunda gönderilecektir."</string>
-    <string name="fdn_check_failure" msgid="7880740763778173551">"Sadece sabit arama numaralarınıza ileti gönderebilirsiniz."</string>
+    <string name="fdn_check_failure" msgid="7880740763778173551">"Sadece sabit arama numaralarınıza mesaj gönderebilirsiniz."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Konu yok)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Bilinmeyen gönderen"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"<xliff:g id="FROM">%2$s</xliff:g> adlı gönderenden gelen <xliff:g id="SUBJECT">%1$s</xliff:g> konulu ileti indirilemedi."</string>
