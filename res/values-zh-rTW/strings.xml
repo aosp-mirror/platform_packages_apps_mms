@@ -272,7 +272,7 @@
     <string name="confirm" msgid="3155110885840591914">"確認"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"讀取回條將要送出。"</string>
     <string name="message_queued" msgid="8869479754825264671">"目前無法傳送簡訊。服務恢復後會自動傳送。"</string>
-    <string name="fdn_check_failure" msgid="7880740763778173551">"您只能傳送訊息至您的固定撥號。"</string>
+    <string name="fdn_check_failure" msgid="7880740763778173551">"您只能向您的固定撥號號碼傳送訊息。"</string>
     <string name="no_subject" msgid="4168963736134552285">"(沒有主旨)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"未知的寄件者"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"無法從 <xliff:g id="FROM">%2$s</xliff:g> 下載訊息「<xliff:g id="SUBJECT">%1$s</xliff:g>」。"</string>
