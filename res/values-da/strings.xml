@@ -317,7 +317,7 @@
     <string name="search_setting_description" msgid="4104004595086437572">"Tekst i dine beskeder"</string>
     <string name="search_empty" msgid="645052646985297065">"Der er ingen matches"</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> resultater for \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
+    <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> resultat for \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
     <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> resultater for \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> resultater for \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</string>
