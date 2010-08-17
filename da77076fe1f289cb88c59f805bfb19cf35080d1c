@@ -34,6 +34,24 @@
       "revId": "da77076fe1f289cb88c59f805bfb19cf35080d1c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///Is\u003d",
+        "filename": "src/com/android/mms/transaction/SmsSingleRecipientSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2010-08-17T17:13:00Z",
+      "side": 1,
+      "message": "Yes, that looks good.",
+      "parentUuid": "AAAA4n///I4\u003d",
+      "revId": "da77076fe1f289cb88c59f805bfb19cf35080d1c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
