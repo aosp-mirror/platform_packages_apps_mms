@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4n///Jk\u003d",
+        "filename": "src/com/android/mms/transaction/SmsSingleRecipientSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2010-08-17T16:35:53Z",
+      "side": 1,
+      "message": "Thanks for the fix! I would add a comment explaining what\u0027s going on. I\u0027d also just have a single call to sendIntents.add() and then pass in a variable for the second parameter that gets set in the if case. Did you test this? Does it work? The reason I ask is a comment in PendingIntent.java for getBroadcast(). For the second param, the docs say, \"@param requestCode Private request code for the sender (currently not used).\" I wonder if that comment is obsolete.",
+      "revId": "da77076fe1f289cb88c59f805bfb19cf35080d1c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
