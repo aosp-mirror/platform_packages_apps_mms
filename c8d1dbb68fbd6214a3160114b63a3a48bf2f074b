@@ -34,6 +34,24 @@
       "revId": "c8d1dbb68fbd6214a3160114b63a3a48bf2f074b",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///Ik\u003d",
+        "filename": "src/com/android/mms/transaction/MessagingNotification.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1004300
+      },
+      "writtenOn": "2010-08-17T17:13:28Z",
+      "side": 0,
+      "message": "This change fixes the issue if the delivery reports are received in the same order as they are sent.\nThe better approach we think is to use the Uri in the pending intent to display the status information.\nThis requires passing Uri to MessagingNotification.java from MessageStatusReceiver.java.\nWe want to know your thoughts on this approach.\nIf the present fix is fine, then we can go ahead with this.",
+      "parentUuid": "AAAA4n///Jc\u003d",
+      "revId": "c8d1dbb68fbd6214a3160114b63a3a48bf2f074b",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
