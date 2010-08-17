@@ -16,6 +16,24 @@
       "revId": "da77076fe1f289cb88c59f805bfb19cf35080d1c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///I4\u003d",
+        "filename": "src/com/android/mms/transaction/SmsSingleRecipientSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1004300
+      },
+      "writtenOn": "2010-08-17T17:07:14Z",
+      "side": 1,
+      "message": "We have tested this fix rigorously and it is working fine. I think the comment regarding the second parameter in PendingIntent.java is obsolete.\nIf i change this as follows is it ok?\n\nint reqCode \u003d 0;\nif  (i \u003d\u003d messageCount -1)  {         intent.putExtra(SmsReceiverService.EXTRA_MESSAGE_SENT_SEND_NEXT, true);\nreqCode \u003d 1;\n}\nsentIntents.add(PendingIntent.getBroadcast(mContext, reqCode, intent, 0));",
+      "parentUuid": "AAAA4n///Jk\u003d",
+      "revId": "da77076fe1f289cb88c59f805bfb19cf35080d1c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
