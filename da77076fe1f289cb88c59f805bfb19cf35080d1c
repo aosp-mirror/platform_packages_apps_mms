@@ -52,6 +52,24 @@
       "revId": "da77076fe1f289cb88c59f805bfb19cf35080d1c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n//+2Q\u003d",
+        "filename": "src/com/android/mms/transaction/SmsSingleRecipientSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1004300
+      },
+      "writtenOn": "2010-08-19T12:42:49Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAA4n///Is\u003d",
+      "revId": "da77076fe1f289cb88c59f805bfb19cf35080d1c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
