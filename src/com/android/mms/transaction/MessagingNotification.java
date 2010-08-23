@@ -330,13 +330,13 @@ public class MessagingNotification {
         ContentResolver resolver = context.getContentResolver();
         Cursor cursor = SqliteWrapper.query(context, resolver, Sms.CONTENT_URI,
                     SMS_STATUS_PROJECTION, NEW_DELIVERY_SM_CONSTRAINT,
-                    null, Sms.DATE + " desc");
+                    null, Sms.DATE);
 
         if (cursor == null)
             return null;
 
         try {
-            if (!cursor.moveToFirst())
+            if (!cursor.moveToLast())
             return null;
 
             String address = cursor.getString(COLUMN_SMS_ADDRESS);
