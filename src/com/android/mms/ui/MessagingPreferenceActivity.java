@@ -176,7 +176,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
 
     private void restoreDefaultPreferences() {
         PreferenceManager.getDefaultSharedPreferences(this)
-                .edit().clear().commit();
+                .edit().clear().apply();
         setPreferenceScreen(null);
         addPreferencesFromResource(R.xml.preferences);
     }
