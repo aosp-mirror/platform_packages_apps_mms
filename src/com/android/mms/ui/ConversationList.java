@@ -181,7 +181,7 @@ public class ConversationList extends ListActivity
                         public void run() {
                             SharedPreferences.Editor editor = mPrefs.edit();
                             editor.putBoolean(MessagingPreferenceActivity.AUTO_DELETE, true);
-                            editor.commit();
+                            editor.apply();
                         }
                     });
                 }
@@ -203,7 +203,7 @@ public class ConversationList extends ListActivity
         if (DEBUG) Log.v(TAG, "markCheckedMessageLimit");
         SharedPreferences.Editor editor = mPrefs.edit();
         editor.putBoolean(CHECKED_MESSAGE_LIMITS, true);
-        editor.commit();
+        editor.apply();
     }
 
     @Override

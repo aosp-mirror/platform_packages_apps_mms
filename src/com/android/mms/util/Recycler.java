@@ -172,7 +172,7 @@ public abstract class Recycler {
             SharedPreferences.Editor editPrefs =
                 PreferenceManager.getDefaultSharedPreferences(context).edit();
             editPrefs.putInt(MAX_SMS_MESSAGES_PER_THREAD, limit);
-            editPrefs.commit();
+            editPrefs.apply();
         }
 
         protected long getThreadId(Cursor cursor) {
@@ -303,7 +303,7 @@ public abstract class Recycler {
             SharedPreferences.Editor editPrefs =
                 PreferenceManager.getDefaultSharedPreferences(context).edit();
             editPrefs.putInt(MAX_MMS_MESSAGES_PER_THREAD, limit);
-            editPrefs.commit();
+            editPrefs.apply();
         }
 
         protected long getThreadId(Cursor cursor) {
@@ -458,5 +458,3 @@ public abstract class Recycler {
     }
 
 }
-
-
