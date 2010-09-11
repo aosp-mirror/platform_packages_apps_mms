@@ -1170,7 +1170,7 @@ public class ComposeMessageActivity extends Activity
                 getContentResolver().update(lockUri,
                         values, null, null);
             }
-        }).start();
+        }, "lockMessage").start();
     }
 
     /**
@@ -1932,7 +1932,7 @@ public class ComposeMessageActivity extends Activity
                 MessagingNotification.updateSendFailedNotificationForThread(
                         ComposeMessageActivity.this, threadId);
             }
-        }).run();
+        }, "updateSendFailedNotification").start();
     }
 
     @Override
@@ -2828,7 +2828,7 @@ public class ComposeMessageActivity extends Activity
                     mAttachmentEditorHandler.removeCallbacks(showProgress);
                     dialog.dismiss();
                 }
-            }).start();
+            }, "addAttachment").start();
             return true;
         }
 
