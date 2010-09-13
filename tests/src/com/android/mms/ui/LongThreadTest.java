@@ -288,6 +288,18 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
             
         }
 
+        @Override
+        public MenuItem setActionView(View view) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public View getActionView() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 
     private abstract class MessageRunnable implements Runnable {
