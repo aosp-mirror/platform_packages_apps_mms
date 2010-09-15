@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.ContentUris;
 import android.database.Cursor;
@@ -166,14 +167,22 @@ public class RecipientIdCache {
                     ", number=" + number);
         }
 
-        ContentValues values = new ContentValues();
+        final ContentValues values = new ContentValues();
         values.put(Telephony.CanonicalAddressesColumns.ADDRESS, number);
 
-        StringBuilder buf = new StringBuilder(Telephony.CanonicalAddressesColumns._ID);
+        final StringBuilder buf = new StringBuilder(Telephony.CanonicalAddressesColumns._ID);
         buf.append('=').append(id);
 
-        Uri uri = ContentUris.withAppendedId(sSingleCanonicalAddressUri, id);
-        mContext.getContentResolver().update(uri, values, buf.toString(), null);
+        final Uri uri = ContentUris.withAppendedId(sSingleCanonicalAddressUri, id);
+        final ContentResolver cr = mContext.getContentResolver();
+
+        // We're running on the UI thread so just fire & forget, hope for the best.
+        // (We were ignoring the return value anyway...)
+        new Thread("updateCanonicalAddressInDb") {
+            public void run() {
+                cr.update(uri, values, buf.toString(), null);
+            }
+        }.start();
     }
 
     public static void dump() {
