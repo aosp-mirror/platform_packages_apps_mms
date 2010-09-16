@@ -24,6 +24,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,6 +36,7 @@ import java.util.Map;
  */
 public class ImageAttachmentView extends LinearLayout implements SlideViewInterface {
     private ImageView mImageView;
+    private static final String TAG = "ImageAttachmentView";
 
     public ImageAttachmentView(Context context) {
         super(context);
@@ -65,11 +67,15 @@ public class ImageAttachmentView extends LinearLayout implements SlideViewInterf
     }
 
     public void setImage(String name, Bitmap bitmap) {
-        if (null == bitmap) {
-            bitmap = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.ic_missing_thumbnail_picture);
+        try {
+            if (null == bitmap) {
+                bitmap = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.ic_missing_thumbnail_picture);
+            }
+            mImageView.setImageBitmap(bitmap);
+        } catch (java.lang.OutOfMemoryError e) {
+            Log.e(TAG, "setImage: out of memory: ", e);
         }
-        mImageView.setImageBitmap(bitmap);
     }
 
     public void setImageRegionFit(String fit) {

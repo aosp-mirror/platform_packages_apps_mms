@@ -28,8 +28,10 @@ import com.android.mms.model.VideoModel;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 public class MmsThumbnailPresenter extends Presenter {
+    private static final String TAG = "MmsThumbnailPresenter";
 
     public MmsThumbnailPresenter(Context context, ViewInterface view, Model model) {
         super(context, view, model);
@@ -81,9 +83,13 @@ public class MmsThumbnailPresenter extends Presenter {
 
     // Show an icon instead of real content in the thumbnail.
     private void showDrmIcon(SlideViewInterface view, String name) {
-        Bitmap bitmap = BitmapFactory.decodeResource(
-                mContext.getResources(), R.drawable.ic_mms_drm_protected);
-        view.setImage(name, bitmap);
+        try {
+            Bitmap bitmap = BitmapFactory.decodeResource(
+                    mContext.getResources(), R.drawable.ic_mms_drm_protected);
+            view.setImage(name, bitmap);
+        } catch (java.lang.OutOfMemoryError e) {
+            Log.e(TAG, "showDrmIcon: out of memory: ", e);
+        }
     }
 
     public void onModelChanged(Model model, boolean dataChanged) {
