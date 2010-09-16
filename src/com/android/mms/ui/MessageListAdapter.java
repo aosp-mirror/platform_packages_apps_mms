@@ -590,12 +590,16 @@ public class MessageListAdapter extends CursorAdapter {
              * doing that here.
              */
             private void loadDefaultAvatar() {
-                if (mDefaultAvatarDrawable == null) {
-                    Bitmap b = BitmapFactory.decodeResource(mContext.getResources(),
-                            R.drawable.ic_contact_picture);
-                    mDefaultAvatarDrawable = new BitmapDrawable(mContext.getResources(), b);
+                try {
+                    if (mDefaultAvatarDrawable == null) {
+                        Bitmap b = BitmapFactory.decodeResource(mContext.getResources(),
+                                R.drawable.ic_contact_picture);
+                        mDefaultAvatarDrawable = new BitmapDrawable(mContext.getResources(), b);
+                    }
+                    mPhoto = mDefaultAvatarDrawable;
+                } catch (java.lang.OutOfMemoryError e) {
+                    Log.e(TAG, "loadDefaultAvatar: out of memory: ", e);
                 }
-                mPhoto = mDefaultAvatarDrawable;
             }
 
         };

@@ -54,6 +54,7 @@ import android.text.style.StyleSpan;
 import android.text.style.TextAppearanceSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -311,12 +312,16 @@ public class MessageListItem extends LinearLayout implements
     public void setImage(String name, Bitmap bitmap) {
         inflateMmsView();
 
-        if (null == bitmap) {
-            bitmap = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.ic_missing_thumbnail_picture);
+        try {
+            if (null == bitmap) {
+                bitmap = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.ic_missing_thumbnail_picture);
+            }
+            mImageView.setImageBitmap(bitmap);
+            mImageView.setVisibility(VISIBLE);
+        } catch (java.lang.OutOfMemoryError e) {
+            Log.e(TAG, "setImage: out of memory: ", e);
         }
-        mImageView.setImageBitmap(bitmap);
-        mImageView.setVisibility(VISIBLE);
     }
 
     private void inflateMmsView() {
@@ -629,13 +634,18 @@ public class MessageListItem extends LinearLayout implements
 
     public void setVideo(String name, Uri video) {
         inflateMmsView();
-        Bitmap bitmap = VideoAttachmentView.createVideoThumbnail(mContext, video);
-        if (null == bitmap) {
-            bitmap = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.ic_missing_thumbnail_video);
+
+        try {
+            Bitmap bitmap = VideoAttachmentView.createVideoThumbnail(mContext, video);
+            if (null == bitmap) {
+                bitmap = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.ic_missing_thumbnail_video);
+            }
+            mImageView.setImageBitmap(bitmap);
+            mImageView.setVisibility(VISIBLE);
+        } catch (java.lang.OutOfMemoryError e) {
+            Log.e(TAG, "setVideo: out of memory: ", e);
         }
-        mImageView.setImageBitmap(bitmap);
-        mImageView.setVisibility(VISIBLE);
     }
 
     public void setVideoVisibility(boolean visible) {

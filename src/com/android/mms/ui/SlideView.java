@@ -114,12 +114,16 @@ public class SlideView extends AbsoluteLayout implements
                 mImageView.setBackgroundColor(0xFFFF0000);
             }
         }
-        if (null == bitmap) {
-            bitmap = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.ic_missing_thumbnail_picture);
+        try {
+            if (null == bitmap) {
+                bitmap = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.ic_missing_thumbnail_picture);
+            }
+            mImageView.setVisibility(View.VISIBLE);
+            mImageView.setImageBitmap(bitmap);
+        } catch (java.lang.OutOfMemoryError e) {
+            Log.e(TAG, "setImage: out of memory: ", e);
         }
-        mImageView.setVisibility(View.VISIBLE);
-        mImageView.setImageBitmap(bitmap);
     }
 
     public void setImageRegion(int left, int top, int width, int height) {
@@ -434,7 +438,7 @@ public class SlideView extends AbsoluteLayout implements
      *
      * 2. The TextView is fixed in the small area of screen, and other part of screen
      * is empty once there is no image in the current slide.
-     * 
+     *
      * 3. The TextView is scrollable in a small area of screen and the font size is
      * small which make the user experience bad.
      *

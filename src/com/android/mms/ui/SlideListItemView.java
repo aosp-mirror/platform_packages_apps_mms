@@ -83,11 +83,15 @@ public class SlideListItemView extends LinearLayout implements SlideViewInterfac
     }
 
     public void setImage(String name, Bitmap bitmap) {
-        if (null == bitmap) {
-            bitmap = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.ic_missing_thumbnail_picture);
+        try {
+            if (null == bitmap) {
+                bitmap = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.ic_missing_thumbnail_picture);
+            }
+            mImagePreview.setImageBitmap(bitmap);
+        } catch (java.lang.OutOfMemoryError e) {
+            Log.e(TAG, "setImage: out of memory: ", e);
         }
-        mImagePreview.setImageBitmap(bitmap);
     }
 
     public void setImageRegionFit(String fit) {

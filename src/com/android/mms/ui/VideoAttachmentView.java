@@ -26,6 +26,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -86,12 +87,16 @@ public class VideoAttachmentView extends LinearLayout implements
     }
 
     public void setVideo(String name, Uri video) {
-        Bitmap bitmap = createVideoThumbnail(mContext, video);
-        if (null == bitmap) {
-            bitmap = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.ic_missing_thumbnail_video);
+        try {
+            Bitmap bitmap = createVideoThumbnail(mContext, video);
+            if (null == bitmap) {
+                bitmap = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.ic_missing_thumbnail_video);
+            }
+            mThumbnailView.setImageBitmap(bitmap);
+        } catch (java.lang.OutOfMemoryError e) {
+            Log.e(TAG, "setVideo: out of memory: ", e);
         }
-        mThumbnailView.setImageBitmap(bitmap);
     }
 
     public static Bitmap createVideoThumbnail(Context context, Uri uri) {
