@@ -98,11 +98,15 @@ public class BasicSlideEditorView extends LinearLayout implements
     }
 
     public void setImage(String name, Bitmap bitmap) {
-        if (null == bitmap) {
-            bitmap = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.ic_missing_thumbnail_picture);
+        try {
+            if (null == bitmap) {
+                bitmap = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.ic_missing_thumbnail_picture);
+            }
+            mImageView.setImageBitmap(bitmap);
+        } catch (java.lang.OutOfMemoryError e) {
+            Log.e(TAG, "setImage: out of memory: ", e);
         }
-        mImageView.setImageBitmap(bitmap);
     }
 
     public void setImageRegionFit(String fit) {
@@ -127,12 +131,16 @@ public class BasicSlideEditorView extends LinearLayout implements
     }
 
     public void setVideo(String name, Uri video) {
-        Bitmap bitmap = VideoAttachmentView.createVideoThumbnail(mContext, video);
-        if (null == bitmap) {
-            bitmap = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.ic_missing_thumbnail_video);
+        try {
+            Bitmap bitmap = VideoAttachmentView.createVideoThumbnail(mContext, video);
+            if (null == bitmap) {
+                bitmap = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.ic_missing_thumbnail_video);
+            }
+            mImageView.setImageBitmap(bitmap);
+        } catch (java.lang.OutOfMemoryError e) {
+            Log.e(TAG, "setVideo: out of memory: ", e);
         }
-        mImageView.setImageBitmap(bitmap);
     }
 
     public void setVideoVisibility(boolean visible) {

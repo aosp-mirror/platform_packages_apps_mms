@@ -270,7 +270,8 @@ public class UriImage {
                         }
                     }
                 } catch (java.lang.OutOfMemoryError e) {
-                    Log.e(TAG, e.getMessage(), e);
+                    Log.w(TAG, "getResizedImageData - image too big (OutOfMemoryError), will try "
+                            + " with smaller scale factor, cur scale factor: " + scaleFactor);
                     // fall through and keep trying with a smaller scale factor.
                 }
                 if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
