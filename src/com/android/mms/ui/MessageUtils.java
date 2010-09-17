@@ -585,7 +585,13 @@ public class MessageUtils {
         builder.setIcon(R.drawable.ic_sms_mms_not_delivered);
         builder.setTitle(title);
         builder.setMessage(message);
-        builder.setPositiveButton(android.R.string.ok, null);
+        builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == DialogInterface.BUTTON_POSITIVE) {
+                    dialog.dismiss();
+                }
+            }
+        });
         builder.show();
     }
 
