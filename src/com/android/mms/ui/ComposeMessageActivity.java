@@ -112,6 +112,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.CursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -1996,6 +1997,12 @@ public class ComposeMessageActivity extends Activity
             android.os.Debug.stopMethodTracing();
         }
 
+        if (mRecipientsEditor != null) {
+            CursorAdapter recipientsAdapter = (CursorAdapter)mRecipientsEditor.getAdapter();
+            if (recipientsAdapter != null) {
+                recipientsAdapter.changeCursor(null);
+            }
+        }
         super.onDestroy();
     }
 
