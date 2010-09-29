@@ -18,6 +18,7 @@
 package com.android.mms.ui;
 
 import com.android.common.ArrayListCursor;
+import com.android.mms.MmsApp;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 
@@ -49,6 +50,7 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
     public static final int NUMBER_INDEX     = 3;
     public static final int LABEL_INDEX      = 4;
     public static final int NAME_INDEX       = 5;
+    public static final int NORMALIZED_NUMBER = 6;
 
     private static final String[] PROJECTION_PHONE = {
         Phone._ID,                  // 0
@@ -57,6 +59,7 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
         Phone.NUMBER,               // 3
         Phone.LABEL,                // 4
         Phone.DISPLAY_NAME,         // 5
+        Phone.NORMALIZED_NUMBER,    // 6
     };
 
     private static final String SORT_ORDER = Contacts.TIMES_CONTACTED + " DESC,"
@@ -64,6 +67,7 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
 
     private final Context mContext;
     private final ContentResolver mContentResolver;
+    private final String mDefaultCountryIso;
 
     public RecipientsAdapter(Context context) {
         // Note that the RecipientsAdapter doesn't support auto-requeries. If we
@@ -74,6 +78,7 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
         super(context, R.layout.recipient_filter_item, null, false /* no auto-requery */);
         mContext = context;
         mContentResolver = context.getContentResolver();
+        mDefaultCountryIso = MmsApp.getApplication().getCurrentCountryIso();
     }
 
     @Override
@@ -103,7 +108,8 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
                        .replace(",", " ");  // Make sure we leave a space between parts of names.
         }
 
-        String nameAndNumber = Contact.formatNameAndNumber(name, number);
+        String nameAndNumber = Contact.formatNameAndNumber(
+                name, number, cursor.getString(NORMALIZED_NUMBER), mDefaultCountryIso);
 
         SpannableString out = new SpannableString(nameAndNumber);
         int len = out.length();
@@ -147,7 +153,9 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
         }
 
         TextView number = (TextView) view.findViewById(R.id.number);
-        number.setText(cursor.getString(NUMBER_INDEX));
+        number.setText(
+                PhoneNumberUtils.formatNumber(cursor.getString(NUMBER_INDEX),
+                        cursor.getString(NORMALIZED_NUMBER), mDefaultCountryIso));
     }
 
     @Override

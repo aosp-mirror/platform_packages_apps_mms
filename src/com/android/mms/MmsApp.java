@@ -31,6 +31,9 @@ import com.android.mms.transaction.MessagingNotification;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.location.Country;
+import android.location.CountryDetector;
+import android.location.CountryListener;
 import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.telephony.TelephonyManager;
@@ -40,6 +43,9 @@ public class MmsApp extends Application {
 
     private SearchRecentSuggestions mRecentSuggestions;
     private TelephonyManager mTelephonyManager;
+    private CountryDetector mCountryDetector;
+    private CountryListener mCountryListener;
+    private String mCountryIso;
     private static MmsApp sMmsApp = null;
 
     @Override
@@ -61,6 +67,15 @@ public class MmsApp extends Application {
         LayoutManager.init(this);
         SmileyParser.init(this);
         MessagingNotification.init(this);
+        mCountryDetector = (CountryDetector) getSystemService(Context.COUNTRY_DETECTOR);
+        mCountryListener = new CountryListener() {
+            @Override
+            public synchronized void onCountryDetected(Country country) {
+                mCountryIso = country.getCountryIso();
+            }
+        };
+        mCountryDetector.addCountryListener(mCountryListener, getMainLooper());
+        mCountryDetector.detectCountry();
     }
 
     synchronized public static MmsApp getApplication() {
@@ -70,6 +85,7 @@ public class MmsApp extends Application {
     @Override
     public void onTerminate() {
         DrmUtils.cleanupStorage(this);
+        mCountryDetector.removeCountryListener(mCountryListener);
     }
 
     @Override
@@ -102,4 +118,7 @@ public class MmsApp extends Application {
         return mRecentSuggestions;
     }
 
+    public String getCurrentCountryIso() {
+        return mCountryIso;
+    }
 }
