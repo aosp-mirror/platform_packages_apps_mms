@@ -625,12 +625,12 @@
 
     <!-- Title for audio file picker -->
     <string name="select_audio">Select audio</string>
-    <!-- Menu title to copy an attachment to the SD card -->
-    <string name="copy_to_sdcard">Copy attached to SD card</string>
-    <!-- Toast message on successful copy to SD card -->
-    <string name="copy_to_sdcard_success">Attachment copied to SD card</string>
-    <!-- Toast message on failed copy to SD card -->
-    <string name="copy_to_sdcard_fail">Copying attachment to SD card failed</string>
+    <!-- Menu title to copy an attachment to the shared storage [CHAR LIMIT=25] -->
+    <string name="copy_to_sdcard">Save attachment</string>
+    <!-- Toast message on successful copy to shared storage [CHAR LIMIT=30] -->
+    <string name="copy_to_sdcard_success">Attachment saved</string>
+    <!-- Toast message on failed copy to shared storage [CHAR LIMIT=30] -->
+    <string name="copy_to_sdcard_fail">Unable to save attachment</string>
     <!-- Menu title to save a sound as a ringtone -->
     <string name="save_ringtone">Save as ringtone</string>
     <!-- Toast message on successful copying ringtone to drm provider -->
