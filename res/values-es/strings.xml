@@ -284,9 +284,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"Selecciona esta opción para revisar el mensaje e intenta enviarlo de nuevo."</string>
     <string name="download_later" msgid="4486286146421650880">"No es posible descargar los mensajes en este momento. Inténtalo de nuevo más tarde."</string>
     <string name="select_audio" msgid="3120822451872772124">"Seleccionar audio"</string>
-    <string name="copy_to_sdcard" msgid="6056459122898138734">"Copiar archivo adjunto en tarjeta SD"</string>
-    <string name="copy_to_sdcard_success" msgid="5322211009838330188">"Archivo adjunto copiado en tarjeta SD"</string>
-    <string name="copy_to_sdcard_fail" msgid="2726421767948392438">"Error al copiar archivo adjunto en tarjeta SD"</string>
+    <!-- outdated translation 6056459122898138734 -->     <string name="copy_to_sdcard" msgid="757028609638184856">"Copiar archivo adjunto en tarjeta SD"</string>
+    <!-- outdated translation 5322211009838330188 -->     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Archivo adjunto copiado en tarjeta SD"</string>
+    <!-- outdated translation 2726421767948392438 -->     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Error al copiar archivo adjunto en tarjeta SD"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Guardar como tono"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Tono guardado"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Error al guardar tono"</string>
