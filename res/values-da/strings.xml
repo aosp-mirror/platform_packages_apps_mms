@@ -284,9 +284,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"Vælg at vise beskeden igen, og prøv igen."</string>
     <string name="download_later" msgid="4486286146421650880">"Der kan ikke downloades i øjeblikket. Prøv igen senere."</string>
     <string name="select_audio" msgid="3120822451872772124">"Vælg lyd"</string>
-    <string name="copy_to_sdcard" msgid="6056459122898138734">"Kopier den vedhæftede fil til SD-kortet"</string>
-    <string name="copy_to_sdcard_success" msgid="5322211009838330188">"Den vedhæftede fil er kopieret til SD-kortet"</string>
-    <string name="copy_to_sdcard_fail" msgid="2726421767948392438">"Kopiering af vedhæftet fil til SD-kortet mislykkedes"</string>
+    <!-- outdated translation 6056459122898138734 -->     <string name="copy_to_sdcard" msgid="757028609638184856">"Kopier den vedhæftede fil til SD-kortet"</string>
+    <!-- outdated translation 5322211009838330188 -->     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Den vedhæftede fil er kopieret til SD-kortet"</string>
+    <!-- outdated translation 2726421767948392438 -->     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Kopiering af vedhæftet fil til SD-kortet mislykkedes"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Gem som ringetone"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Ringetone gemt"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Ringetonen blev ikke gemt"</string>
