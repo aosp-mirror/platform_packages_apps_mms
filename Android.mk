@@ -16,7 +16,7 @@ LOCAL_STATIC_JAVA_LIBRARIES += android-common jsr305
 
 LOCAL_REQUIRED_MODULES := SoundRecorder
 
-LOCAL_PROGUARD_FLAGS := -include $(LOCAL_PATH)/proguard.flags
+LOCAL_PROGUARD_FLAG_FILES := proguard.flags
 
 include $(BUILD_PACKAGE)
 
