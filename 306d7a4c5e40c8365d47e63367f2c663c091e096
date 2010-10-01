@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7n//+hY\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2000,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2010-10-01T16:04:56Z",
+      "side": 1,
+      "message": "It\u0027s my understanding that onDestroy isn\u0027t necessarily going to get called. Typically, we put things that need to be released in onStop. Look how onStop handles a similar case with the mMsgListAdapter.",
+      "revId": "306d7a4c5e40c8365d47e63367f2c663c091e096",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
