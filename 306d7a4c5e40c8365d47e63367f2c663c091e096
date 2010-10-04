@@ -16,6 +16,24 @@
       "revId": "306d7a4c5e40c8365d47e63367f2c663c091e096",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73///70\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2000,
+      "author": {
+        "id": 1004508
+      },
+      "writtenOn": "2010-10-04T05:49:11Z",
+      "side": 1,
+      "message": "Yes, I think its better to release this cursor in onstop. Would make the changes accordingly.",
+      "parentUuid": "AAAA7n//+hY\u003d",
+      "revId": "306d7a4c5e40c8365d47e63367f2c663c091e096",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
