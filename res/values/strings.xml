@@ -756,5 +756,12 @@
     <!-- Brief small label shown to right of message when it is being sent. -->
     <string name="sending_message">Sending\u2026</string>
 
+    <!-- For debugging: Dialog box title indicating there's a situation where data has unexpectedly
+         changed -->
+    <string name="error_state">Inconsistent state</string>
+    <!-- For debugging: Dialog box text indicating there's a situation where data has unexpectedly
+         changed -->
+    <string name="error_state_text">The state of threads and recipients is inconsistent. Please capture a bug report and send it to android-sms-bugs@google.com</string>
+
 </resources>
 
