@@ -16,6 +16,11 @@
 
 package com.android.mms;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
 
 public class LogTag {
@@ -24,6 +29,7 @@ public class LogTag {
     public static final String TRANSACTION = "Mms:transaction";
     public static final String APP = "Mms:app";
     public static final String THREAD_CACHE = "Mms:threadcache";
+    public static final boolean SEVERE_WARNING = true; // TODO: turn off before shipping
 
     private static String prettyArray(String[] array) {
         if (array.length == 0) {
@@ -64,4 +70,24 @@ public class LogTag {
     public static void error(String format, Object... args) {
         Log.e(TAG, logFormat(format, args));
     }
+
+    public static void showWarningDialog(final String msg, final Activity activity) {
+        Log.e(TAG, "WARNING!!!! " + msg);
+
+        activity.runOnUiThread(new Runnable() {
+            public void run() {
+                new AlertDialog.Builder(activity)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle(R.string.error_state)
+                    .setMessage(msg + "\n\n" + activity.getString(R.string.error_state_text))
+                    .setPositiveButton(R.string.yes, new OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+            }
+        });
+    }
+
 }
