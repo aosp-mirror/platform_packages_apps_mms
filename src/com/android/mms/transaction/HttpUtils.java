@@ -39,6 +39,7 @@ import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.SocketException;
@@ -54,6 +55,8 @@ public class HttpUtils {
 
     public static final int HTTP_POST_METHOD = 1;
     public static final int HTTP_GET_METHOD = 2;
+
+    private static final int MMS_READ_BUFFER = 4096;
 
     // This is the value to use for the "Accept-Language" header.
     // Once it becomes possible for the user to change the locale
@@ -205,11 +208,35 @@ public class HttpUtils {
 
             HttpEntity entity = response.getEntity();
             byte[] body = null;
+            DataInputStream dis = null;
             if (entity != null) {
                 try {
-                    if (entity.getContentLength() > 0) {
+                    if (entity.isChunked()) {
+                        dis = new DataInputStream(entity.getContent());
+                        ByteArrayOutputStream buffArray = new ByteArrayOutputStream(MMS_READ_BUFFER);
+                        byte[] readBuffer = new byte[MMS_READ_BUFFER];
+
+                        int readSize = 0;
+                        try {
+                            for ( ; ; ) {
+                                readSize = dis.read(readBuffer);
+                                if (-1 == readSize) {
+                                    body = buffArray.toByteArray();
+                                    break;
+                                }
+                                buffArray.write(readBuffer, 0, readSize);
+                            }
+                        } finally {
+                            try {
+                                dis.close();
+                                buffArray.close();
+                            } catch (IOException e) {
+                                Log.e(TAG, "Error closing inputstream: " + e.getMessage());
+                            }
+                        }
+                    } else if (entity.getContentLength() > 0) {
                         body = new byte[(int) entity.getContentLength()];
-                        DataInputStream dis = new DataInputStream(entity.getContent());
+                        dis = new DataInputStream(entity.getContent());
                         try {
                             dis.readFully(body);
                         } finally {
