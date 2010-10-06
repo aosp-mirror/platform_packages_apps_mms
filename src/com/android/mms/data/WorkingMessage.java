@@ -1066,8 +1066,9 @@ public class WorkingMessage {
 
         final String semiSepRecipients = conv.getRecipients().serialize();
 
+        // recipientsInUI can be empty when the user types in a number and hits send
         if (LogTag.SEVERE_WARNING && ((origThreadId != 0 && origThreadId != threadId) ||
-                (!semiSepRecipients.equals(recipientsInUI)))) {
+               (!semiSepRecipients.equals(recipientsInUI) && !TextUtils.isEmpty(recipientsInUI)))) {
             String msg = origThreadId != 0 && origThreadId != threadId ?
                     "WorkingMessage.preSendSmsWorker threadId changed or " +
                     "recipients changed. origThreadId: " +
