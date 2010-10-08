@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA73///Pc\u003d",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1002348
+      },
+      "writtenOn": "2010-10-08T15:55:03Z",
+      "side": 1,
+      "message": "A few notes:\n\nYour new code for reading the complete contents of the stream will work for both chunked and non chunked entities. And it\u0027s just better. So please drop the \"if (entity.isChunked())\" check and the else clause; we\u0027ll use your new code path always.\n\nYou don\u0027t need to wrap entity.getContent() in a DataInputStream; that\u0027s just a distraction. Just change the type of \u0027dis\u0027 to InputStream, and possibly rename it to \u0027in\u0027 or \u0027is\u0027.",
+      "revId": "9a46273ce2cca82ff1004115c6c10dbf150f5af4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73///PQ\u003d",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1002348
+      },
+      "writtenOn": "2010-10-08T15:55:03Z",
+      "side": 1,
+      "message": "Your code on lines 217-228 is correct, but this is a common idiom and there is a common way to code it that saves several lines of code and control flow. Here\u0027s what that looks like:\n\n  byte[] readBuffer \u003d new byte[MMS_READ_BUFFER];\n  int readSize;\n  while ((readSize \u003d dis.read(readBuffer)) !\u003d -1) {\n    buffArray.write(readBuffer, 0, readSize);\n  }\n\nThis is 5 lines instead of 10 and it does exactly the same thing. If you really want to follow the preferred idiom, rename \u0027readSize\u0027 to \u0027count\u0027, rename \u0027readBuffer\u0027 to just \u0027buffer\u0027, and inline the MMS_READ_BUFFER constant.",
+      "revId": "9a46273ce2cca82ff1004115c6c10dbf150f5af4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
