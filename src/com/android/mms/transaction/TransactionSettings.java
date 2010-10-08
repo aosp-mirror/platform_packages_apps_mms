@@ -60,12 +60,16 @@ public class TransactionSettings {
      * @param context The context of the MMS Client
      */
     public TransactionSettings(Context context, String apnName) {
-        String selection = (apnName != null)?
-                Telephony.Carriers.APN + "='"+apnName+"'": null;
+        String selection = Telephony.Carriers.CURRENT + " IS NOT NULL";
+        String[] selectionArgs = null;
+        if (apnName != null) {
+            selection += " AND " + Telephony.Carriers.APN + "=?";
+            selectionArgs = new String[]{ apnName };
+        }
 
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
-                            Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI, "current"),
-                            APN_PROJECTION, selection, null, null);
+                            Telephony.Carriers.CONTENT_URI,
+                            APN_PROJECTION, selection, selectionArgs, null);
 
         if (cursor == null) {
             Log.e(TAG, "Apn is not found in Database!");
