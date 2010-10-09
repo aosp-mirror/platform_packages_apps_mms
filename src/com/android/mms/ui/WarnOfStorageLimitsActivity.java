@@ -81,6 +81,7 @@ public class WarnOfStorageLimitsActivity extends Activity implements DialogInter
                     MessagingPreferenceActivity.class);
             startActivity(intent);
         }
+        dialog.dismiss();
 
         // No matter what, finish the activity
         finish();

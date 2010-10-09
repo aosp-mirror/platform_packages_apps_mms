@@ -491,6 +491,7 @@ public class SlideEditorActivity extends Activity {
                             mSlideshowModel.get(mPosition).getDuration() / 1000); // in seconds
                     startActivityForResult(intent, REQUEST_CODE_CHANGE_DURATION);
                 }
+                dialog.dismiss();
             }
         });
 
@@ -515,6 +516,7 @@ public class SlideEditorActivity extends Activity {
                         mSlideshowEditor.changeLayout(LayoutModel.LAYOUT_BOTTOM_TEXT);
                         break;
                 }
+                dialog.dismiss();
             }
         });
 

@@ -544,6 +544,7 @@ public class ConversationList extends ListActivity
                     }
                 }
             });
+            dialog.dismiss();
         }
     }
 

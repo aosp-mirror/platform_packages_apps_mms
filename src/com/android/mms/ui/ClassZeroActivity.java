@@ -166,6 +166,7 @@ public class ClassZeroActivity extends Activity {
 
     private final OnClickListener mCancelListener = new OnClickListener() {
         public void onClick(DialogInterface dialog, int whichButton) {
+            dialog.dismiss();
             finish();
         }
     };
@@ -174,6 +175,7 @@ public class ClassZeroActivity extends Activity {
         public void onClick(DialogInterface dialog, int whichButton) {
             mRead = true;
             saveMessage();
+            dialog.dismiss();
             finish();
         }
     };
