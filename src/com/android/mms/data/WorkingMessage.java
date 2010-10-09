@@ -647,31 +647,9 @@ public class WorkingMessage {
      */
     public void syncWorkingRecipients() {
         if (mWorkingRecipients != null) {
-            if (LogTag.SEVERE_WARNING) {
-                Log.i(TAG, "##### syncWorkingRecipients #####");
-                Log.i(TAG, "   mConversation (before sync): " + mConversation.toString());
-            }
-
-            long oldThreadId = mConversation.getThreadId();
             ContactList recipients = ContactList.getByNumbers(mWorkingRecipients, false);
             String workingRecips = recipients.serialize();
-            mConversation.setRecipients(recipients);
-            long newThreadId = mConversation.getThreadId();
-
-            if (LogTag.SEVERE_WARNING) {
-                Log.i(TAG, "   mConversation (after sync): " + mConversation.toString());
-            }
-
-            if (oldThreadId != newThreadId && oldThreadId != 0) {
-                if (LogTag.SEVERE_WARNING) {
-                    LogTag.showWarningDialog("syncWorkingRecipients changed the thread id from "
-                            + oldThreadId + " to " + newThreadId, mActivity);
-                    dumpWorkingRecipients();
-                } else {
-                    Log.w(TAG, "syncWorkingRecipients changed the thread id from "
-                            + oldThreadId + " to " + newThreadId);
-                }
-            }
+            mConversation.setRecipients(recipients);    // resets the threadId to zero
 
             mWorkingRecipients = null;
         }
@@ -985,10 +963,31 @@ public class WorkingMessage {
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             LogTag.debug("send");
         }
-        long origThreadId = mConversation.getThreadId();
+        
+        // Begin -------- debug code
+        if (LogTag.SEVERE_WARNING) {
+            Log.i(TAG, "##### send #####");
+            Log.i(TAG, "   mConversation (beginning of send): " + mConversation.toString());
+            Log.i(TAG, "   recipientsInUI: " + recipientsInUI);
+        }
+        // End -------- debug code
 
         // Get ready to write to disk.
         prepareForSave(true /* notify */);
+
+        // Begin -------- debug code
+        String newRecipients = mConversation.getRecipients().serialize();
+        if (!newRecipients.equals(recipientsInUI)) {
+            if (LogTag.SEVERE_WARNING) {
+                LogTag.showWarningDialog("send() after newRecipients() changed recips from: "
+                        + recipientsInUI + " to " + newRecipients, mActivity);
+                dumpWorkingRecipients();
+            } else {
+                Log.w(TAG, "send() after newRecipients() changed recips from: "
+                        + recipientsInUI + " to " + newRecipients);
+            }
+        }
+        // End -------- debug code
 
         // We need the recipient list for both SMS and MMS.
         final Conversation conv = mConversation;
