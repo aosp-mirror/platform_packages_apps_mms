@@ -737,6 +737,7 @@ public class MessageUtils {
                 if (callback != null) {
                     callback.run();
                 }
+                dialog.dismiss();
             }
         };
 
@@ -745,6 +746,7 @@ public class MessageUtils {
                 if (callback != null) {
                     callback.run();
                 }
+                dialog.dismiss();
             }
         };
 
@@ -753,6 +755,7 @@ public class MessageUtils {
                 if (callback != null) {
                     callback.run();
                 }
+                dialog.dismiss();
             }
         };
 

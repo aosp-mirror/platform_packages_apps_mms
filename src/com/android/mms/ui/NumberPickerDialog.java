@@ -106,6 +106,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
         if (mCallback != null) {
             mNumberPicker.clearFocus();
             mCallback.onNumberSet(mNumberPicker.getCurrent());
+            dialog.dismiss();
         }
     }
 

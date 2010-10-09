@@ -505,6 +505,7 @@ public class MessageListItem extends LinearLayout implements
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                         mContext.startActivity(intent);
                     }
+                    dialog.dismiss();
                 }
             };
 

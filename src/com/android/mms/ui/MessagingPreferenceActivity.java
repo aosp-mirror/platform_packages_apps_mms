@@ -211,6 +211,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
                             if (recent != null) {
                                 recent.clearHistory();
                             }
+                            dialog.dismiss();
                         }
                     })
                     .setNegativeButton(android.R.string.cancel, null)

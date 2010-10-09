@@ -200,6 +200,7 @@ public class ManageSimMessages extends Activity
                     public void onClick(DialogInterface dialog, int which) {
                         updateState(SHOW_BUSY);
                         deleteFromSim(cursor);
+                        dialog.dismiss();
                     }
                 }, R.string.confirm_delete_SIM_message);
                 return true;
@@ -295,6 +296,7 @@ public class ManageSimMessages extends Activity
                     public void onClick(DialogInterface dialog, int which) {
                         updateState(SHOW_BUSY);
                         deleteAllFromSim();
+                        dialog.dismiss();
                     }
                 }, R.string.confirm_delete_all_SIM_messages);
                 break;
