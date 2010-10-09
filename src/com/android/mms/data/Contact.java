@@ -33,6 +33,7 @@ import android.util.Log;
 import android.database.sqlite.SqliteWrapper;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.LogTag;
+import com.android.mms.MmsApp;
 
 public class Contact {
     public static final int CONTACT_METHOD_TYPE_UNKNOWN = 0;
@@ -72,6 +73,8 @@ public class Contact {
                                      // current contact has phone content://.../phones/20.
     private int mContactMethodType;
     private String mNumber;
+    private String mNumberE164;
+    private String mDefaultCountryIso;
     private String mName;
     private String mNameAndNumber;   // for display, e.g. Fred Flintstone <670-782-1123>
     private boolean mNumberIsModified; // true if the number is modified
@@ -171,14 +174,27 @@ public class Contact {
         return (s != null ? s : "");
     }
 
-    public static String formatNameAndNumber(String name, String number) {
+    /**
+     * Fomat the name and number.
+     *
+     * @param name
+     * @param number
+     * @param numberE164 the number's E.164 representation, is used to get the
+     *        country the number belongs to.
+     * @param defaultCountryIso is used to format the number when numberE164 is
+     *        not available.
+     *
+     * @return the formatted name and number
+     */
+    public static String formatNameAndNumber(
+            String name, String number, String numberE164, String defaultCountryIso) {
         // Format like this: Mike Cleron <(650) 555-1234>
         //                   Erick Tseng <(650) 555-1212>
         //                   Tutankhamun <tutank1341@gmail.com>
         //                   (408) 555-1289
         String formattedNumber = number;
         if (!Mms.isEmailAddress(number)) {
-            formattedNumber = PhoneNumberUtils.formatNumber(number);
+            formattedNumber = PhoneNumberUtils.formatNumber(number, numberE164, defaultCountryIso);
         }
 
         if (!TextUtils.isEmpty(name) && !name.equals(number)) {
@@ -228,7 +244,7 @@ public class Contact {
     }
 
     private void notSynchronizedUpdateNameAndNumber() {
-        mNameAndNumber = formatNameAndNumber(mName, mNumber);
+        mNameAndNumber = formatNameAndNumber(mName, mNumber, mNumberE164, mDefaultCountryIso);
     }
 
     public synchronized long getRecipientId() {
@@ -337,13 +353,40 @@ public class Contact {
         private final TaskStack mTaskQueue = new TaskStack();
         private static final String SEPARATOR = ";";
 
+        /**
+         * For a specified phone number, 2 rows were inserted into phone_lookup
+         * table. One is the phone number's E164 representation, and another is
+         * one's normalized format. If the phone number's normalized format in
+         * the lookup table is the suffix of the given number's one, it is
+         * treated as matched CallerId. E164 format number must fully equal.
+         *
+         * For example: Both 650-123-4567 and +1 (650) 123-4567 will match the
+         * normalized number 6501234567 in the phone lookup.
+         *
+         *  The min_match is used to narrow down the candidates for the final
+         * comparison.
+         */
         // query params for caller id lookup
-        private static final String CALLER_ID_SELECTION = "PHONE_NUMBERS_EQUAL(" + Phone.NUMBER
-                + ",?) AND " + Data.MIMETYPE + "='" + Phone.CONTENT_ITEM_TYPE + "'"
-                + " AND " + Data.RAW_CONTACT_ID + " IN "
-                        + "(SELECT raw_contact_id "
-                        + " FROM phone_lookup"
-                        + " WHERE normalized_number GLOB('+*'))";
+        private static final String CALLER_ID_SELECTION = " Data._ID IN "
+                + " (SELECT DISTINCT lookup.data_id "
+                + " FROM "
+                    + " (SELECT data_id, normalized_number, length(normalized_number) as len "
+                    + " FROM phone_lookup "
+                    + " WHERE min_match = ?) AS lookup "
+                + " WHERE lookup.normalized_number = ? OR"
+                    + " (lookup.len <= ? AND "
+                        + " substr(?, ? - lookup.len + 1) = lookup.normalized_number))";
+
+        // query params for caller id lookup without E164 number as param
+        private static final String CALLER_ID_SELECTION_WITHOUT_E164 =  " Data._ID IN "
+            + " (SELECT DISTINCT lookup.data_id "
+            + " FROM "
+                + " (SELECT data_id, normalized_number, length(normalized_number) as len "
+                + " FROM phone_lookup "
+                + " WHERE min_match = ?) AS lookup "
+            + " WHERE "
+                + " (lookup.len <= ? AND "
+                    + " substr(?, ? - lookup.len + 1) = lookup.normalized_number))";
 
         // Utilizing private API
         private static final Uri PHONES_WITH_PRESENCE_URI = Data.CONTENT_URI;
@@ -356,6 +399,7 @@ public class Contact {
                 Phone.CONTACT_ID,               // 4
                 Phone.CONTACT_PRESENCE,         // 5
                 Phone.CONTACT_STATUS,           // 6
+                Phone.NORMALIZED_NUMBER         // 7
         };
 
         private static final int PHONE_ID_COLUMN = 0;
@@ -365,6 +409,7 @@ public class Contact {
         private static final int CONTACT_ID_COLUMN = 4;
         private static final int CONTACT_PRESENCE_COLUMN = 5;
         private static final int CONTACT_STATUS_COLUMN = 6;
+        private static final int PHONE_NORMALIZED_NUMBER = 7;
 
         // query params for contact lookup by email
         private static final Uri EMAIL_WITH_PRESENCE_URI = Data.CONTENT_URI;
@@ -631,6 +676,8 @@ public class Contact {
                     c.mAvatar = entry.mAvatar;
                     c.mContactMethodId = entry.mContactMethodId;
                     c.mContactMethodType = entry.mContactMethodType;
+                    c.mNumberE164 = entry.mNumberE164;
+                    c.mDefaultCountryIso = entry.mDefaultCountryIso;
                     // Check to see if this is the local ("me") number and update the name.
                     if (MessageUtils.isLocalNumber(c.mNumber)) {
                         c.mName = mContext.getString(com.android.mms.R.string.me);
@@ -681,32 +728,39 @@ public class Contact {
 
             //if (LOCAL_DEBUG) log("queryContactInfoByNumber: number=" + number);
 
-            // We need to include the phone number in the selection string itself rather then
-            // selection arguments, because SQLite needs to see the exact pattern of GLOB
-            // to generate the correct query plan
-            String selection = CALLER_ID_SELECTION.replace("+",
-                    PhoneNumberUtils.toCallerIDMinMatch(number));
-            Cursor cursor = mContext.getContentResolver().query(
-                    PHONES_WITH_PRESENCE_URI,
-                    CALLER_ID_PROJECTION,
-                    selection,
-                    new String[] { number },
-                    null);
-
-            if (cursor == null) {
-                Log.w(TAG, "queryContactInfoByNumber(" + number + ") returned NULL cursor!" +
-                        " contact uri used " + PHONES_WITH_PRESENCE_URI);
-                return entry;
-            }
-
-            try {
-                if (cursor.moveToFirst()) {
-                    fillPhoneTypeContact(entry, cursor);
+            String normalizedNumber = PhoneNumberUtils.normalizeNumber(number);
+            String minMatch = PhoneNumberUtils.toCallerIDMinMatch(normalizedNumber);
+            if (!TextUtils.isEmpty(normalizedNumber) && !TextUtils.isEmpty(minMatch)) {
+                String numberLen = String.valueOf(normalizedNumber.length());
+                String numberE164 = PhoneNumberUtils.formatNumberToE164(
+                        number, MmsApp.getApplication().getCurrentCountryIso());
+                String selection;
+                String[] args;
+                if (TextUtils.isEmpty(numberE164)) {
+                    selection = CALLER_ID_SELECTION_WITHOUT_E164;
+                    args = new String[] {minMatch, numberLen, normalizedNumber, numberLen};
+                } else {
+                    selection = CALLER_ID_SELECTION;
+                    args = new String[] {
+                            minMatch, numberE164, numberLen, normalizedNumber, numberLen};
                 }
-            } finally {
-                cursor.close();
-            }
 
+                Cursor cursor = mContext.getContentResolver().query(
+                        PHONES_WITH_PRESENCE_URI, CALLER_ID_PROJECTION, selection, args, null);
+                if (cursor == null) {
+                    Log.w(TAG, "queryContactInfoByNumber(" + number + ") returned NULL cursor!"
+                            + " contact uri used " + PHONES_WITH_PRESENCE_URI);
+                    return entry;
+                }
+
+                try {
+                    if (cursor.moveToFirst()) {
+                        fillPhoneTypeContact(entry, cursor);
+                    }
+                } finally {
+                    cursor.close();
+                }
+            }
             return entry;
         }
 
@@ -720,6 +774,8 @@ public class Contact {
                 contact.mPresenceResId = getPresenceIconResourceId(
                         cursor.getInt(CONTACT_PRESENCE_COLUMN));
                 contact.mPresenceText = cursor.getString(CONTACT_STATUS_COLUMN);
+                contact.mNumberE164 = cursor.getString(PHONE_NORMALIZED_NUMBER);
+                contact.mDefaultCountryIso = MmsApp.getApplication().getCurrentCountryIso();
                 if (V) {
                     log("queryContactInfoByNumber: name=" + contact.mName + ", number="
                             + contact.mNumber + ", presence=" + contact.mPresenceResId);

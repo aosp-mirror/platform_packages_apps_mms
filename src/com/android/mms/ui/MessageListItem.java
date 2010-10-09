@@ -103,9 +103,11 @@ public class MessageListItem extends LinearLayout implements
     private QuickContactBadge mAvatar;
     private Handler mHandler;
     private MessageItem mMessageItem;
+    private String mDefaultCountryIso;
 
     public MessageListItem(Context context) {
         super(context);
+        mDefaultCountryIso = MmsApp.getApplication().getCurrentCountryIso();
     }
 
     public MessageListItem(Context context, AttributeSet attrs) {
@@ -484,7 +486,8 @@ public class MessageListItem extends LinearLayout implements
                         }
                         final String telPrefix = "tel:";
                         if (url.startsWith(telPrefix)) {
-                            url = PhoneNumberUtils.formatNumber(url.substring(telPrefix.length()));
+                            url = PhoneNumberUtils.formatNumber(
+                                            url.substring(telPrefix.length()), mDefaultCountryIso);
                         }
                         tv.setText(url);
                     } catch (android.content.pm.PackageManager.NameNotFoundException ex) {
