@@ -488,12 +488,14 @@ public class ComposeMessageActivity extends Activity
         public void onClick(DialogInterface dialog, int whichButton) {
             mBackgroundQueryHandler.startDelete(DELETE_MESSAGE_TOKEN,
                     null, mDeleteUri, mDeleteLocked ? null : "locked=0", null);
+            dialog.dismiss();
         }
     }
 
     private class DiscardDraftListener implements OnClickListener {
         public void onClick(DialogInterface dialog, int whichButton) {
             mWorkingMessage.discard();
+            dialog.dismiss();
             finish();
         }
     }
@@ -501,6 +503,7 @@ public class ComposeMessageActivity extends Activity
     private class SendIgnoreInvalidRecipientListener implements OnClickListener {
         public void onClick(DialogInterface dialog, int whichButton) {
             sendMessage(true);
+            dialog.dismiss();
         }
     }
 
@@ -509,6 +512,7 @@ public class ComposeMessageActivity extends Activity
             if (isRecipientsEditorVisible()) {
                 mRecipientsEditor.requestFocus();
             }
+            dialog.dismiss();
         }
     }
 
@@ -2469,6 +2473,7 @@ public class ComposeMessageActivity extends Activity
         builder.setAdapter(mAttachmentTypeSelectorAdapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 addAttachment(mAttachmentTypeSelectorAdapter.buttonToCommand(which), replace);
+                dialog.dismiss();
             }
         });
 
