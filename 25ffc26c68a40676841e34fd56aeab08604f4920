@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA73//+98\u003d",
+        "filename": "src/com/android/mms/transaction/TransactionSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2010-10-11T15:04:14Z",
+      "side": 1,
+      "message": "while you\u0027re cleaning this up, could you use a placeholder for apnName?\n\nSomething like... (untested)\n\nString[] selectionArgs \u003d null;\nif (apnName !\u003d null) {\n   selection +\u003d \" AND \" + Telephony.Carriers.APN + \"\u003d?\";\n   selectionArgs \u003d new String[]{ apnName };\n}\n\n Cursor cursor \u003d SqliteWrapper.query(context, context.getContentResolver(),\nTelephony.APN_PROJECTION, selection, selectionArgs, null);",
+      "revId": "25ffc26c68a40676841e34fd56aeab08604f4920",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
