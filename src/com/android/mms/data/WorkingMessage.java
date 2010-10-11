@@ -977,7 +977,7 @@ public class WorkingMessage {
 
         // Begin -------- debug code
         String newRecipients = mConversation.getRecipients().serialize();
-        if (!newRecipients.equals(recipientsInUI)) {
+        if (!TextUtils.isEmpty(recipientsInUI) && !newRecipients.equals(recipientsInUI)) {
             if (LogTag.SEVERE_WARNING) {
                 LogTag.showWarningDialog("send() after newRecipients() changed recips from: "
                         + recipientsInUI + " to " + newRecipients, mActivity);
