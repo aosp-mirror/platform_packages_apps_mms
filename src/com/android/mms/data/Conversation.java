@@ -144,11 +144,11 @@ public class Conversation {
 
         long threadId = getOrCreateThreadId(context, recipients);
         conv = new Conversation(context, threadId, allowQuery);
-        Log.d(TAG, "Conversation.get: created new conversation " + conv.toString());
+        Log.d(TAG, "Conversation.get: created new conversation " + /*conv.toString()*/ "xxxxxxx");
 
         if (!conv.getRecipients().equals(recipients)) {
             Log.e(TAG, "Conversation.get: new conv's recipients don't match input recpients "
-                    + recipients);
+                    + /*recipients*/ "xxxxxxx");
         }
 
         try {

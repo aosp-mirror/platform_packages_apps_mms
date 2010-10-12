@@ -1738,9 +1738,11 @@ public class ComposeMessageActivity extends Activity
                     " from: " + originalThreadId, this);
         }
 
-        log("initialize: savedInstanceState = " + savedInstanceState +
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("initialize: savedInstanceState = " + savedInstanceState +
                 " intent = " + intent +
                 " mConversation = " + mConversation);
+        }
 
         if (cancelFailedToDeliverNotification(getIntent(), this)) {
             // Show a pop-up dialog to inform user the message was
