@@ -372,7 +372,7 @@ public class MessagingNotification {
             long threadId = cursor.getLong(COLUMN_THREAD_ID);
             long timeMillis = cursor.getLong(COLUMN_DATE);
 
-            //if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) 
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) 
             {
                 Log.d(TAG, "getSmsNewMessageNotificationInfo: count=" + cursor.getCount() +
                         ", first addr=" + address + ", thread_id=" + threadId);
