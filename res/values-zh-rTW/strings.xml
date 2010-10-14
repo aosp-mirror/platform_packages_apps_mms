@@ -284,9 +284,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"檢視此簡訊並再試一次。"</string>
     <string name="download_later" msgid="4486286146421650880">"目前無法下載。請稍後再試一次。"</string>
     <string name="select_audio" msgid="3120822451872772124">"選取音訊"</string>
-    <!-- outdated translation 6056459122898138734 -->     <string name="copy_to_sdcard" msgid="757028609638184856">"將附件儲存至 SD 卡"</string>
-    <!-- outdated translation 5322211009838330188 -->     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"已將附件儲存至 SD 卡"</string>
-    <!-- outdated translation 2726421767948392438 -->     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"無法將附件複製到 SD 卡"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"儲存附件"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"已儲存附件"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"無法儲存附件"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"儲存為鈴聲"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"已儲存鈴聲"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"無法儲存鈴聲"</string>
@@ -333,8 +333,6 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"還有太多尚未傳送的多媒體訊息，因此目前無法傳送訊息。"</string>
     <string name="me" msgid="341726346007839961">"我"</string>
     <string name="sending_message" msgid="222836893217450538">"正在傳送..."</string>
-    <!-- no translation found for error_state (5177386717626893507) -->
-    <skip />
-    <!-- no translation found for error_state_text (5006221625000536698) -->
-    <skip />
+    <string name="error_state" msgid="5177386717626893507">"狀態不一致"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"會話串和收件者的狀態不一致，請擷取錯誤報告並傳送到 android-sms-bugs@google.com"</string>
 </resources>

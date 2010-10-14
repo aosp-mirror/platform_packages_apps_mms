@@ -284,9 +284,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"İletiyi incelemek üzere seçin ve tekrar deneyin."</string>
     <string name="download_later" msgid="4486286146421650880">"Şu an için indirilemiyor. Lütfen daha sonra tekrar deneyin."</string>
     <string name="select_audio" msgid="3120822451872772124">"Sesi seç"</string>
-    <!-- outdated translation 6056459122898138734 -->     <string name="copy_to_sdcard" msgid="757028609638184856">"Kopya SD karta eklendi"</string>
-    <!-- outdated translation 5322211009838330188 -->     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Ek SD karta kopyalandı"</string>
-    <!-- outdated translation 2726421767948392438 -->     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Ek SD karta kopyalanamadı"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Eki kaydet"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Ek kaydedildi"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Ek kaydedilemedi"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Zil sesi olarak kaydet"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Zil sesi kaydedildi"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Zil sesi kaydedilemedi"</string>
@@ -333,8 +333,6 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"İleti şu anda gönderilemiyor. Gönderilmemiş çok fazla multimedya iletisi var."</string>
     <string name="me" msgid="341726346007839961">"Ben"</string>
     <string name="sending_message" msgid="222836893217450538">"Gönderiliyor…"</string>
-    <!-- no translation found for error_state (5177386717626893507) -->
-    <skip />
-    <!-- no translation found for error_state_text (5006221625000536698) -->
-    <skip />
+    <string name="error_state" msgid="5177386717626893507">"Tutarsız durum"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"İleti dizilerinin ve alıcıların durumları tutarsız. Lütfen bir hata raporu alın ve android-sms-bug@google.com adresine gönderin"</string>
 </resources>

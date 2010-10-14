@@ -285,9 +285,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"Выберите, чтобы просмотреть сообщение и повторить попытку."</string>
     <string name="download_later" msgid="4486286146421650880">"В настоящий момент загрузка невозможна. Повторите попытку позже."</string>
     <string name="select_audio" msgid="3120822451872772124">"Выбор аудио"</string>
-    <!-- outdated translation 6056459122898138734 -->     <string name="copy_to_sdcard" msgid="757028609638184856">"Копировать приложение на SD-карту"</string>
-    <!-- outdated translation 5322211009838330188 -->     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Приложение скопировано на SD-карту"</string>
-    <!-- outdated translation 2726421767948392438 -->     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Не удалось скопировать приложение на SD-карту"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Сохранить приложение"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Прикрепленный файл сохранен"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Не удалось сохранить приложение"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Сохранить как мелодию звонка"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Мелодия сохранена"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Не удалось сохранить мелодию"</string>
@@ -334,8 +334,6 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Не удается отправить сообщение сейчас. Слишком много неотправленных MMS."</string>
     <string name="me" msgid="341726346007839961">"Я"</string>
     <string name="sending_message" msgid="222836893217450538">"Идет отправка…"</string>
-    <!-- no translation found for error_state (5177386717626893507) -->
-    <skip />
-    <!-- no translation found for error_state_text (5006221625000536698) -->
-    <skip />
+    <string name="error_state" msgid="5177386717626893507">"Данные были изменены"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"Цепочки не соответствуют получателям. Сделайте снимок экрана и отправьте сообщение об ошибке по адресу android-sms-bugs@google.com."</string>
 </resources>
