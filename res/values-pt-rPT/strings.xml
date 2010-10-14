@@ -284,9 +284,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"Seleccione para rever a mensagem e tente novamente."</string>
     <string name="download_later" msgid="4486286146421650880">"De momento não é possível transferir as mensagens. Tente novamente mais tarde."</string>
     <string name="select_audio" msgid="3120822451872772124">"Seleccionar áudio"</string>
-    <!-- outdated translation 6056459122898138734 -->     <string name="copy_to_sdcard" msgid="757028609638184856">"Copiar anexo para o cartão SD"</string>
-    <!-- outdated translation 5322211009838330188 -->     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Anexo copiado para o cartão SD"</string>
-    <!-- outdated translation 2726421767948392438 -->     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"A cópia do anexo para o cartão SD falhou"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Guardar anexo"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Anexo guardado"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Não é possível guardar anexo"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Guardar como toque"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Toque guardado"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Falha ao guardar o toque"</string>
@@ -333,8 +333,6 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Não é possível enviar a mensagem neste momento. Existem demasiadas mensagens multimédia por enviar."</string>
     <string name="me" msgid="341726346007839961">"Eu"</string>
     <string name="sending_message" msgid="222836893217450538">"A enviar…"</string>
-    <!-- no translation found for error_state (5177386717626893507) -->
-    <skip />
-    <!-- no translation found for error_state_text (5006221625000536698) -->
-    <skip />
+    <string name="error_state" msgid="5177386717626893507">"Estado inconsistente"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"O estado dos tópicos e dos destinatários é inconsistente. Capture um relatório de erros e envie-o para android-sms-bugs@google.com"</string>
 </resources>

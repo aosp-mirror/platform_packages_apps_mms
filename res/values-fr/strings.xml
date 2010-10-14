@@ -284,9 +284,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"Sélectionnez le message pour le relire, puis réessayez."</string>
     <string name="download_later" msgid="4486286146421650880">"Téléchargement impossible pour l\'instant. Merci de réessayer ultérieurement."</string>
     <string name="select_audio" msgid="3120822451872772124">"Sélectionnez un fichier audio"</string>
-    <!-- outdated translation 6056459122898138734 -->     <string name="copy_to_sdcard" msgid="757028609638184856">"Copier la pièce jointe sur la carte SD"</string>
-    <!-- outdated translation 5322211009838330188 -->     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Pièce jointe copiée sur la carte SD"</string>
-    <!-- outdated translation 2726421767948392438 -->     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Échec de la copie de la pièce jointe sur la carte SD"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Enregistrer la PJ"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Pièce jointe enregistrée"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Impossible d\'enregistrer la PJ"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Enregistrer comme sonnerie"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Sonnerie enregistrée"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Échec de l\'enregistrement de la sonnerie"</string>
@@ -333,8 +333,6 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Impossible d\'envoyer le message maintenant. Il existe un trop grand nombre de messages multimédias non envoyés."</string>
     <string name="me" msgid="341726346007839961">"Moi"</string>
     <string name="sending_message" msgid="222836893217450538">"Envoi en cours…"</string>
-    <!-- no translation found for error_state (5177386717626893507) -->
-    <skip />
-    <!-- no translation found for error_state_text (5006221625000536698) -->
-    <skip />
+    <string name="error_state" msgid="5177386717626893507">"État incohérent"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"L\'état des fils de discussion et des destinataires n\'est pas cohérent. Générez un rapport sur les bugs et envoyez-le à android-sms-bugs@google.com"</string>
 </resources>
