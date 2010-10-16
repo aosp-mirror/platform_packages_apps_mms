@@ -262,7 +262,7 @@ public class MessageListAdapter extends CursorAdapter {
                 item = new MessageItem(mContext, type, c, mColumnsMap, mHighlight);
                 mMessageItemCache.put(getKey(item.mType, item.mMsgId), item);
             } catch (MmsException e) {
-                Log.e(TAG, e.getMessage());
+                Log.e(TAG, "getCachedMessageItem: ", e);
             }
         }
         return item;
