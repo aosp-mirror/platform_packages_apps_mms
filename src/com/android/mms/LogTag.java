@@ -29,7 +29,8 @@ public class LogTag {
     public static final String TRANSACTION = "Mms:transaction";
     public static final String APP = "Mms:app";
     public static final String THREAD_CACHE = "Mms:threadcache";
-    public static final boolean SEVERE_WARNING = true; // TODO: turn off before shipping
+    public static final boolean SEVERE_WARNING = true;                  // Leave this true
+    private static final boolean SHOW_SEVERE_WARNING_DIALOG = true;     // Set to false before ship
 
     private static String prettyArray(String[] array) {
         if (array.length == 0) {
@@ -71,23 +72,25 @@ public class LogTag {
         Log.e(TAG, logFormat(format, args));
     }
 
-    public static void showWarningDialog(final String msg, final Activity activity) {
+    public static void warnPossibleRecipientMismatch(final String msg, final Activity activity) {
         Log.e(TAG, "WARNING!!!! " + msg);
 
-        activity.runOnUiThread(new Runnable() {
-            public void run() {
-                new AlertDialog.Builder(activity)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle(R.string.error_state)
-                    .setMessage(msg + "\n\n" + activity.getString(R.string.error_state_text))
-                    .setPositiveButton(R.string.yes, new OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
-            }
-        });
+        if (SHOW_SEVERE_WARNING_DIALOG) {
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    new AlertDialog.Builder(activity)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle(R.string.error_state)
+                        .setMessage(msg + "\n\n" + activity.getString(R.string.error_state_text))
+                        .setPositiveButton(R.string.yes, new OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+                }
+            });
+        }
     }
 
 }

@@ -963,13 +963,13 @@ public class WorkingMessage {
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             LogTag.debug("send");
         }
-        
+
         // Begin -------- debug code
-        if (LogTag.SEVERE_WARNING) {
-            Log.i(TAG, "##### send #####");
-            Log.i(TAG, "   mConversation (beginning of send): " + mConversation.toString());
-            Log.i(TAG, "   recipientsInUI: " + recipientsInUI);
-        }
+//        if (LogTag.SEVERE_WARNING) {
+//            Log.i(TAG, "##### send #####");
+//            Log.i(TAG, "   mConversation (beginning of send): " + mConversation.toString());
+//            Log.i(TAG, "   recipientsInUI: " + recipientsInUI);
+//        }
         // End -------- debug code
 
         // Get ready to write to disk.
@@ -979,7 +979,7 @@ public class WorkingMessage {
         String newRecipients = mConversation.getRecipients().serialize();
         if (!TextUtils.isEmpty(recipientsInUI) && !newRecipients.equals(recipientsInUI)) {
             if (LogTag.SEVERE_WARNING) {
-                LogTag.showWarningDialog("send() after newRecipients() changed recips from: "
+                LogTag.warnPossibleRecipientMismatch("send() after newRecipients() changed recips from: "
                         + recipientsInUI + " to " + newRecipients, mActivity);
                 dumpWorkingRecipients();
             } else {
@@ -1079,7 +1079,7 @@ public class WorkingMessage {
                     recipientsInUI + "\" differ from recipients from conv: \"" +
                     semiSepRecipients + "\"";
 
-            LogTag.showWarningDialog(msg, mActivity);
+            LogTag.warnPossibleRecipientMismatch(msg, mActivity);
         }
 
         // just do a regular send. We're already on a non-ui thread so no need to fire
