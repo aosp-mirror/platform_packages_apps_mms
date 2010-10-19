@@ -16,6 +16,24 @@
       "revId": "25ffc26c68a40676841e34fd56aeab08604f4920",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///QY\u003d",
+        "filename": "src/com/android/mms/transaction/TransactionSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002620
+      },
+      "writtenOn": "2010-10-19T19:44:45Z",
+      "side": 1,
+      "message": "I like Brad\u0027s suggestion, but don\u0027t forget the Telephony.Carriers.CONTENT_URI parameter.",
+      "parentUuid": "AAAA73//+98\u003d",
+      "revId": "25ffc26c68a40676841e34fd56aeab08604f4920",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
