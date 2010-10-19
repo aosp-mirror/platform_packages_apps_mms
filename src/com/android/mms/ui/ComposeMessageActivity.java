@@ -1734,7 +1734,7 @@ public class ComposeMessageActivity extends Activity
 
         if (LogTag.SEVERE_WARNING && originalThreadId != 0 &&
                 originalThreadId == mConversation.getThreadId()) {
-            LogTag.showWarningDialog("ComposeMessageActivity.initialize threadId didn't change" +
+            LogTag.warnPossibleRecipientMismatch("ComposeMessageActivity.initialize threadId didn't change" +
                     " from: " + originalThreadId, this);
         }
 
@@ -3116,7 +3116,7 @@ public class ComposeMessageActivity extends Activity
                 if (!sendingRecipients.equals(mDebugRecipients)) {
                     String workingRecipients = mWorkingMessage.getWorkingRecipients();
                     if (!mDebugRecipients.equals(workingRecipients)) {
-                        LogTag.showWarningDialog("ComposeMessageActivity.sendMessage recipients in " +
+                        LogTag.warnPossibleRecipientMismatch("ComposeMessageActivity.sendMessage recipients in " +
                                 "window: \"" +
                                 mDebugRecipients + "\" differ from recipients from conv: \"" +
                                 sendingRecipients + "\" and working recipients: " +
