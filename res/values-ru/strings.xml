@@ -287,7 +287,7 @@
     <string name="select_audio" msgid="3120822451872772124">"Выбор аудио"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Сохранить приложение"</string>
     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Прикрепленный файл сохранен"</string>
-    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Не удалось сохранить приложение"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Не удалось сохранить вложение"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Сохранить как мелодию звонка"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Мелодия сохранена"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Не удалось сохранить мелодию"</string>
