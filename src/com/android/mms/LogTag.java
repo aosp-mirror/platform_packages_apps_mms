@@ -24,6 +24,8 @@ public class LogTag {
     public static final String TRANSACTION = "Mms:transaction";
     public static final String APP = "Mms:app";
     public static final String THREAD_CACHE = "Mms:threadcache";
+    public static final boolean SEVERE_WARNING = true;                  // Leave this true
+    private static final boolean SHOW_SEVERE_WARNING_DIALOG = true;    // Set to false before ship
 
     private static String prettyArray(String[] array) {
         if (array.length == 0) {
