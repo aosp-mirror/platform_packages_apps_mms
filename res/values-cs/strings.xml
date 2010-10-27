@@ -284,9 +284,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"Zvolte možnost zkontrolovat zprávu a pokuste se ji odeslat znovu."</string>
     <string name="download_later" msgid="4486286146421650880">"Zprávy momentálně nelze stáhnout. Zkuste to prosím znovu později."</string>
     <string name="select_audio" msgid="3120822451872772124">"Vybrat zvuk"</string>
-    <string name="copy_to_sdcard" msgid="6056459122898138734">"Kopírovat přílohu na kartu SD"</string>
-    <string name="copy_to_sdcard_success" msgid="5322211009838330188">"Příloha byla zkopírována na kartu SD"</string>
-    <string name="copy_to_sdcard_fail" msgid="2726421767948392438">"Přílohu se na kartu SD nepodařilo zkopírovat"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Uložit přílohu"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Příloha byla uložena"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Přílohu nelze uložit"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Uložit jako vyzváněcí tón"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Vyzváněcí tón byl uložen"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Uložení vyzváněcího tónu se nezdařilo"</string>

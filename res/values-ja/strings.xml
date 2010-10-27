@@ -284,9 +284,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"メッセージを確認してもう一度送信します。"</string>
     <string name="download_later" msgid="4486286146421650880">"現在ダウンロードできません。しばらくしてからもう一度お試しください。"</string>
     <string name="select_audio" msgid="3120822451872772124">"オーディオの選択"</string>
-    <string name="copy_to_sdcard" msgid="6056459122898138734">"添付ファイルをSDカードにコピー"</string>
-    <string name="copy_to_sdcard_success" msgid="5322211009838330188">"添付ファイルをSDカードにコピーしました"</string>
-    <string name="copy_to_sdcard_fail" msgid="2726421767948392438">"添付ファイルをSDカードにコピーできませんでした"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"添付ファイルを保存"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"添付ファイルを保存しました"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"添付ファイルを保存できません"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"着信音として保存"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"着信音を保存しました"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"着信音の保存に失敗しました"</string>

@@ -284,9 +284,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"Välj om du vill granska meddelandet och försöka igen."</string>
     <string name="download_later" msgid="4486286146421650880">"Det går inte att hämta just nu. Försök igen senare."</string>
     <string name="select_audio" msgid="3120822451872772124">"Välja ljud"</string>
-    <string name="copy_to_sdcard" msgid="6056459122898138734">"Kopia bifogad till SD-kort"</string>
-    <string name="copy_to_sdcard_success" msgid="5322211009838330188">"Bilaga kopierad till SD-kort"</string>
-    <string name="copy_to_sdcard_fail" msgid="2726421767948392438">"Det gick inte att kopiera bilagorna till SD-kortet"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Spara bilagan"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Bilagan har sparats"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Bilagan kunde inte sparas"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Spara som ringsignal"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Ringsignalen sparad"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Det gick inte att spara ringsignalen"</string>

@@ -284,9 +284,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"檢視此簡訊並再試一次。"</string>
     <string name="download_later" msgid="4486286146421650880">"目前無法下載。請稍後再試一次。"</string>
     <string name="select_audio" msgid="3120822451872772124">"選取音訊"</string>
-    <string name="copy_to_sdcard" msgid="6056459122898138734">"將附件儲存至 SD 卡"</string>
-    <string name="copy_to_sdcard_success" msgid="5322211009838330188">"已將附件儲存至 SD 卡"</string>
-    <string name="copy_to_sdcard_fail" msgid="2726421767948392438">"無法將附件複製到 SD 卡"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"儲存附件"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"已儲存附件"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"無法儲存附件"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"儲存為鈴聲"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"已儲存鈴聲"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"無法儲存鈴聲"</string>

@@ -284,9 +284,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"Seleccione para rever a mensagem e tente novamente."</string>
     <string name="download_later" msgid="4486286146421650880">"De momento não é possível transferir as mensagens. Tente novamente mais tarde."</string>
     <string name="select_audio" msgid="3120822451872772124">"Seleccionar áudio"</string>
-    <string name="copy_to_sdcard" msgid="6056459122898138734">"Copiar anexo para o cartão SD"</string>
-    <string name="copy_to_sdcard_success" msgid="5322211009838330188">"Anexo copiado para o cartão SD"</string>
-    <string name="copy_to_sdcard_fail" msgid="2726421767948392438">"A cópia do anexo para o cartão SD falhou"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Guardar anexo"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Anexo guardado"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Não é possível guardar anexo"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Guardar como toque"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Toque guardado"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Falha ao guardar o toque"</string>
