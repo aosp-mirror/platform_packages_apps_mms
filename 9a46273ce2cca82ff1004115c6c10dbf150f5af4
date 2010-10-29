@@ -33,6 +33,24 @@
       "revId": "9a46273ce2cca82ff1004115c6c10dbf150f5af4",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H//96U\u003d",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003224
+      },
+      "writtenOn": "2010-10-29T16:54:14Z",
+      "side": 1,
+      "message": "even better, rename \u0027count\u0027 to \u0027byteCount\u0027. see also https://review.source.android.com/18663 which has most of these changes.",
+      "parentUuid": "AAAA73///PQ\u003d",
+      "revId": "9a46273ce2cca82ff1004115c6c10dbf150f5af4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
