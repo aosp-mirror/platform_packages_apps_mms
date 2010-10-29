@@ -162,6 +162,10 @@ public abstract class Transaction extends Observable {
      *         an HTTP error code(>=400) returned from the server.
      */
     protected byte[] sendPdu(long token, byte[] pdu, String mmscUrl) throws IOException {
+        if (pdu == null) {
+            throw new IllegalArgumentException();
+        }
+
         ensureRouteToHost(mmscUrl, mTransactionSettings);
         return HttpUtils.httpConnection(
                 mContext, token,
