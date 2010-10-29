@@ -39,7 +39,9 @@ import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.URI;
@@ -52,6 +54,7 @@ public class HttpUtils {
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
+    private static final int BUF_SIZE = 4096;
     public static final int HTTP_POST_METHOD = 1;
     public static final int HTTP_GET_METHOD = 2;
 
@@ -217,6 +220,28 @@ public class HttpUtils {
                                 dis.close();
                             } catch (IOException e) {
                                 Log.e(TAG, "Error closing input stream: " + e.getMessage());
+                            }
+                        }
+                    } else if (entity.isChunked()) {
+                        // Deal with Http 1.1 chunked transfer encoding.
+                        ByteArrayOutputStream bas = new ByteArrayOutputStream();
+                        byte[] tmp = new byte[BUF_SIZE];
+                        int readed = 0;
+                        try {
+                            InputStream is = entity.getContent();
+                            while ((readed = is.read(tmp)) != -1) {
+                                bas.write(tmp, 0, readed);
+                            }
+                            body = bas.toByteArray();
+                        } catch (Exception e) {
+                            Log.e (TAG, "Error reading/writing http entity: " + e.getMessage());
+                            e.printStackTrace();
+                        } finally {
+                            try {
+                                bas.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                Log.e(TAG, "Error closing output streams: " + e.getMessage());
                             }
                         }
                     }
