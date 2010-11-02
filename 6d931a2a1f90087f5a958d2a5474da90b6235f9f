@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H//9iE\u003d",
+        "filename": "src/com/android/mms/transaction/Transaction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000269
+      },
+      "writtenOn": "2010-11-02T19:33:46Z",
+      "side": 1,
+      "message": "style:  add { braces } around your if body",
+      "revId": "6d931a2a1f90087f5a958d2a5474da90b6235f9f",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
