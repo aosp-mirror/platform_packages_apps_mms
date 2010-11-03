@@ -39,7 +39,8 @@ import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
 
-import java.io.DataInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.URI;
@@ -54,6 +55,8 @@ public class HttpUtils {
 
     public static final int HTTP_POST_METHOD = 1;
     public static final int HTTP_GET_METHOD = 2;
+
+    private static final int MMS_READ_BUFFER = 4096;
 
     // This is the value to use for the "Accept-Language" header.
     // Once it becomes possible for the user to change the locale
@@ -207,23 +210,26 @@ public class HttpUtils {
             byte[] body = null;
             if (entity != null) {
                 try {
-                    if (entity.getContentLength() > 0) {
-                        body = new byte[(int) entity.getContentLength()];
-                        DataInputStream dis = new DataInputStream(entity.getContent());
+                    InputStream in = entity.getContent();
+                    ByteArrayOutputStream out = new ByteArrayOutputStream(MMS_READ_BUFFER);
+                    byte[] buffer = new byte[MMS_READ_BUFFER];
+
+                    int byteCount;
+                    try {
+                        while ((byteCount = in.read(buffer)) != -1) {
+                            out.write(buffer, 0, byteCount);
+                        }
+                        body = out.toByteArray();
+                    } finally {
                         try {
-                            dis.readFully(body);
-                        } finally {
-                            try {
-                                dis.close();
-                            } catch (IOException e) {
-                                Log.e(TAG, "Error closing input stream: " + e.getMessage());
-                            }
+                            in.close();
+                            out.close();
+                        } catch (IOException e) {
+                            Log.e(TAG, "Error closing input stream: " + e.getMessage());
                         }
                     }
                 } finally {
-                    if (entity != null) {
-                        entity.consumeContent();
-                    }
+                    entity.consumeContent();
                 }
             }
             return body;
