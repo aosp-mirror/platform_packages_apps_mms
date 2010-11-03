@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H//9YQ\u003d",
+        "filename": "src/com/android/mms/transaction/Transaction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1002473
+      },
+      "writtenOn": "2010-11-03T16:51:10Z",
+      "side": 1,
+      "message": "I think you should probably throw MmsException instead of IllegalArgumentEx, since the code that calls sendPdu() doesn\u0027t catch IllegalArgumentEx, and the app may crash.",
+      "revId": "07b407142ff29a744ddacb5fc6ad4b3eeaadd394",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
