@@ -489,7 +489,9 @@
 
     <!-- Manage SIM Messages -->
     <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-    <string name="sim_copy_to_phone_memory">Copy to phone memory</string>
+    <string name="sim_copy_to_phone_memory" product="tablet">Copy to tablet memory</string>
+    <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+    <string name="sim_copy_to_phone_memory" product="default">Copy to phone memory</string>
     <!-- Menu title to delete a selected messaged from the SIM card. -->
     <string name="sim_delete">Delete</string>
     <!-- Title of screen displaying messages on SIM card -->
