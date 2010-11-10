@@ -231,7 +231,8 @@
     <string name="retrying_dialog_body" msgid="4738260459043003431">"El mensaje <xliff:g id="MESSAGE">%s</xliff:g> no se envió debido a un problema con la conexión."\n"Intentando nuevamente el envío…"</string>
     <string name="menu_lock" msgid="136863583207382259">"Bloquear mensaje"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Desbloquear mensaje"</string>
-    <string name="sim_copy_to_phone_memory" msgid="5895767417844881971">"Copiar a memoria del teléfono"</string>
+    <!-- outdated translation 5895767417844881971 -->     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Copiar a memoria del teléfono"</string>
+    <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Copiar a memoria del teléfono"</string>
     <string name="sim_delete" msgid="610790510655316922">"Suprimir"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Mensajes de texto en tarjeta SIM"</string>
     <string name="sim_view" msgid="1997173541766393706">"Ver"</string>

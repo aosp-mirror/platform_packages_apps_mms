@@ -231,7 +231,8 @@
     <string name="retrying_dialog_body" msgid="4738260459043003431">"Quest messadi <xliff:g id="MESSAGE">%s</xliff:g> n\'è betg vegnì tramess per motiv d\'in problem da connexiun. "\n"Ulteriura tentativa da trametter…"</string>
     <string name="menu_lock" msgid="136863583207382259">"Bloccar il messadi"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Debloccar il messadi"</string>
-    <string name="sim_copy_to_phone_memory" msgid="5895767417844881971">"Copiar en la memoria dal telefonin"</string>
+    <!-- outdated translation 5895767417844881971 -->     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Copiar en la memoria dal telefonin"</string>
+    <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Copiar en la memoria dal telefonin"</string>
     <string name="sim_delete" msgid="610790510655316922">"Stizzar"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Messadis SMS sin la carta SIM"</string>
     <string name="sim_view" msgid="1997173541766393706">"Mussar"</string>
