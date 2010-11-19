@@ -26,7 +26,7 @@
     <bool name="enabledMMS">true</bool>
 
     <!-- Maximum message size in bytes for a MMS message -->
-    <int name="maxMessageSize">1048576</int>
+    <int name="maxMessageSize">307200</int>
 
     <!-- Maximum height for an attached image -->
     <int name="maxImageHeight">480</int>
