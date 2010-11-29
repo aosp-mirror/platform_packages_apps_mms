@@ -29,7 +29,7 @@
     <string name="menu_preferences" msgid="4693148116114749414">"Parameters"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Agiuntar <xliff:g id="NAME">%s</xliff:g> als contacts"</string>
     <string name="menu_call" msgid="5877123227307074690">"Telefonar"</string>
-    <!-- outdated translation 8853352701914512057 -->     <string name="menu_delete_all" msgid="808729454898114735">"Stizzar ils fils da discussiun"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"Stizzar tut ils temas"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Stizzar il fil da discussiun"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Messadis betg spedids"</string>
     <string name="menu_view" msgid="7448852683948080108">"Mussar il fil da discussiun"</string>
@@ -273,8 +273,7 @@
     <string name="confirm" msgid="3155110885840591914">"Confermar"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Ina conferma da lectura vegn tramessa."</string>
     <string name="message_queued" msgid="8869479754825264671">"Actualmain na po Voss messadi betg vegnir tramess. El vegn tramess sch\'il servetsch è puspè disponibel."</string>
-    <!-- no translation found for fdn_check_failure (7880740763778173551) -->
-    <skip />
+    <string name="fdn_check_failure" msgid="7880740763778173551">"Vus pudais mo trametter messadis a Voss numers da telefon autorisads."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Nagin object)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Speditur nunenconuschent"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"La telechargiada dal messadi <xliff:g id="SUBJECT">%1$s</xliff:g> da <xliff:g id="FROM">%2$s</xliff:g> n\'è betg reussida."</string>
@@ -319,8 +318,8 @@
     <string name="search_setting_description" msgid="4104004595086437572">"Text en Voss messadis"</string>
     <string name="search_empty" msgid="645052646985297065">"Naginas correspundenzas"</string>
   <plurals name="search_results_title">
-    <!-- outdated translation 675571420878010439 -->     <item quantity="one" msgid="4657073733087431350">"\"<xliff:g id="NUMBER">%1$s</xliff:g> resultat per \"\"%s\"\"\""</item>
-    <!-- outdated translation 3778201725913692491 -->     <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> resultats per «%s»"</item>
+    <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> resultats per <xliff:g id="SEARCH">%2$s</xliff:g>"</item>
+    <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> resultats per <xliff:g id="SEARCH">%2$s</xliff:g>"</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"\"<xliff:g id="COUNT">%1$s</xliff:g> resultats per \"\"<xliff:g id="SEARCH">%2$s</xliff:g>\"\"\""</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Stizzar"</string>
@@ -335,8 +334,6 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Impussibel dad ussa trametter il messadi. Memia blers messadis multimedia betg tramess èn avant maun."</string>
     <string name="me" msgid="341726346007839961">"Jau"</string>
     <string name="sending_message" msgid="222836893217450538">"Vegn tramess…"</string>
-    <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
-    <skip />
-    <!-- no translation found for adding_recipients (2962810172527532357) -->
-    <skip />
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"Memia blers destinaturs"</string>
+    <string name="adding_recipients" msgid="2962810172527532357">"Agiuntar destinaturs..."</string>
 </resources>

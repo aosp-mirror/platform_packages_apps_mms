@@ -318,10 +318,8 @@
     <string name="search" msgid="7560238620274735199">"Viestit"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"Viestien teksti"</string>
     <string name="search_empty" msgid="645052646985297065">"Ei osumia"</string>
-  <plurals name="search_results_title">
-    <!-- outdated translation 305197769823204936 -->     <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> tulos haulle %2$s"</item>
-    <!-- outdated translation 876733360030065057 -->     <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> tulosta haulla %2$s"</item>
-  </plurals>
+    <!-- no translation found for search_results_title:one (4657073733087431350) -->
+    <!-- no translation found for search_results_title:other (6196382287749539209) -->
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> tulosta haulla <xliff:g id="SEARCH">%2$s</xliff:g>"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Tyhjennä"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"Hakuhistoria tyhjennetään."</string>
