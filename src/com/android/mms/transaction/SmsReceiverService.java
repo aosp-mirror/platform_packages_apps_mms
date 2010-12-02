@@ -478,10 +478,7 @@ public class SmsReceiverService extends Service {
         ContentValues values = new ContentValues();
 
         values.put(Inbox.ADDRESS, sms.getDisplayOriginatingAddress());
-
-        // Use now for the timestamp to avoid confusion with clock
-        // drift between the handset and the SMSC.
-        values.put(Inbox.DATE, new Long(System.currentTimeMillis()));
+        values.put(Inbox.DATE, sms.getTimestampMillis());
         values.put(Inbox.PROTOCOL, sms.getProtocolIdentifier());
         values.put(Inbox.READ, 0);
         values.put(Inbox.SEEN, 0);
