@@ -105,7 +105,7 @@ public class VideoAttachmentView extends LinearLayout implements
         try {
             retriever.setMode(MediaMetadataRetriever.MODE_CAPTURE_FRAME_ONLY);
             retriever.setDataSource(context, uri);
-            bitmap = retriever.captureFrame();
+            bitmap = retriever.getFrameAtTime(-1);
         } catch (RuntimeException ex) {
             // Assume this is a corrupt video file.
         } finally {
