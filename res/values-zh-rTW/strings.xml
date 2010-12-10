@@ -231,7 +231,7 @@
     <string name="retrying_dialog_body" msgid="4738260459043003431">"由於連線問題，此簡訊 (<xliff:g id="MESSAGE">%s</xliff:g>) 傳送失敗。"\n"重新傳送中..."</string>
     <string name="menu_lock" msgid="136863583207382259">"鎖定訊息"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"解除鎖定訊息"</string>
-    <!-- outdated translation 5895767417844881971 -->     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"複製到手機記憶體"</string>
+    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"複製到平板電腦的記憶體"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"複製到手機記憶體"</string>
     <string name="sim_delete" msgid="610790510655316922">"刪除"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"SIM 卡上的簡訊"</string>

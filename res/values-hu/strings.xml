@@ -231,7 +231,7 @@
     <string name="retrying_dialog_body" msgid="4738260459043003431">"Az üzenet (<xliff:g id="MESSAGE">%s</xliff:g>) kapcsolódási hiba miatt nem lett elküldve."\n"Küldés újrapróbálása…"</string>
     <string name="menu_lock" msgid="136863583207382259">"Üzenet zárolása"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Üzenet zárolásának feloldása"</string>
-    <!-- outdated translation 5895767417844881971 -->     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Másolás a telefon memóriájába"</string>
+    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Másolás a táblagép memóriájába"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Másolás a telefon memóriájába"</string>
     <string name="sim_delete" msgid="610790510655316922">"Törlés"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Szöveges üzenetek a SIM-kártyán"</string>

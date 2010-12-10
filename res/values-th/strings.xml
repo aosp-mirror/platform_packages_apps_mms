@@ -231,7 +231,7 @@
     <string name="retrying_dialog_body" msgid="4738260459043003431">"ข้อความนี้ <xliff:g id="MESSAGE">%s</xliff:g> ไม่ได้รับการส่งเนื่องจากปัญหาการเชื่อมต่อ "\n"กำลังพยายามส่งซ้ำ..."</string>
     <string name="menu_lock" msgid="136863583207382259">"ล็อกข้อความ"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"ปลดล็อกข้อความ"</string>
-    <!-- outdated translation 5895767417844881971 -->     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"คัดลอกไปยังหน่วยความจำโทรศัพท์"</string>
+    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"คัดลอกไปยังหน่วยความจำแท็บเล็ต"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"คัดลอกไปยังหน่วยความจำโทรศัพท์"</string>
     <string name="sim_delete" msgid="610790510655316922">"ลบ"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"ข้อความตัวอักษรบนซิมการ์ด"</string>

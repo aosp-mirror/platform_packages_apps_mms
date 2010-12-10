@@ -231,7 +231,7 @@
     <string name="retrying_dialog_body" msgid="4738260459043003431">"این پیام <xliff:g id="MESSAGE">%s</xliff:g> به دلیل مشکل اتصال ارسال نشد."\n"در حال امتحان مجدد برای ارسال..."</string>
     <string name="menu_lock" msgid="136863583207382259">"قفل کردن پیام"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"بازگشایی قفل پیام"</string>
-    <!-- outdated translation 5895767417844881971 -->     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"کپی در حافظه تلفن"</string>
+    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"کپی در حافظه رایانه لوحی"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"کپی در حافظه تلفن"</string>
     <string name="sim_delete" msgid="610790510655316922">"حذف"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"پیام های متنی در سیم کارت"</string>

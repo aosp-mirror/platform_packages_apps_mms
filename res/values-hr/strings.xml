@@ -231,7 +231,7 @@
     <string name="retrying_dialog_body" msgid="4738260459043003431">"Poruka <xliff:g id="MESSAGE">%s</xliff:g> nije poslana zbog problema s vezom."\n"Pokušaj ponovnog slanja..."</string>
     <string name="menu_lock" msgid="136863583207382259">"Zaključaj poruku"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Otključaj poruku"</string>
-    <!-- outdated translation 5895767417844881971 -->     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopiraj u memoriju telefona"</string>
+    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopiraj u memoriju tablet računala"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Kopiraj u memoriju telefona"</string>
     <string name="sim_delete" msgid="610790510655316922">"Izbriši"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Tekstualne poruke na SIM kartici"</string>

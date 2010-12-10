@@ -231,7 +231,7 @@
     <string name="retrying_dialog_body" msgid="4738260459043003431">"Zprávu <xliff:g id="MESSAGE">%s</xliff:g> se nepodařilo odeslat kvůli potížím s připojením."\n"Další pokus..."</string>
     <string name="menu_lock" msgid="136863583207382259">"Uzamknout zprávu"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Odemknout zprávu"</string>
-    <!-- outdated translation 5895767417844881971 -->     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopírovat do paměti telefonu"</string>
+    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopírovat do paměti tabletu"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Kopírovat do paměti telefonu"</string>
     <string name="sim_delete" msgid="610790510655316922">"Smazat"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Textové zprávy na kartě SIM"</string>
