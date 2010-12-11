@@ -61,7 +61,7 @@ public class TransactionSettings {
      */
     public TransactionSettings(Context context, String apnName) {
         String selection = (apnName != null)?
-                Telephony.Carriers.APN + "='"+apnName+"'": null;
+                Telephony.Carriers.APN + "='" + apnName.trim() + "'": null;
 
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
                             Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI, "current"),
@@ -78,7 +78,7 @@ public class TransactionSettings {
                 // Read values from APN settings
                 if (isValidApnType(cursor.getString(COLUMN_TYPE), Phone.APN_TYPE_MMS)) {
                     sawValidApn = true;
-                    mServiceCenter = cursor.getString(COLUMN_MMSC);
+                    mServiceCenter = cursor.getString(COLUMN_MMSC).trim();
                     mProxyAddress = cursor.getString(COLUMN_MMSPROXY);
                     if (isProxySet()) {
                         String portString = cursor.getString(COLUMN_MMSPORT);
@@ -113,7 +113,7 @@ public class TransactionSettings {
      * false otherwise.
      */
     public TransactionSettings(String mmscUrl, String proxyAddr, int proxyPort) {
-        mServiceCenter = mmscUrl;
+        mServiceCenter = mmscUrl != null ? mmscUrl.trim() : null;
         mProxyAddress = proxyAddr;
         mProxyPort = proxyPort;
     }
