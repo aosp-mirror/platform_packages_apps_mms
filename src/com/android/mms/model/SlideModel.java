@@ -151,7 +151,7 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
             increaseSlideSize(addSize);
             increaseMessageSize(addSize);
         } else {
-            removeSize = old.getMediaSize();
+            removeSize = old.getMediaResizable() ? 0 : old.getMediaSize();
             if (addSize > removeSize) {
                 if (null != mParent) {
                     mParent.checkMessageSize(addSize - removeSize);
