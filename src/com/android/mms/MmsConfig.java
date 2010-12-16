@@ -28,8 +28,8 @@ import android.util.Log;
 
 public class MmsConfig {
     private static final String TAG = "MmsConfig";
-    private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean DEBUG = true;
+    private static final boolean LOCAL_LOGV = true; //DEBUG ? Config.LOGD : Config.LOGV;
 
     private static final String DEFAULT_HTTP_KEY_X_WAP_PROFILE = "x-wap-profile";
     private static final String DEFAULT_USER_AGENT = "Android-Mms/2.0";
@@ -84,7 +84,10 @@ public class MmsConfig {
     }
 
     public static int getMaxMessageSize() {
-        return mMaxMessageSize;
+        if (LOCAL_LOGV) {
+            Log.v(TAG, "MmsConfig.getMaxMessageSize(): " + mMaxMessageSize);
+        }
+       return mMaxMessageSize;
     }
 
     /**
@@ -206,7 +209,7 @@ public class MmsConfig {
             ;
         }
     }
-    
+
     private static void loadMmsSettings(Context context) {
         XmlResourceParser parser = context.getResources().getXml(R.xml.mms_config);
 
