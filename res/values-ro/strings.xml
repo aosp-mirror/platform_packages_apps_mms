@@ -29,7 +29,7 @@
     <string name="menu_preferences" msgid="4693148116114749414">"Setări"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Adaugă <xliff:g id="NAME">%s</xliff:g> în Agendă"</string>
     <string name="menu_call" msgid="5877123227307074690">"Apelaţi"</string>
-    <!-- outdated translation 8853352701914512057 -->     <string name="menu_delete_all" msgid="808729454898114735">"Ştergeţi firele de conversaţie"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"Ştergeţi toate şirurile"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Ştergeţi firul de conversaţie"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Mesaje neexpediate"</string>
     <string name="menu_view" msgid="7448852683948080108">"Vizualizaţi firele de conversaţie"</string>
@@ -231,7 +231,7 @@
     <string name="retrying_dialog_body" msgid="4738260459043003431">"Mesajul <xliff:g id="MESSAGE">%s</xliff:g> nu a fost trimis din cauza unei probleme de conectare."\n"Se încearcă din nou trimiterea..."</string>
     <string name="menu_lock" msgid="136863583207382259">"Blocaţi mesajul"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Deblocaţi mesajul"</string>
-    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Copiaţi în memoria tabletei"</string>
+    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Copiaţi în memoria computerului tablet PC"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Copiaţi în memoria telefonului"</string>
     <string name="sim_delete" msgid="610790510655316922">"Ştergeţi"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Mesaje text pe cardul SIM"</string>
@@ -273,8 +273,7 @@
     <string name="confirm" msgid="3155110885840591914">"Confirmaţi"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Un raport de citire va fi trimis."</string>
     <string name="message_queued" msgid="8869479754825264671">"Mesajul dvs. nu poate fi trimis în prezent, ci doar atunci când serviciul va deveni disponibil."</string>
-    <!-- no translation found for fdn_check_failure (7880740763778173551) -->
-    <skip />
+    <string name="fdn_check_failure" msgid="7880740763778173551">"Puteţi trimite mesaje numai la numerele cu apelări restricţionate."</string>
     <string name="no_subject" msgid="4168963736134552285">"(niciun subiect)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Expeditor necunoscut"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"Descărcarea mesajului <xliff:g id="SUBJECT">%1$s</xliff:g> de la <xliff:g id="FROM">%2$s</xliff:g> a eşuat."</string>
@@ -286,9 +285,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"Selectaţi pentru a revedea mesajul şi încercaţi din nou."</string>
     <string name="download_later" msgid="4486286146421650880">"Descărcarea nu se poate efectua. Încercaţi din nou mai târziu."</string>
     <string name="select_audio" msgid="3120822451872772124">"Selectaţi fişierul audio"</string>
-    <!-- outdated translation 6056459122898138734 -->     <string name="copy_to_sdcard" msgid="757028609638184856">"Copiaţi fişierul ataşat pe cardul SD"</string>
-    <!-- outdated translation 5322211009838330188 -->     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Ataşament copiat pe cardul SD"</string>
-    <!-- outdated translation 2726421767948392438 -->     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Copierea fişierului ataşat pe cardul SD a eşuat."</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Salvaţi ataşamentul"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Ataşamentul s-a salvat"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Ataşamentul nu poate fi salvat"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Salvaţi ca ton de apel"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Ton de apel salvat"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Salvarea tonului de sonerie a eşuat"</string>
@@ -318,8 +317,10 @@
     <string name="search" msgid="7560238620274735199">"Mesagerie"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"Text în mesajele dvs."</string>
     <string name="search_empty" msgid="645052646985297065">"Nicio potrivire"</string>
-    <!-- no translation found for search_results_title:one (4657073733087431350) -->
-    <!-- no translation found for search_results_title:other (6196382287749539209) -->
+  <plurals name="search_results_title">
+    <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> rezultat pentru „<xliff:g id="SEARCH">%2$s</xliff:g>”"</item>
+    <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> (de) rezultate pentru „<xliff:g id="SEARCH">%2$s</xliff:g>”"</item>
+  </plurals>
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> (de) rezultate pentru „<xliff:g id="SEARCH">%2$s</xliff:g>”"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Ştergeţi"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"Istoricul căutărilor va fi şters."</string>
@@ -335,6 +336,5 @@
     <string name="sending_message" msgid="222836893217450538">"Se trimite..."</string>
     <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
     <skip />
-    <!-- no translation found for adding_recipients (2962810172527532357) -->
-    <skip />
+    <string name="adding_recipients" msgid="2962810172527532357">"Se adaugă destinatari..."</string>
 </resources>

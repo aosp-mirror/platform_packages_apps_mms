@@ -29,7 +29,7 @@
     <string name="menu_preferences" msgid="4693148116114749414">"تنظیمات"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"افزودن <xliff:g id="NAME">%s</xliff:g> به مخاطبین"</string>
     <string name="menu_call" msgid="5877123227307074690">"تماس"</string>
-    <!-- outdated translation 8853352701914512057 -->     <string name="menu_delete_all" msgid="808729454898114735">"حذف رشته ها"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"حذف همه رشته ها"</string>
     <string name="menu_delete" msgid="1851666911396479006">"حذف رشته"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"پیام های تحویل داده نشده"</string>
     <string name="menu_view" msgid="7448852683948080108">"مشاهده رشته"</string>
@@ -273,8 +273,7 @@
     <string name="confirm" msgid="3155110885840591914">"تأیید"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"یک گزارش خواندن ارسال می شود."</string>
     <string name="message_queued" msgid="8869479754825264671">"در حال حاضر ارسال پیام شما امکان پذیر نمی باشد. به محض دسترسی به سرویس، پیام شما ارسال می شود."</string>
-    <!-- no translation found for fdn_check_failure (7880740763778173551) -->
-    <skip />
+    <string name="fdn_check_failure" msgid="7880740763778173551">"فقط می توانید به شماره های شماره گیری ثابت خود پیام ارسال کنید."</string>
     <string name="no_subject" msgid="4168963736134552285">"(بدون موضوع)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"فرستنده ناشناس"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"دانلود پیام <xliff:g id="SUBJECT">%1$s</xliff:g> از <xliff:g id="FROM">%2$s</xliff:g> ناموفق بود."</string>
@@ -286,9 +285,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"برای مرور پیام انتخاب کنید و دوباره امتحان کنید."</string>
     <string name="download_later" msgid="4486286146421650880">"در حال حاضر دانلود امکان پذیر نیست. لطفاً بعداً دوباره امتحان کنید."</string>
     <string name="select_audio" msgid="3120822451872772124">"انتخاب صدا"</string>
-    <!-- outdated translation 6056459122898138734 -->     <string name="copy_to_sdcard" msgid="757028609638184856">"کپی به کارت SD پیوست شد"</string>
-    <!-- outdated translation 5322211009838330188 -->     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"پیوست در کارت SD کپی شد"</string>
-    <!-- outdated translation 2726421767948392438 -->     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"کپی پیوست در کارت SD انجام نشد"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"ذخیره پیوست"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"پیوست ذخیره شد"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"ذخیره پیوست ممکن نیست"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"ذخیره بعنوان آهنگ زنگ"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"آهنگ زنگ ذخیره شد"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"ذخیره آهنگ زنگ انجام نشد"</string>
@@ -318,8 +317,10 @@
     <string name="search" msgid="7560238620274735199">"پیام رسانی"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"ارسال متن در پیام های شما"</string>
     <string name="search_empty" msgid="645052646985297065">"مورد منطبقی موجود نیست"</string>
-    <!-- no translation found for search_results_title:one (4657073733087431350) -->
-    <!-- no translation found for search_results_title:other (6196382287749539209) -->
+  <plurals name="search_results_title">
+    <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> نتیجه برای \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
+    <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> نتیجه برای \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
+  </plurals>
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> نتیجه برای \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"پاک کردن"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"سابقه جستجو پاک می شود."</string>
@@ -335,6 +336,5 @@
     <string name="sending_message" msgid="222836893217450538">"درحال ارسال…"</string>
     <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
     <skip />
-    <!-- no translation found for adding_recipients (2962810172527532357) -->
-    <skip />
+    <string name="adding_recipients" msgid="2962810172527532357">"افزودن گیرندگان..."</string>
 </resources>

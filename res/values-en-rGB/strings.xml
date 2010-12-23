@@ -285,9 +285,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"Select to review the message and try again."</string>
     <string name="download_later" msgid="4486286146421650880">"Currently unable to download. Please try again later."</string>
     <string name="select_audio" msgid="3120822451872772124">"Select audio"</string>
-    <!-- outdated translation 6056459122898138734 -->     <string name="copy_to_sdcard" msgid="757028609638184856">"Copy attached to SD card"</string>
-    <!-- outdated translation 5322211009838330188 -->     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Attachment copied to SD card"</string>
-    <!-- outdated translation 2726421767948392438 -->     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Copying attachment to SD card failed"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Save attachment"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Attachment saved"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Unable to save attachment"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Save as ringtone"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Ringtone saved"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Saving ringtone failed"</string>

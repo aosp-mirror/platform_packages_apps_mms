@@ -29,7 +29,7 @@
     <string name="menu_preferences" msgid="4693148116114749414">"Iestatījumi"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Pievienot lietotāju <xliff:g id="NAME">%s</xliff:g> kontaktpersonām"</string>
     <string name="menu_call" msgid="5877123227307074690">"Zvanīt"</string>
-    <!-- outdated translation 8853352701914512057 -->     <string name="menu_delete_all" msgid="808729454898114735">"Dzēst pavedienus"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"Dzēst visus pavedienus"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Dzēst pavedienu"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Nepiegādātie ziņojumi"</string>
     <string name="menu_view" msgid="7448852683948080108">"Skatīt pavedienu"</string>
@@ -231,7 +231,7 @@
     <string name="retrying_dialog_body" msgid="4738260459043003431">"Šis ziņojums <xliff:g id="MESSAGE">%s</xliff:g> netika nosūtīts, jo radās savienojuma problēma."\n"Notiek atkārtota sūtīšana..."</string>
     <string name="menu_lock" msgid="136863583207382259">"Bloķēt ziņojumu"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Atbloķēt ziņojumu"</string>
-    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopēt planšetdatora atmiņā"</string>
+    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopēt uz planšetdatora atmiņu"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Kopēt tālruņa atmiņā"</string>
     <string name="sim_delete" msgid="610790510655316922">"Dzēst"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"SIM kartē esošās īsziņas"</string>
@@ -273,8 +273,7 @@
     <string name="confirm" msgid="3155110885840591914">"Apstiprināt"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Tiks nosūtīts pārskats par lasīšanu."</string>
     <string name="message_queued" msgid="8869479754825264671">"Ziņojumu pašlaik nevar nosūtīt. Tas tiks nosūtīts, kad pakalpojums kļūs pieejams."</string>
-    <!-- no translation found for fdn_check_failure (7880740763778173551) -->
-    <skip />
+    <string name="fdn_check_failure" msgid="7880740763778173551">"Ziņojumus var sūtīt tikai fiksētajiem numuriem."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Bez temata)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Nezināms sūtītājs"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"Ziņojums <xliff:g id="SUBJECT">%1$s</xliff:g> no lietotāja <xliff:g id="FROM">%2$s</xliff:g> netika lejupielādēts."</string>
@@ -286,9 +285,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"Atlasiet, lai skatītu ziņojumu un mēģinātu vēlreiz."</string>
     <string name="download_later" msgid="4486286146421650880">"Pašlaik lejupielāde nav iespējama. Lūdzu, vēlāk mēģiniet vēlreiz."</string>
     <string name="select_audio" msgid="3120822451872772124">"Atlasīt audio"</string>
-    <!-- outdated translation 6056459122898138734 -->     <string name="copy_to_sdcard" msgid="757028609638184856">"Kopēt pielikumu SD kartē"</string>
-    <!-- outdated translation 5322211009838330188 -->     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Pielikums ir pārkopēts SD kartē."</string>
-    <!-- outdated translation 2726421767948392438 -->     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Pielikuma kopēšana SD kartē neizdevās."</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Pielikuma saglabāšana"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Pielikums ir saglabāts."</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Nevar saglabāt pielikumu."</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Saglabāt kā zvana signālu"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Zvana signāls ir saglabāts."</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Neizdevās saglabāt zvana signālu."</string>
@@ -318,8 +317,10 @@
     <string name="search" msgid="7560238620274735199">"Messaging"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"Ziņojumu teksts"</string>
     <string name="search_empty" msgid="645052646985297065">"Nav nevienas atbilstības."</string>
-    <!-- no translation found for search_results_title:one (4657073733087431350) -->
-    <!-- no translation found for search_results_title:other (6196382287749539209) -->
+  <plurals name="search_results_title">
+    <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> rezultāti vaicājumam <xliff:g id="SEARCH">%2$s</xliff:g>"</item>
+    <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> rezultāti vaicājumam <xliff:g id="SEARCH">%2$s</xliff:g>"</item>
+  </plurals>
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> rezultāts(-i) vaicājumam “<xliff:g id="SEARCH">%2$s</xliff:g>”"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Notīrīt"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"Meklēšanas vēsture tiks notīrīta."</string>
@@ -335,6 +336,5 @@
     <string name="sending_message" msgid="222836893217450538">"Notiek sūtīšana…"</string>
     <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
     <skip />
-    <!-- no translation found for adding_recipients (2962810172527532357) -->
-    <skip />
+    <string name="adding_recipients" msgid="2962810172527532357">"Notiek saņēmēju pievienošana…"</string>
 </resources>

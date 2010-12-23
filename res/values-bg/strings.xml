@@ -29,7 +29,7 @@
     <string name="menu_preferences" msgid="4693148116114749414">"Настройки"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Добавяне на <xliff:g id="NAME">%s</xliff:g> към контактите"</string>
     <string name="menu_call" msgid="5877123227307074690">"Обаждане"</string>
-    <!-- outdated translation 8853352701914512057 -->     <string name="menu_delete_all" msgid="808729454898114735">"Изтриване на нишки"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"Изтриване на всички нишки"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Изтриване на нишката"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Недоставени съобщения"</string>
     <string name="menu_view" msgid="7448852683948080108">"Преглед на нишката"</string>
@@ -273,8 +273,7 @@
     <string name="confirm" msgid="3155110885840591914">"Потвърждаване"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Ще бъде изпратен отчет за четене."</string>
     <string name="message_queued" msgid="8869479754825264671">"Понастоящем не можем да изпратим съобщението ви. Ще направим това, когато има достъп до услугата."</string>
-    <!-- no translation found for fdn_check_failure (7880740763778173551) -->
-    <skip />
+    <string name="fdn_check_failure" msgid="7880740763778173551">"Можете да изпращате съобщения само до фиксираните номера за набиране."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Без тема)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Неизвестен изпращач"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"Изтеглянето на съобщението <xliff:g id="SUBJECT">%1$s</xliff:g> от <xliff:g id="FROM">%2$s</xliff:g> не бе успешно."</string>
@@ -286,9 +285,9 @@
     <string name="message_failed_body" msgid="2740907094762116644">"Изберете, за да прегледате съобщението и опитайте отново."</string>
     <string name="download_later" msgid="4486286146421650880">"Понастоящем изтеглянето не е възможно. Моля, опитайте отново по-късно."</string>
     <string name="select_audio" msgid="3120822451872772124">"Избор на аудио"</string>
-    <!-- outdated translation 6056459122898138734 -->     <string name="copy_to_sdcard" msgid="757028609638184856">"Копиране на прикачения файл в/у SIM карта"</string>
-    <!-- outdated translation 5322211009838330188 -->     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Прикаченият файл да се копира на SD карта"</string>
-    <!-- outdated translation 2726421767948392438 -->     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Копиране на прикачения файл в/у SD карта не бе успешно"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Запазване на прикач. файл"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Прикаченият файл бе запазен"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Прикаченият файл не бе запазен"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Запазване като мелодия"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Мелодията е запазена"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Неуспешно запазване на мелодия"</string>
@@ -318,8 +317,10 @@
     <string name="search" msgid="7560238620274735199">"Незабавни съобщения"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"Текст в съобщенията ви"</string>
     <string name="search_empty" msgid="645052646985297065">"Няма съответствия"</string>
-    <!-- no translation found for search_results_title:one (4657073733087431350) -->
-    <!-- no translation found for search_results_title:other (6196382287749539209) -->
+  <plurals name="search_results_title">
+    <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> резултат за „<xliff:g id="SEARCH">%2$s</xliff:g>“"</item>
+    <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> резултата за „<xliff:g id="SEARCH">%2$s</xliff:g>“"</item>
+  </plurals>
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> резултата за „<xliff:g id="SEARCH">%2$s</xliff:g>“"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Изчистване"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"Историята на търсенията ще бъде изчистена."</string>
@@ -335,6 +336,5 @@
     <string name="sending_message" msgid="222836893217450538">"Изпраща се…"</string>
     <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
     <skip />
-    <!-- no translation found for adding_recipients (2962810172527532357) -->
-    <skip />
+    <string name="adding_recipients" msgid="2962810172527532357">"Получателите се добавят..."</string>
 </resources>
