@@ -1707,7 +1707,7 @@ public class ComposeMessageActivity extends Activity
 
     private void showSubjectEditor(boolean show) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("showSubjectEditor: " + show);
+            log("" + show);
         }
 
         if (mSubjectTextEditor == null) {
@@ -1746,11 +1746,16 @@ public class ComposeMessageActivity extends Activity
         // Read parameters or previously saved state of this activity.
         initActivityState(savedInstanceState, intent);
 
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("initialize: savedInstanceState = " + savedInstanceState +
-                " intent = " + intent +
-                " mConversation = " + mConversation);
+        /*
+        if (LogTag.SEVERE_WARNING && originalThreadId != 0 &&
+                originalThreadId == mConversation.getThreadId()) {
+            LogTag.warnPossibleRecipientMismatch("ComposeMessageActivity.initialize: " +
+                    " threadId didn't change from: " + originalThreadId, this);
         }
+        */
+        log("savedInstanceState = " + savedInstanceState +
+            " intent = " + intent +
+            " mConversation = " + mConversation);
 
         if (cancelFailedToDeliverNotification(getIntent(), this)) {
             // Show a pop-up dialog to inform user the message was
@@ -1801,7 +1806,7 @@ public class ComposeMessageActivity extends Activity
         onKeyboardStateChanged(mIsKeyboardOpen);
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("initialize: update title, mConversation=" + mConversation.toString());
+            log("update title, mConversation=" + mConversation.toString());
         }
 
         updateTitle(mConversation.getRecipients());
@@ -1845,9 +1850,9 @@ public class ComposeMessageActivity extends Activity
             }
         }
 
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("onNewIntent: data=" + intentUri + ", thread_id extra is " + threadId);
-            log("     new conversation=" + conversation + ", mConversation=" + mConversation);
+        if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("data=" + intentUri + ", thread_id extra is " + threadId +
+                    ", new conversation=" + conversation + ", mConversation=" + mConversation);
         }
 
         if (conversation != null) {
@@ -1866,10 +1871,10 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (sameThread) {
-            log("onNewIntent: same conversation");
+            log("same conversation");
         } else {
-            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                log("onNewIntent: different conversation, initialize...");
+            if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                log("different conversation");
             }
             saveDraft();    // if we've got a draft, save it first
 
@@ -1891,7 +1896,12 @@ public class ComposeMessageActivity extends Activity
             // to the ConversationList where the user can enter this in a clean manner.
             if (mWorkingMessage.isWorthSaving()) {
                 mWorkingMessage.unDiscard();    // it was discarded in onStop().
-            } else {
+            }
+            // TODO: fix me! We should only go to conv list if the draft was discarded but the
+            // TODO: recipient editor is still open. For conversations that already have a thread
+            // TODO: assigned, we shouldn't have to go to conv list.
+            else /* if (isRecipientsEditorVisible()) */ {
+                if (LogTag.VERBOSE) log("go to conversation list, mWorkingMsg=" + mWorkingMessage);
                 goToConversationList();
             }
         }
@@ -1915,7 +1925,7 @@ public class ComposeMessageActivity extends Activity
         mWorkingMessage.syncWorkingRecipients();
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("onStart: update title, mConversation=" + mConversation.toString());
+            log("update title, mConversation=" + mConversation.toString());
         }
 
         updateTitle(mConversation.getRecipients());
@@ -1967,7 +1977,7 @@ public class ComposeMessageActivity extends Activity
         addRecipientsListeners();
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("onResume: update title, mConversation=" + mConversation.toString());
+            log("update title, mConversation=" + mConversation.toString());
         }
 
         // There seems to be a bug in the framework such that setting the title
@@ -2013,7 +2023,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("onStop: save draft");
+            log("save draft");
         }
         saveDraft();
 
@@ -2147,6 +2157,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void goToConversationList() {
+        if (LogTag.VERBOSE) log("");
         finish();
         startActivity(new Intent(this, ConversationList.class));
     }
@@ -2493,8 +2504,7 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (DEBUG) {
-            log("onActivityResult: requestCode=" + requestCode
-                    + ", resultCode=" + resultCode + ", data=" + data);
+            log("requestCode=" + requestCode + ", resultCode=" + resultCode + ", data=" + data);
         }
         mWaitingForSubActivity = false;          // We're back!
         if (mWorkingMessage.isFakeMmsForDraft()) {
@@ -2514,7 +2524,7 @@ public class ComposeMessageActivity extends Activity
                 return;
             }
         } else if (resultCode != RESULT_OK){
-            if (DEBUG) log("onActivityResult: bail due to resultCode=" + resultCode);
+            if (DEBUG) log("bail due to resultCode=" + resultCode);
             return;
         }
 
@@ -2725,7 +2735,7 @@ public class ComposeMessageActivity extends Activity
 
     private void addImage(Uri uri, boolean append) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("addImage: append=" + append + ", uri=" + uri);
+            log("append=" + append + ", uri=" + uri);
         }
 
         int result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, uri, append);
@@ -2733,7 +2743,7 @@ public class ComposeMessageActivity extends Activity
         if (result == WorkingMessage.IMAGE_TOO_LARGE ||
             result == WorkingMessage.MESSAGE_SIZE_EXCEEDED) {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                log("addImage: resize image " + uri);
+                log("resize image " + uri);
             }
             MessageUtils.resizeImageAsync(this,
                     uri, mAttachmentEditorHandler, mResizeImageCallback, append);
@@ -2766,7 +2776,7 @@ public class ComposeMessageActivity extends Activity
         Uri uri = intent.getParcelableExtra("msg_uri");
 
         if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
-            log("handle forwarded message " + uri);
+            log("" + uri);
         }
 
         if (uri != null) {
@@ -3075,7 +3085,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("startMsgListQuery for " + conversationUri);
+            log("for " + conversationUri);
         }
 
         // Cancel any pending queries
@@ -3119,12 +3129,12 @@ public class ComposeMessageActivity extends Activity
 
     private void loadDraft() {
         if (mWorkingMessage.isWorthSaving()) {
-            Log.w(TAG, "loadDraft() called with non-empty working message");
+            Log.w(TAG, "called with non-empty working message");
             return;
         }
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("loadDraft: call WorkingMessage.loadDraft");
+            log("call WorkingMessage.loadDraft");
         }
 
         mWorkingMessage = WorkingMessage.loadDraft(this, mConversation);
@@ -3139,15 +3149,15 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (!mWaitingForSubActivity && !mWorkingMessage.isWorthSaving()) {
-            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                log("saveDraft: not worth saving, discard WorkingMessage and bail");
+            if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                log("not worth saving, discard WorkingMessage and bail");
             }
             mWorkingMessage.discard();
             return;
         }
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("saveDraft: call WorkingMessage.saveDraft");
+            log("call WorkingMessage.saveDraft");
         }
 
         mWorkingMessage.saveDraft();
@@ -3214,7 +3224,7 @@ public class ComposeMessageActivity extends Activity
 
     private void resetMessage() {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("resetMessage");
+            log("");
         }
 
         // Make the attachment editor hide its view.
@@ -3301,6 +3311,7 @@ public class ComposeMessageActivity extends Activity
     private void initActivityState(Bundle bundle, Intent intent) {
         if (bundle != null) {
             String recipients = bundle.getString("recipients");
+            if (LogTag.VERBOSE) log("get mConversation by recipients " + recipients);
             mConversation = Conversation.get(this,
                     ContactList.getByNumbers(recipients,
                             false /* don't block */, true /* replace number */), false);
@@ -3310,24 +3321,27 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
-        // If we have been passed a thread_id, use that to find our
-        // conversation.
+        // If we have been passed a thread_id, use that to find our conversation.
         long threadId = intent.getLongExtra("thread_id", 0);
         if (threadId > 0) {
+            if (LogTag.VERBOSE) log("get mConversation by threadId " + threadId);
             mConversation = Conversation.get(this, threadId, false);
         } else {
             Uri intentData = intent.getData();
 
             if (intentData != null) {
                 // try to get a conversation based on the data URI passed to our intent.
+                if (LogTag.VERBOSE) log("get mConversation by intentData " + intentData);
                 mConversation = Conversation.get(this, intentData, false);
             } else {
                 // special intent extra parameter to specify the address
                 String address = intent.getStringExtra("address");
                 if (!TextUtils.isEmpty(address)) {
+                    if (LogTag.VERBOSE) log("get mConversation by address " + address);
                     mConversation = Conversation.get(this, ContactList.getByNumbers(address,
                             false /* don't block */, true /* replace number */), false);
                 } else {
+                    if (LogTag.VERBOSE) log("create new conversation");
                     mConversation = Conversation.createNew(this);
                 }
             }

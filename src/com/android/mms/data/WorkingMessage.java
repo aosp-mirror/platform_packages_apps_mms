@@ -647,7 +647,7 @@ public class WorkingMessage {
     public void syncWorkingRecipients() {
         if (mWorkingRecipients != null) {
             ContactList recipients = ContactList.getByNumbers(mWorkingRecipients, false);
-            mConversation.setRecipients(recipients);
+            mConversation.setRecipients(recipients);    // resets the threadId to zero
             mWorkingRecipients = null;
         }
     }
@@ -702,10 +702,6 @@ public class WorkingMessage {
      * to {@link setConversation}.
      */
     public void saveDraft() {
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            LogTag.debug("saveDraft");
-        }
-
         // If we have discarded the message, just bail out.
         if (mDiscarded) {
             return;
@@ -714,6 +710,10 @@ public class WorkingMessage {
         // Make sure setConversation was called.
         if (mConversation == null) {
             throw new IllegalStateException("saveDraft() called with no conversation");
+        }
+
+        if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("saveDraft for mConversation " + mConversation);
         }
 
         // Get ready to write to disk. But don't notify message status when saving draft
@@ -740,8 +740,8 @@ public class WorkingMessage {
     }
 
     synchronized public void discard() {
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            LogTag.debug("discard");
+        if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("[WorkingMessage] discard");
         }
 
         if (mDiscarded == true) {
@@ -1002,8 +1002,9 @@ public class WorkingMessage {
 
         mStatusListener.onPreMessageSent();
 
-        // Make sure we are still using the correct thread ID for our
-        // recipient set.
+        long origThreadId = conv.getThreadId();
+
+        // Make sure we are still using the correct thread ID for our recipient set.
         long threadId = conv.ensureThreadId();
 
         final String semiSepRecipients = conv.getRecipients().serialize();
@@ -1018,8 +1019,9 @@ public class WorkingMessage {
 
     private void sendSmsWorker(String msgText, String semiSepRecipients, long threadId) {
         String[] dests = TextUtils.split(semiSepRecipients, ";");
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            LogTag.debug("sendSmsWorker sending message");
+        if (LogTag.VERBOSE || Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            LogTag.debug("sendSmsWorker sending message: recipients=" + semiSepRecipients +
+                    ", threadId=" + threadId);
         }
         MessageSender sender = new SmsMessageSender(mContext, dests, msgText, threadId);
         try {
