@@ -223,12 +223,12 @@ public class SmsReceiverService extends Service {
                             address, msgText, threadId, status == Sms.STATUS_PENDING,
                             msgUri);
 
-                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                    if (LogTag.VERBOSE || Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                         Log.v(TAG, "sendFirstQueuedMessage " + msgUri +
                                 ", address: " + address +
-                                ", threadId: " + threadId +
-                                ", body: " + msgText);
+                                ", threadId: " + threadId);
                     }
+
                     try {
                         sender.sendMessage(SendingProgressTokenManager.NO_TOKEN);;
                         mSending = true;
