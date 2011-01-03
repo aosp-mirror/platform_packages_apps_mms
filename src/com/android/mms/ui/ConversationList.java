@@ -328,16 +328,19 @@ public class ConversationList extends ListActivity
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "onListItemClick: position=" + position + ", id=" + id);
-        }
-
         if (position == 0) {
             createNewMessage();
         } else if (v instanceof ConversationListItem) {
             ConversationListItem headerView = (ConversationListItem) v;
             ConversationListItemData ch = headerView.getConversationHeader();
-            openThread(ch.getThreadId());
+            long threadId = ch.getThreadId();
+
+            if (LogTag.VERBOSE) {
+                Log.d(TAG, "onListItemClick: view=" + v + ", pos=" + position + ", id=" + id +
+                        ", threadId=" + threadId);
+            }
+
+            openThread(threadId);
         }
     }
 
