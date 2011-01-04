@@ -1887,12 +1887,7 @@ public class ComposeMessageActivity extends Activity
             // to the ConversationList where the user can enter this in a clean manner.
             if (mWorkingMessage.isWorthSaving()) {
                 mWorkingMessage.unDiscard();    // it was discarded in onStop().
-            }
-            // TODO: fix me! We should only go to conv list if the draft was discarded but the
-            // TODO: recipient editor is still open. For conversations that already have a thread
-            // TODO: assigned, we shouldn't have to go to conv list.
-            else /* if (isRecipientsEditorVisible()) */ {
-                if (LogTag.VERBOSE) log("go to conversation list, mWorkingMsg=" + mWorkingMessage);
+            } else if (isRecipientsEditorVisible()) {
                 goToConversationList();
             }
         }
@@ -2148,7 +2143,6 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void goToConversationList() {
-        if (LogTag.VERBOSE) log("");
         finish();
         startActivity(new Intent(this, ConversationList.class));
     }
