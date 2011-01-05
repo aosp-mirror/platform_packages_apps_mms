@@ -18,6 +18,7 @@ package com.android.mms.data;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -77,7 +78,7 @@ public class WorkingMessage {
     public static final String EXTRA_SMS_THREAD_ID = "android.mms.extra.THREAD_ID";
 
     // Database access stuff
-    private final Context mContext;
+    private final Activity mActivity;
     private final ContentResolver mContentResolver;
 
     // States that can require us to save or send a message as MMS.
@@ -182,8 +183,8 @@ public class WorkingMessage {
     }
 
     private WorkingMessage(ComposeMessageActivity activity) {
-        mContext = activity;
-        mContentResolver = mContext.getContentResolver();
+        mActivity = activity;
+        mContentResolver = mActivity.getContentResolver();
         mStatusListener = activity;
         mAttachmentType = TEXT;
         mText = "";
@@ -254,7 +255,7 @@ public class WorkingMessage {
     private boolean loadFromUri(Uri uri) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) LogTag.debug("loadFromUri %s", uri);
         try {
-            mSlideshow = SlideshowModel.createFromMessageUri(mContext, uri);
+            mSlideshow = SlideshowModel.createFromMessageUri(mActivity, uri);
         } catch (MmsException e) {
             LogTag.error("Couldn't load URI %s", uri);
             return false;
@@ -299,7 +300,7 @@ public class WorkingMessage {
 
         // Then look for an MMS draft.
         StringBuilder sb = new StringBuilder();
-        Uri uri = readDraftMmsMessage(mContext, threadId, sb);
+        Uri uri = readDraftMmsMessage(mActivity, threadId, sb);
         if (uri != null) {
             if (loadFromUri(uri)) {
                 // If there was an MMS message, readDraftMmsMessage
@@ -379,7 +380,7 @@ public class WorkingMessage {
         } else if (append) {
             // We added a new slide and what we attempted to insert on the slide failed.
             // Delete that slide, otherwise we could end up with a bunch of blank slides.
-            SlideshowEditor slideShowEditor = new SlideshowEditor(mContext, mSlideshow);
+            SlideshowEditor slideShowEditor = new SlideshowEditor(mActivity, mSlideshow);
             slideShowEditor.removeSlide(mSlideshow.size() - 1);
         }
 
@@ -426,7 +427,7 @@ public class WorkingMessage {
             return;
         }
 
-        SlideshowModel slideshow = SlideshowModel.createNew(mContext);
+        SlideshowModel slideshow = SlideshowModel.createNew(mActivity);
         SlideModel slide = new SlideModel(slideshow);
         slideshow.add(slide);
 
@@ -458,11 +459,11 @@ public class WorkingMessage {
 
         // Make a correct MediaModel for the type of attachment.
         if (type == IMAGE) {
-            media = new ImageModel(mContext, uri, mSlideshow.getLayout().getImageRegion());
+            media = new ImageModel(mActivity, uri, mSlideshow.getLayout().getImageRegion());
         } else if (type == VIDEO) {
-            media = new VideoModel(mContext, uri, mSlideshow.getLayout().getImageRegion());
+            media = new VideoModel(mActivity, uri, mSlideshow.getLayout().getImageRegion());
         } else if (type == AUDIO) {
-            media = new AudioModel(mContext, uri);
+            media = new AudioModel(mActivity, uri);
         } else {
             throw new IllegalArgumentException("changeMedia type=" + type + ", uri=" + uri);
         }
@@ -497,7 +498,7 @@ public class WorkingMessage {
             addNewSlide = false;
         }
         if (addNewSlide) {
-            SlideshowEditor slideShowEditor = new SlideshowEditor(mContext, mSlideshow);
+            SlideshowEditor slideShowEditor = new SlideshowEditor(mActivity, mSlideshow);
             if (!slideShowEditor.addNewSlide()) {
                 return;
             }
@@ -506,11 +507,11 @@ public class WorkingMessage {
         MediaModel media;
         SlideModel slide = mSlideshow.get(mSlideshow.size() - 1);
         if (type == IMAGE) {
-            media = new ImageModel(mContext, uri, mSlideshow.getLayout().getImageRegion());
+            media = new ImageModel(mActivity, uri, mSlideshow.getLayout().getImageRegion());
         } else if (type == VIDEO) {
-            media = new VideoModel(mContext, uri, mSlideshow.getLayout().getImageRegion());
+            media = new VideoModel(mActivity, uri, mSlideshow.getLayout().getImageRegion());
         } else if (type == AUDIO) {
-            media = new AudioModel(mContext, uri);
+            media = new AudioModel(mActivity, uri);
         } else {
             throw new IllegalArgumentException("changeMedia type=" + type + ", uri=" + uri);
         }
@@ -588,7 +589,7 @@ public class WorkingMessage {
         TextModel text;
         if (!slide.hasText()) {
             // Add a TextModel to slide 0 if one doesn't already exist
-            text = new TextModel(mContext, ContentType.TEXT_PLAIN, "text_0.txt",
+            text = new TextModel(mActivity, ContentType.TEXT_PLAIN, "text_0.txt",
                                            mSlideshow.getLayout().getTextRegion());
             slide.add(text);
         } else {
@@ -652,6 +653,15 @@ public class WorkingMessage {
         }
     }
 
+    public String getWorkingRecipients() {
+        // this function is used for DEBUG only
+        if (mWorkingRecipients == null) {
+            return null;
+        }
+        ContactList recipients = ContactList.getByNumbers(mWorkingRecipients, false);
+        return recipients.serialize();
+    }
+
     // Call when we've returned from adding an attachment. We're no longer forcing the message
     // into a Mms message. At this point we either have the goods to make the message a Mms
     // or we don't. No longer fake it.
@@ -683,7 +693,7 @@ public class WorkingMessage {
         mConversation.ensureThreadId();
         mConversation.setDraftState(true);
 
-        PduPersister persister = PduPersister.getPduPersister(mContext);
+        PduPersister persister = PduPersister.getPduPersister(mActivity);
         SendReq sendReq = makeSendReq(mConversation, mSubject);
 
         // If we don't already have a Uri lying around, make a new one.  If we do
@@ -820,6 +830,27 @@ public class WorkingMessage {
      */
     public void setWorkingRecipients(List<String> numbers) {
         mWorkingRecipients = numbers;
+        Log.i(TAG, "setWorkingRecipients");
+    }
+
+    private void dumpWorkingRecipients() {
+        Log.i(TAG, "-- mWorkingRecipients:");
+
+        if (mWorkingRecipients != null) {
+            int count = mWorkingRecipients.size();
+            for (int i=0; i<count; i++) {
+                Log.i(TAG, "   [" + i + "] " + mWorkingRecipients.get(i));
+            }
+            Log.i(TAG, "");
+        }
+    }
+
+    public void dump() {
+        Log.i(TAG, "WorkingMessage:");
+        dumpWorkingRecipients();
+        if (mConversation != null) {
+            Log.i(TAG, "mConversation: " + mConversation.toString());
+        }
     }
 
     /**
@@ -922,10 +953,11 @@ public class WorkingMessage {
      * it has been dispatched to the telephony stack.  This WorkingMessage object is
      * no longer useful after this method has been called.
      */
-    public void send() {
+    public void send(final String recipientsInUI) {
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             LogTag.debug("send");
         }
+        long origThreadId = mConversation.getThreadId();
 
         // Get ready to write to disk.
         prepareForSave(true /* notify */);
@@ -939,7 +971,7 @@ public class WorkingMessage {
             // because we will be doing it off of the main thread, which will
             // immediately continue on to resetting some of this state.
             final Uri mmsUri = mMessageUri;
-            final PduPersister persister = PduPersister.getPduPersister(mContext);
+            final PduPersister persister = PduPersister.getPduPersister(mActivity);
 
             final SlideshowModel slideshow = mSlideshow;
             final SendReq sendReq = makeSendReq(conv, mSubject);
@@ -958,7 +990,7 @@ public class WorkingMessage {
             final String msgText = mText.toString();
             new Thread(new Runnable() {
                 public void run() {
-                    preSendSmsWorker(conv, msgText);
+                    preSendSmsWorker(conv, msgText, recipientsInUI);
                 }
             }).start();
         }
@@ -992,9 +1024,9 @@ public class WorkingMessage {
 
     // Message sending stuff
 
-    private void preSendSmsWorker(Conversation conv, String msgText) {
+    private void preSendSmsWorker(Conversation conv, String msgText, String recipientsInUI) {
         // If user tries to send the message, it's a signal the inputted text is what they wanted.
-        UserHappinessSignals.userAcceptedImeText(mContext);
+        UserHappinessSignals.userAcceptedImeText(mActivity);
 
         mStatusListener.onPreMessageSent();
 
@@ -1004,6 +1036,23 @@ public class WorkingMessage {
         long threadId = conv.ensureThreadId();
 
         final String semiSepRecipients = conv.getRecipients().serialize();
+
+        // recipientsInUI can be empty when the user types in a number and hits send
+        if (LogTag.SEVERE_WARNING && ((origThreadId != 0 && origThreadId != threadId) ||
+               (!semiSepRecipients.equals(recipientsInUI) && !TextUtils.isEmpty(recipientsInUI)))) {
+            String msg = origThreadId != 0 && origThreadId != threadId ?
+                    "WorkingMessage.preSendSmsWorker threadId changed or " +
+                    "recipients changed. origThreadId: " +
+                    origThreadId + " new threadId: " + threadId +
+                    " also mConversation.getThreadId(): " +
+                    mConversation.getThreadId()
+                :
+                    "Recipients in window: \"" +
+                    recipientsInUI + "\" differ from recipients from conv: \"" +
+                    semiSepRecipients + "\"";
+
+            LogTag.warnPossibleRecipientMismatch(msg, mActivity);
+        }
 
         // just do a regular send. We're already on a non-ui thread so no need to fire
         // off another thread to do this work.
@@ -1019,12 +1068,12 @@ public class WorkingMessage {
             LogTag.debug("sendSmsWorker sending message: recipients=" + semiSepRecipients +
                     ", threadId=" + threadId);
         }
-        MessageSender sender = new SmsMessageSender(mContext, dests, msgText, threadId);
+        MessageSender sender = new SmsMessageSender(mActivity, dests, msgText, threadId);
         try {
             sender.sendMessage(threadId);
 
             // Make sure this thread isn't over the limits in message count
-            Recycler.getSmsRecycler().deleteOldMessagesByThreadId(mContext, threadId);
+            Recycler.getSmsRecycler().deleteOldMessagesByThreadId(mActivity, threadId);
         } catch (Exception e) {
             Log.e(TAG, "Failed to send SMS message, threadId=" + threadId, e);
         }
@@ -1035,12 +1084,12 @@ public class WorkingMessage {
     private void sendMmsWorker(Conversation conv, Uri mmsUri, PduPersister persister,
                                SlideshowModel slideshow, SendReq sendReq) {
         // If user tries to send the message, it's a signal the inputted text is what they wanted.
-        UserHappinessSignals.userAcceptedImeText(mContext);
+        UserHappinessSignals.userAcceptedImeText(mActivity);
 
         // First make sure we don't have too many outstanding unsent message.
         Cursor cursor = null;
         try {
-            cursor = SqliteWrapper.query(mContext, mContentResolver,
+            cursor = SqliteWrapper.query(mActivity, mContentResolver,
                     Mms.Outbox.CONTENT_URI, MMS_OUTBOX_PROJECTION, null, null, null);
             if (cursor != null) {
                 long maxMessageSize = MmsConfig.getMaxSizeScaleForPendingMmsAllowed() *
@@ -1097,17 +1146,17 @@ public class WorkingMessage {
             return;
         }
 
-        MessageSender sender = new MmsMessageSender(mContext, mmsUri,
+        MessageSender sender = new MmsMessageSender(mActivity, mmsUri,
                 slideshow.getCurrentMessageSize());
         try {
             if (!sender.sendMessage(threadId)) {
                 // The message was sent through SMS protocol, we should
                 // delete the copy which was previously saved in MMS drafts.
-                SqliteWrapper.delete(mContext, mContentResolver, mmsUri, null, null);
+                SqliteWrapper.delete(mActivity, mContentResolver, mmsUri, null, null);
             }
 
             // Make sure this thread isn't over the limits in message count
-            Recycler.getMmsRecycler().deleteOldMessagesByThreadId(mContext, threadId);
+            Recycler.getMmsRecycler().deleteOldMessagesByThreadId(mActivity, threadId);
         } catch (Exception e) {
             Log.e(TAG, "Failed to send message: " + mmsUri + ", threadId=" + threadId, e);
         }
@@ -1117,7 +1166,7 @@ public class WorkingMessage {
 
     private void markMmsMessageWithError(Uri mmsUri) {
         try {
-            PduPersister p = PduPersister.getPduPersister(mContext);
+            PduPersister p = PduPersister.getPduPersister(mActivity);
             // Move the message into MMS Outbox. A trigger will create an entry in
             // the "pending_msgs" table.
             p.move(mmsUri, Mms.Outbox.CONTENT_URI);
@@ -1126,7 +1175,7 @@ public class WorkingMessage {
             ContentValues values = new ContentValues(1);
             values.put(PendingMessages.ERROR_TYPE, MmsSms.ERR_TYPE_GENERIC_PERMANENT);
             long msgId = ContentUris.parseId(mmsUri);
-            SqliteWrapper.update(mContext, mContentResolver,
+            SqliteWrapper.update(mActivity, mContentResolver,
                     PendingMessages.CONTENT_URI,
                     values, PendingMessages._ID + "=" + msgId, null);
         } catch (MmsException e) {
@@ -1219,7 +1268,7 @@ public class WorkingMessage {
             LogTag.debug("asyncUpdateDraftMmsMessage conv=%s mMessageUri=%s", conv, mMessageUri);
         }
 
-        final PduPersister persister = PduPersister.getPduPersister(mContext);
+        final PduPersister persister = PduPersister.getPduPersister(mActivity);
         final SendReq sendReq = makeSendReq(conv, mSubject);
 
         new Thread(new Runnable() {
@@ -1282,7 +1331,7 @@ public class WorkingMessage {
         Uri thread_uri = ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, thread_id);
         String body = "";
 
-        Cursor c = SqliteWrapper.query(mContext, mContentResolver,
+        Cursor c = SqliteWrapper.query(mActivity, mContentResolver,
                         thread_uri, SMS_BODY_PROJECTION, SMS_DRAFT_WHERE, null, null);
         boolean haveDraft = false;
         if (c != null) {
@@ -1345,7 +1394,7 @@ public class WorkingMessage {
         values.put(Sms.THREAD_ID, thread_id);
         values.put(Sms.BODY, contents);
         values.put(Sms.TYPE, Sms.MESSAGE_TYPE_DRAFT);
-        SqliteWrapper.insert(mContext, mContentResolver, Sms.CONTENT_URI, values);
+        SqliteWrapper.insert(mActivity, mContentResolver, Sms.CONTENT_URI, values);
         asyncDeleteDraftMmsMessage(thread_id);
     }
 
@@ -1355,7 +1404,7 @@ public class WorkingMessage {
         }
         new Thread(new Runnable() {
             public void run() {
-                SqliteWrapper.delete(mContext, mContentResolver, uri, selection, selectionArgs);
+                SqliteWrapper.delete(mActivity, mContentResolver, uri, selection, selectionArgs);
             }
         }).start();
     }
@@ -1369,7 +1418,7 @@ public class WorkingMessage {
     }
 
     private void deleteDraftSmsMessage(long threadId) {
-        SqliteWrapper.delete(mContext, mContentResolver,
+        SqliteWrapper.delete(mActivity, mContentResolver,
                 ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
                 SMS_DRAFT_WHERE, null);
     }

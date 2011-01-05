@@ -16,6 +16,11 @@
 
 package com.android.mms;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
 
 public class LogTag {
@@ -67,4 +72,26 @@ public class LogTag {
     public static void error(String format, Object... args) {
         Log.e(TAG, logFormat(format, args));
     }
+
+    public static void warnPossibleRecipientMismatch(final String msg, final Activity activity) {
+        Log.e(TAG, "WARNING!!!! " + msg);
+
+        if (SHOW_SEVERE_WARNING_DIALOG) {
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    new AlertDialog.Builder(activity)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle(R.string.error_state)
+                        .setMessage(msg + "\n\n" + activity.getString(R.string.error_state_text))
+                        .setPositiveButton(R.string.yes, new OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+                }
+            });
+        }
+    }
+
 }

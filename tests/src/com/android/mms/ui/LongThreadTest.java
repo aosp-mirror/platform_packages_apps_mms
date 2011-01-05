@@ -362,7 +362,7 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
         for (String recipient : mRecipients) {
             a.runOnUiThread(new Runnable() {
                 public void run() {
-                    a.initialize(null);
+                    a.initialize(null, 0);
                     a.loadMessageContent();
                 }
             });

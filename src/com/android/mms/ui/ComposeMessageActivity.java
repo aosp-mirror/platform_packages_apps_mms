@@ -273,6 +273,8 @@ public class ComposeMessageActivity extends Activity
 
     private Intent mAddContactIntent;   // Intent used to add a new contact
 
+    private String mDebugRecipients;
+
     @SuppressWarnings("unused")
     private static void log(String logMsg) {
         Thread current = Thread.currentThread();
@@ -1593,6 +1595,7 @@ public class ComposeMessageActivity extends Activity
                 break;
             }
         }
+        mDebugRecipients = list.serialize();
         getWindow().setTitle(s);
     }
 
@@ -1698,7 +1701,7 @@ public class ComposeMessageActivity extends Activity
         mContentResolver = getContentResolver();
         mBackgroundQueryHandler = new BackgroundQueryHandler(mContentResolver);
 
-        initialize(savedInstanceState);
+        initialize(savedInstanceState, 0);
 
         if (TRACE) {
             android.os.Debug.startMethodTracing("compose");
@@ -1737,22 +1740,22 @@ public class ComposeMessageActivity extends Activity
         mTopPanel.setVisibility(anySubViewsVisible ? View.VISIBLE : View.GONE);
     }
 
-    public void initialize(Bundle savedInstanceState) {
+    public void initialize(Bundle savedInstanceState, long originalThreadId) {
         Intent intent = getIntent();
 
         // Create a new empty working message.
         mWorkingMessage = WorkingMessage.createEmpty(this);
 
-        // Read parameters or previously saved state of this activity.
+        // Read parameters or previously saved state of this activity. This will load a new
+        // mConversation
         initActivityState(savedInstanceState, intent);
 
-        /*
         if (LogTag.SEVERE_WARNING && originalThreadId != 0 &&
                 originalThreadId == mConversation.getThreadId()) {
             LogTag.warnPossibleRecipientMismatch("ComposeMessageActivity.initialize: " +
                     " threadId didn't change from: " + originalThreadId, this);
         }
-        */
+
         log("savedInstanceState = " + savedInstanceState +
             " intent = " + intent +
             " mConversation = " + mConversation);
@@ -1829,6 +1832,11 @@ public class ComposeMessageActivity extends Activity
 
         // If we have been passed a thread_id, use that to find our
         // conversation.
+
+        // Note that originalThreadId might be zero but if this is a draft and we save the
+        // draft, ensureThreadId gets called async from WorkingMessage.asyncUpdateDraftSmsMessage
+        // the thread will get a threadId behind the UI thread's back.
+        long originalThreadId = mConversation.getThreadId();
         long threadId = intent.getLongExtra("thread_id", 0);
         Uri intentUri = intent.getData();
 
@@ -1878,7 +1886,7 @@ public class ComposeMessageActivity extends Activity
             }
             saveDraft();    // if we've got a draft, save it first
 
-            initialize(null);
+            initialize(null, originalThreadId);
             loadMessageContent();
         }
 
@@ -3198,10 +3206,26 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (!mSendingMessage) {
+            if (LogTag.SEVERE_WARNING) {
+                String sendingRecipients = mConversation.getRecipients().serialize();
+                if (!sendingRecipients.equals(mDebugRecipients)) {
+                    String workingRecipients = mWorkingMessage.getWorkingRecipients();
+                    if (!mDebugRecipients.equals(workingRecipients)) {
+                        LogTag.warnPossibleRecipientMismatch("ComposeMessageActivity.sendMessage" +
+                                " recipients in window: \"" +
+                                mDebugRecipients + "\" differ from recipients from conv: \"" +
+                                sendingRecipients + "\" and working recipients: " +
+                                workingRecipients, this);
+                    }
+                }
+            }
+
             // send can change the recipients. Make sure we remove the listeners first and then add
             // them back once the recipient list has settled.
             removeRecipientsListeners();
-            mWorkingMessage.send();
+
+            mWorkingMessage.send(mDebugRecipients);
+
             mSentMessage = true;
             mSendingMessage = true;
             addRecipientsListeners();

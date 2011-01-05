@@ -764,5 +764,12 @@
     <!-- Message of progress dialog for picker -->
     <string name="adding_recipients">Adding recipients\u2026</string>
 
+    <!-- For debugging: Dialog box title indicating there's a situation where data has unexpectedly
+         changed -->
+    <string name="error_state">Inconsistent state</string>
+    <!-- For debugging: Dialog box text indicating there's a situation where data has unexpectedly
+         changed -->
+    <string name="error_state_text">The state of threads and recipients is inconsistent. Please capture a bug report and send it to android-sms-bugs@google.com</string>
+
 </resources>
 
