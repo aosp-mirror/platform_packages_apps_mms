@@ -55,11 +55,6 @@ public class ConversationListAdapter extends CursorAdapter implements AbsListVie
 
         ConversationListItem headerView = (ConversationListItem) view;
         Conversation conv = Conversation.from(context, cursor);
-
-        if (LogTag.VERBOSE) {
-            Log.d(LogTag.APP, "[CLA] bindView view=" + view + ", conv=" + conv);
-        }
-
         ConversationListItemData ch = new ConversationListItemData(context, conv);
         headerView.bind(context, ch);
     }
