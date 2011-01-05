@@ -3056,10 +3056,6 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("call WorkingMessage.saveDraft");
-        }
-
         mWorkingMessage.saveDraft();
 
         if (mToastForDraftSave) {
