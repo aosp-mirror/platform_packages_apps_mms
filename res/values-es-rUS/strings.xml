@@ -30,9 +30,9 @@
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Agregar <xliff:g id="NAME">%s</xliff:g> a Contactos"</string>
     <string name="menu_call" msgid="5877123227307074690">"Llamar"</string>
     <string name="menu_delete_all" msgid="8853352701914512057">"Eliminar artículos"</string>
-    <string name="menu_delete" msgid="1851666911396479006">"Eliminar artículo"</string>
+    <string name="menu_delete" msgid="1851666911396479006">"Eliminar cadena"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Mensajes que no se pueden entregar"</string>
-    <string name="menu_view" msgid="7448852683948080108">"Ver artículo"</string>
+    <string name="menu_view" msgid="7448852683948080108">"Ver cadena"</string>
     <string name="refreshing" msgid="987335057871404222">"Actualizando..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Borrador"</string>
     <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> a <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
@@ -50,7 +50,7 @@
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Mensaje no entregado"</string>
     <string name="undelivered_msg_dialog_body" msgid="3574032060588309397">"No es posible enviar este mensaje."\n"Intento realizado: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="6755818550013032420">"No es posible enviar este mensaje."</string>
-    <string name="delete_thread" msgid="757258847736632791">"Eliminar artículo"</string>
+    <string name="delete_thread" msgid="757258847736632791">"Eliminar cadena"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Reenviar"</string>
     <string name="download" msgid="4488877642230207631">"Descargar"</string>
     <string name="downloading" msgid="1779557575565350637">"Descarga"</string>
@@ -87,7 +87,7 @@
     <string name="send" msgid="4589898724889248486">"Enviar"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Todos los artículos"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Tipear para redactar"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Escribe el texto aquí"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Abrir teclado para componer mensaje"</string>
     <string name="image_too_large" msgid="261880224164478061">"Imagen muy grande"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"¿Deseas ajustar el tamaño de la imagen automáticamente antes de enviar?"</string>
@@ -173,7 +173,7 @@
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Informes de entrega"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Informes leídos"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Informes de entrega"</string>
-    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Suprimir mjs. viejos"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Suprimir mensajes viejos"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Límite de mensaje de texto"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Límite de mensaje multimedia"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notificaciones"</string>
@@ -195,11 +195,11 @@
     <string name="to_label" msgid="2355268818058389047">"Para "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Suprimir"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"¿Deseas suprimir el mensaje bloqueado?"</string>
-    <string name="confirm_delete_conversation" msgid="6115966687389279855">"Se eliminará todo el artículo."</string>
+    <string name="confirm_delete_conversation" msgid="6115966687389279855">"Se eliminará toda la cadena."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Todos los artículos se eliminarán."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"El mensaje se eliminará."</string>
     <string name="confirm_delete_locked_message" msgid="5863578342246077057">"¿Estás seguro de que deseas suprimir el mensaje bloqueado?"</string>
-    <string name="confirm_delete_all_messages" msgid="5836389073199814660">"Se eliminará todo el artículo."</string>
+    <string name="confirm_delete_all_messages" msgid="5836389073199814660">"Se eliminará toda la cadena."</string>
     <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"Todos los mensajes de la tarjeta SIM se eliminarán."</string>
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Este mensaje de la tarjeta SIM se eliminará."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Suprimir los mensajes bloqueados"</string>
