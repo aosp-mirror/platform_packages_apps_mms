@@ -257,7 +257,6 @@ public abstract class MediaModel extends Model implements EventListener {
         }
 
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        retriever.setMode(MediaMetadataRetriever.MODE_GET_METADATA_ONLY);
         int duration = 0;
         try {
             retriever.setDataSource(mContext, mUri);
