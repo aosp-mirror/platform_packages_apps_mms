@@ -84,6 +84,12 @@ public class PushReceiver extends BroadcastReceiver {
             long threadId = -1;
 
             try {
+                int subId = intent.getIntExtra("sub_id", 0);
+                ContentValues values = new ContentValues(1);
+                values.put(Mms.SUB_ID, subId);
+                Uri uri = p.persist(pdu, Inbox.CONTENT_URI);
+                SqliteWrapper.update(mContext, cr, uri, values, null, null);
+
                 switch (type) {
                     case MESSAGE_TYPE_DELIVERY_IND:
                     case MESSAGE_TYPE_READ_ORIG_IND: {
@@ -94,9 +100,7 @@ public class PushReceiver extends BroadcastReceiver {
                             break;
                         }
 
-                        Uri uri = p.persist(pdu, Inbox.CONTENT_URI);
                         // Update thread ID for ReadOrigInd & DeliveryInd.
-                        ContentValues values = new ContentValues(1);
                         values.put(Mms.THREAD_ID, threadId);
                         SqliteWrapper.update(mContext, cr, uri, values, null, null);
                         break;
@@ -119,7 +123,6 @@ public class PushReceiver extends BroadcastReceiver {
                         }
 
                         if (!isDuplicateNotification(mContext, nInd)) {
-                            Uri uri = p.persist(pdu, Inbox.CONTENT_URI);
                             // Start service to finish the notification transaction.
                             Intent svc = new Intent(mContext, TransactionService.class);
                             svc.putExtra(TransactionBundle.URI, uri.toString());

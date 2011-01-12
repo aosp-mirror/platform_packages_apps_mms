@@ -24,8 +24,8 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
     private Uri mUri;
 
     public SmsSingleRecipientSender(Context context, String dest, String msgText, long threadId,
-            boolean requestDeliveryReport, Uri uri) {
-        super(context, null, msgText, threadId);
+            boolean requestDeliveryReport, Uri uri, int subscription) {
+        super(context, null, msgText, threadId, subscription);
         mRequestDeliveryReport = requestDeliveryReport;
         mDest = dest;
         mUri = uri;
@@ -96,7 +96,8 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
             sentIntents.add(PendingIntent.getBroadcast(mContext, requestCode, intent, 0));
         }
         try {
-            smsManager.sendMultipartTextMessage(mDest, mServiceCenter, messages, sentIntents, deliveryIntents);
+            smsManager.sendMultipartTextMessage(mDest, mServiceCenter, messages, sentIntents,
+                       deliveryIntents, mSubscription);
         } catch (Exception ex) {
             throw new MmsException("SmsMessageSender.sendMessage: caught " + ex +
                     " from SmsManager.sendTextMessage()");

@@ -52,6 +52,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
+import android.telephony.TelephonyManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -79,11 +80,11 @@ public class MessagingNotification {
 
     // This must be consistent with the column constants below.
     private static final String[] MMS_STATUS_PROJECTION = new String[] {
-        Mms.THREAD_ID, Mms.DATE, Mms._ID, Mms.SUBJECT, Mms.SUBJECT_CHARSET };
+        Mms.THREAD_ID, Mms.DATE, Mms._ID, Mms.SUBJECT, Mms.SUBJECT_CHARSET, Mms.SUB_ID };
 
     // This must be consistent with the column constants below.
     private static final String[] SMS_STATUS_PROJECTION = new String[] {
-        Sms.THREAD_ID, Sms.DATE, Sms.ADDRESS, Sms.SUBJECT, Sms.BODY };
+        Sms.THREAD_ID, Sms.DATE, Sms.ADDRESS, Sms.SUBJECT, Sms.BODY, Sms.SUB_ID };
 
     // These must be consistent with MMS_STATUS_PROJECTION and
     // SMS_STATUS_PROJECTION.
@@ -94,6 +95,7 @@ public class MessagingNotification {
     private static final int COLUMN_SUBJECT     = 3;
     private static final int COLUMN_SUBJECT_CS  = 4;
     private static final int COLUMN_SMS_BODY    = 4;
+    private static final int COLUMN_SUB_ID      = 5;
 
     private static final String NEW_INCOMING_SM_CONSTRAINT =
             "(" + Sms.TYPE + " = " + Sms.MESSAGE_TYPE_INBOX
@@ -239,17 +241,19 @@ public class MessagingNotification {
         public String mDescription;
         public int mIconResourceId;
         public CharSequence mTicker;
+        public int mSubId;
         public long mTimeMillis;
         public String mTitle;
         public int mCount;
 
         public MmsSmsNotificationInfo(
                 Intent clickIntent, String description, int iconResourceId,
-                CharSequence ticker, long timeMillis, String title, int count) {
+                CharSequence ticker, int subId, long timeMillis, String title, int count) {
             mClickIntent = clickIntent;
             mDescription = description;
             mIconResourceId = iconResourceId;
             mTicker = ticker;
+            mSubId = subId;
             mTimeMillis = timeMillis;
             mTitle = title;
             mCount = count;
@@ -259,7 +263,7 @@ public class MessagingNotification {
             updateNotification(
                     context, mClickIntent, mDescription, mIconResourceId, isNew,
                     (isNew? mTicker : null), // only display the ticker if the message is new
-                    mTimeMillis, mTitle, count, uniqueThreads);
+                    mSubId, mTimeMillis, mTitle, count, uniqueThreads);
         }
 
         public long getTime() {
@@ -304,6 +308,7 @@ public class MessagingNotification {
                     cursor.getString(COLUMN_SUBJECT), cursor.getInt(COLUMN_SUBJECT_CS));
             long threadId = cursor.getLong(COLUMN_THREAD_ID);
             long timeMillis = cursor.getLong(COLUMN_DATE) * 1000;
+            int subId = cursor.getInt(COLUMN_SUB_ID);
 
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 Log.d(TAG, "getMmsNewMessageNotificationInfo: count=" + cursor.getCount() +
@@ -313,7 +318,7 @@ public class MessagingNotification {
             MmsSmsNotificationInfo info = getNewMessageNotificationInfo(
                     address, subject, context,
                     R.drawable.stat_notify_mms, null, threadId,
-                    timeMillis, cursor.getCount());
+                    subId, timeMillis, cursor.getCount());
 
             threads.add(threadId);
             while (cursor.moveToNext()) {
@@ -371,6 +376,7 @@ public class MessagingNotification {
             String body = cursor.getString(COLUMN_SMS_BODY);
             long threadId = cursor.getLong(COLUMN_THREAD_ID);
             long timeMillis = cursor.getLong(COLUMN_DATE);
+            int subId = cursor.getInt(COLUMN_SUB_ID);
 
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) 
             {
@@ -380,7 +386,7 @@ public class MessagingNotification {
 
             MmsSmsNotificationInfo info = getNewMessageNotificationInfo(
                     address, body, context, R.drawable.stat_notify_sms,
-                    null, threadId, timeMillis, cursor.getCount());
+                    null, threadId, subId, timeMillis, cursor.getCount());
 
             threads.add(threadId);
             while (cursor.moveToNext()) {
@@ -400,6 +406,7 @@ public class MessagingNotification {
             int iconResourceId,
             String subject,
             long threadId,
+            int subId,
             long timeMillis,
             int count) {
         Intent clickIntent = ComposeMessageActivity.createIntent(context, threadId);
@@ -408,14 +415,14 @@ public class MessagingNotification {
                 | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         String senderInfo = buildTickerMessage(
-                context, address, null, null).toString();
+                context, address, null, null, subId).toString();
         String senderInfoName = senderInfo.substring(
-                0, senderInfo.length() - 2);
+                0, senderInfo.length());
         CharSequence ticker = buildTickerMessage(
-                context, address, subject, body);
+                context, address, subject, body, subId);
 
         return new MmsSmsNotificationInfo(
-                clickIntent, body, iconResourceId, ticker, timeMillis,
+                clickIntent, body, iconResourceId, ticker, subId, timeMillis,
                 senderInfoName, count);
     }
 
@@ -454,6 +461,7 @@ public class MessagingNotification {
             int iconRes,
             boolean isNew,
             CharSequence ticker,
+            int subId,
             long timeMillis,
             String title,
             int messageCount,
@@ -472,6 +480,7 @@ public class MessagingNotification {
         // user to the conversation list instead of the specific thread.
         if (uniqueThreadCount > 1) {
             title = context.getString(R.string.notification_multiple_title);
+
             clickIntent = new Intent(Intent.ACTION_MAIN);
 
             clickIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -539,7 +548,7 @@ public class MessagingNotification {
     }
 
     protected static CharSequence buildTickerMessage(
-            Context context, String address, String subject, String body) {
+            Context context, String address, String subject, String body, int subId) {
         String displayAddress = Contact.get(address, true).getName();
 
         StringBuilder buf = new StringBuilder(
@@ -547,6 +556,11 @@ public class MessagingNotification {
                 ? ""
                 : displayAddress.replace('\n', ' ').replace('\r', ' '));
         buf.append(':').append(' ');
+
+       if (TelephonyManager.isMultiSimEnabled()) {
+            buf.append( (subId == 0) ? "Sub1" : "Sub2");
+            buf.append("-");
+       }
 
         int offset = buf.length();
         if (!TextUtils.isEmpty(subject)) {

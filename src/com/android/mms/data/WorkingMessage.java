@@ -62,6 +62,9 @@ import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendReq;
 
+import android.telephony.TelephonyManager;
+import android.telephony.SmsManager;
+
 /**
  * Contains all state related to a message being edited by the user.
  */
@@ -1095,7 +1098,11 @@ public class WorkingMessage {
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             LogTag.debug("sendSmsWorker sending message");
         }
-        MessageSender sender = new SmsMessageSender(mActivity, dests, msgText, threadId);
+        MessageSender sender;
+
+        sender = new SmsMessageSender(mActivity, dests, msgText, threadId,
+               SmsManager.getDefault().getPreferredSmsSubscription());
+
         try {
             sender.sendMessage(threadId);
 
@@ -1172,6 +1179,10 @@ public class WorkingMessage {
             mStatusListener.onAttachmentError(error);
             return;
         }
+
+        ContentValues values = new ContentValues(1);
+        values.put(Mms.SUB_ID, TelephonyManager.getDefault().getPreferredDataSubscription());
+        SqliteWrapper.update(mActivity, mContentResolver, mmsUri, values, null, null);
 
         MessageSender sender = new MmsMessageSender(mActivity, mmsUri,
                 slideshow.getCurrentMessageSize());
