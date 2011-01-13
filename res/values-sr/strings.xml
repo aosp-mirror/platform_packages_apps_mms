@@ -337,4 +337,6 @@
     <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
     <skip />
     <string name="adding_recipients" msgid="2962810172527532357">"Додавање прималаца..."</string>
+    <string name="error_state" msgid="5177386717626893507">"Недоследно стање"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"Редослед прималаца и није доследан. Снимите извештај о грешци и пошаљите га на адресу android-sms-bugs@google.com"</string>
 </resources>
