@@ -336,4 +336,6 @@
     <string name="sending_message" msgid="222836893217450538">"Enviando…"</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Muitos destinatários"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Adicionando destinatários..."</string>
+    <string name="error_state" msgid="5177386717626893507">"Estado inconsistente"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"O estado das conversas e destinatários está inconsistente. Capture um relatório de bug e envie-o para android-sms-bugs@google.com"</string>
 </resources>

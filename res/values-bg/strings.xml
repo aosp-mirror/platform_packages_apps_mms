@@ -337,4 +337,6 @@
     <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
     <skip />
     <string name="adding_recipients" msgid="2962810172527532357">"Получателите се добавят..."</string>
+    <string name="error_state" msgid="5177386717626893507">"Нееднородно състояние"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"Състоянието на нишките и получателите е нееднородно. Моля, създайте сигнал за програмен дефект и го изпратете до android-sms-bugs@google.com"</string>
 </resources>

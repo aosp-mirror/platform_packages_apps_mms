@@ -336,4 +336,8 @@
     <string name="sending_message" msgid="222836893217450538">"Vegn tramess…"</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Memia blers destinaturs"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Agiuntar destinaturs..."</string>
+    <!-- no translation found for error_state (5177386717626893507) -->
+    <skip />
+    <!-- no translation found for error_state_text (5006221625000536698) -->
+    <skip />
 </resources>

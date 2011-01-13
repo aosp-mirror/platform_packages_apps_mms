@@ -337,4 +337,6 @@
     <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
     <skip />
     <string name="adding_recipients" msgid="2962810172527532357">"S\'estan afegint destinataris..."</string>
+    <string name="error_state" msgid="5177386717626893507">"Estat incoherent"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"L\'estat dels fils i dels destinataris és incoherent. Captura un informe d\'errors i envia\'l a android-sms-bugs@google.com"</string>
 </resources>

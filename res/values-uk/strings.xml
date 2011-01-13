@@ -337,4 +337,6 @@
     <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
     <skip />
     <string name="adding_recipients" msgid="2962810172527532357">"Додав. отримувачів…"</string>
+    <string name="error_state" msgid="5177386717626893507">"Невідповідний стан"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"Стан ланцюжків і отримувачів невідпов. Зробіть знімок звіту про помилки та надішл. його на адресу android-sms-bugs@google.com"</string>
 </resources>

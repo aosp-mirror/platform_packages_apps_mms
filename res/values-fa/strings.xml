@@ -337,4 +337,6 @@
     <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
     <skip />
     <string name="adding_recipients" msgid="2962810172527532357">"افزودن گیرندگان..."</string>
+    <string name="error_state" msgid="5177386717626893507">"وضعیت ناهماهنگ"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"وضعیت رشته ها و گیرندگان ناهماهنگ است. لطفاً یک گزارش بگیرید و آن را به android-sms-bugs@google.com ارسال کنید"</string>
 </resources>

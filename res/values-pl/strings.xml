@@ -336,4 +336,6 @@
     <string name="sending_message" msgid="222836893217450538">"Trwa wysyłanie…"</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Zbyt wielu odbiorców"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Dodawanie odbiorców…"</string>
+    <string name="error_state" msgid="5177386717626893507">"Niezgodny stan"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"Stan wątków i odbiorców jest niezgodny. Utwórz raport o błędzie i wyślij go na adres android-sms-bugs@google.com"</string>
 </resources>
