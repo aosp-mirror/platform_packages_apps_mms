@@ -16,6 +16,24 @@
       "revId": "07b407142ff29a744ddacb5fc6ad4b3eeaadd394",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8yw\u003d",
+        "filename": "src/com/android/mms/transaction/Transaction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1004644
+      },
+      "writtenOn": "2011-01-13T12:20:07Z",
+      "side": 1,
+      "message": "Done, see patch set 3",
+      "parentUuid": "AAAA8H//9YQ\u003d",
+      "revId": "07b407142ff29a744ddacb5fc6ad4b3eeaadd394",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
