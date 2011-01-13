@@ -336,4 +336,6 @@
     <string name="sending_message" msgid="222836893217450538">"Gönderiliyor…"</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Çok fazla alıcı"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Alıcılar ekleniyor…"</string>
+    <string name="error_state" msgid="5177386717626893507">"Tutarsız durum"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"İleti dizilerinin ve alıcıların durumları tutarsız. Lütfen bir hata raporu alın ve android-sms-bug@google.com adresine gönderin"</string>
 </resources>

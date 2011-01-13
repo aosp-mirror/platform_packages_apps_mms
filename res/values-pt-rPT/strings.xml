@@ -161,7 +161,7 @@
     <string name="restore_default" msgid="7165341506551155053">"Restaurar predefinições"</string>
     <string name="pref_notification_settings_title" msgid="4860726154770053004">"Definições de notificação"</string>
     <string name="pref_mms_settings_title" msgid="2573616208360684392">"Definições de mensagem multimédia (MMS)"</string>
-    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Definições de menagem de texto (SMS)"</string>
+    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Definições de mensagem de texto (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"Definições de armazenamento"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Gerir as mensagens armazenadas no cartão SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Pedir um relatório de entrega para cada mensagem enviada"</string>
@@ -336,4 +336,6 @@
     <string name="sending_message" msgid="222836893217450538">"A enviar…"</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Demasiados destinatários"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"A adicionar destinatários..."</string>
+    <string name="error_state" msgid="5177386717626893507">"Estado inconsistente"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"O estado dos tópicos e dos destinatários é inconsistente. Capture um relatório de erros e envie-o para android-sms-bugs@google.com"</string>
 </resources>

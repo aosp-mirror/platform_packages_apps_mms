@@ -337,4 +337,6 @@
     <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
     <skip />
     <string name="adding_recipients" msgid="2962810172527532357">"Notiek saņēmēju pievienošana…"</string>
+    <string name="error_state" msgid="5177386717626893507">"Nekonsekvents statuss"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"Nekonsekvents saņēmēju un pavedienu stāvoklis. Lūdzu, iegūstiet blusas pārskatu un nosūtiet to uz android-sms-bugs@google.com"</string>
 </resources>
