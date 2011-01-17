@@ -346,10 +346,6 @@ public class ConversationList extends ListActivity
             Conversation conv = Conversation.from(this, cursor);
             long tid = conv.getThreadId();
 
-            if (LogTag.VERBOSE) {
-                Log.d(TAG, "onListItemClick: pos=" + position + ", view=" + v + ", tid=" + tid);
-            }
-
             openThread(tid);
         }
     }
