@@ -334,10 +334,23 @@ public class ConversationList extends ListActivity
 
         if (position == 0) {
             createNewMessage();
-        } else if (v instanceof ConversationListItem) {
-            ConversationListItem headerView = (ConversationListItem) v;
-            ConversationListItemData ch = headerView.getConversationHeader();
-            openThread(ch.getThreadId());
+        } else {
+            // Note: don't read the thread id data from the ConversationListItem view passed in.
+            // It's unreliable to read the cached data stored in the view because the ListItem
+            // can be recycled, and the same view could be assigned to a different position
+            // if you click the list item fast enough. Instead, get the cursor at the position
+            // clicked and load the data from the cursor.
+            // (ConversationListAdapter extends CursorAdapter, so getItemAtPosition() should
+            // return the cursor object, which is moved to the position passed in)
+            Cursor cursor  = (Cursor) getListView().getItemAtPosition(position);
+            Conversation conv = Conversation.from(this, cursor);
+            long tid = conv.getThreadId();
+
+            if (LogTag.VERBOSE) {
+                Log.d(TAG, "onListItemClick: pos=" + position + ", view=" + v + ", tid=" + tid);
+            }
+
+            openThread(tid);
         }
     }
 
