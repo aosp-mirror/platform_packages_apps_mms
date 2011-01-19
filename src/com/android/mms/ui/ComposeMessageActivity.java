@@ -1889,7 +1889,7 @@ public class ComposeMessageActivity extends Activity
             // to the ConversationList where the user can enter this in a clean manner.
             if (mWorkingMessage.isWorthSaving()) {
                 mWorkingMessage.unDiscard();    // it was discarded in onStop().
-            } else {
+            } else if (isRecipientsEditorVisible()) {
                 goToConversationList();
             }
         }

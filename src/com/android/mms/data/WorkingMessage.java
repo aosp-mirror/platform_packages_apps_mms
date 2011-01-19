@@ -768,11 +768,7 @@ public class WorkingMessage {
             asyncDelete(mMessageUri, null, null);
         }
 
-        // Delete any draft messages associated with this conversation.
-        asyncDeleteDraftSmsMessage(mConversation);
-
-        // Update state of the draft cache.
-        mConversation.setDraftState(false);
+        clearConversation(mConversation);
     }
 
     public void unDiscard() {
@@ -1380,19 +1376,21 @@ public class WorkingMessage {
             // we will lose track of the original draft and be unable to delete
             // it later.  The message will be re-saved if necessary upon exit of
             // the activity.
-            asyncDeleteDraftSmsMessage(conv);
-
-            if (DEBUG) LogTag.debug("readDraftSmsMessage calling clearThreadId");
-            conv.clearThreadId();
-
-            // since we removed the draft message in the db, and the conversation no longer
-            // has a thread id, let's clear the draft state for 'thread_id' in the draft cache.
-            // Otherwise if a new message arrives it could be assigned the same thread id, and
-            // we'd mistaken it for a draft due to the stale draft cache.
-            conv.setDraftState(false);
+            clearConversation(conv);
         }
 
         return body;
+    }
+
+    private void clearConversation(final Conversation conv) {
+        asyncDeleteDraftSmsMessage(conv);
+
+        if (conv.getMessageCount() == 0) {
+            if (DEBUG) LogTag.debug("clearConversation calling clearThreadId");
+            conv.clearThreadId();
+        }
+
+        conv.setDraftState(false);
     }
 
     private void asyncUpdateDraftSmsMessage(final Conversation conv, final String contents) {
