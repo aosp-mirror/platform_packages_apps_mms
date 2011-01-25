@@ -329,6 +329,7 @@ public class ManageSimMessages extends Activity
                 mMessage.setVisibility(View.GONE);
                 setTitle(getString(R.string.sim_manage_messages_title));
                 setProgressBarIndeterminateVisibility(false);
+                mSimList.requestFocus();
                 break;
             case SHOW_EMPTY:
                 mSimList.setVisibility(View.GONE);
