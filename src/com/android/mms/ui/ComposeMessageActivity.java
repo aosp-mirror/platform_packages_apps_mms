@@ -1906,6 +1906,10 @@ public class ComposeMessageActivity extends Activity
                 mWorkingMessage.unDiscard();    // it was discarded in onStop().
             } else if (isRecipientsEditorVisible()) {
                 goToConversationList();
+            } else {
+                loadDraft();
+                mWorkingMessage.setConversation(mConversation);
+                mAttachmentEditor.update(mWorkingMessage);
             }
         }
     }
