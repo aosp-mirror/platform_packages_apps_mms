@@ -51,8 +51,9 @@ public class MessageStatusReceiver extends BroadcastReceiver {
             boolean isStatusMessage = updateMessageStatus(context, messageUri, pdu);
 
             // Called on the UI thread so don't block.
-            MessagingNotification.nonBlockingUpdateNewMessageIndicator(context,
-                    true, isStatusMessage);
+            if (message.getStatus() < Sms.STATUS_PENDING)
+		MessagingNotification.nonBlockingUpdateNewMessageIndicator(context,
+	                    true, isStatusMessage);
        }
     }
 
