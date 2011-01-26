@@ -464,7 +464,7 @@ public abstract class Recycler {
                             return true;
                         }
                     } finally {
-                        cursor.close();
+                        msgs.close();
                     }
                 }
             } finally {
