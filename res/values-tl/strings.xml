@@ -334,8 +334,7 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Hindi maaaring magpadala ng mensahe ngayon. May masyadong maraming hindi naipadalang mutimedia na mensahe."</string>
     <string name="me" msgid="341726346007839961">"Ako"</string>
     <string name="sending_message" msgid="222836893217450538">"Nagpapadala…"</string>
-    <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
-    <skip />
+    <!-- outdated translation 541426864889094178 -->     <string name="pick_too_many_recipients" msgid="650087588867628044">"Masyadong maraming recipient"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Nagdaragdag ng mga recipient..."</string>
     <string name="error_state" msgid="5177386717626893507">"Paiba-ibang estado"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Ang estado ng mga thread at mga recipient ay paiba-iba. Paki-capture ang ulat ng bug at ipadala ito sa android-sms-bugs@google.com"</string>
