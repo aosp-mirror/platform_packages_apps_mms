@@ -78,7 +78,7 @@
     <string name="compose_title" msgid="558578836596816068">"撰写"</string>
     <string name="to_hint" msgid="224029549150332986">"接收者"</string>
     <string name="subject_hint" msgid="4296714962311604126">"主题"</string>
-    <string name="add_attachment" msgid="7103751293360532684">"附加"</string>
+    <string name="add_attachment" msgid="7103751293360532684">"附件"</string>
     <string name="add_subject" msgid="7616134948428265870">"添加主题"</string>
     <string name="discard" msgid="1624800293064498479">"舍弃"</string>
     <string name="view" msgid="7929667761715467136">"查看"</string>
