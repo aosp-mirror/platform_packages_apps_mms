@@ -334,8 +334,7 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Nije moguće odmah poslati poruku. Postoji previše neposlanih multimedijskih poruka."</string>
     <string name="me" msgid="341726346007839961">"Ja"</string>
     <string name="sending_message" msgid="222836893217450538">"Slanje…"</string>
-    <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
-    <skip />
+    <!-- outdated translation 541426864889094178 -->     <string name="pick_too_many_recipients" msgid="650087588867628044">"Previše primatelja"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Dodavanje primatelja…"</string>
     <string name="error_state" msgid="5177386717626893507">"Nekonzistentno stanje"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Stanje niti i primatelja je nekonzistentno. Snimite izvješće o bugu i pošaljite ga na android-sms-bugs@google.com"</string>
