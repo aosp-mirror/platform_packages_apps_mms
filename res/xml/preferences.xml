@@ -40,6 +40,13 @@
                       android:summary="@string/pref_summary_delete_limit"
                       android:title="@string/pref_title_mms_delete" />
   </PreferenceCategory>
+  <PreferenceCategory android:title="@string/pref_display_settings_title"
+                      android:key="pref_key_display_settings" >
+    <CheckBoxPreference android:defaultValue="true"
+                      android:key="pref_key_display_smiley_images"
+                      android:summary="@string/pref_summary_display_smiley_images"
+                      android:title="@string/pref_title_display_smiley_images" />
+  </PreferenceCategory>
   <PreferenceCategory android:title="@string/pref_sms_settings_title"
                       android:key="pref_key_sms_settings" >
     <CheckBoxPreference android:defaultValue="false"

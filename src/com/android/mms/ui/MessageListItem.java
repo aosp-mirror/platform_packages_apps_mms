@@ -35,6 +35,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.provider.Browser;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
@@ -381,8 +382,12 @@ public class MessageListItem extends LinearLayout implements
                 if (hasSubject) {
                     buf.append(" - ");
                 }
-                SmileyParser parser = SmileyParser.getInstance();
-                buf.append(parser.addSmileySpans(body));
+                if (PreferenceManager.getDefaultSharedPreferences(mContext).getBoolean("pref_key_display_smiley_images", true)) {
+                    SmileyParser parser = SmileyParser.getInstance();
+                    buf.append(parser.addSmileySpans(body));
+                } else {
+                    buf.append(body);
+                }
             }
         }
         // If we're in the process of sending a message (i.e. pending), then we show a "Sending..."

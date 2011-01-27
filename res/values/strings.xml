@@ -326,6 +326,8 @@
     <string name="pref_sms_settings_title">"Text message (SMS) settings"</string>
     <!-- Settings screen, section heading for storage-specific settings -->
     <string name="pref_sms_storage_title">Storage settings</string>
+    <!-- Settings screen, section heading for display settings -->
+    <string name="pref_display_settings_title">Display settings</string>
 
     <!-- Settings item description for entering SIM card message screen -->
     <string name="pref_summary_manage_sim_messages">Manage messages stored on your SIM card</string>
@@ -339,6 +341,10 @@
     <string name="pref_summary_auto_delete">Delete old messages as limits are reached</string>
     <!-- Settings item description for integer auto-delete sms message limit -->
     <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> messages per conversation</string>
+    <!-- Settings item for graphical smileys setting -->
+    <string name="pref_title_display_smiley_images">Show smileys as icons</string>
+    <!-- Settings item description for graphical smileys setting -->
+    <string name="pref_summary_display_smiley_images">Whether to display smileys as icons instead of text</string>
     <!-- Settings item for entering SIM card message screen -->
     <string name="pref_title_manage_sim_messages">Manage SIM card messages</string>
     <!-- Settings item for boolean option to enable/disable MMS delivery reports -->
