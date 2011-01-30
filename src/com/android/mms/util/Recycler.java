@@ -248,6 +248,9 @@ public abstract class Recycler {
         @Override
         protected boolean anyThreadOverLimit(Context context) {
             Cursor cursor = getAllThreads(context);
+            if (cursor == null) {
+                return false;
+            }
             int limit = getMessageLimit(context);
             try {
                 while (cursor.moveToNext()) {
@@ -258,9 +261,15 @@ public abstract class Recycler {
                             SMS_MESSAGE_PROJECTION,
                             "locked=0",
                             null, "date DESC");     // get in newest to oldest order
-
-                    if (msgs.getCount() >= limit) {
-                        return true;
+                    if (msgs == null) {
+                        return false;
+                    }
+                    try {
+                        if (msgs.getCount() >= limit) {
+                            return true;
+                        }
+                    } finally {
+                        msgs.close();
                     }
                 }
             } finally {
@@ -433,6 +442,9 @@ public abstract class Recycler {
         @Override
         protected boolean anyThreadOverLimit(Context context) {
             Cursor cursor = getAllThreads(context);
+            if (cursor == null) {
+                return false;
+            }
             int limit = getMessageLimit(context);
             try {
                 while (cursor.moveToNext()) {
@@ -444,11 +456,16 @@ public abstract class Recycler {
                             "thread_id=" + threadId + " AND locked=0",
                             null, "date DESC");     // get in newest to oldest order
 
-                    if (msgs.getCount() >= limit) {
-                        msgs.close();
-                        return true;
+                    if (msgs == null) {
+                        return false;
                     }
-                    msgs.close();
+                    try {
+                        if (msgs.getCount() >= limit) {
+                            return true;
+                        }
+                    } finally {
+                        msgs.close();
+                    }
                 }
             } finally {
                 cursor.close();
