@@ -234,8 +234,10 @@ public class WorkingMessage {
         if (slideCount == 0) {
             mAttachmentType = TEXT;
             mSlideshow = null;
-            asyncDelete(mMessageUri, null, null);
-            mMessageUri = null;
+            if (mMessageUri != null) {
+                asyncDelete(mMessageUri, null, null);
+                mMessageUri = null;
+            }
         } else if (slideCount > 1) {
             mAttachmentType = SLIDESHOW;
         } else {
