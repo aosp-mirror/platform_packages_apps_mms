@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//6l8\u003d",
+        "filename": "src/com/android/mms/ui/UriImage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002620
+      },
+      "writtenOn": "2011-02-01T22:19:11Z",
+      "side": 1,
+      "message": "Need a space between if and ( like this \"if (mSrc...\"",
+      "revId": "3494e384a634cbfb1ad22f46a64ab7dff56347b5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
