@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//6sk\u003d",
+        "filename": "src/com/android/mms/transaction/MessageStatusReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2011-02-01T16:48:02Z",
+      "side": 1,
+      "message": "Please replace those tabs with spaces if you get a chance.",
+      "revId": "84cb5108610852065054aea89fea60d162121bb6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
