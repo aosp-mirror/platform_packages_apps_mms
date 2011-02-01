@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//6kc\u003d",
+        "filename": "src/com/android/mms/transaction/MessageStatusReceiver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002620
+      },
+      "writtenOn": "2011-02-01T23:06:57Z",
+      "side": 1,
+      "message": "After looking at this code more closely, I\u0027m concerned that we\u0027re calling the heavy function SmsMessage.createFromPdu here and in the call above to updateMessageStatus. How about changing the function updateMessageStatus to return the SmsMessage? Then you could set isStatusMessage \u003d smsMessage.isStatusReportMessage() and you could get smsMessage.getStatus(). What do you think?",
+      "revId": "91083d9a63a64685c6fdfc033ab48a521b0f5c08",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
