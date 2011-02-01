@@ -34,6 +34,42 @@
       "revId": "25ffc26c68a40676841e34fd56aeab08604f4920",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//6u4\u003d",
+        "filename": "src/com/android/mms/transaction/TransactionSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1004644
+      },
+      "writtenOn": "2011-02-01T12:45:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+98\u003d",
+      "revId": "25ffc26c68a40676841e34fd56aeab08604f4920",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//6u0\u003d",
+        "filename": "src/com/android/mms/transaction/TransactionSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1004644
+      },
+      "writtenOn": "2011-02-01T12:45:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA8H///QY\u003d",
+      "revId": "25ffc26c68a40676841e34fd56aeab08604f4920",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
