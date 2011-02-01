@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//6jY\u003d",
+        "filename": "src/com/android/mms/transaction/MessageStatusReceiver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002620
+      },
+      "writtenOn": "2011-02-01T23:54:15Z",
+      "side": 1,
+      "message": "Aren\u0027t you missing the () on calling the message.isStatusReportMessage() function?",
+      "revId": "aa676801101d15f4720c277572927ddc3584b0d8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//6jU\u003d",
+        "filename": "src/com/android/mms/transaction/MessageStatusReceiver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002620
+      },
+      "writtenOn": "2011-02-01T23:54:15Z",
+      "side": 1,
+      "message": "There are tabs in here. The tabs need to be spaces.",
+      "revId": "aa676801101d15f4720c277572927ddc3584b0d8",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
