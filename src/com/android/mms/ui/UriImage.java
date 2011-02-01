@@ -67,6 +67,10 @@ public class UriImage {
 
         mSrc = mPath.substring(mPath.lastIndexOf('/') + 1);
 
+        if(mSrc.startsWith(".") && mSrc.length() > 1) {
+            mSrc = mSrc.substring(1);
+        }
+
         // Some MMSCs appear to have problems with filenames
         // containing a space.  So just replace them with
         // underscores in the name, which is typically not
@@ -185,13 +189,6 @@ public class UriImage {
 
         part.setData(data);
         part.setContentType(getContentType().getBytes());
-        String src = getSrc();
-        byte[] srcBytes = src.getBytes();
-        part.setContentLocation(srcBytes);
-        part.setFilename(srcBytes);
-        int period = src.lastIndexOf(".");
-        byte[] contentId = period != -1 ? src.substring(0, period).getBytes() : srcBytes;
-        part.setContentId(contentId);
 
         return part;
     }
