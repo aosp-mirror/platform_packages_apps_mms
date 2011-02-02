@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//6ik\u003d",
+        "filename": "src/com/android/mms/transaction/MessageStatusReceiver.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2011-02-02T00:12:05Z",
+      "side": 1,
+      "message": "message.isStatusReportMessage  -\u003e message.isStatusReportMessage(). Right?",
+      "revId": "2d2a964431a430e8d27348dace4889b86e7c7be3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
