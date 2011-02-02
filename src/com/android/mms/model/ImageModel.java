@@ -212,6 +212,14 @@ public class ImageModel extends RegionMediaModel {
             throw new ExceedMessageSizeException("Not enough memory to turn image into part: " +
                     getUri());
         }
+
+        String src = getSrc();
+        byte[] srcBytes = src.getBytes();
+        part.setContentLocation(srcBytes);
+        int period = src.lastIndexOf(".");
+        byte[] contentId = period != -1 ? src.substring(0, period).getBytes() : srcBytes;
+        part.setContentId(contentId);
+
         PduPersister persister = PduPersister.getPduPersister(mContext);
         this.mSize = part.getData().length;
         Uri newUri = persister.persistPart(part, messageId);
