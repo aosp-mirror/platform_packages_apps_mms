@@ -48,28 +48,29 @@ public class MessageStatusReceiver extends BroadcastReceiver {
             Uri messageUri = intent.getData();
             byte[] pdu = (byte[]) intent.getExtra("pdu");
 
-            boolean isStatusMessage = updateMessageStatus(context, messageUri, pdu);
+            SmsMessage message = updateMessageStatus(context, messageUri, pdu);
 
             // Called on the UI thread so don't block.
-            MessagingNotification.nonBlockingUpdateNewMessageIndicator(context,
-                    true, isStatusMessage);
+            if (message.getStatus() < Sms.STATUS_PENDING)
+                MessagingNotification.nonBlockingUpdateNewMessageIndicator(context,
+                        true, message.isStatusReportMessage());
        }
     }
 
-    private boolean updateMessageStatus(Context context, Uri messageUri, byte[] pdu) {
+    private SmsMessage updateMessageStatus(Context context, Uri messageUri, byte[] pdu) {
         // Create a "status/#" URL and use it to update the
         // message's status in the database.
-        boolean isStatusReport = false;
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
                             messageUri, ID_PROJECTION, null, null, null);
+        SmsMessage message = SmsMessage.createFromPdu(pdu);
+
         try {
             if (cursor.moveToFirst()) {
                 int messageId = cursor.getInt(0);
 
                 Uri updateUri = ContentUris.withAppendedId(STATUS_URI, messageId);
-                SmsMessage message = SmsMessage.createFromPdu(pdu);
                 int status = message.getStatus();
-                isStatusReport = message.isStatusReportMessage();
+                boolean isStatusReport = message.isStatusReportMessage();
                 ContentValues contentValues = new ContentValues(1);
 
                 if (Log.isLoggable(LogTag.TAG, Log.DEBUG)) {
@@ -86,7 +87,7 @@ public class MessageStatusReceiver extends BroadcastReceiver {
         } finally {
             cursor.close();
         }
-        return isStatusReport;
+        return message;
     }
 
     private void error(String message) {
