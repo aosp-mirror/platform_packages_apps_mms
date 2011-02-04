@@ -37,6 +37,7 @@ import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
 
+import com.google.android.mms.ContentType;
 import java.io.IOException;
 
 public class VideoModel extends RegionMediaModel {
@@ -74,6 +75,25 @@ public class VideoModel extends RegionMediaModel {
                             Images.Media.MIME_TYPE));
                     if (TextUtils.isEmpty(mContentType)) {
                         throw new MmsException("Type of media is unknown.");
+                    }
+
+                    if (mContentType.equals(ContentType.VIDEO_MP4) && !(TextUtils.isEmpty(mSrc))) {
+                        int index = mSrc.lastIndexOf(".");
+                        if (index != -1) {
+                            try {
+                                String extension = mSrc.substring(index + 1);
+                                if (!(TextUtils.isEmpty(extension)) &&
+                                        (extension.equalsIgnoreCase("3gp") ||
+                                        extension.equalsIgnoreCase("3gpp") ||
+                                        extension.equalsIgnoreCase("3g2"))) {
+                                    mContentType = ContentType.VIDEO_3GPP;
+                                }
+                            } catch(IndexOutOfBoundsException ex) {
+                                if (LOCAL_LOGV) {
+                                    Log.v(TAG, "Media extension is unknown.");
+                                }
+                            }
+                        }
                     }
 
                     if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
