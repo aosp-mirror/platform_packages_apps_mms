@@ -32,7 +32,7 @@
     <string name="menu_delete_all" msgid="8853352701914512057">"Eliminar conversaciones"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Eliminar cadena"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Mensajes no entregados"</string>
-    <string name="menu_view" msgid="7448852683948080108">"Ver cadena"</string>
+    <string name="menu_view" msgid="7448852683948080108">"Ver conversación"</string>
     <string name="refreshing" msgid="987335057871404222">"Actualizando..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Borrador"</string>
     <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> para <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
@@ -86,7 +86,7 @@
     <string name="remove" msgid="4625444913256213175">"Eliminar"</string>
     <string name="send" msgid="4589898724889248486">"Enviar"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
-    <string name="all_threads" msgid="2663426830306307194">"Todas las cadenas"</string>
+    <string name="all_threads" msgid="2663426830306307194">"Todas las conversaciones"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Escribe el texto aquí."</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Abre el teclado para redactar el mensaje."</string>
     <string name="image_too_large" msgid="261880224164478061">"Imagen demasiado grande"</string>
@@ -196,7 +196,7 @@
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Eliminar"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"¿Quieres eliminar el mensaje bloqueado?"</string>
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Se eliminará toda la cadena."</string>
-    <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Se eliminarán todas las cadenas."</string>
+    <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Se eliminarán todas las conversaciones."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Se eliminará el mensaje."</string>
     <string name="confirm_delete_locked_message" msgid="5863578342246077057">"¿Estás seguro de que quieres eliminar este mensaje bloqueado?"</string>
     <string name="confirm_delete_all_messages" msgid="5836389073199814660">"Se eliminará toda la cadena."</string>
@@ -231,7 +231,7 @@
     <string name="retrying_dialog_body" msgid="4738260459043003431">"El mensaje \"<xliff:g id="MESSAGE">%s</xliff:g>\" no se ha enviado debido a un problema de conexión."\n"Reintentando envío…"</string>
     <string name="menu_lock" msgid="136863583207382259">"Bloquear mensaje"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Desbloquear mensaje"</string>
-    <string name="sim_copy_to_phone_memory" msgid="5895767417844881971">"Copiar a memoria del teléfono"</string>
+    <string name="sim_copy_to_phone_memory" msgid="5895767417844881971">"Copiar en memoria del teléfono"</string>
     <string name="sim_delete" msgid="610790510655316922">"Eliminar"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Mensajes de texto de tarjeta SIM"</string>
     <string name="sim_view" msgid="1997173541766393706">"Ver"</string>
