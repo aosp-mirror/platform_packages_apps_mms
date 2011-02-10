@@ -17,11 +17,7 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.R;
-import com.google.android.mms.MmsException;
-
 import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -32,32 +28,30 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.BaseColumns;
+import android.provider.ContactsContract.CommonDataKinds.Email;
+import android.provider.ContactsContract.CommonDataKinds.Photo;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.PhoneLookup;
 import android.provider.ContactsContract.RawContacts;
-import android.provider.ContactsContract.StatusUpdates;
-import android.provider.ContactsContract.CommonDataKinds.Email;
-import android.provider.ContactsContract.CommonDataKinds.Photo;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
-import android.provider.Telephony.Sms;
 import android.provider.Telephony.MmsSms.PendingMessages;
+import android.provider.Telephony.Sms;
 import android.provider.Telephony.Sms.Conversations;
-import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.util.Config;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
+import com.android.mms.R;
+import com.google.android.mms.MmsException;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -123,7 +117,7 @@ public class MessageListAdapter extends CursorAdapter {
 
     protected LayoutInflater mInflater;
     private final ListView mListView;
-    private final LinkedHashMap<Long, MessageItem> mMessageItemCache;
+    private final LruCache<Long, MessageItem> mMessageItemCache;
     private final ColumnsMap mColumnsMap;
     private OnDataSetChangedListener mOnDataSetChangedListener;
     private Handler mMsgListItemHandler;
@@ -143,13 +137,7 @@ public class MessageListAdapter extends CursorAdapter {
         mInflater = (LayoutInflater) context.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
         mListView = listView;
-        mMessageItemCache = new LinkedHashMap<Long, MessageItem>(
-                    10, 1.0f, true) {
-            @Override
-            protected boolean removeEldestEntry(Map.Entry eldest) {
-                return size() > CACHE_SIZE;
-            }
-        };
+        mMessageItemCache = new LruCache<Long, MessageItem>(CACHE_SIZE);
 
         if (useDefaultColumnsMap) {
             mColumnsMap = new ColumnsMap();
@@ -234,7 +222,7 @@ public class MessageListAdapter extends CursorAdapter {
         }
 
         mListView.setSelection(mListView.getCount());
-        mMessageItemCache.clear();
+        mMessageItemCache.evictAll();
 
         if (mOnDataSetChangedListener != null) {
             mOnDataSetChangedListener.onDataSetChanged(this);
