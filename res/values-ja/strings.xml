@@ -163,11 +163,11 @@
     <string name="pref_mms_settings_title" msgid="2573616208360684392">"マルチメディアメッセージ（MMS）の設定"</string>
     <string name="pref_sms_settings_title" msgid="9088516111717417514">"テキストメッセージ（SMS）の設定"</string>
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"ストレージの設定"</string>
-    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"SIMカードに保存したメッセージを管理"</string>
+    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"SIMカードに保存したメッセージを管理する"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"送信するメッセージの受取確認を毎回要求する"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"送信する全メッセージに対して開封確認レポートを要求する"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"送信するメッセージの受取確認を毎回要求する"</string>
-    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"上限に達したら古いメッセージを削除"</string>
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"上限に達したら古いメッセージを削除する"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"スレッドごとに<xliff:g id="COUNT">%1$s</xliff:g>件のメッセージ"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"SIMカードのメッセージ"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"受取確認通知"</string>
@@ -189,7 +189,7 @@
   </string-array>
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"バイブレーション"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"自動で取得"</string>
-    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"メッセージを自動的に取得"</string>
+    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"メッセージを自動的に取得する"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"ローミング時に自動取得"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"ローミング中にメッセージを自動的に取得する"</string>
     <string name="to_label" msgid="2355268818058389047">"To "</string>
