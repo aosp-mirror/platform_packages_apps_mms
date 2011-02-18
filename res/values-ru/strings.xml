@@ -256,7 +256,7 @@
     <string name="attach_slideshow" msgid="3497422151091037063">"Слайд-шоу"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"Текст внизу"</string>
     <string name="select_top_text" msgid="6734183477539197815">"Текст вверху"</string>
-    <string name="delivery_toast_body" msgid="4478305651728684364">"Получатель сообщения: %s"</string>
+    <string name="delivery_toast_body" msgid="4478305651728684364">"%s: сообщение доставлено"</string>
     <string name="notification_multiple" msgid="7684007285202109490">"Непрочитанных сообщений: <xliff:g id="COUNT">%s</xliff:g>"</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"Новые сообщения"</string>
     <string name="notification_failed_multiple" msgid="4081781748475686236">"Не удается отправить сообщения: <xliff:g id="COUNT">%s</xliff:g>"</string>
