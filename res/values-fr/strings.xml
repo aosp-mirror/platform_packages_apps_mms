@@ -285,7 +285,7 @@
     <string name="message_failed_body" msgid="2740907094762116644">"Sélectionnez le message pour le relire, puis réessayez."</string>
     <string name="download_later" msgid="4486286146421650880">"Téléchargement impossible pour l\'instant. Merci de réessayer ultérieurement."</string>
     <string name="select_audio" msgid="3120822451872772124">"Sélectionnez un fichier audio"</string>
-    <string name="copy_to_sdcard" msgid="757028609638184856">"Enregistrer la PJ"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Enregistrer le fichier"</string>
     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Pièce jointe enregistrée"</string>
     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Impossible d\'enregistrer la PJ"</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Enregistrer comme sonnerie"</string>
