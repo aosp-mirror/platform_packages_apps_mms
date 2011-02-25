@@ -149,7 +149,7 @@
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"Visualitza el contacte"</string>
     <string name="menu_add_to_contacts" msgid="2978074583938544513">"Afegeix als contactes"</string>
-    <string name="hidden_sender_address" msgid="2776075636669924968">"Adreça d\'emissor oculta"</string>
+    <string name="hidden_sender_address" msgid="2776075636669924968">"Adreça d\'emissor amagada"</string>
     <string name="yes" msgid="3246158147503160811">"D\'acord"</string>
     <string name="no" msgid="4289742508556913860">"Cancel·la"</string>
     <string name="set" msgid="4642365398263275979">"Defineix"</string>
