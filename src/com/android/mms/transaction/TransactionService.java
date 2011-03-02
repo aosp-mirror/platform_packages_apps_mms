@@ -292,8 +292,8 @@ public class TransactionService extends Service implements Observer {
     }
 
     private boolean isNetworkAvailable() {
-        return mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS).
-                isAvailable();
+        NetworkInfo ni = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS);
+        return (ni == null ? false : ni.isAvailable());
     }
 
     private int getTransactionType(int msgType) {
