@@ -40,6 +40,8 @@ import android.view.MenuItem;
 
 import com.android.mms.util.Recycler;
 
+import android.content.res.Resources;
+
 /**
  * With this activity, users can set preferences for MMS and SMS and
  * can access and manipulate SMS messages stored on the SIM.
@@ -63,7 +65,10 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
     private static final int MENU_RESTORE_DEFAULTS    = 1;
 
     private Preference mSmsLimitPref;
+    private Preference mSmsDeliveryReportPref;
     private Preference mMmsLimitPref;
+    private Preference mMmsDeliveryReportPref;
+    private Preference mMmsReadReportPref;
     private Preference mManageSimPref;
     private Preference mClearHistoryPref;
     private ListPreference mVibrateWhenPref;
@@ -78,6 +83,9 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
 
         mManageSimPref = findPreference("pref_key_manage_sim_messages");
         mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
+        mSmsDeliveryReportPref = findPreference("pref_key_sms_delivery_reports");
+        mMmsDeliveryReportPref = findPreference("pref_key_mms_delivery_reports");
+        mMmsReadReportPref = findPreference("pref_key_mms_read_reports");
         mMmsLimitPref = findPreference("pref_key_mms_delete_limit");
         mClearHistoryPref = findPreference("pref_key_mms_clear_history");
         mVibrateWhenPref = (ListPreference) findPreference(NOTIFICATION_VIBRATE_WHEN);
@@ -88,6 +96,18 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
                 (PreferenceCategory)findPreference("pref_key_sms_settings");
             smsCategory.removePreference(mManageSimPref);
         }
+
+        boolean SMSDeliveryReport = Resources.getSystem()
+                .getBoolean(com.android.internal.R.bool.config_sms_delivery_reports_support);
+        if (!SMSDeliveryReport) {
+            PreferenceCategory smsCategory =
+                (PreferenceCategory)findPreference("pref_key_sms_settings");
+            smsCategory.removePreference(mSmsDeliveryReportPref);
+            if (!MmsApp.getApplication().getTelephonyManager().hasIccCard()) {
+                getPreferenceScreen().removePreference(smsCategory);
+            }
+        }
+
         if (!MmsConfig.getMmsEnabled()) {
             // No Mms, remove all the mms-related preferences
             PreferenceCategory mmsOptions =
@@ -97,6 +117,21 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
             PreferenceCategory storageOptions =
                 (PreferenceCategory)findPreference("pref_key_storage_settings");
             storageOptions.removePreference(findPreference("pref_key_mms_delete_limit"));
+        } else {
+            boolean MMSDeliveryReport = Resources.getSystem()
+                    .getBoolean(com.android.internal.R.bool.config_mms_delivery_reports_support);
+            boolean MMSReadReport = Resources.getSystem()
+                    .getBoolean(com.android.internal.R.bool.config_mms_read_reports_support);
+            if (!MMSDeliveryReport) {
+                PreferenceCategory mmsOptions =
+                    (PreferenceCategory)findPreference("pref_key_mms_settings");
+                mmsOptions.removePreference(mMmsDeliveryReportPref);
+            }
+            if (!MMSReadReport) {
+                PreferenceCategory mmsOptions =
+                    (PreferenceCategory)findPreference("pref_key_mms_settings");
+                mmsOptions.removePreference(mMmsReadReportPref);
+            }
         }
 
         // If needed, migrate vibration setting from a previous version
