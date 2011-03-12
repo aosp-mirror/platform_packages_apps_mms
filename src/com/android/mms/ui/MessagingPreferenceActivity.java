@@ -81,6 +81,10 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.preferences);
 
+        setMessagePreferences();
+    }
+
+    private void setMessagePreferences() {
         mManageSimPref = findPreference("pref_key_manage_sim_messages");
         mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
         mSmsDeliveryReportPref = findPreference("pref_key_sms_delivery_reports");
@@ -214,6 +218,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
                 .edit().clear().apply();
         setPreferenceScreen(null);
         addPreferencesFromResource(R.xml.preferences);
+        setMessagePreferences();
     }
 
     NumberPickerDialog.OnNumberSetListener mSmsLimitListener =
