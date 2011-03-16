@@ -61,6 +61,16 @@
          the SMS message to an MMS message. -->
     <int name="smsToMmsTextThreshold">4</int>
 
+    <!-- If true, The text message over 160 characters will be sent in multi part.
+         If false, The text message over 160 characters will be sent
+         via multi media message. -->
+    <bool name="enableMultipartSMS">true</bool>
+
+    <!-- If true, The mms support slide duration.
+         If false, The mms does not support slide duration and we have to
+         set duration value. -->
+    <bool name="enableSlideDuration">true</bool>
+
     <!-- User-Agent parameter used in MMS http request -->
     <!-- this is default to "Android-Mms/0.1". Override if necessary. Optional -->
     <!--

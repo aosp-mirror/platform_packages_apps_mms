@@ -157,6 +157,51 @@ public class SlideshowModel extends Model
                 try {
                     MediaModel media = MediaModelFactory.getMediaModel(
                             context, sme, layouts, pb);
+
+                    /*
+                    * This is for slide duration value set.
+                    * If mms server does not support slide duration.
+                    */
+                    if (!MmsConfig.getSlideDurationEnabled()) {
+                        int mediadur = media.getDuration();
+                        float dur = par.getDur();
+                        if (dur == 0) {
+                            mediadur = MmsConfig.getMinimumSlideElementDuration() * 1000;
+                            media.setDuration(mediadur);
+                        }
+
+                        if ((int)mediadur / 1000 != dur) {
+                            String tag = sme.getTagName();
+
+                            if (ContentType.isVideoType(media.mContentType)
+                              || tag.equals(SmilHelper.ELEMENT_TAG_VIDEO)
+                              || ContentType.isAudioType(media.mContentType)
+                              || tag.equals(SmilHelper.ELEMENT_TAG_AUDIO)) {
+                                /*
+                                * add 1 sec to release and close audio/video
+                                * for guaranteeing the audio/video playing.
+                                * because the mmsc does not support the slide duration.
+                                */
+                                par.setDur((float)mediadur / 1000 + 1);
+                            } else {
+                                /*
+                                * If a slide has an image and an audio/video element
+                                * and the audio/video element has longer duration than the image,
+                                * The Image disappear before the slide play done. so have to match
+                                * an image duration to the slide duration.
+                                */
+                                if ((int)mediadur / 1000 < dur) {
+                                    media.setDuration((int)dur * 1000);
+                                } else {
+                                    if ((int)dur != 0) {
+                                        media.setDuration((int)dur * 1000);
+                                    } else {
+                                        par.setDur((float)mediadur / 1000);
+                                    }
+                                }
+                            }
+                        }
+                    }
                     SmilHelper.addMediaElementEventListeners(
                             (EventTarget) sme, media);
                     mediaSet.add(media);
