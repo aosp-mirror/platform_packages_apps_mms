@@ -334,7 +334,7 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Không thể gửi tin nhắn ngay bây giờ. Có quá nhiều tin nhắn đa phương tiện chưa được gửi."</string>
     <string name="me" msgid="341726346007839961">"Tôi"</string>
     <string name="sending_message" msgid="222836893217450538">"Đang gửi…"</string>
-    <!-- outdated translation 541426864889094178 -->     <string name="pick_too_many_recipients" msgid="650087588867628044">"Quá nhiều người nhận"</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"Quá nhiều người nhận"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Đang thêm người nhận…"</string>
     <string name="error_state" msgid="5177386717626893507">"Trạng thái không đồng nhất"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Trạng thái chuỗi và người nhận không đồng nhất. Vui lòng tạo báo cáo lỗi và gửi tới android-sms-bugs@google.com"</string>
