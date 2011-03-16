@@ -314,7 +314,17 @@ public class MessageUtils {
         }
         details.append(cursor.getString(MessageListAdapter.COLUMN_SMS_ADDRESS));
 
-        // Date: ***
+        // Sent: ***
+        if (smsType == Sms.MESSAGE_TYPE_INBOX) {
+            long date_sent = cursor.getLong(MessageListAdapter.COLUMN_SMS_DATE_SENT);
+            if (date_sent > 0) {
+                details.append('\n');
+                details.append(res.getString(R.string.sent_label));
+                details.append(MessageUtils.formatTimeStampString(context, date_sent, true));
+            }
+        }
+
+        // Received: ***
         details.append('\n');
         if (smsType == Sms.MESSAGE_TYPE_DRAFT) {
             details.append(res.getString(R.string.saved_label));

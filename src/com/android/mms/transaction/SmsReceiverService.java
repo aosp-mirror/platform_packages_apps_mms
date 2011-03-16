@@ -493,6 +493,7 @@ public class SmsReceiverService extends Service {
         // Use now for the timestamp to avoid confusion with clock
         // drift between the handset and the SMSC.
         values.put(Inbox.DATE, new Long(System.currentTimeMillis()));
+        values.put(Inbox.DATE_SENT, Long.valueOf(sms.getTimestampMillis()));
         values.put(Inbox.PROTOCOL, sms.getProtocolIdentifier());
         values.put(Inbox.READ, 0);
         values.put(Inbox.SEEN, 0);
