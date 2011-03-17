@@ -334,7 +334,7 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"لا يمكن إرسال الرسالة الآن. هناك رسائل وسائط متعددة كثيرة للغاية لم يتم إرسالها."</string>
     <string name="me" msgid="341726346007839961">"أنا"</string>
     <string name="sending_message" msgid="222836893217450538">"جارٍ الإرسال…"</string>
-    <!-- outdated translation 541426864889094178 -->     <string name="pick_too_many_recipients" msgid="650087588867628044">"مستلمون كثيرون جدًا"</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"مستلمون كثيرون جدًا"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"جارٍ إضافة مستلمين…"</string>
     <string name="error_state" msgid="5177386717626893507">"حالة غير متسقة"</string>
     <string name="error_state_text" msgid="5006221625000536698">"حالة سلاسل المحادثات والمستلمين غير متسقة. الرجاء إعداد تقرير للإبلاغ عن خلل وإرساله إلى android-sms-bugs@google.com"</string>
