@@ -23,6 +23,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import com.android.internal.telephony.Phone;
+import com.android.mms.LogTag;
+
 import android.provider.Telephony;
 import android.text.TextUtils;
 import android.util.Config;
@@ -67,6 +69,11 @@ public class TransactionSettings {
                             Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI, "current"),
                             APN_PROJECTION, selection, null, null);
 
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG, "TransactionSettings looking for apn: " + selection + " returned: " +
+                    (cursor ==null ? "null cursor" : (cursor.getCount() + " hits")));
+        }
+
         if (cursor == null) {
             Log.e(TAG, "Apn is not found in Database!");
             return;
@@ -98,6 +105,10 @@ public class TransactionSettings {
             cursor.close();
         }
 
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG, "APN setting: MMSC: " + mServiceCenter + " looked for: " + selection);
+        }
+
         if (sawValidApn && TextUtils.isEmpty(mServiceCenter)) {
             Log.e(TAG, "Invalid APN setting: MMSC is empty");
         }
@@ -116,7 +127,13 @@ public class TransactionSettings {
         mServiceCenter = mmscUrl != null ? mmscUrl.trim() : null;
         mProxyAddress = proxyAddr;
         mProxyPort = proxyPort;
-    }
+
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG, "TransactionSettings: " + mServiceCenter +
+                    " proxyAddress: " + mProxyAddress +
+                    " proxyPort: " + mProxyPort);
+        }
+   }
 
     public String getMmscUrl() {
         return mServiceCenter;

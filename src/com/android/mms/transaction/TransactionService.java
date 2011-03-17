@@ -618,6 +618,11 @@ public class TransactionService extends Service implements Observer {
                         TransactionBundle args = (TransactionBundle) msg.obj;
                         TransactionSettings transactionSettings;
 
+                        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                            Log.v(TAG, "EVENT_TRANSACTION_REQUEST MmscUrl=" +
+                                    args.getMmscUrl() + " proxy port: " + args.getProxyAddress());
+                        }
+
                         // Set the connection settings for this transaction.
                         // If these have not been set in args, load the default settings.
                         String mmsc = args.getMmscUrl();

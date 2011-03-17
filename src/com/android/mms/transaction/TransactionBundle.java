@@ -143,4 +143,14 @@ public class TransactionBundle {
     public int getProxyPort() {
         return mBundle.getInt(PROXY_PORT);
     }
+
+    @Override
+    public String toString() {
+        return "transactionType: " + getTransactionType() +
+            " uri: " + getUri() +
+            " pushData: " + getPushData() +
+            " mmscUrl: " + getMmscUrl() +
+            " proxyAddress: " + getProxyAddress() +
+            " proxyPort: " + getProxyPort();
+    }
 }
