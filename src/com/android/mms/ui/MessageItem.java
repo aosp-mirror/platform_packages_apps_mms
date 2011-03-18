@@ -134,10 +134,13 @@ public class MessageItem {
             }
             mBody = cursor.getString(columnsMap.mColumnSmsBody);
 
+            // Unless the message is currently in the progress of being sent, it gets a time stamp.
             if (!isOutgoingMessage()) {
-                // Set "sent" time stamp
+                // Set "received" or "sent" time stamp
                 long date = cursor.getLong(columnsMap.mColumnSmsDate);
-                mTimestamp = String.format(context.getString(R.string.sent_on),
+                String label = context.getString(
+                    Sms.isOutgoingFolder(mBoxId) ? R.string.sent_on : R.string.received_on);
+                mTimestamp = String.format(label,
                         MessageUtils.formatTimeStampString(context, date));
             }
 
@@ -256,6 +259,8 @@ public class MessageItem {
     private int getTimestampStrId() {
         if (PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND == mMessageType) {
             return R.string.expire_on;
+        } else if (PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF == mMessageType) {
+            return R.string.received_on;
         } else {
             return R.string.sent_on;
         }

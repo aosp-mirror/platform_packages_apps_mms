@@ -74,6 +74,8 @@
     <string name="delete_message">Delete message</string>
     <!-- Time and date a message was sent -->
     <string name="sent_on">"Sent: <xliff:g id="date">%s</xliff:g>"</string>
+    <!-- Time and date a message was received -->
+    <string name="received_on">"Received: <xliff:g id="date">%s</xliff:g>"</string>
     <!-- Time and date a message is due to expire -->
     <string name="expire_on">"Expires: <xliff:g id="date">%s</xliff:g>"</string>
     <!-- Abbreviation for "kilobyte" -->
