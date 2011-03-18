@@ -190,7 +190,7 @@
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibrering"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Autohent"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Hent meldinger automatisk"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Omstreifende autohent"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Automatisk henting ved bruk i utlandet"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Hent meldinger automatisk ved roaming"</string>
     <string name="to_label" msgid="2355268818058389047">"Til "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Slett"</string>
