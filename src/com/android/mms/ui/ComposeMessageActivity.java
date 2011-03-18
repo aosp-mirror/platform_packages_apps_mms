@@ -430,6 +430,10 @@ public class ComposeMessageActivity extends Activity
         int msgCount = params[0];
         int remainingInCurrentMessage = params[2];
 
+        if (!MmsConfig.getMultipartSmsEnabled()) {
+            mWorkingMessage.setLengthRequiresMms(msgCount >= MmsConfig.getSmsToMmsTextThreshold());
+        }
+
         // Show the counter only if:
         // - We are not in MMS mode
         // - We are going to send more than one message OR we are getting close

@@ -60,6 +60,9 @@ public class MmsConfig {
     private static int mMinimumSlideElementDuration = 7;        // default to 7 sec
     private static boolean mNotifyWapMMSC = false;
     private static boolean mAllowAttachAudio = true;
+    private static int mSmsToMmsTextThreshold = 4;
+    private static boolean mEnableMultipartSMS = true;
+    private static boolean mEnableSlideDuration = true;
 
     // This is the max amount of storage multiplied by mMaxMessageSize that we
     // allow of unsent messages before blocking the user from sending any more
@@ -77,6 +80,10 @@ public class MmsConfig {
         }
 
         loadMmsSettings(context);
+    }
+
+    public static int getSmsToMmsTextThreshold() {
+        return mSmsToMmsTextThreshold;
     }
 
     public static boolean getMmsEnabled() {
@@ -157,6 +164,14 @@ public class MmsConfig {
 
     public static int getMinimumSlideElementDuration() {
         return mMinimumSlideElementDuration;
+    }
+
+    public static boolean getMultipartSmsEnabled() {
+        return mEnableMultipartSMS;
+    }
+
+    public static boolean getSlideDurationEnabled() {
+        return mEnableSlideDuration;
     }
 
     public static boolean getNotifyWapMMSC() {
@@ -245,6 +260,10 @@ public class MmsConfig {
                             mAliasEnabled = "true".equalsIgnoreCase(text);
                         } else if ("allowAttachAudio".equalsIgnoreCase(value)) {
                             mAllowAttachAudio = "true".equalsIgnoreCase(text);
+                        } else if ("enableMultipartSMS".equalsIgnoreCase(value)) {
+                            mEnableMultipartSMS = "true".equalsIgnoreCase(text);
+                        } else if ("enableSlideDuration".equalsIgnoreCase(value)) {
+                            mEnableSlideDuration = "true".equalsIgnoreCase(text);
                         }
                     } else if ("int".equals(tag)) {
                         // int config tags go here
@@ -277,6 +296,8 @@ public class MmsConfig {
                             mAliasRuleMinChars = Integer.parseInt(text);
                         } else if ("aliasMaxChars".equalsIgnoreCase(value)) {
                             mAliasRuleMaxChars = Integer.parseInt(text);
+                        } else if ("smsToMmsTextThreshold".equalsIgnoreCase(value)) {
+                            mSmsToMmsTextThreshold = Integer.parseInt(text);
                         }
                     } else if ("string".equals(tag)) {
                         // string config tags go here
