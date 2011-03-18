@@ -149,7 +149,7 @@
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"Visualitza el contacte"</string>
     <string name="menu_add_to_contacts" msgid="2978074583938544513">"Afegeix als contactes"</string>
-    <string name="hidden_sender_address" msgid="2776075636669924968">"Adreça d\'emissor oculta"</string>
+    <string name="hidden_sender_address" msgid="2776075636669924968">"Adreça d\'emissor amagada"</string>
     <string name="yes" msgid="3246158147503160811">"D\'acord"</string>
     <string name="no" msgid="4289742508556913860">"Cancel·la"</string>
     <string name="set" msgid="4642365398263275979">"Defineix"</string>
@@ -180,7 +180,7 @@
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Mostra les notificacions de missatges a la barra d\'estat"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibra"</string>
     <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibra també en rebre una notificació"</string>
-    <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Selecció del so de trucada"</string>
+    <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Selecció del to"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Definiu el nombre de missatges que voleu desar"</string>
   <string-array name="prefEntries_vibrateWhen">
     <item msgid="2520871831815631409">"Sempre"</item>
@@ -287,9 +287,9 @@
     <string name="copy_to_sdcard" msgid="757028609638184856">"Desa el fitxer adjunt"</string>
     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Fitxer adjunt desat"</string>
     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"No es pot desar el fitxer adj."</string>
-    <string name="save_ringtone" msgid="2310157075045201051">"Anomena i desa com a so de trucada"</string>
-    <string name="saved_ringtone" msgid="6616730290861857836">"So de trucada desat"</string>
-    <string name="saved_ringtone_fail" msgid="5447210504935083544">"S\'ha produït un error en desar el so de trucada"</string>
+    <string name="save_ringtone" msgid="2310157075045201051">"Desa com a to"</string>
+    <string name="saved_ringtone" msgid="6616730290861857836">"To desat"</string>
+    <string name="saved_ringtone_fail" msgid="5447210504935083544">"Error en desar el to"</string>
     <string name="menu_insert_smiley" msgid="4964504393061025071">"Insereix una emoticona"</string>
     <string name="select_link_title" msgid="600168208731216059">"Selecció d\'una acció"</string>
     <string name="slide_number" msgid="1923958526266726635">"Diapositiva <xliff:g id="NUMBER">%s</xliff:g>"</string>
