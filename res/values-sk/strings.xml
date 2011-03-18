@@ -334,7 +334,7 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Správa sa teraz nedá odoslať. Máte príliš mnoho neodoslaných multimediálnych správ."</string>
     <string name="me" msgid="341726346007839961">"Ja"</string>
     <string name="sending_message" msgid="222836893217450538">"Prebieha odosielanie..."</string>
-    <!-- outdated translation 541426864889094178 -->     <string name="pick_too_many_recipients" msgid="650087588867628044">"Príliš veľa príjemcov"</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"Príliš veľa príjemcov"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Prebieha pridávanie príjemcov..."</string>
     <string name="error_state" msgid="5177386717626893507">"Nekonzistentný stav"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Stav konverzácií a príjemcov nie je konzistentný. Nasnímajte fotografiu chybového hlásenia a odošlite ju na adresu android-sms-bugs@google.com."</string>
