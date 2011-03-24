@@ -62,6 +62,8 @@ import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendReq;
 
+import android.telephony.SmsMessage;
+
 /**
  * Contains all state related to a message being edited by the user.
  */
@@ -386,8 +388,29 @@ public class WorkingMessage {
             slideShowEditor.removeSlide(mSlideshow.size() - 1);
         }
 
-        // Set HAS_ATTACHMENT if we need it.
-        updateState(HAS_ATTACHMENT, hasAttachment(), true);
+        if (!MmsConfig.getMultipartSmsEnabled()) {
+            if (!append && mAttachmentType == TEXT) {
+                int[] params = SmsMessage.calculateLength(getText(), false);
+                /* SmsMessage.calculateLength returns an int[4] with:
+                *   int[0] being the number of SMS's required,
+                *   int[1] the number of code units used,
+                *   int[2] is the number of code units remaining until the next message.
+                *   int[3] is the encoding type that should be used for the message.
+                */
+                int msgCount = params[0];
+
+                if (msgCount >= MmsConfig.getSmsToMmsTextThreshold()) {
+                    setLengthRequiresMms(true, false);
+                } else {
+                    updateState(HAS_ATTACHMENT, hasAttachment(), true);
+                }
+            } else {
+                updateState(HAS_ATTACHMENT, hasAttachment(), true);
+            }
+        } else {
+            // Set HAS_ATTACHMENT if we need it.
+            updateState(HAS_ATTACHMENT, hasAttachment(), true);
+        }
         correctAttachmentState();
         return result;
     }
@@ -889,9 +912,11 @@ public class WorkingMessage {
     /**
      * Set whether or not we want to send this message via MMS in order to
      * avoid sending an excessive number of concatenated SMS messages.
+     * @param: mmsRequired is the value for the LENGTH_REQUIRES_MMS bit.
+     * @param: notify Whether or not to notify the user.
     */
-    public void setLengthRequiresMms(boolean mmsRequired) {
-        updateState(LENGTH_REQUIRES_MMS, mmsRequired, true);
+    public void setLengthRequiresMms(boolean mmsRequired, boolean notify) {
+        updateState(LENGTH_REQUIRES_MMS, mmsRequired, notify);
     }
 
     private static String stateString(int state) {
