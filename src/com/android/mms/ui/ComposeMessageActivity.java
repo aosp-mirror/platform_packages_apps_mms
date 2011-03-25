@@ -423,7 +423,8 @@ public class ComposeMessageActivity extends Activity
         int remainingInCurrentMessage = params[2];
 
         if (!MmsConfig.getMultipartSmsEnabled()) {
-            mWorkingMessage.setLengthRequiresMms(msgCount >= MmsConfig.getSmsToMmsTextThreshold());
+            mWorkingMessage.setLengthRequiresMms(
+                    msgCount >= MmsConfig.getSmsToMmsTextThreshold(), true);
         }
 
         // Show the counter only if:
