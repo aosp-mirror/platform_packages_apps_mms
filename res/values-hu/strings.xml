@@ -334,7 +334,7 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Az üzenetet msot nem lehet elküldeni. Túl sok elküldetlen multimédiás üzenet van."</string>
     <string name="me" msgid="341726346007839961">"Saját"</string>
     <string name="sending_message" msgid="222836893217450538">"Küldés…"</string>
-    <!-- outdated translation 541426864889094178 -->     <string name="pick_too_many_recipients" msgid="650087588867628044">"Túl sok címzett"</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"Túl sok címzett"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Címzettek hozzáadása..."</string>
     <string name="error_state" msgid="5177386717626893507">"Inkonzisztens állapot"</string>
     <string name="error_state_text" msgid="5006221625000536698">"A beszélgetések és a címzettek állapota inkonzisztens. Kérjük, készítsen egy programhiba-jelentést, és küldje el az android-sms-bugs@google.com címre."</string>
