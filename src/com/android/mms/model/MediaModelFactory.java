@@ -233,8 +233,18 @@ public class MediaModelFactory {
 
         media.setDuration(duration);
 
-        // Set 'fill' property.
-        media.setFill(sme.getFill());
+        if (!MmsConfig.getSlideDurationEnabled()) {
+            /**
+             * Because The slide duration is not supported by mmsc,
+             * the device has to set fill type as FILL_FREEZE.
+             * If not, the media will disappear while rotating the screen
+             * in the slide show play view.
+             */
+            media.setFill(sme.FILL_FREEZE);
+        } else {
+            // Set 'fill' property.
+            media.setFill(sme.getFill());
+        }
         return media;
     }
 }
