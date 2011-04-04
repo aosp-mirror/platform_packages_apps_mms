@@ -158,7 +158,6 @@
                     android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
                     android:imeOptions="actionSend|flagNoEnterAction"
                     android:background="@android:drawable/edit_text"
-                    android:maxLength="2000"
                 />
 
                 <LinearLayout
