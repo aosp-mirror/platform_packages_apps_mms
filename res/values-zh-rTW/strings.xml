@@ -183,7 +183,7 @@
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"選取鈴聲"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"設定儲存的訊息數量"</string>
   <string-array name="prefEntries_vibrateWhen">
-    <item msgid="2520871831815631409">"永遠要"</item>
+    <item msgid="2520871831815631409">"一律"</item>
     <item msgid="6069709696037750627">"靜音時才啟用"</item>
     <item msgid="7486145357487111435">"永遠不要"</item>
   </string-array>
