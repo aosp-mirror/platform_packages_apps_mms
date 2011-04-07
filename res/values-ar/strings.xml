@@ -45,6 +45,7 @@
     <string name="view_delivery_report" msgid="8219095994071575215">"عرض التقرير"</string>
     <string name="delete_message" msgid="8888447283788388395">"حذف الرسالة"</string>
     <string name="sent_on" msgid="5868288548564632354">"تم الإرسال: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="received_on" msgid="745813167330942475">"تم التلقي: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"تاريخ انتهاء الصلاحية: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"كيلوبايت"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"رسالة لم يتم تسليمها"</string>

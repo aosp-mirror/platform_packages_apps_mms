@@ -45,6 +45,7 @@
     <string name="view_delivery_report" msgid="8219095994071575215">"Vizualizaţi raportul"</string>
     <string name="delete_message" msgid="8888447283788388395">"Ştergeţi mesajul"</string>
     <string name="sent_on" msgid="5868288548564632354">"Trimis: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="received_on" msgid="745813167330942475">"Primit: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"Expiră la: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KO"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Mesaje neexpediate"</string>

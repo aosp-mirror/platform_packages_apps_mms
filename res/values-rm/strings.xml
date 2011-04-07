@@ -45,6 +45,8 @@
     <string name="view_delivery_report" msgid="8219095994071575215">"Mussar il rapport"</string>
     <string name="delete_message" msgid="8888447283788388395">"Stizzar il messadi"</string>
     <string name="sent_on" msgid="5868288548564632354">"Tramess: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <!-- no translation found for received_on (745813167330942475) -->
+    <skip />
     <string name="expire_on" msgid="4436268382742593921">"Data da scadenza: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Betg spedì il messadi"</string>

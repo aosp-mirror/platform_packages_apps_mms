@@ -45,6 +45,7 @@
     <string name="view_delivery_report" msgid="8219095994071575215">"檢視回條"</string>
     <string name="delete_message" msgid="8888447283788388395">"刪除簡訊"</string>
     <string name="sent_on" msgid="5868288548564632354">"傳送時間：<xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="received_on" msgid="745813167330942475">"接收時間：<xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"期限終止：<xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"無法傳送的簡訊"</string>
@@ -183,7 +184,7 @@
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"選取鈴聲"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"設定儲存的訊息數量"</string>
   <string-array name="prefEntries_vibrateWhen">
-    <item msgid="2520871831815631409">"永遠要"</item>
+    <item msgid="2520871831815631409">"一律"</item>
     <item msgid="6069709696037750627">"靜音時才啟用"</item>
     <item msgid="7486145357487111435">"永遠不要"</item>
   </string-array>
