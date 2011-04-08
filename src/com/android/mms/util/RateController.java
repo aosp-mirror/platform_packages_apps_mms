@@ -26,13 +26,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.provider.Telephony.Mms.Rate;
-import android.util.Config;
 import android.util.Log;
 
 public class RateController {
     private static final String TAG = "RateController";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private static final int RATE_LIMIT = 100;
     private static final long ONE_HOUR = 1000 * 60 * 60;

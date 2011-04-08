@@ -20,7 +20,6 @@ package com.android.mms.model;
 import com.android.mms.layout.LayoutManager;
 import com.android.mms.layout.LayoutParameters;
 
-import android.util.Config;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ import java.util.ArrayList;
 public class LayoutModel extends Model {
     private static final String TAG = SlideModel.TAG;
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     public static final String IMAGE_REGION_ID = "Image";
     public static final String TEXT_REGION_ID  = "Text";

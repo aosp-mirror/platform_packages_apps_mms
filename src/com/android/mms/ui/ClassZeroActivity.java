@@ -35,7 +35,6 @@ import android.provider.Telephony.Sms.Inbox;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Config;
 import android.view.Window;
 
 import com.android.mms.R;
@@ -137,7 +136,7 @@ public class ClassZeroActivity extends Activity {
             mHandler.sendEmptyMessage(ON_AUTO_SAVE);
         } else {
             mHandler.sendEmptyMessageAtTime(ON_AUTO_SAVE, mTimerSet);
-            if (Config.DEBUG) {
+            if (false) {
                 Log.d(TAG, "onRestart time = " + Long.toString(mTimerSet) + " "
                         + this.toString());
             }
@@ -148,7 +147,7 @@ public class ClassZeroActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(TIMER_FIRE, mTimerSet);
-        if (Config.DEBUG) {
+        if (false) {
             Log.d(TAG, "onSaveInstanceState time = " + Long.toString(mTimerSet)
                     + " " + this.toString());
         }
@@ -158,7 +157,7 @@ public class ClassZeroActivity extends Activity {
     protected void onStop() {
         super.onStop();
         mHandler.removeMessages(ON_AUTO_SAVE);
-        if (Config.DEBUG) {
+        if (false) {
             Log.d(TAG, "onStop time = " + Long.toString(mTimerSet)
                     + " " + this.toString());
         }
@@ -237,7 +236,7 @@ public class ClassZeroActivity extends Activity {
         ContentValues values = extractContentValues(sms);
         values.put(Inbox.BODY, sms.getDisplayMessageBody());
         ContentResolver resolver = getContentResolver();
-        if (Config.DEBUG) {
+        if (false) {
             Log.d(TAG, "storeMessage " + this.toString());
         }
         return SqliteWrapper.insert(this, resolver, Inbox.CONTENT_URI, values);

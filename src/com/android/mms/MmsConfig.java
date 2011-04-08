@@ -23,13 +23,12 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
 import android.content.res.XmlResourceParser;
-import android.util.Config;
 import android.util.Log;
 
 public class MmsConfig {
     private static final String TAG = "MmsConfig";
     private static final boolean DEBUG = true;
-    private static final boolean LOCAL_LOGV = true; //DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private static final String DEFAULT_HTTP_KEY_X_WAP_PROFILE = "x-wap-profile";
     private static final String DEFAULT_USER_AGENT = "Android-Mms/2.0";

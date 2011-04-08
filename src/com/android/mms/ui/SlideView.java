@@ -27,7 +27,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.text.method.HideReturnsTransformationMethod;
 import android.util.AttributeSet;
-import android.util.Config;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -53,7 +52,7 @@ public class SlideView extends AbsoluteLayout implements
         AdaptableSlideViewInterface {
     private static final String TAG = "SlideView";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
     // FIXME: Need getHeight from mAudioInfoView instead of constant AUDIO_INFO_HEIGHT.
     private static final int AUDIO_INFO_HEIGHT = 82;
 

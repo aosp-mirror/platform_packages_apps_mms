@@ -46,7 +46,6 @@ import org.w3c.dom.smil.SMILRootLayoutElement;
 import org.xml.sax.SAXException;
 
 import android.text.TextUtils;
-import android.util.Config;
 import android.util.Log;
 
 import java.io.ByteArrayInputStream;
@@ -58,7 +57,7 @@ import java.util.Arrays;
 public class SmilHelper {
     private static final String TAG = "Mms/smil";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     public static final String ELEMENT_TAG_TEXT = "text";
     public static final String ELEMENT_TAG_IMAGE = "img";
@@ -168,7 +167,7 @@ public class SmilHelper {
     }
 
     private static SMILDocument createSmilDocument(PduBody pb) {
-        if (Config.LOGV) {
+        if (false) {
             Log.v(TAG, "Creating default SMIL document.");
         }
 
@@ -255,7 +254,7 @@ public class SmilHelper {
     }
 
     private static SMILDocument createSmilDocument(SlideshowModel slideshow) {
-        if (Config.LOGV) {
+        if (false) {
             Log.v(TAG, "Creating SMIL document from SlideshowModel.");
         }
 

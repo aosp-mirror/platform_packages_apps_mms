@@ -27,7 +27,6 @@ import com.android.mms.LogTag;
 
 import android.provider.Telephony;
 import android.text.TextUtils;
-import android.util.Config;
 import android.util.Log;
 
 
@@ -39,7 +38,7 @@ import android.util.Log;
 public class TransactionSettings {
     private static final String TAG = "TransactionSettings";
     private static final boolean DEBUG = true;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private String mServiceCenter;
     private String mProxyAddress;

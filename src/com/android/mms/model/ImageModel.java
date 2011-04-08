@@ -38,7 +38,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Config;
 import android.util.Log;
 
 import java.io.FileNotFoundException;
@@ -50,7 +49,7 @@ import java.lang.ref.SoftReference;
 public class ImageModel extends RegionMediaModel {
     private static final String TAG = "Mms/image";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private static final int THUMBNAIL_BOUNDS_LIMIT = 480;
 

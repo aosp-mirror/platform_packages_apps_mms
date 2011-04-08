@@ -34,7 +34,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore.Images;
 import android.text.TextUtils;
-import android.util.Config;
 import android.util.Log;
 
 import com.google.android.mms.ContentType;
@@ -43,7 +42,7 @@ import java.io.IOException;
 public class VideoModel extends RegionMediaModel {
     private static final String TAG = MediaModel.TAG;
     private static final boolean DEBUG = true;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     public VideoModel(Context context, Uri uri, RegionModel region)
             throws MmsException {

@@ -32,7 +32,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Config;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -51,7 +50,7 @@ import android.widget.Toast;
 public class SlideshowEditActivity extends ListActivity {
     private final static String TAG = "SlideshowEditActivity";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     // Menu ids.
     private final static int MENU_MOVE_UP           = 0;

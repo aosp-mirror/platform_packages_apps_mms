@@ -17,13 +17,12 @@
 
 package com.android.mms.layout;
 
-import android.util.Config;
 import android.util.Log;
 
 public class HVGALayoutParameters implements LayoutParameters {
     private static final String TAG = "HVGALayoutParameters";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private int mType = -1;
 

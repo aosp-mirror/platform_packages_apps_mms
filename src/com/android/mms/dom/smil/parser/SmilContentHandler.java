@@ -17,7 +17,6 @@
 
 package com.android.mms.dom.smil.parser;
 
-import android.util.Config;
 import android.util.Log;
 
 import org.xml.sax.Attributes;
@@ -31,7 +30,7 @@ import com.android.mms.dom.smil.SmilDocumentImpl;
 public class SmilContentHandler extends DefaultHandler {
     private static final String TAG = "SmilContentHandler";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private SMILDocument mSmilDocument;
     private Node mCurrentNode;

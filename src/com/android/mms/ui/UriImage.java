@@ -31,7 +31,6 @@ import android.net.Uri;
 import android.provider.MediaStore.Images;
 import android.provider.Telephony.Mms.Part;
 import android.text.TextUtils;
-import android.util.Config;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
@@ -43,7 +42,7 @@ import java.io.InputStream;
 public class UriImage {
     private static final String TAG = "Mms/image";
     private static final boolean DEBUG = true;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private final Context mContext;
     private final Uri mUri;

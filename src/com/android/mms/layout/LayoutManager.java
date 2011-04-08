@@ -19,7 +19,6 @@ package com.android.mms.layout;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.util.Config;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -30,7 +29,7 @@ import android.view.WindowManager;
 public class LayoutManager {
     private static final String TAG = "LayoutManager";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private final Context mContext;
     private LayoutParameters mLayoutParams;

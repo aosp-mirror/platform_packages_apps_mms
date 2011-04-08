@@ -38,7 +38,6 @@ import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Sent;
 import android.text.TextUtils;
-import android.util.Config;
 import android.util.Log;
 
 import java.io.IOException;
@@ -60,7 +59,7 @@ import java.util.Arrays;
 public class SendTransaction extends Transaction implements Runnable {
     private static final String TAG = "SendTransaction";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private Thread mThread;
     private final Uri mSendReqURI;

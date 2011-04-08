@@ -94,7 +94,6 @@ import android.text.method.TextKeyListener;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
-import android.util.Config;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -177,7 +176,7 @@ public class ComposeMessageActivity extends Activity
 
     private static final boolean DEBUG = false;
     private static final boolean TRACE = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     // Menu ID
     private static final int MENU_ADD_SUBJECT           = 0;

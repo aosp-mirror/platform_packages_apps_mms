@@ -41,7 +41,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Telephony.Mms;
 import android.telephony.ServiceState;
-import android.util.Config;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -50,7 +49,7 @@ import android.os.SystemProperties;
 public class DownloadManager {
     private static final String TAG = "DownloadManager";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private static final int DEFERRED_MASK           = 0x04;
 

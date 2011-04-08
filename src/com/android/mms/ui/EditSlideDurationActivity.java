@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.method.NumberKeyListener;
-import android.util.Config;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -57,7 +56,7 @@ public class EditSlideDurationActivity  extends Activity {
     private final static String STATE = "state";
     private final static String TAG = "EditSlideDurationActivity";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     @Override
     protected void onCreate(Bundle icicle) {

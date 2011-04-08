@@ -43,7 +43,6 @@ import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Config;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -61,7 +60,7 @@ import java.io.ByteArrayOutputStream;
 public class SlideshowActivity extends Activity implements EventListener {
     private static final String TAG = "SlideshowActivity";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private MediaController mMediaController;
     private SmilPlayer mSmilPlayer;

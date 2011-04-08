@@ -40,13 +40,12 @@ import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.MmsSms.PendingMessages;
 import android.text.format.DateFormat;
-import android.util.Config;
 import android.util.Log;
 
 public class RetryScheduler implements Observer {
     private static final String TAG = "RetryScheduler";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private final Context mContext;
     private final ContentResolver mContentResolver;

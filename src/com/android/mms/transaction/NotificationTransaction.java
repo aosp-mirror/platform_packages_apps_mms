@@ -45,7 +45,6 @@ import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Inbox;
 import android.telephony.TelephonyManager;
-import android.util.Config;
 import android.util.Log;
 
 import java.io.IOException;
@@ -69,7 +68,7 @@ import java.io.IOException;
 public class NotificationTransaction extends Transaction implements Runnable {
     private static final String TAG = "NotificationTransaction";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private Uri mUri;
     private NotificationInd mNotificationInd;

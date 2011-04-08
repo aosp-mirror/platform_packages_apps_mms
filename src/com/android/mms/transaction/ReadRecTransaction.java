@@ -27,7 +27,6 @@ import com.android.mms.ui.MessageUtils;
 import android.content.Context;
 import android.net.Uri;
 import android.provider.Telephony.Mms.Sent;
-import android.util.Config;
 import android.util.Log;
 
 import java.io.IOException;
@@ -46,7 +45,7 @@ import java.io.IOException;
 public class ReadRecTransaction extends Transaction {
     private static final String TAG = "ReadRecTransaction";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private final Uri mReadReportURI;
 

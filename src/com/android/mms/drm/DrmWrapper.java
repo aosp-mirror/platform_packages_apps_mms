@@ -24,7 +24,6 @@ import android.drm.mobile1.DrmRawContent;
 import android.drm.mobile1.DrmRights;
 import android.drm.mobile1.DrmRightsManager;
 import android.net.Uri;
-import android.util.Config;
 import android.util.Log;
 
 import java.io.ByteArrayInputStream;
@@ -58,7 +57,7 @@ public class DrmWrapper {
      */
     private static final String LOG_TAG = "DrmWrapper";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     /**
      * Constructor.

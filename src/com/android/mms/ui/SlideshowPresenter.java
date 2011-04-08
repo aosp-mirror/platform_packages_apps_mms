@@ -35,7 +35,6 @@ import com.android.mms.ui.AdaptableSlideViewInterface.OnSizeChangedListener;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Config;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -45,7 +44,7 @@ import android.widget.Toast;
 public class SlideshowPresenter extends Presenter {
     private static final String TAG = "SlideshowPresenter";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     protected int mLocation;
     protected final int mSlideNumber;

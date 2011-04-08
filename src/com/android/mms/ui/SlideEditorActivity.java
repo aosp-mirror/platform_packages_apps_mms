@@ -50,7 +50,6 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Config;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -67,7 +66,7 @@ import android.widget.Toast;
 public class SlideEditorActivity extends Activity {
     private static final String TAG = "SlideEditorActivity";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     // Key for extra data.
     public static final String SLIDE_INDEX = "slide_index";

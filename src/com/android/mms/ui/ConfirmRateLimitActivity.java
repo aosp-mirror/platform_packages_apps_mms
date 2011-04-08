@@ -26,7 +26,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Config;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,7 +36,7 @@ import android.widget.Button;
 public class ConfirmRateLimitActivity extends Activity {
     private static final String TAG = "ConfirmRateLimitActivity";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private long mCreateTime;
     private Handler mHandler;

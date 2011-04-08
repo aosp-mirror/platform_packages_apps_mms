@@ -27,7 +27,6 @@ import org.w3c.dom.smil.ElementTime;
 import org.w3c.dom.smil.Time;
 import org.w3c.dom.smil.TimeList;
 
-import android.util.Config;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ import java.util.HashSet;
 public class SmilPlayer implements Runnable {
     private static final String TAG = "Mms/smil";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
     private static final int TIMESLICE = 200;
 
     private static enum SmilPlayerState {

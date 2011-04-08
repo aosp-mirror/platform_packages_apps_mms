@@ -46,7 +46,6 @@ import android.os.AsyncTask;
 import android.os.PowerManager;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Inbox;
-import android.util.Config;
 import android.util.Log;
 
 /**
@@ -56,7 +55,7 @@ import android.util.Log;
 public class PushReceiver extends BroadcastReceiver {
     private static final String TAG = "PushReceiver";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+    private static final boolean LOCAL_LOGV = false;
 
     private class ReceivePushTask extends AsyncTask<Intent,Void,Void> {
         private Context mContext;

@@ -39,7 +39,6 @@ import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.MmsSms.PendingMessages;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Sms.Conversations;
-import android.util.Config;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
@@ -60,7 +59,7 @@ import java.util.regex.Pattern;
 public class MessageListAdapter extends CursorAdapter {
     private static final String TAG = "MessageListAdapter";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = Config.LOGV && DEBUG;
+    private static final boolean LOCAL_LOGV = false && DEBUG;
 
     static final String[] PROJECTION = new String[] {
         // TODO: should move this symbol into com.android.mms.telephony.Telephony.
