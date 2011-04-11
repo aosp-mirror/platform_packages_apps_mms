@@ -35,6 +35,7 @@ public class MmsConfig {
 
     private static final int MAX_IMAGE_HEIGHT = 480;
     private static final int MAX_IMAGE_WIDTH = 640;
+    private static final int MAX_TEXT_LENGTH = 2000;
 
     /**
      * Whether to hide MMS functionality from the user (i.e. SMS only).
@@ -62,6 +63,7 @@ public class MmsConfig {
     private static int mSmsToMmsTextThreshold = 4;
     private static boolean mEnableMultipartSMS = true;
     private static boolean mEnableSlideDuration = true;
+    private static int mMaxTextLength = -1;
 
     // This is the max amount of storage multiplied by mMaxMessageSize that we
     // allow of unsent messages before blocking the user from sending any more
@@ -139,6 +141,10 @@ public class MmsConfig {
 
     public static int getRecipientLimit() {
         return mRecipientLimit;
+    }
+
+    public static int getMaxTextLimit() {
+        return mMaxTextLength > -1 ? mMaxTextLength : MAX_TEXT_LENGTH;
     }
 
     public static int getDefaultSMSMessagesPerThread() {
@@ -297,6 +303,8 @@ public class MmsConfig {
                             mAliasRuleMaxChars = Integer.parseInt(text);
                         } else if ("smsToMmsTextThreshold".equalsIgnoreCase(value)) {
                             mSmsToMmsTextThreshold = Integer.parseInt(text);
+                        } else if ("maxMessageTextSize".equalsIgnoreCase(value)) {
+                            mMaxTextLength = Integer.parseInt(text);
                         }
                     } else if ("string".equals(tag)) {
                         // string config tags go here
