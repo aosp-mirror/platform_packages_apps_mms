@@ -71,6 +71,10 @@
          set duration value. -->
     <bool name="enableSlideDuration">true</bool>
 
+    <!-- Maximum length for message text. Use a value of -1
+         to indicate default value -->
+    <int name="maxMessageTextSize">-1</int>
+
     <!-- User-Agent parameter used in MMS http request -->
     <!-- this is default to "Android-Mms/0.1". Override if necessary. Optional -->
     <!--
