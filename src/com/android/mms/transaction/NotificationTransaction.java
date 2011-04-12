@@ -164,7 +164,8 @@ public class NotificationTransaction extends Transaction implements Runnable {
             if (retrieveConfData != null) {
                 GenericPdu pdu = new PduParser(retrieveConfData).parse();
                 if ((pdu == null) || (pdu.getMessageType() != MESSAGE_TYPE_RETRIEVE_CONF)) {
-                    Log.e(TAG, "Invalid M-RETRIEVE.CONF PDU.");
+                    Log.e(TAG, "Invalid M-RETRIEVE.CONF PDU. " +
+                            (pdu != null ? "message type: " + pdu.getMessageType() : "null pdu"));
                     mTransactionState.setState(FAILED);
                     status = STATUS_UNRECOGNIZED;
                 } else {

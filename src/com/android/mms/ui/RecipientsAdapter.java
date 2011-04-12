@@ -209,6 +209,7 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
              */
             result.add("\u00A0");                               // LABEL
             result.add(cons);                                   // NAME
+            result.add(phone);                                  // NORMALIZED_NUMBER
 
             ArrayList<ArrayList> wrap = new ArrayList<ArrayList>();
             wrap.add(result);
