@@ -389,7 +389,7 @@ public class WorkingMessage {
         }
 
         if (!MmsConfig.getMultipartSmsEnabled()) {
-            if (!append && mAttachmentType == TEXT) {
+            if (!append && mAttachmentType == TEXT && hasText()) {
                 int[] params = SmsMessage.calculateLength(getText(), false);
                 /* SmsMessage.calculateLength returns an int[4] with:
                 *   int[0] being the number of SMS's required,
