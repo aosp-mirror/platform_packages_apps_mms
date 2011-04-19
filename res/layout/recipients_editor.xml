@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:inputType="textFilter"
         android:layout_weight="1"
+        android:textColor="#000000"
     />
 
     <ImageButton android:id="@+id/recipients_picker"
