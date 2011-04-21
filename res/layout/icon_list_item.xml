@@ -36,7 +36,6 @@
     <TextView android:id="@+id/text1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:textColor="@drawable/text_color_black"
         android:gravity="center_vertical"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_gravity="center_horizontal|center_vertical" />
