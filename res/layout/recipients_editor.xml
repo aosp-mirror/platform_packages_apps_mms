@@ -39,6 +39,7 @@
         android:layout_width="50dip"
         android:layout_height="fill_parent"
         android:layout_weight="0"
+        android:visibility="gone"
     />
 
 </LinearLayout>
