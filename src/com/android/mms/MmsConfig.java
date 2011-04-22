@@ -42,7 +42,7 @@ public class MmsConfig {
      */
     private static boolean mTransIdEnabled = false;
     private static int mMmsEnabled = 1;                         // default to true
-    private static int mMaxMessageSize = 300 * 1024;            // default to 300k max size
+    private static int mMaxMessageSize = 950 * 1024;            // default to 950k max size
     private static String mUserAgent = DEFAULT_USER_AGENT;
     private static String mUaProfTagName = DEFAULT_HTTP_KEY_X_WAP_PROFILE;
     private static String mUaProfUrl = null;
