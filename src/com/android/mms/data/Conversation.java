@@ -700,14 +700,16 @@ public class Conversation {
         }
 
         static void remove(long threadId) {
-            if (DEBUG) {
-                LogTag.debug("remove threadid: " + threadId);
-                dumpCache();
-            }
-            for (Conversation c : sInstance.mCache) {
-                if (c.getThreadId() == threadId) {
-                    sInstance.mCache.remove(c);
-                    return;
+            synchronized (sInstance) {
+                if (DEBUG) {
+                    LogTag.debug("remove threadid: " + threadId);
+                    dumpCache();
+                }
+                for (Conversation c : sInstance.mCache) {
+                    if (c.getThreadId() == threadId) {
+                        sInstance.mCache.remove(c);
+                        return;
+                    }
                 }
             }
         }

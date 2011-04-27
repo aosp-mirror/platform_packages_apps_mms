@@ -17,6 +17,9 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
+import com.android.mms.data.ContactList;
+import com.android.mms.data.Conversation;
+import com.android.mms.data.WorkingMessage;
 import com.android.mms.ui.MessageListAdapter.ColumnsMap;
 
 import android.content.Context;
@@ -25,6 +28,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -43,6 +47,7 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
     private MessageListView mMsgListView;
     private MessageListAdapter mMsgListAdapter;
     private ColumnsMap mColumnsMap;
+    private static final String TAG = "ComposeMessageActivityTests";
 
     public ComposeMessageActivityTests() {
         super("com.android.mms", ComposeMessageActivity.class);
@@ -173,4 +178,26 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
         assertEquals(focused == mTextEditor, mTextEditor.isFocused());
     }
 
+    // Here's how to execute just this one test:
+    //   runtest -m testCreateManyThreads mms -c com.android.mms.ui.ComposeMessageActivityTests
+    // This test intentionally uses the UI functions to create the threads rather than adding
+    // the threads directly to the mms provider's threads table.
+    @LargeTest
+    public void testCreateManyThreads() {
+        ComposeMessageActivity cma = getActivity();
+        for (int i = 0; i < 99; i++) {
+            String phoneNum = String.format("424-123-%04d", i);
+            ContactList contactList = ContactList.getByNumbers(phoneNum, false, false);
+            Conversation conv = Conversation.get(cma, contactList, false);
+
+            WorkingMessage workingMsg = WorkingMessage.loadDraft(cma, conv);
+            workingMsg.setConversation(conv);
+            workingMsg.setText("This is test #" + i + " thread id: " + conv.getThreadId());
+
+//            Log.i(TAG, "[testCreateManyThreads] workingMsg: ");
+//            workingMsg.dump();
+
+            workingMsg.saveDraft();
+        }
+    }
 }
