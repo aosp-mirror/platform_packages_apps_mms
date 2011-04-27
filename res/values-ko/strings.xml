@@ -314,7 +314,7 @@
     <string name="search_label" msgid="6042598929386174964">"메시지"</string>
     <string name="search_hint" msgid="7183732852849365466">"메시지 검색"</string>
     <string name="search" msgid="7560238620274735199">"메시지"</string>
-    <string name="search_setting_description" msgid="4104004595086437572">"메시지의 문자"</string>
+    <string name="search_setting_description" msgid="4104004595086437572">"메시지 내용"</string>
     <string name="search_empty" msgid="645052646985297065">"검색결과 없음"</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="4657073733087431350">"\'<xliff:g id="SEARCH">%2$s</xliff:g>\'에 대한 검색결과 <xliff:g id="NUMBER">%1$s</xliff:g>개"</item>
