@@ -38,6 +38,8 @@
     <string name="menu_add_address_to_contacts">Add <xliff:g id="name">%s</xliff:g> to Contacts</string>
     <!-- Menu item to call the recipient of the conversation on the phone (imperative verb) -->
     <string name="menu_call">Call</string>
+    <!-- Menu item for search -->
+    <string name="menu_search">Search</string>
     <!-- Menu item for deleting all conversations -->
     <string name="menu_delete_all">Delete all threads</string>
     <!-- Context menu item on an individual conversation for deleting that conversation -->

@@ -29,6 +29,8 @@ import com.android.mms.util.Recycler;
 import com.google.android.mms.pdu.PduHeaders;
 import android.database.sqlite.SqliteWrapper;
 
+import android.animation.LayoutTransition;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.AsyncQueryHandler;
@@ -48,6 +50,7 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.provider.Telephony.Mms;
+import android.provider.Telephony.Threads;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -55,12 +58,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -74,6 +79,7 @@ public class ConversationList extends ListActivity
     private static final boolean LOCAL_LOGV = DEBUG;
 
     private static final int THREAD_LIST_QUERY_TOKEN       = 1701;
+    private static final int UNREAD_THREADS_QUERY_TOKEN    = 1702;
     public static final int DELETE_CONVERSATION_TOKEN      = 1801;
     public static final int HAVE_LOCKED_MESSAGES_TOKEN     = 1802;
     private static final int DELETE_OBSOLETE_THREADS_TOKEN = 1803;
@@ -96,6 +102,7 @@ public class ConversationList extends ListActivity
     private SharedPreferences mPrefs;
     private Handler mHandler;
     private boolean mNeedToMarkAsSeen;
+    private TextView mUnreadConvCount;
 
     static private final String CHECKED_MESSAGE_LIMITS = "checked_message_limits";
 
@@ -109,17 +116,12 @@ public class ConversationList extends ListActivity
         mQueryHandler = new ThreadListQueryHandler(getContentResolver());
 
         ListView listView = getListView();
-        LayoutInflater inflater = LayoutInflater.from(this);
-        ConversationListItem headerView = (ConversationListItem)
-                inflater.inflate(R.layout.conversation_list_item, listView, false);
-        headerView.bind(getString(R.string.new_message),
-                getString(R.string.create_new_message));
-        listView.addHeaderView(headerView, null, true);
-
         listView.setOnCreateContextMenuListener(mConvListOnCreateContextMenuListener);
         listView.setOnKeyListener(mThreadListKeyListener);
 
         initListAdapter();
+
+        setupActionBar();
 
         mTitle = getString(R.string.app_label);
 
@@ -130,6 +132,26 @@ public class ConversationList extends ListActivity
         if (!checkedMessageLimits || DEBUG) {
             runOneTimeStorageLimitCheckForLegacyMessages();
         }
+    }
+
+    private void setupActionBar() {
+        ActionBar actionBar = getActionBar();
+
+        ViewGroup v = (ViewGroup)LayoutInflater.from(this)
+            .inflate(R.layout.conversation_list_actionbar, null);
+        actionBar.setCustomView(v,
+                new ActionBar.LayoutParams(
+                        ActionBar.LayoutParams.MATCH_PARENT,
+                        ActionBar.LayoutParams.MATCH_PARENT));
+
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP, ActionBar.DISPLAY_HOME_AS_UP);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
+
+        // This results in a fade out -> fade in when switching the action bar between
+        // showing the account spinner and the search box.
+        v.setLayoutTransition(new LayoutTransition());
+
+        mUnreadConvCount = (TextView)v.findViewById(R.id.unread_conv_count);
     }
 
     private final ConversationListAdapter.OnContentChangedListener mContentChangedListener =
@@ -269,6 +291,7 @@ public class ConversationList extends ListActivity
             setProgressBarIndeterminateVisibility(true);
 
             Conversation.startQueryForAll(mQueryHandler, THREAD_LIST_QUERY_TOKEN);
+            Conversation.startQuery(mQueryHandler, UNREAD_THREADS_QUERY_TOKEN, Threads.READ + "=0");
         } catch (SQLiteException e) {
             SqliteWrapper.checkSQLiteException(this, e);
         }
@@ -278,17 +301,21 @@ public class ConversationList extends ListActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.clear();
 
-        menu.add(0, MENU_COMPOSE_NEW, 0, R.string.menu_compose_new).setIcon(
-                com.android.internal.R.drawable.ic_menu_compose);
+        menu.add(0, MENU_COMPOSE_NEW, 0, R.string.menu_compose_new)
+            .setIcon(com.android.internal.R.drawable.ic_menu_compose)
+            .setTitle(R.string.new_message)
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);       // add to actionbar
 
         if (mListAdapter.getCount() > 0) {
             menu.add(0, MENU_DELETE_ALL, 0, R.string.menu_delete_all).setIcon(
                     android.R.drawable.ic_menu_delete);
         }
 
-        menu.add(0, MENU_SEARCH, 0, android.R.string.search_go).
-            setIcon(android.R.drawable.ic_menu_search).
-            setAlphabeticShortcut(android.app.SearchManager.MENU_KEY);
+        menu.add(0, MENU_SEARCH, 0, android.R.string.search_go)
+            .setIcon(android.R.drawable.ic_menu_search)
+            .setAlphabeticShortcut(android.app.SearchManager.MENU_KEY)
+            .setTitle(R.string.menu_search)
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);       // add to actionbar
 
         menu.add(0, MENU_PREFERENCES, 0, R.string.menu_preferences).setIcon(
                 android.R.drawable.ic_menu_preferences);
@@ -328,26 +355,22 @@ public class ConversationList extends ListActivity
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        if (position == 0) {
-            createNewMessage();
-        } else {
-            // Note: don't read the thread id data from the ConversationListItem view passed in.
-            // It's unreliable to read the cached data stored in the view because the ListItem
-            // can be recycled, and the same view could be assigned to a different position
-            // if you click the list item fast enough. Instead, get the cursor at the position
-            // clicked and load the data from the cursor.
-            // (ConversationListAdapter extends CursorAdapter, so getItemAtPosition() should
-            // return the cursor object, which is moved to the position passed in)
-            Cursor cursor  = (Cursor) getListView().getItemAtPosition(position);
-            Conversation conv = Conversation.from(this, cursor);
-            long tid = conv.getThreadId();
+        // Note: don't read the thread id data from the ConversationListItem view passed in.
+        // It's unreliable to read the cached data stored in the view because the ListItem
+        // can be recycled, and the same view could be assigned to a different position
+        // if you click the list item fast enough. Instead, get the cursor at the position
+        // clicked and load the data from the cursor.
+        // (ConversationListAdapter extends CursorAdapter, so getItemAtPosition() should
+        // return the cursor object, which is moved to the position passed in)
+        Cursor cursor  = (Cursor) getListView().getItemAtPosition(position);
+        Conversation conv = Conversation.from(this, cursor);
+        long tid = conv.getThreadId();
 
-            if (LogTag.VERBOSE) {
-                Log.d(TAG, "onListItemClick: pos=" + position + ", view=" + v + ", tid=" + tid);
-            }
-
-            openThread(tid);
+        if (LogTag.VERBOSE) {
+            Log.d(TAG, "onListItemClick: pos=" + position + ", view=" + v + ", tid=" + tid);
         }
+
+        openThread(tid);
     }
 
     private void createNewMessage() {
@@ -388,20 +411,18 @@ public class ConversationList extends ListActivity
 
             AdapterView.AdapterContextMenuInfo info =
                 (AdapterView.AdapterContextMenuInfo) menuInfo;
-            if (info.position > 0) {
-                menu.add(0, MENU_VIEW, 0, R.string.menu_view);
+            menu.add(0, MENU_VIEW, 0, R.string.menu_view);
 
-                // Only show if there's a single recipient
-                if (recipients.size() == 1) {
-                    // do we have this recipient in contacts?
-                    if (recipients.get(0).existsInDatabase()) {
-                        menu.add(0, MENU_VIEW_CONTACT, 0, R.string.menu_view_contact);
-                    } else {
-                        menu.add(0, MENU_ADD_TO_CONTACTS, 0, R.string.menu_add_to_contacts);
-                    }
+            // Only show if there's a single recipient
+            if (recipients.size() == 1) {
+                // do we have this recipient in contacts?
+                if (recipients.get(0).existsInDatabase()) {
+                    menu.add(0, MENU_VIEW_CONTACT, 0, R.string.menu_view_contact);
+                } else {
+                    menu.add(0, MENU_ADD_TO_CONTACTS, 0, R.string.menu_add_to_contacts);
                 }
-                menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
             }
+            menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
         }
     };
 
@@ -498,11 +519,11 @@ public class ConversationList extends ListActivity
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.confirm_dialog_title)
             .setIcon(android.R.drawable.ic_dialog_alert)
-        .setCancelable(true)
-        .setPositiveButton(R.string.delete, listener)
-        .setNegativeButton(R.string.no, null)
-        .setView(contents)
-        .show();
+            .setCancelable(true)
+            .setPositiveButton(R.string.delete, listener)
+            .setNegativeButton(R.string.no, null)
+            .setView(contents)
+            .show();
     }
 
     private final OnKeyListener mThreadListKeyListener = new OnKeyListener() {
@@ -579,6 +600,11 @@ public class ConversationList extends ListActivity
                     Conversation.asyncDeleteObsoleteThreads(mQueryHandler,
                             DELETE_OBSOLETE_THREADS_TOKEN);
                 }
+                break;
+
+            case UNREAD_THREADS_QUERY_TOKEN:
+                int count = cursor.getCount();
+                mUnreadConvCount.setText(count > 0 ? Integer.toString(count) : null);
                 break;
 
             case HAVE_LOCKED_MESSAGES_TOKEN:
