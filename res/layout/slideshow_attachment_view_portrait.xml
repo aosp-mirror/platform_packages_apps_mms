@@ -90,6 +90,7 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="80dip"
             android:layout_height="45dip"
+            android:textColor="@android:color/black"
             android:text="@string/edit" />
 
         <Button
@@ -97,6 +98,7 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="80dip"
             android:layout_height="45dip"
+            android:textColor="@android:color/black"
             android:text="@string/send" />
 
     </LinearLayout>
