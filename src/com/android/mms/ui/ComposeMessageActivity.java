@@ -3459,11 +3459,11 @@ public class ComposeMessageActivity extends Activity
                     return;
 
                 case ConversationList.HAVE_LOCKED_MESSAGES_TOKEN:
-                    long threadId = (Long)cookie;
+                    ArrayList<Long> threadIds = (ArrayList<Long>)cookie;
                     ConversationList.confirmDeleteThreadDialog(
-                            new ConversationList.DeleteThreadListener(threadId,
+                            new ConversationList.DeleteThreadListener(threadIds,
                                 mBackgroundQueryHandler, ComposeMessageActivity.this),
-                            threadId == -1,
+                            threadIds,
                             cursor != null && cursor.getCount() > 0,
                             ComposeMessageActivity.this);
                     break;

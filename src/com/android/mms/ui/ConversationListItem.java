@@ -17,21 +17,15 @@
 
 package com.android.mms.ui;
 
-import java.util.List;
-
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 
 import android.os.Handler;
-import android.provider.ContactsContract.Intents;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -40,7 +34,6 @@ import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.QuickContactBadge;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -194,11 +187,13 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
 
         setConversationHeader(ch);
 
-        Drawable background = ch.isRead()?
-                mContext.getResources().getDrawable(R.drawable.conversation_item_background_read) :
-                mContext.getResources().getDrawable(R.drawable.conversation_item_background_unread);
-
-        setBackgroundDrawable(background);
+        // TODO: fix this -- we need to incorporate ?android:attr/activatedBackgroundIndicator for
+        // multiselection.
+//        Drawable background = ch.isRead()?
+//                mContext.getResources().getDrawable(R.drawable.conversation_item_background_read) :
+//                mContext.getResources().getDrawable(R.drawable.conversation_item_background_unread);
+//
+//        setBackgroundDrawable(background);
 
         LayoutParams attachmentLayout = (LayoutParams)mAttachmentView.getLayoutParams();
         boolean hasError = ch.hasError();

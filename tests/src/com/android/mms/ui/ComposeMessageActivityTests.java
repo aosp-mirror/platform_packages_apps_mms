@@ -185,7 +185,7 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
     @LargeTest
     public void testCreateManyThreads() {
         ComposeMessageActivity cma = getActivity();
-        for (int i = 0; i < 99; i++) {
+        for (int i = 0; i < 10; i++) {
             String phoneNum = String.format("424-123-%04d", i);
             ContactList contactList = ContactList.getByNumbers(phoneNum, false, false);
             Conversation conv = Conversation.get(cma, contactList, false);

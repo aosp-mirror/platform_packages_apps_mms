@@ -415,6 +415,12 @@
     <!-- Delete confirmation dialog title for locked messages -->
     <string name="confirm_dialog_locked_title">Delete locked message?</string>
     <!-- Delete entire thread confirmation dialog message -->
+    <plurals name="confirm_delete_conversation">
+        <!-- Case of 1 result. -->
+        <item quantity="one">One conversation will be deleted</item>
+        <!-- Case of 0 or 2 or more results. -->
+        <item quantity="other"><xliff:g id="number" example="15">%1$s</xliff:g> conversations will be deleted</item>
+    </plurals>
     <string name="confirm_delete_conversation">The entire thread will be deleted.</string>
     <!-- Delete all threads confirmation dialog message -->
     <string name="confirm_delete_all_conversations">All threads will be deleted.</string>
@@ -432,6 +438,8 @@
     <string name="delete_unlocked">Delete locked messages</string>
     <!-- Delete button title -->
     <string name="delete">Delete</string>
+    <!-- Action bar mode title when multi-selecting conversations -->
+    <string name="select_conversations">Select conversations</string>
 
     <!-- When the user tries to view message details and some error occurs while
          retrieving those details, this message will be shown. -->

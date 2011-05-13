@@ -61,6 +61,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
+import android.provider.Telephony.Threads;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -720,20 +721,36 @@ public class MessageUtils {
     }
 
     public static void handleReadReport(final Context context,
-            final long threadId,
+            final ArrayList<Long> threadIds,
             final int status,
             final Runnable callback) {
-        String selection = Mms.MESSAGE_TYPE + " = " + PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF
-            + " AND " + Mms.READ + " = 0"
-            + " AND " + Mms.READ_REPORT + " = " + PduHeaders.VALUE_YES;
+        StringBuilder selectionBuilder = new StringBuilder(Mms.MESSAGE_TYPE + " = "
+                + PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF
+                + " AND " + Mms.READ + " = 0"
+                + " AND " + Mms.READ_REPORT + " = " + PduHeaders.VALUE_YES);
 
-        if (threadId != -1) {
-            selection = selection + " AND " + Mms.THREAD_ID + " = " + threadId;
+        String[] selectionArgs = null;
+        if (threadIds != null) {
+            String threadIdSelection = null;
+            StringBuilder buf = new StringBuilder();
+            selectionArgs = new String[threadIds.size()];
+            int i = 0;
+
+            for (long threadId : threadIds) {
+                if (i > 0) {
+                    buf.append(" OR ");
+                }
+                buf.append(Mms.THREAD_ID).append("=?");
+                selectionArgs[i++] = Long.toString(threadId);
+            }
+            threadIdSelection = buf.toString();
+
+            selectionBuilder.append(" AND (" + threadIdSelection + ")");
         }
 
         final Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
                         Mms.Inbox.CONTENT_URI, new String[] {Mms._ID, Mms.MESSAGE_ID},
-                        selection, null, null);
+                        selectionBuilder.toString(), selectionArgs, null);
 
         if (c == null) {
             return;

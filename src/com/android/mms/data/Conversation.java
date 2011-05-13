@@ -1,5 +1,6 @@
 package com.android.mms.data;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -596,18 +597,50 @@ public class Conversation {
      * Check for locked messages in all threads or a specified thread.
      * @param handler An AsyncQueryHandler that will receive onQueryComplete
      *                upon completion of looking for locked messages
-     * @param threadId   The threadId of the thread to search. -1 means all threads
+     * @param threadIds   A list of threads to search. null means all threads
      * @param token   The token that will be passed to onQueryComplete
      */
-    public static void startQueryHaveLockedMessages(AsyncQueryHandler handler, long threadId,
+    public static void startQueryHaveLockedMessages(AsyncQueryHandler handler,
+            ArrayList<Long> threadIds,
             int token) {
         handler.cancelOperation(token);
         Uri uri = MmsSms.CONTENT_LOCKED_URI;
-        if (threadId != -1) {
-            uri = ContentUris.withAppendedId(uri, threadId);
+
+        String selection = null;
+        if (threadIds != null) {
+            StringBuilder buf = new StringBuilder();
+            int i = 0;
+
+            for (long threadId : threadIds) {
+                if (i++ > 0) {
+                    buf.append(" OR ");
+                }
+                // We have to build the selection arg into the selection because deep down in
+                // provider, the function buildUnionSubQuery takes selectionArgs, but ignores it.
+                buf.append(Mms.THREAD_ID).append("=").append(Long.toString(threadId));
+            }
+            selection = buf.toString();
         }
-        handler.startQuery(token, new Long(threadId), uri,
-                ALL_THREADS_PROJECTION, null, null, Conversations.DEFAULT_SORT_ORDER);
+        handler.startQuery(token, threadIds, uri,
+                ALL_THREADS_PROJECTION, selection, null, Conversations.DEFAULT_SORT_ORDER);
+    }
+
+    /**
+     * Check for locked messages in all threads or a specified thread.
+     * @param handler An AsyncQueryHandler that will receive onQueryComplete
+     *                upon completion of looking for locked messages
+     * @param threadId   The threadId of the thread to search. -1 means all threads
+     * @param token   The token that will be passed to onQueryComplete
+     */
+    public static void startQueryHaveLockedMessages(AsyncQueryHandler handler,
+            long threadId,
+            int token) {
+        ArrayList<Long> threadIds = null;
+        if (threadId != -1) {
+            threadIds = new ArrayList<Long>();
+            threadIds.add(threadId);
+        }
+        startQueryHaveLockedMessages(handler, threadIds, token);
     }
 
     /**
