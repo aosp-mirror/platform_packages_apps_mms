@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -1584,11 +1585,11 @@ public class ComposeMessageActivity extends Activity
         String s;
         switch (list.size()) {
             case 0: {
-                String recipient = "";
+                String recipient = null;
                 if (mRecipientsEditor != null) {
                     recipient = mRecipientsEditor.getText().toString();
                 }
-                s = recipient;
+                s = TextUtils.isEmpty(recipient) ? getString(R.string.new_message) : recipient;
                 break;
             }
             case 1: {
@@ -1602,6 +1603,7 @@ public class ComposeMessageActivity extends Activity
             }
         }
         mDebugRecipients = list.serialize();
+
         getWindow().setTitle(s);
     }
 
@@ -1942,6 +1944,9 @@ public class ComposeMessageActivity extends Activity
         }
 
         updateTitle(mConversation.getRecipients());
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     public void loadMessageContent() {
@@ -2286,8 +2291,12 @@ public class ComposeMessageActivity extends Activity
         menu.clear();
 
         if (isRecipientCallable()) {
-            menu.add(0, MENU_CALL_RECIPIENT, 0, R.string.menu_call).setIcon(
+            MenuItem item = menu.add(0, MENU_CALL_RECIPIENT, 0, R.string.menu_call).setIcon(
                     R.drawable.ic_menu_call);
+            if (!isRecipientsEditorVisible()) {
+                // If we're not composing a new message, show the call icon in the actionbar
+                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            }
         }
 
         // Only add the "View contact" menu item when there's a single recipient and that
@@ -2376,6 +2385,8 @@ public class ComposeMessageActivity extends Activity
             case MENU_DELETE_THREAD:
                 confirmDeleteThread(mConversation.getThreadId());
                 break;
+
+            case android.R.id.home:
             case MENU_CONVERSATION_LIST:
                 exitComposeMessageActivity(new Runnable() {
                     public void run() {
