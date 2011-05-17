@@ -19,6 +19,8 @@
         android:drawable="@android:color/transparent" />
     <item android:state_pressed="true" android:state_selected="false"
         android:drawable="@android:color/transparent" />
-    <item android:state_selected="false"
-          android:drawable="@color/read_bgcolor" />
+    <item android:state_selected="false" android:state_activated="false"
+        android:drawable="@color/read_bgcolor" />
+    <item android:state_activated="true"
+        android:drawable="@drawable/list_selector_background_selected" />
 </selector>

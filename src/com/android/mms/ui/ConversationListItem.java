@@ -187,13 +187,11 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
 
         setConversationHeader(ch);
 
-        // TODO: fix this -- we need to incorporate ?android:attr/activatedBackgroundIndicator for
-        // multiselection.
-//        Drawable background = ch.isRead()?
-//                mContext.getResources().getDrawable(R.drawable.conversation_item_background_read) :
-//                mContext.getResources().getDrawable(R.drawable.conversation_item_background_unread);
-//
-//        setBackgroundDrawable(background);
+        Drawable background = ch.isRead()?
+                mContext.getResources().getDrawable(R.drawable.conversation_item_background_read) :
+                mContext.getResources().getDrawable(R.drawable.conversation_item_background_unread);
+
+        setBackgroundDrawable(background);
 
         LayoutParams attachmentLayout = (LayoutParams)mAttachmentView.getLayoutParams();
         boolean hasError = ch.hasError();
