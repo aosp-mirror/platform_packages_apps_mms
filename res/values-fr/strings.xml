@@ -29,6 +29,8 @@
     <string name="menu_preferences" msgid="4693148116114749414">"Paramètres"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Ajouter \"<xliff:g id="NAME">%s</xliff:g>\" aux contacts"</string>
     <string name="menu_call" msgid="5877123227307074690">"Appeler"</string>
+    <!-- no translation found for menu_search (2289469305728821360) -->
+    <skip />
     <string name="menu_delete_all" msgid="808729454898114735">"Supprimer tous les fils de discussion"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Supprimer le fil de discussion"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Messages non transmis"</string>
@@ -196,6 +198,8 @@
     <string name="to_label" msgid="2355268818058389047">"À "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Supprimer"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Supprimer le message verrouillé ?"</string>
+    <!-- no translation found for confirm_delete_conversation:one (350118636090800360) -->
+    <!-- no translation found for confirm_delete_conversation:other (6918094955792544014) -->
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"L\'intégralité du fil de discussion va être supprimée."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Tous les fils de discussion vont être supprimés."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Le message va être supprimé."</string>
@@ -205,6 +209,8 @@
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Ce message sera supprimé de la carte SIM."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Supprimer les messages verrouillés"</string>
     <string name="delete" msgid="1409973060081564612">"Supprimer"</string>
+    <!-- no translation found for select_conversations (5754828781497722394) -->
+    <skip />
     <string name="cannot_get_details" msgid="6493664168168047746">"Impossible de récupérer les détails"</string>
     <string name="message_details_title" msgid="9223295113731634528">"Détails du message"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Type : "</string>

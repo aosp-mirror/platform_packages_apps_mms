@@ -29,6 +29,8 @@
     <string name="menu_preferences" msgid="4693148116114749414">"Nastavení"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Přidat <xliff:g id="NAME">%s</xliff:g> mezi Kontakty"</string>
     <string name="menu_call" msgid="5877123227307074690">"Volat"</string>
+    <!-- no translation found for menu_search (2289469305728821360) -->
+    <skip />
     <string name="menu_delete_all" msgid="808729454898114735">"Smazat všechny konverzace"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Smazat konverzaci"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Nedoručené zprávy"</string>
@@ -196,6 +198,8 @@
     <string name="to_label" msgid="2355268818058389047">"Do "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Smazat"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Smazat uzamčenou zprávu?"</string>
+    <!-- no translation found for confirm_delete_conversation:one (350118636090800360) -->
+    <!-- no translation found for confirm_delete_conversation:other (6918094955792544014) -->
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Celá konverzace bude smazána."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Všechny konverzace budou smazány."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Zpráva bude smazána."</string>
@@ -205,6 +209,8 @@
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Tato zpráva na kartě SIM bude smazána."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Smazat uzamčené zprávy"</string>
     <string name="delete" msgid="1409973060081564612">"Smazat"</string>
+    <!-- no translation found for select_conversations (5754828781497722394) -->
+    <skip />
     <string name="cannot_get_details" msgid="6493664168168047746">"Podrobnosti se nepodařilo zobrazit."</string>
     <string name="message_details_title" msgid="9223295113731634528">"Podrobnosti zprávy"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Typ: "</string>

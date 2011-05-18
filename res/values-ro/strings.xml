@@ -29,6 +29,8 @@
     <string name="menu_preferences" msgid="4693148116114749414">"Setări"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Adaugă <xliff:g id="NAME">%s</xliff:g> în Agendă"</string>
     <string name="menu_call" msgid="5877123227307074690">"Apelaţi"</string>
+    <!-- no translation found for menu_search (2289469305728821360) -->
+    <skip />
     <string name="menu_delete_all" msgid="808729454898114735">"Ştergeţi toate şirurile"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Ştergeţi firul de conversaţie"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Mesaje neexpediate"</string>
@@ -196,6 +198,8 @@
     <string name="to_label" msgid="2355268818058389047">"Către "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Ştergeţi"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Ştergeţi mesajul blocat?"</string>
+    <!-- no translation found for confirm_delete_conversation:one (350118636090800360) -->
+    <!-- no translation found for confirm_delete_conversation:other (6918094955792544014) -->
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Firul de conversaţie va fi şters în întregime."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Toate firele de conversaţie vor fi şterse."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Mesajul va fi şters."</string>
@@ -205,6 +209,8 @@
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Acest mesaj de pe cardul SIM va fi şters."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Ştergeţi mesajele blocate"</string>
     <string name="delete" msgid="1409973060081564612">"Ştergeţi"</string>
+    <!-- no translation found for select_conversations (5754828781497722394) -->
+    <skip />
     <string name="cannot_get_details" msgid="6493664168168047746">"Nu se pot obţine detalii"</string>
     <string name="message_details_title" msgid="9223295113731634528">"Detalii mesaj"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Tip: "</string>
