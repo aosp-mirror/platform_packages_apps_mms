@@ -29,6 +29,8 @@
     <string name="menu_preferences" msgid="4693148116114749414">"Mga Setting"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Idagdag si <xliff:g id="NAME">%s</xliff:g> sa Mga Contact"</string>
     <string name="menu_call" msgid="5877123227307074690">"Tawag"</string>
+    <!-- no translation found for menu_search (2289469305728821360) -->
+    <skip />
     <string name="menu_delete_all" msgid="808729454898114735">"Tanggalin ang lahat ng mga thread"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Tanggalin ang thread"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Hindi nahatid na mga mensahe"</string>
@@ -196,6 +198,8 @@
     <string name="to_label" msgid="2355268818058389047">"Para kay "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Tanggalin"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Tanggalin ang naka-lock na mensahe?"</string>
+    <!-- no translation found for confirm_delete_conversation:one (350118636090800360) -->
+    <!-- no translation found for confirm_delete_conversation:other (6918094955792544014) -->
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Tatanggalin ang buong thread."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Tatanggalin ang lahat ng mga thread."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Tatanggalin ang mensahe."</string>
@@ -205,6 +209,8 @@
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Tatanggalin ang mensaheng ito sa SIM."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Tanggalin ang mga naka-lock na mensahe"</string>
     <string name="delete" msgid="1409973060081564612">"Tanggalin"</string>
+    <!-- no translation found for select_conversations (5754828781497722394) -->
+    <skip />
     <string name="cannot_get_details" msgid="6493664168168047746">"Hindi makakuha ng mga detalye"</string>
     <string name="message_details_title" msgid="9223295113731634528">"Mga detalye ng mensahe"</string>
     <string name="message_type_label" msgid="7975373966795945566">"I-type: "</string>
