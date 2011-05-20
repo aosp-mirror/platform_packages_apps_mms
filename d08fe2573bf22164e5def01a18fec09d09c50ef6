@@ -1,0 +1,7 @@
+Change-Id: Id08fe2573bf22164e5def01a18fec09d09c50ef6
+Code-Review+1: Ficus Kirkpatrick <ficus@android.com>
+Code-Review+2: Romain Guy <romainguy@android.com>
+Verified+1: Romain Guy <romainguy@android.com>
+Reviewed-on: https://review.source.android.com/7321
+Project: platform/packages/apps/Mms
+Branch: refs/heads/master

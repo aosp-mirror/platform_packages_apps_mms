@@ -1,0 +1,8 @@
+Change-Id: I9a46273ce2cca82ff1004115c6c10dbf150f5af4
+Code-Review+2: Brad Fitzpatrick <bradfitz@android.com>
+Verified+1: Brad Fitzpatrick <bradfitz@android.com>
+Submitted-by: Brad Fitzpatrick <bradfitz@android.com>
+Submitted-at: Tue, 02 Nov 2010 06:48:54 -0700
+Reviewed-on: https://review.source.android.com/17722
+Project: platform/packages/apps/Mms
+Branch: refs/heads/master

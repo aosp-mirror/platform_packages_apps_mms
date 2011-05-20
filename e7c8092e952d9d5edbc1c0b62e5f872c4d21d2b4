@@ -1,0 +1,8 @@
+Change-Id: Ie7c8092e952d9d5edbc1c0b62e5f872c4d21d2b4
+Code-Review+2: Ficus Kirkpatrick <ficus@android.com>
+Verified+1: Jean-Baptiste Queru <jbq@google.com>
+Submitted-by: Jean-Baptiste Queru <jbq@google.com>
+Submitted-at: Tue, 03 Nov 2009 12:29:28 -0700
+Reviewed-on: https://review.source.android.com/11231
+Project: platform/packages/apps/Mms
+Branch: refs/heads/master

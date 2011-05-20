@@ -1,0 +1,10 @@
+Code-Review+2: Brad Fitzpatrick <bradfitz@android.com>
+Verified+1: Brad Fitzpatrick <bradfitz@android.com>
+Code-Review+1: Tom Taylor <tomastaylor@gmail.com>
+Code-Review+1: Naveen Kalla <nkalla@codeaurora.org>
+Code-Review+1: Jake Hamby <jhamby@google.com>
+Submitted-by: Brad Fitzpatrick <bradfitz@android.com>
+Submitted-at: Tue, 25 Jan 2011 16:31:14 -0700
+Reviewed-on: https://review.source.android.com/20670
+Project: platform/packages/apps/Mms
+Branch: refs/heads/master

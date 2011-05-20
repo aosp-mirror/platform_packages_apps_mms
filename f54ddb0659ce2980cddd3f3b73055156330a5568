@@ -1,0 +1,12 @@
+Change-Id: If54ddb0659ce2980cddd3f3b73055156330a5568
+Code-Review-1: Ficus Kirkpatrick <ficus@android.com>
+Code-Review+1: Jaikumar Ganesh <jaikumarg@android.com>
+Code-Review+2: John Huang <jsh@android.com>
+Verified+1: John Huang <jsh@android.com>
+Code-Review+1: Team Android CDMA <oss.android_cdma@teleca.com>
+Code-Review+1: Sigmar Lingner <Sigmar.Lingner@teleca.com>
+Submitted-by: John Huang <jsh@android.com>
+Submitted-at: Wed, 18 Feb 2009 18:21:47 -0700
+Reviewed-on: https://review.source.android.com/8661
+Project: platform/packages/apps/Mms
+Branch: refs/heads/cdma-import

@@ -1,0 +1,8 @@
+Change-Id: Iabd8281fc52d0a3ec8fc89364f230bebb055c4e3
+Code-Review+2: Jean-Baptiste Queru <jbq@google.com>
+Verified+1: Jean-Baptiste Queru <jbq@google.com>
+Submitted-by: Jean-Baptiste Queru <jbq@google.com>
+Submitted-at: Wed, 18 Mar 2009 13:57:25 -0700
+Reviewed-on: https://review.source.android.com/9189
+Project: platform/packages/apps/Mms
+Branch: refs/heads/master

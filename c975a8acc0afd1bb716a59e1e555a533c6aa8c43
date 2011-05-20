@@ -1,0 +1,9 @@
+Change-Id: Ic975a8acc0afd1bb716a59e1e555a533c6aa8c43
+Code-Review+2: Brad Fitzpatrick <bradfitz@android.com>
+Verified+1: Jean-Baptiste Queru <jbq@google.com>
+Code-Review+1: Tom Taylor <tomastaylor@gmail.com>
+Submitted-by: Jean-Baptiste Queru <jbq@google.com>
+Submitted-at: Sun, 30 Jan 2011 16:17:48 -0700
+Reviewed-on: https://review.source.android.com/20726
+Project: platform/packages/apps/Mms
+Branch: refs/heads/gingerbread
