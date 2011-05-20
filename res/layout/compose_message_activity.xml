@@ -42,6 +42,8 @@
         />
 
         <EditText android:id="@+id/subject"
+            android:textAppearance="?android:attr/textAppearanceMediumInverse"
+            android:textColor="@android:color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:capitalize="sentences"
@@ -148,7 +150,7 @@
                 android:background="@drawable/bottombar_landscape_565">
 
                 <EditText
-                    android:textColor="#000000"
+                    android:textColor="@android:color/black"
                     android:id="@+id/embedded_text_editor"
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
@@ -185,7 +187,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal|bottom"
-                        android:textColor="#ffffffff"
+                        android:textColor="@android:color/black"
                         android:textSize="11sp"
                         android:textStyle="bold"
                         android:paddingLeft="3dip"
