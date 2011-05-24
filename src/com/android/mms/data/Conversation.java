@@ -186,7 +186,7 @@ public class Conversation {
             }
         }
 
-        String recipient = uri.getSchemeSpecificPart();
+        String recipient = getRecipients(uri);
         return get(context, ContactList.getByNumbers(recipient,
                 allowQuery /* don't block */, true /* replace number */), allowQuery);
     }
@@ -206,7 +206,7 @@ public class Conversation {
         if (uri.getPathSegments().size() >= 2) {
             return false;       // it's a thread id for a conversation
         }
-        String recipient = uri.getSchemeSpecificPart();
+        String recipient = getRecipients(uri);
         ContactList incomingRecipient = ContactList.getByNumbers(recipient,
                 false /* don't block */, false /* don't replace number */);
         return mRecipients.equals(incomingRecipient);
@@ -935,5 +935,11 @@ public class Conversation {
             c.close();
         }
         return true;
+    }
+
+    private static String getRecipients(Uri uri) {
+        String base = uri.getSchemeSpecificPart();
+        int pos = base.indexOf('?');
+        return (pos == -1) ? base : base.substring(0, pos);
     }
 }
