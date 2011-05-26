@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/*
+ * Copyright (C) 2007-2008 Esmertec AG.
+ * Copyright (C) 2007-2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- no translation found for app_label (1503967887341230795) -->
+    <skip />
+    <!-- no translation found for new_message (1530369762346003973) -->
+    <skip />
+    <!-- no translation found for create_new_message (8735943333953093860) -->
+    <skip />
+    <!-- no translation found for menu_call_back (7538482331117914146) -->
+    <skip />
+    <!-- no translation found for menu_send_email (671366308915241664) -->
+    <skip />
+    <!-- no translation found for menu_compose_new (3763437973691046238) -->
+    <skip />
+    <!-- no translation found for menu_preferences (4693148116114749414) -->
+    <skip />
+    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Ongeza <xliff:g id="NAME">%s</xliff:g> kwa Anwani"</string>
+    <string name="menu_call" msgid="5877123227307074690">"Piga simu"</string>
+    <!-- no translation found for menu_search (2289469305728821360) -->
+    <skip />
+    <string name="menu_delete_all" msgid="808729454898114735">"Futa minyororo yote"</string>
+    <string name="menu_delete" msgid="1851666911396479006">"Futa utungo"</string>
+    <!-- no translation found for menu_undelivered_messages (3896857623211780616) -->
+    <skip />
+    <string name="menu_view" msgid="7448852683948080108">"Angalia utungo"</string>
+    <!-- no translation found for refreshing (987335057871404222) -->
+    <skip />
+    <!-- no translation found for has_draft (2487465595514636160) -->
+    <skip />
+    <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> kwa <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
+    <!-- no translation found for anonymous_recipient (2501437626187039034) -->
+    <skip />
+    <!-- no translation found for no_subject_view (7795086723069563537) -->
+    <skip />
+    <!-- no translation found for messagelist_sender_self (3579016854116401602) -->
+    <skip />
+    <!-- no translation found for view_picture (4356315935277709195) -->
+    <skip />
+    <!-- no translation found for view_slideshow (4990460971211388453) -->
+    <skip />
+    <!-- no translation found for view_message_details (2443165773568096234) -->
+    <skip />
+    <!-- no translation found for view_delivery_report (8219095994071575215) -->
+    <skip />
+    <!-- no translation found for delete_message (8888447283788388395) -->
+    <skip />
+    <string name="sent_on" msgid="5868288548564632354">"Imetuma: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <!-- no translation found for received_on (745813167330942475) -->
+    <skip />
+    <string name="expire_on" msgid="4436268382742593921">"Inaisha muda:<xliff:g id="DATE">%s</xliff:g>"</string>
+    <!-- no translation found for kilobyte (534782148965716631) -->
+    <skip />
+    <!-- no translation found for undelivered_msg_dialog_title (7479433403599785755) -->
+    <skip />
+    <string name="undelivered_msg_dialog_body" msgid="3574032060588309397">"Haiwezi kutuma ujumbe huu."\n" Jaribio lililofanywa:<xliff:g id="MESSAGE">%s</xliff:g>"</string>
+    <!-- no translation found for undelivered_sms_dialog_body (6755818550013032420) -->
+    <skip />
+    <!-- no translation found for delete_thread (757258847736632791) -->
+    <skip />
+    <!-- no translation found for menu_forward (9026858380050046756) -->
+    <skip />
+    <!-- no translation found for download (4488877642230207631) -->
+    <skip />
+    <!-- no translation found for downloading (1779557575565350637) -->
+    <skip />
+    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
+    <string name="inline_subject" msgid="4057621785274119260">"&lt;Kichwa: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="drm_protected_text" msgid="1396394157870730742">"* Maandishi yaliyolindwa na DRM *"</string>
+    <!-- no translation found for insufficient_drm_rights (6989074725969164383) -->
+    <skip />
+    <string name="copy_message_text" msgid="4640869459731924158">"Nakili maandishi ya ujumbe"</string>
+    <string name="message_options" msgid="6838806653341967550">"Chaguo za ujumbe"</string>
+    <!-- no translation found for done (7479926268660505871) -->
+    <skip />
+    <!-- no translation found for move_up (7307578107431739359) -->
+    <skip />
+    <!-- no translation found for move_down (6356509518429479053) -->
+    <skip />
+    <!-- no translation found for remove_slide (2225604354024914900) -->
+    <skip />
+    <!-- no translation found for add_slide (9140721399423564187) -->
+    <skip />
+    <!-- no translation found for add_slide_hint (563319570849475501) -->
+    <skip />
+    <!-- no translation found for discard_slideshow (5054239124146413609) -->
+    <skip />
+    <string name="slide_show_part" msgid="5077675385448696846">"Sehemu <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
+    <!-- no translation found for remove_text (2164068850029476539) -->
+    <skip />
+    <!-- no translation found for add_picture (7819574884962571479) -->
+    <skip />
+    <!-- no translation found for remove_picture (6378701749074289096) -->
+    <skip />
+    <!-- no translation found for add_music (3827442822987116233) -->
+    <skip />
+    <!-- no translation found for remove_music (858889733416015223) -->
+    <skip />
+    <!-- no translation found for add_video (7816866867806595144) -->
+    <skip />
+    <!-- no translation found for remove_video (5258603891528497799) -->
+    <skip />
+    <!-- no translation found for compose_title (558578836596816068) -->
+    <skip />
+    <!-- no translation found for to_hint (224029549150332986) -->
+    <skip />
+    <!-- no translation found for subject_hint (4296714962311604126) -->
+    <skip />
+    <!-- no translation found for add_attachment (7103751293360532684) -->
+    <skip />
+    <!-- no translation found for add_subject (7616134948428265870) -->
+    <skip />
+    <!-- no translation found for discard (1624800293064498479) -->
+    <skip />
+    <!-- no translation found for view (7929667761715467136) -->
+    <skip />
+    <!-- no translation found for replace (7587904998114459388) -->
+    <skip />
+    <!-- no translation found for remove (4625444913256213175) -->
+    <skip />
+    <!-- no translation found for send (4589898724889248486) -->
+    <skip />
+    <string name="mms" msgid="1587631213714914559">"MMS"</string>
+    <!-- no translation found for all_threads (2663426830306307194) -->
+    <skip />
+    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Andika ili kutunga"</string>
+    <!-- no translation found for open_keyboard_to_compose_message (1668723196441776085) -->
+    <skip />
+    <!-- no translation found for image_too_large (261880224164478061) -->
+    <skip />
+    <!-- no translation found for ask_for_automatically_resize (7657603662407738758) -->
+    <skip />
+    <string name="compressing" msgid="1961357529661045180">"Picha ni kubwa sana. Inafinyaza..."</string>
+    <!-- no translation found for unsupported_media_format (5037111178813903722) -->
+    <skip />
+    <!-- no translation found for select_different_media (7573116916321879964) -->
+    <skip />
+    <!-- no translation found for exceed_message_size_limitation (6027753647094742437) -->
+    <skip />
+    <string name="message_too_big_for_video" msgid="2639367545165352543">"Ujumbe ni mkubwa sana kuambatisha video."</string>
+    <!-- no translation found for failed_to_add_media (8272471485019037446) -->
+    <skip />
+    <!-- no translation found for failed_to_resize_image (5608354151631833669) -->
+    <skip />
+    <!-- no translation found for resize_image_error_information (4897031754321114959) -->
+    <skip />
+    <!-- no translation found for forward_prefix (276280492803486464) -->
+    <skip />
+    <!-- no translation found for discard_message (6078326880056142781) -->
+    <skip />
+    <!-- no translation found for discard_message_reason (2667664943003796133) -->
+    <skip />
+    <!-- no translation found for has_invalid_recipient (1485388396900997383) -->
+    <skip />
+    <string name="invalid_destination" msgid="7643854177921895615">"Umeingiza anwani batili."</string>
+    <!-- no translation found for invalid_recipient_message (7315539322634238519) -->
+    <skip />
+    <!-- no translation found for cannot_send_message (3918913277571649400) -->
+    <skip />
+    <!-- no translation found for cannot_send_message_reason (8745080126044054343) -->
+    <skip />
+    <!-- no translation found for cannot_forward_drm_obj (84606990079390099) -->
+    <skip />
+    <string name="converting_to_picture_message" msgid="2980023239017588627">"Inageuza kwa ujumbe wa media anuwai..."</string>
+    <string name="converting_to_text_message" msgid="6374423235426015422">"Inageuza kwa ujumbe wa maandishi..."</string>
+    <!-- no translation found for cannot_add_slide_anymore (8437666385579890987) -->
+    <skip />
+    <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"Haiwezi kuongeza video na picha kwenye slaidi moja."</string>
+    <!-- no translation found for cannot_save_message (5026354972915392301) -->
+    <skip />
+    <string name="cannot_load_message" msgid="2577010607550849892">"Haiwezi kupakia ujumbe."</string>
+    <!-- no translation found for message_saved_as_draft (2503018972659880692) -->
+    <skip />
+    <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"Ujumbe uliofungwa hauwezi kufutwa."</string>
+    <string name="too_many_recipients" msgid="4239709214735078881">"Ujumbe huu una wapokeaji wengi sana (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). Kuna mpaka wa wapokeaji <xliff:g id="MAXLIMIT">%2$s</xliff:g>."</string>
+    <string name="too_many_attachments" msgid="3774037894899750070">"Kunao upeo wa viambatisho <xliff:g id="MAXLIMIT">%1$s</xliff:g>. Ni <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> vya kwanza pekee vitakavyoongezwa."</string>
+    <string name="adding_attachments_title" msgid="2034535554212405529">"Inaongeza viambatisho"</string>
+    <string name="adding_attachments" msgid="2423616900586221924">"Tafadhali subiri wakati vipengee vinapoongezwa kwenye onyesho la slaidi"</string>
+    <string name="multiple_recipients" msgid="8747754491343248141">"Wapokeaji <xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g>"</string>
+    <!-- no translation found for cannot_play_audio (575086601128003093) -->
+    <skip />
+    <!-- no translation found for preview (5438149136136446756) -->
+    <skip />
+    <!-- no translation found for preview_slideshow (6824095909448728427) -->
+    <skip />
+    <!-- no translation found for replace_image (3171240952601443619) -->
+    <skip />
+    <!-- no translation found for duration_sec (6617032324007824096) -->
+    <skip />
+    <string name="duration_selector_title" msgid="5981097971537625852">"Muda wa slaidi "</string>
+    <string name="layout_selector_title" msgid="7344600117972450771">"Mpangilio wa onyesho la slaidi "</string>
+    <!-- no translation found for layout_top (6811021650398972346) -->
+    <skip />
+    <!-- no translation found for layout_bottom (5822765871095491843) -->
+    <skip />
+    <!-- no translation found for type_to_compose_text_or_leave_blank (6171524929347648837) -->
+    <skip />
+    <string name="duration_not_a_number" msgid="8005480904677546322">"Muda lazima uwe nambari"</string>
+    <string name="duration_zero" msgid="109945354056393575">"Lazima muda uwe mkubwa zaidi ya sekunde sufuri"</string>
+    <!-- no translation found for secs (6886003523109967972) -->
+    <skip />
+  <string-array name="select_dialog_items">
+    <item msgid="4840183714016984112">"Sekunde 1"</item>
+    <item msgid="3734955613666864447">"Sekunde 2"</item>
+    <item msgid="6032232473048379828">"Sekunde 3"</item>
+    <item msgid="5978471781525927827">"Sekunde 4"</item>
+    <item msgid="4888440297621208402">"Sekunde 5"</item>
+    <item msgid="6047246213264166841">"Sekunde 6"</item>
+    <item msgid="2327501250056533797">"Sekunde 7"</item>
+    <item msgid="3400770414689795703">"Sekunde 8"</item>
+    <item msgid="4358760614161107970">"Sekunde 9"</item>
+    <item msgid="2618179407176906471">"Sekunde 10"</item>
+    <item msgid="6238597861937337981">"Nyinginezo…"</item>
+  </string-array>
+    <!-- no translation found for menu_view_contact (1414670584423909451) -->
+    <skip />
+    <!-- no translation found for menu_add_to_contacts (2978074583938544513) -->
+    <skip />
+    <!-- no translation found for hidden_sender_address (2776075636669924968) -->
+    <skip />
+    <!-- no translation found for yes (3246158147503160811) -->
+    <skip />
+    <!-- no translation found for no (4289742508556913860) -->
+    <skip />
+    <string name="set" msgid="4642365398263275979">"Weka"</string>
+    <!-- no translation found for play (1888432400937785115) -->
+    <skip />
+    <!-- no translation found for edit (5912118407791492696) -->
+    <skip />
+    <!-- no translation found for resize (4308912589984220360) -->
+    <skip />
+    <!-- no translation found for try_to_send (1996751738286080976) -->
+    <skip />
+    <string name="preferences_title" msgid="6650089610332670157">"Mipangilio"</string>
+    <string name="restore_default" msgid="7165341506551155053">"Rejesha mipangilio ya chaguo-msingi"</string>
+    <!-- no translation found for pref_notification_settings_title (4860726154770053004) -->
+    <skip />
+    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Mipangilio ya media anuwai (MMS)"</string>
+    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Mipangilio ya ujumbe wa maandishi (SMS)"</string>
+    <string name="pref_sms_storage_title" msgid="2531726671883516470">"Mipangilio ya hifadhi"</string>
+    <!-- no translation found for pref_summary_manage_sim_messages (4141349892597640864) -->
+    <skip />
+    <!-- no translation found for pref_summary_mms_delivery_reports (4874657984217756112) -->
+    <skip />
+    <!-- no translation found for pref_summary_mms_read_reports (2748323864008907440) -->
+    <skip />
+    <!-- no translation found for pref_summary_sms_delivery_reports (5852207702358546129) -->
+    <skip />
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Futa ujumbe wa zamani kwa kuwa mipaka imefikiwa"</string>
+    <string name="pref_summary_delete_limit" msgid="597128041393045216">"Ujumbe <xliff:g id="COUNT">%1$s</xliff:g> kwa kila gumzo"</string>
+    <!-- no translation found for pref_title_manage_sim_messages (7820895261757881177) -->
+    <skip />
+    <!-- no translation found for pref_title_mms_delivery_reports (6666857926679451910) -->
+    <skip />
+    <!-- no translation found for pref_title_mms_read_reports (4882179829495828541) -->
+    <skip />
+    <!-- no translation found for pref_title_sms_delivery_reports (876064208254451038) -->
+    <skip />
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Futa ujumbe wa zamani"</string>
+    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Mpaka wa ujumbe wa maandishi"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Kikomo cha ujumbe wa media"</string>
+    <!-- no translation found for pref_title_notification_enabled (9118792213953729414) -->
+    <skip />
+    <!-- no translation found for pref_summary_notification_enabled (619729096820999905) -->
+    <skip />
+    <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Tetema"</string>
+    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Pia tikisa unapoarifiwa"</string>
+    <!-- no translation found for pref_title_notification_ringtone (5159574093788155149) -->
+    <skip />
+    <string name="pref_messages_to_save" msgid="3202539743892934926">"Weka nambari ya ujumbe wa kuhifadhi"</string>
+  <string-array name="prefEntries_vibrateWhen">
+    <item msgid="2520871831815631409">"Kila wakati"</item>
+    <item msgid="6069709696037750627">"Kukiwa kimya tu"</item>
+    <item msgid="7486145357487111435">"Katu"</item>
+  </string-array>
+    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Tetema"</string>
+    <!-- no translation found for pref_title_mms_auto_retrieval (4021878285474431355) -->
+    <skip />
+    <!-- no translation found for pref_summary_mms_auto_retrieval (925163257363757048) -->
+    <skip />
+    <!-- no translation found for pref_title_mms_retrieval_during_roaming (6016227402731817804) -->
+    <skip />
+    <!-- no translation found for pref_summary_mms_retrieval_during_roaming (2427892806582531020) -->
+    <skip />
+    <string name="to_label" msgid="2355268818058389047">"Kwa "</string>
+    <!-- no translation found for confirm_dialog_title (5810813994465120375) -->
+    <skip />
+    <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Futa ujumbe uliofungwa?"</string>
+    <!-- no translation found for confirm_delete_conversation:one (350118636090800360) -->
+    <!-- no translation found for confirm_delete_conversation:other (6918094955792544014) -->
+    <!-- no translation found for confirm_delete_conversation (6115966687389279855) -->
+    <skip />
+    <!-- no translation found for confirm_delete_all_conversations (9036166685235092757) -->
+    <skip />
+    <!-- no translation found for confirm_delete_message (9121480656609809591) -->
+    <skip />
+    <string name="confirm_delete_locked_message" msgid="5863578342246077057">"Je, una uhakika kuwa unataka kufuta ujumbe huu uliofungwa?"</string>
+    <!-- no translation found for confirm_delete_all_messages (5836389073199814660) -->
+    <skip />
+    <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"Ujumbe wote kwenye SIM utafutwa."</string>
+    <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Ujumbe huu kwenye SIM utafutwa."</string>
+    <string name="delete_unlocked" msgid="7545321606698162261">"Futa ujumbe uliofungwa"</string>
+    <string name="delete" msgid="1409973060081564612">"Futa"</string>
+    <!-- no translation found for select_conversations (5754828781497722394) -->
+    <skip />
+    <!-- no translation found for cannot_get_details (6493664168168047746) -->
+    <skip />
+    <!-- no translation found for message_details_title (9223295113731634528) -->
+    <skip />
+    <!-- no translation found for message_type_label (7975373966795945566) -->
+    <skip />
+    <string name="text_message" msgid="8196464345251877972">"Ujumbe wa maandishi"</string>
+    <string name="multimedia_message" msgid="1512644521083533071">"Ujumbe wa media anuwai"</string>
+    <string name="multimedia_notification" msgid="4124031788554972308">"Arifa ya ujumbe wa media anuwai"</string>
+    <!-- no translation found for from_label (2055117571548171397) -->
+    <skip />
+    <!-- no translation found for to_address_label (5837363600471845801) -->
+    <skip />
+    <!-- no translation found for bcc_label (530867161453958774) -->
+    <skip />
+    <!-- no translation found for sent_label (2722190650145251584) -->
+    <skip />
+    <!-- no translation found for received_label (8618029024731693906) -->
+    <skip />
+    <!-- no translation found for saved_label (4183160415593488207) -->
+    <skip />
+    <!-- no translation found for subject_label (8721241914144101631) -->
+    <skip />
+    <!-- no translation found for message_size_label (4698016210013319786) -->
+    <skip />
+    <!-- no translation found for priority_label (7397600367853359607) -->
+    <skip />
+    <!-- no translation found for priority_high (5627897207952009214) -->
+    <skip />
+    <!-- no translation found for priority_normal (5715227727384683550) -->
+    <skip />
+    <!-- no translation found for priority_low (8928782666023373987) -->
+    <skip />
+    <!-- no translation found for message_class_label (5115748690481550562) -->
+    <skip />
+    <string name="error_code_label" msgid="5810068247647058769">"Msimbo wa hitilafu: "</string>
+    <!-- no translation found for menu_edit (3056513240155967777) -->
+    <skip />
+    <!-- no translation found for menu_retry_sending (3146582005568302643) -->
+    <skip />
+    <!-- no translation found for menu_retry_sending_all (1870529976966340616) -->
+    <skip />
+    <!-- no translation found for menu_delete_messages (2610286783513247420) -->
+    <skip />
+    <string name="retrying_dialog_body" msgid="4738260459043003431">"Ujumbe huu <xliff:g id="MESSAGE">%s</xliff:g> haukutumwa kwa sababu ya tatizo la muunganisho."\n"Inajaribu tena kutuma…"</string>
+    <string name="menu_lock" msgid="136863583207382259">"Funga ujumbe"</string>
+    <string name="menu_unlock" msgid="5264877122797287929">"Fungua ujumbe"</string>
+    <!-- no translation found for sim_copy_to_phone_memory (3721000641648594602) -->
+    <skip />
+    <!-- no translation found for sim_copy_to_phone_memory (5895767417844881971) -->
+    <skip />
+    <!-- no translation found for sim_delete (610790510655316922) -->
+    <skip />
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"Ujumbe wa maandishi kwenye SIM kadi"</string>
+    <!-- no translation found for sim_view (1997173541766393706) -->
+    <skip />
+    <!-- no translation found for sim_empty (1763174398613486328) -->
+    <skip />
+    <!-- no translation found for delivery_header_title (5361719578869045764) -->
+    <skip />
+    <!-- no translation found for status_none (8253075950774894961) -->
+    <skip />
+    <!-- no translation found for status_pending (2739860824607984892) -->
+    <skip />
+    <!-- no translation found for status_read (7576195253780627332) -->
+    <skip />
+    <!-- no translation found for status_received (7264334589461906965) -->
+    <skip />
+    <!-- no translation found for status_failed (1998776666856593544) -->
+    <skip />
+    <!-- no translation found for status_unread (8555305495998700198) -->
+    <skip />
+    <!-- no translation found for status_rejected (2613641949065942678) -->
+    <skip />
+    <string name="recipient_label" msgid="3922667485312634446">"Mpokeaji: "</string>
+    <string name="status_label" msgid="7283375460919181660">"Hali: "</string>
+    <!-- no translation found for attach_image (6439985727687107742) -->
+    <skip />
+    <string name="attach_take_photo" msgid="4280601313184373837">"Nasa picha"</string>
+    <string name="attach_video" msgid="4264272693501538294">"Video"</string>
+    <string name="attach_record_video" msgid="3099814114743078615">"Nasa video"</string>
+    <!-- no translation found for attach_sound (3149325985970669609) -->
+    <skip />
+    <!-- no translation found for attach_record_sound (6011431304469858929) -->
+    <skip />
+    <string name="attach_slideshow" msgid="3497422151091037063">"Onyesho la slaidi"</string>
+    <string name="select_bottom_text" msgid="4201966447623311931">"Maandishi yakiwa chini"</string>
+    <string name="select_top_text" msgid="6734183477539197815">"Maandishi yakiwa juu"</string>
+    <string name="delivery_toast_body" msgid="4478305651728684364">"Ujumbe uliopokelewa na %s"</string>
+    <!-- no translation found for notification_multiple (7684007285202109490) -->
+    <skip />
+    <!-- no translation found for notification_multiple_title (332602028959557541) -->
+    <skip />
+    <string name="notification_failed_multiple" msgid="4081781748475686236">"Ujumbe <xliff:g id="COUNT">%s</xliff:g> haukuweza kutumwa."</string>
+    <string name="notification_failed_multiple_title" msgid="1112032024904397126">"Ujumbe haujatumwa"</string>
+    <!-- no translation found for sim_full_title (1809829051697702810) -->
+    <skip />
+    <!-- no translation found for sim_full_body (6241664980790322925) -->
+    <skip />
+    <string name="sms_full_title" msgid="6041287140125011854">"Kumbukumbu ya ujumbe wa maandishi imejaa"</string>
+    <string name="sms_full_body" msgid="7757490997215434514">"Ujumbe unaoingia umekataliwa kwa sababu ya kumbukumbu iliyojaa. Tafadhali futa ujumbe wa zamani."</string>
+    <string name="sms_rejected_title" msgid="8548394922491529811">"Ujumbe wa maandishi umekataliwa"</string>
+    <string name="sms_rejected_body" msgid="7187754586609631934">"Ujumbe unaoingia umekataliwa kwa sababu isiyojulikana."</string>
+    <!-- no translation found for type_audio (3842064092332309756) -->
+    <skip />
+    <!-- no translation found for type_picture (4091928975383609443) -->
+    <skip />
+    <!-- no translation found for type_video (8521556159545168441) -->
+    <skip />
+    <!-- no translation found for confirm (3155110885840591914) -->
+    <skip />
+    <!-- no translation found for message_send_read_report (6997117678914261250) -->
+    <skip />
+    <!-- no translation found for message_queued (8869479754825264671) -->
+    <skip />
+    <string name="fdn_check_failure" msgid="7880740763778173551">"Unaweza tu kutuma ujumbe kwa nambari za kudumu zilizowekwa."</string>
+    <!-- no translation found for no_subject (4168963736134552285) -->
+    <skip />
+    <!-- no translation found for unknown_sender (4929330613278853635) -->
+    <skip />
+    <!-- no translation found for dl_failure_notification (2457080452886498701) -->
+    <skip />
+    <string name="dl_expired_notification" msgid="950390029992535809">"Ujumbe huu umeisha muda wake na utafutwa."</string>
+    <!-- no translation found for rate_limit_surpassed (1347801608211628177) -->
+    <skip />
+    <!-- no translation found for confirm_rate_limit (234228299751243067) -->
+    <skip />
+    <!-- no translation found for message_download_failed_title (5722226064394767921) -->
+    <skip />
+    <!-- no translation found for message_send_failed_title (3469894907399046372) -->
+    <skip />
+    <!-- no translation found for message_failed_body (2740907094762116644) -->
+    <skip />
+    <!-- no translation found for download_later (4486286146421650880) -->
+    <skip />
+    <string name="select_audio" msgid="3120822451872772124">"Chaguo sauti"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Hifadhi kiambatisho"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Kiambatisho kimehifadhiwa"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Haiwezi kuhifadhi kiambatisho."</string>
+    <string name="save_ringtone" msgid="2310157075045201051">"Hifadhi toni ya mlio"</string>
+    <string name="saved_ringtone" msgid="6616730290861857836">"Mlio umehifadhiwa"</string>
+    <string name="saved_ringtone_fail" msgid="5447210504935083544">"Imeshindwa kuhifadhi toni ya mlio"</string>
+    <string name="menu_insert_smiley" msgid="4964504393061025071">"Ingiza kicheshi"</string>
+    <string name="select_link_title" msgid="600168208731216059">"Chagua tendo"</string>
+    <string name="slide_number" msgid="1923958526266726635">"Slaidi <xliff:g id="NUMBER">%s</xliff:g>"</string>
+  <plurals name="slide_duration">
+    <item quantity="one" msgid="1654101988340583935">"Sekunde <xliff:g id="NUMBER">%s</xliff:g>"</item>
+    <item quantity="few" msgid="7887190171856293871">"Sekunde <xliff:g id="NUMBER">%s</xliff:g>"</item>
+    <item quantity="other" msgid="3736425355579939863">"Sekunde <xliff:g id="NUMBER">%s</xliff:g>"</item>
+  </plurals>
+    <string name="delivery_report_activity" msgid="2957463094232916364">"Ripoti ya uwasilishaji"</string>
+    <string name="storage_limits_activity" msgid="8810530813311077716">"Mipaka ya hifadhi"</string>
+    <string name="add_attachment_activity" msgid="5324811371129695320">"Ongeza kiambatisho:"</string>
+    <string name="select_layout_activity" msgid="5041916695464513848">"Chagua mpangilio"</string>
+    <string name="change_duration_activity" msgid="7048606979485031693">"Badilisha muda"</string>
+    <string name="edit_text_activity" msgid="5915226413346879213">"Hariri maandishi"</string>
+    <string name="edit_slideshow_activity" msgid="8751493388760050529">"Hariri onyesho la slaidi"</string>
+    <string name="edit_slide_activity" msgid="8752829671778696983">"Hariri slaidi"</string>
+    <string name="pick_numbers_activity" msgid="2083330191224178637">"Teua Nambari"</string>
+    <string name="slideshow_activity" msgid="5658249461317434432">"Onyesho la slaidi"</string>
+    <string name="class_0_message_activity" msgid="8474176218999130627">"Ujumbe wa Darasa la 0"</string>
+    <string name="send_using_mms_activity" msgid="3703434556280345726">"Tuma kama ujumbe wa media anuwai..."</string>
+    <string name="select_contact_method_activity" msgid="1743384358979323991">"Chagua Mbinu ya Anwani"</string>
+    <string name="search_label" msgid="6042598929386174964">"Kutuma ujumbe"</string>
+    <string name="search_hint" msgid="7183732852849365466">"Tafuta Ujumbe"</string>
+    <string name="search" msgid="7560238620274735199">"Kutuma ujumbe"</string>
+    <string name="search_setting_description" msgid="4104004595086437572">"Maandishi katika ujumbe wako"</string>
+    <string name="search_empty" msgid="645052646985297065">"Hakuna zinazooana"</string>
+  <plurals name="search_results_title">
+    <item quantity="one" msgid="4657073733087431350">"Matokeo <xliff:g id="NUMBER">%1$s</xliff:g> ya \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
+    <item quantity="other" msgid="6196382287749539209">"Matokeo <xliff:g id="NUMBER">%1$s</xliff:g> ya \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
+  </plurals>
+    <string name="search_history" msgid="4127805495662693154">"Matokeo <xliff:g id="COUNT">%1$s</xliff:g> ya \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</string>
+    <string name="confirm_clear_search_title" msgid="8510295993632032904">"Futa"</string>
+    <string name="confirm_clear_search_text" msgid="8731877031837077478">"Historia ya utafutaji itafutwa"</string>
+    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Ondoa historia ya utafutaji"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Futa utafutaji wa awali wa ujumbe ili usionekane katika kisanduku cha Kutafuta"</string>
+    <string name="save" msgid="6847069284991531310">"Hifadhi"</string>
+    <string name="storage_limits_title" msgid="7074684882530693016">"Dhibiti ujumbe"</string>
+    <string name="storage_limits_message" msgid="8729608389698270388">"Je, unataka kuweka mipaka kwa nambari ya ujumbe unaohifadhi kwa kila gumzo?"</string>
+    <string name="storage_limits_setting" msgid="4952781049308537373">"Weka vikomo"</string>
+    <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Hakuna vikomo"</string>
+    <string name="too_many_unsent_mms" msgid="8005932837414848242">"Haiwezi kutuma ujumbe sasa hivi. Kuna ujumbe mwingi sana usiotumwa wa media anuwai."</string>
+    <string name="me" msgid="341726346007839961">"Mimi"</string>
+    <string name="sending_message" msgid="222836893217450538">"Inatuma…"</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"Wapokeaji wengi mno"</string>
+    <string name="adding_recipients" msgid="2962810172527532357">"Inaongeza wapokeaji..."</string>
+    <string name="error_state" msgid="5177386717626893507">"Hali isiyofanana"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"Hali ya minyororo na wapokeaji haifanani. Tafadhali tambua hitilafu ya ripoti kwa android-sms-bugs@google.com"</string>
+</resources>

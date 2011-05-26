@@ -29,8 +29,7 @@
     <string name="menu_preferences" msgid="4693148116114749414">"Instellingen"</string>
     <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"<xliff:g id="NAME">%s</xliff:g> toevoegen aan contactpersonen"</string>
     <string name="menu_call" msgid="5877123227307074690">"Bellen"</string>
-    <!-- no translation found for menu_search (2289469305728821360) -->
-    <skip />
+    <string name="menu_search" msgid="2289469305728821360">"Zoeken"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Alle threads verwijderen"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Thread verwijderen"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Niet-afgeleverde berichten"</string>
@@ -198,8 +197,10 @@
     <string name="to_label" msgid="2355268818058389047">"Aan "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Verwijderen"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Vergrendeld bericht verwijderen?"</string>
-    <!-- no translation found for confirm_delete_conversation:one (350118636090800360) -->
-    <!-- no translation found for confirm_delete_conversation:other (6918094955792544014) -->
+  <plurals name="confirm_delete_conversation">
+    <item quantity="one" msgid="350118636090800360">"Eén conversatie wordt verwijderd"</item>
+    <item quantity="other" msgid="6918094955792544014">"<xliff:g id="NUMBER">%1$s</xliff:g> conversaties worden verwijderd"</item>
+  </plurals>
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"De volledige thread wordt verwijderd."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Alle threads worden verwijderd."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Het bericht wordt verwijderd."</string>
@@ -209,8 +210,7 @@
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Dit bericht op de SIM-kaart wordt verwijderd."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Vergrendelde berichten verwijderen"</string>
     <string name="delete" msgid="1409973060081564612">"Verwijderen"</string>
-    <!-- no translation found for select_conversations (5754828781497722394) -->
-    <skip />
+    <string name="select_conversations" msgid="5754828781497722394">"Conversaties selecteren"</string>
     <string name="cannot_get_details" msgid="6493664168168047746">"Kan details niet ophalen"</string>
     <string name="message_details_title" msgid="9223295113731634528">"Berichtdetails"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Type: "</string>

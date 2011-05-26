@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/*
+ * Copyright (C) 2007-2008 Esmertec AG.
+ * Copyright (C) 2007-2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- no translation found for app_label (1503967887341230795) -->
+    <skip />
+    <!-- no translation found for new_message (1530369762346003973) -->
+    <skip />
+    <!-- no translation found for create_new_message (8735943333953093860) -->
+    <skip />
+    <!-- no translation found for menu_call_back (7538482331117914146) -->
+    <skip />
+    <!-- no translation found for menu_send_email (671366308915241664) -->
+    <skip />
+    <!-- no translation found for menu_compose_new (3763437973691046238) -->
+    <skip />
+    <!-- no translation found for menu_preferences (4693148116114749414) -->
+    <skip />
+    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Voeg <xliff:g id="NAME">%s</xliff:g> by Kontakte"</string>
+    <string name="menu_call" msgid="5877123227307074690">"Bel"</string>
+    <!-- no translation found for menu_search (2289469305728821360) -->
+    <skip />
+    <!-- no translation found for menu_delete_all (808729454898114735) -->
+    <skip />
+    <string name="menu_delete" msgid="1851666911396479006">"Vee draad uit"</string>
+    <!-- no translation found for menu_undelivered_messages (3896857623211780616) -->
+    <skip />
+    <string name="menu_view" msgid="7448852683948080108">"Sien draad"</string>
+    <!-- no translation found for refreshing (987335057871404222) -->
+    <skip />
+    <!-- no translation found for has_draft (2487465595514636160) -->
+    <skip />
+    <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> aan <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
+    <!-- no translation found for anonymous_recipient (2501437626187039034) -->
+    <skip />
+    <!-- no translation found for no_subject_view (7795086723069563537) -->
+    <skip />
+    <!-- no translation found for messagelist_sender_self (3579016854116401602) -->
+    <skip />
+    <!-- no translation found for view_picture (4356315935277709195) -->
+    <skip />
+    <!-- no translation found for view_slideshow (4990460971211388453) -->
+    <skip />
+    <!-- no translation found for view_message_details (2443165773568096234) -->
+    <skip />
+    <!-- no translation found for view_delivery_report (8219095994071575215) -->
+    <skip />
+    <!-- no translation found for delete_message (8888447283788388395) -->
+    <skip />
+    <string name="sent_on" msgid="5868288548564632354">"Gestuur: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <!-- no translation found for received_on (745813167330942475) -->
+    <skip />
+    <string name="expire_on" msgid="4436268382742593921">"Verval: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <!-- no translation found for kilobyte (534782148965716631) -->
+    <skip />
+    <!-- no translation found for undelivered_msg_dialog_title (7479433403599785755) -->
+    <skip />
+    <string name="undelivered_msg_dialog_body" msgid="3574032060588309397">"Kan nie boodskap stuur nie."\n"Poging aangewend: <xliff:g id="MESSAGE">%s</xliff:g>"</string>
+    <!-- no translation found for undelivered_sms_dialog_body (6755818550013032420) -->
+    <skip />
+    <!-- no translation found for delete_thread (757258847736632791) -->
+    <skip />
+    <!-- no translation found for menu_forward (9026858380050046756) -->
+    <skip />
+    <!-- no translation found for download (4488877642230207631) -->
+    <skip />
+    <!-- no translation found for downloading (1779557575565350637) -->
+    <skip />
+    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
+    <string name="inline_subject" msgid="4057621785274119260">"&lt;Subject: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="drm_protected_text" msgid="1396394157870730742">"* DRM-beskermde teks*"</string>
+    <!-- no translation found for insufficient_drm_rights (6989074725969164383) -->
+    <skip />
+    <string name="copy_message_text" msgid="4640869459731924158">"Kopieer boodskapteks"</string>
+    <string name="message_options" msgid="6838806653341967550">"Boodskapopsies"</string>
+    <!-- no translation found for done (7479926268660505871) -->
+    <skip />
+    <!-- no translation found for move_up (7307578107431739359) -->
+    <skip />
+    <!-- no translation found for move_down (6356509518429479053) -->
+    <skip />
+    <!-- no translation found for remove_slide (2225604354024914900) -->
+    <skip />
+    <!-- no translation found for add_slide (9140721399423564187) -->
+    <skip />
+    <!-- no translation found for add_slide_hint (563319570849475501) -->
+    <skip />
+    <!-- no translation found for discard_slideshow (5054239124146413609) -->
+    <skip />
+    <string name="slide_show_part" msgid="5077675385448696846">"Deel <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
+    <!-- no translation found for remove_text (2164068850029476539) -->
+    <skip />
+    <!-- no translation found for add_picture (7819574884962571479) -->
+    <skip />
+    <!-- no translation found for remove_picture (6378701749074289096) -->
+    <skip />
+    <!-- no translation found for add_music (3827442822987116233) -->
+    <skip />
+    <!-- no translation found for remove_music (858889733416015223) -->
+    <skip />
+    <!-- no translation found for add_video (7816866867806595144) -->
+    <skip />
+    <!-- no translation found for remove_video (5258603891528497799) -->
+    <skip />
+    <!-- no translation found for compose_title (558578836596816068) -->
+    <skip />
+    <!-- no translation found for to_hint (224029549150332986) -->
+    <skip />
+    <!-- no translation found for subject_hint (4296714962311604126) -->
+    <skip />
+    <!-- no translation found for add_attachment (7103751293360532684) -->
+    <skip />
+    <!-- no translation found for add_subject (7616134948428265870) -->
+    <skip />
+    <!-- no translation found for discard (1624800293064498479) -->
+    <skip />
+    <!-- no translation found for view (7929667761715467136) -->
+    <skip />
+    <!-- no translation found for replace (7587904998114459388) -->
+    <skip />
+    <!-- no translation found for remove (4625444913256213175) -->
+    <skip />
+    <!-- no translation found for send (4589898724889248486) -->
+    <skip />
+    <!-- no translation found for mms (1587631213714914559) -->
+    <skip />
+    <!-- no translation found for all_threads (2663426830306307194) -->
+    <skip />
+    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Tik om te skryf"</string>
+    <!-- no translation found for open_keyboard_to_compose_message (1668723196441776085) -->
+    <skip />
+    <!-- no translation found for image_too_large (261880224164478061) -->
+    <skip />
+    <!-- no translation found for ask_for_automatically_resize (7657603662407738758) -->
+    <skip />
+    <string name="compressing" msgid="1961357529661045180">"Prent te groot. Pers tans saam..."</string>
+    <!-- no translation found for unsupported_media_format (5037111178813903722) -->
+    <skip />
+    <!-- no translation found for select_different_media (7573116916321879964) -->
+    <skip />
+    <!-- no translation found for exceed_message_size_limitation (6027753647094742437) -->
+    <skip />
+    <string name="message_too_big_for_video" msgid="2639367545165352543">"Die boodskap is te groot om \'n video aan te heg."</string>
+    <!-- no translation found for failed_to_add_media (8272471485019037446) -->
+    <skip />
+    <!-- no translation found for failed_to_resize_image (5608354151631833669) -->
+    <skip />
+    <!-- no translation found for resize_image_error_information (4897031754321114959) -->
+    <skip />
+    <!-- no translation found for forward_prefix (276280492803486464) -->
+    <skip />
+    <!-- no translation found for discard_message (6078326880056142781) -->
+    <skip />
+    <!-- no translation found for discard_message_reason (2667664943003796133) -->
+    <skip />
+    <!-- no translation found for has_invalid_recipient (1485388396900997383) -->
+    <skip />
+    <string name="invalid_destination" msgid="7643854177921895615">"Jy het \'n ongeldige adres ingevoer."</string>
+    <!-- no translation found for invalid_recipient_message (7315539322634238519) -->
+    <skip />
+    <!-- no translation found for cannot_send_message (3918913277571649400) -->
+    <skip />
+    <!-- no translation found for cannot_send_message_reason (8745080126044054343) -->
+    <skip />
+    <!-- no translation found for cannot_forward_drm_obj (84606990079390099) -->
+    <skip />
+    <string name="converting_to_picture_message" msgid="2980023239017588627">"Omskep tans na multimediaboodskap..."</string>
+    <string name="converting_to_text_message" msgid="6374423235426015422">"Omskep tans in teksboodskap..."</string>
+    <!-- no translation found for cannot_add_slide_anymore (8437666385579890987) -->
+    <skip />
+    <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"Kan nie video en prent by een skyfie voeg nie"</string>
+    <!-- no translation found for cannot_save_message (5026354972915392301) -->
+    <skip />
+    <string name="cannot_load_message" msgid="2577010607550849892">"Kan nie boodskap laai nie."</string>
+    <!-- no translation found for message_saved_as_draft (2503018972659880692) -->
+    <skip />
+    <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"Geslote boodskap kan nie uitgevee word nie."</string>
+    <string name="too_many_recipients" msgid="4239709214735078881">"Hierdie boodskap het te veel ontvangers (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). Daar is \'n limiet van <xliff:g id="MAXLIMIT">%2$s</xliff:g> ontvangers."</string>
+    <!-- no translation found for too_many_attachments (3774037894899750070) -->
+    <skip />
+    <!-- no translation found for adding_attachments_title (2034535554212405529) -->
+    <skip />
+    <!-- no translation found for adding_attachments (2423616900586221924) -->
+    <skip />
+    <string name="multiple_recipients" msgid="8747754491343248141">"<xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g> ontvangers"</string>
+    <!-- no translation found for cannot_play_audio (575086601128003093) -->
+    <skip />
+    <!-- no translation found for preview (5438149136136446756) -->
+    <skip />
+    <!-- no translation found for preview_slideshow (6824095909448728427) -->
+    <skip />
+    <!-- no translation found for replace_image (3171240952601443619) -->
+    <skip />
+    <!-- no translation found for duration_sec (6617032324007824096) -->
+    <skip />
+    <string name="duration_selector_title" msgid="5981097971537625852">"Tydsduur vir skyfie "</string>
+    <string name="layout_selector_title" msgid="7344600117972450771">"Skyfievertoning-uitleg "</string>
+    <!-- no translation found for layout_top (6811021650398972346) -->
+    <skip />
+    <!-- no translation found for layout_bottom (5822765871095491843) -->
+    <skip />
+    <!-- no translation found for type_to_compose_text_or_leave_blank (6171524929347648837) -->
+    <skip />
+    <string name="duration_not_a_number" msgid="8005480904677546322">"Tydsduur moet \'n getal wees"</string>
+    <string name="duration_zero" msgid="109945354056393575">"Tydsduur moet langer as nul sekondes wees"</string>
+    <!-- no translation found for secs (6886003523109967972) -->
+    <skip />
+  <string-array name="select_dialog_items">
+    <item msgid="4840183714016984112">"1 sekonde"</item>
+    <item msgid="3734955613666864447">"2 sekondes"</item>
+    <item msgid="6032232473048379828">"3 sekondes"</item>
+    <item msgid="5978471781525927827">"4 sekondes"</item>
+    <item msgid="4888440297621208402">"5 sekondes"</item>
+    <item msgid="6047246213264166841">"6 sekondes"</item>
+    <item msgid="2327501250056533797">"7 sekondes"</item>
+    <item msgid="3400770414689795703">"8 sekondes"</item>
+    <item msgid="4358760614161107970">"9 sekondes"</item>
+    <item msgid="2618179407176906471">"10 sekondes"</item>
+    <item msgid="6238597861937337981">"Ander…"</item>
+  </string-array>
+    <!-- no translation found for menu_view_contact (1414670584423909451) -->
+    <skip />
+    <!-- no translation found for menu_add_to_contacts (2978074583938544513) -->
+    <skip />
+    <!-- no translation found for hidden_sender_address (2776075636669924968) -->
+    <skip />
+    <!-- no translation found for yes (3246158147503160811) -->
+    <skip />
+    <!-- no translation found for no (4289742508556913860) -->
+    <skip />
+    <string name="set" msgid="4642365398263275979">"Stel"</string>
+    <!-- no translation found for play (1888432400937785115) -->
+    <skip />
+    <!-- no translation found for edit (5912118407791492696) -->
+    <skip />
+    <!-- no translation found for resize (4308912589984220360) -->
+    <skip />
+    <!-- no translation found for try_to_send (1996751738286080976) -->
+    <skip />
+    <string name="preferences_title" msgid="6650089610332670157">"Instellings"</string>
+    <string name="restore_default" msgid="7165341506551155053">"Laai verstek instellings terug"</string>
+    <!-- no translation found for pref_notification_settings_title (4860726154770053004) -->
+    <skip />
+    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Multimediaboodskap- (MMS) instellings"</string>
+    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Teksboodskap- (SMS) instellings"</string>
+    <string name="pref_sms_storage_title" msgid="2531726671883516470">"Bergingsinstellings"</string>
+    <!-- no translation found for pref_summary_manage_sim_messages (4141349892597640864) -->
+    <skip />
+    <!-- no translation found for pref_summary_mms_delivery_reports (4874657984217756112) -->
+    <skip />
+    <!-- no translation found for pref_summary_mms_read_reports (2748323864008907440) -->
+    <skip />
+    <!-- no translation found for pref_summary_sms_delivery_reports (5852207702358546129) -->
+    <skip />
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Vee ou boodskappe uit namate limiete bereik word"</string>
+    <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> boodskappe per gesprek"</string>
+    <!-- no translation found for pref_title_manage_sim_messages (7820895261757881177) -->
+    <skip />
+    <!-- no translation found for pref_title_mms_delivery_reports (6666857926679451910) -->
+    <skip />
+    <!-- no translation found for pref_title_mms_read_reports (4882179829495828541) -->
+    <skip />
+    <!-- no translation found for pref_title_sms_delivery_reports (876064208254451038) -->
+    <skip />
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Vee ou boodskappe uit"</string>
+    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Teksboodskap-limiet"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Multimediaboodskap-limiet"</string>
+    <!-- no translation found for pref_title_notification_enabled (9118792213953729414) -->
+    <skip />
+    <!-- no translation found for pref_summary_notification_enabled (619729096820999905) -->
+    <skip />
+    <!-- no translation found for pref_title_notification_vibrateWhen (4251208067092761057) -->
+    <skip />
+    <!-- no translation found for pref_summary_notification_vibrateWhen (669655090822561447) -->
+    <skip />
+    <!-- no translation found for pref_title_notification_ringtone (5159574093788155149) -->
+    <skip />
+    <string name="pref_messages_to_save" msgid="3202539743892934926">"Stel aantal boodskappe om te stoor"</string>
+    <!-- no translation found for prefEntries_vibrateWhen:0 (2520871831815631409) -->
+    <!-- no translation found for prefEntries_vibrateWhen:1 (6069709696037750627) -->
+    <!-- no translation found for prefEntries_vibrateWhen:2 (7486145357487111435) -->
+    <!-- no translation found for prefDialogTitle_vibrateWhen (6419655771690242118) -->
+    <skip />
+    <!-- no translation found for pref_title_mms_auto_retrieval (4021878285474431355) -->
+    <skip />
+    <!-- no translation found for pref_summary_mms_auto_retrieval (925163257363757048) -->
+    <skip />
+    <!-- no translation found for pref_title_mms_retrieval_during_roaming (6016227402731817804) -->
+    <skip />
+    <!-- no translation found for pref_summary_mms_retrieval_during_roaming (2427892806582531020) -->
+    <skip />
+    <string name="to_label" msgid="2355268818058389047">"Aan "</string>
+    <!-- no translation found for confirm_dialog_title (5810813994465120375) -->
+    <skip />
+    <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Vee geslote boodskap uit?"</string>
+    <!-- no translation found for confirm_delete_conversation:one (350118636090800360) -->
+    <!-- no translation found for confirm_delete_conversation:other (6918094955792544014) -->
+    <!-- no translation found for confirm_delete_conversation (6115966687389279855) -->
+    <skip />
+    <!-- no translation found for confirm_delete_all_conversations (9036166685235092757) -->
+    <skip />
+    <!-- no translation found for confirm_delete_message (9121480656609809591) -->
+    <skip />
+    <string name="confirm_delete_locked_message" msgid="5863578342246077057">"Is jy seker jy wil hierdie geslote boodskap uitvee?"</string>
+    <!-- no translation found for confirm_delete_all_messages (5836389073199814660) -->
+    <skip />
+    <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"Alle boodskappe op die SIM sal uitgevee word."</string>
+    <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Hierdie boodskap op die SIM sal uitgevee word."</string>
+    <string name="delete_unlocked" msgid="7545321606698162261">"Vee geslote boodskappe uit"</string>
+    <string name="delete" msgid="1409973060081564612">"Vee uit"</string>
+    <!-- no translation found for select_conversations (5754828781497722394) -->
+    <skip />
+    <!-- no translation found for cannot_get_details (6493664168168047746) -->
+    <skip />
+    <!-- no translation found for message_details_title (9223295113731634528) -->
+    <skip />
+    <!-- no translation found for message_type_label (7975373966795945566) -->
+    <skip />
+    <string name="text_message" msgid="8196464345251877972">"Teksboodskap"</string>
+    <string name="multimedia_message" msgid="1512644521083533071">"Multimediaboodskap"</string>
+    <string name="multimedia_notification" msgid="4124031788554972308">"Multimediaboodskap-kennisgewing"</string>
+    <!-- no translation found for from_label (2055117571548171397) -->
+    <skip />
+    <!-- no translation found for to_address_label (5837363600471845801) -->
+    <skip />
+    <!-- no translation found for bcc_label (530867161453958774) -->
+    <skip />
+    <!-- no translation found for sent_label (2722190650145251584) -->
+    <skip />
+    <!-- no translation found for received_label (8618029024731693906) -->
+    <skip />
+    <!-- no translation found for saved_label (4183160415593488207) -->
+    <skip />
+    <!-- no translation found for subject_label (8721241914144101631) -->
+    <skip />
+    <!-- no translation found for message_size_label (4698016210013319786) -->
+    <skip />
+    <!-- no translation found for priority_label (7397600367853359607) -->
+    <skip />
+    <!-- no translation found for priority_high (5627897207952009214) -->
+    <skip />
+    <!-- no translation found for priority_normal (5715227727384683550) -->
+    <skip />
+    <!-- no translation found for priority_low (8928782666023373987) -->
+    <skip />
+    <!-- no translation found for message_class_label (5115748690481550562) -->
+    <skip />
+    <!-- no translation found for error_code_label (5810068247647058769) -->
+    <skip />
+    <!-- no translation found for menu_edit (3056513240155967777) -->
+    <skip />
+    <!-- no translation found for menu_retry_sending (3146582005568302643) -->
+    <skip />
+    <!-- no translation found for menu_retry_sending_all (1870529976966340616) -->
+    <skip />
+    <!-- no translation found for menu_delete_messages (2610286783513247420) -->
+    <skip />
+    <string name="retrying_dialog_body" msgid="4738260459043003431">"Hierdie boodskap <xliff:g id="MESSAGE">%s</xliff:g> is nie gestuur nie weens \'n verbindingsprobleem."\n"Probeer tans weer stuur..."</string>
+    <string name="menu_lock" msgid="136863583207382259">"Sluit boodskap toe"</string>
+    <string name="menu_unlock" msgid="5264877122797287929">"Ontsluit boodskap"</string>
+    <!-- no translation found for sim_copy_to_phone_memory (3721000641648594602) -->
+    <skip />
+    <!-- no translation found for sim_copy_to_phone_memory (5895767417844881971) -->
+    <skip />
+    <!-- no translation found for sim_delete (610790510655316922) -->
+    <skip />
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"Teksboodskappe op SIM-kaart"</string>
+    <!-- no translation found for sim_view (1997173541766393706) -->
+    <skip />
+    <!-- no translation found for sim_empty (1763174398613486328) -->
+    <skip />
+    <!-- no translation found for delivery_header_title (5361719578869045764) -->
+    <skip />
+    <!-- no translation found for status_none (8253075950774894961) -->
+    <skip />
+    <!-- no translation found for status_pending (2739860824607984892) -->
+    <skip />
+    <!-- no translation found for status_read (7576195253780627332) -->
+    <skip />
+    <!-- no translation found for status_received (7264334589461906965) -->
+    <skip />
+    <!-- no translation found for status_failed (1998776666856593544) -->
+    <skip />
+    <!-- no translation found for status_unread (8555305495998700198) -->
+    <skip />
+    <!-- no translation found for status_rejected (2613641949065942678) -->
+    <skip />
+    <string name="recipient_label" msgid="3922667485312634446">"Ontvanger: "</string>
+    <string name="status_label" msgid="7283375460919181660">"Status: "</string>
+    <!-- no translation found for attach_image (6439985727687107742) -->
+    <skip />
+    <string name="attach_take_photo" msgid="4280601313184373837">"Lê prent vas"</string>
+    <string name="attach_video" msgid="4264272693501538294">"Video\'s"</string>
+    <string name="attach_record_video" msgid="3099814114743078615">"Lê video vas"</string>
+    <!-- no translation found for attach_sound (3149325985970669609) -->
+    <skip />
+    <!-- no translation found for attach_record_sound (6011431304469858929) -->
+    <skip />
+    <string name="attach_slideshow" msgid="3497422151091037063">"Skyfievertoning"</string>
+    <string name="select_bottom_text" msgid="4201966447623311931">"Teks onderaan"</string>
+    <string name="select_top_text" msgid="6734183477539197815">"Teks boaan"</string>
+    <!-- no translation found for delivery_toast_body (4478305651728684364) -->
+    <skip />
+    <!-- no translation found for notification_multiple (7684007285202109490) -->
+    <skip />
+    <!-- no translation found for notification_multiple_title (332602028959557541) -->
+    <skip />
+    <string name="notification_failed_multiple" msgid="4081781748475686236">"<xliff:g id="COUNT">%s</xliff:g> boodskappe kon nie gestuur word nie."</string>
+    <string name="notification_failed_multiple_title" msgid="1112032024904397126">"Boodskappe nie gestuur nie"</string>
+    <!-- no translation found for sim_full_title (1809829051697702810) -->
+    <skip />
+    <!-- no translation found for sim_full_body (6241664980790322925) -->
+    <skip />
+    <string name="sms_full_title" msgid="6041287140125011854">"Teksboodskap-geheue vol"</string>
+    <string name="sms_full_body" msgid="7757490997215434514">"Inkomende boodskap verwerp weens vol geheue. Vee asseblief ou boodskappe uit."</string>
+    <string name="sms_rejected_title" msgid="8548394922491529811">"Teksboodskap verwerp"</string>
+    <string name="sms_rejected_body" msgid="7187754586609631934">"Inkomende boodskap verwerp weens onbekende rede."</string>
+    <!-- no translation found for type_audio (3842064092332309756) -->
+    <skip />
+    <!-- no translation found for type_picture (4091928975383609443) -->
+    <skip />
+    <!-- no translation found for type_video (8521556159545168441) -->
+    <skip />
+    <!-- no translation found for confirm (3155110885840591914) -->
+    <skip />
+    <!-- no translation found for message_send_read_report (6997117678914261250) -->
+    <skip />
+    <!-- no translation found for message_queued (8869479754825264671) -->
+    <skip />
+    <!-- no translation found for fdn_check_failure (7880740763778173551) -->
+    <skip />
+    <!-- no translation found for no_subject (4168963736134552285) -->
+    <skip />
+    <!-- no translation found for unknown_sender (4929330613278853635) -->
+    <skip />
+    <!-- no translation found for dl_failure_notification (2457080452886498701) -->
+    <skip />
+    <string name="dl_expired_notification" msgid="950390029992535809">"Hierdie boodskap het verval en sal uitgevee word."</string>
+    <!-- no translation found for rate_limit_surpassed (1347801608211628177) -->
+    <skip />
+    <!-- no translation found for confirm_rate_limit (234228299751243067) -->
+    <skip />
+    <!-- no translation found for message_download_failed_title (5722226064394767921) -->
+    <skip />
+    <!-- no translation found for message_send_failed_title (3469894907399046372) -->
+    <skip />
+    <!-- no translation found for message_failed_body (2740907094762116644) -->
+    <skip />
+    <!-- no translation found for download_later (4486286146421650880) -->
+    <skip />
+    <string name="select_audio" msgid="3120822451872772124">"Kies oudio"</string>
+    <!-- outdated translation 6056459122898138734 -->     <string name="copy_to_sdcard" msgid="757028609638184856">"Kopieer aanhegsel na SD-kaart"</string>
+    <!-- outdated translation 5322211009838330188 -->     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Aanhegsel na SD-kaart gekopieer"</string>
+    <!-- outdated translation 2726421767948392438 -->     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Kon nie aanhegsel na SD-kaart kopieer nie"</string>
+    <string name="save_ringtone" msgid="2310157075045201051">"Stoor as luitoon"</string>
+    <string name="saved_ringtone" msgid="6616730290861857836">"Luitoon gestoor"</string>
+    <string name="saved_ringtone_fail" msgid="5447210504935083544">"Kon nie luitoon stoor nie"</string>
+    <string name="menu_insert_smiley" msgid="4964504393061025071">"Voeg glimlaggie by"</string>
+    <string name="select_link_title" msgid="600168208731216059">"Kies handeling"</string>
+    <string name="slide_number" msgid="1923958526266726635">"Skyfie <xliff:g id="NUMBER">%s</xliff:g>"</string>
+  <plurals name="slide_duration">
+    <item quantity="one" msgid="1654101988340583935">"<xliff:g id="NUMBER">%s</xliff:g> sek"</item>
+    <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g> sekondes"</item>
+    <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g> sekondes"</item>
+  </plurals>
+    <string name="delivery_report_activity" msgid="2957463094232916364">"Afleweringsverslag"</string>
+    <string name="storage_limits_activity" msgid="8810530813311077716">"Bergingslimiete"</string>
+    <string name="add_attachment_activity" msgid="5324811371129695320">"Voeg aanhegsel by:"</string>
+    <string name="select_layout_activity" msgid="5041916695464513848">"Kies uitleg"</string>
+    <string name="change_duration_activity" msgid="7048606979485031693">"Verander tydsduur"</string>
+    <string name="edit_text_activity" msgid="5915226413346879213">"Redigeer teks"</string>
+    <string name="edit_slideshow_activity" msgid="8751493388760050529">"Redigeer skyfievertoning"</string>
+    <string name="edit_slide_activity" msgid="8752829671778696983">"Redigeer skyfie"</string>
+    <string name="pick_numbers_activity" msgid="2083330191224178637">"Kies getalle"</string>
+    <string name="slideshow_activity" msgid="5658249461317434432">"Skyfievertoning"</string>
+    <string name="class_0_message_activity" msgid="8474176218999130627">"Klas 0-boodskap"</string>
+    <string name="send_using_mms_activity" msgid="3703434556280345726">"Stuur as multimediaboodskap..."</string>
+    <string name="select_contact_method_activity" msgid="1743384358979323991">"Kies kontakmetode"</string>
+    <string name="search_label" msgid="6042598929386174964">"Boodskappe"</string>
+    <!-- outdated translation 1340787800788064929 -->     <string name="search_hint" msgid="7183732852849365466">"Boodskappe-soektog"</string>
+    <!-- outdated translation 2008586577169316010 -->     <string name="search" msgid="7560238620274735199">"Boodskappe-soektog"</string>
+    <!-- no translation found for search_setting_description (4104004595086437572) -->
+    <skip />
+    <string name="search_empty" msgid="645052646985297065">"Geen passings nie"</string>
+    <!-- no translation found for search_results_title:one (4657073733087431350) -->
+    <!-- no translation found for search_results_title:other (6196382287749539209) -->
+    <!-- no translation found for search_history (4127805495662693154) -->
+    <skip />
+    <!-- no translation found for confirm_clear_search_title (8510295993632032904) -->
+    <skip />
+    <!-- no translation found for confirm_clear_search_text (8731877031837077478) -->
+    <skip />
+    <!-- no translation found for pref_mms_clear_search_history_title (6159758850628148164) -->
+    <skip />
+    <!-- no translation found for pref_mms_clear_search_history_summary (7960005384066460035) -->
+    <skip />
+    <string name="save" msgid="6847069284991531310">"Stoor"</string>
+    <string name="storage_limits_title" msgid="7074684882530693016">"Beperk boodskappe"</string>
+    <string name="storage_limits_message" msgid="8729608389698270388">"Wil jy die aantal boodskappe beperk wat jy per gesprek stoor?"</string>
+    <string name="storage_limits_setting" msgid="4952781049308537373">"Stel limiete"</string>
+    <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Geen limiete nie"</string>
+    <string name="too_many_unsent_mms" msgid="8005932837414848242">"Kan nie nou dadelik boodskap stuur nie. Daar is te veel ongestuurde multimediaboodskappe."</string>
+    <!-- no translation found for me (341726346007839961) -->
+    <skip />
+    <!-- no translation found for sending_message (222836893217450538) -->
+    <skip />
+    <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
+    <skip />
+    <!-- no translation found for adding_recipients (2962810172527532357) -->
+    <skip />
+    <!-- no translation found for error_state (5177386717626893507) -->
+    <skip />
+    <!-- no translation found for error_state_text (5006221625000536698) -->
+    <skip />
+</resources>
