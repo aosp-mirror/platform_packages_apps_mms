@@ -538,7 +538,8 @@ public class MessageUtils {
     }
 
     private static int getVideoCaptureDurationLimit() {
-        return CamcorderProfile.get(CamcorderProfile.QUALITY_LOW).duration;
+        CamcorderProfile camcorder = CamcorderProfile.get(CamcorderProfile.QUALITY_LOW);
+        return camcorder == null ? 0 : camcorder.duration;
     }
 
     public static void selectVideo(Context context, int requestCode) {

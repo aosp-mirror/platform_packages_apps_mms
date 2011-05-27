@@ -62,7 +62,6 @@ import android.database.sqlite.SqliteWrapper;
 import android.drm.mobile1.DrmException;
 import android.drm.mobile1.DrmRawContent;
 import android.graphics.drawable.Drawable;
-import android.media.CamcorderProfile;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
