@@ -115,6 +115,7 @@ public class MessageListItem extends LinearLayout implements
 
         int color = mContext.getResources().getColor(R.color.timestamp_color);
         mColorSpan = new ForegroundColorSpan(color);
+        mDefaultCountryIso = MmsApp.getApplication().getCurrentCountryIso();
     }
 
     @Override
