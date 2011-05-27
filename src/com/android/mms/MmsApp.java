@@ -17,6 +17,8 @@
 
 package com.android.mms;
 
+import java.util.Locale;
+
 import com.android.mms.data.Contact;
 import com.android.mms.data.Conversation;
 import com.android.mms.layout.LayoutManager;
@@ -119,6 +121,6 @@ public class MmsApp extends Application {
     }
 
     public String getCurrentCountryIso() {
-        return mCountryIso;
+        return mCountryIso == null ? Locale.getDefault().getCountry() : mCountryIso;
     }
 }
