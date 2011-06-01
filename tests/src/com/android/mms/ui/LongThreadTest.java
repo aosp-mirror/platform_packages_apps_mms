@@ -306,6 +306,35 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
             return null;
         }
 
+        @Override
+        public MenuItem setShowAsActionFlags(int actionEnum) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public boolean expandActionView() {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public boolean collapseActionView() {
+            // TODO Auto-generated method stub
+            return false;
+        }
+
+        @Override
+        public boolean isActionViewExpanded() {
+            return false;
+        }
+
+        @Override
+        public MenuItem setOnActionExpandListener(OnActionExpandListener listener) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 
     private abstract class MessageRunnable implements Runnable {
