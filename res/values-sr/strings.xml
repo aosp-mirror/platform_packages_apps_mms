@@ -199,7 +199,7 @@
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Желите ли да избришете закључану поруку?"</string>
   <plurals name="confirm_delete_conversation">
     <item quantity="one" msgid="350118636090800360">"Једна преписка ће бити избрисана"</item>
-    <item quantity="other" msgid="6918094955792544014">"Биће избрисано <xliff:g id="NUMBER">%1$s</xliff:g> преписки(е)"</item>
+    <item quantity="other" msgid="6918094955792544014">"Биће избрисанe преписке: <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
   </plurals>
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Биће избрисана цела преписка."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Све преписке ће бити избрисане."</string>
