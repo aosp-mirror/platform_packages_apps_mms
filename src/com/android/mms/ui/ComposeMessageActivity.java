@@ -32,6 +32,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -3362,11 +3364,11 @@ public class ComposeMessageActivity extends Activity
             mConversation = Conversation.get(this, threadId, false);
         } else {
             Uri intentData = intent.getData();
-
             if (intentData != null) {
                 // try to get a conversation based on the data URI passed to our intent.
                 if (LogTag.VERBOSE) log("get mConversation by intentData " + intentData);
                 mConversation = Conversation.get(this, intentData, false);
+                mWorkingMessage.setText(getBody(intentData));
             } else {
                 // special intent extra parameter to specify the address
                 String address = intent.getStringExtra("address");
@@ -3383,7 +3385,9 @@ public class ComposeMessageActivity extends Activity
         addRecipientsListeners();
 
         mExitOnSent = intent.getBooleanExtra("exit_on_sent", false);
-        mWorkingMessage.setText(intent.getStringExtra("sms_body"));
+        if (intent.hasExtra("sms_body")) {
+            mWorkingMessage.setText(intent.getStringExtra("sms_body"));
+        }
         mWorkingMessage.setSubject(intent.getStringExtra("subject"), false);
     }
 
@@ -3616,4 +3620,24 @@ public class ComposeMessageActivity extends Activity
 
         return intent;
    }
+
+    private String getBody(Uri uri) {
+        if (uri == null) {
+            return null;
+        }
+        String urlStr = uri.getSchemeSpecificPart();
+        if (!urlStr.contains("?")) {
+            return null;
+        }
+        urlStr = urlStr.substring(urlStr.indexOf('?') + 1);
+        String[] params = urlStr.split("&");
+        for (String p : params) {
+            if (p.startsWith("body=")) {
+                try {
+                    return URLDecoder.decode(p.substring(5), "UTF-8");
+                } catch (UnsupportedEncodingException e) { }
+            }
+        }
+        return null;
+    }
 }
