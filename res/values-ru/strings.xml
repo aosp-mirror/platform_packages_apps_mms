@@ -199,8 +199,8 @@
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Удалить"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Удалить заблокированное сообщение?"</string>
   <plurals name="confirm_delete_conversation">
-    <item quantity="one" msgid="350118636090800360">"Одна цепочка писем будет удалена"</item>
-    <item quantity="other" msgid="6918094955792544014">"Цепочки писем будут удалены (<xliff:g id="NUMBER">%1$s</xliff:g>)"</item>
+    <item quantity="one" msgid="350118636090800360">"Одна цепочка будет удалена"</item>
+    <item quantity="other" msgid="6918094955792544014">"Цепочки будут удалены (<xliff:g id="NUMBER">%1$s</xliff:g>)"</item>
   </plurals>
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Вся цепочка будет удалена."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Все цепочки будут удалены."</string>
@@ -211,7 +211,7 @@
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Это сообщение будет удалено с SIM-карты."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Удалить заблокированные сообщения"</string>
     <string name="delete" msgid="1409973060081564612">"Удалить"</string>
-    <string name="select_conversations" msgid="5754828781497722394">"Выберите цепочки писем"</string>
+    <string name="select_conversations" msgid="5754828781497722394">"Выберите цепочки"</string>
     <string name="cannot_get_details" msgid="6493664168168047746">"Не удается получить сведения"</string>
     <string name="message_details_title" msgid="9223295113731634528">"Сведения о сообщении"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Тип: "</string>
