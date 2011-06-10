@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCH///Zg\u003d",
+        "filename": "src/com/android/mms/transaction/RetrieveTransaction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1002620
+      },
+      "writtenOn": "2011-06-10T16:26:56Z",
+      "side": 1,
+      "message": "I might write:\nif (encodedSubjectStored \u003d\u003d null || encodedSubjectReceived \u003d\u003d null) {\n   return encodedSubjectStored \u003d\u003d null \u0026\u0026 encodedSubjectReceived \u003d\u003d null;\n} else {\n   subjectStored...\n}",
+      "revId": "444aec41f387f73a7a5f1a91b20a9744a1be3e12",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///ZY\u003d",
+        "filename": "src/com/android/mms/transaction/RetrieveTransaction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1002620
+      },
+      "writtenOn": "2011-06-10T16:26:56Z",
+      "side": 1,
+      "message": "Should we compare some other fields as well? body? date_sent?",
+      "revId": "444aec41f387f73a7a5f1a91b20a9744a1be3e12",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
