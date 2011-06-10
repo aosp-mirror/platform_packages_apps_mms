@@ -2407,7 +2407,10 @@ public class ComposeMessageActivity extends Activity
 //    }
 
     private int getVideoCaptureDurationLimit() {
-        return CamcorderProfile.get(CamcorderProfile.QUALITY_LOW).duration;
+        CamcorderProfile cp = CamcorderProfile.get(CamcorderProfile.QUALITY_LOW);
+        return cp != null ? cp.duration : 0;
+        // cp is null if there is no camera, just return 0 - its going to fail
+        // anyway.
     }
 
     private void addAttachment(int type, boolean replace) {
