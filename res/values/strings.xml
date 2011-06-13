@@ -414,7 +414,8 @@
     <string name="confirm_dialog_title">Delete</string>
     <!-- Delete confirmation dialog title for locked messages -->
     <string name="confirm_dialog_locked_title">Delete locked message?</string>
-    <!-- Delete entire thread confirmation dialog message -->
+    <!-- This message is displayed in a confirmation dialog when the user selects one or more
+         conversations and then taps the "Delete" button. -->
     <plurals name="confirm_delete_conversation">
         <!-- Case of 1 result. -->
         <item quantity="one">One conversation will be deleted</item>
