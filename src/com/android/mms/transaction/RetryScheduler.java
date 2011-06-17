@@ -77,7 +77,7 @@ public class RetryScheduler implements Observer {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "[RetryScheduler] update " + observable);
             }
-            
+
             // We are only supposed to handle M-Notification.ind, M-Send.req
             // and M-ReadRec.ind.
             if ((t instanceof NotificationTransaction)
@@ -133,8 +133,18 @@ public class RetryScheduler implements Observer {
                             (msgType == PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND);
                     boolean retry = true;
                     int respStatus = getResponseStatus(msgId);
-                    if (respStatus == PduHeaders.RESPONSE_STATUS_ERROR_SENDING_ADDRESS_UNRESOLVED) {
-                        DownloadManager.getInstance().showErrorCodeToast(R.string.invalid_destination);
+                    int errorString = 0;
+                    switch (respStatus) {
+                        case PduHeaders.RESPONSE_STATUS_ERROR_SENDING_ADDRESS_UNRESOLVED:
+                            errorString = R.string.invalid_destination;
+                            break;
+
+                        case PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_SERVICE_DENIED:
+                            errorString = R.string.service_not_activated;
+                            break;
+                    }
+                    if (errorString != 0) {
+                        DownloadManager.getInstance().showErrorCodeToast(errorString);
                         retry = false;
                     }
 
@@ -158,7 +168,7 @@ public class RetryScheduler implements Observer {
                         if (isRetryDownloading) {
                             Cursor c = SqliteWrapper.query(mContext, mContext.getContentResolver(), uri,
                                     new String[] { Mms.THREAD_ID }, null, null, null);
-                            
+
                             long threadId = -1;
                             if (c != null) {
                                 try {
