@@ -16,26 +16,25 @@
 
 package com.android.mms.ui;
 
-import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.Random;
-
-import com.android.mms.R;
-import com.android.mms.ui.ComposeMessageActivity;
-import com.android.mms.ui.MessageListView;
-
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.util.Log;
+import android.view.ActionProvider;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Button;
+
+import com.android.mms.R;
+
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Test threads with thousands of messages
@@ -331,6 +330,18 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
 
         @Override
         public MenuItem setOnActionExpandListener(OnActionExpandListener listener) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public MenuItem setActionProvider(ActionProvider actionProvider) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public ActionProvider getActionProvider() {
             // TODO Auto-generated method stub
             return null;
         }
