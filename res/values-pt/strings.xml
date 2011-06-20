@@ -105,7 +105,9 @@
     <string name="discard_message" msgid="6078326880056142781">"Descartar"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Sua mensagem será descartada porque não tem destinatários válidos."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Destinatários inválidos: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <string name="invalid_destination" msgid="7643854177921895615">"Você inseriu um endereço inválido."</string>
+    <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"Você inseriu um endereço inválido."</string>
+    <!-- no translation found for service_not_activated (9178218144019626176) -->
+    <skip />
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Corrija os destinatários ou eles não receberão a mensagem."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Não é possível enviar esta mensagem."</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"A sua mensagem não tem destinatários válidos."</string>

@@ -31,9 +31,9 @@
     <string name="menu_call" msgid="5877123227307074690">"Anrufen"</string>
     <string name="menu_search" msgid="2289469305728821360">"Suchen"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Alle Threads löschen"</string>
-    <string name="menu_delete" msgid="1851666911396479006">"Thread löschen"</string>
+    <string name="menu_delete" msgid="1851666911396479006">"Konversation löschen"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Nicht gelieferte Nachrichten"</string>
-    <string name="menu_view" msgid="7448852683948080108">"Thread anzeigen"</string>
+    <string name="menu_view" msgid="7448852683948080108">"Konversation anzeigen"</string>
     <string name="refreshing" msgid="987335057871404222">"Wird aktualisiert..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Entwurf"</string>
     <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> an <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
@@ -52,7 +52,7 @@
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Nicht gelieferte Nachricht"</string>
     <string name="undelivered_msg_dialog_body" msgid="3574032060588309397">"Senden der Nachricht nicht möglich."\n"Anzahl bisheriger Versuche: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="6755818550013032420">"Nachricht kann nicht gesendet werden."</string>
-    <string name="delete_thread" msgid="757258847736632791">"Thread löschen"</string>
+    <string name="delete_thread" msgid="757258847736632791">"Konversation löschen"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Weiterleiten"</string>
     <string name="download" msgid="4488877642230207631">"Herunterladen"</string>
     <string name="downloading" msgid="1779557575565350637">"Ladevorgang wird ausgeführt"</string>
@@ -105,7 +105,9 @@
     <string name="discard_message" msgid="6078326880056142781">"Verwerfen"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Die Nachricht wird verworfen, da keine gültigen Empfänger für sie vorhanden sind."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Ungültige(r) Empfänger: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <string name="invalid_destination" msgid="7643854177921895615">"Sie haben eine ungültige Adresse eingegeben."</string>
+    <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"Sie haben eine ungültige Adresse eingegeben."</string>
+    <!-- no translation found for service_not_activated (9178218144019626176) -->
+    <skip />
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Korrigieren Sie die Empfänger, da sie die Nachricht sonst nicht empfangen können."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Nachricht kann nicht gesendet werden."</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Für die Nachricht sind keine gültigen Empfänger vorhanden."</string>
@@ -279,7 +281,7 @@
     <string name="type_video" msgid="8521556159545168441">"Video"</string>
     <string name="confirm" msgid="3155110885840591914">"Bestätigen"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Eine Lesebestätigung wird gesendet."</string>
-    <string name="message_queued" msgid="8869479754825264671">"Senden der Nachricht derzeit nicht möglich. Sie wird gesendet, sobald der Service verfügbar ist."</string>
+    <string name="message_queued" msgid="8869479754825264671">"Senden der Nachricht zurzeit nicht möglich. Sie wird gesendet, sobald der Service verfügbar ist."</string>
     <string name="fdn_check_failure" msgid="7880740763778173551">"Sie können nur Nachrichten an Ihre zugelassenen Rufnummern senden."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Kein Betreff)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Unbekannter Sender"</string>
@@ -290,7 +292,7 @@
     <string name="message_download_failed_title" msgid="5722226064394767921">"Nachricht nicht heruntergeladen"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"Nachricht nicht gesendet"</string>
     <string name="message_failed_body" msgid="2740907094762116644">"Überprüfen Sie die Nachricht und versuchen Sie es erneut."</string>
-    <string name="download_later" msgid="4486286146421650880">"Herunterladen derzeit nicht möglich. Bitte versuchen Sie es später erneut."</string>
+    <string name="download_later" msgid="4486286146421650880">"Herunterladen zurzeit nicht möglich. Bitte versuchen Sie es später erneut."</string>
     <string name="select_audio" msgid="3120822451872772124">"Audio auswählen"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Anhang speichern"</string>
     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Anhang gespeichert"</string>

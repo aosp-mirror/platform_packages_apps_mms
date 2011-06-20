@@ -31,14 +31,13 @@
     <string name="menu_call" msgid="5877123227307074690">"Panggil"</string>
     <!-- no translation found for menu_search (2289469305728821360) -->
     <skip />
-    <!-- outdated translation 8853352701914512057 -->     <string name="menu_delete_all" msgid="808729454898114735">"Padam urutan"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"Padamkan semua urutan"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Padam urutan"</string>
     <string name="menu_undelivered_messages" msgid="3896857623211780616">"Mesej tidak diserahkan"</string>
     <string name="menu_view" msgid="7448852683948080108">"Lihat urutan"</string>
     <string name="refreshing" msgid="987335057871404222">"Memuatkan semula..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Draf"</string>
-    <!-- no translation found for broadcast_from_to (2050376286109362539) -->
-    <skip />
+    <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> kepada <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
     <string name="anonymous_recipient" msgid="2501437626187039034">"Tanpa nama"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Tiada subjek)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Saya"</string>
@@ -48,8 +47,7 @@
     <string name="view_delivery_report" msgid="8219095994071575215">"Lihat laporan"</string>
     <string name="delete_message" msgid="8888447283788388395">"Padam mesej"</string>
     <string name="sent_on" msgid="5868288548564632354">"Dihantar: <xliff:g id="DATE">%s</xliff:g>"</string>
-    <!-- no translation found for received_on (745813167330942475) -->
-    <skip />
+    <string name="received_on" msgid="745813167330942475">"Diterima: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"Tamat tempoh: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Mesej tidak diserahkan"</string>
@@ -90,20 +88,17 @@
     <string name="replace" msgid="7587904998114459388">"Ganti"</string>
     <string name="remove" msgid="4625444913256213175">"Alih keluar"</string>
     <string name="send" msgid="4589898724889248486">"Hantar"</string>
-    <!-- no translation found for mms (1587631213714914559) -->
-    <skip />
+    <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Semua urutan"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Taip untuk mengarang"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Buka papan kekunci untuk mengarang mesej"</string>
     <string name="image_too_large" msgid="261880224164478061">"Gambar terlalu besar"</string>
     <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Ubah saiz gambar secara automatik sebelum menghantar?"</string>
-    <!-- no translation found for compressing (1961357529661045180) -->
-    <skip />
+    <string name="compressing" msgid="1961357529661045180">"Gambar terlalu besar. Memampatkan..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Format <xliff:g id="NAME">%1$s</xliff:g> tidak disokong"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Sila pilih <xliff:g id="NAME">%1$s</xliff:g> yang lain."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Had saiz mesej dicapai."</string>
-    <!-- no translation found for message_too_big_for_video (2639367545165352543) -->
-    <skip />
+    <string name="message_too_big_for_video" msgid="2639367545165352543">"Mesej terlalu besar untuk dilampirkan video."</string>
     <string name="failed_to_add_media" msgid="8272471485019037446">"Maaf, anda tidak boleh menambah <xliff:g id="NAME">%1$s</xliff:g> ini ke mesej anda."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Gambar tidak berubah saiznya."</string>
     <string name="resize_image_error_information" msgid="4897031754321114959">"Maaf, walaupun sudah diubah saiznya gambar ini masih terlalu besar untuk dihantar."</string>
@@ -111,34 +106,26 @@
     <string name="discard_message" msgid="6078326880056142781">"Buang"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Mesej anda akan dibuang kerana ia tidak mengandungi penerima yang sah."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Penerima tidak sah: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <!-- no translation found for invalid_destination (7643854177921895615) -->
+    <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"Anda telah memasukkan alamat yang tidak sah."</string>
+    <!-- no translation found for service_not_activated (9178218144019626176) -->
     <skip />
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Sila betulkan penerima, jika tidak mereka tidak akan menerima mesej."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Tidak boleh menghantar mesej ini"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Mesej anda tiada penerima yang sah."</string>
     <string name="cannot_forward_drm_obj" msgid="84606990079390099">"Objek DRM yang disertakan dalam mesej tidak boleh dikirim semula."</string>
-    <!-- no translation found for converting_to_picture_message (2980023239017588627) -->
-    <skip />
-    <!-- no translation found for converting_to_text_message (6374423235426015422) -->
-    <skip />
+    <string name="converting_to_picture_message" msgid="2980023239017588627">"Menukarkan kepada mesej multimedia..."</string>
+    <string name="converting_to_text_message" msgid="6374423235426015422">"Menukarkan kepada mesej teks..."</string>
     <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"Tidak boleh menambah lagi slaid."</string>
-    <!-- no translation found for cannot_add_picture_and_video (4721981351130823908) -->
-    <skip />
+    <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"Tidak boleh menambahkan video dan gambar pada satu slaid."</string>
     <string name="cannot_save_message" msgid="5026354972915392301">"Tidak boleh menyimpan mesej."</string>
     <string name="cannot_load_message" msgid="2577010607550849892">"Tidak dapat memuatkan mesej."</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"Mesej disimpan sebagai draf."</string>
-    <!-- no translation found for locked_message_cannot_be_deleted (6369452071783350219) -->
-    <skip />
-    <!-- no translation found for too_many_recipients (4239709214735078881) -->
-    <skip />
-    <!-- no translation found for too_many_attachments (3774037894899750070) -->
-    <skip />
-    <!-- no translation found for adding_attachments_title (2034535554212405529) -->
-    <skip />
-    <!-- no translation found for adding_attachments (2423616900586221924) -->
-    <skip />
-    <!-- no translation found for multiple_recipients (8747754491343248141) -->
-    <skip />
+    <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"Mesej yang berkunci tidak boleh dipadamkan."</string>
+    <string name="too_many_recipients" msgid="4239709214735078881">"Mesej ini mempunyai terlalu ramai penerima (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). Terdapat had <xliff:g id="MAXLIMIT">%2$s</xliff:g> penerima."</string>
+    <string name="too_many_attachments" msgid="3774037894899750070">"Lampiran dihadkan kepada <xliff:g id="MAXLIMIT">%1$s</xliff:g>. Hanya <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> yang pertama sahaja akan ditambahkan."</string>
+    <string name="adding_attachments_title" msgid="2034535554212405529">"Menambah lampiran"</string>
+    <string name="adding_attachments" msgid="2423616900586221924">"Sila tunggu sementara item ditambahkan pada tayangan slaid."</string>
+    <string name="multiple_recipients" msgid="8747754491343248141">"<xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g> penerima"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"Tidak boleh memainkan audio"</string>
     <string name="preview" msgid="5438149136136446756">"Pratonton"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Pratonton"</string>
@@ -149,10 +136,8 @@
     <string name="layout_top" msgid="6811021650398972346">"Reka letak (atas)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Reka letak (bahagian bawah)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Taip untuk mengarang teks atau tinggalkan kosong"</string>
-    <!-- no translation found for duration_not_a_number (8005480904677546322) -->
-    <skip />
-    <!-- no translation found for duration_zero (109945354056393575) -->
-    <skip />
+    <string name="duration_not_a_number" msgid="8005480904677546322">"Tempoh mestilah dalam bentuk nombor"</string>
+    <string name="duration_zero" msgid="109945354056393575">"Tempoh mestilah lebih besar daripada kosong saat"</string>
     <string name="secs" msgid="6886003523109967972">"saat"</string>
   <string-array name="select_dialog_items">
     <item msgid="4840183714016984112">"1 saat"</item>
@@ -172,8 +157,7 @@
     <string name="hidden_sender_address" msgid="2776075636669924968">"Alamat pengirim tersembunyi"</string>
     <string name="yes" msgid="3246158147503160811">"OK"</string>
     <string name="no" msgid="4289742508556913860">"Batal"</string>
-    <!-- no translation found for set (4642365398263275979) -->
-    <skip />
+    <string name="set" msgid="4642365398263275979">"Tetapkan"</string>
     <string name="play" msgid="1888432400937785115">"Main"</string>
     <string name="edit" msgid="5912118407791492696">"Edit"</string>
     <string name="resize" msgid="4308912589984220360">"Ubah saiz"</string>
@@ -181,77 +165,60 @@
     <string name="preferences_title" msgid="6650089610332670157">"Tetapan"</string>
     <string name="restore_default" msgid="7165341506551155053">"Pulihkan tetapan lalai"</string>
     <string name="pref_notification_settings_title" msgid="4860726154770053004">"Tetapan pemberitahuan"</string>
-    <!-- no translation found for pref_mms_settings_title (2573616208360684392) -->
-    <skip />
-    <!-- no translation found for pref_sms_settings_title (9088516111717417514) -->
-    <skip />
-    <!-- no translation found for pref_sms_storage_title (2531726671883516470) -->
-    <skip />
+    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Tetapan mesej multimedia (MMS)"</string>
+    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Tetapan mesej teks (SMS)"</string>
+    <string name="pref_sms_storage_title" msgid="2531726671883516470">"Tetapan storan"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Mengurus mesej yang disimpan pada kad SIM anda"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Minta laporan penghantaran untuk setiap mesej yang anda hantar"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Minta laporan baca untuk setiap mesej yang anda hantar"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Meminta laporan penghantaran untuk setiap mesej yang anda hantar"</string>
-    <!-- no translation found for pref_summary_auto_delete (7719538116486177613) -->
-    <skip />
-    <!-- no translation found for pref_summary_delete_limit (597128041393045216) -->
-    <skip />
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Padamkan mesej lama apabila had dicapai"</string>
+    <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> mesej setiap perbualan"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Urus mesej kad SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Laporan penghantaran"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Laporan baca"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Laporan penghantaran"</string>
-    <!-- no translation found for pref_title_auto_delete (7227835692631701134) -->
-    <skip />
-    <!-- no translation found for pref_title_sms_delete (6890538316799296878) -->
-    <skip />
-    <!-- no translation found for pref_title_mms_delete (7265878070847351664) -->
-    <skip />
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Padamkan mesej lama"</string>
+    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Had mesej teks"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Had mesej multimedia"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Pemberitahuan"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Memaparkan mesej pemberitahuan dalam bar status"</string>
-    <!-- no translation found for pref_title_notification_vibrateWhen (4251208067092761057) -->
-    <skip />
-    <!-- no translation found for pref_summary_notification_vibrateWhen (669655090822561447) -->
-    <skip />
+    <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Getar"</string>
+    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Juga bergetar apabila diberitahu"</string>
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Pilih nada dering"</string>
-    <!-- no translation found for pref_messages_to_save (3202539743892934926) -->
-    <skip />
-    <!-- no translation found for prefEntries_vibrateWhen:0 (2520871831815631409) -->
-    <!-- no translation found for prefEntries_vibrateWhen:1 (6069709696037750627) -->
-    <!-- no translation found for prefEntries_vibrateWhen:2 (7486145357487111435) -->
-    <!-- no translation found for prefDialogTitle_vibrateWhen (6419655771690242118) -->
-    <skip />
+    <string name="pref_messages_to_save" msgid="3202539743892934926">"Tetapkan bilangan mesej untuk disimpan"</string>
+  <string-array name="prefEntries_vibrateWhen">
+    <item msgid="2520871831815631409">"Sentiasa"</item>
+    <item msgid="6069709696037750627">"Apabila senyap sahaja"</item>
+    <item msgid="7486145357487111435">"Jangan sekali-kali"</item>
+  </string-array>
+    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Getar"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Auto dapat kembali"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Dapatkan semula mesej secara automatik"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Auto dapat kembali perayauan"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Dapatkan semula mesej secara automatik semasa perayauan"</string>
     <string name="to_label" msgid="2355268818058389047">"Kepada "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Padam"</string>
-    <!-- no translation found for confirm_dialog_locked_title (8179085718150932242) -->
-    <skip />
+    <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Padamkan mesej berkunci?"</string>
     <!-- no translation found for confirm_delete_conversation:one (350118636090800360) -->
     <!-- no translation found for confirm_delete_conversation:other (6918094955792544014) -->
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Keseluruhan urutan akan dipadamkan."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Semua urutan akan dipadamkan."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Mesej akan dipadamkan."</string>
-    <!-- no translation found for confirm_delete_locked_message (5863578342246077057) -->
-    <skip />
+    <string name="confirm_delete_locked_message" msgid="5863578342246077057">"Adakah anda pasti mahu memadamkan mesej berkunci ini?"</string>
     <string name="confirm_delete_all_messages" msgid="5836389073199814660">"Keseluruhan urutan akan dipadamkan."</string>
     <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"Semua mesej pada SIM akan dipadamkan."</string>
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Mesej ini pada SIM akan dipadamkan."</string>
-    <!-- no translation found for delete_unlocked (7545321606698162261) -->
-    <skip />
-    <!-- no translation found for delete (1409973060081564612) -->
-    <skip />
+    <string name="delete_unlocked" msgid="7545321606698162261">"Padamkan mesej berkunci"</string>
+    <string name="delete" msgid="1409973060081564612">"Padamkan"</string>
     <!-- no translation found for select_conversations (5754828781497722394) -->
     <skip />
     <string name="cannot_get_details" msgid="6493664168168047746">"Tidak boleh mendapatkan butiran"</string>
     <string name="message_details_title" msgid="9223295113731634528">"Butiran mesej"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Jenis: "</string>
-    <!-- no translation found for text_message (8196464345251877972) -->
-    <skip />
-    <!-- no translation found for multimedia_message (1512644521083533071) -->
-    <skip />
-    <!-- no translation found for multimedia_notification (4124031788554972308) -->
-    <skip />
+    <string name="text_message" msgid="8196464345251877972">"Mesej teks"</string>
+    <string name="multimedia_message" msgid="1512644521083533071">"Mesej multimedia"</string>
+    <string name="multimedia_notification" msgid="4124031788554972308">"Pemberitahuan mesej multimedia"</string>
     <string name="from_label" msgid="2055117571548171397">"Daripada: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Kepada: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Skt: "</string>
@@ -265,22 +232,18 @@
     <string name="priority_normal" msgid="5715227727384683550">"Biasa"</string>
     <string name="priority_low" msgid="8928782666023373987">"Rendah"</string>
     <string name="message_class_label" msgid="5115748690481550562">"Kelas mesej: "</string>
-    <!-- no translation found for error_code_label (5810068247647058769) -->
-    <skip />
+    <string name="error_code_label" msgid="5810068247647058769">"Kod ralat: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Edit"</string>
     <string name="menu_retry_sending" msgid="3146582005568302643">"Cuba semula menghantar"</string>
     <string name="menu_retry_sending_all" msgid="1870529976966340616">"Cuba semula menghantar semua"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Padam mesej"</string>
     <string name="retrying_dialog_body" msgid="4738260459043003431">"Mesej <xliff:g id="MESSAGE">%s</xliff:g> ini tidak dihantar kerana masalah sambungan."\n"Mencuba semula untuk menghantar..."</string>
-    <!-- no translation found for menu_lock (136863583207382259) -->
-    <skip />
-    <!-- no translation found for menu_unlock (5264877122797287929) -->
-    <skip />
-    <!-- outdated translation 5895767417844881971 -->     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Salin ke memori telefon"</string>
+    <string name="menu_lock" msgid="136863583207382259">"Kunci mesej"</string>
+    <string name="menu_unlock" msgid="5264877122797287929">"Buka kunci mesej"</string>
+    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Salin ke memori tablet"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Salin ke memori telefon"</string>
     <string name="sim_delete" msgid="610790510655316922">"Padam"</string>
-    <!-- no translation found for sim_manage_messages_title (3989147182100584333) -->
-    <skip />
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"Mesej teks pada kad SIM"</string>
     <string name="sim_view" msgid="1997173541766393706">"Lihat"</string>
     <string name="sim_empty" msgid="1763174398613486328">"Tiada mesej pada kad SIM."</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"Laporan"</string>
@@ -302,35 +265,28 @@
     <string name="attach_slideshow" msgid="3497422151091037063">"Tayangan slaid"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"Teks pada bahagian bawah"</string>
     <string name="select_top_text" msgid="6734183477539197815">"Teks di bahagian atas"</string>
-    <!-- no translation found for delivery_toast_body (4478305651728684364) -->
-    <skip />
+    <string name="delivery_toast_body" msgid="4478305651728684364">"Mesej diterima oleh %s"</string>
     <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> mesej belum dibaca."</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"Mesej baru"</string>
     <string name="notification_failed_multiple" msgid="4081781748475686236">"<xliff:g id="COUNT">%s</xliff:g> mesej tidak boleh dihantar."</string>
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"Mesej tidak dihantar"</string>
     <string name="sim_full_title" msgid="1809829051697702810">"Kad SIM penuh"</string>
     <string name="sim_full_body" msgid="6241664980790322925">"Padam beberapa mesej untuk membuat ruang untuk lebih banyak mesej."</string>
-    <!-- no translation found for sms_full_title (6041287140125011854) -->
-    <skip />
-    <!-- no translation found for sms_full_body (7757490997215434514) -->
-    <skip />
-    <!-- no translation found for sms_rejected_title (8548394922491529811) -->
-    <skip />
-    <!-- no translation found for sms_rejected_body (7187754586609631934) -->
-    <skip />
+    <string name="sms_full_title" msgid="6041287140125011854">"Memori mesej teks penuh"</string>
+    <string name="sms_full_body" msgid="7757490997215434514">"Mesej masuk ditolak kerana memori penuh. Sila padamkan mesej lama."</string>
+    <string name="sms_rejected_title" msgid="8548394922491529811">"Mesej teks ditolak"</string>
+    <string name="sms_rejected_body" msgid="7187754586609631934">"Mesej masuk ditolak atas sebab yang tidak diketahui."</string>
     <string name="type_audio" msgid="3842064092332309756">"audio"</string>
     <string name="type_picture" msgid="4091928975383609443">"gambar"</string>
     <string name="type_video" msgid="8521556159545168441">"video"</string>
     <string name="confirm" msgid="3155110885840591914">"Sahkan"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Laporan baca akan dihantar."</string>
     <string name="message_queued" msgid="8869479754825264671">"Tidak boleh menghantar mesej anda pada masa ini. Ia akan dihantar apabila perkhidmatan tersedia."</string>
-    <!-- no translation found for fdn_check_failure (7880740763778173551) -->
-    <skip />
+    <string name="fdn_check_failure" msgid="7880740763778173551">"Anda hanya boleh menghantar mesej ke nombor dailan tetap anda."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Tiada subjek)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Pengirim tidak dikenali"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"Muat turun mesej <xliff:g id="SUBJECT">%1$s</xliff:g> daripada <xliff:g id="FROM">%2$s</xliff:g> tidak berjaya."</string>
-    <!-- no translation found for dl_expired_notification (950390029992535809) -->
-    <skip />
+    <string name="dl_expired_notification" msgid="950390029992535809">"Mesej ini telah tamat tempoh dan akan dipadamkan."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Sahkan"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Sejumlah besar mesej multimedia sedang dihantar. Adakah ini OK?"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"Mesej tidak dimuat turun"</string>
@@ -338,15 +294,12 @@
     <string name="message_failed_body" msgid="2740907094762116644">"Pilih untuk menyemak semula mesej dan cuba lagi."</string>
     <string name="download_later" msgid="4486286146421650880">"Tidak boleh memuat turun buat masa ini. Sila cuba sebentar lagi."</string>
     <string name="select_audio" msgid="3120822451872772124">"Pilih audio"</string>
-    <!-- outdated translation 6056459122898138734 -->     <string name="copy_to_sdcard" msgid="757028609638184856">"Salin yang dilampirkan ke kad SD"</string>
-    <!-- outdated translation 5322211009838330188 -->     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Lampiran disalin ke kad SD"</string>
-    <!-- outdated translation 2726421767948392438 -->     <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Gagal menyalin lampiran ke kad SD"</string>
-    <!-- no translation found for save_ringtone (2310157075045201051) -->
-    <skip />
-    <!-- no translation found for saved_ringtone (6616730290861857836) -->
-    <skip />
-    <!-- no translation found for saved_ringtone_fail (5447210504935083544) -->
-    <skip />
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Menyimpan lampiran"</string>
+    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Lampiran disimpan"</string>
+    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Tidak boleh menyimpan lampiran"</string>
+    <string name="save_ringtone" msgid="2310157075045201051">"Simpan sebagai nada dering"</string>
+    <string name="saved_ringtone" msgid="6616730290861857836">"Nada dering disimpan"</string>
+    <string name="saved_ringtone_fail" msgid="5447210504935083544">"Gagal menyimpan nada dering"</string>
     <string name="menu_insert_smiley" msgid="4964504393061025071">"Masukkan smiley"</string>
     <string name="select_link_title" msgid="600168208731216059">"Pilih tindakan"</string>
     <string name="slide_number" msgid="1923958526266726635">"Slaid <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -356,8 +309,7 @@
     <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g> saat"</item>
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"Laporan penghantaran"</string>
-    <!-- no translation found for storage_limits_activity (8810530813311077716) -->
-    <skip />
+    <string name="storage_limits_activity" msgid="8810530813311077716">"Had storan"</string>
     <string name="add_attachment_activity" msgid="5324811371129695320">"Tambah lampiran:"</string>
     <string name="select_layout_activity" msgid="5041916695464513848">"Pilih reka letak"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"Tukar tempoh"</string>
@@ -367,53 +319,32 @@
     <string name="pick_numbers_activity" msgid="2083330191224178637">"Pilih Nombor"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Tayangan slaid"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"Mesej kelas 0"</string>
-    <!-- no translation found for send_using_mms_activity (3703434556280345726) -->
-    <skip />
+    <string name="send_using_mms_activity" msgid="3703434556280345726">"Hantar sebagai mesej multimedia..."</string>
     <string name="select_contact_method_activity" msgid="1743384358979323991">"Pilih Cara Menghubungi"</string>
-    <!-- no translation found for search_label (6042598929386174964) -->
-    <skip />
-    <!-- no translation found for search_hint (7183732852849365466) -->
-    <skip />
-    <!-- no translation found for search (7560238620274735199) -->
-    <skip />
-    <!-- no translation found for search_setting_description (4104004595086437572) -->
-    <skip />
-    <!-- no translation found for search_empty (645052646985297065) -->
-    <skip />
-    <!-- no translation found for search_results_title:one (4657073733087431350) -->
-    <!-- no translation found for search_results_title:other (6196382287749539209) -->
-    <!-- no translation found for search_history (4127805495662693154) -->
-    <skip />
-    <!-- no translation found for confirm_clear_search_title (8510295993632032904) -->
-    <skip />
-    <!-- no translation found for confirm_clear_search_text (8731877031837077478) -->
-    <skip />
-    <!-- no translation found for pref_mms_clear_search_history_title (6159758850628148164) -->
-    <skip />
-    <!-- no translation found for pref_mms_clear_search_history_summary (7960005384066460035) -->
-    <skip />
-    <!-- no translation found for save (6847069284991531310) -->
-    <skip />
-    <!-- no translation found for storage_limits_title (7074684882530693016) -->
-    <skip />
-    <!-- no translation found for storage_limits_message (8729608389698270388) -->
-    <skip />
-    <!-- no translation found for storage_limits_setting (4952781049308537373) -->
-    <skip />
-    <!-- no translation found for storage_limits_setting_dismiss (1433841310158458034) -->
-    <skip />
-    <!-- no translation found for too_many_unsent_mms (8005932837414848242) -->
-    <skip />
-    <!-- no translation found for me (341726346007839961) -->
-    <skip />
-    <!-- no translation found for sending_message (222836893217450538) -->
-    <skip />
-    <!-- no translation found for pick_too_many_recipients (650087588867628044) -->
-    <skip />
-    <!-- no translation found for adding_recipients (2962810172527532357) -->
-    <skip />
-    <!-- no translation found for error_state (5177386717626893507) -->
-    <skip />
-    <!-- no translation found for error_state_text (5006221625000536698) -->
-    <skip />
+    <string name="search_label" msgid="6042598929386174964">"Pemesejan"</string>
+    <string name="search_hint" msgid="7183732852849365466">"Pemesejan Carian"</string>
+    <string name="search" msgid="7560238620274735199">"Pemesejan"</string>
+    <string name="search_setting_description" msgid="4104004595086437572">"Teks dalam mesej anda"</string>
+    <string name="search_empty" msgid="645052646985297065">"Tiada padanan"</string>
+  <plurals name="search_results_title">
+    <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> hasil untuk \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
+    <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> hasil untuk \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
+  </plurals>
+    <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> hasil untuk \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</string>
+    <string name="confirm_clear_search_title" msgid="8510295993632032904">"Padam bersih"</string>
+    <string name="confirm_clear_search_text" msgid="8731877031837077478">"Sejarah carian akan dipadam bersih."</string>
+    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Padam bersih sejarah carian"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Padam bersih carian Pemesejan sebelumnya agar tidak muncul dalam kotak Carian"</string>
+    <string name="save" msgid="6847069284991531310">"Simpan"</string>
+    <string name="storage_limits_title" msgid="7074684882530693016">"Hadkan mesej"</string>
+    <string name="storage_limits_message" msgid="8729608389698270388">"Adakah anda mahu mengehadkan bilangan mesej yang anda simpan untuk setiap perbualan?"</string>
+    <string name="storage_limits_setting" msgid="4952781049308537373">"Tetapkan had"</string>
+    <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Tiada had"</string>
+    <string name="too_many_unsent_mms" msgid="8005932837414848242">"Tidak boleh menghantar mesej sekarang. Terdapat terlalu banyak mesej multimedia yang belum dihantar."</string>
+    <string name="me" msgid="341726346007839961">"Saya"</string>
+    <string name="sending_message" msgid="222836893217450538">"Menghantar..."</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"Terlalu banyak penerima"</string>
+    <string name="adding_recipients" msgid="2962810172527532357">"Menambah penerima..."</string>
+    <string name="error_state" msgid="5177386717626893507">"Keadaan tidak konsisten"</string>
+    <string name="error_state_text" msgid="5006221625000536698">"Keadaan jaluran dan penerima tidak konsisten. Sila tangkap laporan pepijat dan hantarkannya ke android-sms-bugs@google.com"</string>
 </resources>

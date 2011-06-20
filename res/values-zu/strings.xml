@@ -171,7 +171,9 @@
     <skip />
     <!-- no translation found for has_invalid_recipient (1485388396900997383) -->
     <skip />
-    <string name="invalid_destination" msgid="7643854177921895615">"Ufake ikheli elingavumelekile."</string>
+    <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"Ufake ikheli elingavumelekile."</string>
+    <!-- no translation found for service_not_activated (9178218144019626176) -->
+    <skip />
     <!-- no translation found for invalid_recipient_message (7315539322634238519) -->
     <skip />
     <!-- no translation found for cannot_send_message (3918913277571649400) -->
@@ -369,10 +371,8 @@
     <string name="retrying_dialog_body" msgid="4738260459043003431">"Lomyalezo <xliff:g id="MESSAGE">%s</xliff:g> awuthunyelwanga ngenxa yenkinga yoxhumano."\n"Izama futhi ukuthumela..."</string>
     <string name="menu_lock" msgid="136863583207382259">"Vala umyalezo"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Vula umyalezo"</string>
-    <!-- no translation found for sim_copy_to_phone_memory (3721000641648594602) -->
-    <skip />
-    <!-- no translation found for sim_copy_to_phone_memory (5895767417844881971) -->
-    <skip />
+    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopisha kwinkumbulo yefoni."</string>
+    <!-- outdated translation 3721000641648594602 -->     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Kopisha kwinkumbulo yefoni."</string>
     <!-- no translation found for sim_delete (610790510655316922) -->
     <skip />
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Imiyalezo yombhalo ekhadini le-SIM"</string>

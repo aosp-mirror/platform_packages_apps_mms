@@ -106,7 +106,9 @@
     <string name="discard_message" msgid="6078326880056142781">"Отменить"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Сообщение будет удалено, так как не указан ни один реальный получатель."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Недопустимые получатели: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <string name="invalid_destination" msgid="7643854177921895615">"Введен недопустимый адрес."</string>
+    <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"Введен недопустимый адрес."</string>
+    <!-- no translation found for service_not_activated (9178218144019626176) -->
+    <skip />
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Укажите получателей правильно. В противном случае сообщения не будут им доставлены."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Сообщение об ошибке"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Не указано ни одного реального получателя."</string>
