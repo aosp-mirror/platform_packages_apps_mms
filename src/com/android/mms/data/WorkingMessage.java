@@ -16,6 +16,8 @@
 
 package com.android.mms.data;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
@@ -35,6 +37,7 @@ import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.common.contacts.DataUsageStatUpdater;
 import com.android.common.userhappiness.UserHappinessSignals;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.LogTag;
@@ -1018,6 +1021,8 @@ public class WorkingMessage {
                     // the text in the message text box.
                     slideshow.prepareForSend();
                     sendMmsWorker(conv, mmsUri, persister, slideshow, sendReq);
+
+                    updateSendStats(conv);
                 }
             }).start();
         } else {
@@ -1026,6 +1031,8 @@ public class WorkingMessage {
             new Thread(new Runnable() {
                 public void run() {
                     preSendSmsWorker(conv, msgText, recipientsInUI);
+
+                    updateSendStats(conv);
                 }
             }).start();
         }
@@ -1035,6 +1042,15 @@ public class WorkingMessage {
 
         // Mark the message as discarded because it is "off the market" after being sent.
         mDiscarded = true;
+    }
+
+    // Be sure to only call this on a background thread.
+    private void updateSendStats(final Conversation conv) {
+        String[] dests = conv.getRecipients().getNumbers();
+        final ArrayList<String> phoneNumbers = new ArrayList<String>(Arrays.asList(dests));
+
+        DataUsageStatUpdater updater = new DataUsageStatUpdater(mActivity);
+        updater.updateWithPhoneNumber(phoneNumbers);
     }
 
     private boolean addressContainsEmailToMms(Conversation conv, String text) {
