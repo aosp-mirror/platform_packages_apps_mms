@@ -29,6 +29,7 @@ import android.database.MergeCursor;
 import android.net.Uri;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.DataUsageFeedback;
 import android.telephony.PhoneNumberUtils;
 import android.text.Annotation;
 import android.text.Spannable;
@@ -176,7 +177,11 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
             }
         }
 
-        Uri uri = Uri.withAppendedPath(Phone.CONTENT_FILTER_URI, Uri.encode(cons));
+        Uri uri = Phone.CONTENT_FILTER_URI.buildUpon()
+                .appendPath(Uri.encode(cons))
+                .appendQueryParameter(DataUsageFeedback.USAGE_TYPE,
+                        DataUsageFeedback.USAGE_TYPE_SHORT_TEXT)
+                .build();
         /*
          * if we decide to filter based on phone types use a selection
          * like this.
@@ -193,7 +198,7 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
                     PROJECTION_PHONE,
                     null, //selection,
                     null,
-                    SORT_ORDER);
+                    null);
 
         if (phone.length() > 0) {
             ArrayList result = new ArrayList();
