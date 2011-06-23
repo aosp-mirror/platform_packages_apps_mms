@@ -61,8 +61,8 @@ public class TransactionSettings {
      * @param context The context of the MMS Client
      */
     public TransactionSettings(Context context, String apnName) {
-        String selection = (apnName != null)?
-                Telephony.Carriers.APN + "='" + apnName.trim() + "'": null;
+        String selection = TextUtils.isEmpty(apnName) ? null :
+                Telephony.Carriers.APN + "='" + apnName.trim() + "'";
 
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
                             Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI, "current"),
@@ -104,9 +104,7 @@ public class TransactionSettings {
             cursor.close();
         }
 
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            Log.v(TAG, "APN setting: MMSC: " + mServiceCenter + " looked for: " + selection);
-        }
+        Log.v(TAG, "APN setting: MMSC: " + mServiceCenter + " looked for: " + selection);
 
         if (sawValidApn && TextUtils.isEmpty(mServiceCenter)) {
             Log.e(TAG, "Invalid APN setting: MMSC is empty");

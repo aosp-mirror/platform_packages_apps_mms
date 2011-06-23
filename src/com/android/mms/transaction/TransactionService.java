@@ -600,9 +600,7 @@ public class TransactionService extends Service implements Observer {
 
                     // If this APN doesn't have an MMSC, wait for one that does.
                     if (TextUtils.isEmpty(settings.getMmscUrl())) {
-                        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                            Log.v(TAG, "   empty MMSC url, bail");
-                        }
+                        Log.v(TAG, "   empty MMSC url, bail");
                         return;
                     }
 
