@@ -446,7 +446,9 @@ public class SmsReceiverService extends Service {
             StringBuilder body = new StringBuilder();
             for (int i = 0; i < pduCount; i++) {
                 sms = msgs[i];
-                body.append(sms.getDisplayMessageBody());
+                if (sms.mWrappedSmsMessage != null) {
+                    body.append(sms.getDisplayMessageBody());
+                }
             }
             values.put(Inbox.BODY, replaceFormFeeds(body.toString()));
         }
