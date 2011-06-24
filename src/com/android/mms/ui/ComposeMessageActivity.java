@@ -1873,10 +1873,6 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (conversation != null) {
-            // Don't let any markAsRead DB updates occur before we've loaded the messages for
-            // the thread.
-            conversation.blockMarkAsRead(true);
-
             // this is probably paranoia to compare both thread_ids and recipient lists,
             // but we want to make double sure because this is a last minute fix for Froyo
             // and the previous code checked thread ids only.
@@ -1885,6 +1881,15 @@ public class ComposeMessageActivity extends Activity
             // even though the recipient lists are different)
             sameThread = (conversation.getThreadId() == mConversation.getThreadId() &&
                     conversation.equals(mConversation));
+
+            // Don't let any markAsRead DB updates occur before we've loaded the messages for
+            // the thread. Unblocking occurs when we're done querying for the conversation
+            // items. If we're the same thread, we're not going to query and don't want to block.
+            conversation.blockMarkAsRead(!sameThread);
+
+            if (sameThread) {
+                mConversation.markAsRead();         // dismiss any notifications for this convo
+            }
         }
 
         if (sameThread) {
