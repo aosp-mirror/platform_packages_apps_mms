@@ -138,10 +138,7 @@ public class MessageItem {
             if (!isOutgoingMessage()) {
                 // Set "received" or "sent" time stamp
                 long date = cursor.getLong(columnsMap.mColumnSmsDate);
-                String label = context.getString(
-                    Sms.isOutgoingFolder(mBoxId) ? R.string.sent_on : R.string.received_on);
-                mTimestamp = String.format(label,
-                        MessageUtils.formatTimeStampString(context, date));
+                mTimestamp = MessageUtils.formatTimeStampString(context, date);
             }
 
             mLocked = cursor.getInt(columnsMap.mColumnSmsLocked) != 0;
@@ -235,8 +232,12 @@ public class MessageItem {
             }
 
             if (!isOutgoingMessage()) {
-                mTimestamp = context.getString(getTimestampStrId(),
-                        MessageUtils.formatTimeStampString(context, timestamp));
+                if (PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND == mMessageType) {
+                    mTimestamp = context.getString(R.string.expire_on,
+                            MessageUtils.formatTimeStampString(context, timestamp));
+                } else {
+                    mTimestamp =  MessageUtils.formatTimeStampString(context, timestamp);
+                }
             }
         } else {
             throw new MmsException("Unknown type of the message: " + type);
@@ -254,16 +255,6 @@ public class MessageItem {
             mAddress = AddressUtils.getFrom(mContext, messageUri);
         }
         mContact = TextUtils.isEmpty(mAddress) ? "" : Contact.get(mAddress, false).getName();
-    }
-
-    private int getTimestampStrId() {
-        if (PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND == mMessageType) {
-            return R.string.expire_on;
-        } else if (PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF == mMessageType) {
-            return R.string.received_on;
-        } else {
-            return R.string.sent_on;
-        }
     }
 
     public boolean isMms() {

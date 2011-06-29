@@ -27,8 +27,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.Paint.FontMetricsInt;
 import android.graphics.drawable.Drawable;
@@ -37,24 +35,21 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Browser;
 import android.provider.Telephony.Mms;
-import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
-import android.telephony.TelephonyManager;
 import android.text.Html;
-import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.LeadingMarginSpan;
 import android.text.style.LineHeightSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TextAppearanceSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -64,6 +59,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.QuickContactBadge;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.mms.MmsApp;
@@ -104,6 +100,8 @@ public class MessageListItem extends LinearLayout implements
     private Handler mHandler;
     private MessageItem mMessageItem;
     private String mDefaultCountryIso;
+    private TextView mDateView;
+    private LinearLayout mStatusIcons;
 
     public MessageListItem(Context context) {
         super(context);
@@ -124,34 +122,12 @@ public class MessageListItem extends LinearLayout implements
 
         mMsgListItem = findViewById(R.id.msg_list_item);
         mBodyTextView = (TextView) findViewById(R.id.text_view);
+        mDateView = (TextView) findViewById(R.id.date_view);
         mLockedIndicator = (ImageView) findViewById(R.id.locked_indicator);
         mDeliveredIndicator = (ImageView) findViewById(R.id.delivered_indicator);
         mDetailsIndicator = (ImageView) findViewById(R.id.details_indicator);
         mAvatar = (QuickContactBadge) findViewById(R.id.avatar);
-
-        ViewGroup.MarginLayoutParams badgeParams = (MarginLayoutParams)mAvatar.getLayoutParams();
-        final int badgeWidth = badgeParams.width + badgeParams.rightMargin + badgeParams.leftMargin;
-
-        int lineHeight = mBodyTextView.getLineHeight();
-        int effectiveBadgeHeight = badgeParams.height + badgeParams.topMargin - mBodyTextView.getPaddingTop();
-        final int indentLineCount = (int) ((effectiveBadgeHeight-1) / lineHeight) + 1;
-
-        mLeadingMarginSpan = new LeadingMarginSpan.LeadingMarginSpan2() {
-            public void drawLeadingMargin(Canvas c, Paint p, int x, int dir,
-                    int top, int baseline, int bottom, CharSequence text,
-                    int start, int end, boolean first, Layout layout) {
-                // no op
-            }
-
-            public int getLeadingMargin(boolean first) {
-                return first ? badgeWidth : 0;
-            }
-
-            public int getLeadingMarginLineCount() {
-                return indentLineCount;
-            }
-        };
-
+        mStatusIcons = (LinearLayout) findViewById(R.id.status_icons);
     }
 
     public void bind(MessageListAdapter.AvatarCache avatarCache, MessageItem msgItem) {
@@ -185,8 +161,9 @@ public class MessageListItem extends LinearLayout implements
                                 + mContext.getString(R.string.kilobyte);
 
         mBodyTextView.setText(formatMessage(msgItem, msgItem.mContact, null, msgItem.mSubject,
-                                            msgSizeText + "\n" + msgItem.mTimestamp,
                                             msgItem.mHighlight, msgItem.mTextContentType));
+
+        mDateView.setText(msgSizeText + " " + msgItem.mTimestamp);
 
         int state = DownloadManager.getInstance().getState(msgItem.mMessageUri);
         switch (state) {
@@ -221,11 +198,10 @@ public class MessageListItem extends LinearLayout implements
         mLockedIndicator.setVisibility(View.GONE);
         mDeliveredIndicator.setVisibility(View.GONE);
         mDetailsIndicator.setVisibility(View.GONE);
-
-        drawLeftStatusIndicator(msgItem.mBoxId);
     }
 
-    private void bindCommonMessage(final MessageListAdapter.AvatarCache avatarCache, final MessageItem msgItem) {
+    private void bindCommonMessage(final MessageListAdapter.AvatarCache avatarCache,
+            final MessageItem msgItem) {
         if (mDownloadButton != null) {
             mDownloadButton.setVisibility(View.GONE);
             mDownloadingLabel.setVisibility(View.GONE);
@@ -265,10 +241,16 @@ public class MessageListItem extends LinearLayout implements
         CharSequence formattedMessage = msgItem.getCachedFormattedMessage();
         if (formattedMessage == null) {
             formattedMessage = formatMessage(msgItem, msgItem.mContact, msgItem.mBody,
-                                             msgItem.mSubject, msgItem.mTimestamp,
+                                             msgItem.mSubject,
                                              msgItem.mHighlight, msgItem.mTextContentType);
         }
         mBodyTextView.setText(formattedMessage);
+
+        // If we're in the process of sending a message (i.e. pending), then we show a "SENDING..."
+        // string in place of the timestamp.
+        mDateView.setText(msgItem.isSending() ?
+                mContext.getResources().getString(R.string.sending_message) :
+                    msgItem.mTimestamp);
 
         if (msgItem.isSms()) {
             hideMmsViewIfNeeded();
@@ -288,10 +270,66 @@ public class MessageListItem extends LinearLayout implements
             }
         }
 
-        drawLeftStatusIndicator(msgItem.mBoxId);
+        adjustLayoutItems(msgItem);
         drawRightStatusIndicator(msgItem);
 
         requestLayout();
+    }
+
+    private void adjustLayoutItems(final MessageItem msgItem) {
+        // Put the avatar on the left or right
+        RelativeLayout.LayoutParams avatarLayout =
+            (RelativeLayout.LayoutParams)mAvatar.getLayoutParams();
+        RelativeLayout.LayoutParams textLayout =
+            (RelativeLayout.LayoutParams)mBodyTextView.getLayoutParams();
+        RelativeLayout.LayoutParams dateLayout =
+            (RelativeLayout.LayoutParams)mDateView.getLayoutParams();
+        RelativeLayout.LayoutParams statusIconsLayout =
+            (RelativeLayout.LayoutParams)mStatusIcons.getLayoutParams();
+
+        if (msgItem.mBoxId == Mms.MESSAGE_BOX_INBOX) {
+            // Avatar on left, text adjusted left
+            // undo the old rules first
+            textLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
+            textLayout.addRule(RelativeLayout.LEFT_OF, 0);
+            avatarLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
+            statusIconsLayout.addRule(RelativeLayout.LEFT_OF, 0);
+            dateLayout.addRule(RelativeLayout.LEFT_OF, 0);
+
+            // set the new rules
+            avatarLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            textLayout.addRule(RelativeLayout.RIGHT_OF, R.id.avatar);
+            textLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            dateLayout.addRule(RelativeLayout.RIGHT_OF, R.id.avatar);
+            statusIconsLayout.addRule(RelativeLayout.RIGHT_OF, R.id.date_view);
+
+            mBodyTextView.setPadding(0, 6, 0, 3);
+            mBodyTextView.setGravity(Gravity.LEFT);
+            avatarLayout.rightMargin = 5;
+            avatarLayout.leftMargin = 0;
+        } else {
+            // Avatar on right, text adjusted right
+            // undo the old rules first
+            avatarLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
+            textLayout.addRule(RelativeLayout.RIGHT_OF, 0);
+            textLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
+            dateLayout.addRule(RelativeLayout.RIGHT_OF, 0);
+            statusIconsLayout.addRule(RelativeLayout.RIGHT_OF, 0);
+
+            // set the new rules
+            textLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            textLayout.addRule(RelativeLayout.LEFT_OF, R.id.avatar);
+            avatarLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            statusIconsLayout.addRule(RelativeLayout.LEFT_OF, R.id.date_view);
+            dateLayout.addRule(RelativeLayout.LEFT_OF, R.id.avatar);
+
+            mBodyTextView.setPadding(mContext.getResources()
+                    .getDimensionPixelOffset(R.dimen.message_item_avatar_on_right_text_indent),
+                        6, 10, 3);
+            mBodyTextView.setGravity(Gravity.RIGHT);
+            avatarLayout.rightMargin = 0;
+            avatarLayout.leftMargin = 5;
+        }
     }
 
     private void hideMmsViewIfNeeded() {
@@ -347,7 +385,6 @@ public class MessageListItem extends LinearLayout implements
         }
     }
 
-    private LeadingMarginSpan mLeadingMarginSpan;
 
     private LineHeightSpan mSpan = new LineHeightSpan() {
         public void chooseHeight(CharSequence text, int start,
@@ -362,13 +399,9 @@ public class MessageListItem extends LinearLayout implements
     ForegroundColorSpan mColorSpan = null;  // set in ctor
 
     private CharSequence formatMessage(MessageItem msgItem, String contact, String body,
-                                       String subject, String timestamp, Pattern highlight,
+                                       String subject, Pattern highlight,
                                        String contentType) {
-        CharSequence template = mContext.getResources().getText(R.string.name_colon);
-        SpannableStringBuilder buf =
-            new SpannableStringBuilder(TextUtils.replace(template,
-                new String[] { "%s" },
-                new CharSequence[] { contact }));
+        SpannableStringBuilder buf = new SpannableStringBuilder();
 
         boolean hasSubject = !TextUtils.isEmpty(subject);
         if (hasSubject) {
@@ -388,24 +421,6 @@ public class MessageListItem extends LinearLayout implements
                 buf.append(parser.addSmileySpans(body));
             }
         }
-        // If we're in the process of sending a message (i.e. pending), then we show a "Sending..."
-        // string in place of the timestamp.
-        if (msgItem.isSending()) {
-            timestamp = mContext.getResources().getString(R.string.sending_message);
-        }
-        // We always show two lines because the optional icon bottoms are aligned with the
-        // bottom of the text field, assuming there are two lines for the message and the sent time.
-        buf.append("\n");
-        int startOffset = buf.length();
-
-        startOffset = buf.length();
-        buf.append(TextUtils.isEmpty(timestamp) ? " " : timestamp);
-
-        buf.setSpan(mTextSmallSpan, startOffset, buf.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        buf.setSpan(mSpan, startOffset+1, buf.length(), 0);
-
-        // Make the timestamp text not as dark
-        buf.setSpan(mColorSpan, startOffset, buf.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         if (highlight != null) {
             Matcher m = highlight.matcher(buf.toString());
@@ -413,7 +428,6 @@ public class MessageListItem extends LinearLayout implements
                 buf.setSpan(new StyleSpan(Typeface.BOLD), m.start(), m.end(), 0);
             }
         }
-        buf.setSpan(mLeadingMarginSpan, 0, buf.length(), 0);
         return buf;
     }
 
@@ -547,25 +561,6 @@ public class MessageListItem extends LinearLayout implements
         default:
             mImageView.setOnClickListener(null);
             break;
-        }
-    }
-
-    private void drawLeftStatusIndicator(int msgBoxId) {
-        switch (msgBoxId) {
-            case Mms.MESSAGE_BOX_INBOX:
-                mMsgListItem.setBackgroundResource(R.drawable.listitem_background_lightblue);
-                break;
-
-            case Mms.MESSAGE_BOX_DRAFTS:
-            case Sms.MESSAGE_TYPE_FAILED:
-            case Sms.MESSAGE_TYPE_QUEUED:
-            case Mms.MESSAGE_BOX_OUTBOX:
-                mMsgListItem.setBackgroundResource(R.drawable.listitem_background);
-                break;
-
-            default:
-                mMsgListItem.setBackgroundResource(R.drawable.listitem_background);
-                break;
         }
     }
 

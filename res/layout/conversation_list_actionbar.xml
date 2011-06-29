@@ -31,6 +31,7 @@
         android:layout_centerVertical="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="18pt"
+        android:paddingBottom="8dip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

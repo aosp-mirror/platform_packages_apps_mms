@@ -29,18 +29,7 @@
         android:visibility="gone"
         android:layout_marginLeft="7dip"
         android:layout_centerVertical="true"
-        style="?android:attr/quickContactBadgeStyleWindowSmall" />
-
-    <ImageView
-        android:id="@+id/presence"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="5dip"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:paddingBottom="20dip"
-         />
+        style="?android:attr/quickContactBadgeStyleWindowLarge" />
 
     <TextView android:id="@+id/from"
         android:layout_width="wrap_content"
@@ -49,10 +38,9 @@
         android:singleLine="true"
         android:layout_marginTop="6dip"
         android:layout_marginRight="5dip"
-        android:layout_marginLeft="7dip"
+        android:layout_marginLeft="10dip"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/avatar"
-        android:layout_toLeftOf="@id/presence"
         android:layout_alignWithParentIfMissing="true"
         android:ellipsize="marquee"  />
 
@@ -60,6 +48,7 @@
         android:layout_marginTop="2dip"
         android:layout_marginBottom="10dip"
         android:layout_marginLeft="5dip"
+        android:layout_marginRight="10dip"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -91,7 +80,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:singleLine="true"
         android:layout_marginBottom="10dip"
-        android:layout_marginLeft="7dip"
+        android:layout_marginLeft="10dip"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@id/avatar"
         android:layout_alignWithParentIfMissing="true"

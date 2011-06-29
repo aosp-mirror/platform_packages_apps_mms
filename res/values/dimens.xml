@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2011 Google Inc.
+All Rights Reserved. -->
+<resources>
+    <dimen name="send_button_top_margin_no_mms">7dip</dimen>
+    <dimen name="send_button_top_margin_with_mms">0dip</dimen>
+
+    <dimen name="message_item_avatar_on_right_text_indent">50dip</dimen>
+</resources>

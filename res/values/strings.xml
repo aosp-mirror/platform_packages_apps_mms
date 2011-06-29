@@ -774,13 +774,21 @@
     <string name="me">Me</string>
 
     <!-- Brief small label shown to right of message when it is being sent. -->
-    <string name="sending_message">Sending\u2026</string>
+    <string name="sending_message">SENDING\u2026</string>
 
     <!-- Title of progress dialog for picker -->
     <string name="pick_too_many_recipients">Too many recipients</string>
 
     <!-- Message of progress dialog for picker -->
     <string name="adding_recipients">Adding recipients\u2026</string>
+
+    <!-- In conversation list items, this is the separator between a contact's name
+         and the draft stamp [CHAR LIMIT=5] -->
+    <string name="draft_separator">,\u2002</string>
+
+    <!-- In conversation list items, this comes after the receipient's name and contains
+         the number of messages in the thread [CHAR LIMIT=5] -->
+    <string name="message_count_format">\u00a0(<xliff:g id="number" example="1">%1$s</xliff:g>)</string>
 
     <!-- For debugging: Dialog box title indicating there's a situation where data has unexpectedly
          changed -->

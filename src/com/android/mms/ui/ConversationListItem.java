@@ -51,7 +51,6 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
     private TextView mDateView;
     private View mAttachmentView;
     private View mErrorIndicator;
-    private ImageView mPresenceView;
     private QuickContactBadge mAvatarView;
 
     static private Drawable sDefaultContactImage;
@@ -85,17 +84,7 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
         mDateView = (TextView) findViewById(R.id.date);
         mAttachmentView = findViewById(R.id.attachment);
         mErrorIndicator = findViewById(R.id.error);
-        mPresenceView = (ImageView) findViewById(R.id.presence);
         mAvatarView = (QuickContactBadge) findViewById(R.id.avatar);
-    }
-
-    public void setPresenceIcon(int iconId) {
-        if (iconId == 0) {
-            mPresenceView.setVisibility(View.GONE);
-        } else {
-            mPresenceView.setImageResource(iconId);
-            mPresenceView.setVisibility(View.VISIBLE);
-        }
     }
 
     public ConversationListItemData getConversationHeader() {
@@ -115,24 +104,25 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
     }
 
     private CharSequence formatMessage(ConversationListItemData ch) {
-        final int size = android.R.style.TextAppearance_Small;
         final int color = android.R.styleable.Theme_textColorSecondary;
         String from = ch.getFrom();
 
         SpannableStringBuilder buf = new SpannableStringBuilder(from);
 
         if (ch.getMessageCount() > 1) {
-            buf.append(" (" + ch.getMessageCount() + ") ");
+           buf.append(mContext.getResources().getString(R.string.message_count_format,
+                   ch.getMessageCount()));
         }
-
-        int before = buf.length();
         if (ch.hasDraft()) {
-            buf.append(" ");
+            buf.append(mContext.getResources().getString(R.string.draft_separator));
+            int before = buf.length();
+            int size;
             buf.append(mContext.getResources().getString(R.string.has_draft));
+            size = android.R.style.TextAppearance_Small;
             buf.setSpan(new TextAppearanceSpan(mContext, size, color), before,
                     buf.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             buf.setSpan(new ForegroundColorSpan(
-                    mContext.getResources().getColor(R.drawable.text_color_red)),
+                    mContext.getResources().getColor(R.drawable.text_color_blue)),
                     before, buf.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         }
 
@@ -170,7 +160,6 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
         ConversationListItemData ch = mConversationHeader;
         ch.updateRecipients();
         mFromView.setText(formatMessage(ch));
-        setPresenceIcon(ch.getContacts().getPresenceResId());
         updateAvatarView();
     }
 
@@ -218,7 +207,6 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
 
         if (DEBUG) Log.v(TAG, "bind: contacts.addListeners " + this);
         Contact.addListener(this);
-        setPresenceIcon(contacts.getPresenceResId());
 
         // Subject
         mSubjectView.setText(ch.getSubject());

@@ -116,6 +116,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.CursorAdapter;
@@ -236,7 +237,7 @@ public class ComposeMessageActivity extends Activity
     private View mBottomPanel;              // View containing the text editor, send button, ec.
     private EditText mTextEditor;           // Text editor to type your message into
     private TextView mTextCounter;          // Shows the number of characters used in text editor
-    private Button mSendButton;             // Press to detonate
+    private EditText mSendButton;           // Press to detonate
     private EditText mSubjectTextEditor;    // Text editor for MMS subject
 
     private AttachmentEditor mAttachmentEditor;
@@ -2227,17 +2228,16 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void setSendButtonText(boolean isMms) {
-        Button sendButton = mSendButton;
-        sendButton.setText(R.string.send);
-
+        LayoutParams layout = (LayoutParams)mSendButton.getLayoutParams();
         if (isMms) {
-            // Create and append the "MMS" text in a smaller font than the "Send" text.
-            sendButton.append("\n");
-            SpannableString spannable = new SpannableString(getString(R.string.mms));
-            int mmsTextSize = (int) (sendButton.getTextSize() * 0.75f);
-            spannable.setSpan(new AbsoluteSizeSpan(mmsTextSize), 0, spannable.length(), 0);
-            sendButton.append(spannable);
+            mSendButton.setText(R.string.mms);
+            layout.topMargin =
+                getResources().getDimensionPixelOffset(R.dimen.send_button_top_margin_with_mms);
             mTextCounter.setText("");
+        } else {
+            layout.topMargin =
+                getResources().getDimensionPixelOffset(R.dimen.send_button_top_margin_no_mms);
+            mSendButton.setText(null);
         }
     }
 
@@ -3063,7 +3063,7 @@ public class ComposeMessageActivity extends Activity
         mTextEditor.setFilters(new InputFilter[] {
                 new LengthFilter(MmsConfig.getMaxTextLimit())});
         mTextCounter = (TextView) findViewById(R.id.text_counter);
-        mSendButton = (Button) findViewById(R.id.send_button);
+        mSendButton = (EditText) findViewById(R.id.send_button);
         mSendButton.setOnClickListener(this);
         mTopPanel = findViewById(R.id.recipients_subject_linear);
         mTopPanel.setFocusable(false);
