@@ -40,6 +40,7 @@
         <TextView android:id="@+id/title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMediumInverse"
             android:text="@string/undelivered_msg_dialog_title" />
     </LinearLayout>
 
@@ -53,7 +54,7 @@
         android:layout_height="wrap_content"
         android:padding="10dip"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmallInverse" />
 </LinearLayout>
 
 
