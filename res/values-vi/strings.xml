@@ -61,14 +61,14 @@
     <string name="drm_protected_text" msgid="1396394157870730742">"* văn bản được bảo vệ bởi DRM*"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Đã phát hiện không đủ quyền DRM."</string>
     <string name="copy_message_text" msgid="4640869459731924158">"Sao chép nội dung tin nhắn"</string>
-    <string name="message_options" msgid="6838806653341967550">"Tuỳ chọn tin nhắn"</string>
+    <string name="message_options" msgid="6838806653341967550">"Tùy chọn tin nhắn"</string>
     <string name="done" msgid="7479926268660505871">"Xong"</string>
     <string name="move_up" msgid="7307578107431739359">"Chuyển lên"</string>
     <string name="move_down" msgid="6356509518429479053">"Chuyển xuống"</string>
     <string name="remove_slide" msgid="2225604354024914900">"Xoá trang trình bày"</string>
     <string name="add_slide" msgid="9140721399423564187">"Thêm trang trình bày"</string>
     <string name="add_slide_hint" msgid="563319570849475501">"Chọn để tạo trang trình bày mới."</string>
-    <string name="discard_slideshow" msgid="5054239124146413609">"Huỷ trình chiếu"</string>
+    <string name="discard_slideshow" msgid="5054239124146413609">"Hủy trình chiếu"</string>
     <string name="slide_show_part" msgid="5077675385448696846">"Phần <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text" msgid="2164068850029476539">"Xoá văn bản"</string>
     <string name="add_picture" msgid="7819574884962571479">"Thêm ảnh"</string>
@@ -82,7 +82,7 @@
     <string name="subject_hint" msgid="4296714962311604126">"Chủ đề"</string>
     <string name="add_attachment" msgid="7103751293360532684">"Đính kèm"</string>
     <string name="add_subject" msgid="7616134948428265870">"Thêm chủ đề"</string>
-    <string name="discard" msgid="1624800293064498479">"Huỷ"</string>
+    <string name="discard" msgid="1624800293064498479">"Hủy"</string>
     <string name="view" msgid="7929667761715467136">"Xem"</string>
     <string name="replace" msgid="7587904998114459388">"Thay thế"</string>
     <string name="remove" msgid="4625444913256213175">"Xoá"</string>
@@ -102,12 +102,12 @@
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Ảnh chưa được sửa lại kích thước."</string>
     <string name="resize_image_error_information" msgid="4897031754321114959">"Rất tiếc, ngay cả khi được sửa lại kích thước, ảnh này vẫn quá lớn để có thể gửi."</string>
     <string name="forward_prefix" msgid="276280492803486464">"Đã được chuyển tiếp: "</string>
-    <string name="discard_message" msgid="6078326880056142781">"Huỷ"</string>
-    <string name="discard_message_reason" msgid="2667664943003796133">"Tin nhắn của bạn sẽ bị huỷ vì người nhận không hợp lệ."</string>
+    <string name="discard_message" msgid="6078326880056142781">"Hủy"</string>
+    <string name="discard_message_reason" msgid="2667664943003796133">"Tin nhắn của bạn sẽ bị hủy vì người nhận không hợp lệ."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Người nhận không hợp lệ: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"Bạn đã nhập địa chỉ không hợp lệ."</string>
-    <!-- no translation found for service_not_activated (9178218144019626176) -->
-    <skip />
+    <string name="invalid_destination" msgid="4573835601024786416">"Địa chỉ đích không hợp lệ."</string>
+    <string name="service_not_activated" msgid="9178218144019626176">"Dịch vụ không được kích hoạt trên mạng."</string>
+    <string name="service_message_not_found" msgid="1908877102600048515">"Tin nhắn đã hết hạn hoặc không có."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Vui lòng sửa người nhận nếu không họ sẽ không nhận được tin nhắn."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Không thể gửi tin nhắn này"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Tin nhắn của bạn có người nhận không hợp lệ."</string>
@@ -155,7 +155,7 @@
     <string name="menu_add_to_contacts" msgid="2978074583938544513">"Thêm vào Danh bạ"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"Địa chỉ người gửi bị ẩn"</string>
     <string name="yes" msgid="3246158147503160811">"OK"</string>
-    <string name="no" msgid="4289742508556913860">"Huỷ"</string>
+    <string name="no" msgid="4289742508556913860">"Hủy"</string>
     <string name="set" msgid="4642365398263275979">"Đặt"</string>
     <string name="play" msgid="1888432400937785115">"Phát"</string>
     <string name="edit" msgid="5912118407791492696">"Chỉnh sửa"</string>
@@ -342,9 +342,11 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Không có giới hạn"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Không thể gửi tin nhắn ngay bây giờ. Có quá nhiều tin nhắn đa phương tiện chưa được gửi."</string>
     <string name="me" msgid="341726346007839961">"Tôi"</string>
-    <string name="sending_message" msgid="222836893217450538">"Đang gửi…"</string>
+    <string name="sending_message" msgid="2054406576361149715">"ĐANG GỬI…"</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Quá nhiều người nhận"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Đang thêm người nhận…"</string>
+    <string name="draft_separator" msgid="1139278684673244431">","</string>
+    <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Trạng thái không đồng nhất"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Trạng thái chuỗi và người nhận không đồng nhất. Vui lòng tạo báo cáo lỗi và gửi tới android-sms-bugs@google.com"</string>
 </resources>

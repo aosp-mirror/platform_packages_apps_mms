@@ -105,9 +105,9 @@
     <string name="discard_message" msgid="6078326880056142781">"Atmesti"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Pranešimas bus atmestas, nes nėra tinkamų jo gavėjų."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Neteisingas (-i) gavėjas (-i): &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"Įvedėte neteisingą adresą."</string>
-    <!-- no translation found for service_not_activated (9178218144019626176) -->
-    <skip />
+    <string name="invalid_destination" msgid="4573835601024786416">"Netinkamas paskirties vietos adresas."</string>
+    <string name="service_not_activated" msgid="9178218144019626176">"Paslauga nesuaktyvinta tinkle."</string>
+    <string name="service_message_not_found" msgid="1908877102600048515">"Pranešimo galiojimo laikas pasibaigęs arba jis nepasiekiamas."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Ištaisykite gavėją (-us), nes jis (jie) negaus pranešimo."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Neįmanoma siųsti šio pranešimo"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Nėra teisingų pranešimo gavėjų."</string>
@@ -342,9 +342,11 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Nėra apribojimų"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Dabar pranešimo siųsti negalima. Yra per daug neišsiųstų daugialypės terpės pranešimų."</string>
     <string name="me" msgid="341726346007839961">"Aš"</string>
-    <string name="sending_message" msgid="222836893217450538">"Siunčiama…"</string>
+    <string name="sending_message" msgid="2054406576361149715">"SIUNČIAMA..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Per daug gavėjų"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Pridedama gavėjų..."</string>
+    <string name="draft_separator" msgid="1139278684673244431">","</string>
+    <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Nepastovi būsena"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Gijų ir gavėjų būsena nepastovi. Užfiksuokite trikties ataskaitą ir išsiųskite ją šiuo adresu: android-sms-bugs@google.com"</string>
 </resources>

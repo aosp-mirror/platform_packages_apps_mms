@@ -105,9 +105,9 @@
     <string name="discard_message" msgid="6078326880056142781">"Renunţaţi"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Mesajul dvs. va fi eliminat deoarece destinatarii săi nu sunt valizi."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Destinatar nevalid: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"Adresa introdusă nu este validă."</string>
-    <!-- no translation found for service_not_activated (9178218144019626176) -->
-    <skip />
+    <string name="invalid_destination" msgid="4573835601024786416">"Adresă de destinaţie nevalidă."</string>
+    <string name="service_not_activated" msgid="9178218144019626176">"Serviciul nu este activat în reţea."</string>
+    <string name="service_message_not_found" msgid="1908877102600048515">"Mesajul a expirat sau nu este disponibil."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Corectaţi destinatarul (destinatarii), altfel nu va (vor) primi mesajul."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Acest mesaj nu poate fi trimis"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Mesajul dvs. nu are un destinatar valid."</string>
@@ -342,9 +342,11 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Fără limite"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Mesajul nu poate fi trimis chiar acum. Există prea multe mesaje multimedia netransmise."</string>
     <string name="me" msgid="341726346007839961">"Eu"</string>
-    <string name="sending_message" msgid="222836893217450538">"Se trimite..."</string>
+    <string name="sending_message" msgid="2054406576361149715">"SE TRIMITE..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Prea mulţi destinatari"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Se adaugă destinatari..."</string>
+    <string name="draft_separator" msgid="1139278684673244431">","</string>
+    <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Stare necorespunzătoare"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Starea şirurilor şi a destinatarilor este necorespunzătoare. Executaţi un raport despre erori şi trimiteţi-l la android-sms-bugs@google.com"</string>
 </resources>

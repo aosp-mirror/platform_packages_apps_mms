@@ -110,6 +110,8 @@
     <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"Vus avais endatà ina adressa nunvalida."</string>
     <!-- no translation found for service_not_activated (9178218144019626176) -->
     <skip />
+    <!-- no translation found for service_message_not_found (1908877102600048515) -->
+    <skip />
     <string name="invalid_recipient_message" msgid="7315539322634238519">"\"Curregi il(s) num(s) da destinaturs, autramain na pon els betg retschaiver il messadi.\""</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Impussibel da trametter quest messadi"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Nagin destinatur valid è vegnì specifitgà per Voss messadi."</string>
@@ -343,9 +345,13 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Nagina limita"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Impussibel dad ussa trametter il messadi. Memia blers messadis multimedia betg tramess èn avant maun."</string>
     <string name="me" msgid="341726346007839961">"Jau"</string>
-    <string name="sending_message" msgid="222836893217450538">"Vegn tramess…"</string>
+    <!-- outdated translation 222836893217450538 -->     <string name="sending_message" msgid="2054406576361149715">"Vegn tramess…"</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Memia blers destinaturs"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Agiuntar destinaturs..."</string>
+    <!-- no translation found for draft_separator (1139278684673244431) -->
+    <skip />
+    <!-- no translation found for message_count_format (5940019155326371766) -->
+    <skip />
     <!-- no translation found for error_state (5177386717626893507) -->
     <skip />
     <!-- no translation found for error_state_text (5006221625000536698) -->

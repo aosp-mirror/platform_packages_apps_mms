@@ -105,9 +105,9 @@
     <string name="discard_message" msgid="6078326880056142781">"Zavrzi"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Sporočilo bo zavrženo, ker ni veljavnih prejemnikov."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Neveljavni prejemniki: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"Vnesli ste neveljaven naslov."</string>
-    <!-- no translation found for service_not_activated (9178218144019626176) -->
-    <skip />
+    <string name="invalid_destination" msgid="4573835601024786416">"Neveljaven ciljni naslov."</string>
+    <string name="service_not_activated" msgid="9178218144019626176">"Storitev ni aktivirana v omrežju."</string>
+    <string name="service_message_not_found" msgid="1908877102600048515">"Sporočilo je poteklo ali ni na voljo."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Popravite prejemnike, sicer sporočila ne bodo prejeli."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Tega sporočila ni mogoče poslati"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Sporočilo nima veljavnih prejemnikov."</string>
@@ -342,9 +342,11 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Brez omejitev"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Trenutno sporočila ni mogoče poslati. Obstaja preveč neposlanih večpredstavnih sporočil."</string>
     <string name="me" msgid="341726346007839961">"Jaz"</string>
-    <string name="sending_message" msgid="222836893217450538">"Pošiljanje…"</string>
+    <string name="sending_message" msgid="2054406576361149715">"POŠILJANJE ..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Preveč prejemnikov"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Dodajanje prejemnikov ..."</string>
+    <string name="draft_separator" msgid="1139278684673244431">","</string>
+    <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Nedosledno stanje"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Stanje niti in prejemnikov ni enako. Zajemite poročilo o napaki in ga pošljite na android-sms-bugs@google.com."</string>
 </resources>

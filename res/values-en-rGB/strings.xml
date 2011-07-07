@@ -106,8 +106,8 @@
     <string name="discard_message_reason" msgid="2667664943003796133">"Your message will be discarded because it has no valid recipients."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Invalid recipient(s): &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"Invalid destination address."</string>
-    <!-- no translation found for service_not_activated (9178218144019626176) -->
-    <skip />
+    <string name="service_not_activated" msgid="9178218144019626176">"Service not activated on network."</string>
+    <string name="service_message_not_found" msgid="1908877102600048515">"Message expired or not available."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Please correct the recipient(s) or they will not receive the message."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Cannot send this message"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Your message has no valid recipients."</string>
@@ -342,9 +342,11 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"No limits"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Can\'t send message right now. There are too many unsent multimedia messages."</string>
     <string name="me" msgid="341726346007839961">"Me"</string>
-    <string name="sending_message" msgid="222836893217450538">"Sending…"</string>
+    <string name="sending_message" msgid="2054406576361149715">"SENDING..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Too many recipients"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Adding recipients…"</string>
+    <string name="draft_separator" msgid="1139278684673244431">","</string>
+    <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Inconsistent state"</string>
     <string name="error_state_text" msgid="5006221625000536698">"The state of threads and recipients is inconsistent. Please capture a bug report and send it to android-sms-bugs@google.com"</string>
 </resources>

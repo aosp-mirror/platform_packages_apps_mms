@@ -65,18 +65,18 @@
     <string name="done" msgid="7479926268660505871">"Finalizado"</string>
     <string name="move_up" msgid="7307578107431739359">"Mover arriba"</string>
     <string name="move_down" msgid="6356509518429479053">"Mover abajo"</string>
-    <string name="remove_slide" msgid="2225604354024914900">"Suprimir diapositiva"</string>
+    <string name="remove_slide" msgid="2225604354024914900">"Eliminar diapositiva"</string>
     <string name="add_slide" msgid="9140721399423564187">"Agregar diapositiva"</string>
     <string name="add_slide_hint" msgid="563319570849475501">"Selecciona para crear una diapositiva nueva."</string>
     <string name="discard_slideshow" msgid="5054239124146413609">"Rechazar presentación de diapositivas"</string>
     <string name="slide_show_part" msgid="5077675385448696846">"Parte <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
-    <string name="remove_text" msgid="2164068850029476539">"Suprimir texto"</string>
+    <string name="remove_text" msgid="2164068850029476539">"Eliminar texto"</string>
     <string name="add_picture" msgid="7819574884962571479">"Agregar imagen"</string>
-    <string name="remove_picture" msgid="6378701749074289096">"Suprimir imagen"</string>
+    <string name="remove_picture" msgid="6378701749074289096">"Eliminar imagen"</string>
     <string name="add_music" msgid="3827442822987116233">"Agregar música"</string>
     <string name="remove_music" msgid="858889733416015223">"Roaming de recup. Auto."</string>
     <string name="add_video" msgid="7816866867806595144">"Agregar video"</string>
-    <string name="remove_video" msgid="5258603891528497799">"Suprimir video"</string>
+    <string name="remove_video" msgid="5258603891528497799">"Eliminar video"</string>
     <string name="compose_title" msgid="558578836596816068">"Redactar"</string>
     <string name="to_hint" msgid="224029549150332986">"Para"</string>
     <string name="subject_hint" msgid="4296714962311604126">"Asunto"</string>
@@ -105,9 +105,9 @@
     <string name="discard_message" msgid="6078326880056142781">"Descartar"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Tu mensaje se rechazará por no tener destinatarios válidos."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Destinatario(s) no válido(s): &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"La dirección ingresada no es válida."</string>
-    <!-- no translation found for service_not_activated (9178218144019626176) -->
-    <skip />
+    <string name="invalid_destination" msgid="4573835601024786416">"Dirección de destino no válida"</string>
+    <string name="service_not_activated" msgid="9178218144019626176">"No se activó el servicio en la red."</string>
+    <string name="service_message_not_found" msgid="1908877102600048515">"El mensaje ha caducado o no está disponible."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Corrige el/los destinatario(s) o no recibirá(n) el mensaje."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"No es posible enviar este mensaje"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Tu mensaje no tiene destinatarios válidos."</string>
@@ -342,9 +342,11 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Sin límites"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"No se puede enviar el mensaje en este momento. Hay demasiados mensajes multimedia sin enviar."</string>
     <string name="me" msgid="341726346007839961">"Yo"</string>
-    <string name="sending_message" msgid="222836893217450538">"Enviando…"</string>
+    <string name="sending_message" msgid="2054406576361149715">"ENVIANDO…"</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Demasiados destinatarios"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Agregando destinatarios..."</string>
+    <string name="draft_separator" msgid="1139278684673244431">","</string>
+    <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Estado inconsistente"</string>
     <string name="error_state_text" msgid="5006221625000536698">"El estado de cadenas y destinatarios es inconsistente. Genera un informe de error y envíalo a android-sms-bugs@google.com"</string>
 </resources>

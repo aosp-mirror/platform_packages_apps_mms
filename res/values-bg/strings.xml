@@ -105,9 +105,9 @@
     <string name="discard_message" msgid="6078326880056142781">"Отхвърляне"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Съобщението ви ще бъде отхвърлено, тъй като няма валидни получатели."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Невалиден получател или съответно получатели: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"Въведохте невалиден имейл адрес."</string>
-    <!-- no translation found for service_not_activated (9178218144019626176) -->
-    <skip />
+    <string name="invalid_destination" msgid="4573835601024786416">"Невалиден адрес на местоназначението."</string>
+    <string name="service_not_activated" msgid="9178218144019626176">"Услугата не е активирана в мрежата."</string>
+    <string name="service_message_not_found" msgid="1908877102600048515">"Съобщението е с изтекъл срок или не е налице."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Моля, коригирайте получателя или съответно получителите или те няма да получат съобщението."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Това съобщение не може да бъде изпратено"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Съобщението ви няма валидни получатели."</string>
@@ -342,9 +342,11 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Няма ограничения"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Съобщението не може да бъде изпратено сега. Има твърде много неизпратени мултимедийни съобщения."</string>
     <string name="me" msgid="341726346007839961">"Аз"</string>
-    <string name="sending_message" msgid="222836893217450538">"Изпраща се…"</string>
+    <string name="sending_message" msgid="2054406576361149715">"ИЗПРАЩА СЕ..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Твърде много получатели"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Получателите се добавят..."</string>
+    <string name="draft_separator" msgid="1139278684673244431">","</string>
+    <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Нееднородно състояние"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Състоянието на нишките и получателите е нееднородно. Моля, създайте сигнал за програмен дефект и го изпратете до android-sms-bugs@google.com"</string>
 </resources>

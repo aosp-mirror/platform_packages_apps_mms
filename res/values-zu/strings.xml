@@ -174,6 +174,8 @@
     <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"Ufake ikheli elingavumelekile."</string>
     <!-- no translation found for service_not_activated (9178218144019626176) -->
     <skip />
+    <!-- no translation found for service_message_not_found (1908877102600048515) -->
+    <skip />
     <!-- no translation found for invalid_recipient_message (7315539322634238519) -->
     <skip />
     <!-- no translation found for cannot_send_message (3918913277571649400) -->
@@ -506,9 +508,13 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Ayikho imikhawulo"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Ayikwazi ukuthumela umyalezo okwamanje. Kunemiyalezo eminingi kakhulu yoxhumano oluxubile engathunyelwanga."</string>
     <string name="me" msgid="341726346007839961">"Mina"</string>
-    <string name="sending_message" msgid="222836893217450538">"Iyathumela..."</string>
+    <!-- outdated translation 222836893217450538 -->     <string name="sending_message" msgid="2054406576361149715">"Iyathumela..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Kunabamukeli abaningi kakhulu"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Yengeza abamukeli..."</string>
+    <!-- no translation found for draft_separator (1139278684673244431) -->
+    <skip />
+    <!-- no translation found for message_count_format (5940019155326371766) -->
+    <skip />
     <string name="error_state" msgid="5177386717626893507">"Isimo esiguqukayo"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Isimo sendikimba nabamukeli siyaguquguquka. Sicela wenze umbiko wephutha bese uthumela ku android-sms-bugs@google.com"</string>
 </resources>

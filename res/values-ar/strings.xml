@@ -105,9 +105,9 @@
     <string name="discard_message" msgid="6078326880056142781">"إلغاء"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"سيتم إلغاء الرسالة لأنها لا تحتوي على أية مستلمين صالحين."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"المستلمون غير الصالحون: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"لقد أدخلت عنوانًا غير صالح."</string>
-    <!-- no translation found for service_not_activated (9178218144019626176) -->
-    <skip />
+    <string name="invalid_destination" msgid="4573835601024786416">"عنوان الوجهة غير صالح."</string>
+    <string name="service_not_activated" msgid="9178218144019626176">"لم يتم تنشيط الخدمة على الشبكة."</string>
+    <string name="service_message_not_found" msgid="1908877102600048515">"الرسالة غير متاحة أو انتهت صلاحيتها."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"الرجاء تصحيح المستلمين وإلا فلن يتلقوا الرسالة."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"لا يمكن إرسال هذه الرسالة"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"لا تشتمل رسالتك على مستلمين صالحين."</string>
@@ -342,9 +342,11 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"لا حدود"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"لا يمكن إرسال الرسالة الآن. هناك رسائل وسائط متعددة كثيرة للغاية لم يتم إرسالها."</string>
     <string name="me" msgid="341726346007839961">"أنا"</string>
-    <string name="sending_message" msgid="222836893217450538">"جارٍ الإرسال…"</string>
+    <string name="sending_message" msgid="2054406576361149715">"جارٍ الإرسال..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"مستلمون كثيرون جدًا"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"جارٍ إضافة مستلمين…"</string>
+    <string name="draft_separator" msgid="1139278684673244431">"،"</string>
+    <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"حالة غير متسقة"</string>
     <string name="error_state_text" msgid="5006221625000536698">"حالة سلاسل المحادثات والمستلمين غير متسقة. الرجاء إعداد تقرير للإبلاغ عن خلل وإرساله إلى android-sms-bugs@google.com"</string>
 </resources>

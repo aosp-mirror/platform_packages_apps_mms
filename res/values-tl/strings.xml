@@ -105,9 +105,9 @@
     <string name="discard_message" msgid="6078326880056142781">"Itapon"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Itatapon ang iyong mensahe dahil wala itong mga wastong recipient."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"(Mga) di-wastong recipient: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <!-- outdated translation 7643854177921895615 -->     <string name="invalid_destination" msgid="4573835601024786416">"Nagpasok ka ng di-wastong address."</string>
-    <!-- no translation found for service_not_activated (9178218144019626176) -->
-    <skip />
+    <string name="invalid_destination" msgid="4573835601024786416">"Di-wastong address ng destinasyon."</string>
+    <string name="service_not_activated" msgid="9178218144019626176">"Hindi naka-activate ang serbisyo sa network."</string>
+    <string name="service_message_not_found" msgid="1908877102600048515">"Nag-expire o hindi available ang mensahe."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Pakitama ang (mga) recipient o hindi nila matatanggap ang mensahe."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Hindi maipapadala ang mensaheng ito"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Walang mga wastong recipient ang iyong mensahe."</string>
@@ -342,9 +342,11 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Walang mga limitasyon"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Hindi maaaring magpadala ng mensahe ngayon. May masyadong maraming hindi naipadalang mutimedia na mensahe."</string>
     <string name="me" msgid="341726346007839961">"Ako"</string>
-    <string name="sending_message" msgid="222836893217450538">"Nagpapadala…"</string>
+    <string name="sending_message" msgid="2054406576361149715">"Ipinapadala..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Masyadong maraming recipient"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Nagdaragdag ng mga recipient..."</string>
+    <string name="draft_separator" msgid="1139278684673244431">","</string>
+    <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Paiba-ibang estado"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Ang estado ng mga thread at mga recipient ay paiba-iba. Paki-capture ang ulat ng bug at ipadala ito sa android-sms-bugs@google.com"</string>
 </resources>
