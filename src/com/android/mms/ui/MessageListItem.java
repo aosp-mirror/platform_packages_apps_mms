@@ -25,6 +25,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -48,6 +49,7 @@ import android.text.style.StyleSpan;
 import android.text.style.TextAppearanceSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -102,6 +104,9 @@ public class MessageListItem extends LinearLayout implements
     private String mDefaultCountryIso;
     private TextView mDateView;
     private LinearLayout mStatusIcons;
+    private Drawable mLeftDivitDrawable;
+    private Drawable mRightDivitDrawable;
+    private View mDivit;        // little triangle on the side of the avatar
 
     public MessageListItem(Context context) {
         super(context);
@@ -128,6 +133,11 @@ public class MessageListItem extends LinearLayout implements
         mDetailsIndicator = (ImageView) findViewById(R.id.details_indicator);
         mAvatar = (QuickContactBadge) findViewById(R.id.avatar);
         mStatusIcons = (LinearLayout) findViewById(R.id.status_icons);
+
+        mDivit = findViewById(R.id.divit);
+        float density = mContext.getResources().getDisplayMetrics().density;
+        mLeftDivitDrawable = new DivitDrawable(DivitDrawable.LEFT_UPPER, density);
+        mRightDivitDrawable = new DivitDrawable(DivitDrawable.RIGHT_UPPER, density);
     }
 
     public void bind(MessageListAdapter.AvatarCache avatarCache, MessageItem msgItem) {
@@ -286,6 +296,14 @@ public class MessageListItem extends LinearLayout implements
             (RelativeLayout.LayoutParams)mDateView.getLayoutParams();
         RelativeLayout.LayoutParams statusIconsLayout =
             (RelativeLayout.LayoutParams)mStatusIcons.getLayoutParams();
+        RelativeLayout.LayoutParams divitLayout =
+            (RelativeLayout.LayoutParams)mDivit.getLayoutParams();
+
+        Resources resources = mContext.getResources();
+        int textPaddingLeftRight = resources.getDimensionPixelOffset(
+                R.dimen.message_item_text_padding_left_right);
+        int textPaddingTop = resources.getDimensionPixelOffset(
+                R.dimen.message_item_text_padding_top);
 
         if (msgItem.mBoxId == Mms.MESSAGE_BOX_INBOX) {
             // Avatar on left, text adjusted left
@@ -295,6 +313,7 @@ public class MessageListItem extends LinearLayout implements
             avatarLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
             statusIconsLayout.addRule(RelativeLayout.LEFT_OF, 0);
             dateLayout.addRule(RelativeLayout.LEFT_OF, 0);
+            divitLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
 
             // set the new rules
             avatarLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -303,10 +322,15 @@ public class MessageListItem extends LinearLayout implements
             dateLayout.addRule(RelativeLayout.RIGHT_OF, R.id.avatar);
             statusIconsLayout.addRule(RelativeLayout.RIGHT_OF, R.id.date_view);
 
-            mBodyTextView.setPadding(0, 6, 0, 3);
+            mBodyTextView.setPadding(textPaddingLeftRight,
+                    textPaddingTop,
+                    textPaddingLeftRight,
+                    0);
             mBodyTextView.setGravity(Gravity.LEFT);
-            avatarLayout.rightMargin = 5;
-            avatarLayout.leftMargin = 0;
+            mDateView.setPadding(textPaddingLeftRight, 0, 0, 0);
+
+            mDivit.setBackgroundDrawable(mRightDivitDrawable);
+            divitLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         } else {
             // Avatar on right, text adjusted right
             // undo the old rules first
@@ -315,6 +339,7 @@ public class MessageListItem extends LinearLayout implements
             textLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
             dateLayout.addRule(RelativeLayout.RIGHT_OF, 0);
             statusIconsLayout.addRule(RelativeLayout.RIGHT_OF, 0);
+            divitLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
 
             // set the new rules
             textLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -323,12 +348,16 @@ public class MessageListItem extends LinearLayout implements
             statusIconsLayout.addRule(RelativeLayout.LEFT_OF, R.id.date_view);
             dateLayout.addRule(RelativeLayout.LEFT_OF, R.id.avatar);
 
-            mBodyTextView.setPadding(mContext.getResources()
+            mBodyTextView.setPadding(resources
                     .getDimensionPixelOffset(R.dimen.message_item_avatar_on_right_text_indent),
-                        6, 10, 3);
+                        textPaddingTop,
+                        textPaddingLeftRight,
+                        0);
             mBodyTextView.setGravity(Gravity.RIGHT);
-            avatarLayout.rightMargin = 0;
-            avatarLayout.leftMargin = 5;
+            mDateView.setPadding(0, 0, textPaddingLeftRight, 0);
+
+            mDivit.setBackgroundDrawable(mLeftDivitDrawable);
+            divitLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         }
     }
 
