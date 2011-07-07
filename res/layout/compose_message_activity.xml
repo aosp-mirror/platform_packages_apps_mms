@@ -21,7 +21,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/white_background"
+    android:background="@color/list_background"
     android:orientation="vertical">
 
     <LinearLayout
@@ -69,14 +69,14 @@
             android:listSelector="@drawable/chat_history_selector"
             android:drawSelectorOnTop="true"
             android:transcriptMode="alwaysScroll"
-            android:scrollbarAlwaysDrawVerticalTrack="true"
-            android:scrollbarStyle="insideInset"
             android:smoothScrollbar="false"
             android:stackFromBottom="true"
             android:visibility="gone"
             android:fadingEdge="none"
             android:layout_marginBottom="1dip"
             android:cacheColorHint="@android:color/white"
+            android:scrollbarAlwaysDrawVerticalTrack="false"
+            android:scrollbarStyle="insideOverlay"
         />
 
         <LinearLayout
