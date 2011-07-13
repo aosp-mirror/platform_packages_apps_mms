@@ -150,6 +150,12 @@ public class RetrieveTransaction extends Transaction implements Runnable {
                 PduPersister persister = PduPersister.getPduPersister(mContext);
                 msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI);
 
+                // Use local time instead of PDU time
+                ContentValues values = new ContentValues(1);
+                values.put(Mms.DATE, System.currentTimeMillis() / 1000L);
+                SqliteWrapper.update(mContext, mContext.getContentResolver(),
+                        msgUri, values, null, null);
+
                 // The M-Retrieve.conf has been successfully downloaded.
                 mTransactionState.setState(TransactionState.SUCCESS);
                 mTransactionState.setContentUri(msgUri);
