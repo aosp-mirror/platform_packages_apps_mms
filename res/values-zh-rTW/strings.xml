@@ -27,7 +27,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"傳送電子郵件給 <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"撰寫"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"設定"</string>
-    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"新增 <xliff:g id="NAME">%s</xliff:g> 至 [聯絡人]"</string>
+    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"將「<xliff:g id="NAME">%s</xliff:g>」加到通訊錄"</string>
     <string name="menu_call" msgid="5877123227307074690">"撥打"</string>
     <string name="menu_search" msgid="2289469305728821360">"搜尋"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"刪除所有訊息串"</string>
@@ -152,7 +152,7 @@
     <item msgid="6238597861937337981">"其他..."</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"檢視聯絡人"</string>
-    <string name="menu_add_to_contacts" msgid="2978074583938544513">"新增至 [聯絡人]"</string>
+    <string name="menu_add_to_contacts" msgid="2978074583938544513">"新增至通訊錄"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"隱藏寄件者地址"</string>
     <string name="yes" msgid="3246158147503160811">"確定"</string>
     <string name="no" msgid="4289742508556913860">"取消"</string>

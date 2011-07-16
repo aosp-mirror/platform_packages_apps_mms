@@ -39,7 +39,7 @@
     <string name="broadcast_from_to" msgid="2050376286109362539">"由<xliff:g id="SENDER">%1$s</xliff:g>发送给<xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
     <string name="anonymous_recipient" msgid="2501437626187039034">"匿名"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"（无主题）"</string>
-    <string name="messagelist_sender_self" msgid="3579016854116401602">"本机号码"</string>
+    <string name="messagelist_sender_self" msgid="3579016854116401602">"我"</string>
     <string name="view_picture" msgid="4356315935277709195">"查看照片"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"观看幻灯片演示"</string>
     <string name="view_message_details" msgid="2443165773568096234">"查看短信详情"</string>
@@ -341,7 +341,7 @@
     <string name="storage_limits_setting" msgid="4952781049308537373">"设置限制"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"无限制"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"目前不能发送消息。未发送的彩信过多。"</string>
-    <string name="me" msgid="341726346007839961">"本机号码"</string>
+    <string name="me" msgid="341726346007839961">"我"</string>
     <string name="sending_message" msgid="2054406576361149715">"正在发送..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"收件人过多"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"正在添加收件人..."</string>
