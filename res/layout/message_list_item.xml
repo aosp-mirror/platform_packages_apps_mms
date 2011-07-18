@@ -58,8 +58,9 @@
                 android:id="@+id/avatar"
                 style="?android:attr/quickContactBadgeStyleWindowSmall" />
 
-            <View
+            <view class="com.android.mms.ui.ImageViewDivot"
                 android:id="@+id/divit"
+                position="right_upper"
                 android:layout_alignParentLeft="true"
                 android:layout_width="80dip"
                 android:layout_height="80dip" />

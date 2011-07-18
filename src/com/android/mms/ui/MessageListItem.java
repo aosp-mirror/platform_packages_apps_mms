@@ -104,9 +104,7 @@ public class MessageListItem extends LinearLayout implements
     private String mDefaultCountryIso;
     private TextView mDateView;
     private LinearLayout mStatusIcons;
-    private Drawable mLeftDivitDrawable;
-    private Drawable mRightDivitDrawable;
-    private View mDivit;        // little triangle on the side of the avatar
+    private ImageViewDivot mDivit;        // little triangle on the side of the avatar
 
     public MessageListItem(Context context) {
         super(context);
@@ -133,11 +131,7 @@ public class MessageListItem extends LinearLayout implements
         mDetailsIndicator = (ImageView) findViewById(R.id.details_indicator);
         mAvatar = (QuickContactBadge) findViewById(R.id.avatar);
         mStatusIcons = (LinearLayout) findViewById(R.id.status_icons);
-
-        mDivit = findViewById(R.id.divit);
-        float density = mContext.getResources().getDisplayMetrics().density;
-        mLeftDivitDrawable = new DivitDrawable(DivitDrawable.LEFT_UPPER, density);
-        mRightDivitDrawable = new DivitDrawable(DivitDrawable.RIGHT_UPPER, density);
+        mDivit = (ImageViewDivot) findViewById(R.id.divit);
     }
 
     public void bind(MessageListAdapter.AvatarCache avatarCache, MessageItem msgItem) {
@@ -329,7 +323,7 @@ public class MessageListItem extends LinearLayout implements
             mBodyTextView.setGravity(Gravity.LEFT);
             mDateView.setPadding(textPaddingLeftRight, 0, 0, 0);
 
-            mDivit.setBackgroundDrawable(mRightDivitDrawable);
+            mDivit.setPosition(ImageViewDivot.RIGHT_UPPER);
             divitLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         } else {
             // Avatar on right, text adjusted right
@@ -353,10 +347,10 @@ public class MessageListItem extends LinearLayout implements
                         textPaddingTop,
                         textPaddingLeftRight,
                         0);
-            mBodyTextView.setGravity(Gravity.RIGHT);
+            mBodyTextView.setGravity(Gravity.LEFT);
             mDateView.setPadding(0, 0, textPaddingLeftRight, 0);
 
-            mDivit.setBackgroundDrawable(mLeftDivitDrawable);
+            mDivit.setPosition(ImageViewDivot.LEFT_UPPER);
             divitLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         }
     }
