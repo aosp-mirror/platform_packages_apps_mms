@@ -39,7 +39,6 @@ import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
 import android.text.Html;
-import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -49,7 +48,6 @@ import android.text.style.StyleSpan;
 import android.text.style.TextAppearanceSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -66,6 +64,7 @@ import android.widget.TextView;
 
 import com.android.mms.MmsApp;
 import com.android.mms.R;
+import com.android.mms.data.Contact;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.transaction.Transaction;
 import com.android.mms.transaction.TransactionBundle;
@@ -88,7 +87,6 @@ public class MessageListItem extends LinearLayout implements
     static final int MSG_LIST_EDIT_MMS   = 1;
     static final int MSG_LIST_EDIT_SMS   = 2;
 
-    private View mMsgListItem;
     private View mMmsView;
     private ImageView mImageView;
     private ImageView mLockedIndicator;
@@ -105,10 +103,15 @@ public class MessageListItem extends LinearLayout implements
     private TextView mDateView;
     private LinearLayout mStatusIcons;
     private ImageViewDivot mDivit;        // little triangle on the side of the avatar
+    static private Drawable sDefaultContactImage;
 
     public MessageListItem(Context context) {
         super(context);
         mDefaultCountryIso = MmsApp.getApplication().getCurrentCountryIso();
+
+        if (sDefaultContactImage == null) {
+            sDefaultContactImage = context.getResources().getDrawable(R.drawable.ic_contact_picture);
+        }
     }
 
     public MessageListItem(Context context, AttributeSet attrs) {
@@ -117,13 +120,16 @@ public class MessageListItem extends LinearLayout implements
         int color = mContext.getResources().getColor(R.color.timestamp_color);
         mColorSpan = new ForegroundColorSpan(color);
         mDefaultCountryIso = MmsApp.getApplication().getCurrentCountryIso();
+
+        if (sDefaultContactImage == null) {
+            sDefaultContactImage = context.getResources().getDrawable(R.drawable.ic_contact_picture);
+        }
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        mMsgListItem = findViewById(R.id.msg_list_item);
         mBodyTextView = (TextView) findViewById(R.id.text_view);
         mDateView = (TextView) findViewById(R.id.date_view);
         mLockedIndicator = (ImageView) findViewById(R.id.locked_indicator);
@@ -134,7 +140,7 @@ public class MessageListItem extends LinearLayout implements
         mDivit = (ImageViewDivot) findViewById(R.id.divit);
     }
 
-    public void bind(MessageListAdapter.AvatarCache avatarCache, MessageItem msgItem) {
+    public void bind(MessageItem msgItem) {
         mMessageItem = msgItem;
 
         setLongClickable(false);
@@ -144,7 +150,7 @@ public class MessageListItem extends LinearLayout implements
                 bindNotifInd(msgItem);
                 break;
             default:
-                bindCommonMessage(avatarCache, msgItem);
+                bindCommonMessage(msgItem);
                 break;
         }
     }
@@ -204,8 +210,24 @@ public class MessageListItem extends LinearLayout implements
         mDetailsIndicator.setVisibility(View.GONE);
     }
 
-    private void bindCommonMessage(final MessageListAdapter.AvatarCache avatarCache,
-            final MessageItem msgItem) {
+    private void updateAvatarView(String addr) {
+        Drawable avatarDrawable;
+        if (!TextUtils.isEmpty(addr)) {
+            Contact contact = Contact.get(addr, false);
+            avatarDrawable = contact.getAvatar(mContext, sDefaultContactImage);
+
+            if (contact.existsInDatabase()) {
+                mAvatar.assignContactUri(contact.getUri());
+            } else {
+                mAvatar.assignContactFromPhone(contact.getNumber(), true);
+            }
+        } else {
+            avatarDrawable = sDefaultContactImage;
+        }
+        mAvatar.setImageDrawable(avatarDrawable);
+    }
+
+    private void bindCommonMessage(final MessageItem msgItem) {
         if (mDownloadButton != null) {
             mDownloadButton.setVisibility(View.GONE);
             mDownloadingLabel.setVisibility(View.GONE);
@@ -221,22 +243,7 @@ public class MessageListItem extends LinearLayout implements
         } else {
             addr = MmsApp.getApplication().getTelephonyManager().getLine1Number();
         }
-        if (!TextUtils.isEmpty(addr)) {
-            MessageListAdapter.AvatarCache.ContactData contactData = avatarCache.get(addr);
-            mAvatar.setImageDrawable(contactData.getAvatar());
-            Uri contactUri = contactData.getContactUri();
-            // Since we load the contact info in the background, on the first screenfull of
-            // messages, it's likely we haven't loaded the contact URI info yet. In that case,
-            // fall back and use the phone number.
-            if (contactUri != null) {
-                mAvatar.assignContactUri(contactUri);
-            } else {
-                mAvatar.assignContactFromPhone(addr, true);
-            }
-        } else {
-            mAvatar.setImageToDefault();
-            mAvatar.assignContactUri(null);
-        }
+        updateAvatarView(addr);
 
         // Get and/or lazily set the formatted message from/on the
         // MessageItem.  Because the MessageItem instances come from a

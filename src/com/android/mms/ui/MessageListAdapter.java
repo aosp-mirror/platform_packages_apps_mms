@@ -17,23 +17,10 @@
 
 package com.android.mms.ui;
 
-import android.content.AsyncQueryHandler;
-import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Handler;
 import android.provider.BaseColumns;
-import android.provider.ContactsContract.CommonDataKinds.Email;
-import android.provider.ContactsContract.CommonDataKinds.Photo;
-import android.provider.ContactsContract.Contacts;
-import android.provider.ContactsContract.Data;
-import android.provider.ContactsContract.PhoneLookup;
-import android.provider.ContactsContract.RawContacts;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.MmsSms.PendingMessages;
@@ -58,8 +45,7 @@ import java.util.regex.Pattern;
  */
 public class MessageListAdapter extends CursorAdapter {
     private static final String TAG = "MessageListAdapter";
-    private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = false && DEBUG;
+    private static final boolean LOCAL_LOGV = false;
 
     static final String[] PROJECTION = new String[] {
         // TODO: should move this symbol into com.android.mms.telephony.Telephony.
@@ -147,8 +133,6 @@ public class MessageListAdapter extends CursorAdapter {
         } else {
             mColumnsMap = new ColumnsMap(c);
         }
-
-        mAvatarCache = new AvatarCache();
     }
 
     @Override
@@ -173,7 +157,7 @@ public class MessageListAdapter extends CursorAdapter {
                     }
                 }
 
-                mli.bind(mAvatarCache, msgItem);
+                mli.bind(msgItem);
                 mli.setMsgListItemHandler(mMsgListItemHandler);
 
                 // Add current item to mapping
@@ -212,7 +196,7 @@ public class MessageListAdapter extends CursorAdapter {
         HashSet<MessageListItem> set = mAddressToMessageListItems.get(address);
         if (set != null) {
             for (MessageListItem mli : set) {
-                mli.bind(mAvatarCache, mli.getMessageItem());
+                mli.bind(mli.getMessageItem());
             }
         }
     }
@@ -433,241 +417,5 @@ public class MessageListAdapter extends CursorAdapter {
             }
         }
     }
-
-    private AvatarCache mAvatarCache;
-
-    /*
-     * Track avatars for each of the members of in the group chat.
-     */
-    class AvatarCache {
-        private static final int TOKEN_PHONE_LOOKUP = 101;
-        private static final int TOKEN_EMAIL_LOOKUP = 102;
-        private static final int TOKEN_CONTACT_INFO = 201;
-        private static final int TOKEN_PHOTO_DATA = 301;
-
-        //Projection used for the summary info in the header.
-        private final String[] COLUMNS = new String[] {
-                  Contacts._ID,
-                  Contacts.PHOTO_ID,
-                  // Other fields which we might want/need in the future (for example)
-//                Contacts.LOOKUP_KEY,
-//                Contacts.DISPLAY_NAME,
-//                Contacts.STARRED,
-//                Contacts.CONTACT_PRESENCE,
-//                Contacts.CONTACT_STATUS,
-//                Contacts.CONTACT_STATUS_TIMESTAMP,
-//                Contacts.CONTACT_STATUS_RES_PACKAGE,
-//                Contacts.CONTACT_STATUS_LABEL,
-        };
-        private final int PHOTO_ID = 1;
-
-        private final String[] PHONE_LOOKUP_PROJECTION = new String[] {
-            PhoneLookup._ID,
-            PhoneLookup.LOOKUP_KEY,
-        };
-        private static final int PHONE_LOOKUP_CONTACT_ID_COLUMN_INDEX = 0;
-        private static final int PHONE_LOOKUP_CONTACT_LOOKUP_KEY_COLUMN_INDEX = 1;
-
-        private final String[] EMAIL_LOOKUP_PROJECTION = new String[] {
-            RawContacts.CONTACT_ID,
-            Contacts.LOOKUP_KEY,
-        };
-        private static final int EMAIL_LOOKUP_CONTACT_ID_COLUMN_INDEX = 0;
-        private static final int EMAIL_LOOKUP_CONTACT_LOOKUP_KEY_COLUMN_INDEX = 1;
-
-
-        /*
-         * Map from mAddress to a blob of data which contains the contact id
-         * and the avatar.
-         */
-        HashMap<String, ContactData> mImageCache = new HashMap<String, ContactData>();
-
-        public class ContactData {
-            private String mAddress;
-            private long mContactId;
-            private Uri mContactUri;
-            private Drawable mPhoto;
-
-            ContactData(String address) {
-                mAddress = address;
-            }
-
-            public Drawable getAvatar() {
-                return mPhoto;
-            }
-
-            public Uri getContactUri() {
-                return mContactUri;
-            }
-
-            private boolean startInitialQuery() {
-                if (Mms.isPhoneNumber(mAddress)) {
-                    mQueryHandler.startQuery(
-                            TOKEN_PHONE_LOOKUP,
-                            this,
-                            Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(mAddress)),
-                            PHONE_LOOKUP_PROJECTION,
-                            null,
-                            null,
-                            null);
-                    return true;
-                } else if (Mms.isEmailAddress(mAddress)) {
-                    mQueryHandler.startQuery(
-                            TOKEN_EMAIL_LOOKUP,
-                            this,
-                            Uri.withAppendedPath(Email.CONTENT_LOOKUP_URI, Uri.encode(mAddress)),
-                            EMAIL_LOOKUP_PROJECTION,
-                            null,
-                            null,
-                            null);
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            /*
-             * Once we have the photo data load it into a drawable.
-             */
-            private boolean onPhotoDataLoaded(Cursor c) {
-                if (c == null || !c.moveToFirst()) return false;
-
-                try {
-                    byte[] photoData = c.getBlob(0);
-                    Bitmap b = BitmapFactory.decodeByteArray(photoData, 0, photoData.length, null);
-                    mPhoto = new BitmapDrawable(mContext.getResources(), b);
-                    return true;
-                } catch (Exception ex) {
-                    return false;
-                }
-            }
-
-            /*
-             * Once we have the contact info loaded take the photo id and query
-             * for the photo data.
-             */
-            private boolean onContactInfoLoaded(Cursor c) {
-                if (c == null || !c.moveToFirst()) return false;
-
-                long photoId = c.getLong(PHOTO_ID);
-                Uri contactUri  = ContentUris.withAppendedId(Data.CONTENT_URI, photoId);
-                mQueryHandler.startQuery(
-                        TOKEN_PHOTO_DATA,
-                        this,
-                        contactUri,
-                        new String[] { Photo.PHOTO },
-                        null,
-                        null,
-                        null);
-
-                return true;
-            }
-
-            /*
-             * Once we have the contact id loaded start the query for the
-             * contact information (which will give us the photo id).
-             */
-            private boolean onContactIdLoaded(Cursor c, int contactIdColumn, int lookupKeyColumn) {
-                if (c == null || !c.moveToFirst()) return false;
-
-                mContactId = c.getLong(contactIdColumn);
-                String lookupKey = c.getString(lookupKeyColumn);
-                mContactUri = Contacts.getLookupUri(mContactId, lookupKey);
-                mQueryHandler.startQuery(
-                        TOKEN_CONTACT_INFO,
-                        this,
-                        mContactUri,
-                        COLUMNS,
-                        null,
-                        null,
-                        null);
-                return true;
-            }
-
-            /*
-             * If for whatever reason we can't get the photo load teh
-             * default avatar.  NOTE that fasttrack tries to get fancy
-             * with various random images (upside down, etc.) we're not
-             * doing that here.
-             */
-            private void loadDefaultAvatar() {
-                try {
-                    if (mDefaultAvatarDrawable == null) {
-                        Bitmap b = BitmapFactory.decodeResource(mContext.getResources(),
-                                R.drawable.ic_contact_picture);
-                        mDefaultAvatarDrawable = new BitmapDrawable(mContext.getResources(), b);
-                    }
-                    mPhoto = mDefaultAvatarDrawable;
-                } catch (java.lang.OutOfMemoryError e) {
-                    Log.e(TAG, "loadDefaultAvatar: out of memory: ", e);
-                }
-            }
-
-        };
-
-        Drawable mDefaultAvatarDrawable = null;
-        AsyncQueryHandler mQueryHandler = new AsyncQueryHandler(mContext.getContentResolver()) {
-            @Override
-            protected void onQueryComplete(int token, Object cookieObject, Cursor cursor) {
-                super.onQueryComplete(token, cookieObject, cursor);
-
-                ContactData cookie = (ContactData) cookieObject;
-                switch (token) {
-                    case TOKEN_PHONE_LOOKUP: {
-                        if (!cookie.onContactIdLoaded(
-                                cursor,
-                                PHONE_LOOKUP_CONTACT_ID_COLUMN_INDEX,
-                                PHONE_LOOKUP_CONTACT_LOOKUP_KEY_COLUMN_INDEX)) {
-                            cookie.loadDefaultAvatar();
-                        }
-                        break;
-                    }
-                    case TOKEN_EMAIL_LOOKUP: {
-                        if (!cookie.onContactIdLoaded(
-                                cursor,
-                                EMAIL_LOOKUP_CONTACT_ID_COLUMN_INDEX,
-                                EMAIL_LOOKUP_CONTACT_LOOKUP_KEY_COLUMN_INDEX)) {
-                            cookie.loadDefaultAvatar();
-                        }
-                        break;
-                    }
-                    case TOKEN_CONTACT_INFO: {
-                        if (!cookie.onContactInfoLoaded(cursor)) {
-                            cookie.loadDefaultAvatar();
-                        }
-                        break;
-                    }
-                    case TOKEN_PHOTO_DATA: {
-                        if (!cookie.onPhotoDataLoaded(cursor)) {
-                            cookie.loadDefaultAvatar();
-                        } else {
-                            MessageListAdapter.this.notifyImageLoaded(cookie.mAddress);
-                        }
-                        break;
-                    }
-                    default:
-                        break;
-                }
-            }
-        };
-
-        public ContactData get(final String address) {
-            if (mImageCache.containsKey(address)) {
-                return mImageCache.get(address);
-            } else {
-                // Create the ContactData object and put it into the hashtable
-                // so that any subsequent requests for this same avatar do not kick
-                // off another query.
-                ContactData cookie = new ContactData(address);
-                mImageCache.put(address, cookie);
-                cookie.startInitialQuery();
-                cookie.loadDefaultAvatar();
-                return cookie;
-            }
-        }
-
-        public AvatarCache() {
-        }
-    };
-
 
 }

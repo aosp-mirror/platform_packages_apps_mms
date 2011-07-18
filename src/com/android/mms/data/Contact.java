@@ -801,6 +801,10 @@ public class Contact {
                 return null;
             }
 
+            if (V) {
+                log("loadAvatarData: name=" + entry.mName + ", number=");
+            }
+
             Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, entry.mPersonId);
 
             InputStream avatarDataStream = Contacts.openContactPhotoInputStream(
