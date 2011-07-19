@@ -217,6 +217,8 @@
     <string name="service_not_activated">Service not activated on network.</string>
     <!-- If a message has expired and is no longer available on MMSC, show this toast. [CHAR LIMIT=NONE] -->
     <string name="service_message_not_found">Message expired or not available.</string>
+    <!-- If a message can't be sent because of a MMSC network problem, show this toast. [CHAR LIMIT=NONE] -->
+    <string name="service_network_problem">Error network problem.</string>
     <!-- Dialog message text when the user tries to send a message with invalid recipients -->
     <string name="invalid_recipient_message">Please correct the recipient(s) or they will not receive the message.</string>
     <!-- Dialog box title indicating the message cannot be sent because there are no valid recipients -->

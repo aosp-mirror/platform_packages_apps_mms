@@ -143,6 +143,10 @@ public class RetryScheduler implements Observer {
                             errorString = R.string.service_not_activated;
                             break;
 
+                        case PduHeaders.RESPONSE_STATUS_ERROR_NETWORK_PROBLEM:
+                            errorString = R.string.service_network_problem;
+                            break;
+
                         case PduHeaders.RESPONSE_STATUS_ERROR_TRANSIENT_MESSAGE_NOT_FOUND:
                         case PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_MESSAGE_NOT_FOUND:
                             errorString = R.string.service_message_not_found;
