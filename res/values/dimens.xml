@@ -8,4 +8,6 @@ All Rights Reserved. -->
     <dimen name="message_item_avatar_on_right_text_indent">50dip</dimen>
     <dimen name="message_item_text_padding_left_right">15dip</dimen>
     <dimen name="message_item_text_padding_top">5dip</dimen>
+
+    <dimen name="avatar_width_height">64dip</dimen>
 </resources>
