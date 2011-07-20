@@ -9,18 +9,22 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-  <style name="TextAppearance.SearchResult">
-    <item name="android:textStyle">normal</item>
-    <item name="android:textColor">?android:textColorPrimaryInverse</item>
-    <item name="android:textColorHint">?android:textColorHintInverse</item>
-  </style>
-  
-  <style name="TextAppearance.SearchResult.Title">
-    <item name="android:textSize">16sp</item>
-  </style>
-  
-  <style name="TextAppearance.SearchResult.Subtitle">
-    <item name="android:textSize">13sp</item>
-    <item name="android:textColor">?android:textColorSecondaryInverse</item>
-  </style>
+    <style name="TextAppearance.SearchResult">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">?android:textColorPrimaryInverse</item>
+        <item name="android:textColorHint">?android:textColorHintInverse</item>
+    </style>
+
+    <style name="TextAppearance.SearchResult.Title">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.SearchResult.Subtitle">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">?android:textColorSecondaryInverse</item>
+    </style>
+
+    <style name="MmsHoloTheme" parent="@android:style/Theme.Holo.Light.SplitActionBarWhenNarrow">
+    </style>
+
 </resources>
