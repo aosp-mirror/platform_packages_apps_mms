@@ -55,7 +55,7 @@
         <activity android:name=".ui.ConversationList"
                   android:label="@string/app_label"
                   android:configChanges="orientation|keyboardHidden"
-                  android:theme="@android:style/Theme.Holo.Light.SplitActionBarWhenNarrow"
+                  android:theme="@style/MmsHoloTheme"
                   android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -77,7 +77,7 @@
         <activity android:name=".ui.ComposeMessageActivity"
                   android:configChanges="orientation|keyboardHidden"
                   android:windowSoftInputMode="stateHidden"
-                  android:theme="@android:style/Theme.Holo.Light"
+                  android:theme="@style/MmsHoloTheme"
                   android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
