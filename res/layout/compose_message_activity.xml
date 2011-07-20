@@ -171,7 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" >
 
-                    <EditText
+                    <TextView
                         android:id="@+id/send_button"
                         style="?android:attr/borderlessButtonStyle"
                         android:drawableTop="@drawable/ic_send_holo_light"
