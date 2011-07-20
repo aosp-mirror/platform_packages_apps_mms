@@ -52,8 +52,8 @@ public class MmsConfig {
     private static int mMaxImageHeight = MAX_IMAGE_HEIGHT;      // default value
     private static int mMaxImageWidth = MAX_IMAGE_WIDTH;        // default value
     private static int mRecipientLimit = Integer.MAX_VALUE;     // default value
-    private static int mDefaultSMSMessagesPerThread = 200;      // default value
-    private static int mDefaultMMSMessagesPerThread = 20;       // default value
+    private static int mDefaultSMSMessagesPerThread = 500;      // default value
+    private static int mDefaultMMSMessagesPerThread = 50;       // default value
     private static int mMinMessageCountPerThread = 2;           // default value
     private static int mMaxMessageCountPerThread = 5000;        // default value
     private static int mHttpSocketTimeout = 60*1000;            // default to 1 min
