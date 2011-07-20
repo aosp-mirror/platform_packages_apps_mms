@@ -105,6 +105,7 @@ public class ImageViewDivot extends ImageView {
     }
 
     private void computePath() {
+        mPath.reset();
         final float edgeLength = EDGE_LENGTH * mDensity;
 
         final float left = 0 - 1F;
@@ -116,26 +117,26 @@ public class ImageViewDivot extends ImageView {
         final float cornerOffset = CORNER_OFFSET * mDensity;
 
         switch (mPosition) {
-        case LEFT_UPPER: {
-            mPath.moveTo(left, top + cornerOffset);
-            mPath.lineTo(left + edgeLength, top + cornerOffset + edgeLength);
-            mPath.lineTo(left, top + cornerOffset + (2 * edgeLength));
+            case LEFT_UPPER: {
+                mPath.moveTo(left, top + cornerOffset);
+                mPath.lineTo(left + edgeLength, top + cornerOffset + edgeLength);
+                mPath.lineTo(left, top + cornerOffset + (2 * edgeLength));
 
-            break;
-        }
-        case RIGHT_UPPER: {
-            mPath.moveTo(right, top + cornerOffset);
-            mPath.lineTo(right - edgeLength, top + cornerOffset + edgeLength);
-            mPath.lineTo(right, top + cornerOffset + (2 * edgeLength));
+                break;
+            }
+            case RIGHT_UPPER: {
+                mPath.moveTo(right, top + cornerOffset);
+                mPath.lineTo(right - edgeLength, top + cornerOffset + edgeLength);
+                mPath.lineTo(right, top + cornerOffset + (2 * edgeLength));
 
-            break;
-        }
-        case BOTTOM_MIDDLE: {
-            mPath.moveTo(middle - edgeLength, bottom);
-            mPath.lineTo(middle, bottom - edgeLength);
-            mPath.lineTo(middle + edgeLength, bottom);
-            break;
-        }
+                break;
+            }
+            case BOTTOM_MIDDLE: {
+                mPath.moveTo(middle - edgeLength, bottom);
+                mPath.lineTo(middle, bottom - edgeLength);
+                mPath.lineTo(middle + edgeLength, bottom);
+                break;
+            }
         }
         mPath.close();
     }

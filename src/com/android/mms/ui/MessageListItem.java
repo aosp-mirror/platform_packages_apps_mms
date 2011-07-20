@@ -102,7 +102,7 @@ public class MessageListItem extends LinearLayout implements
     private String mDefaultCountryIso;
     private TextView mDateView;
     private LinearLayout mStatusIcons;
-    private ImageViewDivot mDivit;        // little triangle on the side of the avatar
+    private ImageViewDivot mDivot;        // little triangle on the side of the avatar
     static private Drawable sDefaultContactImage;
 
     public MessageListItem(Context context) {
@@ -137,7 +137,7 @@ public class MessageListItem extends LinearLayout implements
         mDetailsIndicator = (ImageView) findViewById(R.id.details_indicator);
         mAvatar = (QuickContactBadge) findViewById(R.id.avatar);
         mStatusIcons = (LinearLayout) findViewById(R.id.status_icons);
-        mDivit = (ImageViewDivot) findViewById(R.id.divit);
+        mDivot = (ImageViewDivot) findViewById(R.id.divit);
     }
 
     public void bind(MessageItem msgItem) {
@@ -298,7 +298,7 @@ public class MessageListItem extends LinearLayout implements
         RelativeLayout.LayoutParams statusIconsLayout =
             (RelativeLayout.LayoutParams)mStatusIcons.getLayoutParams();
         RelativeLayout.LayoutParams divitLayout =
-            (RelativeLayout.LayoutParams)mDivit.getLayoutParams();
+            (RelativeLayout.LayoutParams)mDivot.getLayoutParams();
 
         Resources resources = mContext.getResources();
         int textPaddingLeftRight = resources.getDimensionPixelOffset(
@@ -330,8 +330,8 @@ public class MessageListItem extends LinearLayout implements
             mBodyTextView.setGravity(Gravity.LEFT);
             mDateView.setPadding(textPaddingLeftRight, 0, 0, 0);
 
-            mDivit.setPosition(ImageViewDivot.RIGHT_UPPER);
             divitLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            mDivot.setPosition(ImageViewDivot.RIGHT_UPPER);
         } else {
             // Avatar on right, text adjusted right
             // undo the old rules first
@@ -357,8 +357,8 @@ public class MessageListItem extends LinearLayout implements
             mBodyTextView.setGravity(Gravity.LEFT);
             mDateView.setPadding(0, 0, textPaddingLeftRight, 0);
 
-            mDivit.setPosition(ImageViewDivot.LEFT_UPPER);
             divitLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            mDivot.setPosition(ImageViewDivot.LEFT_UPPER);
         }
     }
 
