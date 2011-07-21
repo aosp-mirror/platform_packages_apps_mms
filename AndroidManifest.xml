@@ -145,10 +145,12 @@
         </activity>
 
         <activity android:name=".ui.SlideshowEditActivity"
+            android:theme="@style/MmsHoloTheme"
             android:label="@string/edit_slideshow_activity" />
 
         <activity android:name=".ui.SlideEditorActivity"
             android:windowSoftInputMode="adjustResize"
+            android:theme="@style/MmsHoloTheme"
             android:label="@string/edit_slide_activity" />
 
         <activity android:name=".ui.SlideshowActivity"
