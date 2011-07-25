@@ -22,7 +22,6 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="1503967887341230795">"Μηνύματα"</string>
     <string name="new_message" msgid="1530369762346003973">"Νέο μήνυμα"</string>
-    <string name="create_new_message" msgid="8735943333953093860">"Σύνθεση νέου μηνύματος"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Κλήση <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Αποστολή μηνύματος ηλεκτρονικού ταχυδρομείου προς <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Σύνθεση"</string>
@@ -32,21 +31,15 @@
     <string name="menu_search" msgid="2289469305728821360">"Αναζήτηση"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Διαγραφή όλων των νημάτων"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Διαγραφή νήματος"</string>
-    <string name="menu_undelivered_messages" msgid="3896857623211780616">"Μηνύματα που δεν έχουν παραδοθεί"</string>
     <string name="menu_view" msgid="7448852683948080108">"Προβολή νήματος"</string>
     <string name="refreshing" msgid="987335057871404222">"Ανανέωση..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Πρόχειρο"</string>
-    <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> προς <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
-    <string name="anonymous_recipient" msgid="2501437626187039034">"Ανώνυμος"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Χωρίς θέμα)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Εγώ"</string>
-    <string name="view_picture" msgid="4356315935277709195">"Προβολή εικόνας"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Προβολή διαφανειών (slideshow)"</string>
     <string name="view_message_details" msgid="2443165773568096234">"Προβολή λεπτομερειών μηνύματος"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Προβολή αναφοράς"</string>
     <string name="delete_message" msgid="8888447283788388395">"Διαγραφή μηνύματος"</string>
-    <string name="sent_on" msgid="5868288548564632354">"Ημερομηνία αποστολής: <xliff:g id="DATE">%s</xliff:g>"</string>
-    <string name="received_on" msgid="745813167330942475">"Ληφθέντα: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"Λήγει: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Μήνυμα που δεν παραδόθηκε"</string>
@@ -56,7 +49,6 @@
     <string name="menu_forward" msgid="9026858380050046756">"Προώθηση"</string>
     <string name="download" msgid="4488877642230207631">"Λήψη"</string>
     <string name="downloading" msgid="1779557575565350637">"Λήψη"</string>
-    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Θέμα: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Κείμενο με προστασία DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Ανιχνεύτηκαν ανεπαρκή δικαιώματα DRM."</string>
@@ -77,7 +69,6 @@
     <string name="remove_music" msgid="858889733416015223">"Κατάργηση μουσικής"</string>
     <string name="add_video" msgid="7816866867806595144">"Προσθήκη βίντεο"</string>
     <string name="remove_video" msgid="5258603891528497799">"Κατάργηση βίντεο"</string>
-    <string name="compose_title" msgid="558578836596816068">"Σύνθεση"</string>
     <string name="to_hint" msgid="224029549150332986">"Προς"</string>
     <string name="subject_hint" msgid="4296714962311604126">"Θέμα"</string>
     <string name="add_attachment" msgid="7103751293360532684">"Επισύναψη"</string>
@@ -91,8 +82,6 @@
     <string name="all_threads" msgid="2663426830306307194">"Όλα τα νήματα"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Για σύνθεση κειμένου, πληκτρολογήστε"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Ανοίξτε το πληκτρολόγιο για να συνθέσετε το μήνυμα"</string>
-    <string name="image_too_large" msgid="261880224164478061">"Η εικόνα είναι υπερβολικά μεγάλη"</string>
-    <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Αυτόματη προσαρμογή μεγέθους εικόνας πριν την αποστολή;"</string>
     <string name="compressing" msgid="1961357529661045180">"Υπερβολικά μεγάλη εικόνα. Συμπίεση..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Άγνωστη μορφή <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Επιλέξτε διαφορετικό (διαφορετική) <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -108,6 +97,8 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Μη έγκυρη διεύθυνση προορισμού."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Η υπηρεσία δεν είναι ενεργοποιημένη στο δίκτυο."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Το μήνυμα έχει λήξει ή δεν είναι διαθέσιμο."</string>
+    <!-- no translation found for service_network_problem (5418984934499160536) -->
+    <skip />
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Διορθώστε τον παραλήπτη (παραλήπτες), γιατί δεν θα λάβει το μήνυμα."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Δεν είναι δυνατή η αποστολή αυτού του μηνύματος"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Το μήνυμά σας δεν έχει έγκυρους παραλήπτες."</string>
@@ -117,14 +108,11 @@
     <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"Δεν είναι δυνατή η προσθήκη περισσότερων διαφανειών."</string>
     <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"Δεν είναι δυνατή η προσθήκη εικόνας και βίντεο σε μία διαφάνεια."</string>
     <string name="cannot_save_message" msgid="5026354972915392301">"Δεν είναι δυνατή η αποθήκευση του μηνύματος."</string>
-    <string name="cannot_load_message" msgid="2577010607550849892">"Δεν είναι δυνατή η φόρτωση του μηνύματος."</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"Το μήνυμα αποθηκεύτηκε ως πρόχειρο."</string>
-    <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"Δεν είναι δυνατή η διαγραφή κλειδωμένου μηνύματος."</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"Αυτό το μήνυμα έχει πολλούς παραλήπτες (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). Υπάρχει όριο <xliff:g id="MAXLIMIT">%2$s</xliff:g> παραληπτών."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"Υπάρχει όριο <xliff:g id="MAXLIMIT">%1$s</xliff:g> επισυνάψεων. Μόνο τα πρώτα <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> θα προστεθούν."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Προσθήκη επισυνάψεων"</string>
     <string name="adding_attachments" msgid="2423616900586221924">"Περιμένετε μέχρι τα στοιχεία να προστεθούν στην παρουσίαση."</string>
-    <string name="multiple_recipients" msgid="8747754491343248141">"<xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g> παραλήπτες"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"Δεν είναι δυνατή η αναπαραγωγή ήχου."</string>
     <string name="preview" msgid="5438149136136446756">"Προεπισκόπηση"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Προεπισκόπηση"</string>
@@ -159,7 +147,6 @@
     <string name="set" msgid="4642365398263275979">"Ορισμός"</string>
     <string name="play" msgid="1888432400937785115">"Αναπαραγωγή"</string>
     <string name="edit" msgid="5912118407791492696">"Επεξεργασία"</string>
-    <string name="resize" msgid="4308912589984220360">"Προσαρμογή μεγέθους"</string>
     <string name="try_to_send" msgid="1996751738286080976">"Προσπάθεια αποστολής"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Ρυθμίσεις"</string>
     <string name="restore_default" msgid="7165341506551155053">"Επαναφορά προεπιλεγμένων ρυθμίσεων"</string>
@@ -196,7 +183,6 @@
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Αυτόματη ανάκτηση μηνυμάτων"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Αυτόματη ανάκτηση περιαγωγής"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Αυτόματη ανάκτηση μηνυμάτων κατά την περιαγωγή"</string>
-    <string name="to_label" msgid="2355268818058389047">"Προς "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Διαγραφή"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Διαγραφή κλειδωμένου μηνύματος;"</string>
   <plurals name="confirm_delete_conversation">
@@ -207,7 +193,6 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Όλα τα νήματα θα διαγραφούν."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Το μήνυμα θα διαγραφεί."</string>
     <string name="confirm_delete_locked_message" msgid="5863578342246077057">"Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το κλειδωμένο μήνυμα;"</string>
-    <string name="confirm_delete_all_messages" msgid="5836389073199814660">"Θα διαγραφεί ολόκληρο το νήμα."</string>
     <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"Όλα τα μηνύματα στην κάρτα SIM θα διαγραφούν."</string>
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Αυτό το μήνυμα στην κάρτα SIM θα διαγραφεί."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Διαγραφή κλειδωμένων μηνυμάτων"</string>
@@ -234,10 +219,7 @@
     <string name="message_class_label" msgid="5115748690481550562">"Κλάση μηνύματος: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"Κωδικός σφάλματος: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Επεξεργασία"</string>
-    <string name="menu_retry_sending" msgid="3146582005568302643">"Επανάληψη αποστολής"</string>
-    <string name="menu_retry_sending_all" msgid="1870529976966340616">"Επανάληψη αποστολής όλων"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Διαγραφή μηνυμάτων"</string>
-    <string name="retrying_dialog_body" msgid="4738260459043003431">"Δεν έγινε αποστολή του μηνύματος <xliff:g id="MESSAGE">%s</xliff:g> λόγω προβλήματος σύνδεσης."\n"Επανάληψη αποστολής..."</string>
     <string name="menu_lock" msgid="136863583207382259">"Κλείδωμα μηνύματος"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Ξεκλείδωμα μηνύματος"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Αντιγραφή στη μνήμη του tablet"</string>
@@ -310,17 +292,11 @@
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"Αναφορά παράδοσης"</string>
     <string name="storage_limits_activity" msgid="8810530813311077716">"Όρια αποθηκευτικού χώρου"</string>
-    <string name="add_attachment_activity" msgid="5324811371129695320">"Προσθήκη επισύναψης:"</string>
-    <string name="select_layout_activity" msgid="5041916695464513848">"Επιλογή διάταξης"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"Αλλαγή διάρκειας"</string>
-    <string name="edit_text_activity" msgid="5915226413346879213">"Επεξεργασία κειμένου"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"Επεξεργασία προβολής διαφανειών (slideshow)"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"Επεξεργασία διαφάνειας"</string>
-    <string name="pick_numbers_activity" msgid="2083330191224178637">"Επιλογή αριθμών"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Προβολή διαφανειών (slideshow)"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"Μήνυμα κλάσης 0"</string>
-    <string name="send_using_mms_activity" msgid="3703434556280345726">"Αποστολή ως μηνύματος πολυμέσων..."</string>
-    <string name="select_contact_method_activity" msgid="1743384358979323991">"Επιλογή μεθόδου επικοινωνίας"</string>
     <string name="search_label" msgid="6042598929386174964">"Ανταλλαγή μηνυμάτων"</string>
     <string name="search_hint" msgid="7183732852849365466">"Αναζήτηση μηνυμάτων"</string>
     <string name="search" msgid="7560238620274735199">"Μηνύματα"</string>

@@ -22,7 +22,6 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="1503967887341230795">"Messaging"</string>
     <string name="new_message" msgid="1530369762346003973">"Jauns ziņojums"</string>
-    <string name="create_new_message" msgid="8735943333953093860">"Rakstīt jaunu ziņojumu"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Zvanīt kontaktpersonai <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Sūtīt e-pasta ziņojumu adresātam <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Rakstīt"</string>
@@ -32,21 +31,15 @@
     <string name="menu_search" msgid="2289469305728821360">"Meklēšana"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Dzēst visus pavedienus"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Dzēst pavedienu"</string>
-    <string name="menu_undelivered_messages" msgid="3896857623211780616">"Nepiegādātie ziņojumi"</string>
     <string name="menu_view" msgid="7448852683948080108">"Skatīt pavedienu"</string>
     <string name="refreshing" msgid="987335057871404222">"Notiek atsvaidzināšana..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Melnraksts"</string>
-    <string name="broadcast_from_to" msgid="2050376286109362539">"No: <xliff:g id="SENDER">%1$s</xliff:g>; kam: <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
-    <string name="anonymous_recipient" msgid="2501437626187039034">"Anonīms"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Bez temata)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Es"</string>
-    <string name="view_picture" msgid="4356315935277709195">"Skatīt attēlu"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Skatīt slaidrādi"</string>
     <string name="view_message_details" msgid="2443165773568096234">"Skatīt informāciju par ziņojumu"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Skatīt pārskatu"</string>
     <string name="delete_message" msgid="8888447283788388395">"Dzēst ziņojumu"</string>
-    <string name="sent_on" msgid="5868288548564632354">"Nosūtīts: <xliff:g id="DATE">%s</xliff:g>"</string>
-    <string name="received_on" msgid="745813167330942475">"Saņemts: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"Termiņš: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Nepiegādāts ziņojums"</string>
@@ -56,7 +49,6 @@
     <string name="menu_forward" msgid="9026858380050046756">"Pārsūtīt"</string>
     <string name="download" msgid="4488877642230207631">"Lejupielādēt"</string>
     <string name="downloading" msgid="1779557575565350637">"Notiek lejupielāde"</string>
-    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Temats: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Saskaņā ar cipariska satura tiesību pārvaldību aizsargāts teksts *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Konstatēts, ka nav pietiekamu tiesību saskaņā ar cipariska satura tiesību pārvaldību."</string>
@@ -77,7 +69,6 @@
     <string name="remove_music" msgid="858889733416015223">"Noņemt mūziku"</string>
     <string name="add_video" msgid="7816866867806595144">"Pievienot video"</string>
     <string name="remove_video" msgid="5258603891528497799">"Noņemt video"</string>
-    <string name="compose_title" msgid="558578836596816068">"Rakstīt"</string>
     <string name="to_hint" msgid="224029549150332986">"Kam"</string>
     <string name="subject_hint" msgid="4296714962311604126">"Temats"</string>
     <string name="add_attachment" msgid="7103751293360532684">"Pievienot"</string>
@@ -91,8 +82,6 @@
     <string name="all_threads" msgid="2663426830306307194">"Visi pavedieni"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Ievadiet tekstu, lai rakstītu"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Atveriet tastatūru, lai rakstītu ziņojumu."</string>
-    <string name="image_too_large" msgid="261880224164478061">"Attēls ir pārāk liels"</string>
-    <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Vai pirms sūtīšanas automātiski mainīt attēla lielumu?"</string>
     <string name="compressing" msgid="1961357529661045180">"Attēls ir pārāk liels. Notiek saspiešana..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Neatbalstīts vienuma <xliff:g id="NAME">%1$s</xliff:g> formāts"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Lūdzu, atlasiet citu vienumu <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -108,6 +97,8 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Galamērķa adrese nav derīga."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Pakalpojums nav aktivizēts tīklā."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Ziņojums nav pieejams, vai ir beidzies tā derīguma termiņš."</string>
+    <!-- no translation found for service_network_problem (5418984934499160536) -->
+    <skip />
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Lūdzu, labojiet adresātu(-us); pretējā gadījumā viņi nesaņems ziņojumu."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Šo ziņojumu nevar nosūtīt"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Ziņojumam nav neviena derīga adresāta."</string>
@@ -117,14 +108,11 @@
     <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"Nevar pievienot vairāk slaidu."</string>
     <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"Vienam slaidam nevar pievienot video un attēlu."</string>
     <string name="cannot_save_message" msgid="5026354972915392301">"Ziņojumu nevar saglabāt."</string>
-    <string name="cannot_load_message" msgid="2577010607550849892">"Nevar ielādēt ziņojumu."</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"Ziņojums ir saglabāts kā melnraksts."</string>
-    <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"Bloķētu ziņojumu nevar dzēst."</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"Šim ziņojumam ir pārāk daudz adresātu (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). Var būt maksimāli <xliff:g id="MAXLIMIT">%2$s</xliff:g> adresāti."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"Pastāv pielikumu ierobežojums: maksimāli <xliff:g id="MAXLIMIT">%1$s</xliff:g>. Tiks pievienoti tikai pirmie <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> pielikumi."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Notiek pielikumu pievienošana"</string>
     <string name="adding_attachments" msgid="2423616900586221924">"Lūdzu, uzgaidiet, līdz vienumi tiks pievienoti slaidrādei."</string>
-    <string name="multiple_recipients" msgid="8747754491343248141">"<xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g> adresāti"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"Nevar atskaņot audio."</string>
     <string name="preview" msgid="5438149136136446756">"Priekšskatīt"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Priekšskatīt"</string>
@@ -159,7 +147,6 @@
     <string name="set" msgid="4642365398263275979">"Iestatīt"</string>
     <string name="play" msgid="1888432400937785115">"Atskaņot"</string>
     <string name="edit" msgid="5912118407791492696">"Rediģēt"</string>
-    <string name="resize" msgid="4308912589984220360">"Mainīt lielumu"</string>
     <string name="try_to_send" msgid="1996751738286080976">"Mēģināt sūtīt"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Iestatījumi"</string>
     <string name="restore_default" msgid="7165341506551155053">"Atjaunot noklusējuma iestatījumus"</string>
@@ -196,7 +183,6 @@
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Automātiski izgūt ziņojumus"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Viesabonēšanas automātiska izgūšana"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Automātiski izgūt ziņojumus viesabonēšanas laikā"</string>
-    <string name="to_label" msgid="2355268818058389047">"Kam: "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Dzēst"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Vai dzēst bloķēto ziņojumu?"</string>
   <plurals name="confirm_delete_conversation">
@@ -207,7 +193,6 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Tiks dzēsti visi pavedieni."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Ziņojums tiks dzēsts."</string>
     <string name="confirm_delete_locked_message" msgid="5863578342246077057">"Vai tiešām vēlaties dzēst šo bloķēto ziņojumu?"</string>
-    <string name="confirm_delete_all_messages" msgid="5836389073199814660">"Tiks dzēsts viss pavediens."</string>
     <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"Tiks dzēsti visi SIM kartē esošie ziņojumi."</string>
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Šis SIM kartē esošais ziņojums tiks dzēsts."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Dzēst bloķētos ziņojumus"</string>
@@ -234,10 +219,7 @@
     <string name="message_class_label" msgid="5115748690481550562">"Ziņojuma klase: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"Kļūdas kods: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Rediģēt"</string>
-    <string name="menu_retry_sending" msgid="3146582005568302643">"Sūtīt atkārtoti"</string>
-    <string name="menu_retry_sending_all" msgid="1870529976966340616">"Sūtīt atkārtoti visus ziņojumus"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Dzēst ziņojumus"</string>
-    <string name="retrying_dialog_body" msgid="4738260459043003431">"Šis ziņojums <xliff:g id="MESSAGE">%s</xliff:g> netika nosūtīts, jo radās savienojuma problēma."\n"Notiek atkārtota sūtīšana..."</string>
     <string name="menu_lock" msgid="136863583207382259">"Bloķēt ziņojumu"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Atbloķēt ziņojumu"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopēt uz planšetdatora atmiņu"</string>
@@ -310,17 +292,11 @@
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"Pārskats par piegādi"</string>
     <string name="storage_limits_activity" msgid="8810530813311077716">"Krātuves ierobežojumi"</string>
-    <string name="add_attachment_activity" msgid="5324811371129695320">"Pievienot pielikumu:"</string>
-    <string name="select_layout_activity" msgid="5041916695464513848">"Atlasīt izkārtojumu"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"Mainīt ilgumu"</string>
-    <string name="edit_text_activity" msgid="5915226413346879213">"Rediģēt tekstu"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"Rediģēt slaidrādi"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"Rediģēt slaidu"</string>
-    <string name="pick_numbers_activity" msgid="2083330191224178637">"Izvēlēties numurus"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Slaidrāde"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"0 klases ziņojums"</string>
-    <string name="send_using_mms_activity" msgid="3703434556280345726">"Sūtīt kā multiziņu..."</string>
-    <string name="select_contact_method_activity" msgid="1743384358979323991">"Atlasīt saziņas metodi"</string>
     <string name="search_label" msgid="6042598929386174964">"Messaging"</string>
     <string name="search_hint" msgid="7183732852849365466">"Meklēt pakalpojumā Messaging"</string>
     <string name="search" msgid="7560238620274735199">"Messaging"</string>

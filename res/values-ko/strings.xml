@@ -22,7 +22,6 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="1503967887341230795">"메시지"</string>
     <string name="new_message" msgid="1530369762346003973">"새 메시지"</string>
-    <string name="create_new_message" msgid="8735943333953093860">"새 메시지 쓰기"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"<xliff:g id="NAME">%s</xliff:g>님에게 전화걸기"</string>
     <string name="menu_send_email" msgid="671366308915241664">"<xliff:g id="NAME">%s</xliff:g>에게 이메일 보내기"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"새 메시지"</string>
@@ -32,21 +31,15 @@
     <string name="menu_search" msgid="2289469305728821360">"검색"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"전체 대화목록 삭제"</string>
     <string name="menu_delete" msgid="1851666911396479006">"대화목록 삭제"</string>
-    <string name="menu_undelivered_messages" msgid="3896857623211780616">"전송되지 않은 메시지"</string>
     <string name="menu_view" msgid="7448852683948080108">"대화목록 보기"</string>
     <string name="refreshing" msgid="987335057871404222">"새로 고치는 중..."</string>
     <string name="has_draft" msgid="2487465595514636160">"임시보관함"</string>
-    <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> - <xliff:g id="RECIPIENT">%2$s</xliff:g>에게"</string>
-    <string name="anonymous_recipient" msgid="2501437626187039034">"익명"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(제목 없음)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"나"</string>
-    <string name="view_picture" msgid="4356315935277709195">"사진 보기"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"슬라이드쇼 보기"</string>
     <string name="view_message_details" msgid="2443165773568096234">"메시지 세부정보 보기"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"보고서 보기"</string>
     <string name="delete_message" msgid="8888447283788388395">"메시지 삭제"</string>
-    <string name="sent_on" msgid="5868288548564632354">"보낸 시간: <xliff:g id="DATE">%s</xliff:g>"</string>
-    <string name="received_on" msgid="745813167330942475">"받은 날짜: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"만료 날짜: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"전송되지 않은 메시지"</string>
@@ -56,7 +49,6 @@
     <string name="menu_forward" msgid="9026858380050046756">"전달"</string>
     <string name="download" msgid="4488877642230207631">"다운로드"</string>
     <string name="downloading" msgid="1779557575565350637">"다운로드 중"</string>
-    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;제목: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* DRM 보호된 텍스트 *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"DRM 권한이 충분하지 않습니다."</string>
@@ -77,7 +69,6 @@
     <string name="remove_music" msgid="858889733416015223">"음악 삭제"</string>
     <string name="add_video" msgid="7816866867806595144">"동영상 추가"</string>
     <string name="remove_video" msgid="5258603891528497799">"동영상 삭제"</string>
-    <string name="compose_title" msgid="558578836596816068">"새 메시지"</string>
     <string name="to_hint" msgid="224029549150332986">"받는사람"</string>
     <string name="subject_hint" msgid="4296714962311604126">"제목"</string>
     <string name="add_attachment" msgid="7103751293360532684">"첨부"</string>
@@ -91,8 +82,6 @@
     <string name="all_threads" msgid="2663426830306307194">"전체 대화목록"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"메시지를 입력하세요."</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"키보드를 사용하여 메시지 쓰기"</string>
-    <string name="image_too_large" msgid="261880224164478061">"사진이 너무 큼"</string>
-    <string name="ask_for_automatically_resize" msgid="7657603662407738758">"사진 크기를 자동 조정하여 전송하겠습니까?"</string>
     <string name="compressing" msgid="1961357529661045180">"사진이 너무 큽니다. 압축하는 중..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"지원되지 않는 <xliff:g id="NAME">%1$s</xliff:g> 형식"</string>
     <string name="select_different_media" msgid="7573116916321879964">"다른 <xliff:g id="NAME">%1$s</xliff:g>을(를) 선택하세요."</string>
@@ -108,6 +97,8 @@
     <string name="invalid_destination" msgid="4573835601024786416">"도착지 주소가 잘못되었습니다."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"네트워크에 서비스가 활성화되어 있지 않습니다."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"메시지가 만료되었거나 표시할 수 없습니다."</string>
+    <!-- no translation found for service_network_problem (5418984934499160536) -->
+    <skip />
     <string name="invalid_recipient_message" msgid="7315539322634238519">"수신자를 바르게 설정해야 메시지를 수신할 수 있습니다."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"메시지를 보낼 수 없음"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"메시지의 유효한 수신자가 없습니다."</string>
@@ -117,14 +108,11 @@
     <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"슬라이드를 더 이상 추가할 수 없습니다."</string>
     <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"동영상과 사진을 한 슬라이드에 추가할 수 없습니다."</string>
     <string name="cannot_save_message" msgid="5026354972915392301">"메시지를 저장할 수 없습니다."</string>
-    <string name="cannot_load_message" msgid="2577010607550849892">"메시지를 로드할 수 없습니다."</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"메일이 임시보관함에 저장되었습니다."</string>
-    <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"잠겨진 메시지는 삭제할 수 없습니다."</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"메시지에 수신자가 너무 많습니다(<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>명). 수신자는 <xliff:g id="MAXLIMIT">%2$s</xliff:g>명으로 제한되어 있습니다."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"첨부파일 수가 <xliff:g id="MAXLIMIT">%1$s</xliff:g>개로 제한되어 있으므로 처음 <xliff:g id="CURRENTCOUNT">%2$s</xliff:g>개만 추가됩니다."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"첨부파일을 추가하는 중"</string>
     <string name="adding_attachments" msgid="2423616900586221924">"항목이 슬라이드쇼에 추가되는 동안 기다려 주세요."</string>
-    <string name="multiple_recipients" msgid="8747754491343248141">"수신자 <xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g>명"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"오디오를 재생할 수 없습니다."</string>
     <string name="preview" msgid="5438149136136446756">"미리보기"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"미리보기"</string>
@@ -159,7 +147,6 @@
     <string name="set" msgid="4642365398263275979">"설정"</string>
     <string name="play" msgid="1888432400937785115">"재생"</string>
     <string name="edit" msgid="5912118407791492696">"편집"</string>
-    <string name="resize" msgid="4308912589984220360">"크기 조정"</string>
     <string name="try_to_send" msgid="1996751738286080976">"전송 시도"</string>
     <string name="preferences_title" msgid="6650089610332670157">"설정"</string>
     <string name="restore_default" msgid="7165341506551155053">"기본 설정값 복원"</string>
@@ -196,7 +183,6 @@
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"메시지를 자동으로 수신"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"로밍 중 자동 수신"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"로밍 중에 메시지를 자동으로 수신"</string>
-    <string name="to_label" msgid="2355268818058389047">"받는사람 "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"삭제"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"잠겨 있는 메시지를 삭제하시겠습니까?"</string>
   <plurals name="confirm_delete_conversation">
@@ -207,7 +193,6 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"대화목록이 모두 삭제됩니다."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"메시지가 삭제됩니다."</string>
     <string name="confirm_delete_locked_message" msgid="5863578342246077057">"잠겨 있는 메시지를 삭제하시겠습니까?"</string>
-    <string name="confirm_delete_all_messages" msgid="5836389073199814660">"전체 대화목록이 삭제됩니다."</string>
     <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"SIM에 있는 모든 메시지가 삭제됩니다."</string>
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"SIM에서 이 메시지를 삭제합니다."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"잠긴 메시지 삭제"</string>
@@ -234,10 +219,7 @@
     <string name="message_class_label" msgid="5115748690481550562">"메시지 클래스: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"오류 코드: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"수정"</string>
-    <string name="menu_retry_sending" msgid="3146582005568302643">"재전송 시도"</string>
-    <string name="menu_retry_sending_all" msgid="1870529976966340616">"모두 재전송 시도"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"메시지 삭제"</string>
-    <string name="retrying_dialog_body" msgid="4738260459043003431">"연결 문제로 인해 <xliff:g id="MESSAGE">%s</xliff:g> 메시지가 전송되지 않았습니다."\n"재전송 시도 중..."</string>
     <string name="menu_lock" msgid="136863583207382259">"메시지 잠금"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"메시지 잠금 해제"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"태블릿 메모리에 복사"</string>
@@ -310,17 +292,11 @@
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"전송 여부 보고"</string>
     <string name="storage_limits_activity" msgid="8810530813311077716">"저장용량 한도"</string>
-    <string name="add_attachment_activity" msgid="5324811371129695320">"첨부파일 추가:"</string>
-    <string name="select_layout_activity" msgid="5041916695464513848">"레이아웃 선택"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"표시 기간 변경"</string>
-    <string name="edit_text_activity" msgid="5915226413346879213">"텍스트 편집"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"슬라이드쇼 편집"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"슬라이드 편집"</string>
-    <string name="pick_numbers_activity" msgid="2083330191224178637">"번호 선택"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"슬라이드쇼"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"클래스 0 메시지"</string>
-    <string name="send_using_mms_activity" msgid="3703434556280345726">"멀티미디어 메시지로 보내기..."</string>
-    <string name="select_contact_method_activity" msgid="1743384358979323991">"연락처 선택 방법"</string>
     <string name="search_label" msgid="6042598929386174964">"메시지"</string>
     <string name="search_hint" msgid="7183732852849365466">"메시지 검색"</string>
     <string name="search" msgid="7560238620274735199">"메시지"</string>

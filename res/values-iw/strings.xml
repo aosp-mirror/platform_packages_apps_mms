@@ -22,7 +22,6 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="1503967887341230795">"העברת הודעות"</string>
     <string name="new_message" msgid="1530369762346003973">"הודעה חדשה"</string>
-    <string name="create_new_message" msgid="8735943333953093860">"חבר הודעה חדשה"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"התקשר אל <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"שלח דוא\"ל אל <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"חבר"</string>
@@ -32,21 +31,15 @@
     <string name="menu_search" msgid="2289469305728821360">"חיפוש"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"מחק את כל השרשורים"</string>
     <string name="menu_delete" msgid="1851666911396479006">"מחק את השרשור"</string>
-    <string name="menu_undelivered_messages" msgid="3896857623211780616">"הודעות שלא נמסרו"</string>
     <string name="menu_view" msgid="7448852683948080108">"הצג שרשור"</string>
     <string name="refreshing" msgid="987335057871404222">"מרענן..."</string>
     <string name="has_draft" msgid="2487465595514636160">"טיוטה"</string>
-    <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> אל <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
-    <string name="anonymous_recipient" msgid="2501437626187039034">"אנונימי"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(ללא נושא)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"אני"</string>
-    <string name="view_picture" msgid="4356315935277709195">"הצג תמונה"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"הצג הצגת שקופיות"</string>
     <string name="view_message_details" msgid="2443165773568096234">"הצג את פרטי ההודעה"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"הצג דוח"</string>
     <string name="delete_message" msgid="8888447283788388395">"מחק הודעה"</string>
-    <string name="sent_on" msgid="5868288548564632354">"נשלח: <xliff:g id="DATE">%s</xliff:g>"</string>
-    <string name="received_on" msgid="745813167330942475">"התקבל: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"מועד תפוגה: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"הודעה שלא נמסרה"</string>
@@ -56,7 +49,6 @@
     <string name="menu_forward" msgid="9026858380050046756">"העבר"</string>
     <string name="download" msgid="4488877642230207631">"הורד"</string>
     <string name="downloading" msgid="1779557575565350637">"מוריד"</string>
-    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;נושא: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* טקסט המוגן על ידי DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"לא אותרו מספיק זכויות DRM."</string>
@@ -77,7 +69,6 @@
     <string name="remove_music" msgid="858889733416015223">"הסר מוסיקה"</string>
     <string name="add_video" msgid="7816866867806595144">"הוסף סרטון וידאו"</string>
     <string name="remove_video" msgid="5258603891528497799">"הסר סרטון וידאו"</string>
-    <string name="compose_title" msgid="558578836596816068">"חבר"</string>
     <string name="to_hint" msgid="224029549150332986">"אל"</string>
     <string name="subject_hint" msgid="4296714962311604126">"נושא"</string>
     <string name="add_attachment" msgid="7103751293360532684">"צרף"</string>
@@ -91,8 +82,6 @@
     <string name="all_threads" msgid="2663426830306307194">"כל השרשורים"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"הקלד כדי לחבר"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"פתח את המקלדת כדי לחבר הודעה"</string>
-    <string name="image_too_large" msgid="261880224164478061">"התמונה גדולה מדי"</string>
-    <string name="ask_for_automatically_resize" msgid="7657603662407738758">"לשנות את גודל התמונה באופן אוטומטי לפני השליחה?"</string>
     <string name="compressing" msgid="1961357529661045180">"תמונה גדולה מדי. דוחס..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"תבנית <xliff:g id="NAME">%1$s</xliff:g> שאינה נתמכת"</string>
     <string name="select_different_media" msgid="7573116916321879964">"בחר <xliff:g id="NAME">%1$s</xliff:g> אחר."</string>
@@ -108,6 +97,8 @@
     <string name="invalid_destination" msgid="4573835601024786416">"כתובת יעד לא חוקית."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"השירות לא הופעל ברשת."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"התוקף של ההודעה פג או שהיא לא זמינה."</string>
+    <!-- no translation found for service_network_problem (5418984934499160536) -->
+    <skip />
     <string name="invalid_recipient_message" msgid="7315539322634238519">"תקן את הנמענים או שהם לא יקבלו את ההודעה."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"אין אפשרות לשלוח הודעה זו"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"להודעה אין נמענים חוקיים."</string>
@@ -117,14 +108,11 @@
     <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"אין אפשרות להוסיף עוד שקופיות."</string>
     <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"אין אפשרות להוסיף סרטון וידאו ותמונה לשקופית אחת."</string>
     <string name="cannot_save_message" msgid="5026354972915392301">"אין אפשרות לשמור את ההודעה."</string>
-    <string name="cannot_load_message" msgid="2577010607550849892">"אין אפשרות לטעון את ההודעה."</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"ההודעה נשמרה כטיוטה."</string>
-    <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"לא ניתן למחוק הודעה נעולה."</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"להודעה זו יש נמענים רבים מדי (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). יש מגבלה של <xliff:g id="MAXLIMIT">%2$s</xliff:g> נמענים."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"יש מגבלה של <xliff:g id="MAXLIMIT">%1$s</xliff:g> קבצים מצורפים. רק <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> הראשונים יצורפו."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"מוסיף קבצים מצורפים"</string>
     <string name="adding_attachments" msgid="2423616900586221924">"המתן בזמן שהפריטים נוספים להצגת השקופיות."</string>
-    <string name="multiple_recipients" msgid="8747754491343248141">"<xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g> נמענים"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"אין אפשרות להשמיע אודיו."</string>
     <string name="preview" msgid="5438149136136446756">"תצוגה מקדימה"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"תצוגה מקדימה"</string>
@@ -159,7 +147,6 @@
     <string name="set" msgid="4642365398263275979">"הגדר"</string>
     <string name="play" msgid="1888432400937785115">"הפעל"</string>
     <string name="edit" msgid="5912118407791492696">"ערוך"</string>
-    <string name="resize" msgid="4308912589984220360">"שנה גודל"</string>
     <string name="try_to_send" msgid="1996751738286080976">"נסה לשלוח"</string>
     <string name="preferences_title" msgid="6650089610332670157">"הגדרות"</string>
     <string name="restore_default" msgid="7165341506551155053">"שחזר הגדרות ברירת מחדל"</string>
@@ -196,7 +183,6 @@
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"אחזר הודעות באופן אוטומטי"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"אחזור אוטומטי בנדידה"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"אחזר הודעות באופן אוטומטי בעת נדידה"</string>
-    <string name="to_label" msgid="2355268818058389047">"אל "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"מחק"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"למחוק הודעה נעולה?"</string>
   <plurals name="confirm_delete_conversation">
@@ -207,7 +193,6 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"כל השרשורים יימחקו."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"ההודעה תימחק."</string>
     <string name="confirm_delete_locked_message" msgid="5863578342246077057">"האם אתה בטוח שברצונך למחוק הודעה נעולה זו?"</string>
-    <string name="confirm_delete_all_messages" msgid="5836389073199814660">"השרשור כולו יימחק."</string>
     <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"כל ההודעות בכרטיס ה-SIM יימחקו."</string>
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"הודעה זו בכרטיס ה-SIM תימחק."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"מחק הודעות נעולות"</string>
@@ -234,10 +219,7 @@
     <string name="message_class_label" msgid="5115748690481550562">"רמת הודעה: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"קוד שגיאה: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"ערוך"</string>
-    <string name="menu_retry_sending" msgid="3146582005568302643">"נסה לשלוח שוב"</string>
-    <string name="menu_retry_sending_all" msgid="1870529976966340616">"נסה לשלוח הכל שוב"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"מחק הודעות"</string>
-    <string name="retrying_dialog_body" msgid="4738260459043003431">"הודעה זו <xliff:g id="MESSAGE">%s</xliff:g> לא נשלחה עקב בעיה בחיבור."\n"מנסה שוב לשלוח…"</string>
     <string name="menu_lock" msgid="136863583207382259">"נעל הודעה"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"בטל נעילת הודעה"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"העתק לזיכרון של מחשב לוח"</string>
@@ -310,17 +292,11 @@
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"דוח מסירה"</string>
     <string name="storage_limits_activity" msgid="8810530813311077716">"מגבלות אחסון"</string>
-    <string name="add_attachment_activity" msgid="5324811371129695320">"הוסף קובץ מצורף:"</string>
-    <string name="select_layout_activity" msgid="5041916695464513848">"בחר פריסה"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"שנה את משך הזמן"</string>
-    <string name="edit_text_activity" msgid="5915226413346879213">"ערוך טקסט"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"ערוך הצגת שקופיות"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"ערוך שקופית"</string>
-    <string name="pick_numbers_activity" msgid="2083330191224178637">"בחר מספרים"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"הצגת שקופיות"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"הודעה ברמה 0"</string>
-    <string name="send_using_mms_activity" msgid="3703434556280345726">"שלח כהודעת מולטימדיה…"</string>
-    <string name="select_contact_method_activity" msgid="1743384358979323991">"בחר שיטת ליצירת קשר"</string>
     <string name="search_label" msgid="6042598929386174964">"העברת הודעות"</string>
     <string name="search_hint" msgid="7183732852849365466">"חפש במסירת הודעות"</string>
     <string name="search" msgid="7560238620274735199">"העברת הודעות"</string>

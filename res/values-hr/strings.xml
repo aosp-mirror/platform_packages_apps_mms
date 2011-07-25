@@ -22,7 +22,6 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="1503967887341230795">"Slanje poruka"</string>
     <string name="new_message" msgid="1530369762346003973">"Nova poruka"</string>
-    <string name="create_new_message" msgid="8735943333953093860">"Stvaranje nove poruke"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Nazovi <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Pošaljite poruku e-pošte na <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Stvori novu poruku"</string>
@@ -32,21 +31,15 @@
     <string name="menu_search" msgid="2289469305728821360">"Traži"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Izbriši sve niti"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Izbriši nit"</string>
-    <string name="menu_undelivered_messages" msgid="3896857623211780616">"Neisporučene poruke"</string>
     <string name="menu_view" msgid="7448852683948080108">"Prikaži nit"</string>
     <string name="refreshing" msgid="987335057871404222">"Osvježavanje..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Skica"</string>
-    <string name="broadcast_from_to" msgid="2050376286109362539">"Od pošiljatelja <xliff:g id="SENDER">%1$s</xliff:g> za primatelja <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
-    <string name="anonymous_recipient" msgid="2501437626187039034">"Anonimni"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Bez predmeta)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Ja"</string>
-    <string name="view_picture" msgid="4356315935277709195">"Prikaz slike"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Prikaz dijaprojekcije"</string>
     <string name="view_message_details" msgid="2443165773568096234">"Prikaz pojedinosti poruke"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Prikaži izvješće"</string>
     <string name="delete_message" msgid="8888447283788388395">"Izbriši poruku"</string>
-    <string name="sent_on" msgid="5868288548564632354">"Poslano: <xliff:g id="DATE">%s</xliff:g>"</string>
-    <string name="received_on" msgid="745813167330942475">"Primljeno: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"Ističe: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Neisporučena poruka"</string>
@@ -56,7 +49,6 @@
     <string name="menu_forward" msgid="9026858380050046756">"Proslijedi"</string>
     <string name="download" msgid="4488877642230207631">"Preuzmi"</string>
     <string name="downloading" msgid="1779557575565350637">"Preuzimanje"</string>
-    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Predmet: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Tekst zaštićen DRM pravima *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Otkrivena su nedostatna DRM prava."</string>
@@ -77,7 +69,6 @@
     <string name="remove_music" msgid="858889733416015223">"Ukloni glazbu"</string>
     <string name="add_video" msgid="7816866867806595144">"Dodaj videozapis"</string>
     <string name="remove_video" msgid="5258603891528497799">"Ukloni videozapis"</string>
-    <string name="compose_title" msgid="558578836596816068">"Stvori novu poruku"</string>
     <string name="to_hint" msgid="224029549150332986">"Prima:"</string>
     <string name="subject_hint" msgid="4296714962311604126">"Predmet"</string>
     <string name="add_attachment" msgid="7103751293360532684">"Priloži"</string>
@@ -91,8 +82,6 @@
     <string name="all_threads" msgid="2663426830306307194">"Sve niti"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Upišite tekst da biste stvorili novu poruku"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Otvorite tipkovnicu za stvaranje nove poruke"</string>
-    <string name="image_too_large" msgid="261880224164478061">"Slika je prevelika"</string>
-    <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Automatski promijeniti veličinu prije slanja?"</string>
     <string name="compressing" msgid="1961357529661045180">"Slika je prevelika. Komprimiranje..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Nepodržani format <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Odaberite drugo ime <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -108,6 +97,8 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Nevažeća odredišna adresa."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Usluga nije aktivirana na mreži."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Poruka je istekla ili nije dostupna."</string>
+    <!-- no translation found for service_network_problem (5418984934499160536) -->
+    <skip />
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Ispravite ime primatelja ili neće primiti poruku."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Nije moguće poslati ovu poruku"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Poruka nema važećeg primatelja."</string>
@@ -117,14 +108,11 @@
     <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"Nije moguće dodati još slajdova."</string>
     <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"Nije moguće dodati videozapis i sliku jednom slajdu."</string>
     <string name="cannot_save_message" msgid="5026354972915392301">"Nije moguće spremiti poruku."</string>
-    <string name="cannot_load_message" msgid="2577010607550849892">"Nije moguće učitati poruku."</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"Poruka je spremljena kao skica."</string>
-    <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"Zaključana poruka ne može biti izbrisana."</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"Poruka ima previše primatelja (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). Broj primatelja ograničen je na <xliff:g id="MAXLIMIT">%2$s</xliff:g>."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"Ograničenje broja privitaka je: <xliff:g id="MAXLIMIT">%1$s</xliff:g>. Dodano će biti samo ovoliko prvih privitaka: <xliff:g id="CURRENTCOUNT">%2$s</xliff:g>."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Dodavanje privitaka"</string>
     <string name="adding_attachments" msgid="2423616900586221924">"Pričekajte dok se stavke dodaju u dijaprojekciju."</string>
-    <string name="multiple_recipients" msgid="8747754491343248141">"Broj primatelja: <xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g>"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"Nije moguće reproducirati audio."</string>
     <string name="preview" msgid="5438149136136446756">"Pregled"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Pregled"</string>
@@ -159,7 +147,6 @@
     <string name="set" msgid="4642365398263275979">"Postavi"</string>
     <string name="play" msgid="1888432400937785115">"Reproduciraj"</string>
     <string name="edit" msgid="5912118407791492696">"Uređivanje"</string>
-    <string name="resize" msgid="4308912589984220360">"Promijeni veličinu"</string>
     <string name="try_to_send" msgid="1996751738286080976">"Pokušaj poslati"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Postavke"</string>
     <string name="restore_default" msgid="7165341506551155053">"Vrati na zadane postavke"</string>
@@ -196,7 +183,6 @@
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Automatski dohvaćaj poruke"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Automatski dohvat u roamingu"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Automatski dohvaćaj poruke u roamingu"</string>
-    <string name="to_label" msgid="2355268818058389047">"Prima: "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Izbriši"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Izbrisati zaključanu poruku?"</string>
   <plurals name="confirm_delete_conversation">
@@ -207,7 +193,6 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Sve niti bit će izbrisane."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Poruka će biti izbrisana"</string>
     <string name="confirm_delete_locked_message" msgid="5863578342246077057">"Sigurno želite izbrisati ovu zaključanu poruku?"</string>
-    <string name="confirm_delete_all_messages" msgid="5836389073199814660">"Cijela će nit biti izbrisana."</string>
     <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"Sve poruke na SIM kartici bit će izbrisane."</string>
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Ova poruka na SIM kartici bit će izbrisana."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Izbriši zaključane poruke"</string>
@@ -234,10 +219,7 @@
     <string name="message_class_label" msgid="5115748690481550562">"Klasa poruke: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"Kôd pogreške: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Uređivanje"</string>
-    <string name="menu_retry_sending" msgid="3146582005568302643">"Pokušaj poslati ponovo"</string>
-    <string name="menu_retry_sending_all" msgid="1870529976966340616">"Pokušaj sve poslati ponovo"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Izbriši poruke"</string>
-    <string name="retrying_dialog_body" msgid="4738260459043003431">"Poruka <xliff:g id="MESSAGE">%s</xliff:g> nije poslana zbog problema s vezom."\n"Pokušaj ponovnog slanja..."</string>
     <string name="menu_lock" msgid="136863583207382259">"Zaključaj poruku"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Otključaj poruku"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopiraj u memoriju tabletnog uređaja"</string>
@@ -310,17 +292,11 @@
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"Izvješće o isporuci"</string>
     <string name="storage_limits_activity" msgid="8810530813311077716">"Ograničenja za pohranjivanje"</string>
-    <string name="add_attachment_activity" msgid="5324811371129695320">"Dodaj privitak:"</string>
-    <string name="select_layout_activity" msgid="5041916695464513848">"Odabir izgleda"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"Promjena trajanja"</string>
-    <string name="edit_text_activity" msgid="5915226413346879213">"Uređivanje teksta"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"Uređivanje dijaprojekcije"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"Uređivanje slajda"</string>
-    <string name="pick_numbers_activity" msgid="2083330191224178637">"Odaberite brojeve"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Dijaprojekcija"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"Poruka klase 0"</string>
-    <string name="send_using_mms_activity" msgid="3703434556280345726">"Pošalji kao multimedijsku poruku…"</string>
-    <string name="select_contact_method_activity" msgid="1743384358979323991">"Odaberite način kontaktiranja"</string>
     <string name="search_label" msgid="6042598929386174964">"Slanje poruka"</string>
     <string name="search_hint" msgid="7183732852849365466">"Pretraživanje slanja poruka"</string>
     <string name="search" msgid="7560238620274735199">"Slanje poruka"</string>

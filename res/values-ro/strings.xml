@@ -22,7 +22,6 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="1503967887341230795">"Mesagerie"</string>
     <string name="new_message" msgid="1530369762346003973">"Mesaj nou"</string>
-    <string name="create_new_message" msgid="8735943333953093860">"Scrieţi un mesaj nou"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Apelaţi <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Trimiteţi e-mail către <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Scrieţi"</string>
@@ -32,21 +31,15 @@
     <string name="menu_search" msgid="2289469305728821360">"Căutaţi"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Ştergeţi toate şirurile"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Ştergeţi firul de conversaţie"</string>
-    <string name="menu_undelivered_messages" msgid="3896857623211780616">"Mesaje neexpediate"</string>
     <string name="menu_view" msgid="7448852683948080108">"Vizualizaţi firele de conversaţie"</string>
     <string name="refreshing" msgid="987335057871404222">"Se actualizează..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Mesaj nefinalizat"</string>
-    <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> către <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
-    <string name="anonymous_recipient" msgid="2501437626187039034">"Anonim"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(niciun subiect)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Eu"</string>
-    <string name="view_picture" msgid="4356315935277709195">"Vizualizaţi fotografia"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Vizualizaţi prezentarea"</string>
     <string name="view_message_details" msgid="2443165773568096234">"Vizualizaţi detaliile mesajului"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Vizualizaţi raportul"</string>
     <string name="delete_message" msgid="8888447283788388395">"Ştergeţi mesajul"</string>
-    <string name="sent_on" msgid="5868288548564632354">"Trimis: <xliff:g id="DATE">%s</xliff:g>"</string>
-    <string name="received_on" msgid="745813167330942475">"Primit: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"Expiră la: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KO"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Mesaje neexpediate"</string>
@@ -56,7 +49,6 @@
     <string name="menu_forward" msgid="9026858380050046756">"Redirecţionaţi"</string>
     <string name="download" msgid="4488877642230207631">"Descărcaţi"</string>
     <string name="downloading" msgid="1779557575565350637">"Se descarcă"</string>
-    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Subiect: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Text protejat prin DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Drepturile DRM detectate sunt insuficiente."</string>
@@ -77,7 +69,6 @@
     <string name="remove_music" msgid="858889733416015223">"Eliminaţi muzica"</string>
     <string name="add_video" msgid="7816866867806595144">"Adăugaţi un videoclip"</string>
     <string name="remove_video" msgid="5258603891528497799">"Eliminaţi videoclipul"</string>
-    <string name="compose_title" msgid="558578836596816068">"Scrieţi"</string>
     <string name="to_hint" msgid="224029549150332986">"Pentru"</string>
     <string name="subject_hint" msgid="4296714962311604126">"Subiect"</string>
     <string name="add_attachment" msgid="7103751293360532684">"Ataşaţi"</string>
@@ -91,8 +82,6 @@
     <string name="all_threads" msgid="2663426830306307194">"Toate firele de conversaţie"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Introduceţi text pentru a compune"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Deschideţi tastatura pentru a scrie un mesaj"</string>
-    <string name="image_too_large" msgid="261880224164478061">"Fotografie prea mare"</string>
-    <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Redimensionaţi automat fotografia înainte de trimitere?"</string>
     <string name="compressing" msgid="1961357529661045180">"Imaginea este prea mare. Se comprimă..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Format <xliff:g id="NAME">%1$s</xliff:g> neacceptat"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Selectaţi un alt <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -108,6 +97,8 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Adresă de destinaţie nevalidă."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Serviciul nu este activat în reţea."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Mesajul a expirat sau nu este disponibil."</string>
+    <!-- no translation found for service_network_problem (5418984934499160536) -->
+    <skip />
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Corectaţi destinatarul (destinatarii), altfel nu va (vor) primi mesajul."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Acest mesaj nu poate fi trimis"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Mesajul dvs. nu are un destinatar valid."</string>
@@ -117,14 +108,11 @@
     <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"Nu se pot adăuga mai multe diapozitive."</string>
     <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"Nu pot fi adăugate şi videoclipul şi fotografia pe acelaşi diapozitiv."</string>
     <string name="cannot_save_message" msgid="5026354972915392301">"Mesajul nu poate fi salvat."</string>
-    <string name="cannot_load_message" msgid="2577010607550849892">"Mesajul nu poate fi încărcat."</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"Mesaj salvat ca mesaj nefinalizat."</string>
-    <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"Mesajul blocat nu poate fi şters."</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"Acest mesaj are prea mulţi destinatari (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). Există o limită de <xliff:g id="MAXLIMIT">%2$s</xliff:g> (de) destinatari."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"Există o limită de <xliff:g id="MAXLIMIT">%1$s</xliff:g> (de) fişiere ataşate. Doar primele <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> vor fi adăugate."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Se adaugă ataşamente"</string>
     <string name="adding_attachments" msgid="2423616900586221924">"Aşteptaţi cât timp elementele sunt adăugate la prezentare."</string>
-    <string name="multiple_recipients" msgid="8747754491343248141">"<xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g> (de) destinatari"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"Înregistrarea audio nu poate fi redată."</string>
     <string name="preview" msgid="5438149136136446756">"Previzualizaţi"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Previzualizaţi"</string>
@@ -159,7 +147,6 @@
     <string name="set" msgid="4642365398263275979">"Setaţi"</string>
     <string name="play" msgid="1888432400937785115">"Redaţi"</string>
     <string name="edit" msgid="5912118407791492696">"Modificaţi"</string>
-    <string name="resize" msgid="4308912589984220360">"Redimensionaţi"</string>
     <string name="try_to_send" msgid="1996751738286080976">"Încercaţi să trimiteţi"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Setări"</string>
     <string name="restore_default" msgid="7165341506551155053">"Restabiliţi setările prestabilite"</string>
@@ -196,7 +183,6 @@
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Primiţi automat mesajele"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Preluare automată a mesajelor când este activat serviciul de roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Preluarea automată a mesajelor în roaming"</string>
-    <string name="to_label" msgid="2355268818058389047">"Către "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Ştergeţi"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Ştergeţi mesajul blocat?"</string>
   <plurals name="confirm_delete_conversation">
@@ -207,7 +193,6 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Toate firele de conversaţie vor fi şterse."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Mesajul va fi şters."</string>
     <string name="confirm_delete_locked_message" msgid="5863578342246077057">"Sigur doriţi să ştergeţi acest mesaj blocat?"</string>
-    <string name="confirm_delete_all_messages" msgid="5836389073199814660">"Firul de conversaţie va fi şters în întregime."</string>
     <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"Toate mesajele de pe cardul SIM vor fi şterse."</string>
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Acest mesaj de pe cardul SIM va fi şters."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Ştergeţi mesajele blocate"</string>
@@ -234,10 +219,7 @@
     <string name="message_class_label" msgid="5115748690481550562">"Clasa de mesaj: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"Cod de eroare: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Modificaţi"</string>
-    <string name="menu_retry_sending" msgid="3146582005568302643">"Încercaţi să trimiteţi din nou"</string>
-    <string name="menu_retry_sending_all" msgid="1870529976966340616">"Încercaţi să trimiteţi din nou toate mesajele"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Ştergeţi mesajele"</string>
-    <string name="retrying_dialog_body" msgid="4738260459043003431">"Mesajul <xliff:g id="MESSAGE">%s</xliff:g> nu a fost trimis din cauza unei probleme de conectare."\n"Se încearcă din nou trimiterea..."</string>
     <string name="menu_lock" msgid="136863583207382259">"Blocaţi mesajul"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Deblocaţi mesajul"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Copiaţi în memoria computerului tablet PC"</string>
@@ -310,17 +292,11 @@
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"Raport de expediere"</string>
     <string name="storage_limits_activity" msgid="8810530813311077716">"Limite de stocare"</string>
-    <string name="add_attachment_activity" msgid="5324811371129695320">"Adăugaţi un ataşament:"</string>
-    <string name="select_layout_activity" msgid="5041916695464513848">"Selectaţi aspectul"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"Modificaţi durata"</string>
-    <string name="edit_text_activity" msgid="5915226413346879213">"Modificaţi text"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"Modificaţi prezentarea"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"Modificaţi diapozitivul"</string>
-    <string name="pick_numbers_activity" msgid="2083330191224178637">"Alegeţi numerele"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Prezentare"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"Mesaje clasa 0"</string>
-    <string name="send_using_mms_activity" msgid="3703434556280345726">"Trimiteţi ca mesaj multimedia..."</string>
-    <string name="select_contact_method_activity" msgid="1743384358979323991">"Selectaţi metoda de contact"</string>
     <string name="search_label" msgid="6042598929386174964">"Mesagerie"</string>
     <string name="search_hint" msgid="7183732852849365466">"Căutare în mesagerie"</string>
     <string name="search" msgid="7560238620274735199">"Mesagerie"</string>

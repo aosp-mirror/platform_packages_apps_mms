@@ -24,8 +24,6 @@
     <skip />
     <!-- no translation found for new_message (1530369762346003973) -->
     <skip />
-    <!-- no translation found for create_new_message (8735943333953093860) -->
-    <skip />
     <!-- no translation found for menu_call_back (7538482331117914146) -->
     <skip />
     <!-- no translation found for menu_send_email (671366308915241664) -->
@@ -39,22 +37,15 @@
     <!-- no translation found for menu_search (2289469305728821360) -->
     <skip />
     <string name="menu_delete_all" msgid="808729454898114735">"Susa zonke izindikimba"</string>
-    <string name="menu_delete" msgid="1851666911396479006">"Susa indikimba"</string>
-    <!-- no translation found for menu_undelivered_messages (3896857623211780616) -->
-    <skip />
+    <string name="menu_delete" msgid="1851666911396479006">"Susa umlando womlayezo"</string>
     <string name="menu_view" msgid="7448852683948080108">"Buka uchunguchunge"</string>
     <!-- no translation found for refreshing (987335057871404222) -->
     <skip />
     <!-- no translation found for has_draft (2487465595514636160) -->
     <skip />
-    <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> kuya ku-<xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
-    <!-- no translation found for anonymous_recipient (2501437626187039034) -->
-    <skip />
     <!-- no translation found for no_subject_view (7795086723069563537) -->
     <skip />
     <!-- no translation found for messagelist_sender_self (3579016854116401602) -->
-    <skip />
-    <!-- no translation found for view_picture (4356315935277709195) -->
     <skip />
     <!-- no translation found for view_slideshow (4990460971211388453) -->
     <skip />
@@ -63,9 +54,6 @@
     <!-- no translation found for view_delivery_report (8219095994071575215) -->
     <skip />
     <!-- no translation found for delete_message (8888447283788388395) -->
-    <skip />
-    <string name="sent_on" msgid="5868288548564632354">"Thunyelwe: <xliff:g id="DATE">%s</xliff:g>"</string>
-    <!-- no translation found for received_on (745813167330942475) -->
     <skip />
     <string name="expire_on" msgid="4436268382742593921">"Okuphelelwa yisikhathi: <xliff:g id="DATE">%s</xliff:g>"</string>
     <!-- no translation found for kilobyte (534782148965716631) -->
@@ -83,7 +71,6 @@
     <skip />
     <!-- no translation found for downloading (1779557575565350637) -->
     <skip />
-    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Isihloko: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* umbhalo ovikelwe nge-DRM *"</string>
     <!-- no translation found for insufficient_drm_rights (6989074725969164383) -->
@@ -119,8 +106,6 @@
     <skip />
     <!-- no translation found for remove_video (5258603891528497799) -->
     <skip />
-    <!-- no translation found for compose_title (558578836596816068) -->
-    <skip />
     <!-- no translation found for to_hint (224029549150332986) -->
     <skip />
     <!-- no translation found for subject_hint (4296714962311604126) -->
@@ -142,12 +127,8 @@
     <string name="mms" msgid="1587631213714914559">"i-MMS"</string>
     <!-- no translation found for all_threads (2663426830306307194) -->
     <skip />
-    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Thayipha ukuqamba"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Thayipha ukuze ubhale"</string>
     <!-- no translation found for open_keyboard_to_compose_message (1668723196441776085) -->
-    <skip />
-    <!-- no translation found for image_too_large (261880224164478061) -->
-    <skip />
-    <!-- no translation found for ask_for_automatically_resize (7657603662407738758) -->
     <skip />
     <string name="compressing" msgid="1961357529661045180">"Isithombe sikhulu kakhulu. Iyanciphisa..."</string>
     <!-- no translation found for unsupported_media_format (5037111178813903722) -->
@@ -176,6 +157,8 @@
     <skip />
     <!-- no translation found for service_message_not_found (1908877102600048515) -->
     <skip />
+    <!-- no translation found for service_network_problem (5418984934499160536) -->
+    <skip />
     <!-- no translation found for invalid_recipient_message (7315539322634238519) -->
     <skip />
     <!-- no translation found for cannot_send_message (3918913277571649400) -->
@@ -191,15 +174,12 @@
     <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"Ayikwazi ukufaka ividiyo nesithombe eslayidini esisodwa."</string>
     <!-- no translation found for cannot_save_message (5026354972915392301) -->
     <skip />
-    <string name="cannot_load_message" msgid="2577010607550849892">"Ayikwazi ukulayisha umyalezo."</string>
     <!-- no translation found for message_saved_as_draft (2503018972659880692) -->
     <skip />
-    <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"Umyalezo ovaliwe awukwazi ukususwa."</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"Lomyalezo unabamukeli abaningi kakhulu <xliff:g id="CURRENTCOUNT">%1$s</xliff:g>. Kunomkhawulo <xliff:g id="MAXLIMIT">%2$s</xliff:g> wabamukeli."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"Kunemikhawulo <xliff:g id="MAXLIMIT">%1$s</xliff:g> yezinamathiseli. Eyokuqala kuphela <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> ezofakwa."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Yengeza izinamathiseli"</string>
     <string name="adding_attachments" msgid="2423616900586221924">"Sicela ulinde ngenkathi izintwana zifakwa kumbukiso weslayidi."</string>
-    <string name="multiple_recipients" msgid="8747754491343248141">"<xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g> abamukeli"</string>
     <!-- no translation found for cannot_play_audio (575086601128003093) -->
     <skip />
     <!-- no translation found for preview (5438149136136446756) -->
@@ -250,8 +230,6 @@
     <skip />
     <!-- no translation found for edit (5912118407791492696) -->
     <skip />
-    <!-- no translation found for resize (4308912589984220360) -->
-    <skip />
     <!-- no translation found for try_to_send (1996751738286080976) -->
     <skip />
     <string name="preferences_title" msgid="6650089610332670157">"Izilungiselelo"</string>
@@ -260,7 +238,7 @@
     <skip />
     <string name="pref_mms_settings_title" msgid="2573616208360684392">"Izilungiselelo zomyalezo woxhumano oluxubile (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="9088516111717417514">"Izilungiselelo zomyalezo wombhalo (SMS)"</string>
-    <string name="pref_sms_storage_title" msgid="2531726671883516470">"Izilungiselelo zokugcina"</string>
+    <string name="pref_sms_storage_title" msgid="2531726671883516470">"Izilungiselelo zesitoreji"</string>
     <!-- no translation found for pref_summary_manage_sim_messages (4141349892597640864) -->
     <skip />
     <!-- no translation found for pref_summary_mms_delivery_reports (4874657984217756112) -->
@@ -305,7 +283,6 @@
     <skip />
     <!-- no translation found for pref_summary_mms_retrieval_during_roaming (2427892806582531020) -->
     <skip />
-    <string name="to_label" msgid="2355268818058389047">"Iya ku "</string>
     <!-- no translation found for confirm_dialog_title (5810813994465120375) -->
     <skip />
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Susa umyalezo ovaliwe?"</string>
@@ -318,8 +295,6 @@
     <!-- no translation found for confirm_delete_message (9121480656609809591) -->
     <skip />
     <string name="confirm_delete_locked_message" msgid="5863578342246077057">"Unesiqiniseko soukuthi ufuna ukususa lomyalezo ovaliwe?"</string>
-    <!-- no translation found for confirm_delete_all_messages (5836389073199814660) -->
-    <skip />
     <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"Yonke imiyalezo eku-SIM izosuswa."</string>
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Lomyalezo osekhadini le-SIM uzosuswa."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Susa imiyalezo evaliwe"</string>
@@ -364,17 +339,12 @@
     <string name="error_code_label" msgid="5810068247647058769">"Ikhodi yephutha: "</string>
     <!-- no translation found for menu_edit (3056513240155967777) -->
     <skip />
-    <!-- no translation found for menu_retry_sending (3146582005568302643) -->
-    <skip />
-    <!-- no translation found for menu_retry_sending_all (1870529976966340616) -->
-    <skip />
     <!-- no translation found for menu_delete_messages (2610286783513247420) -->
     <skip />
-    <string name="retrying_dialog_body" msgid="4738260459043003431">"Lomyalezo <xliff:g id="MESSAGE">%s</xliff:g> awuthunyelwanga ngenxa yenkinga yoxhumano."\n"Izama futhi ukuthumela..."</string>
     <string name="menu_lock" msgid="136863583207382259">"Vala umyalezo"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Vula umyalezo"</string>
-    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopisha kwinkumbulo yefoni."</string>
-    <!-- outdated translation 3721000641648594602 -->     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Kopisha kwinkumbulo yefoni."</string>
+    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopishela kwimemori yethebhuyulethi."</string>
+    <!-- outdated translation 3721000641648594602 -->     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Kopishela kwimemori yethebhuyulethi."</string>
     <!-- no translation found for sim_delete (610790510655316922) -->
     <skip />
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Imiyalezo yombhalo ekhadini le-SIM"</string>
@@ -423,8 +393,8 @@
     <skip />
     <!-- no translation found for sim_full_body (6241664980790322925) -->
     <skip />
-    <string name="sms_full_title" msgid="6041287140125011854">"Inkumbulo yomyalezo wombhalo igcwele"</string>
-    <string name="sms_full_body" msgid="7757490997215434514">"Umyalezo ongenayo unqatshelwe ngenxa yokuthi inkumbulo igcwele. Sicela ususe imiyalezo endala."</string>
+    <string name="sms_full_title" msgid="6041287140125011854">"Imemori yomlayezo wombhalo igcwele"</string>
+    <string name="sms_full_body" msgid="7757490997215434514">"Umlayezo ongenayo unqatshelwa ngenxa yokuthi imemori igcwele. Sicela ususe imilayezo endala."</string>
     <string name="sms_rejected_title" msgid="8548394922491529811">"Umyalezo wombhalo wenqatshelwe"</string>
     <string name="sms_rejected_body" msgid="7187754586609631934">"Umyalezo ongenayo unqatshelwe ngenxa yesizathu esingaziwe."</string>
     <!-- no translation found for type_audio (3842064092332309756) -->
@@ -466,7 +436,7 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Gcina njenge ringithoni"</string>
     <string name="saved_ringtone" msgid="6616730290861857836">"Iringithoni igciniwe"</string>
     <string name="saved_ringtone_fail" msgid="5447210504935083544">"Ukugcina iringithoni kwehlulekile"</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Faka ubuso obumomozelayo"</string>
+    <string name="menu_insert_smiley" msgid="4964504393061025071">"Faka ismayili"</string>
     <string name="select_link_title" msgid="600168208731216059">"Khetha isenzo"</string>
     <string name="slide_number" msgid="1923958526266726635">"Islayidi <xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
@@ -475,18 +445,12 @@
     <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g> amasekhondi"</item>
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"Umbiko wokuthumela"</string>
-    <string name="storage_limits_activity" msgid="8810530813311077716">"Imikhawulo yokulondoloza"</string>
-    <string name="add_attachment_activity" msgid="5324811371129695320">"Faka isinamathiseli:"</string>
-    <string name="select_layout_activity" msgid="5041916695464513848">"Khetha ukwakheka"</string>
+    <string name="storage_limits_activity" msgid="8810530813311077716">"Imikhawulo yesitoreji"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"Shintsha ubude"</string>
-    <string name="edit_text_activity" msgid="5915226413346879213">"Hlela umbhalo"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"Hlela umbukiso weslayidi"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"Hlela islayidi"</string>
-    <string name="pick_numbers_activity" msgid="2083330191224178637">"Khetha Izinombolo"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Umbukiso weslaydi"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"Isigaba 0 Umyalezo"</string>
-    <string name="send_using_mms_activity" msgid="3703434556280345726">"Thumela njengomyalezo yokuxhumana okuxubile..."</string>
-    <string name="select_contact_method_activity" msgid="1743384358979323991">"Khetha Indlela Yokuthintana"</string>
     <string name="search_label" msgid="6042598929386174964">"Umyalezo"</string>
     <string name="search_hint" msgid="7183732852849365466">"Isesha Umyalezo"</string>
     <string name="search" msgid="7560238620274735199">"Umyalezo"</string>

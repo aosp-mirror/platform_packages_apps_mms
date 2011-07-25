@@ -22,7 +22,6 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="1503967887341230795">"المراسلات"</string>
     <string name="new_message" msgid="1530369762346003973">"رسالة جديدة"</string>
-    <string name="create_new_message" msgid="8735943333953093860">"إنشاء رسالة جديدة"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"الاتصال بـ <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"إرسال رسالة إلكترونية إلى <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"إنشاء"</string>
@@ -32,21 +31,15 @@
     <string name="menu_search" msgid="2289469305728821360">"بحث"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"حذف كل سلاسل المحادثات"</string>
     <string name="menu_delete" msgid="1851666911396479006">"حذف السلسلة"</string>
-    <string name="menu_undelivered_messages" msgid="3896857623211780616">"رسائل لم يتم تسليمها"</string>
     <string name="menu_view" msgid="7448852683948080108">"عرض السلسلة"</string>
     <string name="refreshing" msgid="987335057871404222">"جارٍ التحديث..."</string>
     <string name="has_draft" msgid="2487465595514636160">"مسودة"</string>
-    <string name="broadcast_from_to" msgid="2050376286109362539">"<xliff:g id="SENDER">%1$s</xliff:g> إلى <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
-    <string name="anonymous_recipient" msgid="2501437626187039034">"مجهول"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(بلا موضوع)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"أنا"</string>
-    <string name="view_picture" msgid="4356315935277709195">"عرض الصورة"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"إظهار عرض الشريحة"</string>
     <string name="view_message_details" msgid="2443165773568096234">"عرض تفاصيل الرسالة"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"عرض التقرير"</string>
     <string name="delete_message" msgid="8888447283788388395">"حذف الرسالة"</string>
-    <string name="sent_on" msgid="5868288548564632354">"تم الإرسال: <xliff:g id="DATE">%s</xliff:g>"</string>
-    <string name="received_on" msgid="745813167330942475">"تم التلقي: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="expire_on" msgid="4436268382742593921">"تاريخ انتهاء الصلاحية: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"كيلوبايت"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"رسالة لم يتم تسليمها"</string>
@@ -56,7 +49,6 @@
     <string name="menu_forward" msgid="9026858380050046756">"إعادة توجيه"</string>
     <string name="download" msgid="4488877642230207631">"تنزيل"</string>
     <string name="downloading" msgid="1779557575565350637">"تنزيل"</string>
-    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;الموضوع: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* نص خاضع لحماية * DRM"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"تم اكتشاف حقوق DRM غير كافية."</string>
@@ -77,7 +69,6 @@
     <string name="remove_music" msgid="858889733416015223">"إزالة الموسيقى"</string>
     <string name="add_video" msgid="7816866867806595144">"إضافة فيديو"</string>
     <string name="remove_video" msgid="5258603891528497799">"إزالة الفيديو"</string>
-    <string name="compose_title" msgid="558578836596816068">"إنشاء"</string>
     <string name="to_hint" msgid="224029549150332986">"إلى"</string>
     <string name="subject_hint" msgid="4296714962311604126">"الموضوع"</string>
     <string name="add_attachment" msgid="7103751293360532684">"إرفاق"</string>
@@ -91,8 +82,6 @@
     <string name="all_threads" msgid="2663426830306307194">"كل السلاسل"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"اكتب للإنشاء"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"فتح لوحة المفاتيح لإنشاء رسالة"</string>
-    <string name="image_too_large" msgid="261880224164478061">"الصورة كبيرة جدًا"</string>
-    <string name="ask_for_automatically_resize" msgid="7657603662407738758">"هل تريد تغيير حجم الصورة تلقائيًا قبل الإرسال؟"</string>
     <string name="compressing" msgid="1961357529661045180">"حجم الصورة أكبر من اللازم. جارٍ الضغط..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"تنسيق <xliff:g id="NAME">%1$s</xliff:g> غير معتمد"</string>
     <string name="select_different_media" msgid="7573116916321879964">"الرجاء تحديد <xliff:g id="NAME">%1$s</xliff:g> مختلف."</string>
@@ -108,6 +97,8 @@
     <string name="invalid_destination" msgid="4573835601024786416">"عنوان الوجهة غير صالح."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"لم يتم تنشيط الخدمة على الشبكة."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"الرسالة غير متاحة أو انتهت صلاحيتها."</string>
+    <!-- no translation found for service_network_problem (5418984934499160536) -->
+    <skip />
     <string name="invalid_recipient_message" msgid="7315539322634238519">"الرجاء تصحيح المستلمين وإلا فلن يتلقوا الرسالة."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"لا يمكن إرسال هذه الرسالة"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"لا تشتمل رسالتك على مستلمين صالحين."</string>
@@ -117,14 +108,11 @@
     <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"لا يمكن إضافة مزيد من الشرائح."</string>
     <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"لا يمكن إضافة فيديو وصورة إلى شريحة واحدة."</string>
     <string name="cannot_save_message" msgid="5026354972915392301">"لا يمكن حفظ الرسالة."</string>
-    <string name="cannot_load_message" msgid="2577010607550849892">"لا يمكن تحميل الرسالة."</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"تمّ حفظ الرسالة كمسودة."</string>
-    <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"لا يمكن حذف رسالة مؤمنة."</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"تحتوي هذه الرسالة على مستلمين كثيرين (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). هناك حد يبلغ <xliff:g id="MAXLIMIT">%2$s</xliff:g> من المستلمين."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"هناك حد أقصى للمرفقات يبلغ <xliff:g id="MAXLIMIT">%1$s</xliff:g>. وستتم إضافة أول <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> فقط."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"إضافة مرفقات"</string>
     <string name="adding_attachments" msgid="2423616900586221924">"الرجاء الانتظار حتى تتم إضافة العناصر إلى شريحة العرض."</string>
-    <string name="multiple_recipients" msgid="8747754491343248141">"<xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g> من المستلمين"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"لا يمكن تشغيل الصوت."</string>
     <string name="preview" msgid="5438149136136446756">"معاينة"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"معاينة"</string>
@@ -159,7 +147,6 @@
     <string name="set" msgid="4642365398263275979">"تعيين"</string>
     <string name="play" msgid="1888432400937785115">"تشغيل"</string>
     <string name="edit" msgid="5912118407791492696">"تعديل"</string>
-    <string name="resize" msgid="4308912589984220360">"تغيير حجم"</string>
     <string name="try_to_send" msgid="1996751738286080976">"جرب الإرسال"</string>
     <string name="preferences_title" msgid="6650089610332670157">"الإعدادات"</string>
     <string name="restore_default" msgid="7165341506551155053">"استعادة الإعدادات الافتراضية"</string>
@@ -196,7 +183,6 @@
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"استرداد الرسائل تلقائيًا"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"استرداد تلقائي للتجوال"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"استرداد الرسائل تلقائيًا أثناء التجوال"</string>
-    <string name="to_label" msgid="2355268818058389047">"إلى "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"حذف"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"هل تريد حذف الرسالة المؤمنة؟"</string>
   <plurals name="confirm_delete_conversation">
@@ -207,7 +193,6 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"سيتم حذف جميع السلاسل."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"سيتم حذف الرسالة."</string>
     <string name="confirm_delete_locked_message" msgid="5863578342246077057">"هل تريد بالتأكيد حذف هذه الرسالة المقفلة؟"</string>
-    <string name="confirm_delete_all_messages" msgid="5836389073199814660">"سيتم حذف السلسلة بأكملها."</string>
     <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"سيتم حذف كل الرسائل من بطاقة SIM."</string>
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"سيتم حذف هذه الرسالة من بطاقة SIM."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"حذف الرسائل المؤمنة"</string>
@@ -234,10 +219,7 @@
     <string name="message_class_label" msgid="5115748690481550562">"فئة الرسالة: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"رمز الخطأ: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"تعديل"</string>
-    <string name="menu_retry_sending" msgid="3146582005568302643">"إعادة محاولة الإرسال"</string>
-    <string name="menu_retry_sending_all" msgid="1870529976966340616">"إعادة محاولة إرسال الكل"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"حذف الرسائل"</string>
-    <string name="retrying_dialog_body" msgid="4738260459043003431">"لم يتم إرسال هذه الرسالة <xliff:g id="MESSAGE">%s</xliff:g> نظرًا لوجود مشكلة في الاتصال."\n"جارٍ إعادة محاولة الإرسال..."</string>
     <string name="menu_lock" msgid="136863583207382259">"تأمين الرسالة"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"إلغاء تأمين الرسالة"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"نسخ إلى ذاكرة الجهاز اللوحي"</string>
@@ -310,17 +292,11 @@
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"تقرير التسليم"</string>
     <string name="storage_limits_activity" msgid="8810530813311077716">"حدود التخزين"</string>
-    <string name="add_attachment_activity" msgid="5324811371129695320">"إضافة مرفق:"</string>
-    <string name="select_layout_activity" msgid="5041916695464513848">"تحديد تخطيط"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"تغيير المدة"</string>
-    <string name="edit_text_activity" msgid="5915226413346879213">"تعديل النص"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"تعديل عرض الشرائح"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"تعديل الشريحة"</string>
-    <string name="pick_numbers_activity" msgid="2083330191224178637">"اختيار الأرقام"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"عرض الشرائح"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"رسالة من الفئة 0"</string>
-    <string name="send_using_mms_activity" msgid="3703434556280345726">"إرسال كرسالة وسائط متعددة..."</string>
-    <string name="select_contact_method_activity" msgid="1743384358979323991">"تحديد طريقة الاتصال"</string>
     <string name="search_label" msgid="6042598929386174964">"المراسلات"</string>
     <string name="search_hint" msgid="7183732852849365466">"بحث في المراسلة"</string>
     <string name="search" msgid="7560238620274735199">"المراسلات"</string>

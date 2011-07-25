@@ -22,7 +22,6 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="1503967887341230795">"SMS/MMS"</string>
     <string name="new_message" msgid="1530369762346003973">"Nov messadi"</string>
-    <string name="create_new_message" msgid="8735943333953093860">"Scriver in nov messadi"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Telefonar a <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Trametter in e-mail a <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Scriver"</string>
@@ -33,22 +32,15 @@
     <skip />
     <string name="menu_delete_all" msgid="808729454898114735">"Stizzar tut ils temas"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Stizzar il fil da discussiun"</string>
-    <string name="menu_undelivered_messages" msgid="3896857623211780616">"Messadis betg spedids"</string>
     <string name="menu_view" msgid="7448852683948080108">"Mussar il fil da discussiun"</string>
     <string name="refreshing" msgid="987335057871404222">"Actualisar…"</string>
     <string name="has_draft" msgid="2487465595514636160">"Sboz"</string>
-    <string name="broadcast_from_to" msgid="2050376286109362539">"Da <xliff:g id="SENDER">%1$s</xliff:g> a <xliff:g id="RECIPIENT">%2$s</xliff:g>"</string>
-    <string name="anonymous_recipient" msgid="2501437626187039034">"Anonim"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Nagin object)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Jau"</string>
-    <string name="view_picture" msgid="4356315935277709195">"Mussar il maletg"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Mussar la preschentaziun da dias"</string>
     <string name="view_message_details" msgid="2443165773568096234">"Mussar ils detagls dal messadi"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Mussar il rapport"</string>
     <string name="delete_message" msgid="8888447283788388395">"Stizzar il messadi"</string>
-    <string name="sent_on" msgid="5868288548564632354">"Tramess: <xliff:g id="DATE">%s</xliff:g>"</string>
-    <!-- no translation found for received_on (745813167330942475) -->
-    <skip />
     <string name="expire_on" msgid="4436268382742593921">"Data da scadenza: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Betg spedì il messadi"</string>
@@ -58,7 +50,6 @@
     <string name="menu_forward" msgid="9026858380050046756">"Renviar"</string>
     <string name="download" msgid="4488877642230207631">"Telechargiar"</string>
     <string name="downloading" msgid="1779557575565350637">"Telechargiada en process…"</string>
-    <string name="name_colon" msgid="7069560650889479120"><b>"<xliff:g id="NAME">%s</xliff:g>"</b>": "</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Object: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Text protegì cun DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Eruì dretgs DRM nunsuffizients."</string>
@@ -79,7 +70,6 @@
     <string name="remove_music" msgid="858889733416015223">"Allontanar la musica"</string>
     <string name="add_video" msgid="7816866867806595144">"Agiuntar in video"</string>
     <string name="remove_video" msgid="5258603891528497799">"Allontanar il video"</string>
-    <string name="compose_title" msgid="558578836596816068">"Scriver"</string>
     <string name="to_hint" msgid="224029549150332986">"A"</string>
     <string name="subject_hint" msgid="4296714962311604126">"Object"</string>
     <string name="add_attachment" msgid="7103751293360532684">"Agiuntar"</string>
@@ -93,8 +83,6 @@
     <string name="all_threads" msgid="2663426830306307194">"Tut ils fils da discussiun"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Tippai Voss messadi"</string>
     <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Avri la tastatura per scriver Voss messadi"</string>
-    <string name="image_too_large" msgid="261880224164478061">"Maletg memia grond"</string>
-    <string name="ask_for_automatically_resize" msgid="7657603662407738758">"Adattar automaticamain la grondezza dal maletg avant che trametter?"</string>
     <string name="compressing" msgid="1961357529661045180">"Il maletg è memia grond. Cumpressiun en process…"</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Il format da <xliff:g id="NAME">%1$s</xliff:g> na vegn betg sustegnì."</string>
     <string name="select_different_media" msgid="7573116916321879964">"Tscherni in auter element che <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -112,6 +100,8 @@
     <skip />
     <!-- no translation found for service_message_not_found (1908877102600048515) -->
     <skip />
+    <!-- no translation found for service_network_problem (5418984934499160536) -->
+    <skip />
     <string name="invalid_recipient_message" msgid="7315539322634238519">"\"Curregi il(s) num(s) da destinaturs, autramain na pon els betg retschaiver il messadi.\""</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Impussibel da trametter quest messadi"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Nagin destinatur valid è vegnì specifitgà per Voss messadi."</string>
@@ -121,14 +111,11 @@
     <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"Impussibel d\'agiuntar ulteriurs dias."</string>
     <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"Impussibel dad inserir a medem temp in video ed in maletg en in dia."</string>
     <string name="cannot_save_message" msgid="5026354972915392301">"Impussibel da memorisar il messadi."</string>
-    <string name="cannot_load_message" msgid="2577010607550849892">"Impussibel da chargiar il messadi."</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"Memorisà il messadi sco sboz"</string>
-    <string name="locked_message_cannot_be_deleted" msgid="6369452071783350219">"In messadi bloccà na po betg vegnir stizzà."</string>
     <string name="too_many_recipients" msgid="4239709214735078881">"Quest messadi cuntegna memia blers destinaturs (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). Il dumber da destinaturs è limità a <xliff:g id="MAXLIMIT">%2$s</xliff:g>."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"Il dumber d\'agiuntas è limità a <xliff:g id="MAXLIMIT">%1$s</xliff:g>. Mo ils emprims <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> vegnan agiuntads."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Agiuntas vegnan inseridas"</string>
     <string name="adding_attachments" msgid="2423616900586221924">"Spetgai per plaschair durant ch\'ils elements vegnan agiuntads a la preschentaziun da dias."</string>
-    <string name="multiple_recipients" msgid="8747754491343248141">"<xliff:g id="RECIPIENTCOUNT">%1$s</xliff:g> destinaturs"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"Impussibel da leger la datoteca audio."</string>
     <string name="preview" msgid="5438149136136446756">"Prevista"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Prevista"</string>
@@ -163,7 +150,6 @@
     <string name="set" msgid="4642365398263275979">"Definir"</string>
     <string name="play" msgid="1888432400937785115">"Far ir"</string>
     <string name="edit" msgid="5912118407791492696">"Modifitgar"</string>
-    <string name="resize" msgid="4308912589984220360">"Adattar la grondezza"</string>
     <string name="try_to_send" msgid="1996751738286080976">"Empruvar da trametter"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Parameters"</string>
     <string name="restore_default" msgid="7165341506551155053">"Restaurar ils parameters da standard"</string>
@@ -200,7 +186,6 @@
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Retschaiver automaticamain ils messadis"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Retschaiver autom. cun roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Retschaiver automaticamain ils messadis durant roaming"</string>
-    <string name="to_label" msgid="2355268818058389047">"A "</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Stizzar"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Allontanar il messadi bloccà?"</string>
     <!-- no translation found for confirm_delete_conversation:one (350118636090800360) -->
@@ -209,7 +194,6 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Tut ils fils da discussiun vegnan stizzads."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Il messadi vegn stizzà."</string>
     <string name="confirm_delete_locked_message" msgid="5863578342246077057">"Vulais Vus propi stizzar quest messadi bloccà?"</string>
-    <string name="confirm_delete_all_messages" msgid="5836389073199814660">"L\'entir fil da discussiun vegn stizzà."</string>
     <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"Tut ils messadis sin la SIM vegnan stizzads."</string>
     <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Quest messadi vegn stizzà da la carta SIM."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Stizzar ils messadis bloccads"</string>
@@ -237,10 +221,7 @@
     <string name="message_class_label" msgid="5115748690481550562">"Categoria dal messadi: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"Code d\'errur: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Modifitgar"</string>
-    <string name="menu_retry_sending" msgid="3146582005568302643">"Empruvar danovamain da trametter"</string>
-    <string name="menu_retry_sending_all" msgid="1870529976966340616">"Empruvar danovamain da trametter tuts"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Stizzar ils messadis"</string>
-    <string name="retrying_dialog_body" msgid="4738260459043003431">"Quest messadi <xliff:g id="MESSAGE">%s</xliff:g> n\'è betg vegnì tramess per motiv d\'in problem da connexiun. "\n"Ulteriura tentativa da trametter…"</string>
     <string name="menu_lock" msgid="136863583207382259">"Bloccar il messadi"</string>
     <string name="menu_unlock" msgid="5264877122797287929">"Debloccar il messadi"</string>
     <!-- outdated translation 5895767417844881971 -->     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Copiar en la memoria dal telefonin"</string>
@@ -313,17 +294,11 @@
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"Conferma da retschavida"</string>
     <string name="storage_limits_activity" msgid="8810530813311077716">"Limitas da memorisaziun"</string>
-    <string name="add_attachment_activity" msgid="5324811371129695320">"Inserir ina agiunta:"</string>
-    <string name="select_layout_activity" msgid="5041916695464513848">"Tscherner il layout"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"Midar la durada"</string>
-    <string name="edit_text_activity" msgid="5915226413346879213">"Modifitgar il text"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"Modifitgar la preschentaziun da dia"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"Modifitgar il dia"</string>
-    <string name="pick_numbers_activity" msgid="2083330191224178637">"Tscherner numers"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Preschentaziun da dia"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"Messadi categoria 0"</string>
-    <string name="send_using_mms_activity" msgid="3703434556280345726">"Trametter sco messadi multimedia…"</string>
-    <string name="select_contact_method_activity" msgid="1743384358979323991">"Tscherner ina metoda da contact"</string>
     <string name="search_label" msgid="6042598929386174964">"SMS/MMS"</string>
     <string name="search_hint" msgid="7183732852849365466">"Retschertgar ils SMS/MMS"</string>
     <string name="search" msgid="7560238620274735199">"SMS/MMS"</string>
