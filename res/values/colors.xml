@@ -21,9 +21,6 @@
     <!-- Activity background color -->
     <drawable name="class_zero_background">#7f040000</drawable>
 
-    <!-- Widget background -->
-    <drawable name="light_blue_background">#ffecfbff</drawable>
-
     <!-- text color -->
     <drawable name="text_color_red">#ffff0000</drawable>
     <drawable name="text_color_black">#ff000000</drawable>
