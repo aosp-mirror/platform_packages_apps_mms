@@ -84,6 +84,7 @@ import android.provider.MediaStore.Video;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
 import android.text.ClipboardManager;
 import android.text.Editable;
@@ -126,6 +127,7 @@ import android.widget.Toast;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.TelephonyProperties;
 import com.android.mms.LogTag;
+import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
@@ -1584,29 +1586,40 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void updateTitle(ContactList list) {
-        String s;
-        switch (list.size()) {
+        String title = null;;
+        String subTitle = null;
+        int cnt = list.size();
+        switch (cnt) {
             case 0: {
                 String recipient = null;
                 if (mRecipientsEditor != null) {
                     recipient = mRecipientsEditor.getText().toString();
                 }
-                s = TextUtils.isEmpty(recipient) ? getString(R.string.new_message) : recipient;
+                title = TextUtils.isEmpty(recipient) ? getString(R.string.new_message) : recipient;
                 break;
             }
             case 1: {
-                s = list.get(0).getNameAndNumber();
+                title = list.get(0).getName();      // get name returns the number if there's no
+                                                    // name available.
+                String number = list.get(0).getNumber();
+                if (!title.equals(number)) {
+                    subTitle = PhoneNumberUtils.formatNumber(number, number,
+                            MmsApp.getApplication().getCurrentCountryIso());
+                }
                 break;
             }
             default: {
                 // Handle multiple recipients
-                s = list.formatNames(", ");
+                title = list.formatNames(", ");
+                subTitle = getResources().getQuantityString(R.plurals.recipient_count, cnt, cnt);
                 break;
             }
         }
         mDebugRecipients = list.serialize();
 
-        getWindow().setTitle(s);
+        ActionBar actionBar = getActionBar();
+        actionBar.setTitle(title);
+        actionBar.setSubtitle(subTitle);
     }
 
     // Get the recipients editor ready to be displayed onscreen.
