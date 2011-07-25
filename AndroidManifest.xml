@@ -77,7 +77,7 @@
         <activity android:name=".ui.ComposeMessageActivity"
                   android:configChanges="orientation|keyboardHidden"
                   android:windowSoftInputMode="stateHidden"
-                  android:theme="@style/MmsHoloTheme"
+                  android:theme="@android:style/Theme.Holo.Light"
                   android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
