@@ -55,7 +55,7 @@
         <activity android:name=".ui.ConversationList"
                   android:label="@string/app_label"
                   android:configChanges="orientation|keyboardHidden"
-                  android:theme="@style/MmsHoloTheme"
+                  android:theme="@style/MmsHoloSplitActionBarTheme"
                   android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -77,7 +77,7 @@
         <activity android:name=".ui.ComposeMessageActivity"
                   android:configChanges="orientation|keyboardHidden"
                   android:windowSoftInputMode="stateHidden"
-                  android:theme="@android:style/Theme.Holo.Light"
+                  android:theme="@style/MmsHoloTheme"
                   android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -125,7 +125,8 @@
         <activity-alias android:name=".ui.ForwardMessageActivity"
                   android:targetActivity=".ui.ComposeMessageActivity"
                   android:configChanges="orientation|keyboardHidden"
-                  android:windowSoftInputMode="stateHidden" >
+                  android:windowSoftInputMode="stateHidden"
+                  android:theme="@style/MmsHoloTheme" >
         </activity-alias>
 
         <activity android:name=".ui.DeliveryReportActivity"
@@ -155,6 +156,7 @@
 
         <activity android:name=".ui.SlideshowActivity"
             android:noHistory="true"
+            android:theme="@style/MmsHoloTheme"
             android:label="@string/slideshow_activity">
         </activity>
 
@@ -165,6 +167,7 @@
         </activity>
 
         <activity android:name=".ui.MessagingPreferenceActivity"
+            android:theme="@style/MmsHoloTheme"
             android:label="@string/preferences_title" />
 
         <receiver android:name=".transaction.PushReceiver"
@@ -243,6 +246,7 @@
         </activity>
 
         <activity android:name=".ui.SearchActivity"
+            android:theme="@style/MmsHoloTheme"
             android:label="@string/search"
             android:configChanges="orientation|keyboardHidden" >
             <intent-filter>
