@@ -43,7 +43,6 @@ import java.util.regex.Pattern;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.AsyncQueryHandler;
@@ -89,14 +88,11 @@ import android.telephony.SmsMessage;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.TextKeyListener;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.URLSpan;
-import android.text.util.Linkify;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -112,7 +108,6 @@ import android.view.View.OnKeyListener;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -214,6 +209,7 @@ public class ComposeMessageActivity extends Activity
     private static final int MENU_LOCK_MESSAGE          = 28;
     private static final int MENU_UNLOCK_MESSAGE        = 29;
     private static final int MENU_COPY_TO_DRM_PROVIDER  = 30;
+    private static final int MENU_PREFERENCES           = 31;
 
     private static final int RECIPIENTS_MAX_LENGTH = 312;
 
@@ -793,66 +789,6 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
-    private final void addCallAndContactMenuItems(
-            ContextMenu menu, MsgListMenuClickListener l, MessageItem msgItem) {
-        // Add all possible links in the address & message
-        StringBuilder textToSpannify = new StringBuilder();
-        if (msgItem.mBoxId == Mms.MESSAGE_BOX_INBOX) {
-            textToSpannify.append(msgItem.mAddress + ": ");
-        }
-        textToSpannify.append(msgItem.mBody);
-
-        SpannableString msg = new SpannableString(textToSpannify.toString());
-        Linkify.addLinks(msg, Linkify.ALL);
-        ArrayList<String> uris =
-            MessageUtils.extractUris(msg.getSpans(0, msg.length(), URLSpan.class));
-
-        while (uris.size() > 0) {
-            String uriString = uris.remove(0);
-            // Remove any dupes so they don't get added to the menu multiple times
-            while (uris.contains(uriString)) {
-                uris.remove(uriString);
-            }
-
-            int sep = uriString.indexOf(":");
-            String prefix = null;
-            if (sep >= 0) {
-                prefix = uriString.substring(0, sep);
-                uriString = uriString.substring(sep + 1);
-            }
-            boolean addToContacts = false;
-            if ("mailto".equalsIgnoreCase(prefix))  {
-                String sendEmailString = getString(
-                        R.string.menu_send_email).replace("%s", uriString);
-                Intent intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("mailto:" + uriString));
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                menu.add(0, MENU_SEND_EMAIL, 0, sendEmailString)
-                    .setOnMenuItemClickListener(l)
-                    .setIntent(intent);
-                addToContacts = !haveEmailContact(uriString);
-            } else if ("tel".equalsIgnoreCase(prefix)) {
-                String callBackString = getString(
-                        R.string.menu_call_back).replace("%s", uriString);
-                Intent intent = new Intent(Intent.ACTION_CALL,
-                        Uri.parse("tel:" + uriString));
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                menu.add(0, MENU_CALL_BACK, 0, callBackString)
-                    .setOnMenuItemClickListener(l)
-                    .setIntent(intent);
-                addToContacts = !isNumberInContacts(uriString);
-            }
-            if (addToContacts) {
-                Intent intent = ConversationList.createAddContactIntent(uriString);
-                String addContactString = getString(
-                        R.string.menu_add_address_to_contacts).replace("%s", uriString);
-                menu.add(0, MENU_ADD_ADDRESS_TO_CONTACTS, 0, addContactString)
-                    .setOnMenuItemClickListener(l)
-                    .setIntent(intent);
-            }
-        }
-    }
-
     private boolean haveEmailContact(String emailAddress) {
         Cursor cursor = SqliteWrapper.query(this, getContentResolver(),
                 Uri.withAppendedPath(Email.CONTENT_LOOKUP_URI, Uri.encode(emailAddress)),
@@ -871,10 +807,6 @@ public class ComposeMessageActivity extends Activity
             }
         }
         return false;
-    }
-
-    private boolean isNumberInContacts(String phoneNumber) {
-        return Contact.get(phoneNumber, false).existsInDatabase();
     }
 
     private final OnCreateContextMenuListener mMsgListMenuCreateListener =
@@ -957,18 +889,9 @@ public class ComposeMessageActivity extends Activity
                 }
             }
 
-            addCallAndContactMenuItems(menu, l, msgItem);
-
             // Forward is not available for undownloaded messages.
             if (msgItem.isDownloaded()) {
                 menu.add(0, MENU_FORWARD_MESSAGE, 0, R.string.menu_forward)
-                        .setOnMenuItemClickListener(l);
-            }
-
-            // It is unclear what would make most sense for copying an MMS message
-            // to the clipboard, so we currently do SMS only.
-            if (msgItem.isSms()) {
-                menu.add(0, MENU_COPY_MESSAGE_TEXT, 0, R.string.copy_message_text)
                         .setOnMenuItemClickListener(l);
             }
 
@@ -976,6 +899,12 @@ public class ComposeMessageActivity extends Activity
                     .setOnMenuItemClickListener(l);
             menu.add(0, MENU_DELETE_MESSAGE, 0, R.string.delete_message)
                     .setOnMenuItemClickListener(l);
+            // It is unclear what would make most sense for copying an MMS message
+            // to the clipboard, so we currently do SMS only.
+            if (msgItem.isSms()) {
+                menu.add(0, MENU_COPY_MESSAGE_TEXT, 0, R.string.copy_message_text)
+                        .setOnMenuItemClickListener(l);
+            }
             if (msgItem.mDeliveryStatus != MessageItem.DeliveryStatus.NONE || msgItem.mReadReport) {
                 menu.add(0, MENU_DELIVERY_REPORT, 0, R.string.view_delivery_report)
                         .setOnMenuItemClickListener(l);
@@ -2318,14 +2247,6 @@ public class ComposeMessageActivity extends Activity
             }
         }
 
-        // Only add the "View contact" menu item when there's a single recipient and that
-        // recipient is someone in contacts.
-        ContactList recipients = getRecipients();
-        if (recipients.size() == 1 && recipients.get(0).existsInDatabase()) {
-            menu.add(0, MENU_VIEW_CONTACT, 0, R.string.menu_view_contact).setIcon(
-                    R.drawable.ic_menu_contact);
-        }
-
         if (MmsConfig.getMmsEnabled()) {
             if (!isSubjectEditorVisible()) {
                 menu.add(0, MENU_ADD_SUBJECT, 0, R.string.add_subject).setIcon(
@@ -2356,10 +2277,11 @@ public class ComposeMessageActivity extends Activity
             menu.add(0, MENU_DISCARD, 0, R.string.discard).setIcon(android.R.drawable.ic_menu_delete);
         }
 
-        menu.add(0, MENU_CONVERSATION_LIST, 0, R.string.all_threads).setIcon(
-                R.drawable.ic_menu_friendslist);
-
         buildAddAddressToContactMenuItem(menu);
+
+        menu.add(0, MENU_PREFERENCES, 0, R.string.menu_preferences).setIcon(
+                android.R.drawable.ic_menu_preferences);
+
         return true;
     }
 
@@ -2434,6 +2356,11 @@ public class ComposeMessageActivity extends Activity
                 mAddContactIntent = item.getIntent();
                 startActivityForResult(mAddContactIntent, REQUEST_CODE_ADD_CONTACT);
                 break;
+            case MENU_PREFERENCES: {
+                Intent intent = new Intent(this, MessagingPreferenceActivity.class);
+                startActivityIfNeeded(intent, -1);
+                break;
+            }
         }
 
         return true;
