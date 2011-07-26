@@ -24,7 +24,11 @@
         <item name="android:textColor">?android:textColorSecondaryInverse</item>
     </style>
 
-    <style name="MmsHoloTheme" parent="@android:style/Theme.Holo.Light.SplitActionBarWhenNarrow">
+    <style name="MmsHoloSplitActionBarTheme"
+        parent="@android:style/Theme.Holo.Light.SplitActionBarWhenNarrow">
+    </style>
+
+    <style name="MmsHoloTheme" parent="@android:style/Theme.Holo.Light">
     </style>
 
 </resources>
