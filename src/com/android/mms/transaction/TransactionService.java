@@ -17,7 +17,6 @@
 
 package com.android.mms.transaction;
 
-import com.android.common.NetworkConnectivityListener;
 import com.android.mms.R;
 import com.android.mms.LogTag;
 import com.android.mms.util.RateController;
@@ -27,14 +26,18 @@ import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.TelephonyIntents;
+
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.MmsSms.PendingMessages;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -111,7 +114,6 @@ public class TransactionService extends Service implements Observer {
     public static final String STATE_URI = "uri";
 
     private static final int EVENT_TRANSACTION_REQUEST = 1;
-    private static final int EVENT_DATA_STATE_CHANGED = 2;
     private static final int EVENT_CONTINUE_MMS_CONNECTIVITY = 3;
     private static final int EVENT_HANDLE_NEXT_PENDING_TRANSACTION = 4;
     private static final int EVENT_QUIT = 100;
@@ -129,7 +131,8 @@ public class TransactionService extends Service implements Observer {
     private final ArrayList<Transaction> mProcessing  = new ArrayList<Transaction>();
     private final ArrayList<Transaction> mPending  = new ArrayList<Transaction>();
     private ConnectivityManager mConnMgr;
-    private NetworkConnectivityListener mConnectivityListener;
+    private ConnectivityBroadcastReceiver mReceiver;
+
     private PowerManager.WakeLock mWakeLock;
 
     public Handler mToastHandler = new Handler() {
@@ -165,9 +168,10 @@ public class TransactionService extends Service implements Observer {
         mServiceLooper = thread.getLooper();
         mServiceHandler = new ServiceHandler(mServiceLooper);
 
-        mConnectivityListener = new NetworkConnectivityListener();
-        mConnectivityListener.registerHandler(mServiceHandler, EVENT_DATA_STATE_CHANGED);
-        mConnectivityListener.startListening(this);
+        mReceiver = new ConnectivityBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(mReceiver, intentFilter);
     }
 
     @Override
@@ -354,9 +358,7 @@ public class TransactionService extends Service implements Observer {
 
         releaseWakeLock();
 
-        mConnectivityListener.unregisterHandler(mServiceHandler);
-        mConnectivityListener.stopListening();
-        mConnectivityListener = null;
+        unregisterReceiver(mReceiver);
 
         mServiceHandler.sendEmptyMessage(EVENT_QUIT);
     }
@@ -516,6 +518,32 @@ public class TransactionService extends Service implements Observer {
             super(looper);
         }
 
+        private String decodeMessage(Message msg) {
+            if (msg.what == EVENT_QUIT) {
+                return "EVENT_QUIT";
+            } else if (msg.what == EVENT_CONTINUE_MMS_CONNECTIVITY) {
+                return "EVENT_CONTINUE_MMS_CONNECTIVITY";
+            } else if (msg.what == EVENT_TRANSACTION_REQUEST) {
+                return "EVENT_TRANSACTION_REQUEST";
+            } else if (msg.what == EVENT_HANDLE_NEXT_PENDING_TRANSACTION) {
+                return "EVENT_HANDLE_NEXT_PENDING_TRANSACTION";
+            }
+            return "unknown message.what";
+        }
+
+        private String decodeTransactionType(int transactionType) {
+            if (transactionType == Transaction.NOTIFICATION_TRANSACTION) {
+                return "NOTIFICATION_TRANSACTION";
+            } else if (transactionType == Transaction.RETRIEVE_TRANSACTION) {
+                return "RETRIEVE_TRANSACTION";
+            } else if (transactionType == Transaction.SEND_TRANSACTION) {
+                return "SEND_TRANSACTION";
+            } else if (transactionType == Transaction.READREC_TRANSACTION) {
+                return "READREC_TRANSACTION";
+            }
+            return "invalid transaction type";
+        }
+
         /**
          * Handle incoming transaction requests.
          * The incoming requests are initiated by the MMSC Server or by the
@@ -524,7 +552,7 @@ public class TransactionService extends Service implements Observer {
         @Override
         public void handleMessage(Message msg) {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                Log.v(TAG, "Handling incoming message: " + msg);
+                Log.v(TAG, "Handling incoming message: " + msg + " = " + decodeMessage(msg));
             }
 
             Transaction transaction = null;
@@ -564,52 +592,6 @@ public class TransactionService extends Service implements Observer {
                                        APN_EXTENSION_WAIT);
                     return;
 
-                case EVENT_DATA_STATE_CHANGED:
-                    /*
-                     * If we are being informed that connectivity has been established
-                     * to allow MMS traffic, then proceed with processing the pending
-                     * transaction, if any.
-                     */
-                    if (mConnectivityListener == null) {
-                        return;
-                    }
-
-                    NetworkInfo info = mConnectivityListener.getNetworkInfo();
-                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                        Log.v(TAG, "Handle DATA_STATE_CHANGED event: " + info);
-                    }
-
-                    // Check availability of the mobile network.
-                    if ((info == null) || (info.getType() !=
-                            ConnectivityManager.TYPE_MOBILE_MMS)) {
-                        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                            Log.v(TAG, "   type is not TYPE_MOBILE_MMS, bail");
-                        }
-                        return;
-                    }
-
-                    if (!info.isConnected()) {
-                        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                            Log.v(TAG, "   TYPE_MOBILE_MMS not connected, bail");
-                        }
-                        return;
-                    }
-
-                    TransactionSettings settings = new TransactionSettings(
-                            TransactionService.this, info.getExtraInfo());
-
-                    // If this APN doesn't have an MMSC, wait for one that does.
-                    if (TextUtils.isEmpty(settings.getMmscUrl())) {
-                        Log.v(TAG, "   empty MMSC url, bail");
-                        return;
-                    }
-
-                    // Set a timer to keep renewing our "lease" on the MMS connection
-                    sendMessageDelayed(obtainMessage(EVENT_CONTINUE_MMS_CONNECTIVITY),
-                                       APN_EXTENSION_WAIT);
-                    processPendingTransaction(transaction, settings);
-                    return;
-
                 case EVENT_TRANSACTION_REQUEST:
                     int serviceId = msg.arg1;
                     try {
@@ -636,7 +618,7 @@ public class TransactionService extends Service implements Observer {
 
                         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                             Log.v(TAG, "handle EVENT_TRANSACTION_REQUEST: transactionType=" +
-                                    transactionType);
+                                    transactionType + " " + decodeTransactionType(transactionType));
                         }
 
                         // Create appropriate transaction
@@ -732,7 +714,7 @@ public class TransactionService extends Service implements Observer {
             }
         }
 
-        private void processPendingTransaction(Transaction transaction,
+        public void processPendingTransaction(Transaction transaction,
                                                TransactionSettings settings) {
 
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
@@ -852,4 +834,65 @@ public class TransactionService extends Service implements Observer {
             return true;
         }
     }
+
+    private class ConnectivityBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                Log.w(TAG, "ConnectivityBroadcastReceiver.onReceive() action: " + action);
+            }
+
+            if (!action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+                return;
+            }
+
+            boolean noConnectivity =
+                intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+
+            NetworkInfo networkInfo = (NetworkInfo)
+                intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+
+            /*
+             * If we are being informed that connectivity has been established
+             * to allow MMS traffic, then proceed with processing the pending
+             * transaction, if any.
+             */
+
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                Log.v(TAG, "Handle ConnectivityBroadcastReceiver.onReceive(): " + networkInfo);
+            }
+
+            // Check availability of the mobile network.
+            if ((networkInfo == null) || (networkInfo.getType() !=
+                    ConnectivityManager.TYPE_MOBILE_MMS)) {
+                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                    Log.v(TAG, "   type is not TYPE_MOBILE_MMS, bail");
+                }
+                return;
+            }
+
+            if (!networkInfo.isConnected()) {
+                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                    Log.v(TAG, "   TYPE_MOBILE_MMS not connected, bail");
+                }
+                return;
+            }
+
+            TransactionSettings settings = new TransactionSettings(
+                    TransactionService.this, networkInfo.getExtraInfo());
+
+            // If this APN doesn't have an MMSC, wait for one that does.
+            if (TextUtils.isEmpty(settings.getMmscUrl())) {
+                Log.v(TAG, "   empty MMSC url, bail");
+                return;
+            }
+
+            // Set a timer to keep renewing our "lease" on the MMS connection
+            mServiceHandler.sendMessageDelayed(
+                    mServiceHandler.obtainMessage(EVENT_CONTINUE_MMS_CONNECTIVITY),
+                               APN_EXTENSION_WAIT);
+            mServiceHandler.processPendingTransaction(null, settings);
+        }
+    };
 }
