@@ -25,10 +25,10 @@
     </style>
 
     <style name="MmsHoloSplitActionBarTheme"
-        parent="@android:style/Theme.Holo.Light.SplitActionBarWhenNarrow">
+        parent="@android:style/Theme.Holo.Light.SolidActionBar.Inverse.SplitActionBarWhenNarrow">
     </style>
 
-    <style name="MmsHoloTheme" parent="@android:style/Theme.Holo.Light">
+    <style name="MmsHoloTheme" parent="@android:style/Theme.Holo.Light.SolidActionBar.Inverse">
     </style>
 
 </resources>
