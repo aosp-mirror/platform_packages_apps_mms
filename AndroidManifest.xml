@@ -55,7 +55,8 @@
         <activity android:name=".ui.ConversationList"
                   android:label="@string/app_label"
                   android:configChanges="orientation|keyboardHidden"
-                  android:theme="@style/MmsHoloSplitActionBarTheme"
+                  android:theme="@style/MmsHoloTheme"
+                  android:uiOptions="splitActionBarWhenNarrow"
                   android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
