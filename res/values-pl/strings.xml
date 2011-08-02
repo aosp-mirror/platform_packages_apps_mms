@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Nieprawidłowy adres docelowy"</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Usługa nie została aktywowana w sieci."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Wiadomość wygasła lub nie jest dostępna."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Błąd sieci."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Należy poprawić dane odbiorców, gdyż mogą oni nie otrzymać wiadomości."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Nie można wysłać wiadomości"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Wiadomość nie zawiera poprawnych odbiorców."</string>
@@ -325,4 +324,5 @@
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Niezgodny stan"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Stan wątków i odbiorców jest niezgodny. Utwórz raport o błędzie i wyślij go na adres android-sms-bugs@google.com"</string>
+    <!-- no translation found for recipient_count:other (7338580381574463136) -->
 </resources>

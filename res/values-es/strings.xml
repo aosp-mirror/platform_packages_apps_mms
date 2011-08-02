@@ -40,7 +40,7 @@
     <string name="view_message_details" msgid="2443165773568096234">"Ver detalles de mensaje"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Ver informe"</string>
     <string name="delete_message" msgid="8888447283788388395">"Eliminar mensaje"</string>
-    <string name="expire_on" msgid="4436268382742593921">"Caducidad: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="expire_on" msgid="4436268382742593921">"Vencimiento: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Mensaje no entregado"</string>
     <string name="undelivered_msg_dialog_body" msgid="3574032060588309397">"No ha sido posible enviar el mensaje."\n"Último intento: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
@@ -325,4 +325,5 @@
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Estado inconsistente"</string>
     <string name="error_state_text" msgid="5006221625000536698">"El estado de las cadenas y de los destinatarios es inconsistente. Realiza un informe de errores y envíalo a android-sms-bugs@google.com."</string>
+    <!-- no translation found for recipient_count:other (7338580381574463136) -->
 </resources>

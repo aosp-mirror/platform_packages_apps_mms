@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Alamat destinasi tidak sah."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Perkhidmatan tidak diaktifkan pada rangkaian."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Mesej telah tamat tempoh atau tidak tersedia."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Masalah ralat rangkaian."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Sila betulkan penerima, jika tidak mereka tidak akan menerima mesej."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Tidak boleh menghantar mesej ini"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Mesej anda tiada penerima yang sah."</string>
@@ -327,4 +326,5 @@
     <skip />
     <string name="error_state" msgid="5177386717626893507">"Keadaan tidak konsisten"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Keadaan jaluran dan penerima tidak konsisten. Sila tangkap laporan pepijat dan hantarkannya ke android-sms-bugs@google.com"</string>
+    <!-- no translation found for recipient_count:other (7338580381574463136) -->
 </resources>

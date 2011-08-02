@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Geçersiz hedef adresi"</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Ağ üzerinde hizmet etkin değil."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Mesajın süresi doldu veya kullanılamıyor."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Hata: ağ sorunu"</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Lütfen alıcıları düzeltin, aksi takdirde iletiyi almayacaklar."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Bu ileti gönderilemiyor"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"İletinizin geçerli alıcısı yok."</string>
@@ -325,4 +324,5 @@
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Tutarsız durum"</string>
     <string name="error_state_text" msgid="5006221625000536698">"İleti dizilerinin ve alıcıların durumları tutarsız. Lütfen bir hata raporu alın ve android-sms-bug@google.com adresine gönderin"</string>
+    <!-- no translation found for recipient_count:other (7338580381574463136) -->
 </resources>

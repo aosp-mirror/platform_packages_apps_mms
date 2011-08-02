@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Endereço de destino inválido."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Serviço não ativado na rede."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"A mensagem expirou ou não está disponível."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Problema de erro na rede."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Corrija os destinatários ou eles não receberão a mensagem."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Não é possível enviar esta mensagem."</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"A sua mensagem não tem destinatários válidos."</string>
@@ -325,4 +324,5 @@
     <string name="message_count_format" msgid="5940019155326371766">"  (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Estado inconsistente"</string>
     <string name="error_state_text" msgid="5006221625000536698">"O estado das conversas e destinatários está inconsistente. Capture um relatório de bug e envie-o para android-sms-bugs@google.com"</string>
+    <!-- no translation found for recipient_count:other (7338580381574463136) -->
 </resources>

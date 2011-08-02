@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Érvénytelen kézbesítési cím."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"A szolgáltatás nincs aktiválva a hálózaton."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Az üzenet lejárt vagy nem érhető el."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Hiba: hálózati probléma."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Kérjük, helyesbítse a címzett(ek)et, különben nem fogják megkapni az üzenetet."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Ez az üzenet nem küldhető el"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Az üzenetnek nincsenek érvényes címzettjei."</string>
@@ -325,4 +324,5 @@
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Inkonzisztens állapot"</string>
     <string name="error_state_text" msgid="5006221625000536698">"A beszélgetések és a címzettek állapota inkonzisztens. Kérjük, készítsen egy programhiba-jelentést, és küldje el az android-sms-bugs@google.com címre."</string>
+    <!-- no translation found for recipient_count:other (7338580381574463136) -->
 </resources>

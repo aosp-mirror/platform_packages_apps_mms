@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Μη έγκυρη διεύθυνση προορισμού."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Η υπηρεσία δεν είναι ενεργοποιημένη στο δίκτυο."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Το μήνυμα έχει λήξει ή δεν είναι διαθέσιμο."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Σφάλμα λόγω προβλήματος δικτύου."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Διορθώστε τον παραλήπτη (παραλήπτες), γιατί δεν θα λάβει το μήνυμα."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Δεν είναι δυνατή η αποστολή αυτού του μηνύματος"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Το μήνυμά σας δεν έχει έγκυρους παραλήπτες."</string>
@@ -325,4 +324,5 @@
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Ασταθής κατάσταση"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Η κατάσταση των νημάτων και των παραληπτών δεν είναι σταθερή. Κάντε καταγραφή ενός σφάλματος αναφοράς και στείλτε το στη διεύθυνση android-sms-bugs@google.com"</string>
+    <!-- no translation found for recipient_count:other (7338580381574463136) -->
 </resources>

@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Di-wastong address ng destinasyon."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Hindi naka-activate ang serbisyo sa network."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Nag-expire o hindi available ang mensahe."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Error sa problema ng network."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Pakitama ang (mga) recipient o hindi nila matatanggap ang mensahe."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Hindi maipapadala ang mensaheng ito"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Walang mga wastong recipient ang iyong mensahe."</string>
@@ -325,4 +324,5 @@
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Paiba-ibang estado"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Ang estado ng mga thread at mga recipient ay paiba-iba. Paki-capture ang ulat ng bug at ipadala ito sa android-sms-bugs@google.com"</string>
+    <!-- no translation found for recipient_count:other (7338580381574463136) -->
 </resources>

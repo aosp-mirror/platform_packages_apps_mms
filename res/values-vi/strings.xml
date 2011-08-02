@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Địa chỉ đích không hợp lệ."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Dịch vụ không được kích hoạt trên mạng."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Tin nhắn đã hết hạn hoặc không có."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Lỗi, sự cố mạng."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Vui lòng sửa người nhận nếu không họ sẽ không nhận được tin nhắn."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Không thể gửi tin nhắn này"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Tin nhắn của bạn có người nhận không hợp lệ."</string>
@@ -325,4 +324,5 @@
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Trạng thái không đồng nhất"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Trạng thái chuỗi và người nhận không đồng nhất. Vui lòng tạo báo cáo lỗi và gửi tới android-sms-bugs@google.com"</string>
+    <!-- no translation found for recipient_count:other (7338580381574463136) -->
 </resources>

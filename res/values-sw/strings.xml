@@ -481,4 +481,5 @@
     <skip />
     <string name="error_state" msgid="5177386717626893507">"Hali isiyofanana"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Hali ya minyororo na wapokeaji haifanani. Tafadhali tambua hitilafu ya ripoti kwa android-sms-bugs@google.com"</string>
+    <!-- no translation found for recipient_count:other (7338580381574463136) -->
 </resources>

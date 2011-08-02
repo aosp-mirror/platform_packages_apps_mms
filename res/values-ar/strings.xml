@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"عنوان الوجهة غير صالح."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"لم يتم تنشيط الخدمة على الشبكة."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"الرسالة غير متاحة أو انتهت صلاحيتها."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"مشكلة خطأ في الشبكة."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"الرجاء تصحيح المستلمين وإلا فلن يتلقوا الرسالة."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"لا يمكن إرسال هذه الرسالة"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"لا تشتمل رسالتك على مستلمين صالحين."</string>
@@ -325,4 +324,5 @@
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"حالة غير متسقة"</string>
     <string name="error_state_text" msgid="5006221625000536698">"حالة سلاسل المحادثات والمستلمين غير متسقة. الرجاء إعداد تقرير للإبلاغ عن خلل وإرساله إلى android-sms-bugs@google.com"</string>
+    <!-- no translation found for recipient_count:other (7338580381574463136) -->
 </resources>

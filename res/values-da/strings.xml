@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Ugyldig destinationsadresse."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Tjenesten er ikke aktiveret på netværket."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Meddelelsen er udløbet eller ikke tilgængelig."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Fejl – netværksproblem."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Ret modtager(e), ellers modtager de ikke beskeden."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Beskeden kan ikke sendes"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Din besked har ingen gyldige modtagere."</string>
@@ -325,4 +324,5 @@
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Svingende tilstand"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Tilstanden af tråde og modtagere er svingende. Opret en fejlrapport, og send den til android-sms-bugs@google.com"</string>
+    <!-- no translation found for recipient_count:other (7338580381574463136) -->
 </resources>
