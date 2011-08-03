@@ -435,6 +435,13 @@ public class Conversation {
     public synchronized int getMessageCount() {
         return mMessageCount;
     }
+    /**
+     * Set the number of messages in this conversation, excluding the draft
+     * (if it exists).
+     */
+    public synchronized void setMessageCount(int cnt) {
+        mMessageCount = cnt;
+    }
 
     /**
      * Returns a snippet of text from the most recent message in the conversation.

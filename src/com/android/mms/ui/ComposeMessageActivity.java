@@ -3050,6 +3050,9 @@ public class ComposeMessageActivity extends Activity
         Uri conversationUri = mConversation.getUri();
 
         if (conversationUri == null) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                log(" has null uri. Conversation: " + mConversation.toString());
+            }
             return;
         }
 
@@ -3399,6 +3402,11 @@ public class ComposeMessageActivity extends Activity
                     if (newSelectionPos != -1) {
                         mMsgListView.setSelection(newSelectionPos);
                     }
+                    // Adjust the conversation's message count to match reality. The
+                    // conversation's message count is eventually used in
+                    // WorkingMessage.clearConversation to determine whether to delete
+                    // the conversation or not.
+                    mConversation.setMessageCount(mMsgListAdapter.getCount());
 
                     // Once we have completed the query for the message history, if
                     // there is nothing in the cursor and we are not composing a new
