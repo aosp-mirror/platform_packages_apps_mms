@@ -27,36 +27,20 @@
     android:paddingRight="15dip"
     android:paddingLeft="15dip" >
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:src="@drawable/stat_notify_sms"
-            android:scaleType="fitXY"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="5dip"
-            android:paddingTop="2dip" />
-
-        <TextView
-            android:id="@+id/title"
-            android:textAppearance="@style/TextAppearance.SearchResult.Title"
-            android:layout_width="wrap_content"
-            android:paddingTop="2dip"
-            android:maxLines="1"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:singleLine="true" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/title"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:paddingTop="2dip"
+        android:maxLines="1"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true" />
 
     <view
         class="com.android.mms.ui.SearchActivity$TextViewSnippet"
         android:id="@+id/subtitle"
-        android:textAppearance="@style/TextAppearance.SearchResult.Subtitle"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="match_parent"
         android:textSize="12sp"
         android:maxLines="1"
