@@ -2229,9 +2229,11 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void dialRecipient() {
-        String number = getRecipients().get(0).getNumber();
-        Intent dialIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number));
-        startActivity(dialIntent);
+        if (isRecipientCallable()) {
+            String number = getRecipients().get(0).getNumber();
+            Intent dialIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number));
+            startActivity(dialIntent);
+        }
     }
 
     @Override
