@@ -3122,7 +3122,9 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
-        if (!mWaitingForSubActivity && !mWorkingMessage.isWorthSaving()) {
+        if (!mWaitingForSubActivity &&
+                !mWorkingMessage.isWorthSaving() &&
+                !isRecipientsEditorVisible()) {
             if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("not worth saving, discard WorkingMessage and bail");
             }
