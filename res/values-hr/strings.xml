@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Nevažeća odredišna adresa."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Usluga nije aktivirana na mreži."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Poruka je istekla ili nije dostupna."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Pogreška problema s mrežom."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Ispravite ime primatelja ili neće primiti poruku."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Nije moguće poslati ovu poruku"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Poruka nema važećeg primatelja."</string>

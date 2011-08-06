@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Netinkamas paskirties vietos adresas."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Paslauga nesuaktyvinta tinkle."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Pranešimo galiojimo laikas pasibaigęs arba jis nepasiekiamas."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Tinklo klaidos problema."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Ištaisykite gavėją (-us), nes jis (jie) negaus pranešimo."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Neįmanoma siųsti šio pranešimo"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Nėra teisingų pranešimo gavėjų."</string>

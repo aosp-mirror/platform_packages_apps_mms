@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Neplatná cílová adresa."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Služba není v síti aktivována."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Platnost zprávy vypršela nebo zpráva není k dispozici."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Chyba: problém sítě."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Zprávu nelze doručit, opravte zadané údaje příjemců."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Zprávu nelze odeslat"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Zpráva nemá žádné platné příjemce."</string>

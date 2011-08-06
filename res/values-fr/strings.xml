@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Adresse de destination incorrecte."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Ce service n\'est pas activé sur le réseau."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Le message a expiré ou n\'est plus disponible."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Erreur de réseau."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Corrigez le ou les noms des destinataires, faute de quoi ils ne recevront pas le message."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Impossible d\'envoyer ce message"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Aucun destinataire valide n\'a été spécifié pour votre message."</string>

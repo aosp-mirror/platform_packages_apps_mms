@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"L\'adreça de destinació no és vàlida."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"El servei no està activat a la xarxa."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Missatge caducat o no disponible."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Hi ha hagut un error a causa d\'un problema a la xarxa."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Corregiu els destinataris. Si no ho feu, no rebran el missatge."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"No es pot enviar aquest missatge"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"El missatge no té cap destinatari vàlid."</string>

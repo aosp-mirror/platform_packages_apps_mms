@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Ogiltig måladress."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Tjänsten är inte aktiverad på nätverket."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Meddelandet har upphört att gälla eller är inte tillgängligt."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Fel: nätverksproblem."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Ange giltiga mottagare, annars kommer inte meddelandena fram."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Det går inte att skicka meddelandet"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Du har inte angett några giltiga mottagare för meddelandet."</string>

@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"آدرس مقصد نامعتبر است."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"سرویس در شبکه فعال نشده است."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"پیام منقضی شده یا در دسترس نیست."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"خطای مشکل شبکه."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"لطفاً گیرنده (گیرندگان) را تصحیح کنید در غیر این صورت آنها پیام را دریافت نمی کنند."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"این پیام ارسال نمی شود"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"پیام شما هیچ گیرنده معتبری ندارد."</string>

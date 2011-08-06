@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Неверный адрес получателя."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Услуга не активирована в сети."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Срок действия сообщения истек или оно не доступно."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Ошибка сети."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Укажите получателей правильно. В противном случае сообщения не будут им доставлены."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Сообщение об ошибке"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Не указано ни одного реального получателя."</string>

@@ -97,8 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Adresă de destinaţie nevalidă."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Serviciul nu este activat în reţea."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Mesajul a expirat sau nu este disponibil."</string>
-    <!-- no translation found for service_network_problem (5418984934499160536) -->
-    <skip />
+    <string name="service_network_problem" msgid="5418984934499160536">"Eroare: problemă de reţea."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Corectaţi destinatarul (destinatarii), altfel nu va (vor) primi mesajul."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Acest mesaj nu poate fi trimis"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Mesajul dvs. nu are un destinatar valid."</string>
