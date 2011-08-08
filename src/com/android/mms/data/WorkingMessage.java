@@ -770,6 +770,12 @@ public class WorkingMessage {
             // new message will be merged with the draft message thread, causing confusion!
             if (!TextUtils.isEmpty(content)) {
                 asyncUpdateDraftSmsMessage(mConversation, content);
+            } else {
+                // When there's no associated text message, we have to handle the case where there
+                // might have been a previous mms draft for this message. This can happen when a
+                // user turns an mms back into a sms, such as creating an mms draft with a picture,
+                // then removing the picture.
+                asyncDeleteDraftMmsMessage(mConversation.getThreadId());
             }
         }
 
