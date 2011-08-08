@@ -1056,7 +1056,6 @@ public class ComposeMessageActivity extends Activity
                     new AlertDialog.Builder(ComposeMessageActivity.this)
                             .setTitle(R.string.message_details_title)
                             .setMessage(messageDetails)
-                            .setPositiveButton(android.R.string.ok, null)
                             .setCancelable(true)
                             .show();
                     return true;
