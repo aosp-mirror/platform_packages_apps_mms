@@ -157,9 +157,9 @@
     <string name="all_threads">All threads</string>
 
     <!-- Hint text in message body field when keyboard is exposed -->
-    <string name="type_to_compose_text_enter_to_send">Type to compose</string>
+    <string name="type_to_compose_text_enter_to_send">Type message</string>
     <!-- Hint text in message body field when keyboard is hidden -->
-    <string name="open_keyboard_to_compose_message">Open keyboard to compose message</string>
+    <string name="open_keyboard_to_compose_message">Open keyboard to type message</string>
 
     <!-- Toast message while an image is being resized -->
     <string name="compressing">Picture too large. Compressing\u2026</string>
@@ -245,7 +245,7 @@
     <!-- Slide layout option for layout at the bottom -->
     <string name="layout_bottom">Layout (bottom)</string>
     <!-- Hint in slide text field before text is typed -->
-    <string name="type_to_compose_text_or_leave_blank">Type to compose text, or leave blank</string>
+    <string name="type_to_compose_text_or_leave_blank">Type message, or leave blank</string>
     <!-- Toast when the user enters a non-numeric value for the duration of a slide -->
     <string name="duration_not_a_number">Duration must be a number</string>
     <!-- Toast when the user enters a zero value for the duration of a slide -->
