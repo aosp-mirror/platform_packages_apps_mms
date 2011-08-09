@@ -24,7 +24,7 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import com.android.mms.ui.NumberPicker;
+import android.widget.NumberPicker;
 
 import com.android.mms.R;
 
@@ -46,7 +46,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
         void onNumberSet(int number);
     }
 
-    private final NonWrapNumberPicker mNumberPicker;
+    private final NumberPicker mNumberPicker;
     private final OnNumberSetListener mCallback;
 
     /**
@@ -89,19 +89,20 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.number_picker_dialog, null);
         setView(view);
-        mNumberPicker = (NonWrapNumberPicker) view.findViewById(R.id.number_picker);
+        mNumberPicker = (NumberPicker) view.findViewById(R.id.number_picker);
 
         // initialize state
-        mNumberPicker.setRange(rangeMin, rangeMax);
-        mNumberPicker.setCurrent(number);
-        mNumberPicker.setSpeed(150);    // make the repeat rate twice as fast as normal since the
-                                        // range is so large.
+        mNumberPicker.setMinValue(rangeMin);
+        mNumberPicker.setMaxValue(rangeMax);
+        mNumberPicker.setValue(number);
+        mNumberPicker.setOnLongPressUpdateInterval(100); // make the repeat rate three times as fast
+                                                         // as normal since the range is so large.
     }
 
     public void onClick(DialogInterface dialog, int which) {
         if (mCallback != null) {
             mNumberPicker.clearFocus();
-            mCallback.onNumberSet(mNumberPicker.getCurrent());
+            mCallback.onNumberSet(mNumberPicker.getValue());
             dialog.dismiss();
         }
     }
@@ -109,7 +110,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
     @Override
     public Bundle onSaveInstanceState() {
         Bundle state = super.onSaveInstanceState();
-        state.putInt(NUMBER, mNumberPicker.getCurrent());
+        state.putInt(NUMBER, mNumberPicker.getValue());
         return state;
     }
 
@@ -117,35 +118,6 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         int number = savedInstanceState.getInt(NUMBER);
-        mNumberPicker.setCurrent(number);
+        mNumberPicker.setValue(number);
     }
-
-    public static class NonWrapNumberPicker extends NumberPicker {
-
-        public NonWrapNumberPicker(Context context) {
-            this(context, null);
-        }
-
-        public NonWrapNumberPicker(Context context, AttributeSet attrs) {
-            this(context, attrs, 0);
-        }
-
-        @SuppressWarnings({"UnusedDeclaration"})
-        public NonWrapNumberPicker(Context context, AttributeSet attrs, int defStyle) {
-            super(context, attrs);
-        }
-
-        @Override
-        protected void changeCurrent(int current) {
-            // Don't wrap. Pin instead.
-            if (current > getEndRange()) {
-                current = getEndRange();
-            } else if (current < getBeginRange()) {
-                current = getBeginRange();
-            }
-            super.changeCurrent(current);
-        }
-
-    }
-
 }
