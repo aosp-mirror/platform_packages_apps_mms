@@ -10,4 +10,6 @@ All Rights Reserved. -->
     <dimen name="message_item_text_padding_top">5dip</dimen>
 
     <dimen name="avatar_width_height">64dip</dimen>
+
+    <dimen name="input_text_height">56dip</dimen>
 </resources>
