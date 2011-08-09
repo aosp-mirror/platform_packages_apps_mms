@@ -104,6 +104,9 @@ public class MessageListAdapter extends CursorAdapter {
 
     private static final int CACHE_SIZE         = 50;
 
+    public static final int INCOMING_ITEM_TYPE = 0;
+    public static final int OUTGOING_ITEM_TYPE = 1;
+
     protected LayoutInflater mInflater;
     private final ListView mListView;
     private final LruCache<Long, MessageItem> mMessageItemCache;
@@ -257,6 +260,38 @@ public class MessageListAdapter extends CursorAdapter {
         } else {
             return id;
         }
+    }
+
+    @Override
+    public boolean areAllItemsEnabled() {
+        return true;
+    }
+
+    /* MessageListAdapter says that it contains two types of views. Really, it just contains
+     * a single type, a MessageListItem. Depending upon whether the message is an incoming or
+     * outgoing message, the avatar and text and other items are laid out either left or right
+     * justified. That works fine for everything but the message text. When views are recycled,
+     * there's a greater than zero chance that the right-justified text on outgoing messages
+     * will remain left-justified. The best solution at this point is to tell the adapter we've
+     * got two different types of views. That way we won't recycle views between the two types.
+     * @see android.widget.BaseAdapter#getViewTypeCount()
+     */
+    @Override
+    public int getViewTypeCount() {
+        return 2;   // Incoming and outgoing messages
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        Cursor cursor = (Cursor)getItem(position);
+        String type = cursor.getString(mColumnsMap.mColumnMsgType);
+        int boxId;
+        if ("sms".equals(type)) {
+            boxId = cursor.getInt(mColumnsMap.mColumnSmsType);
+        } else {
+            boxId = cursor.getInt(mColumnsMap.mColumnMmsMessageBox);
+        }
+        return boxId == Mms.MESSAGE_BOX_INBOX ? INCOMING_ITEM_TYPE : OUTGOING_ITEM_TYPE;
     }
 
     public static class ColumnsMap {

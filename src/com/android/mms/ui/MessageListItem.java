@@ -354,7 +354,7 @@ public class MessageListItem extends LinearLayout implements
                         textPaddingTop,
                         textPaddingLeftRight,
                         0);
-            mBodyTextView.setGravity(Gravity.LEFT);
+            mBodyTextView.setGravity(Gravity.RIGHT);
             mDateView.setPadding(0, 0, textPaddingLeftRight, 0);
 
             divitLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
