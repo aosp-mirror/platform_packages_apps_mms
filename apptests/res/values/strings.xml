@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * Copyright (C) 2011 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="sms_recipient_label">Recipient #</string>
+    <string name="sms_content_label">Message Body</string>
+    <string name="sms_send_message">Send</string>
+    <string name="sms_send_multi_message">Send five messages</string>
+    <string name="sms_send_long_message">Send a long message</string>
+    <string name="sms_prime_message">Prime a long message</string>
+    <string name="sms_long_message">Now is the time for all good men to come to the aid of their country.</string>
+    <string name="reply">Reply</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="activity_label">Sms Tester</string>
+
+</resources>
+

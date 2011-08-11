@@ -278,7 +278,7 @@ public class ComposeMessageActivity extends Activity
     private String mDebugRecipients;
 
     @SuppressWarnings("unused")
-    private static void log(String logMsg) {
+    public static void log(String logMsg) {
         Thread current = Thread.currentThread();
         long tid = current.getId();
         StackTraceElement[] stack = current.getStackTrace();

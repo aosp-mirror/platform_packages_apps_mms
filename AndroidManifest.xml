@@ -274,5 +274,16 @@
                     android:readPermission="android.permission.GLOBAL_SEARCH" />
         </provider>
 
+        <service android:name=".ui.NoConfirmationSendService"
+                 android:permission="android.permission.SEND_SMS_NO_CONFIRMATION"
+                 android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.mms.intent.action.SENDTO_NO_CONFIRMATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+            </intent-filter>
+        </service>
+
     </application>
 </manifest>
