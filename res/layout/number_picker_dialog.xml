@@ -33,10 +33,9 @@ This layout file is used by the AlertDialog when displaying a list of items.
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/pref_messages_to_save"
-        android:textSize="12sp"
         android:padding="1dip" />
 
-    <view class="com.android.mms.ui.NumberPickerDialog$NonWrapNumberPicker"
+    <NumberPicker
         android:id="@+id/number_picker"
         android:layout_centerInParent="true"
         android:layout_width="100dip"
