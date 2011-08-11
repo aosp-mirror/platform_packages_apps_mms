@@ -40,6 +40,7 @@ public class SmsMessageSender implements MessageSender {
     protected final String mServiceCenter;
     protected final long mThreadId;
     protected long mTimestamp;
+    private static final String TAG = "SmsMessageSender";
 
     // Default preference values
     private static final boolean DEFAULT_DELIVERY_REPORT_MODE  = false;
@@ -70,7 +71,7 @@ public class SmsMessageSender implements MessageSender {
 
     public boolean sendMessage(long token) throws MmsException {
         // In order to send the message one by one, instead of sending now, the message will split,
-        // and be put into the queue along with each destinations 
+        // and be put into the queue along with each destinations
         return queueMessage(token);
     }
 
@@ -87,13 +88,19 @@ public class SmsMessageSender implements MessageSender {
 
         for (int i = 0; i < mNumberOfDests; i++) {
             try {
-                Sms.addMessageToUri(mContext.getContentResolver(), 
+                if (LogTag.DEBUG_SEND) {
+                    Log.v(TAG, "queueMessage mDests[i]: " + mDests[i] + " mThreadId: " + mThreadId);
+                }
+                Sms.addMessageToUri(mContext.getContentResolver(),
                         Uri.parse("content://sms/queued"), mDests[i],
                         mMessageText, null, mTimestamp,
                         true /* read */,
                         requestDeliveryReport,
                         mThreadId);
             } catch (SQLiteException e) {
+                if (LogTag.DEBUG_SEND) {
+                    Log.e(TAG, "queueMessage SQLiteException", e);
+                }
                 SqliteWrapper.checkSQLiteException(mContext, e);
             }
         }

@@ -22,6 +22,7 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
     private final boolean mRequestDeliveryReport;
     private String mDest;
     private Uri mUri;
+    private static final String TAG = "SmsSingleRecipientSender";
 
     public SmsSingleRecipientSender(Context context, String dest, String msgText, long threadId,
             boolean requestDeliveryReport, Uri uri) {
@@ -32,6 +33,9 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
     }
 
     public boolean sendMessage(long token) throws MmsException {
+        if (LogTag.DEBUG_SEND) {
+            Log.v(TAG, "sendMessage token: " + token);
+        }
         if (mMessageText == null) {
             // Don't try to send an empty message, and destination should be just
             // one.
@@ -62,6 +66,9 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
         if (!moved) {
             throw new MmsException("SmsMessageSender.sendMessage: couldn't move message " +
                     "to outbox: " + mUri);
+        }
+        if (LogTag.DEBUG_SEND) {
+            Log.v(TAG, "sendMessage mDest: " + mDest);
         }
 
         ArrayList<PendingIntent> deliveryIntents =  new ArrayList<PendingIntent>(messageCount);
@@ -98,10 +105,11 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
         try {
             smsManager.sendMultipartTextMessage(mDest, mServiceCenter, messages, sentIntents, deliveryIntents);
         } catch (Exception ex) {
+            Log.e(TAG, "SmsMessageSender.sendMessage: caught", ex);
             throw new MmsException("SmsMessageSender.sendMessage: caught " + ex +
                     " from SmsManager.sendTextMessage()");
         }
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
             log("sendMessage: address=" + mDest + ", threadId=" + mThreadId +
                     ", uri=" + mUri + ", msgs.count=" + messageCount);
         }

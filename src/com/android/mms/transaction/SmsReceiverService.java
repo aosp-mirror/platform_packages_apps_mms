@@ -105,7 +105,7 @@ public class SmsReceiverService extends Service {
     @Override
     public void onCreate() {
         // Temporarily removed for this duplicate message track down.
-//        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+//        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
 //            Log.v(TAG, "onCreate");
 //        }
 
@@ -122,7 +122,7 @@ public class SmsReceiverService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Temporarily removed for this duplicate message track down.
-//        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+//        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
 //            Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras());
 //        }
 
@@ -138,7 +138,7 @@ public class SmsReceiverService extends Service {
     @Override
     public void onDestroy() {
         // Temporarily removed for this duplicate message track down.
-//        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+//        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
 //            Log.v(TAG, "onDestroy");
 //        }
         mServiceLooper.quit();
@@ -256,6 +256,11 @@ public class SmsReceiverService extends Service {
         mSending = false;
         boolean sendNextMsg = intent.getBooleanExtra(EXTRA_MESSAGE_SENT_SEND_NEXT, false);
 
+        if (LogTag.DEBUG_SEND) {
+            Log.v(TAG, "handleSmsSent sending uri: " + uri + " sendNextMsg: " + sendNextMsg +
+                    " mResultCode: " + sendNextMsg);
+        }
+
         if (mResultCode == Activity.RESULT_OK) {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleSmsSent sending uri: " + uri);
@@ -302,8 +307,8 @@ public class SmsReceiverService extends Service {
     }
 
     private void messageFailedToSend(Uri uri, int error) {
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            Log.v(TAG, "messageFailedToSend msg failed uri: " + uri);
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
+            Log.v(TAG, "messageFailedToSend msg failed uri: " + uri + " error: " + error);
         }
         Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_FAILED, error);
         MessagingNotification.notifySendFailed(getApplicationContext(), true);
@@ -313,7 +318,7 @@ public class SmsReceiverService extends Service {
         SmsMessage[] msgs = Intents.getMessagesFromIntent(intent);
         Uri messageUri = insertMessage(this, msgs, error);
 
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
             SmsMessage sms = msgs[0];
             Log.v(TAG, "handleSmsReceived" + (sms.isReplace() ? "(replace)" : "") +
                     " messageUri: " + messageUri +
@@ -530,7 +535,7 @@ public class SmsReceiverService extends Service {
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED);
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
             Log.v(TAG, "registerForServiceStateChanges");
         }
 
@@ -538,7 +543,7 @@ public class SmsReceiverService extends Service {
     }
 
     private void unRegisterForServiceStateChanges() {
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
             Log.v(TAG, "unRegisterForServiceStateChanges");
         }
         try {
