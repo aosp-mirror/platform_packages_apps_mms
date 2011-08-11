@@ -221,6 +221,9 @@ public class AttachmentEditor extends LinearLayout {
         mSendButton.setOnClickListener(new MessageOnClick(MSG_SEND_SLIDESHOW));
         playBtn.setOnClickListener(new MessageOnClick(MSG_PLAY_SLIDESHOW));
 
+        Button removeButton = (Button) view.findViewById(R.id.remove_slideshow_button);
+        removeButton.setOnClickListener(new MessageOnClick(MSG_REMOVE_ATTACHMENT));
+
         return (SlideViewInterface) view;
     }
 }

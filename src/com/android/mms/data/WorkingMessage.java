@@ -54,6 +54,7 @@ import com.android.mms.model.VideoModel;
 import com.android.mms.transaction.MessageSender;
 import com.android.mms.transaction.MmsMessageSender;
 import com.android.mms.transaction.SmsMessageSender;
+import com.android.mms.ui.AttachmentEditor;
 import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.SlideshowEditor;
@@ -357,6 +358,20 @@ public class WorkingMessage {
             LogTag.debug("setAttachment type=%d uri %s", type, dataUri);
         }
         int result = OK;
+
+        // Special case for deleting a slideshow. When ComposeMessageActivity gets told to
+        // remove an attachment (search for AttachmentEditor.MSG_REMOVE_ATTACHMENT), it calls
+        // this function setAttachment with a type of TEXT and a null uri. Basically, it's turning
+        // the working message from an MMS back to a simple SMS. The various attachment types
+        // use slide[0] as a special case. The call to ensureSlideshow below makes sure there's
+        // a slide zero. In the case of an already attached slideshow, ensureSlideshow will do
+        // nothing and the slideshow will remain such that if a user adds a slideshow again, they'll
+        // see their old slideshow they previously deleted. Here we really delete the slideshow.
+        if (type == TEXT && mAttachmentType == SLIDESHOW && mSlideshow != null && dataUri == null
+                && !append) {
+            SlideshowEditor slideShowEditor = new SlideshowEditor(mActivity, mSlideshow);
+            slideShowEditor.removeAllSlides();
+        }
 
         // Make sure mSlideshow is set up and has a slide.
         ensureSlideshow();

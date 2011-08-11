@@ -88,7 +88,7 @@
         <Button
             android:id="@+id/edit_slideshow_button"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="80dip"
+            android:layout_width="100dip"
             android:layout_height="32dip"
             android:textColor="@android:color/black"
             android:text="@string/edit" />
@@ -96,10 +96,18 @@
         <Button
             android:id="@+id/send_slideshow_button"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="80dip"
+            android:layout_width="100dip"
             android:layout_height="32dip"
             android:textColor="@android:color/black"
             android:text="@string/send" />
+
+        <Button
+            android:id="@+id/remove_slideshow_button"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="100dip"
+            android:layout_height="32dip"
+            android:textColor="@android:color/black"
+            android:text="@string/remove" />
 
     </LinearLayout>
 </com.android.mms.ui.SlideshowAttachmentView>
