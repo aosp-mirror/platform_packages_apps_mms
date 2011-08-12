@@ -250,7 +250,8 @@ public class MmsConfig {
                 }
 
                 if (DEBUG) {
-                    Log.v(TAG, "tag: " + tag + " value: " + value);
+                    Log.v(TAG, "tag: " + tag + " value: " + value + " - " +
+                            text);
                 }
                 if ("name".equalsIgnoreCase(name)) {
                     if ("bool".equals(tag)) {
