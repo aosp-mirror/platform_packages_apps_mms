@@ -68,7 +68,8 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
                     "to outbox: " + mUri);
         }
         if (LogTag.DEBUG_SEND) {
-            Log.v(TAG, "sendMessage mDest: " + mDest);
+            Log.v(TAG, "sendMessage mDest: " + mDest + " mRequestDeliveryReport: " +
+                    mRequestDeliveryReport);
         }
 
         ArrayList<PendingIntent> deliveryIntents =  new ArrayList<PendingIntent>(messageCount);
@@ -99,6 +100,9 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
                 // EXTRA_MESSAGE_SENT_SEND_NEXT set to true.
                 requestCode = 1;
                 intent.putExtra(SmsReceiverService.EXTRA_MESSAGE_SENT_SEND_NEXT, true);
+            }
+            if (LogTag.DEBUG_SEND) {
+                Log.v(TAG, "sendMessage sendIntent: " + intent);
             }
             sentIntents.add(PendingIntent.getBroadcast(mContext, requestCode, intent, 0));
         }
