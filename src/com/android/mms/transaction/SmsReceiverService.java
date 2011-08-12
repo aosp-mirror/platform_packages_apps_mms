@@ -162,10 +162,17 @@ public class SmsReceiverService extends Service {
         public void handleMessage(Message msg) {
             int serviceId = msg.arg1;
             Intent intent = (Intent)msg.obj;
+            if (LogTag.DEBUG_SEND) {
+                Log.v(TAG, "handleMessage serviceId: " + serviceId + " intent: " + intent);
+            }
             if (intent != null) {
                 String action = intent.getAction();
 
                 int error = intent.getIntExtra("errorCode", 0);
+
+                if (LogTag.DEBUG_SEND) {
+                    Log.v(TAG, "handleMessage action: " + action + " error: " + error);
+                }
 
                 if (MESSAGE_SENT_ACTION.equals(intent.getAction())) {
                     handleSmsSent(intent, error);
@@ -258,7 +265,7 @@ public class SmsReceiverService extends Service {
 
         if (LogTag.DEBUG_SEND) {
             Log.v(TAG, "handleSmsSent sending uri: " + uri + " sendNextMsg: " + sendNextMsg +
-                    " mResultCode: " + sendNextMsg);
+                    " mResultCode: " + mResultCode + " error: " + error);
         }
 
         if (mResultCode == Activity.RESULT_OK) {
