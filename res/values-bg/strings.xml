@@ -20,7 +20,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"Незабавни съобщения"</string>
+    <string name="app_label" msgid="1503967887341230795">"Съобщения"</string>
     <string name="new_message" msgid="1530369762346003973">"Ново съобщение"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Обаждане на <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Изпращане на имейл до <xliff:g id="NAME">%s</xliff:g>"</string>
@@ -80,8 +80,8 @@
     <string name="send" msgid="4589898724889248486">"Изпращане"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Всички нишки"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Ново съобщение"</string>
-    <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Отворете клавиатурата, за да съставите съобщение"</string>
+    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Ново съобщение"</string>
+    <!-- outdated translation 1668723196441776085 -->     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Отворете клавиатурата, за да съставите съобщение"</string>
     <string name="compressing" msgid="1961357529661045180">"Снимката е твърде голяма. Компресира се..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Неподдържан формат <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Моля, изберете различен <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -121,7 +121,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"Оформление на слайдшоу "</string>
     <string name="layout_top" msgid="6811021650398972346">"Оформление (отгоре)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Оформление (отдолу)"</string>
-    <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Въведете текст или не попълвайте"</string>
+    <!-- outdated translation 6171524929347648837 -->     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Въведете текст или не попълвайте"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"Продължителността трябва да е число"</string>
     <string name="duration_zero" msgid="109945354056393575">"Продължителността трябва да е по-голяма от нула секунди"</string>
     <string name="secs" msgid="6886003523109967972">"сек"</string>
@@ -296,9 +296,9 @@
     <string name="edit_slide_activity" msgid="8752829671778696983">"Редактиране на слайд"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Слайдшоу"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"Съобщения от клас 0"</string>
-    <string name="search_label" msgid="6042598929386174964">"Незабавни съобщения"</string>
-    <string name="search_hint" msgid="7183732852849365466">"Търсене в незабавните съобщения"</string>
-    <string name="search" msgid="7560238620274735199">"Незабавни съобщения"</string>
+    <string name="search_label" msgid="6042598929386174964">"Съобщения"</string>
+    <string name="search_hint" msgid="7183732852849365466">"Търсене в съобщенията"</string>
+    <string name="search" msgid="7560238620274735199">"Съобщения"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"Текст в съобщенията ви"</string>
     <string name="search_empty" msgid="645052646985297065">"Няма съответствия"</string>
   <plurals name="search_results_title">
@@ -309,7 +309,7 @@
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Изчистване"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"Историята на търсенията ще бъде изчистена."</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Изчистване на историята на търсенията"</string>
-    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Изчистете предишните търсения в незабавните съобщения от показване в полето за търсене"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Изчистване на предишните търсения в съобщенията, така че да не се показват в полето за търсене"</string>
     <string name="save" msgid="6847069284991531310">"Запазване"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"Ограничаване на съобщенията"</string>
     <string name="storage_limits_message" msgid="8729608389698270388">"Искате ли да ограничите броя на съобщенията, които можете да запазите на разговор?"</string>
@@ -324,5 +324,7 @@
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Нееднородно състояние"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Състоянието на нишките и получателите е нееднородно. Моля, създайте сигнал за програмен дефект и го изпратете до android-sms-bugs@google.com"</string>
-    <!-- no translation found for recipient_count:other (7338580381574463136) -->
+  <plurals name="recipient_count">
+    <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> души"</item>
+  </plurals>
 </resources>

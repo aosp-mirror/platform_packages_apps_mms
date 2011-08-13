@@ -127,8 +127,8 @@
     <string name="mms" msgid="1587631213714914559">"i-MMS"</string>
     <!-- no translation found for all_threads (2663426830306307194) -->
     <skip />
-    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Thayipha ukuze ubhale"</string>
-    <!-- no translation found for open_keyboard_to_compose_message (1668723196441776085) -->
+    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Thayipha ukuze ubhale"</string>
+    <!-- no translation found for open_keyboard_to_compose_message (7860109685511253191) -->
     <skip />
     <string name="compressing" msgid="1961357529661045180">"Isithombe sikhulu kakhulu. Iyanciphisa..."</string>
     <!-- no translation found for unsupported_media_format (5037111178813903722) -->
@@ -196,7 +196,7 @@
     <skip />
     <!-- no translation found for layout_bottom (5822765871095491843) -->
     <skip />
-    <!-- no translation found for type_to_compose_text_or_leave_blank (6171524929347648837) -->
+    <!-- no translation found for type_to_compose_text_or_leave_blank (7769792471457574059) -->
     <skip />
     <string name="duration_not_a_number" msgid="8005480904677546322">"Ubude kumele kube inombolo"</string>
     <string name="duration_zero" msgid="109945354056393575">"Ubude kumele bube bukhulu kunamasekhondi ayize"</string>
@@ -481,5 +481,7 @@
     <skip />
     <string name="error_state" msgid="5177386717626893507">"Isimo esiguqukayo"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Isimo sendikimba nabamukeli siyaguquguquka. Sicela wenze umbiko wephutha bese uthumela ku android-sms-bugs@google.com"</string>
-    <!-- no translation found for recipient_count:other (7338580381574463136) -->
+  <plurals name="recipient_count">
+    <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> abantu"</item>
+  </plurals>
 </resources>

@@ -80,8 +80,8 @@
     <string name="send" msgid="4589898724889248486">"Pošalji"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Sve niti"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Upišite tekst da biste stvorili novu poruku"</string>
-    <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Otvorite tipkovnicu za stvaranje nove poruke"</string>
+    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Upišite tekst da biste stvorili novu poruku"</string>
+    <!-- outdated translation 1668723196441776085 -->     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Otvorite tipkovnicu za stvaranje nove poruke"</string>
     <string name="compressing" msgid="1961357529661045180">"Slika je prevelika. Komprimiranje..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Nepodržani format <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Odaberite drugo ime <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -97,7 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Nevažeća odredišna adresa."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Usluga nije aktivirana na mreži."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Poruka je istekla ili nije dostupna."</string>
-    <string name="service_network_problem" msgid="5418984934499160536">"Pogreška problema s mrežom."</string>
+    <string name="service_network_problem" msgid="5418984934499160536">"Problem s pogreškom mreže."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Ispravite ime primatelja ili neće primiti poruku."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Nije moguće poslati ovu poruku"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Poruka nema važećeg primatelja."</string>
@@ -121,7 +121,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"Izgled dijaprojekcije "</string>
     <string name="layout_top" msgid="6811021650398972346">"Izgled (vrh)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Izgled (gumb)"</string>
-    <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Upisujte za sastavljanje teksta ili ostavite prazno"</string>
+    <!-- outdated translation 6171524929347648837 -->     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Upisujte za sastavljanje teksta ili ostavite prazno"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"Trajanje mora biti broj."</string>
     <string name="duration_zero" msgid="109945354056393575">"Trajanje mora biti veće od nula sekundi"</string>
     <string name="secs" msgid="6886003523109967972">"s"</string>
@@ -324,5 +324,7 @@
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Nekonzistentno stanje"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Stanje niti i primatelja je nekonzistentno. Snimite izvješće o bugu i pošaljite ga na android-sms-bugs@google.com"</string>
-    <!-- no translation found for recipient_count:other (7338580381574463136) -->
+  <plurals name="recipient_count">
+    <item quantity="other" msgid="7338580381574463136">"Broj osoba: <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
+  </plurals>
 </resources>

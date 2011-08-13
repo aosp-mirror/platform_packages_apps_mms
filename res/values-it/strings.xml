@@ -80,8 +80,8 @@
     <string name="send" msgid="4589898724889248486">"Invia"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Tutti i thread"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Digita un testo qui"</string>
-    <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Apri tastiera per scrivere il messaggio"</string>
+    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Digita un testo qui"</string>
+    <!-- outdated translation 1668723196441776085 -->     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Apri tastiera per scrivere il messaggio"</string>
     <string name="compressing" msgid="1961357529661045180">"Immagine troppo grande. Compressione in corso…"</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Formato di <xliff:g id="NAME">%1$s</xliff:g> non supportato"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Seleziona un altro elemento <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -121,7 +121,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"Layout presentazione "</string>
     <string name="layout_top" msgid="6811021650398972346">"Layout (superiore)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Layout (inferiore)"</string>
-    <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Digita il testo o lascia vuoto"</string>
+    <!-- outdated translation 6171524929347648837 -->     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Digita il testo o lascia vuoto"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"La durata deve essere un numero"</string>
     <string name="duration_zero" msgid="109945354056393575">"La durata deve essere superiore a zero secondi"</string>
     <string name="secs" msgid="6886003523109967972">"sec"</string>

@@ -80,8 +80,8 @@
     <string name="send" msgid="4589898724889248486">"送信"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"スレッド一覧"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"メッセージを入力"</string>
-    <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"キーボードを表示してメッセージを入力してください"</string>
+    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"メッセージを入力"</string>
+    <!-- outdated translation 1668723196441776085 -->     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"キーボードを表示してメッセージを入力してください"</string>
     <string name="compressing" msgid="1961357529661045180">"画像が大きすぎます。圧縮中..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"対応していない<xliff:g id="NAME">%1$s</xliff:g>形式です"</string>
     <string name="select_different_media" msgid="7573116916321879964">"別の<xliff:g id="NAME">%1$s</xliff:g>を選択してください。"</string>
@@ -97,7 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"無効な宛先アドレスです。"</string>
     <string name="service_not_activated" msgid="9178218144019626176">"サービスがネットワークで有効になっていません。"</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"メッセージが期限切れか参照できなくなっています。"</string>
-    <string name="service_network_problem" msgid="5418984934499160536">"ネットワークの問題でエラーが発生しました。"</string>
+    <string name="service_network_problem" msgid="5418984934499160536">"エラー:ネットワークに問題があります。"</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"宛先を修正してください。無効なアドレスがあります。"</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"メッセージを送信できません"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"メッセージに有効な宛先が指定されていません。"</string>
@@ -121,7 +121,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"スライドショーのレイアウト "</string>
     <string name="layout_top" msgid="6811021650398972346">"レイアウト (上部)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"レイアウト (下部)"</string>
-    <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"文字を入力するか空白のまま完了を押します"</string>
+    <!-- outdated translation 6171524929347648837 -->     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"文字を入力するか空白のまま完了を押します"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"表示時間は数字で入力してください"</string>
     <string name="duration_zero" msgid="109945354056393575">"表示時間には0秒より大きい値を指定してください"</string>
     <string name="secs" msgid="6886003523109967972">"秒"</string>
@@ -324,5 +324,7 @@
     <string name="message_count_format" msgid="5940019155326371766">"（<xliff:g id="NUMBER">%1$s</xliff:g>）"</string>
     <string name="error_state" msgid="5177386717626893507">"データの不整合"</string>
     <string name="error_state_text" msgid="5006221625000536698">"スレッドや宛先のデータに不整合があります。バグレポートをキャプチャして android-sms-bugs@google.com に送信してください。"</string>
-    <!-- no translation found for recipient_count:other (7338580381574463136) -->
+  <plurals name="recipient_count">
+    <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g>人"</item>
+  </plurals>
 </resources>
