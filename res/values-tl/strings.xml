@@ -80,8 +80,8 @@
     <string name="send" msgid="4589898724889248486">"Ipadala"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Lahat ng mga thread"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Mag-type upang lumikha"</string>
-    <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Buksan ang keyboard upang bumuo ng mensahe"</string>
+    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Mag-type upang lumikha"</string>
+    <!-- outdated translation 1668723196441776085 -->     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Buksan ang keyboard upang bumuo ng mensahe"</string>
     <string name="compressing" msgid="1961357529661045180">"Masyadong malaki ang larawan. Nagsisiksik..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Hindi suportadong <xliff:g id="NAME">%1$s</xliff:g> na format"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Mangyaring pumili ng ibang <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -121,7 +121,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"Layout ng slideshow "</string>
     <string name="layout_top" msgid="6811021650398972346">"Layout (tuktok)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Layout (ibaba)"</string>
-    <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Mag-type upang bumuo ng teksto, o iwanang blangko"</string>
+    <!-- outdated translation 6171524929347648837 -->     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Mag-type upang bumuo ng teksto, o iwanang blangko"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"Dapat na numero ang tagal"</string>
     <string name="duration_zero" msgid="109945354056393575">"Dapat na mas mataas sa zero na segundo ang tagal"</string>
     <string name="secs" msgid="6886003523109967972">"mga segundo"</string>
@@ -324,5 +324,7 @@
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Paiba-ibang estado"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Ang estado ng mga thread at mga recipient ay paiba-iba. Paki-capture ang ulat ng bug at ipadala ito sa android-sms-bugs@google.com"</string>
-    <!-- no translation found for recipient_count:other (7338580381574463136) -->
+  <plurals name="recipient_count">
+    <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> (na) tao"</item>
+  </plurals>
 </resources>

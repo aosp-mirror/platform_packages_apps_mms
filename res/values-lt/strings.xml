@@ -80,8 +80,8 @@
     <string name="send" msgid="4589898724889248486">"Siųsti"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Visos gijos"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Kuriamas tipas"</string>
-    <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Atidarykite klaviatūrą, kad sukurtumėte pranešimą"</string>
+    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Kuriamas tipas"</string>
+    <!-- outdated translation 1668723196441776085 -->     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Atidarykite klaviatūrą, kad sukurtumėte pranešimą"</string>
     <string name="compressing" msgid="1961357529661045180">"Paveikslėlis per didelis. Glaudinama..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Nepalaikomas <xliff:g id="NAME">%1$s</xliff:g> formatas"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Pasirinkite kitą <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -121,7 +121,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"Skaidrių demonstracijos išdėstymas "</string>
     <string name="layout_top" msgid="6811021650398972346">"Išdėstymas (viršus)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Išdėstymas (apačia)"</string>
-    <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Įveskite, jei norite kurti tekstą, arba palikite tuščią"</string>
+    <!-- outdated translation 6171524929347648837 -->     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Įveskite, jei norite kurti tekstą, arba palikite tuščią"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"Trukmė turi būti skaičius"</string>
     <string name="duration_zero" msgid="109945354056393575">"Trukmė turi būti didesnė nei nulis sekundžių"</string>
     <string name="secs" msgid="6886003523109967972">"sek."</string>
@@ -324,5 +324,7 @@
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Nepastovi būsena"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Gijų ir gavėjų būsena nepastovi. Užfiksuokite trikties ataskaitą ir išsiųskite ją šiuo adresu: android-sms-bugs@google.com"</string>
-    <!-- no translation found for recipient_count:other (7338580381574463136) -->
+  <plurals name="recipient_count">
+    <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> žm."</item>
+  </plurals>
 </resources>

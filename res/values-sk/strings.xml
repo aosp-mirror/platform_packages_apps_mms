@@ -80,8 +80,8 @@
     <string name="send" msgid="4589898724889248486">"Odoslať"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Všetky konverzácie"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="7553404984078924360">"Tu zadajte správu"</string>
-    <string name="open_keyboard_to_compose_message" msgid="1668723196441776085">"Otvorte klávesnicu a napíšte správu"</string>
+    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Tu zadajte správu"</string>
+    <!-- outdated translation 1668723196441776085 -->     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Otvorte klávesnicu a napíšte správu"</string>
     <string name="compressing" msgid="1961357529661045180">"Fotografia je príliš veľká. Prebieha kompresia..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"<xliff:g id="NAME">%1$s</xliff:g> je v nepodporovanom formáte."</string>
     <string name="select_different_media" msgid="7573116916321879964">"Vyberte inú položku <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -97,7 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Neplatná cieľová adresa."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Služba nie je v sieti aktivovaná."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Platnosť správy vypršala alebo správa nie je k dispozícii."</string>
-    <string name="service_network_problem" msgid="5418984934499160536">"Chyba: problém siete."</string>
+    <string name="service_network_problem" msgid="5418984934499160536">"Chyba: problém so sieťou."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Správu nie je možné doručiť, opravte zadané údaje príjemcov."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Správa sa nedá odoslať"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Správa nemá žiadnych platných príjemcov."</string>
@@ -121,7 +121,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"Rozloženie prezentácie "</string>
     <string name="layout_top" msgid="6811021650398972346">"Rozloženie (hore)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Rozloženie (dole)"</string>
-    <string name="type_to_compose_text_or_leave_blank" msgid="6171524929347648837">"Zadajte text alebo pole ponechajte prázdne."</string>
+    <!-- outdated translation 6171524929347648837 -->     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Zadajte text alebo pole ponechajte prázdne."</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"Hodnota pre trvanie musí byť číslo"</string>
     <string name="duration_zero" msgid="109945354056393575">"Doba trvania musí byť väčšia než 0 sekúnd"</string>
     <string name="secs" msgid="6886003523109967972">"s"</string>
@@ -324,5 +324,7 @@
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Nekonzistentný stav"</string>
     <string name="error_state_text" msgid="5006221625000536698">"Stav konverzácií a príjemcov nie je konzistentný. Nasnímajte fotografiu chybového hlásenia a odošlite ju na adresu android-sms-bugs@google.com."</string>
-    <!-- no translation found for recipient_count:other (7338580381574463136) -->
+  <plurals name="recipient_count">
+    <item quantity="other" msgid="7338580381574463136">"Počet ľudí: <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
+  </plurals>
 </resources>
