@@ -141,11 +141,10 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dip"
+                android:background="#fff"
+                android:layout_marginTop="5dip"
                 android:paddingBottom="5dip"
-                android:paddingLeft="5dip"
-                android:paddingRight="5dip"
-                android:background="@drawable/bottombar_landscape_565">
+                android:paddingRight="5dip">
 
                 <EditText
                     android:textColor="@android:color/black"
@@ -153,6 +152,7 @@
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
+                    android:layout_marginLeft="16dip"
                     android:autoText="true"
                     android:capitalize="sentences"
                     android:nextFocusRight="@+id/send_button"
