@@ -298,6 +298,8 @@ public class MessageUtils {
     }
 
     private static String getTextMessageDetails(Context context, Cursor cursor) {
+        Log.d(TAG, "getTextMessageDetails");
+
         StringBuilder details = new StringBuilder();
         Resources res = context.getResources();
 

@@ -65,7 +65,7 @@ public class RecipientIdCache {
     }
 
     public static void fill() {
-        if (Log.isLoggable(LogTag.THREAD_CACHE, Log.VERBOSE)) {
+        if (LogTag.VERBOSE || Log.isLoggable(LogTag.THREAD_CACHE, Log.VERBOSE)) {
             LogTag.debug("[RecipientIdCache] fill: begin");
         }
 
@@ -93,7 +93,7 @@ public class RecipientIdCache {
             c.close();
         }
 
-        if (Log.isLoggable(LogTag.THREAD_CACHE, Log.VERBOSE)) {
+        if (LogTag.VERBOSE || Log.isLoggable(LogTag.THREAD_CACHE, Log.VERBOSE)) {
             LogTag.debug("[RecipientIdCache] fill: finished");
             dump();
         }
@@ -157,8 +157,10 @@ public class RecipientIdCache {
                 String number2 = sInstance.mCache.get(recipientId);
 
                 if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                    Log.d(TAG, "[RecipientIdCache] updateNumbers: comparing " + number1 +
-                          " with " + number2);
+                    Log.d(TAG, "[RecipientIdCache] updateNumbers: contact=" + contact +
+                            ", wasModified=true, recipientId=" + recipientId);
+                    Log.d(TAG, "   contact.getNumber=" + number1 +
+                            ", sInstance.mCache.get(recipientId)=" + number2);
                 }
 
                 // if the numbers don't match, let's update the RecipientIdCache's number
@@ -176,7 +178,7 @@ public class RecipientIdCache {
     }
 
     private void updateCanonicalAddressInDb(long id, String number) {
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+        if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             Log.d(TAG, "[RecipientIdCache] updateCanonicalAddressInDb: id=" + id +
                     ", number=" + number);
         }
@@ -206,6 +208,26 @@ public class RecipientIdCache {
             for (Long id : sInstance.mCache.keySet()) {
                 Log.d(TAG, id + ": " + sInstance.mCache.get(id));
             }
+        }
+    }
+
+    public static void canonicalTableDump() {
+        Log.d(TAG, "**** Dump of canoncial_addresses table ****");
+        Context context = sInstance.mContext;
+        Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
+                sAllCanonical, null, null, null, null);
+        if (c == null) {
+            Log.w(TAG, "null Cursor in content://mms-sms/canonical-addresses");
+        }
+        try {
+            while (c.moveToNext()) {
+                // TODO: don't hardcode the column indices
+                long id = c.getLong(0);
+                String number = c.getString(1);
+                Log.d(TAG, "id: " + id + " number: " + number);
+            }
+        } finally {
+            c.close();
         }
     }
 }

@@ -24,6 +24,7 @@ import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
+import com.android.mms.data.RecipientIdCache;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.transaction.SmsRejectedReceiver;
 import com.android.mms.util.DraftCache;
@@ -92,6 +93,7 @@ public class ConversationList extends ListActivity
     public static final int MENU_SEARCH               = 1;
     public static final int MENU_DELETE_ALL           = 3;
     public static final int MENU_PREFERENCES          = 4;
+    public static final int MENU_DEBUG_DUMP           = 5;
 
     // IDs of the context menu items for the list of conversations.
     public static final int MENU_DELETE               = 0;
@@ -324,6 +326,9 @@ public class ConversationList extends ListActivity
         menu.add(0, MENU_PREFERENCES, 0, R.string.menu_preferences).setIcon(
                 android.R.drawable.ic_menu_preferences);
 
+        if (LogTag.DEBUG_DUMP) {
+            menu.add(0, MENU_DEBUG_DUMP, 0, R.string.menu_debug_dump);
+        }
         return true;
     }
 
@@ -346,11 +351,13 @@ public class ConversationList extends ListActivity
                 // The invalid threadId of -1 means all threads here.
                 confirmDeleteThread(-1L, mQueryHandler);
                 break;
-            case MENU_PREFERENCES: {
+            case MENU_PREFERENCES:
                 Intent intent = new Intent(this, MessagingPreferenceActivity.class);
                 startActivityIfNeeded(intent, -1);
                 break;
-            }
+            case MENU_DEBUG_DUMP:
+                LogTag.dumpInternalTables(this);
+                break;
             default:
                 return true;
         }
