@@ -178,7 +178,7 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
         }
 
         Uri uri = Phone.CONTENT_FILTER_URI.buildUpon()
-                .appendPath(Uri.encode(cons))
+                .appendPath(cons)
                 .appendQueryParameter(DataUsageFeedback.USAGE_TYPE,
                         DataUsageFeedback.USAGE_TYPE_SHORT_TEXT)
                 .build();
