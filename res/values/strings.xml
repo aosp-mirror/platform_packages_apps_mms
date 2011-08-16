@@ -58,11 +58,11 @@
     <!-- Context menu item on an individual message for viewing an attached slideshow -->
     <string name="view_slideshow">View slideshow</string>
     <!-- Context menu item on an individual message for viewing message details such as time and date -->
-    <string name="view_message_details">View message details</string>
+    <string name="view_message_details">View details</string>
     <!-- Context menu item on an individual message for viewing a delivery report -->
     <string name="view_delivery_report">View report</string>
     <!-- Context menu item on an individual message for deleting only that message -->
-    <string name="delete_message">Delete message</string>
+    <string name="delete_message">Delete</string>
     <!-- Time and date a message is due to expire -->
     <string name="expire_on">"Expires: <xliff:g id="date">%s</xliff:g>"</string>
     <!-- Abbreviation for "kilobyte" -->
@@ -91,7 +91,7 @@
     <!-- Error message to display when DRM rights are insufficient to access some data -->
     <string name="insufficient_drm_rights">Insufficient DRM rights detected.</string>
     <!-- Individual message context menu item -->
-    <string name="copy_message_text">Copy message text</string>
+    <string name="copy_message_text">Copy text</string>
     <!-- Header for context menu on an individual message -->
     <string name="message_options">Message options</string>
 
@@ -460,9 +460,9 @@
         the SIM card. -->
    <string name="menu_delete_messages">Delete messages</string>
    <!-- Menu title for locking a message -->
-   <string name="menu_lock">Lock message</string>
+   <string name="menu_lock">Lock</string>
    <!-- Menu title for unlocking a message -->
-   <string name="menu_unlock">Unlock message</string>
+   <string name="menu_unlock">Unlock</string>
 
     <!-- Manage SIM Messages -->
     <!-- Menu title to copy a selected message from the SIM card to the phone. -->

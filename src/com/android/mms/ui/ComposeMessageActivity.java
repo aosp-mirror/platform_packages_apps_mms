@@ -832,6 +832,19 @@ public class ComposeMessageActivity extends Activity
 
             MsgListMenuClickListener l = new MsgListMenuClickListener();
 
+            // It is unclear what would make most sense for copying an MMS message
+            // to the clipboard, so we currently do SMS only.
+            if (msgItem.isSms()) {
+                menu.add(0, MENU_COPY_MESSAGE_TEXT, 0, R.string.copy_message_text)
+                        .setOnMenuItemClickListener(l);
+            }
+
+            // Forward is not available for undownloaded messages.
+            if (msgItem.isDownloaded()) {
+                menu.add(0, MENU_FORWARD_MESSAGE, 0, R.string.menu_forward)
+                        .setOnMenuItemClickListener(l);
+            }
+
             if (msgItem.mLocked) {
                 menu.add(0, MENU_UNLOCK_MESSAGE, 0, R.string.menu_unlock)
                     .setOnMenuItemClickListener(l);
@@ -839,6 +852,13 @@ public class ComposeMessageActivity extends Activity
                 menu.add(0, MENU_LOCK_MESSAGE, 0, R.string.menu_lock)
                     .setOnMenuItemClickListener(l);
             }
+
+            menu.add(0, MENU_VIEW_MESSAGE_DETAILS, 0, R.string.view_message_details)
+                .setOnMenuItemClickListener(l);
+
+            menu.add(0, MENU_DELETE_MESSAGE, 0, R.string.delete_message)
+                .setOnMenuItemClickListener(l);
+
 
             if (msgItem.isMms()) {
                 switch (msgItem.mBoxId) {
@@ -889,22 +909,6 @@ public class ComposeMessageActivity extends Activity
                 }
             }
 
-            // Forward is not available for undownloaded messages.
-            if (msgItem.isDownloaded()) {
-                menu.add(0, MENU_FORWARD_MESSAGE, 0, R.string.menu_forward)
-                        .setOnMenuItemClickListener(l);
-            }
-
-            menu.add(0, MENU_VIEW_MESSAGE_DETAILS, 0, R.string.view_message_details)
-                    .setOnMenuItemClickListener(l);
-            menu.add(0, MENU_DELETE_MESSAGE, 0, R.string.delete_message)
-                    .setOnMenuItemClickListener(l);
-            // It is unclear what would make most sense for copying an MMS message
-            // to the clipboard, so we currently do SMS only.
-            if (msgItem.isSms()) {
-                menu.add(0, MENU_COPY_MESSAGE_TEXT, 0, R.string.copy_message_text)
-                        .setOnMenuItemClickListener(l);
-            }
             if (msgItem.mDeliveryStatus != MessageItem.DeliveryStatus.NONE || msgItem.mReadReport) {
                 menu.add(0, MENU_DELIVERY_REPORT, 0, R.string.view_delivery_report)
                         .setOnMenuItemClickListener(l);
