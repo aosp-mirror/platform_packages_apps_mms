@@ -48,7 +48,6 @@ import android.provider.Telephony.Threads;
 import android.provider.Telephony.Sms.Inbox;
 import android.provider.Telephony.Sms.Intents;
 import android.provider.Telephony.Sms.Outbox;
-import android.provider.Telephony;
 import android.telephony.ServiceState;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
@@ -122,17 +121,42 @@ public class SmsReceiverService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Temporarily removed for this duplicate message track down.
-//        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
-//            Log.v(TAG, "onStart: #" + startId + ": " + intent.getExtras());
-//        }
 
         mResultCode = intent != null ? intent.getIntExtra("result", 0) : 0;
+
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) ||
+                LogTag.DEBUG_SEND ||
+                mResultCode != 0) {
+            Log.v(TAG, "onStart: #" + startId + " mResultCode: " + mResultCode +
+                    " = " + translateResultCode(mResultCode));
+        }
 
         Message msg = mServiceHandler.obtainMessage();
         msg.arg1 = startId;
         msg.obj = intent;
         mServiceHandler.sendMessage(msg);
         return Service.START_NOT_STICKY;
+    }
+
+    private static String translateResultCode(int resultCode) {
+        switch (resultCode) {
+            case Activity.RESULT_OK:
+                return "Activity.RESULT_OK";
+            case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                return "SmsManager.RESULT_ERROR_GENERIC_FAILURE";
+            case SmsManager.RESULT_ERROR_RADIO_OFF:
+                return "SmsManager.RESULT_ERROR_RADIO_OFF";
+            case SmsManager.RESULT_ERROR_NULL_PDU:
+                return "SmsManager.RESULT_ERROR_NULL_PDU";
+            case SmsManager.RESULT_ERROR_NO_SERVICE:
+                return "SmsManager.RESULT_ERROR_NO_SERVICE";
+            case SmsManager.RESULT_ERROR_LIMIT_EXCEEDED:
+                return "SmsManager.RESULT_ERROR_LIMIT_EXCEEDED";
+            case SmsManager.RESULT_ERROR_FDN_CHECK_FAILURE:
+                return "SmsManager.RESULT_ERROR_FDN_CHECK_FAILURE";
+            default:
+                return "Unknown error code";
+        }
     }
 
     @Override
@@ -162,7 +186,7 @@ public class SmsReceiverService extends Service {
         public void handleMessage(Message msg) {
             int serviceId = msg.arg1;
             Intent intent = (Intent)msg.obj;
-            if (LogTag.DEBUG_SEND) {
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleMessage serviceId: " + serviceId + " intent: " + intent);
             }
             if (intent != null) {
@@ -170,7 +194,7 @@ public class SmsReceiverService extends Service {
 
                 int error = intent.getIntExtra("errorCode", 0);
 
-                if (LogTag.DEBUG_SEND) {
+                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                     Log.v(TAG, "handleMessage action: " + action + " error: " + error);
                 }
 
