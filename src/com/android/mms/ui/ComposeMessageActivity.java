@@ -836,8 +836,16 @@ public class ComposeMessageActivity extends Activity
             // It is unclear what would make most sense for copying an MMS message
             // to the clipboard, so we currently do SMS only.
             if (msgItem.isSms()) {
+                // Message type is sms. Only allow "edit" if the message has a single recipient
+                if (getRecipients().size() == 1 &&
+                        (msgItem.mBoxId == Sms.MESSAGE_TYPE_OUTBOX ||
+                                msgItem.mBoxId == Sms.MESSAGE_TYPE_FAILED)) {
+                    menu.add(0, MENU_EDIT_MESSAGE, 0, R.string.menu_edit)
+                    .setOnMenuItemClickListener(l);
+                }
+
                 menu.add(0, MENU_COPY_MESSAGE_TEXT, 0, R.string.copy_message_text)
-                        .setOnMenuItemClickListener(l);
+                .setOnMenuItemClickListener(l);
             }
 
             // Forward is not available for undownloaded messages.
@@ -845,21 +853,6 @@ public class ComposeMessageActivity extends Activity
                 menu.add(0, MENU_FORWARD_MESSAGE, 0, R.string.menu_forward)
                         .setOnMenuItemClickListener(l);
             }
-
-            if (msgItem.mLocked) {
-                menu.add(0, MENU_UNLOCK_MESSAGE, 0, R.string.menu_unlock)
-                    .setOnMenuItemClickListener(l);
-            } else {
-                menu.add(0, MENU_LOCK_MESSAGE, 0, R.string.menu_lock)
-                    .setOnMenuItemClickListener(l);
-            }
-
-            menu.add(0, MENU_VIEW_MESSAGE_DETAILS, 0, R.string.view_message_details)
-                .setOnMenuItemClickListener(l);
-
-            menu.add(0, MENU_DELETE_MESSAGE, 0, R.string.delete_message)
-                .setOnMenuItemClickListener(l);
-
 
             if (msgItem.isMms()) {
                 switch (msgItem.mBoxId) {
@@ -900,20 +893,26 @@ public class ComposeMessageActivity extends Activity
                         }
                         break;
                 }
-            } else {
-                // Message type is sms. Only allow "edit" if the message has a single recipient
-                if (getRecipients().size() == 1 &&
-                        (msgItem.mBoxId == Sms.MESSAGE_TYPE_OUTBOX ||
-                        msgItem.mBoxId == Sms.MESSAGE_TYPE_FAILED)) {
-                    menu.add(0, MENU_EDIT_MESSAGE, 0, R.string.menu_edit)
-                            .setOnMenuItemClickListener(l);
-                }
             }
+
+            if (msgItem.mLocked) {
+                menu.add(0, MENU_UNLOCK_MESSAGE, 0, R.string.menu_unlock)
+                    .setOnMenuItemClickListener(l);
+            } else {
+                menu.add(0, MENU_LOCK_MESSAGE, 0, R.string.menu_lock)
+                    .setOnMenuItemClickListener(l);
+            }
+
+            menu.add(0, MENU_VIEW_MESSAGE_DETAILS, 0, R.string.view_message_details)
+                .setOnMenuItemClickListener(l);
 
             if (msgItem.mDeliveryStatus != MessageItem.DeliveryStatus.NONE || msgItem.mReadReport) {
                 menu.add(0, MENU_DELIVERY_REPORT, 0, R.string.view_delivery_report)
                         .setOnMenuItemClickListener(l);
             }
+
+            menu.add(0, MENU_DELETE_MESSAGE, 0, R.string.delete_message)
+                .setOnMenuItemClickListener(l);
         }
     };
 
