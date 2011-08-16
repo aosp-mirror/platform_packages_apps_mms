@@ -16,6 +16,10 @@
 
 package com.android.mms;
 
+import com.android.mms.data.Contact;
+import com.android.mms.data.Conversation;
+import com.android.mms.data.RecipientIdCache;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -31,8 +35,9 @@ public class LogTag {
     public static final String THREAD_CACHE = "Mms:threadcache";
     public static final boolean VERBOSE = false;
     public static final boolean SEVERE_WARNING = true;                  // Leave this true
-    private static final boolean SHOW_SEVERE_WARNING_DIALOG = false;    // Set to false before ship
+    private static final boolean SHOW_SEVERE_WARNING_DIALOG = true;    // Set to false before ship
     public static final boolean DEBUG_SEND = false;    // Set to false before ship
+    public static final boolean DEBUG_DUMP = false;    // Set to false before ship
 
     private static String prettyArray(String[] array) {
         if (array.length == 0) {
@@ -74,10 +79,24 @@ public class LogTag {
         Log.e(TAG, logFormat(format, args));
     }
 
+    public static void dumpInternalTables(final Context context) {
+        new Thread(new Runnable() {
+            public void run() {
+                RecipientIdCache.canonicalTableDump();
+                RecipientIdCache.dump();
+                Conversation.dumpThreadsTable(context);
+                Conversation.dump();
+                Conversation.dumpSmsTable(context);
+                Contact.dump();
+            }
+        }).start();
+    }
+
     public static void warnPossibleRecipientMismatch(final String msg, final Activity activity) {
-        Log.e(TAG, "WARNING!!!! " + msg);
+        Log.e(TAG, "WARNING!!!! " + msg, new RuntimeException());
 
         if (SHOW_SEVERE_WARNING_DIALOG) {
+            dumpInternalTables(activity);
             activity.runOnUiThread(new Runnable() {
                 public void run() {
                     new AlertDialog.Builder(activity)

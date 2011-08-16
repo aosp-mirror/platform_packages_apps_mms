@@ -12,11 +12,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
 import android.provider.Telephony.Sms.Conversations;
+import android.provider.Telephony.ThreadsColumns;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -1004,4 +1006,86 @@ public class Conversation {
         int pos = base.indexOf('?');
         return (pos == -1) ? base : base.substring(0, pos);
     }
+
+    public static void dump() {
+        Cache.dumpCache();
+    }
+
+    public static void dumpThreadsTable(Context context) {
+        LogTag.debug("**** Dump of threads table ****");
+        Cursor c = context.getContentResolver().query(sAllThreadsUri,
+                ALL_THREADS_PROJECTION, null, null, "date ASC");
+        try {
+            c.moveToPosition(-1);
+            while (c.moveToNext()) {
+                String snippet = MessageUtils.extractEncStrFromCursor(c, SNIPPET, SNIPPET_CS);
+                LogTag.debug("dumpThreadsTable threadId: " + c.getLong(ID) +
+                        " " + ThreadsColumns.DATE + " : " + c.getLong(DATE) +
+                        " " + ThreadsColumns.MESSAGE_COUNT + " : " + c.getInt(MESSAGE_COUNT) +
+                        " " + ThreadsColumns.SNIPPET + " : " + snippet +
+                        " " + ThreadsColumns.READ + " : " + c.getInt(READ) +
+                        " " + ThreadsColumns.ERROR + " : " + c.getInt(ERROR) +
+                        " " + ThreadsColumns.HAS_ATTACHMENT + " : " + c.getInt(HAS_ATTACHMENT) +
+                        " " + ThreadsColumns.RECIPIENT_IDS + " : " + c.getString(RECIPIENT_IDS));
+
+                ContactList recipients = ContactList.getByIds(c.getString(RECIPIENT_IDS), false);
+                LogTag.debug("----recipients: " + recipients.serialize());
+            }
+        } finally {
+            c.close();
+        }
+    }
+
+    static final String[] SMS_PROJECTION = new String[] {
+        BaseColumns._ID,
+        // For SMS
+        Sms.THREAD_ID,
+        Sms.ADDRESS,
+        Sms.BODY,
+        Sms.DATE,
+        Sms.READ,
+        Sms.TYPE,
+        Sms.STATUS,
+        Sms.LOCKED,
+        Sms.ERROR_CODE,
+    };
+
+    // The indexes of the default columns which must be consistent
+    // with above PROJECTION.
+    static final int COLUMN_ID                  = 0;
+    static final int COLUMN_THREAD_ID           = 1;
+    static final int COLUMN_SMS_ADDRESS         = 2;
+    static final int COLUMN_SMS_BODY            = 3;
+    static final int COLUMN_SMS_DATE            = 4;
+    static final int COLUMN_SMS_READ            = 5;
+    static final int COLUMN_SMS_TYPE            = 6;
+    static final int COLUMN_SMS_STATUS          = 7;
+    static final int COLUMN_SMS_LOCKED          = 8;
+    static final int COLUMN_SMS_ERROR_CODE      = 9;
+
+    public static void dumpSmsTable(Context context) {
+        LogTag.debug("**** Dump of sms table ****");
+        Cursor c = context.getContentResolver().query(Sms.CONTENT_URI,
+                SMS_PROJECTION, null, null, "_id ASC");
+        try {
+            c.moveToPosition(-1);
+            while (c.moveToNext()) {
+                String snippet = MessageUtils.extractEncStrFromCursor(c, SNIPPET, SNIPPET_CS);
+                String body = c.getString(COLUMN_SMS_BODY);
+                LogTag.debug("dumpSmsTable " + BaseColumns._ID + ": " + c.getLong(COLUMN_ID) +
+                        " " + Sms.THREAD_ID + " : " + c.getLong(DATE) +
+                        " " + Sms.ADDRESS + " : " + c.getString(COLUMN_SMS_ADDRESS) +
+                        " " + Sms.BODY + " : " + body.substring(0, Math.min(body.length(), 25)) +
+                        " " + Sms.DATE + " : " + c.getLong(COLUMN_SMS_DATE) +
+                        " " + Sms.READ + " : " + c.getInt(COLUMN_SMS_READ) +
+                        " " + Sms.TYPE + " : " + c.getInt(COLUMN_SMS_TYPE) +
+                        " " + Sms.STATUS + " : " + c.getInt(COLUMN_SMS_STATUS) +
+                        " " + Sms.LOCKED + " : " + c.getInt(COLUMN_SMS_LOCKED) +
+                        " " + Sms.ERROR_CODE + " : " + c.getInt(COLUMN_SMS_ERROR_CODE));
+            }
+        } finally {
+            c.close();
+        }
+    }
+
 }

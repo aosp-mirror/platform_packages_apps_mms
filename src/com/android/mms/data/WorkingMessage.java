@@ -879,7 +879,21 @@ public class WorkingMessage {
      */
     public void setWorkingRecipients(List<String> numbers) {
         mWorkingRecipients = numbers;
-        Log.i(TAG, "setWorkingRecipients");
+        String s = null;
+        if (numbers != null) {
+            int size = numbers.size();
+            switch (size) {
+            case 1:
+                s = numbers.get(0);
+                break;
+            case 0:
+                s = "empty";
+                break;
+            default:
+                s = "{...} len=" + size;
+            }
+        }
+        Log.i(TAG, "setWorkingRecipients: numbers=" + s);
     }
 
     private void dumpWorkingRecipients() {
@@ -912,6 +926,10 @@ public class WorkingMessage {
 
         // Convert to MMS if there are any email addresses in the recipient list.
         setHasEmail(conv.getRecipients().containsEmail(), false);
+    }
+
+    public Conversation getConversation() {
+        return mConversation;
     }
 
     /**

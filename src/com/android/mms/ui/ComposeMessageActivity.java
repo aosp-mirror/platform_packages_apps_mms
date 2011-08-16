@@ -188,6 +188,7 @@ public class ComposeMessageActivity extends Activity
     private static final int MENU_SEND                  = 4;
     private static final int MENU_CALL_RECIPIENT        = 5;
     private static final int MENU_CONVERSATION_LIST     = 6;
+    private static final int MENU_DEBUG_DUMP            = 7;
 
     // Context menu ID
     private static final int MENU_VIEW_CONTACT          = 12;
@@ -1810,7 +1811,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("data=" + intentUri + ", thread_id extra is " + threadId +
+            log("onNewIntent: data=" + intentUri + ", thread_id extra is " + threadId +
                     ", new conversation=" + conversation + ", mConversation=" + mConversation);
         }
 
@@ -1835,10 +1836,10 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (sameThread) {
-            log("same conversation");
+            log("onNewIntent: same conversation");
         } else {
             if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                log("different conversation");
+                log("onNewIntent: different conversation");
             }
             saveDraft();    // if we've got a draft, save it first
 
@@ -1846,6 +1847,15 @@ public class ComposeMessageActivity extends Activity
             loadMessageContent();
         }
 
+    }
+
+    private void sanityCheckConversation() {
+        if (mWorkingMessage.getConversation() != mConversation) {
+            LogTag.warnPossibleRecipientMismatch(
+                    "ComposeMessageActivity: mWorkingMessage.mConversation=" +
+                    mWorkingMessage.getConversation() + ", mConversation=" +
+                    mConversation + ", MISMATCH!", this);
+        }
     }
 
     @Override
@@ -1859,10 +1869,21 @@ public class ComposeMessageActivity extends Activity
             // the contents of the new message. Recognize that dangerous situation and bail out
             // to the ConversationList where the user can enter this in a clean manner.
             if (mWorkingMessage.isWorthSaving()) {
+                if (LogTag.VERBOSE) {
+                    log("onRestart: mWorkingMessage.unDiscard()");
+                }
                 mWorkingMessage.unDiscard();    // it was discarded in onStop().
+
+                sanityCheckConversation();
             } else if (isRecipientsEditorVisible()) {
+                if (LogTag.VERBOSE) {
+                    log("onRestart: goToConversationList");
+                }
                 goToConversationList();
             } else {
+                if (LogTag.VERBOSE) {
+                    log("onRestart: loadDraft");
+                }
                 loadDraft();
                 mWorkingMessage.setConversation(mConversation);
                 mAttachmentEditor.update(mWorkingMessage);
@@ -2196,6 +2217,9 @@ public class ComposeMessageActivity extends Activity
         // If we already have messages in the list adapter, it
         // will be auto-requerying; don't thrash another query in.
         if (mMsgListAdapter.getCount() == 0) {
+            if (LogTag.VERBOSE) {
+                log("onMessageSent");
+            }
             startMsgListQuery();
         }
     }
@@ -2283,6 +2307,10 @@ public class ComposeMessageActivity extends Activity
         menu.add(0, MENU_PREFERENCES, 0, R.string.menu_preferences).setIcon(
                 android.R.drawable.ic_menu_preferences);
 
+        if (LogTag.DEBUG_DUMP) {
+            menu.add(0, MENU_DEBUG_DUMP, 0, R.string.menu_debug_dump);
+        }
+
         return true;
     }
 
@@ -2362,6 +2390,11 @@ public class ComposeMessageActivity extends Activity
                 startActivityIfNeeded(intent, -1);
                 break;
             }
+            case MENU_DEBUG_DUMP:
+                mWorkingMessage.dump();
+                Conversation.dump();
+                LogTag.dumpInternalTables(this);
+                break;
         }
 
         return true;
@@ -3051,14 +3084,13 @@ public class ComposeMessageActivity extends Activity
         Uri conversationUri = mConversation.getUri();
 
         if (conversationUri == null) {
-            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                log(" has null uri. Conversation: " + mConversation.toString());
-            }
+            log("##### startMsgListQuery: conversationUri is null, bail!");
             return;
         }
 
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("for " + conversationUri);
+        long threadId = mConversation.getThreadId();
+        if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("startMsgListQuery for " + conversationUri + ", threadId=" + threadId);
         }
 
         // Cancel any pending queries
@@ -3066,8 +3098,11 @@ public class ComposeMessageActivity extends Activity
         try {
             // Kick off the new query
             mBackgroundQueryHandler.startQuery(
-                    MESSAGE_LIST_QUERY_TOKEN, null, conversationUri,
-                    PROJECTION, null, null, null);
+                    MESSAGE_LIST_QUERY_TOKEN,
+                    threadId /* cookie */,
+                    conversationUri,
+                    PROJECTION,
+                    null, null, null);
         } catch (SQLiteException e) {
             SqliteWrapper.checkSQLiteException(this, e);
         }
@@ -3191,6 +3226,7 @@ public class ComposeMessageActivity extends Activity
                                 workingRecipients, this);
                     }
                 }
+                sanityCheckConversation();
             }
 
             // send can change the recipients. Make sure we remove the listeners first and then add
@@ -3368,6 +3404,9 @@ public class ComposeMessageActivity extends Activity
         }
 
         public void onContentChanged(MessageListAdapter adapter) {
+            if (LogTag.VERBOSE) {
+                log("MessageListAdapter.OnDataSetChangedListener.onContentChanged");
+            }
             startMsgListQuery();
         }
     };
@@ -3388,6 +3427,26 @@ public class ComposeMessageActivity extends Activity
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch(token) {
                 case MESSAGE_LIST_QUERY_TOKEN:
+                    // check consistency between the query result and 'mConversation'
+                    long tid = (Long) cookie;
+
+                    if (LogTag.VERBOSE) {
+                        log("##### onQueryComplete: msg history result for threadId " + tid);
+                    }
+                    if (tid != mConversation.getThreadId()) {
+                        if (LogTag.SEVERE_WARNING) {
+                            String dbgMsg =
+                                "onQueryComplete: msg history query result is for threadId " +
+                                tid + ", but mConversation has threadId " +
+                                mConversation.getThreadId();
+                            LogTag.warnPossibleRecipientMismatch(dbgMsg,
+                                    ComposeMessageActivity.this);
+                        }
+                    }
+
+                    // check consistency b/t mConversation & mWorkingMessage.mConversation
+                    ComposeMessageActivity.this.sanityCheckConversation();
+
                     int newSelectionPos = -1;
                     long targetMsgId = getIntent().getLongExtra("select_id", -1);
                     if (targetMsgId != -1) {

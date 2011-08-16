@@ -44,6 +44,8 @@
     <string name="menu_delete">Delete thread</string>
     <!-- Context menu item on an individual conversation for viewing that conversation -->
     <string name="menu_view">View thread</string>
+    <!-- Menu item for debugging - do not localize -->
+    <string name="menu_debug_dump">DEBUG DUMP</string>
     <!-- Message that appears on screen while SIM card messages are retrieved -->
     <string name="refreshing">Refreshing\u2026</string>
 
