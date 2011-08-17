@@ -3437,14 +3437,11 @@ public class ComposeMessageActivity extends Activity
                         log("##### onQueryComplete: msg history result for threadId " + tid);
                     }
                     if (tid != mConversation.getThreadId()) {
-                        if (LogTag.SEVERE_WARNING) {
-                            String dbgMsg =
-                                "onQueryComplete: msg history query result is for threadId " +
+                        log("onQueryComplete: msg history query result is for threadId " +
                                 tid + ", but mConversation has threadId " +
-                                mConversation.getThreadId();
-                            LogTag.warnPossibleRecipientMismatch(dbgMsg,
-                                    ComposeMessageActivity.this);
-                        }
+                                mConversation.getThreadId() + " starting a new query");
+                        startMsgListQuery();
+                        return;
                     }
 
                     // check consistency b/t mConversation & mWorkingMessage.mConversation
