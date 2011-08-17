@@ -50,6 +50,7 @@
             android:autoText="true"
             android:singleLine="true"
             android:maxLength="40"
+            android:imeOptions="flagNoExtractUi"
             android:hint="@string/subject_hint"
             android:visibility="gone"/>
     </LinearLayout>
@@ -160,7 +161,7 @@
                     android:minHeight="@dimen/input_text_height"
                     android:maxLines="3"
                     android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
-                    android:imeOptions="actionSend|flagNoEnterAction"
+                    android:imeOptions="actionSend|flagNoEnterAction|flagNoExtractUi"
                 />
 
                 <LinearLayout

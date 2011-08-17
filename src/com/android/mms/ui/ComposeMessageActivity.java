@@ -101,6 +101,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
@@ -1644,6 +1645,14 @@ public class ComposeMessageActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        resetConfiguration(getResources().getConfiguration());
+
+        if (mIsLandscape) {
+            getWindow().setFlags(
+                     WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
+         }
+
         setContentView(R.layout.compose_message_activity);
         setProgressBarVisibility(false);
 
@@ -1758,9 +1767,6 @@ public class ComposeMessageActivity extends Activity
         drawTopPanel();
         drawBottomPanel();
 
-        Configuration config = getResources().getConfiguration();
-        mIsKeyboardOpen = config.keyboardHidden == KEYBOARDHIDDEN_NO;
-        mIsLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE;
         onKeyboardStateChanged(mIsKeyboardOpen);
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
@@ -2037,16 +2043,23 @@ public class ComposeMessageActivity extends Activity
             Log.v(TAG, "onConfigurationChanged: " + newConfig);
         }
 
-        mIsKeyboardOpen = newConfig.keyboardHidden == KEYBOARDHIDDEN_NO;
-        boolean isLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
-        if (mIsLandscape != isLandscape) {
-            mIsLandscape = isLandscape;
-
+        if (resetConfiguration(newConfig)) {
             // Have to re-layout the attachment editor because we have different layouts
             // depending on whether we're portrait or landscape.
             drawTopPanel();
         }
         onKeyboardStateChanged(mIsKeyboardOpen);
+    }
+
+    // returns true if landscape/portrait configuration has changed
+    private boolean resetConfiguration(Configuration config) {
+        mIsKeyboardOpen = config.keyboardHidden == KEYBOARDHIDDEN_NO;
+        boolean isLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE;
+        if (mIsLandscape != isLandscape) {
+            mIsLandscape = isLandscape;
+            return true;
+        }
+        return false;
     }
 
     private void onKeyboardStateChanged(boolean isKeyboardOpen) {
