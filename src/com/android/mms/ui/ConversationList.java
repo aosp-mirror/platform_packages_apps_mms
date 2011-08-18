@@ -276,6 +276,11 @@ public class ConversationList extends ListActivity
         super.onStop();
 
         DraftCache.getInstance().removeOnDraftChangedListener(this);
+
+        // Simply setting the choice mode causes the previous choice mode to finish and we exit
+        // multi-select mode (if we're in it) and remove all the selections.
+        getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+
         mListAdapter.changeCursor(null);
     }
 
@@ -744,12 +749,19 @@ public class ConversationList extends ListActivity
         }
 
         public void onDestroyActionMode(ActionMode mode) {
+            ConversationListAdapter adapter = (ConversationListAdapter)getListView().getAdapter();
+            adapter.uncheckAll();
         }
 
         public void onItemCheckedStateChanged(ActionMode mode,
                 int position, long id, boolean checked) {
-            final int checkedCount = getListView().getCheckedItemCount();
+            ListView listView = getListView();
+            final int checkedCount = listView.getCheckedItemCount();
             mSelectedConvCount.setText(Integer.toString(checkedCount));
+
+            Cursor cursor  = (Cursor)listView.getItemAtPosition(position);
+            Conversation conv = Conversation.from(ConversationList.this, cursor);
+            conv.setIsChecked(checked);
         }
 
     }

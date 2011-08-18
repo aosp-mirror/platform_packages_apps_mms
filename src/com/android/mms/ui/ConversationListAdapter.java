@@ -55,8 +55,7 @@ public class ConversationListAdapter extends CursorAdapter implements AbsListVie
 
         ConversationListItem headerView = (ConversationListItem) view;
         Conversation conv = Conversation.from(context, cursor);
-        ConversationListItemData ch = new ConversationListItemData(context, conv);
-        headerView.bind(context, ch);
+        headerView.bind(context, conv);
     }
 
     public void onMovedToScrapHeap(View view) {
@@ -84,6 +83,15 @@ public class ConversationListAdapter extends CursorAdapter implements AbsListVie
             if (mOnContentChangedListener != null) {
                 mOnContentChangedListener.onContentChanged(this);
             }
+        }
+    }
+
+    public void uncheckAll() {
+        int count = getCount();
+        for (int i = 0; i < count; i++) {
+            Cursor cursor = (Cursor)getItem(i);
+            Conversation conv = Conversation.from(mContext, cursor);
+            conv.setIsChecked(false);
         }
     }
 }
