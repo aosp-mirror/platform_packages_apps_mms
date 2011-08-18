@@ -49,9 +49,6 @@ import java.util.Locale;
 public class HttpUtils {
     private static final String TAG = LogTag.TRANSACTION;
 
-    private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = false;
-
     public static final int HTTP_POST_METHOD = 1;
     public static final int HTTP_GET_METHOD = 2;
 
@@ -98,7 +95,7 @@ public class HttpUtils {
             throw new IllegalArgumentException("URL must not be null.");
         }
 
-        if (LOCAL_LOGV) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "httpConnection: params list");
             Log.v(TAG, "\ttoken\t\t= " + token);
             Log.v(TAG, "\turl\t\t= " + url);
