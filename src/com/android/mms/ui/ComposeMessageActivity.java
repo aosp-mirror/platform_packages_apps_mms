@@ -1647,12 +1647,6 @@ public class ComposeMessageActivity extends Activity
 
         resetConfiguration(getResources().getConfiguration());
 
-        if (mIsLandscape) {
-            getWindow().setFlags(
-                     WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
-         }
-
         setContentView(R.layout.compose_message_activity);
         setProgressBarVisibility(false);
 
