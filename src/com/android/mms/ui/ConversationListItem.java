@@ -20,6 +20,7 @@ package com.android.mms.ui;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
+import com.android.mms.data.Conversation;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -35,7 +36,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.QuickContactBadge;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -58,7 +58,7 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
     // For posting UI update Runnables from other threads:
     private Handler mHandler = new Handler();
 
-    private ConversationListItemData mConversationHeader;
+    private Conversation mConversation;
 
     private static final StyleSpan STYLE_BOLD = new StyleSpan(Typeface.BOLD);
 
@@ -87,12 +87,8 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
         mAvatarView = (QuickContactBadge) findViewById(R.id.avatar);
     }
 
-    public ConversationListItemData getConversationHeader() {
-        return mConversationHeader;
-    }
-
-    private void setConversationHeader(ConversationListItemData header) {
-        mConversationHeader = header;
+    public Conversation getConversation() {
+        return mConversation;
     }
 
     /**
@@ -103,17 +99,17 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
         mSubjectView.setText(explain);
     }
 
-    private CharSequence formatMessage(ConversationListItemData ch) {
+    private CharSequence formatMessage() {
         final int color = android.R.styleable.Theme_textColorSecondary;
-        String from = ch.getFrom();
+        String from = mConversation.getRecipients().formatNames(", ");
 
         SpannableStringBuilder buf = new SpannableStringBuilder(from);
 
-        if (ch.getMessageCount() > 1) {
+        if (mConversation.getMessageCount() > 1) {
            buf.append(mContext.getResources().getString(R.string.message_count_format,
-                   ch.getMessageCount()));
+                   mConversation.getMessageCount()));
         }
-        if (ch.hasDraft()) {
+        if (mConversation.hasDraft()) {
             buf.append(mContext.getResources().getString(R.string.draft_separator));
             int before = buf.length();
             int size;
@@ -127,7 +123,7 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
         }
 
         // Unread messages are shown in bold
-        if (!ch.isRead()) {
+        if (mConversation.hasUnreadMessages()) {
             buf.setSpan(STYLE_BOLD, 0, buf.length(),
                     Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         }
@@ -135,11 +131,9 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
     }
 
     private void updateAvatarView() {
-        ConversationListItemData ch = mConversationHeader;
-
         Drawable avatarDrawable;
-        if (ch.getContacts().size() == 1) {
-            Contact contact = ch.getContacts().get(0);
+        if (mConversation.getRecipients().size() == 1) {
+            Contact contact = mConversation.getRecipients().get(0);
             avatarDrawable = contact.getAvatar(mContext, sDefaultContactImage);
 
             if (contact.existsInDatabase()) {
@@ -157,9 +151,7 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
     }
 
     private void updateFromView() {
-        ConversationListItemData ch = mConversationHeader;
-        ch.updateRecipients();
-        mFromView.setText(formatMessage(ch));
+        mFromView.setText(formatMessage());
         updateAvatarView();
     }
 
@@ -171,19 +163,25 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
         });
     }
 
-    public final void bind(Context context, final ConversationListItemData ch) {
+    public final void bind(Context context, final Conversation conversation) {
         //if (DEBUG) Log.v(TAG, "bind()");
 
-        setConversationHeader(ch);
+        mConversation = conversation;
 
-        Drawable background = ch.isRead()?
-                mContext.getResources().getDrawable(R.drawable.conversation_item_background_read) :
-                mContext.getResources().getDrawable(R.drawable.conversation_item_background_unread);
+        int backgroundId;
+        if (conversation.isChecked()) {
+            backgroundId = R.drawable.list_selected_holo;
+        } else if (conversation.hasUnreadMessages()) {
+            backgroundId = R.drawable.conversation_item_background_unread;
+        } else {
+            backgroundId = R.drawable.conversation_item_background_read;
+        }
+        Drawable background = mContext.getResources().getDrawable(backgroundId);
 
         setBackgroundDrawable(background);
 
         LayoutParams attachmentLayout = (LayoutParams)mAttachmentView.getLayoutParams();
-        boolean hasError = ch.hasError();
+        boolean hasError = conversation.hasError();
         // When there's an error icon, the attachment icon is left of the error icon.
         // When there is not an error icon, the attachment icon is left of the date text.
         // As far as I know, there's no way to specify that relationship in xml.
@@ -193,23 +191,23 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
             attachmentLayout.addRule(RelativeLayout.LEFT_OF, R.id.date);
         }
 
-        boolean hasAttachment = ch.hasAttachment();
+        boolean hasAttachment = conversation.hasAttachment();
         mAttachmentView.setVisibility(hasAttachment ? VISIBLE : GONE);
 
         // Date
-        mDateView.setText(ch.getDate());
+        mDateView.setText(MessageUtils.formatTimeStampString(context, conversation.getDate()));
 
         // From.
-        mFromView.setText(formatMessage(ch));
+        mFromView.setText(formatMessage());
 
         // Register for updates in changes of any of the contacts in this conversation.
-        ContactList contacts = ch.getContacts();
+        ContactList contacts = conversation.getRecipients();
 
         if (DEBUG) Log.v(TAG, "bind: contacts.addListeners " + this);
         Contact.addListener(this);
 
         // Subject
-        mSubjectView.setText(ch.getSubject());
+        mSubjectView.setText(conversation.getSnippet());
         LayoutParams subjectLayout = (LayoutParams)mSubjectView.getLayoutParams();
         // We have to make the subject left of whatever optional items are shown on the right.
         subjectLayout.addRule(RelativeLayout.LEFT_OF, hasAttachment ? R.id.attachment :

@@ -80,6 +80,8 @@ public class Conversation {
     private boolean mHasUnreadMessages; // True if there are unread messages.
     private boolean mHasAttachment;     // True if any message has an attachment.
     private boolean mHasError;          // True if any message is in an error state.
+    private boolean mIsChecked;         // True if user has selected the conversation for a
+                                        // multi-operation such as delete.
 
     private static ContentValues mReadContentValues;
     private static boolean mLoadingThreads;
@@ -479,6 +481,17 @@ public class Conversation {
      */
     public synchronized boolean hasError() {
         return mHasError;
+    }
+
+    /**
+     * Returns true if this conversation is selected for a multi-operation.
+     */
+    public synchronized boolean isChecked() {
+        return mIsChecked;
+    }
+
+    public synchronized void setIsChecked(boolean isChecked) {
+        mIsChecked = isChecked;
     }
 
     private static long getOrCreateThreadId(Context context, ContactList list) {
