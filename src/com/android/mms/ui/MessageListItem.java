@@ -101,7 +101,6 @@ public class MessageListItem extends LinearLayout implements
     private MessageItem mMessageItem;
     private String mDefaultCountryIso;
     private TextView mDateView;
-    private LinearLayout mStatusIcons;
     private ImageViewDivot mDivot;        // little triangle on the side of the avatar
     static private Drawable sDefaultContactImage;
 
@@ -136,7 +135,6 @@ public class MessageListItem extends LinearLayout implements
         mDeliveredIndicator = (ImageView) findViewById(R.id.delivered_indicator);
         mDetailsIndicator = (ImageView) findViewById(R.id.details_indicator);
         mAvatar = (QuickContactBadge) findViewById(R.id.avatar);
-        mStatusIcons = (LinearLayout) findViewById(R.id.status_icons);
         mDivot = (ImageViewDivot) findViewById(R.id.divit);
     }
 
@@ -280,86 +278,9 @@ public class MessageListItem extends LinearLayout implements
                 hideMmsViewIfNeeded();
             }
         }
-
-        adjustLayoutItems(msgItem);
         drawRightStatusIndicator(msgItem);
 
         requestLayout();
-    }
-
-    private void adjustLayoutItems(final MessageItem msgItem) {
-        // Put the avatar on the left or right
-        RelativeLayout.LayoutParams avatarLayout =
-            (RelativeLayout.LayoutParams)mAvatar.getLayoutParams();
-        RelativeLayout.LayoutParams textLayout =
-            (RelativeLayout.LayoutParams)mBodyTextView.getLayoutParams();
-        RelativeLayout.LayoutParams dateLayout =
-            (RelativeLayout.LayoutParams)mDateView.getLayoutParams();
-        RelativeLayout.LayoutParams statusIconsLayout =
-            (RelativeLayout.LayoutParams)mStatusIcons.getLayoutParams();
-        RelativeLayout.LayoutParams divitLayout =
-            (RelativeLayout.LayoutParams)mDivot.getLayoutParams();
-
-        Resources resources = mContext.getResources();
-        int textPaddingLeftRight = resources.getDimensionPixelOffset(
-                R.dimen.message_item_text_padding_left_right);
-        int textPaddingTop = resources.getDimensionPixelOffset(
-                R.dimen.message_item_text_padding_top);
-
-        if (msgItem.mBoxId == Mms.MESSAGE_BOX_INBOX) {
-            // Avatar on left, text adjusted left
-            // undo the old rules first
-            textLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
-            textLayout.addRule(RelativeLayout.LEFT_OF, 0);
-            avatarLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
-            statusIconsLayout.addRule(RelativeLayout.LEFT_OF, 0);
-            dateLayout.addRule(RelativeLayout.LEFT_OF, 0);
-            divitLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
-
-            // set the new rules
-            avatarLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            textLayout.addRule(RelativeLayout.RIGHT_OF, R.id.avatar);
-            textLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            dateLayout.addRule(RelativeLayout.RIGHT_OF, R.id.avatar);
-            statusIconsLayout.addRule(RelativeLayout.RIGHT_OF, R.id.date_view);
-
-            mBodyTextView.setPadding(textPaddingLeftRight,
-                    textPaddingTop,
-                    textPaddingLeftRight,
-                    0);
-            mBodyTextView.setGravity(Gravity.LEFT);
-            mDateView.setPadding(textPaddingLeftRight, 0, 0, 0);
-
-            divitLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            mDivot.setPosition(ImageViewDivot.RIGHT_UPPER);
-        } else {
-            // Avatar on right, text adjusted right
-            // undo the old rules first
-            avatarLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
-            textLayout.addRule(RelativeLayout.RIGHT_OF, 0);
-            textLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
-            dateLayout.addRule(RelativeLayout.RIGHT_OF, 0);
-            statusIconsLayout.addRule(RelativeLayout.RIGHT_OF, 0);
-            divitLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
-
-            // set the new rules
-            textLayout.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            textLayout.addRule(RelativeLayout.LEFT_OF, R.id.avatar);
-            avatarLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            statusIconsLayout.addRule(RelativeLayout.LEFT_OF, R.id.date_view);
-            dateLayout.addRule(RelativeLayout.LEFT_OF, R.id.avatar);
-
-            mBodyTextView.setPadding(resources
-                    .getDimensionPixelOffset(R.dimen.message_item_avatar_on_right_text_indent),
-                        textPaddingTop,
-                        textPaddingLeftRight,
-                        0);
-            mBodyTextView.setGravity(Gravity.RIGHT);
-            mDateView.setPadding(0, 0, textPaddingLeftRight, 0);
-
-            divitLayout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            mDivot.setPosition(ImageViewDivot.LEFT_UPPER);
-        }
     }
 
     private void hideMmsViewIfNeeded() {

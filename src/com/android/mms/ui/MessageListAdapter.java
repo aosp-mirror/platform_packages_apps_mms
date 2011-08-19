@@ -230,7 +230,9 @@ public class MessageListAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return mInflater.inflate(R.layout.message_list_item, parent, false);
+        return mInflater.inflate(getItemViewType(cursor) == INCOMING_ITEM_TYPE ?
+                R.layout.message_list_item_recv : R.layout.message_list_item_send,
+                parent, false);
     }
 
     public MessageItem getCachedMessageItem(String type, long msgId, Cursor c) {
@@ -284,6 +286,10 @@ public class MessageListAdapter extends CursorAdapter {
     @Override
     public int getItemViewType(int position) {
         Cursor cursor = (Cursor)getItem(position);
+        return getItemViewType(cursor);
+    }
+
+    private int getItemViewType(Cursor cursor) {
         String type = cursor.getString(mColumnsMap.mColumnMsgType);
         int boxId;
         if ("sms".equals(type)) {
