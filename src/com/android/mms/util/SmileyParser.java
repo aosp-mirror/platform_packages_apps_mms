@@ -69,7 +69,10 @@ public class SmileyParser {
             R.drawable.emo_im_crying,
             R.drawable.emo_im_lips_are_sealed,
             R.drawable.emo_im_laughing,
-            R.drawable.emo_im_wtf
+            R.drawable.emo_im_wtf,
+            R.drawable.emo_im_heart,
+            R.drawable.emo_im_mad,
+            R.drawable.emo_im_smirk
         };
 
         public static int HAPPY = 0;
@@ -89,6 +92,9 @@ public class SmileyParser {
         public static int LIPS_ARE_SEALED = 14;
         public static int LAUGHING = 15;
         public static int WTF = 16;
+        public static int MAD = 17;
+        public static int HEART = 18;
+        public static int SMIRK = 19;
 
         public static int getSmileyResource(int which) {
             return sIconIds[which];
@@ -114,7 +120,10 @@ public class SmileyParser {
         Smileys.getSmileyResource(Smileys.CRYING),               //  13
         Smileys.getSmileyResource(Smileys.LIPS_ARE_SEALED),      //  14
         Smileys.getSmileyResource(Smileys.LAUGHING),             //  15
-        Smileys.getSmileyResource(Smileys.WTF),                   //  16
+        Smileys.getSmileyResource(Smileys.WTF),                  //  16
+        Smileys.getSmileyResource(Smileys.MAD),                  //  17
+        Smileys.getSmileyResource(Smileys.HEART),                //  18
+        Smileys.getSmileyResource(Smileys.SMIRK),                //  19
     };
 
     public static final int DEFAULT_SMILEY_TEXTS = R.array.default_smiley_texts;
