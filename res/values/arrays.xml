@@ -40,6 +40,7 @@
       <item>&lt;3</item> <!-- 17: Heart -->
       <item>x-(</item>   <!-- 18: Mad -->
       <item>:-/</item>   <!-- 19: Smirk -->
+      <item>:-I</item>   <!-- 20: Poker face -->
     </string-array>
 
     <!-- NOTE: if you change anything about this array, you must make the corresponding change
@@ -66,5 +67,6 @@
         <item>Heart</item>                   <!-- 17: <3 -->
         <item>Mad</item>                     <!-- 18: x-( -->
         <item>Smirk</item>                   <!-- 19: :-/ -->
+        <item>Poker face</item>              <!-- 20: :-I -->
     </string-array>
 </resources>
