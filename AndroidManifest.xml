@@ -43,7 +43,7 @@
 
     <application android:name="MmsApp"
             android:label="@string/app_label"
-            android:icon="@drawable/ic_launcher_smsmms"
+            android:icon="@mipmap/ic_launcher_smsmms"
             android:taskAffinity="android.task.mms"
             android:allowTaskReparenting="true">
 
