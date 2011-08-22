@@ -21,6 +21,7 @@ import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -80,6 +81,9 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.preferences);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         setMessagePreferences();
     }
@@ -180,6 +184,12 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         switch (item.getItemId()) {
             case MENU_RESTORE_DEFAULTS:
                 restoreDefaultPreferences();
+                return true;
+
+            case android.R.id.home:
+                // The user clicked on the Messaging icon in the action bar. Take them back from
+                // wherever they came from
+                finish();
                 return true;
         }
         return false;
