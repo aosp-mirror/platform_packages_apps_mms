@@ -32,14 +32,16 @@
     <string name="menu_delete_all" msgid="808729454898114735">"Slett alle tråder"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Slett"</string>
     <string name="menu_view" msgid="7448852683948080108">"Vis"</string>
+    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
+    <skip />
     <string name="refreshing" msgid="987335057871404222">"Synkroniserer…"</string>
     <string name="has_draft" msgid="2487465595514636160">"Utkast"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Mangler emne)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Meg"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Vis bildeserie"</string>
-    <string name="view_message_details" msgid="2443165773568096234">"Vis meldingsdetaljer"</string>
+    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"Vis meldingsdetaljer"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Vis rapport"</string>
-    <string name="delete_message" msgid="8888447283788388395">"Slett melding"</string>
+    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"Slett melding"</string>
     <string name="expire_on" msgid="4436268382742593921">"Utgår: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"kB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Melding ikke levert"</string>
@@ -52,7 +54,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Emne: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* DRM-beskyttet tekst *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Oppdaget utilstrekkelige DRM-rettigheter."</string>
-    <string name="copy_message_text" msgid="4640869459731924158">"Kopier meldingstekst"</string>
+    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"Kopier meldingstekst"</string>
     <string name="message_options" msgid="6838806653341967550">"Innstillinger for melding"</string>
     <string name="done" msgid="7479926268660505871">"Utført"</string>
     <string name="move_up" msgid="7307578107431739359">"Flytt opp"</string>
@@ -219,8 +221,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"Feilkode: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Rediger"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Slett meldinger"</string>
-    <string name="menu_lock" msgid="136863583207382259">"Lås melding"</string>
-    <string name="menu_unlock" msgid="5264877122797287929">"Lås opp melding"</string>
+    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"Lås melding"</string>
+    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"Lås opp melding"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopier til nettbrettminne"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Kopier til telefonminne"</string>
     <string name="sim_delete" msgid="610790510655316922">"Slett"</string>
@@ -301,10 +303,8 @@
     <string name="search" msgid="7560238620274735199">"Meldinger"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"Tekst i meldinger"</string>
     <string name="search_empty" msgid="645052646985297065">"Ingen treff"</string>
-  <plurals name="search_results_title">
-    <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> resultater for «%<xliff:g id="SEARCH">%2$s</xliff:g>"</item>
-    <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> resultater for «<xliff:g id="SEARCH">%2$s</xliff:g>»"</item>
-  </plurals>
+    <!-- String.format failed for translation -->
+    <!-- no translation found for search_results_title:one (4657073733087431350) -->
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> resultater for «<xliff:g id="SEARCH">%2$s</xliff:g>»"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Tøm"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"Søkeloggen slettes."</string>

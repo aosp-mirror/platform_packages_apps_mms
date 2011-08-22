@@ -32,14 +32,16 @@
     <string name="menu_delete_all" msgid="808729454898114735">"すべてのスレッドを削除"</string>
     <string name="menu_delete" msgid="1851666911396479006">"スレッドを削除"</string>
     <string name="menu_view" msgid="7448852683948080108">"スレッド一覧表示"</string>
+    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
+    <skip />
     <string name="refreshing" msgid="987335057871404222">"更新中..."</string>
     <string name="has_draft" msgid="2487465595514636160">"下書き"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(件名なし)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"自分"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"スライドショーを表示"</string>
-    <string name="view_message_details" msgid="2443165773568096234">"メッセージの詳細を表示"</string>
+    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"メッセージの詳細を表示"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"レポートを表示"</string>
-    <string name="delete_message" msgid="8888447283788388395">"メッセージを削除"</string>
+    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"メッセージを削除"</string>
     <string name="expire_on" msgid="4436268382742593921">"有効期限:<xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"未配信メッセージ"</string>
@@ -52,7 +54,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;件名: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"*DRM保護対象テキスト*"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"DRM権限が十分ではありません。"</string>
-    <string name="copy_message_text" msgid="4640869459731924158">"メッセージテキストをコピー"</string>
+    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"メッセージテキストをコピー"</string>
     <string name="message_options" msgid="6838806653341967550">"メッセージオプション"</string>
     <string name="done" msgid="7479926268660505871">"完了"</string>
     <string name="move_up" msgid="7307578107431739359">"上に移動"</string>
@@ -219,8 +221,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"エラーコード: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"編集"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"メッセージを削除"</string>
-    <string name="menu_lock" msgid="136863583207382259">"メッセージをロック"</string>
-    <string name="menu_unlock" msgid="5264877122797287929">"メッセージのロックを解除"</string>
+    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"メッセージをロック"</string>
+    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"メッセージのロックを解除"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"タブレットのメモリにコピー"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"携帯電話のメモリにコピー"</string>
     <string name="sim_delete" msgid="610790510655316922">"削除"</string>

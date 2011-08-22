@@ -32,14 +32,16 @@
     <string name="menu_delete_all" msgid="808729454898114735">"Smazat všechny konverzace"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Smazat konverzaci"</string>
     <string name="menu_view" msgid="7448852683948080108">"Zobrazit konverzaci"</string>
+    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
+    <skip />
     <string name="refreshing" msgid="987335057871404222">"Obnovování..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Koncept"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Předmět neuveden)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Já"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Zobrazit prezentaci"</string>
-    <string name="view_message_details" msgid="2443165773568096234">"Zobrazit podrobnosti zprávy"</string>
+    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"Zobrazit podrobnosti zprávy"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Zobrazit potvrzení"</string>
-    <string name="delete_message" msgid="8888447283788388395">"Smazat zprávu"</string>
+    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"Smazat zprávu"</string>
     <string name="expire_on" msgid="4436268382742593921">"Platnost vyprší: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"kB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Nedoručená zpráva"</string>
@@ -52,7 +54,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Předmět: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Text je chráněn DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Nemáte dostatečná práva DRM."</string>
-    <string name="copy_message_text" msgid="4640869459731924158">"Kopírovat text zprávy"</string>
+    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"Kopírovat text zprávy"</string>
     <string name="message_options" msgid="6838806653341967550">"Možnosti zprávy"</string>
     <string name="done" msgid="7479926268660505871">"Hotovo"</string>
     <string name="move_up" msgid="7307578107431739359">"Přesunout nahoru"</string>
@@ -219,8 +221,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"Kód chyby: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Upravit"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Smazat zprávy"</string>
-    <string name="menu_lock" msgid="136863583207382259">"Uzamknout zprávu"</string>
-    <string name="menu_unlock" msgid="5264877122797287929">"Odemknout zprávu"</string>
+    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"Uzamknout zprávu"</string>
+    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"Odemknout zprávu"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopírovat do paměti tabletu"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Kopírovat do paměti telefonu"</string>
     <string name="sim_delete" msgid="610790510655316922">"Smazat"</string>

@@ -32,14 +32,16 @@
     <string name="menu_delete_all" msgid="808729454898114735">"Видал. всі ланцюжки"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Видал. ланцюжок"</string>
     <string name="menu_view" msgid="7448852683948080108">"Перегл. ланц."</string>
+    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
+    <skip />
     <string name="refreshing" msgid="987335057871404222">"Оновлення..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Чернетка"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Без теми)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Я"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Перегл. слайд-шоу"</string>
-    <string name="view_message_details" msgid="2443165773568096234">"Перегл. деталі повідомл."</string>
+    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"Перегл. деталі повідомл."</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Перегл. звіт"</string>
-    <string name="delete_message" msgid="8888447283788388395">"Видал. повідомл."</string>
+    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"Видал. повідомл."</string>
     <string name="expire_on" msgid="4436268382742593921">"Діє до: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"Кб"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Недоставлене повідомл."</string>
@@ -52,7 +54,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Тема: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Текст, захищен. DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Виявлено недостатньо прав DRM."</string>
-    <string name="copy_message_text" msgid="4640869459731924158">"Копіюв. текст повід."</string>
+    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"Копіюв. текст повід."</string>
     <string name="message_options" msgid="6838806653341967550">"Параметри повідомл."</string>
     <string name="done" msgid="7479926268660505871">"Готово"</string>
     <string name="move_up" msgid="7307578107431739359">"Підняти"</string>
@@ -219,8 +221,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"Код помилки: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Редаг."</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Видалити повідомл."</string>
-    <string name="menu_lock" msgid="136863583207382259">"Заблок. повід."</string>
-    <string name="menu_unlock" msgid="5264877122797287929">"Розблок. повідомл."</string>
+    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"Заблок. повід."</string>
+    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"Розблок. повідомл."</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Скоп. до пам\'яті пристр."</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Скопіюв. до пам\'яті тел."</string>
     <string name="sim_delete" msgid="610790510655316922">"Видалити"</string>

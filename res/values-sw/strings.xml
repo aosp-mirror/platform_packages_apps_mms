@@ -39,6 +39,8 @@
     <string name="menu_delete_all" msgid="808729454898114735">"Futa minyororo yote"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Futa utungo"</string>
     <string name="menu_view" msgid="7448852683948080108">"Angalia utungo"</string>
+    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
+    <skip />
     <!-- no translation found for refreshing (987335057871404222) -->
     <skip />
     <!-- no translation found for has_draft (2487465595514636160) -->
@@ -49,11 +51,11 @@
     <skip />
     <!-- no translation found for view_slideshow (4990460971211388453) -->
     <skip />
-    <!-- no translation found for view_message_details (2443165773568096234) -->
+    <!-- no translation found for view_message_details (7613457646645796831) -->
     <skip />
     <!-- no translation found for view_delivery_report (8219095994071575215) -->
     <skip />
-    <!-- no translation found for delete_message (8888447283788388395) -->
+    <!-- no translation found for delete_message (6442394955910357234) -->
     <skip />
     <string name="expire_on" msgid="4436268382742593921">"Inaisha muda:<xliff:g id="DATE">%s</xliff:g>"</string>
     <!-- no translation found for kilobyte (534782148965716631) -->
@@ -75,7 +77,7 @@
     <string name="drm_protected_text" msgid="1396394157870730742">"* Maandishi yaliyolindwa na DRM *"</string>
     <!-- no translation found for insufficient_drm_rights (6989074725969164383) -->
     <skip />
-    <string name="copy_message_text" msgid="4640869459731924158">"Nakili maandishi ya ujumbe"</string>
+    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"Nakili maandishi ya ujumbe"</string>
     <string name="message_options" msgid="6838806653341967550">"Chaguo za ujumbe"</string>
     <!-- no translation found for done (7479926268660505871) -->
     <skip />
@@ -341,8 +343,8 @@
     <skip />
     <!-- no translation found for menu_delete_messages (2610286783513247420) -->
     <skip />
-    <string name="menu_lock" msgid="136863583207382259">"Funga ujumbe"</string>
-    <string name="menu_unlock" msgid="5264877122797287929">"Fungua ujumbe"</string>
+    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"Funga ujumbe"</string>
+    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"Fungua ujumbe"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Nakili kwenye kumbukumbu ya kompyuta ndogo"</string>
     <!-- outdated translation 3721000641648594602 -->     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Nakili kwenye kumbukumbu ya kompyuta ndogo"</string>
     <!-- no translation found for sim_delete (610790510655316922) -->
