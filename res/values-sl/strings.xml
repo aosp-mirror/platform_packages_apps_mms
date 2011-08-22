@@ -32,14 +32,16 @@
     <string name="menu_delete_all" msgid="808729454898114735">"Izbriši vse niti"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Izbriši nit"</string>
     <string name="menu_view" msgid="7448852683948080108">"Prikaz niti"</string>
+    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
+    <skip />
     <string name="refreshing" msgid="987335057871404222">"Osveževanje ..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Osnutek"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Ni zadeve)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Jaz"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Prikaz diaprojekcije"</string>
-    <string name="view_message_details" msgid="2443165773568096234">"Prikaz podrobnosti sporočila"</string>
+    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"Prikaz podrobnosti sporočila"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Prikaz poročila"</string>
-    <string name="delete_message" msgid="8888447283788388395">"Izbriši sporočilo"</string>
+    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"Izbriši sporočilo"</string>
     <string name="expire_on" msgid="4436268382742593921">"Poteče: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Nedostavljeno sporočilo"</string>
@@ -52,7 +54,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Zadeva: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* besedilo, zaščiteno z DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Zaznane nezadostne pravice za upravljanje digitalnih pravic."</string>
-    <string name="copy_message_text" msgid="4640869459731924158">"Kopiraj besedilo sporočila"</string>
+    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"Kopiraj besedilo sporočila"</string>
     <string name="message_options" msgid="6838806653341967550">"Možnosti sporočila"</string>
     <string name="done" msgid="7479926268660505871">"Dokončano"</string>
     <string name="move_up" msgid="7307578107431739359">"Premakni navzgor"</string>
@@ -219,8 +221,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"Koda napake: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Uredi"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Izbriši sporočila"</string>
-    <string name="menu_lock" msgid="136863583207382259">"Zakleni sporočilo"</string>
-    <string name="menu_unlock" msgid="5264877122797287929">"Odkleni sporočilo"</string>
+    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"Zakleni sporočilo"</string>
+    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"Odkleni sporočilo"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopiraj v pomnilnik tabličnega računalnika"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Kopiraj v pomnilnik telefona"</string>
     <string name="sim_delete" msgid="610790510655316922">"Izbriši"</string>

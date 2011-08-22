@@ -32,14 +32,16 @@
     <string name="menu_delete_all" msgid="808729454898114735">"Elimina tutti i thread"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Elimina thread"</string>
     <string name="menu_view" msgid="7448852683948080108">"Visualizza thread"</string>
+    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
+    <skip />
     <string name="refreshing" msgid="987335057871404222">"Aggiornamento..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Bozza"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Nessun oggetto)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Io"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Visualizza presentazione"</string>
-    <string name="view_message_details" msgid="2443165773568096234">"Dettagli messaggio"</string>
+    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"Dettagli messaggio"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Visualizza rapporto"</string>
-    <string name="delete_message" msgid="8888447283788388395">"Elimina messaggio"</string>
+    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"Elimina messaggio"</string>
     <string name="expire_on" msgid="4436268382742593921">"Scadenza: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"kB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Messaggio non consegnato"</string>
@@ -52,7 +54,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Oggetto: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Testo protetto con DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Diritti DRM insufficienti."</string>
-    <string name="copy_message_text" msgid="4640869459731924158">"Copia testo messaggio"</string>
+    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"Copia testo messaggio"</string>
     <string name="message_options" msgid="6838806653341967550">"Opzioni messaggio"</string>
     <string name="done" msgid="7479926268660505871">"Fine"</string>
     <string name="move_up" msgid="7307578107431739359">"Sposta su"</string>
@@ -80,8 +82,8 @@
     <string name="send" msgid="4589898724889248486">"Invia"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Tutti i thread"</string>
-    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Digita un testo qui"</string>
-    <!-- outdated translation 1668723196441776085 -->     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Apri tastiera per scrivere il messaggio"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Scrivi messaggio"</string>
+    <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Apri la tastiera per digitare il messaggio"</string>
     <string name="compressing" msgid="1961357529661045180">"Immagine troppo grande. Compressione in corso…"</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Formato di <xliff:g id="NAME">%1$s</xliff:g> non supportato"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Seleziona un altro elemento <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -121,7 +123,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"Layout presentazione "</string>
     <string name="layout_top" msgid="6811021650398972346">"Layout (superiore)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Layout (inferiore)"</string>
-    <!-- outdated translation 6171524929347648837 -->     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Digita il testo o lascia vuoto"</string>
+    <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Digita il messaggio o lascia vuoto"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"La durata deve essere un numero"</string>
     <string name="duration_zero" msgid="109945354056393575">"La durata deve essere superiore a zero secondi"</string>
     <string name="secs" msgid="6886003523109967972">"sec"</string>
@@ -219,8 +221,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"Codice errore: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Modifica"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Elimina messaggi"</string>
-    <string name="menu_lock" msgid="136863583207382259">"Blocca messaggio"</string>
-    <string name="menu_unlock" msgid="5264877122797287929">"Sblocca messaggio"</string>
+    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"Blocca messaggio"</string>
+    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"Sblocca messaggio"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Copia in memoria tablet"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Copia in memoria telefono"</string>
     <string name="sim_delete" msgid="610790510655316922">"Elimina"</string>

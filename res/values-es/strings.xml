@@ -32,14 +32,16 @@
     <string name="menu_delete_all" msgid="808729454898114735">"Eliminar todas las conversaciones"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Eliminar cadena"</string>
     <string name="menu_view" msgid="7448852683948080108">"Ver conversación"</string>
+    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
+    <skip />
     <string name="refreshing" msgid="987335057871404222">"Actualizando..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Borrador"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Sin asunto)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Yo"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Ver presentación"</string>
-    <string name="view_message_details" msgid="2443165773568096234">"Ver detalles de mensaje"</string>
+    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"Ver detalles de mensaje"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Ver informe"</string>
-    <string name="delete_message" msgid="8888447283788388395">"Eliminar mensaje"</string>
+    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"Eliminar mensaje"</string>
     <string name="expire_on" msgid="4436268382742593921">"Vencimiento: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Mensaje no entregado"</string>
@@ -52,7 +54,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Asunto: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* texto protegido por DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Derechos DRM insuficientes"</string>
-    <string name="copy_message_text" msgid="4640869459731924158">"Copiar texto del mensaje"</string>
+    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"Copiar texto del mensaje"</string>
     <string name="message_options" msgid="6838806653341967550">"Opciones del mensaje"</string>
     <string name="done" msgid="7479926268660505871">"Listo"</string>
     <string name="move_up" msgid="7307578107431739359">"Mover arriba"</string>
@@ -219,8 +221,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"Código de error: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Editar"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Eliminar mensajes"</string>
-    <string name="menu_lock" msgid="136863583207382259">"Bloquear mensaje"</string>
-    <string name="menu_unlock" msgid="5264877122797287929">"Desbloquear mensaje"</string>
+    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"Bloquear mensaje"</string>
+    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"Desbloquear mensaje"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Copiar en la memoria del tablet"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Copiar en memoria del teléfono"</string>
     <string name="sim_delete" msgid="610790510655316922">"Eliminar"</string>

@@ -32,14 +32,16 @@
     <string name="menu_delete_all" msgid="808729454898114735">"전체 대화목록 삭제"</string>
     <string name="menu_delete" msgid="1851666911396479006">"대화목록 삭제"</string>
     <string name="menu_view" msgid="7448852683948080108">"대화목록 보기"</string>
+    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
+    <skip />
     <string name="refreshing" msgid="987335057871404222">"새로 고치는 중..."</string>
     <string name="has_draft" msgid="2487465595514636160">"임시보관함"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(제목 없음)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"나"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"슬라이드쇼 보기"</string>
-    <string name="view_message_details" msgid="2443165773568096234">"메시지 세부정보 보기"</string>
+    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"메시지 세부정보 보기"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"보고서 보기"</string>
-    <string name="delete_message" msgid="8888447283788388395">"메시지 삭제"</string>
+    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"메시지 삭제"</string>
     <string name="expire_on" msgid="4436268382742593921">"만료 날짜: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"전송되지 않은 메시지"</string>
@@ -52,7 +54,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;제목: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* DRM 보호된 텍스트 *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"DRM 권한이 충분하지 않습니다."</string>
-    <string name="copy_message_text" msgid="4640869459731924158">"메시지 텍스트 복사"</string>
+    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"메시지 텍스트 복사"</string>
     <string name="message_options" msgid="6838806653341967550">"메시지 옵션"</string>
     <string name="done" msgid="7479926268660505871">"완료"</string>
     <string name="move_up" msgid="7307578107431739359">"위로 이동"</string>
@@ -219,8 +221,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"오류 코드: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"수정"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"메시지 삭제"</string>
-    <string name="menu_lock" msgid="136863583207382259">"메시지 잠금"</string>
-    <string name="menu_unlock" msgid="5264877122797287929">"메시지 잠금 해제"</string>
+    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"메시지 잠금"</string>
+    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"메시지 잠금 해제"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"태블릿 메모리에 복사"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"휴대전화 메모리에 복사"</string>
     <string name="sim_delete" msgid="610790510655316922">"삭제"</string>
