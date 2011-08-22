@@ -1079,22 +1079,18 @@ public class Conversation {
     public static void dumpSmsTable(Context context) {
         LogTag.debug("**** Dump of sms table ****");
         Cursor c = context.getContentResolver().query(Sms.CONTENT_URI,
-                SMS_PROJECTION, null, null, "_id ASC");
+                SMS_PROJECTION, null, null, "_id DESC");
         try {
+            // Only dump the latest 20 messages
             c.moveToPosition(-1);
-            while (c.moveToNext()) {
-                String snippet = MessageUtils.extractEncStrFromCursor(c, SNIPPET, SNIPPET_CS);
+            while (c.moveToNext() && c.getPosition() < 20) {
                 String body = c.getString(COLUMN_SMS_BODY);
                 LogTag.debug("dumpSmsTable " + BaseColumns._ID + ": " + c.getLong(COLUMN_ID) +
                         " " + Sms.THREAD_ID + " : " + c.getLong(DATE) +
                         " " + Sms.ADDRESS + " : " + c.getString(COLUMN_SMS_ADDRESS) +
-                        " " + Sms.BODY + " : " + body.substring(0, Math.min(body.length(), 25)) +
+                        " " + Sms.BODY + " : " + body.substring(0, Math.min(body.length(), 8)) +
                         " " + Sms.DATE + " : " + c.getLong(COLUMN_SMS_DATE) +
-                        " " + Sms.READ + " : " + c.getInt(COLUMN_SMS_READ) +
-                        " " + Sms.TYPE + " : " + c.getInt(COLUMN_SMS_TYPE) +
-                        " " + Sms.STATUS + " : " + c.getInt(COLUMN_SMS_STATUS) +
-                        " " + Sms.LOCKED + " : " + c.getInt(COLUMN_SMS_LOCKED) +
-                        " " + Sms.ERROR_CODE + " : " + c.getInt(COLUMN_SMS_ERROR_CODE));
+                        " " + Sms.TYPE + " : " + c.getInt(COLUMN_SMS_TYPE));
             }
         } finally {
             c.close();
