@@ -28,7 +28,7 @@
         android:singleLine="true"
         android:layout_gravity="center_vertical"
         android:layout_centerVertical="true"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textAppearance="?android:attr/textAppearanceMediumInverse"
         android:layout_weight="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -37,11 +37,12 @@
         android:id="@+id/selected_conv_count"
         android:maxLines="1"
         android:singleLine="true"
-        android:layout_gravity="right"
-        android:layout_centerVertical="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_weight="0"
         android:textSize="18pt"
+        android:textColor="@android:color/holo_blue_light"
+        android:layout_gravity="center_vertical"
+        android:paddingRight="10dip"
+        android:layout_marginTop="-5dip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
