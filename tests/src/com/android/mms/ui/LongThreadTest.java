@@ -284,7 +284,7 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
 
         public void setShowAsAction(int actionEnum) {
             // TODO Auto-generated method stub
-            
+
         }
 
         @Override
@@ -402,7 +402,7 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
         for (String recipient : mRecipients) {
             a.runOnUiThread(new Runnable() {
                 public void run() {
-                    a.initialize(null, 0);
+                    a.initialize(0);
                     a.loadMessageContent();
                 }
             });

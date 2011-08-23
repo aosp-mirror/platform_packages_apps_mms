@@ -1659,7 +1659,7 @@ public class ComposeMessageActivity extends Activity
         mContentResolver = getContentResolver();
         mBackgroundQueryHandler = new BackgroundQueryHandler(mContentResolver);
 
-        initialize(savedInstanceState, 0);
+        initialize(0);
 
         if (TRACE) {
             android.os.Debug.startMethodTracing("compose");
@@ -1698,7 +1698,7 @@ public class ComposeMessageActivity extends Activity
         mTopPanel.setVisibility(anySubViewsVisible ? View.VISIBLE : View.GONE);
     }
 
-    public void initialize(Bundle savedInstanceState, long originalThreadId) {
+    public void initialize(long originalThreadId) {
         Intent intent = getIntent();
 
         // Create a new empty working message.
@@ -1706,7 +1706,7 @@ public class ComposeMessageActivity extends Activity
 
         // Read parameters or previously saved state of this activity. This will load a new
         // mConversation
-        initActivityState(savedInstanceState, intent);
+        initActivityState(intent);
 
         if (LogTag.SEVERE_WARNING && originalThreadId != 0 &&
                 originalThreadId == mConversation.getThreadId()) {
@@ -1714,8 +1714,8 @@ public class ComposeMessageActivity extends Activity
                     " threadId didn't change from: " + originalThreadId, this);
         }
 
-        log("savedInstanceState = " + savedInstanceState +
-            " intent = " + intent +
+        log(" intent = " + intent +
+            "originalThreadId = " + originalThreadId +
             " mConversation = " + mConversation);
 
         if (cancelFailedToDeliverNotification(getIntent(), this)) {
@@ -1846,7 +1846,7 @@ public class ComposeMessageActivity extends Activity
             }
             saveDraft();    // if we've got a draft, save it first
 
-            initialize(null, originalThreadId);
+            initialize(originalThreadId);
             loadMessageContent();
         }
 
@@ -1940,19 +1940,6 @@ public class ComposeMessageActivity extends Activity
                         ComposeMessageActivity.this, threadId);
             }
         }, "updateSendFailedNotification").start();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putString("recipients", getRecipients().serialize());
-
-        mWorkingMessage.writeStateToBundle(outState);
-
-        if (mExitOnSent) {
-            outState.putBoolean("exit_on_sent", mExitOnSent);
-        }
     }
 
     @Override
@@ -3341,19 +3328,7 @@ public class ComposeMessageActivity extends Activity
         return NO_DATE_FOR_DIALOG;
     }
 
-    private void initActivityState(Bundle bundle, Intent intent) {
-        if (bundle != null) {
-            String recipients = bundle.getString("recipients");
-            if (LogTag.VERBOSE) log("get mConversation by recipients " + recipients);
-            mConversation = Conversation.get(this,
-                    ContactList.getByNumbers(recipients,
-                            false /* don't block */, true /* replace number */), false);
-            addRecipientsListeners();
-            mExitOnSent = bundle.getBoolean("exit_on_sent", false);
-            mWorkingMessage.readStateFromBundle(bundle);
-            return;
-        }
-
+    private void initActivityState(Intent intent) {
         // If we have been passed a thread_id, use that to find our conversation.
         long threadId = intent.getLongExtra("thread_id", 0);
         if (threadId > 0) {
