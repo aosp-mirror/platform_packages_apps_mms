@@ -68,7 +68,9 @@ public class SlideshowModel extends Model
     private final ArrayList<SlideModel> mSlides;
     private SMILDocument mDocumentCache;
     private PduBody mPduBodyCache;
-    private int mCurrentMessageSize;
+    private int mCurrentMessageSize;    // This is the current message size, not including
+                                        // attachments that can be resized (such as photos)
+    private int mTotalMessageSize;      // This is the computed total message size
     private Context mContext;
 
     // amount of space to leave in a slideshow for text and overhead.
@@ -141,7 +143,7 @@ public class SlideshowModel extends Model
         NodeList slideNodes = docBody.getChildNodes();
         int slidesNum = slideNodes.getLength();
         ArrayList<SlideModel> slides = new ArrayList<SlideModel>(slidesNum);
-        int totalSize = 0;
+        int totalMessageSize = 0;
 
         for (int i = 0; i < slidesNum; i++) {
             // FIXME: This is NOT compatible with the SMILDocument which is
@@ -206,7 +208,7 @@ public class SlideshowModel extends Model
                     SmilHelper.addMediaElementEventListeners(
                             (EventTarget) sme, media);
                     mediaSet.add(media);
-                    totalSize += media.getMediaSize();
+                    totalMessageSize += media.getMediaSize();
                 } catch (DrmException e) {
                     Log.e(TAG, e.getMessage(), e);
                 } catch (IOException e) {
@@ -223,7 +225,7 @@ public class SlideshowModel extends Model
         }
 
         SlideshowModel slideshow = new SlideshowModel(layouts, slides, document, pb, context);
-        slideshow.setCurrentMessageSize(totalSize);
+        slideshow.mTotalMessageSize = totalMessageSize;
         slideshow.registerModelChangedObserver(slideshow);
         return slideshow;
     }
@@ -356,8 +358,22 @@ public class SlideshowModel extends Model
         mCurrentMessageSize = size;
     }
 
+    // getCurrentMessageSize returns the size of the message, not including resizable attachments
+    // such as photos. mCurrentMessageSize is used when adding/deleting/replacing non-resizable
+    // attachments (movies, sounds, etc) in order to compute how much size is left in the message.
+    // The difference between mCurrentMessageSize and the maxSize allowed for a message is then
+    // divided up between the remaining resizable attachments. While this function is public,
+    // it is only used internally between various MMS classes. If the UI wants to know the
+    // size of a MMS message, it should call getTotalMessageSize() instead.
     public int getCurrentMessageSize() {
         return mCurrentMessageSize;
+    }
+
+    // getTotalMessageSize returns the total size of the message, including resizable attachments
+    // such as photos. This function is intended to be used by the UI for displaying the size of the
+    // MMS message.
+    public int getTotalMessageSize() {
+        return mTotalMessageSize;
     }
 
     public void increaseMessageSize(int increaseSize) {

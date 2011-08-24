@@ -228,7 +228,7 @@ public class MessageItem {
                     mTextContentType = tm.getContentType();
                 }
 
-                mMessageSize = mSlideshow.getCurrentMessageSize();
+                mMessageSize = mSlideshow.getTotalMessageSize();
             }
 
             if (!isOutgoingMessage()) {
