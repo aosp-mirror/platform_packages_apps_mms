@@ -141,6 +141,7 @@ public class SlideshowModel extends Model
         NodeList slideNodes = docBody.getChildNodes();
         int slidesNum = slideNodes.getLength();
         ArrayList<SlideModel> slides = new ArrayList<SlideModel>(slidesNum);
+        int totalSize = 0;
 
         for (int i = 0; i < slidesNum; i++) {
             // FIXME: This is NOT compatible with the SMILDocument which is
@@ -205,6 +206,7 @@ public class SlideshowModel extends Model
                     SmilHelper.addMediaElementEventListeners(
                             (EventTarget) sme, media);
                     mediaSet.add(media);
+                    totalSize += media.getMediaSize();
                 } catch (DrmException e) {
                     Log.e(TAG, e.getMessage(), e);
                 } catch (IOException e) {
@@ -221,6 +223,7 @@ public class SlideshowModel extends Model
         }
 
         SlideshowModel slideshow = new SlideshowModel(layouts, slides, document, pb, context);
+        slideshow.setCurrentMessageSize(totalSize);
         slideshow.registerModelChangedObserver(slideshow);
         return slideshow;
     }
