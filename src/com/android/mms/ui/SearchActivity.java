@@ -22,6 +22,8 @@ import java.util.regex.Pattern;
 
 import com.android.mms.MmsApp;
 import com.android.mms.R;
+
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.AsyncQueryHandler;
@@ -29,7 +31,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,10 +39,10 @@ import android.provider.SearchRecentSuggestions;
 import android.provider.Telephony;
 import android.text.SpannableString;
 import android.text.TextPaint;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
@@ -49,7 +50,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.mms.data.Contact;
-import com.android.mms.data.Contact.UpdateListener;
 import com.android.mms.ui.ComposeMessageActivity;
 
 /***
@@ -374,5 +374,19 @@ public class SearchActivity extends ListActivity
         // kick off a query for the threads which match the search string
         mQueryHandler.startQuery(0, null, uri, null, null, null, null);
 
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // The user clicked on the Messaging icon in the action bar. Take them back from
+                // wherever they came from
+                finish();
+                return true;
+        }
+        return false;
     }
 }
