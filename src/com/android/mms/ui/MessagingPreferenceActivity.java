@@ -105,9 +105,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
             smsCategory.removePreference(mManageSimPref);
         }
 
-        boolean SMSDeliveryReport = Resources.getSystem()
-                .getBoolean(com.android.internal.R.bool.config_sms_delivery_reports_support);
-        if (!SMSDeliveryReport) {
+        if (!MmsConfig.getSMSDeliveryReportsEnabled()) {
             PreferenceCategory smsCategory =
                 (PreferenceCategory)findPreference("pref_key_sms_settings");
             smsCategory.removePreference(mSmsDeliveryReportPref);
@@ -126,16 +124,12 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
                 (PreferenceCategory)findPreference("pref_key_storage_settings");
             storageOptions.removePreference(findPreference("pref_key_mms_delete_limit"));
         } else {
-            boolean MMSDeliveryReport = Resources.getSystem()
-                    .getBoolean(com.android.internal.R.bool.config_mms_delivery_reports_support);
-            boolean MMSReadReport = Resources.getSystem()
-                    .getBoolean(com.android.internal.R.bool.config_mms_read_reports_support);
-            if (!MMSDeliveryReport) {
+            if (!MmsConfig.getMMSDeliveryReportsEnabled()) {
                 PreferenceCategory mmsOptions =
                     (PreferenceCategory)findPreference("pref_key_mms_settings");
                 mmsOptions.removePreference(mMmsDeliveryReportPref);
             }
-            if (!MMSReadReport) {
+            if (!MmsConfig.getMMSReadReportsEnabled()) {
                 PreferenceCategory mmsOptions =
                     (PreferenceCategory)findPreference("pref_key_mms_settings");
                 mmsOptions.removePreference(mMmsReadReportPref);

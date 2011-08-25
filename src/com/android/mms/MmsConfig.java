@@ -63,6 +63,9 @@ public class MmsConfig {
     private static int mSmsToMmsTextThreshold = 4;
     private static boolean mEnableMultipartSMS = true;
     private static boolean mEnableSlideDuration = true;
+    private static boolean mEnableMMSReadReports = true;        // key: "enableMMSReadReports"
+    private static boolean mEnableSMSDeliveryReports = true;    // key: "enableSMSDeliveryReports"
+    private static boolean mEnableMMSDeliveryReports = true;    // key: "enableMMSDeliveryReports"
     private static int mMaxTextLength = -1;
 
     // This is the max amount of storage multiplied by mMaxMessageSize that we
@@ -179,6 +182,18 @@ public class MmsConfig {
         return mEnableSlideDuration;
     }
 
+    public static boolean getMMSReadReportsEnabled() {
+        return mEnableMMSReadReports;
+    }
+
+    public static boolean getSMSDeliveryReportsEnabled() {
+        return mEnableSMSDeliveryReports;
+    }
+
+    public static boolean getMMSDeliveryReportsEnabled() {
+        return mEnableMMSDeliveryReports;
+    }
+
     public static boolean getNotifyWapMMSC() {
         return mNotifyWapMMSC;
     }
@@ -270,6 +285,12 @@ public class MmsConfig {
                             mEnableMultipartSMS = "true".equalsIgnoreCase(text);
                         } else if ("enableSlideDuration".equalsIgnoreCase(value)) {
                             mEnableSlideDuration = "true".equalsIgnoreCase(text);
+                        } else if ("enableMMSReadReports".equalsIgnoreCase(value)) {
+                            mEnableMMSReadReports = "true".equalsIgnoreCase(text);
+                        } else if ("enableSMSDeliveryReports".equalsIgnoreCase(value)) {
+                            mEnableSMSDeliveryReports = "true".equalsIgnoreCase(text);
+                        } else if ("enableMMSDeliveryReports".equalsIgnoreCase(value)) {
+                            mEnableMMSDeliveryReports = "true".equalsIgnoreCase(text);
                         }
                     } else if ("int".equals(tag)) {
                         // int config tags go here
