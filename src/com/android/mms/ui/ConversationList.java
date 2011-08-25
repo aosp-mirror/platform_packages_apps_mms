@@ -36,6 +36,8 @@ import android.animation.LayoutTransition;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.SearchManager;
+import android.app.SearchManager.OnDismissListener;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -77,7 +79,7 @@ import android.widget.TextView;
  * This activity provides a list view of existing conversations.
  */
 public class ConversationList extends ListActivity
-            implements DraftCache.OnDraftChangedListener {
+            implements DraftCache.OnDraftChangedListener, OnDismissListener {
     private static final String TAG = "ConversationList";
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG;
@@ -108,6 +110,8 @@ public class ConversationList extends ListActivity
     private Handler mHandler;
     private boolean mNeedToMarkAsSeen;
     private TextView mUnreadConvCount;
+    private Menu mMenu;
+    private SearchManager mSearchManager;
 
     static private final String CHECKED_MESSAGE_LIMITS = "checked_message_limits";
 
@@ -131,6 +135,8 @@ public class ConversationList extends ListActivity
         setupActionBar();
 
         mTitle = getString(R.string.app_label);
+
+        mSearchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
 
         mHandler = new Handler();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -309,6 +315,17 @@ public class ConversationList extends ListActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // It looks dangerous to hold onto the menu, but Activity's docs say:
+        // "You can safely hold on to menu (and any items created
+        // from it), making modifications to it as desired, until the next
+        // time onCreateOptionsMenu() is called."
+        mMenu = menu;
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.clear();
 
@@ -339,6 +356,10 @@ public class ConversationList extends ListActivity
 
     @Override
     public boolean onSearchRequested() {
+        if (mMenu != null) {
+            mMenu.removeItem(MENU_SEARCH);
+            mSearchManager.setOnDismissListener(this);
+        }
         startSearch(null, false, null /*appData*/, false);
         return true;
     }
@@ -769,5 +790,15 @@ public class ConversationList extends ListActivity
     private void log(String format, Object... args) {
         String s = String.format(format, args);
         Log.d(TAG, "[" + Thread.currentThread().getId() + "] " + s);
+    }
+
+    // Called when search is dismissed
+    public void onDismiss() {
+        mSearchManager.setOnDismissListener(null);
+
+        // put back the search menu we removed when starting search
+        if (mMenu != null) {
+            onPrepareOptionsMenu(mMenu);
+        }
     }
 }
