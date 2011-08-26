@@ -124,8 +124,7 @@ public class UriImage {
                 mContentType = c.getString(
                         c.getColumnIndexOrThrow(Part.CONTENT_TYPE));
             } else {
-                filePath = c.getString(
-                        c.getColumnIndexOrThrow(Images.Media.DATA));
+                filePath = uri.getPath();
                 mContentType = c.getString(
                         c.getColumnIndexOrThrow(Images.Media.MIME_TYPE));
             }
