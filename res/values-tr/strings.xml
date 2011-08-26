@@ -82,8 +82,8 @@
     <string name="send" msgid="4589898724889248486">"Gönder"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Tüm ileti dizileri"</string>
-    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Oluşturmak için yazın"</string>
-    <!-- outdated translation 1668723196441776085 -->     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"İletiyi oluşturmak için tuş takımını aç"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Mesaj yazın"</string>
+    <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Mesajı yazmak için klavyeyi açın"</string>
     <string name="compressing" msgid="1961357529661045180">"Resim çok büyük. Sıkıştırılıyor..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Desteklenmeyen <xliff:g id="NAME">%1$s</xliff:g> biçimi"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Lütfen başka bir <xliff:g id="NAME">%1$s</xliff:g> seçin."</string>
@@ -123,7 +123,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"Slayt gösterisi düzeni "</string>
     <string name="layout_top" msgid="6811021650398972346">"Düzen (üst)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Düzen (alt)"</string>
-    <!-- outdated translation 6171524929347648837 -->     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Metni girmek için yazın veya boş bırakın"</string>
+    <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Mesajı yazın veya boş bırakın"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"Süre bir sayı olmalıdır"</string>
     <string name="duration_zero" msgid="109945354056393575">"Süre, sıfır saniyeden daha büyük olmalıdır"</string>
     <string name="secs" msgid="6886003523109967972">"saniye"</string>
@@ -325,7 +325,7 @@
     <string name="draft_separator" msgid="1139278684673244431">","</string>
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Tutarsız durum"</string>
-    <string name="error_state_text" msgid="5006221625000536698">"İleti dizilerinin ve alıcıların durumları tutarsız. Lütfen bir hata raporu alın ve android-sms-bug@google.com adresine gönderin"</string>
+    <!-- outdated translation 5006221625000536698 -->     <string name="error_state_text" msgid="7918866106335387710">"İleti dizilerinin ve alıcıların durumları tutarsız. Lütfen bir hata raporu alın ve android-sms-bug@google.com adresine gönderin"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> kişi"</item>
   </plurals>

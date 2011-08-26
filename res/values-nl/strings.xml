@@ -32,16 +32,15 @@
     <string name="menu_delete_all" msgid="808729454898114735">"Alle threads verwijderen"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Thread verwijderen"</string>
     <string name="menu_view" msgid="7448852683948080108">"Thread weergeven"</string>
-    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
-    <skip />
+    <string name="menu_debug_dump" msgid="6855869130206549643">"DEBUG-DUMP"</string>
     <string name="refreshing" msgid="987335057871404222">"Vernieuwen..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Concept"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Geen onderwerp)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Ik"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Diavoorstelling weergeven"</string>
-    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"Berichtdetails weergeven"</string>
+    <string name="view_message_details" msgid="7613457646645796831">"Details weergeven"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Rapport weergeven"</string>
-    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"Bericht verwijderen"</string>
+    <string name="delete_message" msgid="6442394955910357234">"Verwijderen"</string>
     <string name="expire_on" msgid="4436268382742593921">"Verloopt op: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"kB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Niet-afgeleverd bericht"</string>
@@ -54,7 +53,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Onderwerp: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* DRM-beschermde tekst *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Onvoldoende DRM-rechten gedetecteerd."</string>
-    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"Tekst van bericht kopiëren"</string>
+    <string name="copy_message_text" msgid="4296252229544252834">"Tekst kopiëren"</string>
     <string name="message_options" msgid="6838806653341967550">"Berichtopties"</string>
     <string name="done" msgid="7479926268660505871">"Gereed"</string>
     <string name="move_up" msgid="7307578107431739359">"Naar boven"</string>
@@ -82,8 +81,8 @@
     <string name="send" msgid="4589898724889248486">"Verzenden"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Alle threads"</string>
-    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Typ om een bericht te schrijven"</string>
-    <!-- outdated translation 1668723196441776085 -->     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Toetsenbord openen om bericht op te stellen"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Typ een bericht"</string>
+    <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Open het toetsenbord om een bericht te typen"</string>
     <string name="compressing" msgid="1961357529661045180">"Afbeelding te groot. Comprimeren..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Niet-ondersteunde indeling voor <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Selecteer een ander item (<xliff:g id="NAME">%1$s</xliff:g>)."</string>
@@ -123,7 +122,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"Lay-out van diavoorstelling "</string>
     <string name="layout_top" msgid="6811021650398972346">"Indeling (bovenaan)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Indeling (onderaan)"</string>
-    <!-- outdated translation 6171524929347648837 -->     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Typ om tekst in te voeren of laat leeg"</string>
+    <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Typ een bericht, of laat dit veld leeg"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"Duur moet een getal zijn"</string>
     <string name="duration_zero" msgid="109945354056393575">"Duur moet langer zijn dan nul seconden"</string>
     <string name="secs" msgid="6886003523109967972">"seconden"</string>
@@ -221,8 +220,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"Foutcode: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Bewerken"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Berichten verwijderen"</string>
-    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"Bericht vergrendelen"</string>
-    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"Bericht ontgrendelen"</string>
+    <string name="menu_lock" msgid="7603793126077557472">"Vergrendelen"</string>
+    <string name="menu_unlock" msgid="6662865558677424039">"Ontgrendelen"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopiëren naar tabletgeheugen"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Kopiëren naar telefoongeheugen"</string>
     <string name="sim_delete" msgid="610790510655316922">"Verwijderen"</string>
@@ -325,7 +324,7 @@
     <string name="draft_separator" msgid="1139278684673244431">","</string>
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Inconsistente status"</string>
-    <string name="error_state_text" msgid="5006221625000536698">"De status van threads en ontvangers is inconsistent. Maak een bugrapport en verzend dit naar android-sms-bugs@google.com"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"De status van threads en ontvangers is inconsistent. Registreer dit als bug via http://go/droidanizer"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> personen"</item>
   </plurals>

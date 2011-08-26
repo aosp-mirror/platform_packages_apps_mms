@@ -32,16 +32,15 @@
     <string name="menu_delete_all" msgid="808729454898114735">"Xóa tất cả chuỗi"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Xoá chuỗi thư"</string>
     <string name="menu_view" msgid="7448852683948080108">"Xem chuỗi thư"</string>
-    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
-    <skip />
+    <string name="menu_debug_dump" msgid="6855869130206549643">"DEBUG DUMP"</string>
     <string name="refreshing" msgid="987335057871404222">"Đang làm mới…"</string>
     <string name="has_draft" msgid="2487465595514636160">"Tin nháp"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Không có chủ đề)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Tôi"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Xem trình chiếu"</string>
-    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"Xem chi tiết tin nhắn"</string>
+    <string name="view_message_details" msgid="7613457646645796831">"Xem chi tiết"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Xem báo cáo"</string>
-    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"Xoá tin nhắn"</string>
+    <string name="delete_message" msgid="6442394955910357234">"Xóa"</string>
     <string name="expire_on" msgid="4436268382742593921">"Hết hạn: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Tin nhắn chưa được gửi"</string>
@@ -54,7 +53,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Chủ đề: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* văn bản được bảo vệ bởi DRM*"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Đã phát hiện không đủ quyền DRM."</string>
-    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"Sao chép nội dung tin nhắn"</string>
+    <string name="copy_message_text" msgid="4296252229544252834">"Sao chép văn bản"</string>
     <string name="message_options" msgid="6838806653341967550">"Tùy chọn tin nhắn"</string>
     <string name="done" msgid="7479926268660505871">"Xong"</string>
     <string name="move_up" msgid="7307578107431739359">"Chuyển lên"</string>
@@ -82,8 +81,8 @@
     <string name="send" msgid="4589898724889248486">"Gửi"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Tất cả chuỗi thư"</string>
-    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Nhập để soạn"</string>
-    <!-- outdated translation 1668723196441776085 -->     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Mở bàn phím để soạn tin nhắn"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Nhập tin nhắn"</string>
+    <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Mở bàn phím để nhập tin nhắn"</string>
     <string name="compressing" msgid="1961357529661045180">"Ảnh quá lớn. Đang nén…"</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Định dạng <xliff:g id="NAME">%1$s</xliff:g> không được hỗ trợ"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Vui lòng chọn <xliff:g id="NAME">%1$s</xliff:g> khác."</string>
@@ -99,7 +98,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Địa chỉ đích không hợp lệ."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Dịch vụ không được kích hoạt trên mạng."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Tin nhắn đã hết hạn hoặc không có."</string>
-    <string name="service_network_problem" msgid="5418984934499160536">"Lỗi, sự cố mạng."</string>
+    <string name="service_network_problem" msgid="5418984934499160536">"Sự cố mạng bị lỗi."</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Vui lòng sửa người nhận nếu không họ sẽ không nhận được tin nhắn."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Không thể gửi tin nhắn này"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Tin nhắn của bạn có người nhận không hợp lệ."</string>
@@ -123,7 +122,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"Bố cục trình chiếu "</string>
     <string name="layout_top" msgid="6811021650398972346">"Bốc cục (trên cùng)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Bố cục (dưới cùng)"</string>
-    <!-- outdated translation 6171524929347648837 -->     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Nhập để soạn văn bản hoặc để trống"</string>
+    <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Nhập tin nhắn hoặc để trống"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"Thời lượng phải là một số"</string>
     <string name="duration_zero" msgid="109945354056393575">"Thời lượng phải lớn hơn 0 giây"</string>
     <string name="secs" msgid="6886003523109967972">"giây"</string>
@@ -221,8 +220,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"Mã lỗi: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Chỉnh sửa"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Xoá tin nhắn"</string>
-    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"Khoá tin nhắn"</string>
-    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"Mở khoá tin nhắn"</string>
+    <string name="menu_lock" msgid="7603793126077557472">"Khóa"</string>
+    <string name="menu_unlock" msgid="6662865558677424039">"Mở khóa"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Sao chép vào bộ nhớ máy tính bảng"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Sao chép vào bộ nhớ điện thoại"</string>
     <string name="sim_delete" msgid="610790510655316922">"Xoá"</string>
@@ -325,7 +324,7 @@
     <string name="draft_separator" msgid="1139278684673244431">","</string>
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Trạng thái không đồng nhất"</string>
-    <string name="error_state_text" msgid="5006221625000536698">"Trạng thái chuỗi và người nhận không đồng nhất. Vui lòng tạo báo cáo lỗi và gửi tới android-sms-bugs@google.com"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"Trạng thái chuỗi thư và người nhận không đồng nhất. Vui lòng tạo báo cáo lỗi và gửi tới http://go/droidanizer"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> người"</item>
   </plurals>

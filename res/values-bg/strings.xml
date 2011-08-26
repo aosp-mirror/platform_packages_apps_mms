@@ -82,8 +82,8 @@
     <string name="send" msgid="4589898724889248486">"Изпращане"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Всички нишки"</string>
-    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Ново съобщение"</string>
-    <!-- outdated translation 1668723196441776085 -->     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Отворете клавиатурата, за да съставите съобщение"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Въведете съобщение"</string>
+    <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Отворете клавиатурата, за да въведете съобщение"</string>
     <string name="compressing" msgid="1961357529661045180">"Снимката е твърде голяма. Компресира се..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Неподдържан формат <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Моля, изберете различен <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -123,7 +123,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"Оформление на слайдшоу "</string>
     <string name="layout_top" msgid="6811021650398972346">"Оформление (отгоре)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Оформление (отдолу)"</string>
-    <!-- outdated translation 6171524929347648837 -->     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Въведете текст или не попълвайте"</string>
+    <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Въведете съобщение или не попълвайте"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"Продължителността трябва да е число"</string>
     <string name="duration_zero" msgid="109945354056393575">"Продължителността трябва да е по-голяма от нула секунди"</string>
     <string name="secs" msgid="6886003523109967972">"сек"</string>
@@ -325,7 +325,7 @@
     <string name="draft_separator" msgid="1139278684673244431">","</string>
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Нееднородно състояние"</string>
-    <string name="error_state_text" msgid="5006221625000536698">"Състоянието на нишките и получателите е нееднородно. Моля, създайте сигнал за програмен дефект и го изпратете до android-sms-bugs@google.com"</string>
+    <!-- outdated translation 5006221625000536698 -->     <string name="error_state_text" msgid="7918866106335387710">"Състоянието на нишките и получателите е нееднородно. Моля, създайте сигнал за програмен дефект и го изпратете до android-sms-bugs@google.com"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> души"</item>
   </plurals>

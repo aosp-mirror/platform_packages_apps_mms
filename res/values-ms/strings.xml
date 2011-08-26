@@ -32,16 +32,15 @@
     <string name="menu_delete_all" msgid="808729454898114735">"Padamkan semua urutan"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Padam urutan"</string>
     <string name="menu_view" msgid="7448852683948080108">"Lihat urutan"</string>
-    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
-    <skip />
+    <string name="menu_debug_dump" msgid="6855869130206549643">"LONGGOKAN NYAHPEPIJAT"</string>
     <string name="refreshing" msgid="987335057871404222">"Memuatkan semula..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Draf"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Tiada subjek)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Saya"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Tonton tayangan slaid"</string>
-    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"Lihat butiran mesej"</string>
+    <string name="view_message_details" msgid="7613457646645796831">"Lihat butiran"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Lihat laporan"</string>
-    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"Padam mesej"</string>
+    <string name="delete_message" msgid="6442394955910357234">"Padam"</string>
     <string name="expire_on" msgid="4436268382742593921">"Tamat tempoh: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Mesej tidak diserahkan"</string>
@@ -54,7 +53,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Subjek: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Teks dilindungi DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Hak DRM yang tidak mencukupi dikesan."</string>
-    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"Salin teks mesej"</string>
+    <string name="copy_message_text" msgid="4296252229544252834">"Salin teks"</string>
     <string name="message_options" msgid="6838806653341967550">"Pilihan mesej"</string>
     <string name="done" msgid="7479926268660505871">"Selesai"</string>
     <string name="move_up" msgid="7307578107431739359">"Beralih ke atas"</string>
@@ -221,8 +220,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"Kod ralat: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Edit"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Padam mesej"</string>
-    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"Kunci mesej"</string>
-    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"Buka kunci mesej"</string>
+    <string name="menu_lock" msgid="7603793126077557472">"Kunci"</string>
+    <string name="menu_unlock" msgid="6662865558677424039">"Buka"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Salin ke memori tablet"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Salin ke memori telefon"</string>
     <string name="sim_delete" msgid="610790510655316922">"Padam"</string>
@@ -325,7 +324,7 @@
     <string name="draft_separator" msgid="1139278684673244431">",???"</string>
     <string name="message_count_format" msgid="5940019155326371766">"??(<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Keadaan tidak konsisten"</string>
-    <string name="error_state_text" msgid="5006221625000536698">"Keadaan jaluran dan penerima tidak konsisten. Sila tangkap laporan pepijat dan hantarkannya ke android-sms-bugs@google.com"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"Keadaan bebenang dan penerima adalah tidak konsisten. Sila dapatkan laporan pepijat dan laporkannya melalui http://go/droidanizer"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> orang"</item>
   </plurals>
