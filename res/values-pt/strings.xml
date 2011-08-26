@@ -32,16 +32,15 @@
     <string name="menu_delete_all" msgid="808729454898114735">"Excluir todas as conversas"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Excluir conversa"</string>
     <string name="menu_view" msgid="7448852683948080108">"Visualizar conversa"</string>
-    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
-    <skip />
+    <string name="menu_debug_dump" msgid="6855869130206549643">"DEPURAR DEPÓSITO"</string>
     <string name="refreshing" msgid="987335057871404222">"Atualizando..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Rascunho"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Sem título)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Eu"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Visualizar apresentação de slides"</string>
-    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"Visualizar detalhes da mensagem"</string>
+    <string name="view_message_details" msgid="7613457646645796831">"Visualizar detalhes"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Visualizar relatório"</string>
-    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"Excluir mensagem"</string>
+    <string name="delete_message" msgid="6442394955910357234">"Excluir"</string>
     <string name="expire_on" msgid="4436268382742593921">"Expira: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"Kb"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Mensagem não entregue"</string>
@@ -54,7 +53,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Assunto: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Texto protegido por DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Direitos DRM insuficientes detectados."</string>
-    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"Copiar texto da mensagem"</string>
+    <string name="copy_message_text" msgid="4296252229544252834">"Copiar texto"</string>
     <string name="message_options" msgid="6838806653341967550">"Opções de mensagem"</string>
     <string name="done" msgid="7479926268660505871">"Concluído"</string>
     <string name="move_up" msgid="7307578107431739359">"Mover para cima"</string>
@@ -82,8 +81,8 @@
     <string name="send" msgid="4589898724889248486">"Enviar"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Todas as conversas"</string>
-    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Digite para escrever"</string>
-    <!-- outdated translation 1668723196441776085 -->     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Abra o teclado para escrever uma mensagem"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Digitar mensagem"</string>
+    <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Abra o teclado para digitar a mensagem"</string>
     <string name="compressing" msgid="1961357529661045180">"Imagem muito grande. Comprimindo..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"Formato de <xliff:g id="NAME">%1$s</xliff:g> não suportado"</string>
     <string name="select_different_media" msgid="7573116916321879964">"Selecione um <xliff:g id="NAME">%1$s</xliff:g> diferente."</string>
@@ -123,7 +122,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"Layout da apresentação de slides "</string>
     <string name="layout_top" msgid="6811021650398972346">"Layout (superior)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Layout (inferior)"</string>
-    <!-- outdated translation 6171524929347648837 -->     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Digite para escrever o texto ou deixe em branco"</string>
+    <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Digite a mensagem ou deixe em branco"</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"A duração deve ser um número"</string>
     <string name="duration_zero" msgid="109945354056393575">"A duração deve ser maior do que zero segundos"</string>
     <string name="secs" msgid="6886003523109967972">"segundos"</string>
@@ -221,8 +220,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"Código do erro: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Editar"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Excluir mensagens"</string>
-    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"Bloquear mensagem"</string>
-    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"Desbloquear mensagem"</string>
+    <string name="menu_lock" msgid="7603793126077557472">"Bloquear"</string>
+    <string name="menu_unlock" msgid="6662865558677424039">"Desbloquear"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Copiar para a memória do tablet"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Copiar para a memória do telefone"</string>
     <string name="sim_delete" msgid="610790510655316922">"Excluir"</string>
@@ -325,7 +324,7 @@
     <string name="draft_separator" msgid="1139278684673244431">","</string>
     <string name="message_count_format" msgid="5940019155326371766">"  (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Estado inconsistente"</string>
-    <string name="error_state_text" msgid="5006221625000536698">"O estado das conversas e destinatários está inconsistente. Capture um relatório de bug e envie-o para android-sms-bugs@google.com"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"O estado das conversas e dos destinatários está inconsistente. Capture um relatório de bug e envie-o para http://go/droidanizer"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> pessoas"</item>
   </plurals>

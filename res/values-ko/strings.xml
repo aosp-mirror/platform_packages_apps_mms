@@ -32,16 +32,15 @@
     <string name="menu_delete_all" msgid="808729454898114735">"전체 대화목록 삭제"</string>
     <string name="menu_delete" msgid="1851666911396479006">"대화목록 삭제"</string>
     <string name="menu_view" msgid="7448852683948080108">"대화목록 보기"</string>
-    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
-    <skip />
+    <string name="menu_debug_dump" msgid="6855869130206549643">"DEBUG DUMP"</string>
     <string name="refreshing" msgid="987335057871404222">"새로 고치는 중..."</string>
     <string name="has_draft" msgid="2487465595514636160">"임시보관함"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(제목 없음)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"나"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"슬라이드쇼 보기"</string>
-    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"메시지 세부정보 보기"</string>
+    <string name="view_message_details" msgid="7613457646645796831">"세부정보 보기"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"보고서 보기"</string>
-    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"메시지 삭제"</string>
+    <string name="delete_message" msgid="6442394955910357234">"삭제"</string>
     <string name="expire_on" msgid="4436268382742593921">"만료 날짜: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"전송되지 않은 메시지"</string>
@@ -54,7 +53,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;제목: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* DRM 보호된 텍스트 *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"DRM 권한이 충분하지 않습니다."</string>
-    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"메시지 텍스트 복사"</string>
+    <string name="copy_message_text" msgid="4296252229544252834">"텍스트 복사"</string>
     <string name="message_options" msgid="6838806653341967550">"메시지 옵션"</string>
     <string name="done" msgid="7479926268660505871">"완료"</string>
     <string name="move_up" msgid="7307578107431739359">"위로 이동"</string>
@@ -82,8 +81,8 @@
     <string name="send" msgid="4589898724889248486">"전송"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"전체 대화목록"</string>
-    <!-- outdated translation 7553404984078924360 -->     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"메시지를 입력하세요."</string>
-    <!-- outdated translation 1668723196441776085 -->     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"키보드를 사용하여 메시지 쓰기"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"메시지 입력"</string>
+    <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"키보드를 사용하여 메시지 입력"</string>
     <string name="compressing" msgid="1961357529661045180">"사진이 너무 큽니다. 압축하는 중..."</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"지원되지 않는 <xliff:g id="NAME">%1$s</xliff:g> 형식"</string>
     <string name="select_different_media" msgid="7573116916321879964">"다른 <xliff:g id="NAME">%1$s</xliff:g>을(를) 선택하세요."</string>
@@ -123,7 +122,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"슬라이드쇼 레이아웃 "</string>
     <string name="layout_top" msgid="6811021650398972346">"레이아웃(상단)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"레이아웃(하단)"</string>
-    <!-- outdated translation 6171524929347648837 -->     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"텍스트를 입력하거나 빈 칸으로 둡니다."</string>
+    <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"메시지를 입력하거나 비워 두세요."</string>
     <string name="duration_not_a_number" msgid="8005480904677546322">"표시 시간 값은 숫자여야 합니다."</string>
     <string name="duration_zero" msgid="109945354056393575">"표시 시간 값은 0초보다 커야 합니다."</string>
     <string name="secs" msgid="6886003523109967972">"초"</string>
@@ -221,8 +220,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"오류 코드: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"수정"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"메시지 삭제"</string>
-    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"메시지 잠금"</string>
-    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"메시지 잠금 해제"</string>
+    <string name="menu_lock" msgid="7603793126077557472">"잠금"</string>
+    <string name="menu_unlock" msgid="6662865558677424039">"잠금 해제"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"태블릿 메모리에 복사"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"휴대전화 메모리에 복사"</string>
     <string name="sim_delete" msgid="610790510655316922">"삭제"</string>
@@ -325,7 +324,7 @@
     <string name="draft_separator" msgid="1139278684673244431">","</string>
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>개)"</string>
     <string name="error_state" msgid="5177386717626893507">"변경으로 인한 불일치 상태"</string>
-    <string name="error_state_text" msgid="5006221625000536698">"대화목록과 받는사람의 상태가 일치하지 않습니다. 버그 보고서를 캡쳐하여 android-sms-bugs@google.com으로 보내주세요."</string>
+    <string name="error_state_text" msgid="7918866106335387710">"대화목록과 수신자의 상태가 일치하지 않습니다. 버그 보고서를 캡쳐하여 http://go/droidanizer 페이지를 통해 신고해 주세요."</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"사용자 <xliff:g id="NUMBER">%1$s</xliff:g>명"</item>
   </plurals>

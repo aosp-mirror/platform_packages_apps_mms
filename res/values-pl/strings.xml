@@ -32,16 +32,15 @@
     <string name="menu_delete_all" msgid="808729454898114735">"Usuń wszystkie wątki"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Usuń wątek"</string>
     <string name="menu_view" msgid="7448852683948080108">"Wyświetl wątek"</string>
-    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
-    <skip />
+    <string name="menu_debug_dump" msgid="6855869130206549643">"ZRZUT DEBUGOWANIA"</string>
     <string name="refreshing" msgid="987335057871404222">"Odświeżanie..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Wersja robocza"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Brak tematu)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Ja"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Wyświetl pokaz slajdów"</string>
-    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"Pokaż szczegóły wiadomości"</string>
+    <string name="view_message_details" msgid="7613457646645796831">"Wyświetl szczegóły"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Pokaż raport"</string>
-    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"Usuń wiadomość"</string>
+    <string name="delete_message" msgid="6442394955910357234">"Usuń"</string>
     <string name="expire_on" msgid="4436268382742593921">"Traci ważność: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Wiadomość niedostarczona"</string>
@@ -54,7 +53,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Temat: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* tekst chroniony przez DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Wykryto niewystarczające uprawnienia DRM."</string>
-    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"Kopiuj tekst wiadomości"</string>
+    <string name="copy_message_text" msgid="4296252229544252834">"Kopiuj tekst"</string>
     <string name="message_options" msgid="6838806653341967550">"Opcje wiadomości"</string>
     <string name="done" msgid="7479926268660505871">"Gotowe"</string>
     <string name="move_up" msgid="7307578107431739359">"Przesuń w górę"</string>
@@ -99,7 +98,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Nieprawidłowy adres docelowy"</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Usługa nie została aktywowana w sieci."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Wiadomość wygasła lub nie jest dostępna."</string>
-    <string name="service_network_problem" msgid="5418984934499160536">"Błąd sieci."</string>
+    <string name="service_network_problem" msgid="5418984934499160536">"Błąd sieci"</string>
     <string name="invalid_recipient_message" msgid="7315539322634238519">"Należy poprawić dane odbiorców, gdyż mogą oni nie otrzymać wiadomości."</string>
     <string name="cannot_send_message" msgid="3918913277571649400">"Nie można wysłać wiadomości"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Wiadomość nie zawiera poprawnych odbiorców."</string>
@@ -221,8 +220,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"Kod błędu: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Edytuj"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Usuń wiadomości"</string>
-    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"Zablokuj wiadomość"</string>
-    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"Odblokuj wiadomość"</string>
+    <string name="menu_lock" msgid="7603793126077557472">"Zablokuj"</string>
+    <string name="menu_unlock" msgid="6662865558677424039">"Odblokuj"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopiuj do pamięci tabletu"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Kopiuj do pamięci telefonu"</string>
     <string name="sim_delete" msgid="610790510655316922">"Usuń"</string>
@@ -325,7 +324,7 @@
     <string name="draft_separator" msgid="1139278684673244431">","</string>
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Niezgodny stan"</string>
-    <string name="error_state_text" msgid="5006221625000536698">"Stan wątków i odbiorców jest niezgodny. Utwórz raport o błędzie i wyślij go na adres android-sms-bugs@google.com"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"Stan wątków i odbiorców jest niespójny. Przechwyć raport o błędzie i zgłoś go za pośrednictwem witryny http://go/droidanizer"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"Osoby: <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
   </plurals>

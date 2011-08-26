@@ -32,16 +32,15 @@
     <string name="menu_delete_all" msgid="808729454898114735">"Delete all threads"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Delete thread"</string>
     <string name="menu_view" msgid="7448852683948080108">"View thread"</string>
-    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
-    <skip />
+    <string name="menu_debug_dump" msgid="6855869130206549643">"DEBUG DUMP"</string>
     <string name="refreshing" msgid="987335057871404222">"Refreshing…"</string>
     <string name="has_draft" msgid="2487465595514636160">"Draft"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(No subject)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Me"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"View slide show"</string>
-    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"View message details"</string>
+    <string name="view_message_details" msgid="7613457646645796831">"View details"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"View report"</string>
-    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"Delete message"</string>
+    <string name="delete_message" msgid="6442394955910357234">"Delete"</string>
     <string name="expire_on" msgid="4436268382742593921">"Expires: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Undelivered message"</string>
@@ -54,7 +53,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Subject: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* DRM-protected text *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Insufficient DRM rights detected."</string>
-    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"Copy message text"</string>
+    <string name="copy_message_text" msgid="4296252229544252834">"Copy text"</string>
     <string name="message_options" msgid="6838806653341967550">"Message options"</string>
     <string name="done" msgid="7479926268660505871">"Done"</string>
     <string name="move_up" msgid="7307578107431739359">"Move up"</string>
@@ -221,8 +220,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"Error code: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Edit"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Delete messages"</string>
-    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"Lock message"</string>
-    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"Unlock message"</string>
+    <string name="menu_lock" msgid="7603793126077557472">"Lock"</string>
+    <string name="menu_unlock" msgid="6662865558677424039">"Unlock"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Copy to tablet memory"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Copy to phone memory"</string>
     <string name="sim_delete" msgid="610790510655316922">"Delete"</string>
@@ -325,7 +324,7 @@
     <string name="draft_separator" msgid="1139278684673244431">","</string>
     <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
     <string name="error_state" msgid="5177386717626893507">"Inconsistent state"</string>
-    <string name="error_state_text" msgid="5006221625000536698">"The state of threads and recipients is inconsistent. Please capture a bug report and send it to android-sms-bugs@google.com"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"The state of threads and recipients is inconsistent. Please capture a bug report and report it via http://go/droidanizer"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> people"</item>
   </plurals>
