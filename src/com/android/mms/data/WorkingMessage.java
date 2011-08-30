@@ -681,7 +681,6 @@ public class WorkingMessage {
         if (requiresMms()) {
             ensureSlideshow();
             syncTextToSlideshow();
-            removeSubjectIfEmpty(notify);
         }
     }
 
@@ -994,6 +993,8 @@ public class WorkingMessage {
             LogTag.debug("send");
         }
         long origThreadId = mConversation.getThreadId();
+
+        removeSubjectIfEmpty(true /* notify */);
 
         // Get ready to write to disk.
         prepareForSave(true /* notify */);
