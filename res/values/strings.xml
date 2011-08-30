@@ -731,7 +731,7 @@
 
     <!-- In conversation list items, this comes after the receipient's name and contains
          the number of messages in the thread [CHAR LIMIT=5] -->
-    <string name="message_count_format">\u00a0(<xliff:g id="number" example="1">%1$s</xliff:g>)</string>
+    <string name="message_count_format">\u00a0<xliff:g id="number" example="1">%1$s</xliff:g></string>
 
     <!-- For debugging: Dialog box title indicating there's a situation where data has unexpectedly
          changed -->

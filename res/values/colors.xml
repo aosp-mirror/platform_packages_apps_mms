@@ -28,6 +28,7 @@
     <drawable name="text_color_blue">#cc33b5e5</drawable>
     <color name="text_hairline">#ffcccccc</color>
     <color name="list_background">#fff1f1f1</color>
+    <color name="message_count_color">#66333333</color>
 
     <!-- Chat "sent time" text background -->
     <color name="timestamp_color">#bf000000</color>

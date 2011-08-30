@@ -106,8 +106,12 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
         SpannableStringBuilder buf = new SpannableStringBuilder(from);
 
         if (mConversation.getMessageCount() > 1) {
-           buf.append(mContext.getResources().getString(R.string.message_count_format,
-                   mConversation.getMessageCount()));
+            int before = buf.length();
+            buf.append(mContext.getResources().getString(R.string.message_count_format,
+                    mConversation.getMessageCount()));
+            buf.setSpan(new ForegroundColorSpan(
+                    mContext.getResources().getColor(R.color.message_count_color)),
+                    before, buf.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         if (mConversation.hasDraft()) {
             buf.append(mContext.getResources().getString(R.string.draft_separator));
