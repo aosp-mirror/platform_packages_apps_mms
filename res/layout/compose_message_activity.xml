@@ -143,9 +143,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#fff"
-                android:layout_marginTop="5dip"
-                android:paddingBottom="5dip"
-                android:paddingRight="5dip">
+                android:layout_marginTop="4dip"
+                android:paddingBottom="4dip"
+                android:paddingRight="4dip">
 
                 <EditText
                     android:textColor="@android:color/black"
@@ -153,8 +153,9 @@
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
-                    android:layout_marginLeft="16dip"
+                    android:layout_marginLeft="8dip"
                     android:autoText="true"
+                    android:textSize="16sp"
                     android:capitalize="sentences"
                     android:nextFocusRight="@+id/send_button"
                     android:hint="@string/type_to_compose_text_enter_to_send"
@@ -180,7 +181,7 @@
                         android:layout_height="0dip"
                         android:layout_weight="1.0"
                         android:layout_marginTop="@dimen/send_button_top_margin_no_mms"
-                        android:layout_marginLeft="5dip"
+                        android:layout_marginLeft="4dip"
                         android:editable="false"
                         android:nextFocusLeft="@+id/embedded_text_editor" />
 

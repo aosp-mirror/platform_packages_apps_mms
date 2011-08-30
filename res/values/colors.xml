@@ -22,11 +22,11 @@
     <drawable name="class_zero_background">#7f040000</drawable>
 
     <!-- text color -->
-    <drawable name="text_color_red">#ffff0000</drawable>
+    <drawable name="text_color_red">#ffff4444</drawable>
     <drawable name="text_color_black">#ff000000</drawable>
     <drawable name="text_color_offwhite">#55ffffff</drawable>
-    <drawable name="text_color_blue">#ff78b2ea</drawable>
-    <color name="text_hairline">#ffc1c1c1</color>
+    <drawable name="text_color_blue">#cc33b5e5</drawable>
+    <color name="text_hairline">#ffcccccc</color>
     <color name="list_background">#fff1f1f1</color>
 
     <!-- Chat "sent time" text background -->
@@ -36,4 +36,3 @@
     <color name="unread_bgcolor">#ffffffff</color>
     <color name="read_bgcolor">#ffeeeeee</color>
 </resources>
-

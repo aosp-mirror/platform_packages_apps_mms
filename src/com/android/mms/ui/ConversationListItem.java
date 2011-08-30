@@ -118,7 +118,7 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
             buf.setSpan(new TextAppearanceSpan(mContext, size, color), before,
                     buf.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             buf.setSpan(new ForegroundColorSpan(
-                    mContext.getResources().getColor(R.drawable.text_color_blue)),
+                    mContext.getResources().getColor(R.drawable.text_color_red)),
                     before, buf.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         }
 

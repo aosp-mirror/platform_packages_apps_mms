@@ -727,7 +727,7 @@
 
     <!-- In conversation list items, this is the separator between a contact's name
          and the draft stamp [CHAR LIMIT=5] -->
-    <string name="draft_separator">,\u2002</string>
+    <string name="draft_separator">,\u0020</string>
 
     <!-- In conversation list items, this comes after the receipient's name and contains
          the number of messages in the thread [CHAR LIMIT=5] -->
