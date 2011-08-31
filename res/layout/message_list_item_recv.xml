@@ -32,36 +32,20 @@
         android:layout_weight="1"
         android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/bar"
-            android:layout_height="1px"
-            android:layout_width="match_parent"
-            android:background="@color/text_hairline" />
-
-        <ViewStub android:id="@+id/mms_layout_view_stub"
-            android:layout="@layout/mms_layout_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.widget.QuickContactBadge
-                android:layout_alignParentLeft="true"
-                android:layout_width="@dimen/avatar_width_height"
-                android:layout_height="@dimen/avatar_width_height"
+            <view xmlns:android="http://schemas.android.com/apk/res/android"
+                class="com.android.mms.ui.QuickContactDivot"
                 android:id="@+id/avatar"
-                style="?android:attr/quickContactBadgeStyleWindowSmall" />
-
-            <view class="com.android.mms.ui.ImageViewDivot"
-                android:id="@+id/divit"
                 position="right_upper"
                 android:layout_alignParentLeft="true"
                 android:layout_width="@dimen/avatar_width_height"
                 android:layout_height="@dimen/avatar_width_height" />
 
             <LinearLayout
+                android:id="@+id/message_block"
                 android:minHeight="@dimen/avatar_width_height"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -119,9 +103,14 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_sms_mms_details"
                         android:visibility="gone" />
-                    </LinearLayout>
                 </LinearLayout>
-          </RelativeLayout>
+
+                <ViewStub android:id="@+id/mms_layout_view_stub"
+                    android:layout="@layout/mms_layout_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <ViewStub android:id="@+id/mms_downloading_view_stub"

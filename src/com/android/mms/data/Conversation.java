@@ -391,11 +391,18 @@ public class Conversation {
      * database (e.g. storing a draft message to it).
      */
     public synchronized void setRecipients(ContactList list) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("setRecipients before: " + this.toString());
+        }
         mRecipients = list;
 
         // Invalidate thread ID because the recipient set has changed.
         mThreadId = 0;
-    }
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("setRecipients after: " + this.toString());
+        }
+}
 
     /**
      * Returns the recipient set of this conversation.
@@ -966,7 +973,10 @@ public class Conversation {
                                 Cache.put(conv);
                             }
                         } catch (IllegalStateException e) {
-                            LogTag.error("Tried to add duplicate Conversation to Cache");
+                            LogTag.error("Tried to add duplicate Conversation to Cache" +
+                                    " for threadId: " + threadId + " new conv: " +
+                                    conv.toString() + " conv in cache: " +
+                                    Cache.get(threadId).toString());
                         }
                     } else {
                         // Or update in place so people with references

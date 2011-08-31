@@ -28,6 +28,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Typeface;
 import android.graphics.Paint.FontMetricsInt;
 import android.graphics.drawable.Drawable;
@@ -96,12 +99,15 @@ public class MessageListItem extends LinearLayout implements
     private TextView mBodyTextView;
     private Button mDownloadButton;
     private TextView mDownloadingLabel;
-    private QuickContactBadge mAvatar;
     private Handler mHandler;
     private MessageItem mMessageItem;
     private String mDefaultCountryIso;
     private TextView mDateView;
-    private ImageViewDivot mDivot;        // little triangle on the side of the avatar
+    public View mMessageBlock;
+    private Path mPath = new Path();
+    private Paint mPaint = new Paint();
+    private QuickContactDivot mAvatar;
+    private boolean mIsLastItemInList;
     static private Drawable sDefaultContactImage;
 
     public MessageListItem(Context context) {
@@ -134,12 +140,13 @@ public class MessageListItem extends LinearLayout implements
         mLockedIndicator = (ImageView) findViewById(R.id.locked_indicator);
         mDeliveredIndicator = (ImageView) findViewById(R.id.delivered_indicator);
         mDetailsIndicator = (ImageView) findViewById(R.id.details_indicator);
-        mAvatar = (QuickContactBadge) findViewById(R.id.avatar);
-        mDivot = (ImageViewDivot) findViewById(R.id.divit);
+        mAvatar = (QuickContactDivot) findViewById(R.id.avatar);
+        mMessageBlock = findViewById(R.id.message_block);
     }
 
-    public void bind(MessageItem msgItem) {
+    public void bind(MessageItem msgItem, boolean isLastItem) {
         mMessageItem = msgItem;
+        mIsLastItemInList = isLastItem;
 
         setLongClickable(false);
 
@@ -639,5 +646,78 @@ public class MessageListItem extends LinearLayout implements
     public void seekVideo(int seekTo) {
         // TODO Auto-generated method stub
 
+    }
+
+    /**
+     * Override dispatchDraw so that we can put our own background and border in.
+     * This is all complexity to support a shared border from one item to the next.
+     */
+    @Override
+    public void dispatchDraw(Canvas c) {
+        View v = mMessageBlock;
+        if (v != null) {
+            float l = v.getX();
+            float t = v.getY();
+            float r = v.getX() + v.getWidth();
+            float b = v.getY() + v.getHeight();
+
+            Path path = mPath;
+            path.reset();
+
+            // This block of code draws our own background but omits the top pixel so that
+            // if the previous item draws it's border there we don't overwrite it.
+            path.moveTo(l, t + 1);
+            path.lineTo(r, t + 1);
+            path.lineTo(r, b);
+            path.lineTo(l, b);
+            path.close();
+
+            Paint paint = mPaint;
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(0xffffffff);
+            c.drawPath(path, paint);
+
+            super.dispatchDraw(c);
+
+            path.reset();
+
+            r -= 1;
+
+
+            // This block of code draws the border around the "message block" section
+            // of the layout.  This would normally be a simple rectangle but we omit
+            // the border at the point of the avatar's divot.  Also, the bottom is drawn
+            // 1 pixel below our own bounds to get it to line up with the border of
+            // the next item.
+            //
+            // But for the last item we draw the bottom in our own bounds -- so it will
+            // show up.
+            if (mIsLastItemInList) {
+                b -= 1;
+            }
+            if (mAvatar.getPosition() == Divot.RIGHT_UPPER) {
+                path.moveTo(l, t + mAvatar.getCloseOffset());
+                path.lineTo(l, t);
+                path.lineTo(r, t);
+                path.lineTo(r, b);
+                path.lineTo(l, b);
+                path.lineTo(l, t + mAvatar.getFarOffset());
+            } else if (mAvatar.getPosition() == Divot.LEFT_UPPER) {
+                path.moveTo(r, t + mAvatar.getCloseOffset());
+                path.lineTo(r, t);
+                path.lineTo(l, t);
+                path.lineTo(l, b);
+                path.lineTo(r, b);
+                path.lineTo(r, t + mAvatar.getFarOffset());
+            }
+
+//            paint.setColor(0xff00ff00);
+            paint.setColor(0xffcccccc);
+            paint.setStrokeWidth(1F);
+            paint.setStyle(Paint.Style.STROKE);
+            c.drawPath(path, paint);
+        } else {
+            super.dispatchDraw(c);
+        }
     }
 }
