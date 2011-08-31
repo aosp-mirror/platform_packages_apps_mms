@@ -160,7 +160,7 @@ public class MessageListAdapter extends CursorAdapter {
                     }
                 }
 
-                mli.bind(msgItem);
+                mli.bind(msgItem, cursor.getPosition() == cursor.getCount() - 1);
                 mli.setMsgListItemHandler(mMsgListItemHandler);
 
                 // Add current item to mapping
@@ -199,7 +199,7 @@ public class MessageListAdapter extends CursorAdapter {
         HashSet<MessageListItem> set = mAddressToMessageListItems.get(address);
         if (set != null) {
             for (MessageListItem mli : set) {
-                mli.bind(mli.getMessageItem());
+                mli.bind(mli.getMessageItem(), false);
             }
         }
     }
