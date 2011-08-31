@@ -76,6 +76,7 @@
             android:cacheColorHint="@android:color/white"
             android:scrollbarAlwaysDrawVerticalTrack="false"
             android:scrollbarStyle="insideOverlay"
+            android:paddingBottom="@dimen/input_text_height_adjusted"
         />
 
         <LinearLayout

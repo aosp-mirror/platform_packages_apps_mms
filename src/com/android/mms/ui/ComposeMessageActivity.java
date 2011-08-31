@@ -3028,6 +3028,17 @@ public class ComposeMessageActivity extends Activity
     private void initResourceRefs() {
         mMsgListView = (MessageListView) findViewById(R.id.history);
         mMsgListView.setDivider(null);      // no divider so we look like IM conversation.
+
+        // called to enable us to show some padding between the message list and the
+        // input field but when the message list is scrolled that padding area is filled
+        // in with message content
+        mMsgListView.setClipToPadding(false);
+
+        // turn off children clipping because we draw the border outside of our own
+        // bounds at the bottom.  The background is also drawn in code to avoid drawing
+        // the top edge.
+        mMsgListView.setClipChildren(false);
+
         mBottomPanel = findViewById(R.id.bottom_panel);
         mTextEditor = (EditText) findViewById(R.id.embedded_text_editor);
         mTextEditor.setOnEditorActionListener(this);
