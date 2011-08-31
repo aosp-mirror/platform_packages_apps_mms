@@ -90,13 +90,6 @@ public class ConversationList extends ListActivity
     public static final int HAVE_LOCKED_MESSAGES_TOKEN     = 1802;
     private static final int DELETE_OBSOLETE_THREADS_TOKEN = 1803;
 
-    // IDs of the main menu items.
-    public static final int MENU_COMPOSE_NEW          = 0;
-    public static final int MENU_SEARCH               = 1;
-    public static final int MENU_DELETE_ALL           = 3;
-    public static final int MENU_PREFERENCES          = 4;
-    public static final int MENU_DEBUG_DUMP           = 5;
-
     // IDs of the context menu items for the list of conversations.
     public static final int MENU_DELETE               = 0;
     public static final int MENU_VIEW                 = 1;
@@ -314,8 +307,12 @@ public class ConversationList extends ListActivity
         }
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.conversation_list_menu, menu);
+
+
         // It looks dangerous to hold onto the menu, but Activity's docs say:
         // "You can safely hold on to menu (and any items created
         // from it), making modifications to it as desired, until the next
@@ -327,37 +324,30 @@ public class ConversationList extends ListActivity
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.clear();
-
-        menu.add(0, MENU_COMPOSE_NEW, 0, R.string.menu_compose_new)
-            .setIcon(com.android.internal.R.drawable.ic_menu_compose)
-            .setTitle(R.string.new_message)
-            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-        if (mListAdapter.getCount() > 0) {
-            menu.add(0, MENU_DELETE_ALL, 0, R.string.menu_delete_all).setIcon(
-                    android.R.drawable.ic_menu_delete);
+        MenuItem item = menu.findItem(R.id.action_delete_all);
+        if (item != null) {
+            item.setVisible(mListAdapter.getCount() > 0);
         }
-
-        menu.add(0, MENU_SEARCH, 0, android.R.string.search_go)
-            .setIcon(android.R.drawable.ic_menu_search)
-            .setAlphabeticShortcut(android.app.SearchManager.MENU_KEY)
-            .setTitle(R.string.menu_search)
-            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-        menu.add(0, MENU_PREFERENCES, 0, R.string.menu_preferences).setIcon(
-                android.R.drawable.ic_menu_preferences);
-
-        if (LogTag.DEBUG_DUMP) {
-            menu.add(0, MENU_DEBUG_DUMP, 0, R.string.menu_debug_dump);
+        if (!LogTag.DEBUG_DUMP) {
+            item = menu.findItem(R.id.action_debug_dump);
+            if (item != null) {
+                item.setVisible(false);
+            }
         }
         return true;
+    }
+
+    private void showSearchMenu(boolean show) {
+        MenuItem item = mMenu.findItem(R.id.action_search);
+        if (item != null) {
+            item.setVisible(show);
+        }
     }
 
     @Override
     public boolean onSearchRequested() {
         if (mMenu != null) {
-            mMenu.removeItem(MENU_SEARCH);
+            showSearchMenu(false);
             mSearchManager.setOnDismissListener(this);
         }
         startSearch(null, false, null /*appData*/, false);
@@ -367,21 +357,21 @@ public class ConversationList extends ListActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case MENU_COMPOSE_NEW:
+            case R.id.action_compose_new:
                 createNewMessage();
                 break;
-            case MENU_SEARCH:
+            case R.id.action_search:
                 onSearchRequested();
                 break;
-            case MENU_DELETE_ALL:
+            case R.id.action_delete_all:
                 // The invalid threadId of -1 means all threads here.
                 confirmDeleteThread(-1L, mQueryHandler);
                 break;
-            case MENU_PREFERENCES:
+            case R.id.action_settings:
                 Intent intent = new Intent(this, MessagingPreferenceActivity.class);
                 startActivityIfNeeded(intent, -1);
                 break;
-            case MENU_DEBUG_DUMP:
+            case R.id.action_debug_dump:
                 LogTag.dumpInternalTables(this);
                 break;
             default:
@@ -798,7 +788,7 @@ public class ConversationList extends ListActivity
 
         // put back the search menu we removed when starting search
         if (mMenu != null) {
-            onPrepareOptionsMenu(mMenu);
+            showSearchMenu(true);
         }
     }
 }
