@@ -3167,7 +3167,7 @@ public class ComposeMessageActivity extends Activity
 
         if (!mWaitingForSubActivity &&
                 !mWorkingMessage.isWorthSaving() &&
-                !isRecipientsEditorVisible()) {
+                recipientCount() == 0) {
             if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("not worth saving, discard WorkingMessage and bail");
             }
