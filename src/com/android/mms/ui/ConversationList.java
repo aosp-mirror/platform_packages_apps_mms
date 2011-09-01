@@ -24,7 +24,6 @@ import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
-import com.android.mms.data.RecipientIdCache;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.transaction.SmsRejectedReceiver;
 import com.android.mms.util.DraftCache;
@@ -32,7 +31,6 @@ import com.android.mms.util.Recycler;
 import com.google.android.mms.pdu.PduHeaders;
 import android.database.sqlite.SqliteWrapper;
 
-import android.animation.LayoutTransition;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -59,6 +57,7 @@ import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -145,16 +144,12 @@ public class ConversationList extends ListActivity
 
         ViewGroup v = (ViewGroup)LayoutInflater.from(this)
             .inflate(R.layout.conversation_list_actionbar, null);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
+                ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(v,
-                new ActionBar.LayoutParams(
-                        ActionBar.LayoutParams.MATCH_PARENT,
-                        ActionBar.LayoutParams.MATCH_PARENT));
-
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);
-
-        // This results in a fade out -> fade in when switching the action bar between
-        // showing the account spinner and the search box.
-        v.setLayoutTransition(new LayoutTransition());
+                new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
+                        ActionBar.LayoutParams.WRAP_CONTENT,
+                        Gravity.CENTER_VERTICAL | Gravity.RIGHT));
 
         mUnreadConvCount = (TextView)v.findViewById(R.id.unread_conv_count);
     }
