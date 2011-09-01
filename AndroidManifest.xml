@@ -55,7 +55,7 @@
 
         <activity android:name=".ui.ConversationList"
                   android:label="@string/app_label"
-                  android:configChanges="orientation|keyboardHidden"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
                   android:theme="@style/MmsHoloTheme"
                   android:uiOptions="splitActionBarWhenNarrow"
                   android:launchMode="singleTop">
@@ -77,7 +77,7 @@
         </activity>
 
         <activity android:name=".ui.ComposeMessageActivity"
-                  android:configChanges="orientation|keyboardHidden"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
                   android:windowSoftInputMode="stateHidden"
                   android:theme="@style/MmsHoloTheme"
                   android:launchMode="singleTop" >
@@ -126,7 +126,7 @@
 
         <activity-alias android:name=".ui.ForwardMessageActivity"
                   android:targetActivity=".ui.ComposeMessageActivity"
-                  android:configChanges="orientation|keyboardHidden"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
                   android:windowSoftInputMode="stateHidden"
                   android:theme="@style/MmsHoloTheme" >
         </activity-alias>
@@ -250,7 +250,7 @@
         <activity android:name=".ui.SearchActivity"
             android:theme="@style/MmsHoloTheme"
             android:label="@string/search"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|screenSize|keyboardHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
