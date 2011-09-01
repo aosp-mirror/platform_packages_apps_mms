@@ -192,7 +192,7 @@ public class DownloadManager {
                 && (state == STATE_DOWNLOADING)) {
                 mHandler.post(new Runnable() {
                     public void run() {
-                        Toast.makeText(mContext, R.string.dl_expired_notification,
+                        Toast.makeText(mContext, R.string.service_message_not_found,
                                 Toast.LENGTH_LONG).show();
                     }
                 });

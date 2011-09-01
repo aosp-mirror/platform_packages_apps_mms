@@ -139,6 +139,7 @@ public class RetryScheduler implements Observer {
                             errorString = R.string.invalid_destination;
                             break;
 
+                        case PduHeaders.RESPONSE_STATUS_ERROR_SERVICE_DENIED:
                         case PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_SERVICE_DENIED:
                             errorString = R.string.service_not_activated;
                             break;

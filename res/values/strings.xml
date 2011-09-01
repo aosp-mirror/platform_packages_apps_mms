@@ -586,9 +586,6 @@
          An example: Download of message Wanna get pizza from dorkman was unsuccessful. -->
     <string name="dl_failure_notification">Download of message <xliff:g id="subject">%1$s</xliff:g> from <xliff:g id="from">%2$s</xliff:g> was unsuccessful.</string>
 
-    <!-- While downloading a message, if that message has expired, display this message. -->
-    <string name="dl_expired_notification">This message has expired and will be deleted.</string>
-
     <!-- This is the confirm rate limit alert dialog title. -->
     <string name="rate_limit_surpassed">Confirm</string>
     <!-- This is the confirm rate limit alert dialog text. -->
