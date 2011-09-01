@@ -975,8 +975,8 @@ public class Conversation {
                         } catch (IllegalStateException e) {
                             LogTag.error("Tried to add duplicate Conversation to Cache" +
                                     " for threadId: " + threadId + " new conv: " +
-                                    conv.toString() + " conv in cache: " +
-                                    Cache.get(threadId).toString());
+                                    conv + " conv in cache: " +
+                                    Cache.get(threadId));
                         }
                     } else {
                         // Or update in place so people with references
