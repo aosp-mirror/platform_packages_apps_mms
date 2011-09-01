@@ -25,6 +25,7 @@
     android:searchSuggestAuthority="com.android.mms.SuggestionsProvider"
     android:searchSuggestSelection="pattern"
     android:searchSuggestIntentAction="android.intent.action.SEARCH"
+    android:imeOptions="actionSearch"
 
     android:includeInGlobalSearch="true"
 />
