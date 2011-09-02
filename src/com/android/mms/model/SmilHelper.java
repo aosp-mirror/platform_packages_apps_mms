@@ -303,9 +303,10 @@ public class SmilHelper {
         SMILElement bodyElement = (SMILElement) document.createElement("body");
         smilElement.appendChild(bodyElement);
 
-        boolean txtRegionPresentInLayout = false;
-        boolean imgRegionPresentInLayout = false;
         for (SlideModel slide : slideshow) {
+            boolean txtRegionPresentInLayout = false;
+            boolean imgRegionPresentInLayout = false;
+
             // Create PAR element.
             SMILParElement par = addPar(document);
             par.setDur(slide.getDuration() / 1000f);
