@@ -266,12 +266,12 @@ public class SlideView extends AbsoluteLayout implements
     }
 
     public void setTextVisibility(boolean visible) {
-        if (mScrollText != null) {
-            if (mConformanceMode) {
+        if (mConformanceMode) {
+            if (mTextView != null) {
                 mTextView.setVisibility(visible ? View.VISIBLE : View.GONE);
-            } else {
-                mScrollText.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
             }
+        } else if (mScrollText != null) {
+            mScrollText.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
         }
     }
 

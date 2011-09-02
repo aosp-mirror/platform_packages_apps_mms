@@ -159,6 +159,17 @@ public abstract class ElementTimeImpl implements ElementTime {
         return new TimeListImpl(endTimeList);
     }
 
+    private boolean beginAndEndAreZero() {
+        TimeList begin = getBegin();
+        TimeList end = getEnd();
+        if (begin.getLength() == 1 && end.getLength() == 1) {
+            Time beginTime = begin.item(0);
+            Time endTime = end.item(0);
+            return beginTime.getOffset() == 0. && endTime.getOffset() == 0.;
+        }
+        return false;
+    }
+
     public short getFill() {
         String fill = mSmilElement.getAttribute(FILL_ATTRIBUTE_NAME);
         if (fill.equalsIgnoreCase(FILL_FREEZE_ATTRIBUTE)) {
@@ -193,10 +204,11 @@ public abstract class ElementTimeImpl implements ElementTime {
          *  - Otherwise, the element will have a fill behavior identical to that if it were
          *    specified as "remove".
          */
-        if ((mSmilElement.getAttribute("dur").length() == 0) &&
+        if (((mSmilElement.getAttribute("dur").length() == 0) &&
                 (mSmilElement.getAttribute("end").length() == 0) &&
                 (mSmilElement.getAttribute("repeatCount").length() == 0) &&
-                (mSmilElement.getAttribute("repeatDur").length() == 0)) {
+                (mSmilElement.getAttribute("repeatDur").length() == 0)) ||
+                beginAndEndAreZero()) {
             return FILL_FREEZE;
         } else {
             return FILL_REMOVE;
