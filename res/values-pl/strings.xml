@@ -268,7 +268,6 @@
     <string name="no_subject" msgid="4168963736134552285">"(Brak tematu)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Nieznany nadawca"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"Pobieranie wiadomości <xliff:g id="SUBJECT">%1$s</xliff:g> od <xliff:g id="FROM">%2$s</xliff:g> zakończyło się niepowodzeniem."</string>
-    <string name="dl_expired_notification" msgid="950390029992535809">"Ta wiadomość wygasła i zostanie usunięta."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Potwierdź"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Wysyłanych jest wiele wiadomości multimedialnych. Czy to jest OK?"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"Wiadomość nie została pobrana"</string>
@@ -321,10 +320,11 @@
     <string name="sending_message" msgid="2054406576361149715">"WYSYŁANIE..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Zbyt wielu odbiorców"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Dodawanie odbiorców…"</string>
-    <string name="draft_separator" msgid="1139278684673244431">","</string>
-    <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
+    <!-- outdated translation 1139278684673244431 -->     <string name="draft_separator" msgid="5402575086540243019">", "</string>
+    <!-- no translation found for message_count_format (4434763220590778012) -->
+    <skip />
     <string name="error_state" msgid="5177386717626893507">"Niezgodny stan"</string>
-    <string name="error_state_text" msgid="7918866106335387710">"Stan wątków i odbiorców jest niespójny. Przechwyć raport o błędzie i zgłoś go za pośrednictwem witryny http://go/droidanizer"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"Stan wątków i odbiorców jest niespójny. Przechwyć raport o błędzie i zgłoś go za pośrednictwem strony http://go/droidanizer"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"Osoby: <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
   </plurals>

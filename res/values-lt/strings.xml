@@ -268,7 +268,6 @@
     <string name="no_subject" msgid="4168963736134552285">"(nėra temos)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Nežinomas siuntėjas"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"Pranešimo <xliff:g id="SUBJECT">%1$s</xliff:g> nuo <xliff:g id="FROM">%2$s</xliff:g> atsisiuntimas buvo nesėkmingas."</string>
-    <string name="dl_expired_notification" msgid="950390029992535809">"Baigėsi šio pranešimo galiojimo laikas, jis bus ištrintas."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Patvirtinti"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Siunčiama daug daugialypės terpės pranešimų. Ar gerai?"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"Pranešimas neatsisiųstas"</string>
@@ -321,8 +320,9 @@
     <string name="sending_message" msgid="2054406576361149715">"SIUNČIAMA..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Per daug gavėjų"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Pridedama gavėjų..."</string>
-    <string name="draft_separator" msgid="1139278684673244431">","</string>
-    <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
+    <!-- outdated translation 1139278684673244431 -->     <string name="draft_separator" msgid="5402575086540243019">", "</string>
+    <!-- no translation found for message_count_format (4434763220590778012) -->
+    <skip />
     <string name="error_state" msgid="5177386717626893507">"Nepastovi būsena"</string>
     <string name="error_state_text" msgid="7918866106335387710">"Gijų ir gavėjų būsena nenuosekli. Sukurkite trikčių ataskaitą ir pateikite ją adresu http://go/droidanizer."</string>
   <plurals name="recipient_count">

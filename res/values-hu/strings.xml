@@ -268,7 +268,6 @@
     <string name="no_subject" msgid="4168963736134552285">"(Nincs tárgy)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Ismeretlen feladó"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"Nem sikerült letölteni a(z) <xliff:g id="FROM">%2$s</xliff:g> által küldött <xliff:g id="SUBJECT">%1$s</xliff:g> tárgyú üzenetet."</string>
-    <string name="dl_expired_notification" msgid="950390029992535809">"Ez az üzenet lejárt, és törlésre kerül."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Megerősítés"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Sok multimédiás üzenetet készül elküldeni. Folytatja?"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"Az üzenet nincs letöltve"</string>
@@ -321,8 +320,9 @@
     <string name="sending_message" msgid="2054406576361149715">"KÜLDÉS..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Túl sok címzett"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Címzettek hozzáadása..."</string>
-    <string name="draft_separator" msgid="1139278684673244431">","</string>
-    <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
+    <!-- outdated translation 1139278684673244431 -->     <string name="draft_separator" msgid="5402575086540243019">", "</string>
+    <!-- no translation found for message_count_format (4434763220590778012) -->
+    <skip />
     <string name="error_state" msgid="5177386717626893507">"Inkonzisztens állapot"</string>
     <string name="error_state_text" msgid="7918866106335387710">"A láncok és a címzettek állapota nem konzisztens. Kérjük, rögzítse a hibajelentést, és jelentse a http://go/droidanizer oldalon keresztül"</string>
   <plurals name="recipient_count">
