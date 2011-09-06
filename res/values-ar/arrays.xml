@@ -18,12 +18,6 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for default_smiley_texts:17 (1585296316137615252) -->
-    <!-- no translation found for default_smiley_texts:18 (5254456916552252873) -->
-    <!-- no translation found for default_smiley_texts:19 (6605652107194120777) -->
     <!-- no translation found for default_smiley_texts:20 (5729958058423636943) -->
-    <!-- no translation found for default_smiley_names:17 (3939233701582771068) -->
-    <!-- no translation found for default_smiley_names:18 (1414759480575851587) -->
-    <!-- no translation found for default_smiley_names:19 (8479809115158836070) -->
     <!-- no translation found for default_smiley_names:20 (638612939305162424) -->
 </resources>

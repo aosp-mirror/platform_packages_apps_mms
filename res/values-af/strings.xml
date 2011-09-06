@@ -413,7 +413,6 @@
     <skip />
     <!-- no translation found for dl_failure_notification (2457080452886498701) -->
     <skip />
-    <string name="dl_expired_notification" msgid="950390029992535809">"Hierdie boodskap het verval en sal uitgevee word."</string>
     <!-- no translation found for rate_limit_surpassed (1347801608211628177) -->
     <skip />
     <!-- no translation found for confirm_rate_limit (234228299751243067) -->
@@ -472,9 +471,9 @@
     <!-- outdated translation 222836893217450538 -->     <string name="sending_message" msgid="2054406576361149715">"Stuur tans…"</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Te veel ontvangers"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Voeg ontvangers by..."</string>
-    <!-- no translation found for draft_separator (1139278684673244431) -->
+    <!-- no translation found for draft_separator (5402575086540243019) -->
     <skip />
-    <!-- no translation found for message_count_format (5940019155326371766) -->
+    <!-- no translation found for message_count_format (4434763220590778012) -->
     <skip />
     <string name="error_state" msgid="5177386717626893507">"Inkonsekwente staat"</string>
     <string name="error_state_text" msgid="7918866106335387710">"Die toestand van die gesprek en ontvangers is nie konsekwent nie. Kry asseblief \'n foutverslag en rapporteer dit via http://go/droidanizer"</string>

@@ -32,16 +32,15 @@
     <string name="menu_delete_all" msgid="808729454898114735">"Изтриване на всички нишки"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Изтриване на нишката"</string>
     <string name="menu_view" msgid="7448852683948080108">"Преглед на нишката"</string>
-    <!-- no translation found for menu_debug_dump (6855869130206549643) -->
-    <skip />
+    <string name="menu_debug_dump" msgid="6855869130206549643">"ФАЙЛОВЕ ЗА ОТСТРАНЯВАНЕ НА ГРЕШКИ"</string>
     <string name="refreshing" msgid="987335057871404222">"Опреснява се..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Чернова"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Без тема)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Аз"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Преглед на слайдшоу"</string>
-    <!-- outdated translation 2443165773568096234 -->     <string name="view_message_details" msgid="7613457646645796831">"Преглед на подробностите за съобщенията"</string>
+    <string name="view_message_details" msgid="7613457646645796831">"Преглед на подробностите"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Преглед на отчет"</string>
-    <!-- outdated translation 8888447283788388395 -->     <string name="delete_message" msgid="6442394955910357234">"Изтриване на съобщение"</string>
+    <string name="delete_message" msgid="6442394955910357234">"Изтриване"</string>
     <string name="expire_on" msgid="4436268382742593921">"Изтича на: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"КБ"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Недоставено съобщение"</string>
@@ -54,7 +53,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Тема: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Защитен от DRM текст *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Няма достатъчни права за DRM."</string>
-    <!-- outdated translation 4640869459731924158 -->     <string name="copy_message_text" msgid="4296252229544252834">"Копиране на текста на съобщението"</string>
+    <string name="copy_message_text" msgid="4296252229544252834">"Копиране на текста"</string>
     <string name="message_options" msgid="6838806653341967550">"Опции на съобщението"</string>
     <string name="done" msgid="7479926268660505871">"Готово"</string>
     <string name="move_up" msgid="7307578107431739359">"Преместване нагоре"</string>
@@ -221,8 +220,8 @@
     <string name="error_code_label" msgid="5810068247647058769">"Код на грешката: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Редактиране"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Изтриване на съобщения"</string>
-    <!-- outdated translation 136863583207382259 -->     <string name="menu_lock" msgid="7603793126077557472">"Заключване на съобщението"</string>
-    <!-- outdated translation 5264877122797287929 -->     <string name="menu_unlock" msgid="6662865558677424039">"Отключване на съобщението"</string>
+    <string name="menu_lock" msgid="7603793126077557472">"Заключване"</string>
+    <string name="menu_unlock" msgid="6662865558677424039">"Отключване"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Копиране в паметта на таблета"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Копиране в паметта на телефона"</string>
     <string name="sim_delete" msgid="610790510655316922">"Изтриване"</string>
@@ -269,7 +268,6 @@
     <string name="no_subject" msgid="4168963736134552285">"(Без тема)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Неизвестен изпращач"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"Изтеглянето на съобщението <xliff:g id="SUBJECT">%1$s</xliff:g> от <xliff:g id="FROM">%2$s</xliff:g> не бе успешно."</string>
-    <string name="dl_expired_notification" msgid="950390029992535809">"Срокът за съхранение на съобщението е изтекъл и то ще бъде изтрито."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Потвърждаване"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Изпращат се голям брой мултимедийни съобщения. Това ОК ли е?"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"Съобщението не е изтеглено"</string>
@@ -322,10 +320,11 @@
     <string name="sending_message" msgid="2054406576361149715">"ИЗПРАЩА СЕ..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Твърде много получатели"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Получателите се добавят..."</string>
-    <string name="draft_separator" msgid="1139278684673244431">","</string>
-    <string name="message_count_format" msgid="5940019155326371766">" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</string>
+    <!-- outdated translation 1139278684673244431 -->     <string name="draft_separator" msgid="5402575086540243019">", "</string>
+    <!-- no translation found for message_count_format (4434763220590778012) -->
+    <skip />
     <string name="error_state" msgid="5177386717626893507">"Нееднородно състояние"</string>
-    <!-- outdated translation 5006221625000536698 -->     <string name="error_state_text" msgid="7918866106335387710">"Състоянието на нишките и получателите е нееднородно. Моля, създайте сигнал за програмен дефект и го изпратете до android-sms-bugs@google.com"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"Състоянието на нишките и получателите не е еднородно. Моля, създайте сигнал за програмна грешка и го подайте чрез http://go/droidanizer"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> души"</item>
   </plurals>

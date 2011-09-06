@@ -272,7 +272,6 @@
     <string name="no_subject" msgid="4168963736134552285">"(Nagin object)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Speditur nunenconuschent"</string>
     <string name="dl_failure_notification" msgid="2457080452886498701">"La telechargiada dal messadi <xliff:g id="SUBJECT">%1$s</xliff:g> da <xliff:g id="FROM">%2$s</xliff:g> n\'è betg reussida."</string>
-    <string name="dl_expired_notification" msgid="950390029992535809">"Quest messadi è scrudà e vegn stizzà."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Confermar"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"In grond dumber da messadis multimedia vegnan tramess. Vulais Vus cuntinuar?"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"Betg telechargià il messadi"</string>
@@ -325,9 +324,9 @@
     <!-- outdated translation 222836893217450538 -->     <string name="sending_message" msgid="2054406576361149715">"Vegn tramess…"</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Memia blers destinaturs"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Agiuntar destinaturs..."</string>
-    <!-- no translation found for draft_separator (1139278684673244431) -->
+    <!-- no translation found for draft_separator (5402575086540243019) -->
     <skip />
-    <!-- no translation found for message_count_format (5940019155326371766) -->
+    <!-- no translation found for message_count_format (4434763220590778012) -->
     <skip />
     <!-- no translation found for error_state (5177386717626893507) -->
     <skip />
