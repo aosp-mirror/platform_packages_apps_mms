@@ -36,7 +36,6 @@
          android:layout_width="wrap_content"
          android:layout_height="match_parent"
          android:singleLine="true"
-         android:textStyle="bold"
-         android:textColor="@drawable/text_color_offwhite" />
+         android:textStyle="bold" />
 
 </LinearLayout>
