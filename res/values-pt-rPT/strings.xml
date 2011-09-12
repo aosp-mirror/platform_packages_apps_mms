@@ -320,9 +320,8 @@
     <string name="sending_message" msgid="2054406576361149715">"A ENVIAR..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Demasiados destinatários"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"A adicionar destinatários..."</string>
-    <!-- outdated translation 1139278684673244431 -->     <string name="draft_separator" msgid="5402575086540243019">", "</string>
-    <!-- no translation found for message_count_format (4434763220590778012) -->
-    <skip />
+    <string name="draft_separator" msgid="5402575086540243019">", "</string>
+    <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
     <string name="error_state" msgid="5177386717626893507">"Estado inconsistente"</string>
     <string name="error_state_text" msgid="7918866106335387710">"O estado dos tópicos e dos destinatários é inconsistente. Capture um relatório de erros e comunique-o através de http://go/droidanizer"</string>
   <plurals name="recipient_count">

@@ -471,10 +471,8 @@
     <!-- outdated translation 222836893217450538 -->     <string name="sending_message" msgid="2054406576361149715">"Iyathumela..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Kunabamukeli abaningi kakhulu"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Yengeza abamukeli..."</string>
-    <!-- no translation found for draft_separator (5402575086540243019) -->
-    <skip />
-    <!-- no translation found for message_count_format (4434763220590778012) -->
-    <skip />
+    <string name="draft_separator" msgid="5402575086540243019">", "</string>
+    <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
     <string name="error_state" msgid="5177386717626893507">"Isimo esiguqukayo"</string>
     <string name="error_state_text" msgid="7918866106335387710">"Isimo sengxoxo yakhe nalabo okumele bayithole akuhambisani. Sicela ubhale umbiko wesiphazamisi bese uwubika ngokusebenzisa u-http://go/droidanizer"</string>
   <plurals name="recipient_count">
