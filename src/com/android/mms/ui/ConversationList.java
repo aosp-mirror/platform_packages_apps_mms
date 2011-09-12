@@ -563,7 +563,7 @@ public class ConversationList extends ListActivity
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.confirm_dialog_title)
-            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setIconAttribute(android.R.attr.alertDialogIcon)
             .setCancelable(true)
             .setPositiveButton(R.string.delete, listener)
             .setNegativeButton(R.string.no, null)
