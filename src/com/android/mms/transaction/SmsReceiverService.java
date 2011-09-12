@@ -254,7 +254,9 @@ public class SmsReceiverService extends Service {
                             address, msgText, threadId, status == Sms.STATUS_PENDING,
                             msgUri);
 
-                    if (LogTag.VERBOSE || Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                    if (LogTag.DEBUG_SEND ||
+                            LogTag.VERBOSE ||
+                            Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                         Log.v(TAG, "sendFirstQueuedMessage " + msgUri +
                                 ", address: " + address +
                                 ", threadId: " + threadId);
@@ -288,13 +290,14 @@ public class SmsReceiverService extends Service {
         boolean sendNextMsg = intent.getBooleanExtra(EXTRA_MESSAGE_SENT_SEND_NEXT, false);
 
         if (LogTag.DEBUG_SEND) {
-            Log.v(TAG, "handleSmsSent sending uri: " + uri + " sendNextMsg: " + sendNextMsg +
-                    " mResultCode: " + mResultCode + " error: " + error);
+            Log.v(TAG, "handleSmsSent uri: " + uri + " sendNextMsg: " + sendNextMsg +
+                    " mResultCode: " + mResultCode +
+                    " = " + translateResultCode(mResultCode) + " error: " + error);
         }
 
         if (mResultCode == Activity.RESULT_OK) {
-            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                Log.v(TAG, "handleSmsSent sending uri: " + uri);
+            if (LogTag.DEBUG_SEND || Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                Log.v(TAG, "handleSmsSent move message to sent folder uri: " + uri);
             }
             if (!Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_SENT, error)) {
                 Log.e(TAG, "handleSmsSent: failed to move message " + uri + " to sent folder");
@@ -376,9 +379,12 @@ public class SmsReceiverService extends Service {
 
         values.put(Sms.TYPE, Sms.MESSAGE_TYPE_QUEUED);
 
-        SqliteWrapper.update(
+        int messageCount = SqliteWrapper.update(
                 getApplicationContext(), getContentResolver(), Outbox.CONTENT_URI,
                 values, "type = " + Sms.MESSAGE_TYPE_OUTBOX, null);
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
+            Log.v(TAG, "moveOutboxMessagesToQueuedBox messageCount: " + messageCount);
+        }
     }
 
     public static final String CLASS_ZERO_BODY_KEY = "CLASS_ZERO_BODY";

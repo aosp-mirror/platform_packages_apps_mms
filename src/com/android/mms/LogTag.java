@@ -36,7 +36,7 @@ public class LogTag {
     public static final boolean VERBOSE = false;
     public static final boolean SEVERE_WARNING = true;                  // Leave this true
     private static final boolean SHOW_SEVERE_WARNING_DIALOG = true;    // Set to false before ship
-    public static final boolean DEBUG_SEND = false;    // Set to false before ship
+    public static final boolean DEBUG_SEND = true;    // Set to false before ship
     public static final boolean DEBUG_DUMP = false;    // Set to false before ship
 
     private static String prettyArray(String[] array) {
