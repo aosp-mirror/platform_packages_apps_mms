@@ -320,9 +320,8 @@
     <string name="sending_message" msgid="2054406576361149715">"SIUNČIAMA..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Per daug gavėjų"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Pridedama gavėjų..."</string>
-    <!-- outdated translation 1139278684673244431 -->     <string name="draft_separator" msgid="5402575086540243019">", "</string>
-    <!-- no translation found for message_count_format (4434763220590778012) -->
-    <skip />
+    <string name="draft_separator" msgid="5402575086540243019">", "</string>
+    <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
     <string name="error_state" msgid="5177386717626893507">"Nepastovi būsena"</string>
     <string name="error_state_text" msgid="7918866106335387710">"Gijų ir gavėjų būsena nenuosekli. Sukurkite trikčių ataskaitą ir pateikite ją adresu http://go/droidanizer."</string>
   <plurals name="recipient_count">
