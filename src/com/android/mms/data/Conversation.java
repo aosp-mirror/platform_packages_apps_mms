@@ -200,7 +200,7 @@ public class Conversation {
      * Returns true if the recipient in the uri matches the recipient list in this
      * conversation.
      */
-    public boolean sameRecipient(Uri uri) {
+    public boolean sameRecipient(Uri uri, Context context) {
         int size = mRecipients.size();
         if (size > 1) {
             return false;
@@ -208,12 +208,21 @@ public class Conversation {
         if (uri == null) {
             return size == 0;
         }
+        ContactList incomingRecipient = null;
         if (uri.getPathSegments().size() >= 2) {
-            return false;       // it's a thread id for a conversation
+            // it's a thread id for a conversation
+            Conversation otherConv = get(context, uri, false);
+            if (otherConv == null) {
+                return false;
+            }
+            incomingRecipient = otherConv.mRecipients;
+        } else {
+            String recipient = getRecipients(uri);
+            incomingRecipient = ContactList.getByNumbers(recipient,
+                    false /* don't block */, false /* don't replace number */);
         }
-        String recipient = getRecipients(uri);
-        ContactList incomingRecipient = ContactList.getByNumbers(recipient,
-                false /* don't block */, false /* don't replace number */);
+        if (DEBUG) Log.v(TAG, "sameRecipient incomingRecipient: " + incomingRecipient +
+                " mRecipients: " + mRecipients);
         return mRecipients.equals(incomingRecipient);
     }
 

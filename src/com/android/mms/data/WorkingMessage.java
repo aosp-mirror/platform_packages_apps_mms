@@ -308,7 +308,7 @@ public class WorkingMessage {
 
         // Then look for an MMS draft.
         StringBuilder sb = new StringBuilder();
-        Uri uri = readDraftMmsMessage(mActivity, threadId, sb);
+        Uri uri = readDraftMmsMessage(mActivity, conv, sb);
         if (uri != null) {
             if (loadFromUri(uri)) {
                 // If there was an MMS message, readDraftMmsMessage
@@ -1247,14 +1247,14 @@ public class WorkingMessage {
     private static final int MMS_SUBJECT_INDEX    = 1;
     private static final int MMS_SUBJECT_CS_INDEX = 2;
 
-    private static Uri readDraftMmsMessage(Context context, long threadId, StringBuilder sb) {
+    private static Uri readDraftMmsMessage(Context context, Conversation conv, StringBuilder sb) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            LogTag.debug("readDraftMmsMessage tid=%d", threadId);
+            LogTag.debug("readDraftMmsMessage conv: " + conv);
         }
         Cursor cursor;
         ContentResolver cr = context.getContentResolver();
 
-        final String selection = Mms.THREAD_ID + " = " + threadId;
+        final String selection = Mms.THREAD_ID + " = " + conv.getThreadId();
         cursor = SqliteWrapper.query(context, cr,
                 Mms.Draft.CONTENT_URI, MMS_DRAFT_PROJECTION,
                 selection, null, null);
@@ -1268,6 +1268,9 @@ public class WorkingMessage {
                         MMS_SUBJECT_CS_INDEX);
                 if (subject != null) {
                     sb.append(subject);
+                }
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    LogTag.debug("readDraftMmsMessage uri: ", uri);
                 }
                 return uri;
             }
@@ -1330,6 +1333,10 @@ public class WorkingMessage {
                 } else {
                     updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
                 }
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    LogTag.debug("asyncUpdateDraftMmsMessage conv: " + conv +
+                            " uri: " + mMessageUri);
+                }
 
                 // Be paranoid and delete any SMS drafts that might be lying around. Must do
                 // this after ensureThreadId so conv has the correct thread id.
@@ -1371,7 +1378,7 @@ public class WorkingMessage {
     private String readDraftSmsMessage(Conversation conv) {
         long thread_id = conv.getThreadId();
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            LogTag.debug("readDraftSmsMessage tid=%d", thread_id);
+            LogTag.debug("readDraftSmsMessage conv: " + conv);
         }
         // If it's an invalid thread or we know there's no draft, don't bother.
         if (thread_id <= 0 || !conv.hasDraft()) {
@@ -1404,6 +1411,9 @@ public class WorkingMessage {
             // it later.  The message will be re-saved if necessary upon exit of
             // the activity.
             clearConversation(conv);
+        }
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("readDraftSmsMessage haveDraft: ", !TextUtils.isEmpty(body));
         }
 
         return body;

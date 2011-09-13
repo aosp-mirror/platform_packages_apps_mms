@@ -1801,17 +1801,21 @@ public class ComposeMessageActivity extends Activity
             conversation = Conversation.get(this, threadId, false);
         } else {
             if (mConversation.getThreadId() == 0) {
-                // We've got a draft. See if the new intent's recipient is the same as
-                // the draft's recipient. First make sure the working recipients are synched
-                // to the conversation.
+                // We've got a draft. Make sure the working recipients are synched
+                // to the conversation so when we compare conversations later in this function,
+                // the compare will work.
                 mWorkingMessage.syncWorkingRecipients();
-                sameThread = mConversation.sameRecipient(intentUri);
             }
-            if (!sameThread) {
-                // Otherwise, try to get a conversation based on the
-                // data URI passed to our intent.
-                conversation = Conversation.get(this, intentUri, false);
-            }
+            // Get the "real" conversation based on the intentUri. The intentUri might specify
+            // the conversation by a phone number or by a thread id. We'll typically get a threadId
+            // based uri when the user pulls down a notification while in ComposeMessageActivity and
+            // we end up here in onNewIntent. mConversation can have a threadId of zero when we're
+            // working on a draft. When a new message comes in for that same recipient, a
+            // conversation will get created behind CMA's back when the message is inserted into
+            // the database and the corresponding entry made in the threads table. The code should
+            // use the real conversation as soon as it can rather than finding out the threadId
+            // when sending with "ensureThreadId".
+            conversation = Conversation.get(this, intentUri, false);
         }
 
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
@@ -1819,28 +1823,28 @@ public class ComposeMessageActivity extends Activity
                     ", new conversation=" + conversation + ", mConversation=" + mConversation);
         }
 
-        if (conversation != null) {
-            // this is probably paranoia to compare both thread_ids and recipient lists,
-            // but we want to make double sure because this is a last minute fix for Froyo
-            // and the previous code checked thread ids only.
-            // (we cannot just compare thread ids because there is a case where mConversation
-            // has a stale/obsolete thread id (=1) that could collide against the new thread_id(=1),
-            // even though the recipient lists are different)
-            sameThread = (conversation.getThreadId() == mConversation.getThreadId() &&
-                    conversation.equals(mConversation));
+        // this is probably paranoid to compare both thread_ids and recipient lists,
+        // but we want to make double sure because this is a last minute fix for Froyo
+        // and the previous code checked thread ids only.
+        // (we cannot just compare thread ids because there is a case where mConversation
+        // has a stale/obsolete thread id (=1) that could collide against the new thread_id(=1),
+        // even though the recipient lists are different)
+        sameThread = ((conversation.getThreadId() == mConversation.getThreadId() ||
+                mConversation.getThreadId() == 0) &&
+                conversation.equals(mConversation));
 
-            // Don't let any markAsRead DB updates occur before we've loaded the messages for
-            // the thread. Unblocking occurs when we're done querying for the conversation
-            // items. If we're the same thread, we're not going to query and don't want to block.
-            conversation.blockMarkAsRead(!sameThread);
-
-            if (sameThread) {
-                mConversation.markAsRead();         // dismiss any notifications for this convo
-            }
-        }
+        // Don't let any markAsRead DB updates occur before we've loaded the messages for
+        // the thread. Unblocking occurs when we're done querying for the conversation
+        // items.
+        conversation.blockMarkAsRead(true);
 
         if (sameThread) {
             log("onNewIntent: same conversation");
+            if (mConversation.getThreadId() == 0) {
+                mConversation = conversation;
+                mWorkingMessage.setConversation(mConversation);
+            }
+            mConversation.markAsRead();         // dismiss any notifications for this convo
         } else {
             if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: different conversation");
@@ -1848,9 +1852,8 @@ public class ComposeMessageActivity extends Activity
             saveDraft();    // if we've got a draft, save it first
 
             initialize(originalThreadId);
-            loadMessageContent();
         }
-
+        loadMessageContent();
     }
 
     private void sanityCheckConversation() {
