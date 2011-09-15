@@ -17,6 +17,8 @@
 
 package com.android.mms.ui;
 
+import java.io.File;
+
 import com.google.android.mms.ContentType;
 import com.android.mms.ExceedMessageSizeException;
 import com.google.android.mms.MmsException;
@@ -42,13 +44,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.provider.Telephony.Mms;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -417,6 +419,9 @@ public class SlideEditorActivity extends Activity {
 
             case MENU_TAKE_PICTURE:
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                // We have to pass a uri to store the picture data, otherwise the camera will return
+                // a very small image bitmap.
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Mms.ScrapSpace.CONTENT_URI);
                 startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
                 break;
 
@@ -548,17 +553,31 @@ public class SlideEditorActivity extends Activity {
                 break;
 
             case REQUEST_CODE_TAKE_PICTURE:
-                Bitmap bitmap = (Bitmap) data.getParcelableExtra("data");
-                if (bitmap == null) {
-                    Toast.makeText(this,
-                            getResourcesString(R.string.failed_to_add_media, getPictureString()),
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                File file = new File(Mms.ScrapSpace.SCRAP_FILE_PATH);
 
+                // There's only a single scrap file, but there can be several slides. We rename
+                // the scrap file to a new scrap file with the slide number as part of the filename.
+
+                // Replace the filename ".temp.jpg" with ".temp#.jpg" where # is the slide number
+                Uri pictureUri = null;
                 try {
-                    mSlideshowEditor.changeImage(mPosition,
-                            MessageUtils.saveBitmapAsPart(this, mUri, bitmap));
+                    int lastSlash = Mms.ScrapSpace.SCRAP_FILE_PATH.lastIndexOf('/');
+                    if (lastSlash < 0) {
+                        throw new MmsException("No slash in SCRAP_FILE_PATH");
+                    }
+                    String newTempFilePath =
+                        Mms.ScrapSpace.SCRAP_FILE_PATH.substring(0, lastSlash + 1)
+                        + ".temp" + mPosition + ".jpg";
+                    File newTempFile = new File(newTempFilePath);
+                    // remove any existing file before rename
+                    boolean deleted = newTempFile.delete();
+                    boolean renamed = file.renameTo(newTempFile);
+                    if (!renamed) {
+                        throw new MmsException("Couldn't rename scrap file");
+                    }
+                    pictureUri = Uri.fromFile(newTempFile);
+
+                    mSlideshowEditor.changeImage(mPosition, pictureUri);
 
                     setReplaceButtonText(R.string.replace_image);
                 } catch (MmsException e) {
@@ -572,10 +591,10 @@ public class SlideEditorActivity extends Activity {
                             getResourcesString(R.string.unsupported_media_format, getPictureString()),
                             getResourcesString(R.string.select_different_media, getPictureString()));
                 } catch (ResolutionException e) {
-                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(),
+                    MessageUtils.resizeImageAsync(this, pictureUri, new Handler(),
                             mResizeImageCallback, false);
                 } catch (ExceedMessageSizeException e) {
-                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(),
+                    MessageUtils.resizeImageAsync(this, pictureUri, new Handler(),
                             mResizeImageCallback, false);
                 }
                 break;
