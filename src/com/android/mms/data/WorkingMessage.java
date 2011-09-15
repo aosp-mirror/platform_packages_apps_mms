@@ -66,8 +66,6 @@ import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendReq;
 
-import android.telephony.SmsMessage;
-
 /**
  * Contains all state related to a message being edited by the user.
  */
@@ -130,6 +128,10 @@ public class WorkingMessage {
 
     // Set to true if this message has been discarded.
     private boolean mDiscarded = false;
+
+    // Track whether we have drafts
+    private volatile boolean mHasMmsDraft;
+    private volatile boolean mHasSmsDraft;
 
     // Cached value of mms enabled flag
     private static boolean sMmsEnabled = MmsConfig.getMmsEnabled();
@@ -303,6 +305,7 @@ public class WorkingMessage {
         // Look for an SMS draft first.
         mText = readDraftSmsMessage(conv);
         if (!TextUtils.isEmpty(mText)) {
+            mHasSmsDraft = true;
             return true;
         }
 
@@ -316,6 +319,7 @@ public class WorkingMessage {
                 if (sb.length() > 0) {
                     setSubject(sb.toString(), false);
                 }
+                mHasMmsDraft = true;
                 return true;
             }
         }
@@ -745,7 +749,7 @@ public class WorkingMessage {
         } else {
             updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
         }
-
+        mHasMmsDraft = true;
         return mMessageUri;
     }
 
@@ -773,6 +777,7 @@ public class WorkingMessage {
 
         if (requiresMms()) {
             asyncUpdateDraftMmsMessage(mConversation);
+            mHasMmsDraft = true;
         } else {
             String content = mText.toString();
 
@@ -784,12 +789,13 @@ public class WorkingMessage {
             // new message will be merged with the draft message thread, causing confusion!
             if (!TextUtils.isEmpty(content)) {
                 asyncUpdateDraftSmsMessage(mConversation, content);
+                mHasSmsDraft = true;
             } else {
                 // When there's no associated text message, we have to handle the case where there
                 // might have been a previous mms draft for this message. This can happen when a
                 // user turns an mms back into a sms, such as creating an mms draft with a picture,
                 // then removing the picture.
-                asyncDeleteDraftMmsMessage(mConversation.getThreadId());
+                asyncDeleteDraftMmsMessage(mConversation);
             }
         }
 
@@ -1419,8 +1425,13 @@ public class WorkingMessage {
         return body;
     }
 
-    private void clearConversation(final Conversation conv) {
-        asyncDeleteDraftSmsMessage(conv);
+    public void clearConversation(final Conversation conv) {
+        if (mHasSmsDraft) {
+            asyncDeleteDraftSmsMessage(conv);
+        }
+        if (mHasMmsDraft) {
+            asyncDeleteDraftMmsMessage(conv);
+        }
 
         if (conv.getMessageCount() == 0) {
             if (DEBUG) LogTag.debug("clearConversation calling clearThreadId");
@@ -1435,27 +1446,28 @@ public class WorkingMessage {
             public void run() {
                 long threadId = conv.ensureThreadId();
                 conv.setDraftState(true);
-                updateDraftSmsMessage(threadId, contents);
+                updateDraftSmsMessage(conv, contents);
             }
         }).start();
     }
 
-    private void updateDraftSmsMessage(long thread_id, String contents) {
+    private void updateDraftSmsMessage(final Conversation conv, String contents) {
+        final long threadId = conv.getThreadId();
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            LogTag.debug("updateDraftSmsMessage tid=%d, contents=\"%s\"", thread_id, contents);
+            LogTag.debug("updateDraftSmsMessage tid=%d, contents=\"%s\"", threadId, contents);
         }
 
         // If we don't have a valid thread, there's nothing to do.
-        if (thread_id <= 0) {
+        if (threadId <= 0) {
             return;
         }
 
         ContentValues values = new ContentValues(3);
-        values.put(Sms.THREAD_ID, thread_id);
+        values.put(Sms.THREAD_ID, threadId);
         values.put(Sms.BODY, contents);
         values.put(Sms.TYPE, Sms.MESSAGE_TYPE_DRAFT);
         SqliteWrapper.insert(mActivity, mContentResolver, Sms.CONTENT_URI, values);
-        asyncDeleteDraftMmsMessage(thread_id);
+        asyncDeleteDraftMmsMessage(conv);
     }
 
     private void asyncDelete(final Uri uri, final String selection, final String[] selectionArgs) {
@@ -1470,7 +1482,9 @@ public class WorkingMessage {
     }
 
     public void asyncDeleteDraftSmsMessage(Conversation conv) {
-        long threadId = conv.getThreadId();
+        mHasSmsDraft = false;
+
+        final long threadId = conv.getThreadId();
         if (threadId > 0) {
             asyncDelete(ContentUris.withAppendedId(Sms.Conversations.CONTENT_URI, threadId),
                 SMS_DRAFT_WHERE, null);
@@ -1483,8 +1497,13 @@ public class WorkingMessage {
                 SMS_DRAFT_WHERE, null);
     }
 
-    private void asyncDeleteDraftMmsMessage(long threadId) {
-        final String where = Mms.THREAD_ID + " = " + threadId;
-        asyncDelete(Mms.Draft.CONTENT_URI, where, null);
+    private void asyncDeleteDraftMmsMessage(Conversation conv) {
+        mHasMmsDraft = false;
+
+        final long threadId = conv.getThreadId();
+        if (threadId > 0) {
+            final String where = Mms.THREAD_ID + " = " + threadId;
+            asyncDelete(Mms.Draft.CONTENT_URI, where, null);
+        }
     }
 }
