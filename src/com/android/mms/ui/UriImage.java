@@ -41,7 +41,7 @@ import java.io.InputStream;
 
 public class UriImage {
     private static final String TAG = "Mms/image";
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 
     private final Context mContext;
@@ -80,6 +80,11 @@ public class UriImage {
         mUri = uri;
 
         decodeBoundsInfo();
+
+        if (LOCAL_LOGV) {
+            Log.v(TAG, "UriImage uri: " + uri + " mPath: " + mPath + " mWidth: " + mWidth +
+                    " mHeight: " + mHeight);
+        }
     }
 
     private void initFromFile(Context context, Uri uri) {
@@ -206,7 +211,8 @@ public class UriImage {
             Log.v(TAG, "getResizedImageData: wlimit=" + widthLimit +
                     ", hlimit=" + heightLimit + ", sizeLimit=" + byteLimit +
                     ", mWidth=" + mWidth + ", mHeight=" + mHeight +
-                    ", initialScaleFactor=" + scaleFactor);
+                    ", initialScaleFactor=" + scaleFactor +
+                    ", mUri=" + mUri);
         }
 
         InputStream input = null;
