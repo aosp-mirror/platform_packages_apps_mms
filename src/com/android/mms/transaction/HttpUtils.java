@@ -28,6 +28,7 @@ import org.apache.http.conn.params.ConnRouteParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.Header;
 
 import com.android.mms.MmsConfig;
 import com.android.mms.LogTag;
@@ -36,9 +37,11 @@ import android.content.Context;
 import android.net.http.AndroidHttpClient;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Config;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.net.SocketException;
@@ -206,26 +209,64 @@ public class HttpUtils {
             byte[] body = null;
             if (entity != null) {
                 try {
-                    InputStream in = entity.getContent();
-                    ByteArrayOutputStream out = new ByteArrayOutputStream(MMS_READ_BUFFER);
-                    byte[] buffer = new byte[MMS_READ_BUFFER];
-
-                    int byteCount;
-                    try {
-                        while ((byteCount = in.read(buffer)) != -1) {
-                            out.write(buffer, 0, byteCount);
-                        }
-                        body = out.toByteArray();
-                    } finally {
+                    if (entity.getContentLength() > 0) {
+                        body = new byte[(int) entity.getContentLength()];
+                        DataInputStream dis = new DataInputStream(entity.getContent());
                         try {
-                            in.close();
-                            out.close();
-                        } catch (IOException e) {
-                            Log.e(TAG, "Error closing input stream: " + e.getMessage());
+                            dis.readFully(body);
+                        } finally {
+                            try {
+                                dis.close();
+                            } catch (IOException e) {
+                                Log.e(TAG, "Error closing input stream: " + e.getMessage());
+                            }
+                        }
+                    }
+                    if (entity.isChunked()) {
+                        Log.v(TAG, "httpConnection: transfer encoding is chunked");
+                        int bytesTobeRead = MmsConfig.getMaxMessageSize();
+                        byte[] tempBody = new byte[bytesTobeRead];
+                        DataInputStream dis = new DataInputStream(entity.getContent());
+                        try {
+                            int bytesRead = 0;
+                            int offset = 0;
+                            boolean readError = false;
+                            do {
+                                try {
+                                    bytesRead = dis.read(tempBody, offset, bytesTobeRead);
+                                } catch (IOException e) {
+                                    readError = true;
+                                    Log.e(TAG, "httpConnection: error reading input stream"
+                                        + e.getMessage());
+                                    break;
+                                }
+                                if (bytesRead > 0) {
+                                    bytesTobeRead -= bytesRead;
+                                    offset += bytesRead;
+                                }
+                            } while (bytesRead >= 0 && bytesTobeRead > 0);
+                            if (bytesRead == -1 && offset > 0 && !readError) {
+                                // offset is same as total number of bytes read
+                                // bytesRead will be -1 if the data was read till the eof
+                                body = new byte[offset];
+                                System.arraycopy(tempBody, 0, body, 0, offset);
+                                Log.v(TAG, "httpConnection: Chunked response length ["
+                                    + Integer.toString(offset) + "]");
+                            } else {
+                                Log.e(TAG, "httpConnection: Response entity too large or empty");
+                            }
+                        } finally {
+                            try {
+                                dis.close();
+                            } catch (IOException e) {
+                                Log.e(TAG, "Error closing input stream: " + e.getMessage());
+                            }
                         }
                     }
                 } finally {
-                    entity.consumeContent();
+                    if (entity != null) {
+                        entity.consumeContent();
+                    }
                 }
             }
             return body;
