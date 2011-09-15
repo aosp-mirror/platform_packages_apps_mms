@@ -959,7 +959,7 @@ public class ComposeMessageActivity extends Activity
         mWorkingMessage = WorkingMessage.load(this, msgItem.mMessageUri);
         mWorkingMessage.setConversation(mConversation);
 
-        drawTopPanel();
+        drawTopPanel(false);
 
         // WorkingMessage.load() above only loads the slideshow. Set the
         // subject here because we already know what it is and avoid doing
@@ -1759,7 +1759,7 @@ public class ComposeMessageActivity extends Activity
 
         updateSendButtonState();
 
-        drawTopPanel();
+        drawTopPanel(false);
         drawBottomPanel();
 
         onKeyboardStateChanged(mIsKeyboardOpen);
@@ -2031,7 +2031,7 @@ public class ComposeMessageActivity extends Activity
         if (resetConfiguration(newConfig)) {
             // Have to re-layout the attachment editor because we have different layouts
             // depending on whether we're portrait or landscape.
-            drawTopPanel();
+            drawTopPanel(isSubjectEditorVisible());
         }
         onKeyboardStateChanged(mIsKeyboardOpen);
     }
@@ -2174,7 +2174,7 @@ public class ComposeMessageActivity extends Activity
             public void run() {
                 drawBottomPanel();
                 updateSendButtonState();
-                drawTopPanel();
+                drawTopPanel(false);
             }
         });
     }
@@ -2537,7 +2537,7 @@ public class ComposeMessageActivity extends Activity
                     if (newMessage != null) {
                         mWorkingMessage = newMessage;
                         mWorkingMessage.setConversation(mConversation);
-                        drawTopPanel();
+                        drawTopPanel(false);
                         updateSendButtonState();
                     }
                 }
@@ -2911,10 +2911,10 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
-    private void drawTopPanel() {
+    private void drawTopPanel(boolean showSubjectEditor) {
         boolean showingAttachment = mAttachmentEditor.update(mWorkingMessage);
         mAttachmentEditorScrollView.setVisibility(showingAttachment ? View.VISIBLE : View.GONE);
-        showSubjectEditor(mWorkingMessage.hasSubject());
+        showSubjectEditor(showSubjectEditor || mWorkingMessage.hasSubject());
     }
 
     //==========================================================
@@ -3281,6 +3281,7 @@ public class ComposeMessageActivity extends Activity
         // Clear the text box.
         TextKeyListener.clear(mTextEditor.getText());
 
+        mWorkingMessage.clearConversation(mConversation);
         mWorkingMessage = WorkingMessage.createEmpty(this);
         mWorkingMessage.setConversation(mConversation);
 
