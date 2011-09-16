@@ -122,6 +122,10 @@ public class ConversationList extends ListActivity
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setMultiChoiceModeListener(new ModeCallback());
 
+        // Tell the list view which view to display when the list is empty
+        View emptyView = findViewById(R.id.empty);
+        listView.setEmptyView(emptyView);
+
         initListAdapter();
 
         setupActionBar();
