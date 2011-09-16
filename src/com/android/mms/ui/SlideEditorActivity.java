@@ -449,6 +449,7 @@ public class SlideEditorActivity extends Activity {
             case MENU_ADD_VIDEO:
                 intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType(ContentType.VIDEO_UNSPECIFIED);
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                 startActivityForResult(intent, REQUEST_CODE_CHANGE_VIDEO);
                 break;
 
