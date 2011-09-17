@@ -820,7 +820,7 @@ public class WorkingMessage {
             asyncDelete(mMessageUri, null, null);
         }
 
-        clearConversation(mConversation);
+        clearConversation(mConversation, true);
     }
 
     public void unDiscard() {
@@ -1416,7 +1416,7 @@ public class WorkingMessage {
             // we will lose track of the original draft and be unable to delete
             // it later.  The message will be re-saved if necessary upon exit of
             // the activity.
-            clearConversation(conv);
+            clearConversation(conv, true);
         }
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             LogTag.debug("readDraftSmsMessage haveDraft: ", !TextUtils.isEmpty(body));
@@ -1425,7 +1425,7 @@ public class WorkingMessage {
         return body;
     }
 
-    public void clearConversation(final Conversation conv) {
+    public void clearConversation(final Conversation conv, boolean resetThreadId) {
         if (mHasSmsDraft) {
             asyncDeleteDraftSmsMessage(conv);
         }
@@ -1433,7 +1433,7 @@ public class WorkingMessage {
             asyncDeleteDraftMmsMessage(conv);
         }
 
-        if (conv.getMessageCount() == 0) {
+        if (resetThreadId && conv.getMessageCount() == 0) {
             if (DEBUG) LogTag.debug("clearConversation calling clearThreadId");
             conv.clearThreadId();
         }
