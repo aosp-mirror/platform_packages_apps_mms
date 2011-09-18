@@ -545,20 +545,23 @@ public class MessageUtils {
     }
 
     public static void selectVideo(Context context, int requestCode) {
-        selectMediaByType(context, requestCode, ContentType.VIDEO_UNSPECIFIED);
+        selectMediaByType(context, requestCode, ContentType.VIDEO_UNSPECIFIED, true);
     }
 
     public static void selectImage(Context context, int requestCode) {
-        selectMediaByType(context, requestCode, ContentType.IMAGE_UNSPECIFIED);
+        selectMediaByType(context, requestCode, ContentType.IMAGE_UNSPECIFIED, false);
     }
 
     private static void selectMediaByType(
-            Context context, int requestCode, String contentType) {
+            Context context, int requestCode, String contentType, boolean localFilesOnly) {
          if (context instanceof Activity) {
 
             Intent innerIntent = new Intent(Intent.ACTION_GET_CONTENT);
 
             innerIntent.setType(contentType);
+            if (localFilesOnly) {
+                innerIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+            }
 
             Intent wrapperIntent = Intent.createChooser(innerIntent, null);
 

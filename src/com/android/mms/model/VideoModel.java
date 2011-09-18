@@ -68,7 +68,14 @@ public class VideoModel extends RegionMediaModel {
         if (c != null) {
             try {
                 if (c.moveToFirst()) {
-                    String path = c.getString(c.getColumnIndexOrThrow(Images.Media.DATA));
+                    String path;
+                    try {
+                        // Local videos will have a data column
+                        path = c.getString(c.getColumnIndexOrThrow(Images.Media.DATA));
+                    } catch (IllegalArgumentException e) {
+                        // For non-local videos, the path is the uri
+                        path = uri.toString();
+                    }
                     mSrc = path.substring(path.lastIndexOf('/') + 1);
                     mContentType = c.getString(c.getColumnIndexOrThrow(
                             Images.Media.MIME_TYPE));
