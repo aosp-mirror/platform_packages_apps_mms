@@ -331,7 +331,7 @@ public class ComposeMessageActivity extends Activity
                     break;
 
                 case AttachmentEditor.MSG_REMOVE_ATTACHMENT:
-                    mWorkingMessage.setAttachment(WorkingMessage.TEXT, null, false);
+                    mWorkingMessage.removeAttachment(true);
                     break;
 
                 default:

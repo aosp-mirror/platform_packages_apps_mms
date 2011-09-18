@@ -240,12 +240,7 @@ public class WorkingMessage {
         // If we get an empty slideshow, tear down all MMS
         // state and discard the unnecessary message Uri.
         if (slideCount == 0) {
-            mAttachmentType = TEXT;
-            mSlideshow = null;
-            if (mMessageUri != null) {
-                asyncDelete(mMessageUri, null, null);
-                mMessageUri = null;
-            }
+            removeAttachment(false);
         } else if (slideCount > 1) {
             mAttachmentType = SLIDESHOW;
         } else {
@@ -348,6 +343,23 @@ public class WorkingMessage {
      */
     public boolean hasText() {
         return mText != null && TextUtils.getTrimmedLength(mText) > 0;
+    }
+
+    public void removeAttachment(boolean notify) {
+        mAttachmentType = TEXT;
+        mSlideshow = null;
+        if (mMessageUri != null) {
+            asyncDelete(mMessageUri, null, null);
+            mMessageUri = null;
+        }
+        // mark this message as no longer having an attachment
+        updateState(HAS_ATTACHMENT, false, notify);
+        if (notify) {
+            // Tell ComposeMessageActivity (or other listener) that the attachment has changed.
+            // In the case of ComposeMessageActivity, it will remove its attachment panel because
+            // this working message no longer has an attachment.
+            mStatusListener.onAttachmentChanged();
+        }
     }
 
     /**

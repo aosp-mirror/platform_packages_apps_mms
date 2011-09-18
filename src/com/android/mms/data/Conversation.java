@@ -95,6 +95,9 @@ public class Conversation {
     }
 
     private Conversation(Context context, long threadId, boolean allowQuery) {
+        if (DEBUG) {
+            Log.v(TAG, "Conversation constructor threadId: " + threadId);
+        }
         mContext = context;
         if (!loadFromThreadId(threadId, allowQuery)) {
             mRecipients = new ContactList();
@@ -103,6 +106,9 @@ public class Conversation {
     }
 
     private Conversation(Context context, Cursor cursor, boolean allowQuery) {
+        if (DEBUG) {
+            Log.v(TAG, "Conversation constructor cursor, allowQuery: " + allowQuery);
+        }
         mContext = context;
         fillFromCursor(context, this, cursor, allowQuery);
     }
@@ -120,6 +126,9 @@ public class Conversation {
      * Find the conversation matching the provided thread ID.
      */
     public static Conversation get(Context context, long threadId, boolean allowQuery) {
+        if (DEBUG) {
+            Log.v(TAG, "Conversation get by threadId: " + threadId);
+        }
         Conversation conv = Cache.get(threadId);
         if (conv != null)
             return conv;
@@ -128,7 +137,10 @@ public class Conversation {
         try {
             Cache.put(conv);
         } catch (IllegalStateException e) {
-            LogTag.error("Tried to add duplicate Conversation to Cache");
+            LogTag.error("Tried to add duplicate Conversation to Cache (from threadId): " + conv);
+            if (!Cache.replace(conv)) {
+                LogTag.error("get by threadId cache.replace failed on " + conv);
+            }
         }
         return conv;
     }
@@ -138,6 +150,9 @@ public class Conversation {
      * When called with an empty recipient list, equivalent to {@link #createNew}.
      */
     public static Conversation get(Context context, ContactList recipients, boolean allowQuery) {
+        if (DEBUG) {
+            Log.v(TAG, "Conversation get by recipients: " + recipients.serialize());
+        }
         // If there are no recipients in the list, make a new conversation.
         if (recipients.size() < 1) {
             return createNew(context);
@@ -152,14 +167,17 @@ public class Conversation {
         Log.d(TAG, "Conversation.get: created new conversation " + /*conv.toString()*/ "xxxxxxx");
 
         if (!conv.getRecipients().equals(recipients)) {
-            Log.e(TAG, "Conversation.get: new conv's recipients don't match input recpients "
+            LogTag.error(TAG, "Conversation.get: new conv's recipients don't match input recpients "
                     + /*recipients*/ "xxxxxxx");
         }
 
         try {
             Cache.put(conv);
         } catch (IllegalStateException e) {
-            LogTag.error("Tried to add duplicate Conversation to Cache");
+            LogTag.error("Tried to add duplicate Conversation to Cache (from recipients): " + conv);
+            if (!Cache.replace(conv)) {
+                LogTag.error("get by recipients cache.replace failed on " + conv);
+            }
         }
 
         return conv;
@@ -172,6 +190,9 @@ public class Conversation {
      * When called with a null Uri, equivalent to {@link #createNew}.
      */
     public static Conversation get(Context context, Uri uri, boolean allowQuery) {
+        if (DEBUG) {
+            Log.v(TAG, "Conversation get by uri: " + uri);
+        }
         if (uri == null) {
             return createNew(context);
         }
@@ -249,7 +270,11 @@ public class Conversation {
         try {
             Cache.put(conv);
         } catch (IllegalStateException e) {
-            LogTag.error("Tried to add duplicate Conversation to Cache");
+            LogTag.error(TAG, "Tried to add duplicate Conversation to Cache (from cursor): " +
+                    conv);
+            if (!Cache.replace(conv)) {
+                LogTag.error("Converations.from cache.replace failed on " + conv);
+            }
         }
         return conv;
     }
@@ -783,10 +808,45 @@ public class Conversation {
                 }
 
                 if (sInstance.mCache.contains(c)) {
+                    if (DEBUG) {
+                        dumpCache();
+                    }
                     throw new IllegalStateException("cache already contains " + c +
                             " threadId: " + c.mThreadId);
                 }
                 sInstance.mCache.add(c);
+            }
+        }
+
+        /**
+         * Replace the specified conversation in the cache. This is used in cases where we
+         * lookup a conversation in the cache by threadId, but don't find it. The caller
+         * then builds a new conversation (from the cursor) and tries to add it, but gets
+         * an exception that the conversation is already in the cache, because the hash
+         * is based on the recipients and it's there under a stale threadId. In this function
+         * we remove the stale entry and add the new one. Returns true if the operation is
+         * successful
+         */
+        static boolean replace(Conversation c) {
+            synchronized (sInstance) {
+                if (Log.isLoggable(LogTag.THREAD_CACHE, Log.VERBOSE)) {
+                    LogTag.debug("Conversation.Cache.put: conv= " + c + ", hash: " + c.hashCode());
+                }
+
+                if (!sInstance.mCache.contains(c)) {
+                    if (DEBUG) {
+                        dumpCache();
+                    }
+                    return false;
+                }
+                // Here it looks like we're simply removing and then re-adding the same object
+                // to the hashset. Because the hashkey is the conversation's recipients, and not
+                // the thread id, we'll actually remove the object with the stale threadId and
+                // then add the the conversation with updated threadId, both having the same
+                // recipients.
+                sInstance.mCache.remove(c);
+                sInstance.mCache.add(c);
+                return true;
             }
         }
 
@@ -983,9 +1043,10 @@ public class Conversation {
                             }
                         } catch (IllegalStateException e) {
                             LogTag.error("Tried to add duplicate Conversation to Cache" +
-                                    " for threadId: " + threadId + " new conv: " +
-                                    conv + " conv in cache: " +
-                                    Cache.get(threadId));
+                                    " for threadId: " + threadId + " new conv: " + conv);
+                            if (!Cache.replace(conv)) {
+                                LogTag.error("cacheAllThreads cache.replace failed on " + conv);
+                            }
                         }
                     } else {
                         // Or update in place so people with references
