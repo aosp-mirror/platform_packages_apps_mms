@@ -3281,7 +3281,7 @@ public class ComposeMessageActivity extends Activity
         // Clear the text box.
         TextKeyListener.clear(mTextEditor.getText());
 
-        mWorkingMessage.clearConversation(mConversation);
+        mWorkingMessage.clearConversation(mConversation, false);
         mWorkingMessage = WorkingMessage.createEmpty(this);
         mWorkingMessage.setConversation(mConversation);
 
