@@ -2265,8 +2265,9 @@ public class ComposeMessageActivity extends Activity
         menu.clear();
 
         if (isRecipientCallable()) {
-            MenuItem item = menu.add(0, MENU_CALL_RECIPIENT, 0, R.string.menu_call).setIcon(
-                    R.drawable.ic_menu_call);
+            MenuItem item = menu.add(0, MENU_CALL_RECIPIENT, 0, R.string.menu_call)
+                .setIcon(R.drawable.ic_menu_call)
+                .setTitle(R.string.menu_call);
             if (!isRecipientsEditorVisible()) {
                 // If we're not composing a new message, show the call icon in the actionbar
                 item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -2278,9 +2279,10 @@ public class ComposeMessageActivity extends Activity
                 menu.add(0, MENU_ADD_SUBJECT, 0, R.string.add_subject).setIcon(
                         R.drawable.ic_menu_edit);
             }
-            menu.add(0, MENU_ADD_ATTACHMENT, 0, R.string.add_attachment).setIcon(
-                    R.drawable.ic_menu_attachment)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);    // add to actionbar
+            menu.add(0, MENU_ADD_ATTACHMENT, 0, R.string.add_attachment)
+                .setIcon(R.drawable.ic_menu_attachment)
+                .setTitle(R.string.add_attachment)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);    // add to actionbar
         }
 
         if (isPreparedForSending()) {
