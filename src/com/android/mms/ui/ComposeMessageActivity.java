@@ -238,7 +238,8 @@ public class ComposeMessageActivity extends Activity
     private View mBottomPanel;              // View containing the text editor, send button, ec.
     private EditText mTextEditor;           // Text editor to type your message into
     private TextView mTextCounter;          // Shows the number of characters used in text editor
-    private TextView mSendButton;           // Press to detonate
+    private TextView mSendButtonMms;        // Press to send mms
+    private ImageButton mSendButtonSms;     // Press to send sms
     private EditText mSubjectTextEditor;    // Text editor for MMS subject
 
     private AttachmentEditor mAttachmentEditor;
@@ -420,7 +421,7 @@ public class ComposeMessageActivity extends Activity
             // then won't have to calculate the length unnecessarily.
             final boolean textRemoved = (before > count);
             if (!textRemoved) {
-                setSendButtonText(workingMessage.requiresMms());
+                showSmsOrMmsSendButton(workingMessage.requiresMms());
                 return;
             }
         }
@@ -450,7 +451,7 @@ public class ComposeMessageActivity extends Activity
             showCounter = true;
         }
 
-        setSendButtonText(workingMessage.requiresMms());
+        showSmsOrMmsSendButton(workingMessage.requiresMms());
 
         if (showCounter) {
             // Update the remaining characters and number of messages required.
@@ -2185,23 +2186,34 @@ public class ComposeMessageActivity extends Activity
         runOnUiThread(new Runnable() {
             public void run() {
                 toastConvertInfo(mms);
-                setSendButtonText(mms);
+                showSmsOrMmsSendButton(mms);
+
+                if (mms) {
+                    // In the case we went from a long sms with a counter to an mms because
+                    // the user added an attachment or a subject, hide the counter --
+                    // it doesn't apply to mms.
+                    mTextCounter.setVisibility(View.GONE);
+                }
             }
         });
     }
 
-    private void setSendButtonText(boolean isMms) {
-        LayoutParams layout = (LayoutParams)mSendButton.getLayoutParams();
+    // Show or hide the Sms or Mms button as appropriate. Return the view so that the caller
+    // can adjust the enableness and focusability.
+    private View showSmsOrMmsSendButton(boolean isMms) {
+        View showButton;
+        View hideButton;
         if (isMms) {
-            mSendButton.setText(R.string.mms);
-            layout.topMargin =
-                getResources().getDimensionPixelOffset(R.dimen.send_button_top_margin_with_mms);
-            mTextCounter.setText("");
+            showButton = mSendButtonMms;
+            hideButton = mSendButtonSms;
         } else {
-            layout.topMargin =
-                getResources().getDimensionPixelOffset(R.dimen.send_button_top_margin_no_mms);
-            mSendButton.setText(null);
+            showButton = mSendButtonSms;
+            hideButton = mSendButtonMms;
         }
+        showButton.setVisibility(View.VISIBLE);
+        hideButton.setVisibility(View.GONE);
+
+        return showButton;
     }
 
     Runnable mResetMessageRunnable = new Runnable() {
@@ -2924,7 +2936,7 @@ public class ComposeMessageActivity extends Activity
     //==========================================================
 
     public void onClick(View v) {
-        if ((v == mSendButton) && isPreparedForSending()) {
+        if ((v == mSendButtonSms || v == mSendButtonMms) && isPreparedForSending()) {
             confirmSendMessageIfNeeded();
         } else if ((v == mRecipientsPicker)) {
             launchMultiplePhonePicker();
@@ -3051,8 +3063,10 @@ public class ComposeMessageActivity extends Activity
         mTextEditor.setFilters(new InputFilter[] {
                 new LengthFilter(MmsConfig.getMaxTextLimit())});
         mTextCounter = (TextView) findViewById(R.id.text_counter);
-        mSendButton = (TextView) findViewById(R.id.send_button);
-        mSendButton.setOnClickListener(this);
+        mSendButtonMms = (TextView) findViewById(R.id.send_button_mms);
+        mSendButtonSms = (ImageButton) findViewById(R.id.send_button_sms);
+        mSendButtonMms.setOnClickListener(this);
+        mSendButtonSms.setOnClickListener(this);
         mTopPanel = findViewById(R.id.recipients_subject_linear);
         mTopPanel.setFocusable(false);
         mAttachmentEditor = (AttachmentEditor) findViewById(R.id.attachment_editor);
@@ -3324,9 +3338,9 @@ public class ComposeMessageActivity extends Activity
             mAttachmentEditor.setCanSend(false);
         }
 
-        setSendButtonText(mWorkingMessage.requiresMms());
-        mSendButton.setEnabled(enable);
-        mSendButton.setFocusable(enable);
+        View sendButton = showSmsOrMmsSendButton(mWorkingMessage.requiresMms());
+        sendButton.setEnabled(enable);
+        sendButton.setFocusable(enable);
     }
 
     private long getMessageDate(Uri uri) {
