@@ -336,17 +336,10 @@ public class ConversationList extends ListActivity
         return true;
     }
 
-    private void showSearchMenu(boolean show) {
-        MenuItem item = mMenu.findItem(R.id.action_search);
-        if (item != null) {
-            item.setVisible(show);
-        }
-    }
-
     @Override
     public boolean onSearchRequested() {
         if (mMenu != null) {
-            showSearchMenu(false);
+            getActionBar().hide();
             mSearchManager.setOnDismissListener(this);
         }
         startSearch(null, false, null /*appData*/, false);
@@ -784,10 +777,6 @@ public class ConversationList extends ListActivity
     // Called when search is dismissed
     public void onDismiss() {
         mSearchManager.setOnDismissListener(null);
-
-        // put back the search menu we removed when starting search
-        if (mMenu != null) {
-            showSearchMenu(true);
-        }
+        getActionBar().show();
     }
 }
