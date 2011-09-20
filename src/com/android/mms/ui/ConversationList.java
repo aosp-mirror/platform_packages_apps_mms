@@ -641,9 +641,16 @@ public class ConversationList extends ListActivity
                     Conversation.markAllConversationsAsSeen(getApplicationContext());
 
                     // Delete any obsolete threads. Obsolete threads are threads that aren't
-                    // referenced by at least one message in the pdu or sms tables.
-                    Conversation.asyncDeleteObsoleteThreads(mQueryHandler,
-                            DELETE_OBSOLETE_THREADS_TOKEN);
+                    // referenced by at least one message in the pdu or sms tables. We only call
+                    // this on the first query (because of mNeedToMarkAsSeen). Introduce a
+                    // delay to allow any draft-saving from ComposeMessageActivity
+                    // to complete so we don't delete any empty threads out from under them.
+                    mHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            Conversation.asyncDeleteObsoleteThreads(mQueryHandler,
+                                    DELETE_OBSOLETE_THREADS_TOKEN);
+                        }
+                    }, 1000);
                 }
                 break;
 
