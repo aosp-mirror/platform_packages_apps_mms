@@ -138,19 +138,24 @@
               </view>
             </ScrollView>
 
+            <!-- Divider. (Yes, the .9dp is on purpose.) -->
+            <View android:background="?android:attr/dividerHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height=".9dp" />
+
             <LinearLayout
                 android:id="@+id/bottom_panel"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#fff"
-                android:paddingBottom="4dip"
-                android:paddingRight="4dip">
+                android:paddingBottom="4dip" >
 
                 <EditText
                     android:textColor="@android:color/black"
                     android:id="@+id/embedded_text_editor"
                     android:layout_width="0dip"
+                    android:layout_gravity="bottom"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
                     android:layout_marginLeft="8dip"
@@ -171,6 +176,20 @@
                     android:layout_gravity="bottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/text_counter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal|bottom"
+                        android:textColor="#cc333333"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:paddingLeft="3dip"
+                        android:paddingRight="3dip"
+                        android:paddingBottom="5dip"
+                        android:visibility="gone"
+                    />
 
                     <TextView
                         android:id="@+id/send_button_mms"
@@ -195,23 +214,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dip"
                         android:layout_weight="1.0"
-                        android:layout_marginTop="4dip"
                         android:layout_marginLeft="4dip"
                         android:nextFocusLeft="@+id/embedded_text_editor" />
 
-                    <TextView
-                        android:id="@+id/text_counter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal|bottom"
-                        android:textColor="@android:color/black"
-                        android:textSize="11sp"
-                        android:textStyle="bold"
-                        android:paddingLeft="3dip"
-                        android:paddingRight="3dip"
-                        android:paddingBottom="5dip"
-                        android:visibility="gone"
-                    />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
