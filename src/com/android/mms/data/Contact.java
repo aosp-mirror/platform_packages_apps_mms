@@ -687,16 +687,24 @@ public class Contact {
 
                     c.notSynchronizedUpdateNameAndNumber();
 
-                    // clone the list of listeners in case the onUpdate call turns around and
-                    // modifies the list of listeners
-                    // access to mListeners is synchronized on ContactsCache
-                    HashSet<UpdateListener> iterator;
-                    synchronized (mListeners) {
-                        iterator = (HashSet<UpdateListener>)Contact.mListeners.clone();
-                    }
-                    for (UpdateListener l : iterator) {
-                        if (V) Log.d(TAG, "updating " + l);
-                        l.onUpdate(c);
+                    // We saw a bug where we were updating an empty contact. That would trigger
+                    // l.onUpdate() below, which would call ComposeMessageActivity.onUpdate,
+                    // which would call the adapter's notifyDataSetChanged, which would throw
+                    // away the message items and rebuild, eventually calling updateContact()
+                    // again -- all in a vicious and unending loop. Break the cycle and don't
+                    // notify if the number (the most important piece of information) is empty.
+                    if (!TextUtils.isEmpty(c.mNumber)) {
+                        // clone the list of listeners in case the onUpdate call turns around and
+                        // modifies the list of listeners
+                        // access to mListeners is synchronized on ContactsCache
+                        HashSet<UpdateListener> iterator;
+                        synchronized (mListeners) {
+                            iterator = (HashSet<UpdateListener>)Contact.mListeners.clone();
+                        }
+                        for (UpdateListener l : iterator) {
+                            if (V) Log.d(TAG, "updating " + l);
+                            l.onUpdate(c);
+                        }
                     }
                 }
                 synchronized (c) {
