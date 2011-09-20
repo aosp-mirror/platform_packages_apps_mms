@@ -174,7 +174,7 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
 
         int backgroundId;
         if (conversation.isChecked()) {
-            backgroundId = R.drawable.list_selected_holo;
+            backgroundId = R.drawable.list_selected_holo_light;
         } else if (conversation.hasUnreadMessages()) {
             backgroundId = R.drawable.conversation_item_background_unread;
         } else {
