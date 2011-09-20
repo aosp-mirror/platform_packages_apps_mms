@@ -198,6 +198,8 @@
     <string name="delete_unlocked" msgid="7545321606698162261">"Kilitli iletileri sil"</string>
     <string name="delete" msgid="1409973060081564612">"Sil"</string>
     <string name="select_conversations" msgid="5754828781497722394">"İleti dizilerini seç"</string>
+    <!-- no translation found for no_conversations (2095684444005566703) -->
+    <skip />
     <string name="cannot_get_details" msgid="6493664168168047746">"Ayrıntılar alınamıyor"</string>
     <string name="message_details_title" msgid="9223295113731634528">"İleti ayrıntıları"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Tür: "</string>
@@ -320,9 +322,8 @@
     <string name="sending_message" msgid="2054406576361149715">"GÖNDERİLİYOR..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Çok fazla alıcı"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Alıcılar ekleniyor…"</string>
-    <!-- outdated translation 1139278684673244431 -->     <string name="draft_separator" msgid="5402575086540243019">", "</string>
-    <!-- no translation found for message_count_format (4434763220590778012) -->
-    <skip />
+    <string name="draft_separator" msgid="5402575086540243019">", "</string>
+    <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
     <string name="error_state" msgid="5177386717626893507">"Tutarsız durum"</string>
     <string name="error_state_text" msgid="7918866106335387710">"İleti zincirleri ve alıcıların durumu tutarsız. Lütfen bir hata raporu alın ve http://go/droidanizer üzerinden bildirin"</string>
   <plurals name="recipient_count">
