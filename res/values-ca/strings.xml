@@ -198,6 +198,8 @@
     <string name="delete_unlocked" msgid="7545321606698162261">"Suprimeix els missatges bloquejats"</string>
     <string name="delete" msgid="1409973060081564612">"Suprimeix"</string>
     <string name="select_conversations" msgid="5754828781497722394">"Selecciona les converses"</string>
+    <!-- no translation found for no_conversations (2095684444005566703) -->
+    <skip />
     <string name="cannot_get_details" msgid="6493664168168047746">"No es poden obtenir els detalls"</string>
     <string name="message_details_title" msgid="9223295113731634528">"Detalls del missatge"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Tipus: "</string>

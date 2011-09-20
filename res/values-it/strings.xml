@@ -37,7 +37,7 @@
     <string name="has_draft" msgid="2487465595514636160">"Bozza"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Nessun oggetto)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Io"</string>
-    <string name="view_slideshow" msgid="4990460971211388453">"Visualizza presentazione"</string>
+    <string name="view_slideshow" msgid="4990460971211388453">"Visualizza slideshow"</string>
     <string name="view_message_details" msgid="7613457646645796831">"Mostra dettagli"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Visualizza rapporto"</string>
     <string name="delete_message" msgid="6442394955910357234">"Elimina"</string>
@@ -61,7 +61,7 @@
     <string name="remove_slide" msgid="2225604354024914900">"Rimuovi diapositiva"</string>
     <string name="add_slide" msgid="9140721399423564187">"Aggiungi diapositiva"</string>
     <string name="add_slide_hint" msgid="563319570849475501">"Selez. per creare nuova dia."</string>
-    <string name="discard_slideshow" msgid="5054239124146413609">"Ignora presentazione"</string>
+    <string name="discard_slideshow" msgid="5054239124146413609">"Ignora slideshow"</string>
     <string name="slide_show_part" msgid="5077675385448696846">"Parte <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text" msgid="2164068850029476539">"Rimuovi testo"</string>
     <string name="add_picture" msgid="7819574884962571479">"Aggiungi immagine"</string>
@@ -112,14 +112,14 @@
     <string name="too_many_recipients" msgid="4239709214735078881">"Questo messaggio ha troppi destinatari (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). Esiste un limite di <xliff:g id="MAXLIMIT">%2$s</xliff:g> destinatari."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"C\'è un limite di <xliff:g id="MAXLIMIT">%1$s</xliff:g> allegati. Verranno aggiunti solo i primi <xliff:g id="CURRENTCOUNT">%2$s</xliff:g>."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Aggiunta di allegati"</string>
-    <string name="adding_attachments" msgid="2423616900586221924">"Attendi mentre vengono aggiunti gli elementi alla presentazione."</string>
+    <string name="adding_attachments" msgid="2423616900586221924">"Attendi mentre vengono aggiunti gli elementi alla slideshow"</string>
     <string name="cannot_play_audio" msgid="575086601128003093">"Impossibile riprodurre l\'audio."</string>
     <string name="preview" msgid="5438149136136446756">"Anteprima"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Anteprima"</string>
     <string name="replace_image" msgid="3171240952601443619">"Sostituisci immagine"</string>
     <string name="duration_sec" msgid="6617032324007824096">"Durata (<xliff:g id="DURATION">%s</xliff:g> sec)"</string>
     <string name="duration_selector_title" msgid="5981097971537625852">"Durata diapositiva "</string>
-    <string name="layout_selector_title" msgid="7344600117972450771">"Layout presentazione "</string>
+    <string name="layout_selector_title" msgid="7344600117972450771">"Layout slideshow "</string>
     <string name="layout_top" msgid="6811021650398972346">"Layout (superiore)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Layout (inferiore)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Digita il messaggio o lascia vuoto"</string>
@@ -198,6 +198,8 @@
     <string name="delete_unlocked" msgid="7545321606698162261">"Elimina messaggi bloccati"</string>
     <string name="delete" msgid="1409973060081564612">"Elimina"</string>
     <string name="select_conversations" msgid="5754828781497722394">"Seleziona conversazioni"</string>
+    <!-- no translation found for no_conversations (2095684444005566703) -->
+    <skip />
     <string name="cannot_get_details" msgid="6493664168168047746">"Impossibile ottenere i dettagli"</string>
     <string name="message_details_title" msgid="9223295113731634528">"Dettagli messaggio"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Tipo: "</string>
@@ -244,7 +246,7 @@
     <string name="attach_record_video" msgid="3099814114743078615">"Registra video"</string>
     <string name="attach_sound" msgid="3149325985970669609">"Audio"</string>
     <string name="attach_record_sound" msgid="6011431304469858929">"Registra audio"</string>
-    <string name="attach_slideshow" msgid="3497422151091037063">"Presentazione"</string>
+    <string name="attach_slideshow" msgid="3497422151091037063">"Slideshow"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"Testo in basso"</string>
     <string name="select_top_text" msgid="6734183477539197815">"Testo in alto"</string>
     <string name="delivery_toast_body" msgid="4478305651728684364">"Messaggio ricevuto da %s"</string>
@@ -292,9 +294,9 @@
     <string name="delivery_report_activity" msgid="2957463094232916364">"Conferma di recapito"</string>
     <string name="storage_limits_activity" msgid="8810530813311077716">"Limiti di archiviazione"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"Modifica durata"</string>
-    <string name="edit_slideshow_activity" msgid="8751493388760050529">"Modifica presentazione"</string>
+    <string name="edit_slideshow_activity" msgid="8751493388760050529">"Modifica slideshow"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"Modifica diapositiva"</string>
-    <string name="slideshow_activity" msgid="5658249461317434432">"Presentazione"</string>
+    <string name="slideshow_activity" msgid="5658249461317434432">"Slideshow"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"Messaggio classe 0"</string>
     <string name="search_label" msgid="6042598929386174964">"Messaggi"</string>
     <string name="search_hint" msgid="7183732852849365466">"Cerca in messaggi"</string>

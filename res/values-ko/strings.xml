@@ -198,6 +198,8 @@
     <string name="delete_unlocked" msgid="7545321606698162261">"잠긴 메시지 삭제"</string>
     <string name="delete" msgid="1409973060081564612">"삭제"</string>
     <string name="select_conversations" msgid="5754828781497722394">"대화 선택"</string>
+    <!-- no translation found for no_conversations (2095684444005566703) -->
+    <skip />
     <string name="cannot_get_details" msgid="6493664168168047746">"세부정보를 가져올 수 없음"</string>
     <string name="message_details_title" msgid="9223295113731634528">"메시지 세부정보"</string>
     <string name="message_type_label" msgid="7975373966795945566">"유형: "</string>
