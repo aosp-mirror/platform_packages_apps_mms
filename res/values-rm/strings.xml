@@ -202,6 +202,8 @@
     <string name="delete" msgid="1409973060081564612">"Stizzar"</string>
     <!-- no translation found for select_conversations (5754828781497722394) -->
     <skip />
+    <!-- no translation found for no_conversations (2095684444005566703) -->
+    <skip />
     <string name="cannot_get_details" msgid="6493664168168047746">"Impussibel da retschaiver ils detagls"</string>
     <string name="message_details_title" msgid="9223295113731634528">"Detagls dal messadi"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Tip: "</string>
