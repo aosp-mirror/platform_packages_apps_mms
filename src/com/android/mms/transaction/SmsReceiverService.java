@@ -20,6 +20,9 @@ package com.android.mms.transaction;
 import static android.content.Intent.ACTION_BOOT_COMPLETED;
 import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import com.android.mms.data.Contact;
 import com.android.mms.ui.ClassZeroActivity;
 import com.android.mms.util.Recycler;
@@ -536,7 +539,20 @@ public class SmsReceiverService extends Service {
 
         // Use now for the timestamp to avoid confusion with clock
         // drift between the handset and the SMSC.
-        values.put(Inbox.DATE, new Long(System.currentTimeMillis()));
+        // Check to make sure the system is giving us a non-bogus time.
+        Calendar buildDate = new GregorianCalendar(2011, 8, 18);    // 18 Sep 2011
+        Calendar nowDate = new GregorianCalendar();
+        long now = System.currentTimeMillis();
+        nowDate.setTimeInMillis(now);
+
+        if (nowDate.before(buildDate)) {
+            // It looks like our system clock isn't set yet because the current time right now
+            // is before an arbitrary time we made this build. Instead of inserting a bogus
+            // receive time in this case, use the timestamp of when the message was sent.
+            now = sms.getTimestampMillis();
+        }
+
+        values.put(Inbox.DATE, new Long(now));
         values.put(Inbox.DATE_SENT, Long.valueOf(sms.getTimestampMillis()));
         values.put(Inbox.PROTOCOL, sms.getProtocolIdentifier());
         values.put(Inbox.READ, 0);
