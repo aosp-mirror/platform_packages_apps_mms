@@ -197,7 +197,7 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
 //            Log.i(TAG, "[testCreateManyThreads] workingMsg: ");
 //            workingMsg.dump();
 
-            workingMsg.saveDraft();
+            workingMsg.saveDraft(false);
         }
     }
 }

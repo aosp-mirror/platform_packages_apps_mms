@@ -1849,7 +1849,7 @@ public class ComposeMessageActivity extends Activity
             if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: different conversation");
             }
-            saveDraft();    // if we've got a draft, save it first
+            saveDraft(false);    // if we've got a draft, save it first
 
             initialize(originalThreadId);
         }
@@ -2006,7 +2006,7 @@ public class ComposeMessageActivity extends Activity
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             log("save draft");
         }
-        saveDraft();
+        saveDraft(true);
 
         // Cleanup the BroadcastReceiver.
         unregisterReceiver(mHttpProgressReceiver);
@@ -2226,7 +2226,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     public void onMaxPendingMessagesReached() {
-        saveDraft();
+        saveDraft(false);
 
         runOnUiThread(new Runnable() {
             public void run() {
@@ -3160,7 +3160,7 @@ public class ComposeMessageActivity extends Activity
         mWorkingMessage = WorkingMessage.loadDraft(this, mConversation);
     }
 
-    private void saveDraft() {
+    private void saveDraft(boolean isStopping) {
         // TODO: Do something better here.  Maybe make discard() legal
         // to call twice and make isEmpty() return true if discarded
         // so it is caught in the clause above this one?
@@ -3178,7 +3178,7 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
-        mWorkingMessage.saveDraft();
+        mWorkingMessage.saveDraft(isStopping);
 
         if (mToastForDraftSave) {
             Toast.makeText(this, R.string.message_saved_as_draft,
@@ -3499,18 +3499,19 @@ public class ComposeMessageActivity extends Activity
         @Override
         protected void onDeleteComplete(int token, Object cookie, int result) {
             switch(token) {
-            case DELETE_MESSAGE_TOKEN:
-            case ConversationList.DELETE_CONVERSATION_TOKEN:
-                // Update the notification for new messages since they
-                // may be deleted.
-                MessagingNotification.nonBlockingUpdateNewMessageIndicator(
-                        ComposeMessageActivity.this, false, false);
-                // Update the notification for failed messages since they
-                // may be deleted.
-                updateSendFailedNotification();
-                break;
+                case ConversationList.DELETE_CONVERSATION_TOKEN:
+                    mConversation.setMessageCount(0);
+                    // fall through
+                case DELETE_MESSAGE_TOKEN:
+                    // Update the notification for new messages since they
+                    // may be deleted.
+                    MessagingNotification.nonBlockingUpdateNewMessageIndicator(
+                            ComposeMessageActivity.this, false, false);
+                    // Update the notification for failed messages since they
+                    // may be deleted.
+                    updateSendFailedNotification();
+                    break;
             }
-
             // If we're deleting the whole conversation, throw away
             // our current working message and bail.
             if (token == ConversationList.DELETE_CONVERSATION_TOKEN) {
