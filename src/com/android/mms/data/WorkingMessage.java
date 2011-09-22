@@ -59,6 +59,7 @@ import com.android.mms.ui.AttachmentEditor;
 import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.SlideshowEditor;
+import com.android.mms.util.DraftCache;
 import com.android.mms.util.Recycler;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
@@ -748,21 +749,26 @@ public class WorkingMessage {
         // Collect our state to be written to disk.
         prepareForSave(true /* notify */);
 
-        // Make sure we are saving to the correct thread ID.
-        mConversation.ensureThreadId();
-        mConversation.setDraftState(true);
+        try {
+            // Make sure we are saving to the correct thread ID.
+            DraftCache.getInstance().setSavingDraft(true);
+            mConversation.ensureThreadId();
+            mConversation.setDraftState(true);
 
-        PduPersister persister = PduPersister.getPduPersister(mActivity);
-        SendReq sendReq = makeSendReq(mConversation, mSubject);
+            PduPersister persister = PduPersister.getPduPersister(mActivity);
+            SendReq sendReq = makeSendReq(mConversation, mSubject);
 
-        // If we don't already have a Uri lying around, make a new one.  If we do
-        // have one already, make sure it is synced to disk.
-        if (mMessageUri == null) {
-            mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow);
-        } else {
-            updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
+            // If we don't already have a Uri lying around, make a new one.  If we do
+            // have one already, make sure it is synced to disk.
+            if (mMessageUri == null) {
+                mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow);
+            } else {
+                updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
+            }
+            mHasMmsDraft = true;
+        } finally {
+            DraftCache.getInstance().setSavingDraft(false);
         }
-        mHasMmsDraft = true;
         return mMessageUri;
     }
 
@@ -770,7 +776,7 @@ public class WorkingMessage {
      * Save this message as a draft in the conversation previously specified
      * to {@link setConversation}.
      */
-    public void saveDraft(boolean isStopping) {
+    public void saveDraft(final boolean isStopping) {
         // If we have discarded the message, just bail out.
         if (mDiscarded) {
             return;
@@ -1179,25 +1185,31 @@ public class WorkingMessage {
             }
         }
         mStatusListener.onPreMessageSent();
+        long threadId = 0;
 
-        // Make sure we are still using the correct thread ID for our
-        // recipient set.
-        long threadId = conv.ensureThreadId();
+        try {
+            DraftCache.getInstance().setSavingDraft(true);
 
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            LogTag.debug("sendMmsWorker: update draft MMS message " + mmsUri);
+            // Make sure we are still using the correct thread ID for our
+            // recipient set.
+            threadId = conv.ensureThreadId();
+
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                LogTag.debug("sendMmsWorker: update draft MMS message " + mmsUri);
+            }
+
+            if (mmsUri == null) {
+                // Create a new MMS message if one hasn't been made yet.
+                mmsUri = createDraftMmsMessage(persister, sendReq, slideshow);
+            } else {
+                // Otherwise, sync the MMS message in progress to disk.
+                updateDraftMmsMessage(mmsUri, persister, slideshow, sendReq);
+            }
+            // Be paranoid and clean any draft SMS up.
+            deleteDraftSmsMessage(threadId);
+        } finally {
+            DraftCache.getInstance().setSavingDraft(false);
         }
-
-        if (mmsUri == null) {
-            // Create a new MMS message if one hasn't been made yet.
-            mmsUri = createDraftMmsMessage(persister, sendReq, slideshow);
-        } else {
-            // Otherwise, sync the MMS message in progress to disk.
-            updateDraftMmsMessage(mmsUri, persister, slideshow, sendReq);
-        }
-
-        // Be paranoid and clean any draft SMS up.
-        deleteDraftSmsMessage(threadId);
 
         // Resize all the resizeable attachments (e.g. pictures) to fit
         // in the remaining space in the slideshow.
@@ -1335,43 +1347,47 @@ public class WorkingMessage {
         }
     }
 
-    private void asyncUpdateDraftMmsMessage(final Conversation conv,
-            final boolean isStopping) {
+    private void asyncUpdateDraftMmsMessage(final Conversation conv, final boolean isStopping) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             LogTag.debug("asyncUpdateDraftMmsMessage conv=%s mMessageUri=%s", conv, mMessageUri);
         }
 
-        final PduPersister persister = PduPersister.getPduPersister(mActivity);
-        final SendReq sendReq = makeSendReq(conv, mSubject);
-
         new Thread(new Runnable() {
             public void run() {
-                if (mMessageUri == null) {
-                    mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow);
-                } else {
-                    updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
-                }
-                if (isStopping && conv.getMessageCount() == 0) {
-                    // createDraftMmsMessage can create the new thread in the threads table (the
-                    // call to createDraftMmsDraftMessage calls PduPersister.persist() which
-                    // can call Threads.getOrCreateThreadId()). Meanwhile, when the user goes
-                    // back to ConversationList while we're saving a draft from CMA's.onStop,
-                    // ConversationList will delete all threads from the thread table that
-                    // don't have associated sms or pdu entries. In case our thread got deleted,
-                    // well call clearThreadId() so ensureThreadId will query the db for the new
-                    // thread.
-                    conv.clearThreadId();   // force us to get the updated thread id
-                }
-                conv.ensureThreadId();
-                conv.setDraftState(true);
-                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                    LogTag.debug("asyncUpdateDraftMmsMessage conv: " + conv +
-                            " uri: " + mMessageUri);
-                }
+                try {
+                    DraftCache.getInstance().setSavingDraft(true);
+                    final PduPersister persister = PduPersister.getPduPersister(mActivity);
+                    final SendReq sendReq = makeSendReq(conv, mSubject);
 
-                // Be paranoid and delete any SMS drafts that might be lying around. Must do
-                // this after ensureThreadId so conv has the correct thread id.
-                asyncDeleteDraftSmsMessage(conv);
+                    if (mMessageUri == null) {
+                        mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow);
+                    } else {
+                        updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
+                    }
+                    if (isStopping && conv.getMessageCount() == 0) {
+                        // createDraftMmsMessage can create the new thread in the threads table (the
+                        // call to createDraftMmsDraftMessage calls PduPersister.persist() which
+                        // can call Threads.getOrCreateThreadId()). Meanwhile, when the user goes
+                        // back to ConversationList while we're saving a draft from CMA's.onStop,
+                        // ConversationList will delete all threads from the thread table that
+                        // don't have associated sms or pdu entries. In case our thread got deleted,
+                        // well call clearThreadId() so ensureThreadId will query the db for the new
+                        // thread.
+                        conv.clearThreadId();   // force us to get the updated thread id
+                    }
+                    conv.ensureThreadId();
+                    conv.setDraftState(true);
+                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                        LogTag.debug("asyncUpdateDraftMmsMessage conv: " + conv +
+                                " uri: " + mMessageUri);
+                    }
+
+                    // Be paranoid and delete any SMS drafts that might be lying around. Must do
+                    // this after ensureThreadId so conv has the correct thread id.
+                    asyncDeleteDraftSmsMessage(conv);
+                } finally {
+                    DraftCache.getInstance().setSavingDraft(false);
+                }
             }
         }).start();
     }
@@ -1462,9 +1478,14 @@ public class WorkingMessage {
     private void asyncUpdateDraftSmsMessage(final Conversation conv, final String contents) {
         new Thread(new Runnable() {
             public void run() {
-                long threadId = conv.ensureThreadId();
-                conv.setDraftState(true);
-                updateDraftSmsMessage(conv, contents);
+                try {
+                    DraftCache.getInstance().setSavingDraft(true);
+                    long threadId = conv.ensureThreadId();
+                    conv.setDraftState(true);
+                    updateDraftSmsMessage(conv, contents);
+                } finally {
+                    DraftCache.getInstance().setSavingDraft(false);
+                }
             }
         }).start();
     }
