@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.Sms;
+import android.provider.Telephony.Threads;
 import android.provider.Telephony.MmsSms.PendingMessages;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
@@ -769,7 +770,7 @@ public class WorkingMessage {
      * Save this message as a draft in the conversation previously specified
      * to {@link setConversation}.
      */
-    public void saveDraft() {
+    public void saveDraft(boolean isStopping) {
         // If we have discarded the message, just bail out.
         if (mDiscarded) {
             return;
@@ -788,7 +789,7 @@ public class WorkingMessage {
         prepareForSave(false /* notify */);
 
         if (requiresMms()) {
-            asyncUpdateDraftMmsMessage(mConversation);
+            asyncUpdateDraftMmsMessage(mConversation, isStopping);
             mHasMmsDraft = true;
         } else {
             String content = mText.toString();
@@ -1334,7 +1335,8 @@ public class WorkingMessage {
         }
     }
 
-    private void asyncUpdateDraftMmsMessage(final Conversation conv) {
+    private void asyncUpdateDraftMmsMessage(final Conversation conv,
+            final boolean isStopping) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             LogTag.debug("asyncUpdateDraftMmsMessage conv=%s mMessageUri=%s", conv, mMessageUri);
         }
@@ -1344,13 +1346,24 @@ public class WorkingMessage {
 
         new Thread(new Runnable() {
             public void run() {
-                conv.ensureThreadId();
-                conv.setDraftState(true);
                 if (mMessageUri == null) {
                     mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow);
                 } else {
                     updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
                 }
+                if (isStopping && conv.getMessageCount() == 0) {
+                    // createDraftMmsMessage can create the new thread in the threads table (the
+                    // call to createDraftMmsDraftMessage calls PduPersister.persist() which
+                    // can call Threads.getOrCreateThreadId()). Meanwhile, when the user goes
+                    // back to ConversationList while we're saving a draft from CMA's.onStop,
+                    // ConversationList will delete all threads from the thread table that
+                    // don't have associated sms or pdu entries. In case our thread got deleted,
+                    // well call clearThreadId() so ensureThreadId will query the db for the new
+                    // thread.
+                    conv.clearThreadId();   // force us to get the updated thread id
+                }
+                conv.ensureThreadId();
+                conv.setDraftState(true);
                 if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     LogTag.debug("asyncUpdateDraftMmsMessage conv: " + conv +
                             " uri: " + mMessageUri);
@@ -1438,13 +1451,6 @@ public class WorkingMessage {
     }
 
     public void clearConversation(final Conversation conv, boolean resetThreadId) {
-        if (mHasSmsDraft) {
-            asyncDeleteDraftSmsMessage(conv);
-        }
-        if (mHasMmsDraft) {
-            asyncDeleteDraftMmsMessage(conv);
-        }
-
         if (resetThreadId && conv.getMessageCount() == 0) {
             if (DEBUG) LogTag.debug("clearConversation calling clearThreadId");
             conv.clearThreadId();
