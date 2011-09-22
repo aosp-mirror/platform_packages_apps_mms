@@ -623,6 +623,23 @@ public class ConversationList extends ListActivity
         }
     }
 
+    private final Runnable mDeleteObsoleteThreadsRunnable = new Runnable() {
+        public void run() {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                LogTag.debug("mDeleteObsoleteThreadsRunnable getSavingDraft(): " +
+                        DraftCache.getInstance().getSavingDraft());
+            }
+            if (DraftCache.getInstance().getSavingDraft()) {
+                // We're still saving a draft. Try again in a second. We don't want to delete
+                // any threads out from under the draft.
+                mHandler.postDelayed(mDeleteObsoleteThreadsRunnable, 1000);
+            } else {
+                Conversation.asyncDeleteObsoleteThreads(mQueryHandler,
+                        DELETE_OBSOLETE_THREADS_TOKEN);
+            }
+        }
+    };
+
     private final class ThreadListQueryHandler extends AsyncQueryHandler {
         public ThreadListQueryHandler(ContentResolver contentResolver) {
             super(contentResolver);
@@ -642,15 +659,8 @@ public class ConversationList extends ListActivity
 
                     // Delete any obsolete threads. Obsolete threads are threads that aren't
                     // referenced by at least one message in the pdu or sms tables. We only call
-                    // this on the first query (because of mNeedToMarkAsSeen). Introduce a
-                    // delay to allow any draft-saving from ComposeMessageActivity
-                    // to complete so we don't delete any empty threads out from under them.
-                    mHandler.postDelayed(new Runnable() {
-                        public void run() {
-                            Conversation.asyncDeleteObsoleteThreads(mQueryHandler,
-                                    DELETE_OBSOLETE_THREADS_TOKEN);
-                        }
-                    }, 1000);
+                    // this on the first query (because of mNeedToMarkAsSeen).
+                    mHandler.post(mDeleteObsoleteThreadsRunnable);
                 }
                 break;
 

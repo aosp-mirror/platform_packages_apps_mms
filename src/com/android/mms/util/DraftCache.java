@@ -38,14 +38,17 @@ public class DraftCache {
 
     private final Context mContext;
 
+    private boolean mSavingDraft;   // true when were in the process of saving a draft. Check this
+                                    // before deleting any empty threads from the db.
+
     private HashSet<Long> mDraftSet = new HashSet<Long>(4);
     private final HashSet<OnDraftChangedListener> mChangeListeners
             = new HashSet<OnDraftChangedListener>(1);
-    
+
     public interface OnDraftChangedListener {
         void onDraftChanged(long threadId, boolean hasDraft);
     }
-    
+
     private DraftCache(Context context) {
         if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
             log("DraftCache.constructor");
@@ -85,7 +88,7 @@ public class DraftCache {
 
         HashSet<Long> oldDraftSet = mDraftSet;
         HashSet<Long> newDraftSet = new HashSet<Long>(oldDraftSet.size());
-        
+
         Cursor cursor = SqliteWrapper.query(
                 mContext,
                 mContext.getContentResolver(),
@@ -105,9 +108,9 @@ public class DraftCache {
         } finally {
             cursor.close();
         }
-        
+
         mDraftSet = newDraftSet;
-        
+
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             dump();
         }
@@ -117,7 +120,7 @@ public class DraftCache {
         if (mChangeListeners.size() < 1) {
             return;
         }
-        
+
         // Find out which drafts were removed and added and notify
         // listeners.
         Set<Long> added = new HashSet<Long>(newDraftSet);
@@ -134,7 +137,7 @@ public class DraftCache {
             }
         }
     }
-    
+
     /** Updates the has-draft status of a particular thread on
      *  a piecemeal basis, to be called when a draft has appeared
      *  or disappeared.
@@ -143,7 +146,7 @@ public class DraftCache {
         if (threadId <= 0) {
             return;
         }
-        
+
         boolean changed;
         if (hasDraft) {
             changed = mDraftSet.add(threadId);
@@ -188,6 +191,14 @@ public class DraftCache {
         mChangeListeners.remove(l);
     }
 
+    public synchronized void setSavingDraft(final boolean savingDraft) {
+        mSavingDraft = savingDraft;
+    }
+
+    public synchronized boolean getSavingDraft() {
+        return mSavingDraft;
+    }
+
     /**
      * Initialize the global instance. Should call only once.
      */
@@ -201,14 +212,14 @@ public class DraftCache {
     public static DraftCache getInstance() {
         return sInstance;
     }
-    
+
     public void dump() {
         Log.i(TAG, "dump:");
         for (Long threadId : mDraftSet) {
             Log.i(TAG, "  tid: " + threadId);
         }
     }
-    
+
     private void log(String format, Object... args) {
         String s = String.format(format, args);
         Log.d(TAG, "[DraftCache/" + Thread.currentThread().getId() + "] " + s);
