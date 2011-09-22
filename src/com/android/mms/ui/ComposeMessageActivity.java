@@ -3161,6 +3161,9 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void saveDraft(boolean isStopping) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("saveDraft");
+        }
         // TODO: Do something better here.  Maybe make discard() legal
         // to call twice and make isEmpty() return true if discarded
         // so it is caught in the clause above this one?
