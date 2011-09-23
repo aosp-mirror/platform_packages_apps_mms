@@ -203,6 +203,7 @@
                         android:layout_marginLeft="4dip"
                         android:editable="false"
                         android:text="@string/mms"
+                        android:contentDescription="@string/send"
                         android:nextFocusLeft="@+id/embedded_text_editor" />
 
                     <ImageButton
@@ -214,6 +215,7 @@
                         android:layout_height="0dip"
                         android:layout_weight="1.0"
                         android:layout_marginLeft="4dip"
+                        android:contentDescription="@string/send"
                         android:nextFocusLeft="@+id/embedded_text_editor" />
 
                 </LinearLayout>
