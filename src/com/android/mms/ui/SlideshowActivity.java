@@ -70,6 +70,7 @@ public class SlideshowActivity extends Activity implements EventListener {
     private SMILDocument mSmilDoc;
 
     private SlideView mSlideView;
+    private int mSlideCount;
 
     /**
      * @return whether the Smil has MMS conformance layout.
@@ -164,6 +165,7 @@ public class SlideshowActivity extends Activity implements EventListener {
 
         try {
             model = SlideshowModel.createFromMessageUri(this, msg);
+            mSlideCount = model.size();
         } catch (MmsException e) {
             Log.e(TAG, "Cannot present the slide show.", e);
             finish();
@@ -182,8 +184,13 @@ public class SlideshowActivity extends Activity implements EventListener {
 
             public void run() {
                 mSmilPlayer = SmilPlayer.getPlayer();
-                initMediaController();
-                mSlideView.setMediaController(mMediaController);
+                if (mSlideCount > 1) {
+                    // Only show the slideshow controller if we have more than a single slide.
+                    // Otherwise, when we play a sound on a single slide, it appears like
+                    // the slide controller should control the sound (seeking, ff'ing, etc).
+                    initMediaController();
+                    mSlideView.setMediaController(mMediaController);
+                }
                 // Use SmilHelper.getDocument() to ensure rebuilding the
                 // entire SMIL document.
                 mSmilDoc = SmilHelper.getDocument(model);
