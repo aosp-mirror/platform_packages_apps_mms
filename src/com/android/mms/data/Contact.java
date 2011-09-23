@@ -25,6 +25,7 @@ import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.Presence;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.Profile;
 import android.provider.Telephony.Mms;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -810,10 +811,14 @@ public class Contact {
             }
 
             if (V) {
-                log("loadAvatarData: name=" + entry.mName + ", number=");
+                log("loadAvatarData: name=" + entry.mName + ", number=" + entry.mNumber);
             }
 
-            Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, entry.mPersonId);
+            // If the contact is "me", then use my local profile photo. Otherwise, build a
+            // uri to get the avatar of the contact.
+            Uri contactUri = MessageUtils.isLocalNumber(entry.mNumber) ?
+                    Profile.CONTENT_URI :
+                    ContentUris.withAppendedId(Contacts.CONTENT_URI, entry.mPersonId);
 
             InputStream avatarDataStream = Contacts.openContactPhotoInputStream(
                         mContext.getContentResolver(),
