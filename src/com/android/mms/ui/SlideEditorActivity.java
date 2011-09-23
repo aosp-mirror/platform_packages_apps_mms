@@ -91,6 +91,7 @@ public class SlideEditorActivity extends Activity {
     private final static int MENU_PREVIEW_SLIDESHOW = 11;
     private final static int MENU_RECORD_SOUND      = 12;
     private final static int MENU_SUB_AUDIO         = 13;
+    private final static int MENU_TAKE_VIDEO        = 14;
 
     // Request code.
     private final static int REQUEST_CODE_EDIT_TEXT          = 0;
@@ -100,6 +101,7 @@ public class SlideEditorActivity extends Activity {
     private final static int REQUEST_CODE_RECORD_SOUND       = 4;
     private final static int REQUEST_CODE_CHANGE_VIDEO       = 5;
     private final static int REQUEST_CODE_CHANGE_DURATION    = 6;
+    private final static int REQUEST_CODE_TAKE_VIDEO         = 7;
 
     // number of items in the duration selector dialog that directly map from
     // item index to duration in seconds (duration = index + 1)
@@ -373,6 +375,8 @@ public class SlideEditorActivity extends Activity {
                     R.drawable.ic_menu_remove_video);
         } else if (!slide.hasAudio() && !slide.hasImage()) {
             menu.add(0, MENU_ADD_VIDEO, 0, R.string.add_video).setIcon(R.drawable.ic_menu_movie);
+            menu.add(0, MENU_TAKE_VIDEO, 0, R.string.attach_record_video)
+                .setIcon(R.drawable.ic_menu_movie);
         }
 
         // Add slide
@@ -451,6 +455,20 @@ public class SlideEditorActivity extends Activity {
                 intent.setType(ContentType.VIDEO_UNSPECIFIED);
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                 startActivityForResult(intent, REQUEST_CODE_CHANGE_VIDEO);
+                break;
+
+            case MENU_TAKE_VIDEO:
+                slide = mSlideshowModel.get(mPosition);
+                currentSlideSize = slide.getSlideSize();
+                sizeLimit = ComposeMessageActivity.computeAttachmentSizeLimit(mSlideshowModel,
+                        currentSlideSize);
+                if (sizeLimit > 0) {
+                    MessageUtils.recordVideo(this, REQUEST_CODE_TAKE_VIDEO, sizeLimit);
+                } else {
+                    Toast.makeText(this,
+                            getString(R.string.message_too_big_for_video),
+                            Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case MENU_DEL_VIDEO:
@@ -655,6 +673,7 @@ public class SlideEditorActivity extends Activity {
                 break;
 
             case REQUEST_CODE_CHANGE_VIDEO:
+            case REQUEST_CODE_TAKE_VIDEO:
                 try {
                     mSlideshowEditor.changeVideo(mPosition, data.getData());
                 } catch (MmsException e) {
