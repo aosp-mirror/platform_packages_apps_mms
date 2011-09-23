@@ -512,6 +512,7 @@ public class WorkingMessage {
         slide.removeImage();
         slide.removeVideo();
         slide.removeAudio();
+        slide.setDuration(0);
 
         // If we're changing to text, just bail out.
         if (type == TEXT) {
