@@ -475,6 +475,8 @@ public class SmsReceiverService extends Service {
         return s.replace('\f', '\n');
     }
 
+//    private static int count = 0;
+
     private Uri storeMessage(Context context, SmsMessage[] msgs, int error) {
         SmsMessage sms = msgs[0];
 
@@ -502,6 +504,20 @@ public class SmsReceiverService extends Service {
         // excess messages.
         Long threadId = values.getAsLong(Sms.THREAD_ID);
         String address = values.getAsString(Sms.ADDRESS);
+
+        // Code for debugging and easy injection of short codes, non email addresses, etc.
+        // See Contact.isAlphaNumber() for further comments and results.
+//        switch (count++ % 8) {
+//            case 0: address = "AB12"; break;
+//            case 1: address = "12"; break;
+//            case 2: address = "Jello123"; break;
+//            case 3: address = "T-Mobile"; break;
+//            case 4: address = "Mobile1"; break;
+//            case 5: address = "Dogs77"; break;
+//            case 6: address = "****1"; break;
+//            case 7: address = "#4#5#6#"; break;
+//        }
+
         if (!TextUtils.isEmpty(address)) {
             Contact cacheContact = Contact.get(address,true);
             if (cacheContact != null) {

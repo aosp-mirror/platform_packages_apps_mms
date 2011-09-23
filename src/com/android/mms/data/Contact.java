@@ -719,11 +719,43 @@ public class Contact {
          * Returns the caller info in Contact.
          */
         public Contact getContactInfo(String numberOrEmail) {
-            if (Mms.isEmailAddress(numberOrEmail)) {
+            if (Mms.isEmailAddress(numberOrEmail) || isAlphaNumber(numberOrEmail)) {
                 return getContactInfoForEmailAddress(numberOrEmail);
             } else {
                 return getContactInfoForPhoneNumber(numberOrEmail);
             }
+        }
+
+        // Some received sms's have addresses such as "OakfieldCPS" or "T-Mobile". This
+        // function will attempt to identify these and return true. If the number contains
+        // 3 or more digits, such as "jello123", this function will return false.
+        // Some countries have 3 digits shortcodes and we have to identify them as numbers.
+        //    http://en.wikipedia.org/wiki/Short_code
+        // Examples of input/output for this function:
+        //    "Jello123" -> false  [3 digits, it is considered to be the phone number "123"]
+        //    "T-Mobile" -> true   [it is considered to be the address "T-Mobile"]
+        //    "Mobile1"  -> true   [1 digit, it is considered to be the address "Mobile1"]
+        //    "Dogs77"   -> true   [2 digits, it is considered to be the address "Dogs77"]
+        //    "****1"    -> true   [1 digits, it is considered to be the address "****1"]
+        //    "#4#5#6#"  -> true   [it is considered to be the address "#4#5#6#"]
+        //    "AB12"     -> true   [2 digits, it is considered to be the address "AB12"]
+        //    "12"       -> true   [2 digits, it is considered to be the address "12"]
+        private boolean isAlphaNumber(String number) {
+            // TODO: PhoneNumberUtils.isWellFormedSmsAddress() only check if the number is a valid
+            // GSM SMS address. If the address contains a dialable char, it considers it a well
+            // formed SMS addr. CDMA doesn't work that way and has a different parser for SMS
+            // address (see CdmaSmsAddress.parse(String address)). We should definitely fix this!!!
+            if (!PhoneNumberUtils.isWellFormedSmsAddress(number)) {
+                // The example "T-Mobile" will exit here because there are no numbers.
+                return true;        // we're not an sms address, consider it an alpha number
+            }
+            number = PhoneNumberUtils.extractNetworkPortion(number);
+            if (TextUtils.isEmpty(number)) {
+                return true;    // there are no digits whatsoever in the number
+            }
+            // At this point, anything like "Mobile1" or "Dogs77" will be stripped down to
+            // "1" and "77". "#4#5#6#" remains as "#4#5#6#" at this point.
+            return number.length() < 3;
         }
 
         /**
