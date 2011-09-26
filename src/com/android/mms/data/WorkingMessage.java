@@ -735,10 +735,13 @@ public class WorkingMessage {
      * Typically used when handing a message off to another activity.
      */
     public Uri saveAsMms(boolean notify) {
-        if (DEBUG) LogTag.debug("save mConversation=%s", mConversation);
+        if (DEBUG) LogTag.debug("saveAsMms mConversation=%s", mConversation);
 
+        // If we have discarded the message, just bail out.
         if (mDiscarded) {
-            throw new IllegalStateException("save() called after discard()");
+            LogTag.warn("saveAsMms mDiscarded: true mConversation: " + mConversation +
+                    " returning NULL uri and bailing");
+            return null;
         }
 
         // FORCE_MMS behaves as sort of an "invisible attachment", making
@@ -780,6 +783,8 @@ public class WorkingMessage {
     public void saveDraft(final boolean isStopping) {
         // If we have discarded the message, just bail out.
         if (mDiscarded) {
+            LogTag.warn("saveDraft mDiscarded: true mConversation: " + mConversation +
+                " skipping saving draft and bailing");
             return;
         }
 
