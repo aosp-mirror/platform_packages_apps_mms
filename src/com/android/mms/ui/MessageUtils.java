@@ -908,7 +908,9 @@ public class MessageUtils {
             MessageUtils.viewSimpleSlideshow(context, slideshow);
         } else {
             Uri uri = msg.saveAsMms(false);
-            viewMmsMessageAttachment(context, uri, slideshow);
+            if (uri != null) {
+                viewMmsMessageAttachment(context, uri, slideshow);
+            }
         }
     }
 

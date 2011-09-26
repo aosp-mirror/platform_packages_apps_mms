@@ -298,6 +298,9 @@ public class ComposeMessageActivity extends Activity
 
     private void editSlideshow() {
         Uri dataUri = mWorkingMessage.saveAsMms(false);
+        if (dataUri == null) {
+            return;
+        }
         Intent intent = new Intent(this, SlideshowEditActivity.class);
         intent.setData(dataUri);
         startActivityForResult(intent, REQUEST_CODE_CREATE_SLIDESHOW);
@@ -2701,14 +2704,18 @@ public class ComposeMessageActivity extends Activity
             int result;
 
             Uri messageUri = mWorkingMessage.saveAsMms(true);
-            try {
-                Uri dataUri = persister.persistPart(part, ContentUris.parseId(messageUri));
-                result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, dataUri, append);
-                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                    log("ResizeImageResultCallback: dataUri=" + dataUri);
-                }
-            } catch (MmsException e) {
+            if (messageUri == null) {
                 result = WorkingMessage.UNKNOWN_ERROR;
+            } else {
+                try {
+                    Uri dataUri = persister.persistPart(part, ContentUris.parseId(messageUri));
+                    result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, dataUri, append);
+                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                        log("ResizeImageResultCallback: dataUri=" + dataUri);
+                    }
+                } catch (MmsException e) {
+                    result = WorkingMessage.UNKNOWN_ERROR;
+                }
             }
 
             handleAddAttachmentError(result, R.string.type_picture);
