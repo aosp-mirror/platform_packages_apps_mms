@@ -127,9 +127,7 @@ public class SmsReceiverService extends Service {
 
         mResultCode = intent != null ? intent.getIntExtra("result", 0) : 0;
 
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) ||
-                LogTag.DEBUG_SEND ||
-                mResultCode != 0) {
+        if (mResultCode != 0) {
             Log.v(TAG, "onStart: #" + startId + " mResultCode: " + mResultCode +
                     " = " + translateResultCode(mResultCode));
         }
