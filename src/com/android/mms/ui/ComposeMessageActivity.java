@@ -3546,6 +3546,12 @@ public class ComposeMessageActivity extends Activity
             // our current working message and bail.
             if (token == ConversationList.DELETE_CONVERSATION_TOKEN) {
                 mWorkingMessage.discard();
+
+                // Rebuild the contacts cache now that a thread and its associated unique
+                // recipients have been deleted.
+                Contact.init(ComposeMessageActivity.this);
+
+                // Make sure the conversation cache reflects the threads in the DB.
                 Conversation.init(ComposeMessageActivity.this);
                 finish();
             }

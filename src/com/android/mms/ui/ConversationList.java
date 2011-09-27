@@ -686,6 +686,10 @@ public class ConversationList extends ListActivity
         protected void onDeleteComplete(int token, Object cookie, int result) {
             switch (token) {
             case DELETE_CONVERSATION_TOKEN:
+                // Rebuild the contacts cache now that a thread and its associated unique
+                // recipients have been deleted.
+                Contact.init(ConversationList.this);
+
                 // Make sure the conversation cache reflects the threads in the DB.
                 Conversation.init(ConversationList.this);
 
