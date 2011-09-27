@@ -93,7 +93,6 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
                         s.removeSpan(a);
                     }
                 }
-
                 mAffected = null;
             }
         });
@@ -211,12 +210,26 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
     public void populate(ContactList list) {
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
+        // Very tricky bug. In the recipient editor, we always leave a trailing
+        // comma to make it easy for users to add additional recipients. When a
+        // user types (or chooses from the dropdown) a new contact Mms has never
+        // seen before, the contact gets the correct trailing comma. But when the
+        // contact gets added to the mms's contacts table, contacts sends out an
+        // onUpdate to CMA. CMA would recompute the recipients and since the
+        // recipient editor was still visible, call mRecipientsEditor.populate(recipients).
+        // This would replace the recipient that had a comma with a recipient
+        // without a comma. When a user manually added a new comma to add another
+        // recipient, this would eliminate the span inside the text. The span contains the
+        // number part of "Fred Flinstone <123-1231>". Hence, the whole
+        // "Fred Flinstone <123-1231>" would be considered the number of
+        // the first recipient and get entered into the canonical_addresses table.
+        // The fix for this particular problem is very easy. All recipients have commas.
+        // TODO: However, the root problem remains. If a user enters the recipients editor
+        // and deletes chars into an address chosen from the suggestions, it'll cause
+        // the number annotation to get deleted and the whole address (name + number) will
+        // be used as the number.
         for (Contact c : list) {
-            if (sb.length() != 0) {
-                sb.append(", ");
-            }
-
-            sb.append(contactToToken(c));
+            sb.append(contactToToken(c)).append(", ");
         }
 
         setText(sb);
