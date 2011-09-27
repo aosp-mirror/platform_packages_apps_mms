@@ -211,7 +211,6 @@ public class MessageListAdapter extends CursorAdapter {
             Log.v(TAG, "MessageListAdapter.notifyDataSetChanged().");
         }
 
-        mListView.setSelection(mListView.getCount());
         mMessageItemCache.evictAll();
 
         if (mOnDataSetChangedListener != null) {
