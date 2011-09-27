@@ -269,6 +269,9 @@ public class SlideshowActivity extends Activity implements EventListener {
             ((EventTarget) mSmilDoc).removeEventListener(
                     SmilDocumentImpl.SMIL_DOCUMENT_END_EVENT, this, false);
         }
+        if (mSmilPlayer != null) {
+            mSmilPlayer.pause();
+        }
     }
 
     @Override
