@@ -760,7 +760,7 @@ public class WorkingMessage {
             mConversation.setDraftState(true);
 
             PduPersister persister = PduPersister.getPduPersister(mActivity);
-            SendReq sendReq = makeSendReq(mConversation, mSubject);
+            SendReq sendReq = makeSendReq(mConversation, mSubject, null);
 
             // If we don't already have a Uri lying around, make a new one.  If we do
             // have one already, make sure it is synced to disk.
@@ -1042,11 +1042,13 @@ public class WorkingMessage {
             final PduPersister persister = PduPersister.getPduPersister(mActivity);
 
             final SlideshowModel slideshow = mSlideshow;
-            final SendReq sendReq = makeSendReq(conv, mSubject);
+            final CharSequence subject = mSubject;
 
             // Do the dirty work of sending the message off of the main UI thread.
             new Thread(new Runnable() {
                 public void run() {
+                    final SendReq sendReq = makeSendReq(conv, subject, mActivity);
+
                     // Make sure the text in slide 0 is no longer holding onto a reference to
                     // the text in the message text box.
                     slideshow.prepareForSend();
@@ -1116,7 +1118,7 @@ public class WorkingMessage {
         // Make sure we are still using the correct thread ID for our recipient set.
         long threadId = conv.ensureThreadId();
 
-        final String semiSepRecipients = conv.getRecipients().serialize();
+        String semiSepRecipients = conv.getRecipients().serialize();
 
         // recipientsInUI can be empty when the user types in a number and hits send
         if (LogTag.SEVERE_WARNING && ((origThreadId != 0 && origThreadId != threadId) ||
@@ -1322,8 +1324,14 @@ public class WorkingMessage {
      * makeSendReq should always return a non-null SendReq, whether the dest addresses are
      * valid or not.
      */
-    private static SendReq makeSendReq(Conversation conv, CharSequence subject) {
+    private static SendReq makeSendReq(Conversation conv, CharSequence subject,
+            final Context context) {
         String[] dests = conv.getRecipients().getNumbers(true /* scrub for MMS address */);
+
+        if (context != null && dests.length == 1) {
+            // verify the single address matches what's in the database
+            dests[0] = Conversation.verifySingleRecipient(context, conv.getThreadId(), dests[0]);
+        }
 
         SendReq req = new SendReq();
         EncodedStringValue[] encodedNumbers = EncodedStringValue.encodeStrings(dests);
@@ -1363,7 +1371,7 @@ public class WorkingMessage {
                 try {
                     DraftCache.getInstance().setSavingDraft(true);
                     final PduPersister persister = PduPersister.getPduPersister(mActivity);
-                    final SendReq sendReq = makeSendReq(conv, mSubject);
+                    final SendReq sendReq = makeSendReq(conv, mSubject, null);
 
                     if (mMessageUri == null) {
                         mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow);

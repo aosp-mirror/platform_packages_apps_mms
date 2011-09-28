@@ -38,6 +38,7 @@ public class LogTag {
     private static final boolean SHOW_SEVERE_WARNING_DIALOG = false;    // Set to false before ship
     public static final boolean DEBUG_SEND = false;    // Set to false before ship
     public static final boolean DEBUG_DUMP = false;    // Set to false before ship
+    public static final boolean ALLOW_DUMP_IN_LOGS = true;  // TODO: Set to false before ship
 
     private static String prettyArray(String[] array) {
         if (array.length == 0) {
@@ -80,6 +81,9 @@ public class LogTag {
     }
 
     public static void dumpInternalTables(final Context context) {
+        if (!ALLOW_DUMP_IN_LOGS) {
+            return;
+        }
         new Thread(new Runnable() {
             public void run() {
                 RecipientIdCache.canonicalTableDump();

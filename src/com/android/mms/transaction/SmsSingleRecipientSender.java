@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.telephony.SmsManager;
@@ -15,6 +14,8 @@ import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.google.android.mms.MmsException;
 import android.provider.Telephony.Sms;
+
+import com.android.mms.data.Conversation;
 import com.android.mms.ui.MessageUtils;
 
 public class SmsSingleRecipientSender extends SmsMessageSender {
@@ -50,9 +51,10 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
             mDest = MmsConfig.getEmailGateway();
             messages = smsManager.divideMessage(msgText);
         } else {
-           messages = smsManager.divideMessage(mMessageText);
-           // remove spaces from destination number (e.g. "801 555 1212" -> "8015551212")
-           mDest = mDest.replaceAll(" ", "");
+            messages = smsManager.divideMessage(mMessageText);
+            // remove spaces from destination number (e.g. "801 555 1212" -> "8015551212")
+            mDest = mDest.replaceAll(" ", "");
+            mDest = Conversation.verifySingleRecipient(mContext, mThreadId, mDest);
         }
         int messageCount = messages.size();
 

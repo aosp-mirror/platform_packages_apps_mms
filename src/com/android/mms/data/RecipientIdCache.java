@@ -230,4 +230,52 @@ public class RecipientIdCache {
             c.close();
         }
     }
+
+    /**
+     * getSingleNumberFromCanonicalAddresses looks up the recipientId in the canonical_addresses
+     * table and returns the associated number or email address.
+     * @param context needed for the ContentResolver
+     * @param recipientId of the contact to look up
+     * @return phone number or email address of the recipientId
+     */
+    public static String getSingleAddressFromCanonicalAddressInDb(final Context context,
+            final String recipientId) {
+        Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
+                ContentUris.withAppendedId(sSingleCanonicalAddressUri, Long.parseLong(recipientId)),
+                null, null, null, null);
+        if (c == null) {
+            LogTag.warn(TAG, "null Cursor looking up recipient: " + recipientId);
+            return null;
+        }
+        try {
+            if (c.moveToFirst()) {
+                String number = c.getString(0);
+                return number;
+            }
+        } finally {
+            c.close();
+        }
+        return null;
+    }
+
+    // used for unit tests
+    public static void insertCanonicalAddressInDb(final Context context, String number) {
+        if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.d(TAG, "[RecipientIdCache] insertCanonicalAddressInDb: number=" + number);
+        }
+
+        final ContentValues values = new ContentValues();
+        values.put(Telephony.CanonicalAddressesColumns.ADDRESS, number);
+
+        final ContentResolver cr = context.getContentResolver();
+
+        // We're running on the UI thread so just fire & forget, hope for the best.
+        // (We were ignoring the return value anyway...)
+        new Thread("updateCanonicalAddressInDb") {
+            public void run() {
+                cr.insert(sAllCanonical, values);
+            }
+        }.start();
+    }
+
 }
