@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import android.app.Activity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -19,6 +20,7 @@ import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
 import android.provider.Telephony.Sms.Conversations;
 import android.provider.Telephony.ThreadsColumns;
+import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -1177,4 +1179,86 @@ public class Conversation {
         }
     }
 
+    /**
+     * verifySingleRecipient takes a threadId and a string recipient [phone number or email
+     * address]. It uses that threadId to lookup the row in the threads table and grab the
+     * recipient ids column. The recipient ids column contains a space-separated list of
+     * recipient ids. These ids are keys in the canonical_addresses table. The recipient is
+     * compared against what's stored in the mmssms.db, but only if the recipient id list has
+     * a single address.
+     * @param context is used for getting a ContentResolver
+     * @param threadId of the thread we're sending to
+     * @param recipientStr is a phone number or email address
+     * @return the verified number or email of the recipient
+     */
+    public static String verifySingleRecipient(final Context context,
+            final long threadId, final String recipientStr) {
+        if (threadId <= 0) {
+            LogTag.error("verifySingleRecipient threadId is ZERO, recipient: " + recipientStr);
+            LogTag.dumpInternalTables(context);
+            return recipientStr;
+        }
+        Cursor c = context.getContentResolver().query(sAllThreadsUri, ALL_THREADS_PROJECTION,
+                "_id=" + Long.toString(threadId), null, null);
+        if (c == null) {
+            LogTag.error("verifySingleRecipient threadId: " + threadId +
+                    " resulted in NULL cursor , recipient: " + recipientStr);
+            LogTag.dumpInternalTables(context);
+            return recipientStr;
+        }
+        String address = recipientStr;
+        String recipientIds;
+        try {
+            if (!c.moveToFirst()) {
+                LogTag.error("verifySingleRecipient threadId: " + threadId +
+                        " can't moveToFirst , recipient: " + recipientStr);
+                LogTag.dumpInternalTables(context);
+                return recipientStr;
+            }
+            recipientIds = c.getString(RECIPIENT_IDS);
+        } finally {
+            c.close();
+        }
+        String[] ids = recipientIds.split(" ");
+
+        if (ids.length != 1) {
+            // We're only verifying the situation where we have a single recipient input against
+            // a thread with a single recipient. If the thread has multiple recipients, just
+            // assume the input number is correct and return it.
+            return recipientStr;
+        }
+
+        // Get the actual number from the canonical_addresses table for this recipientId
+        address = RecipientIdCache.getSingleAddressFromCanonicalAddressInDb(context, ids[0]);
+
+        if (TextUtils.isEmpty(address)) {
+            LogTag.error("verifySingleRecipient threadId: " + threadId +
+                    " getSingleNumberFromCanonicalAddresses returned empty number for: " +
+                    ids[0] + " recipientIds: " + recipientIds);
+            LogTag.dumpInternalTables(context);
+            return recipientStr;
+        }
+        if (PhoneNumberUtils.compareLoosely(recipientStr, address)) {
+            // Bingo, we've got a match. We're returning the input number because of area
+            // codes. We could have a number in the canonical_address name of "232-1012" and
+            // assume the user's phone's area code is 650. If the user sends a message to
+            // "(415) 232-1012", it will loosely match "232-1202". If we returned the value
+            // from the table (232-1012), the message would go to the wrong person (to the
+            // person in the 650 area code rather than in the 415 area code).
+            return recipientStr;
+        }
+
+        if (context instanceof Activity) {
+            LogTag.warnPossibleRecipientMismatch("verifySingleRecipient for threadId: " +
+                    threadId + " original recipient: " + recipientStr +
+                    " recipient from DB: " + address, (Activity)context);
+        }
+        LogTag.dumpInternalTables(context);
+        if (Log.isLoggable(LogTag.THREAD_CACHE, Log.VERBOSE)) {
+            LogTag.debug("verifySingleRecipient for threadId: " +
+                    threadId + " original recipient: " + recipientStr +
+                    " recipient from DB: " + address);
+        }
+        return address;
+    }
 }
