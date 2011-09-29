@@ -211,8 +211,8 @@ public class UriImage {
         int outHeight = mHeight;
 
         float scaleFactor = 1.F;
-        while ((outWidth / scaleFactor > widthLimit) || (outHeight / scaleFactor > heightLimit)) {
-            scaleFactor = .75F;
+        while ((outWidth * scaleFactor > widthLimit) || (outHeight * scaleFactor > heightLimit)) {
+            scaleFactor *= .75F;
         }
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
