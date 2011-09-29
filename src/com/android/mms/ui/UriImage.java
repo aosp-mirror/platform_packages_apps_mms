@@ -199,12 +199,20 @@ public class UriImage {
     private static final int NUMBER_OF_RESIZE_ATTEMPTS = 4;
 
     private byte[] getResizedImageData(int widthLimit, int heightLimit, int byteLimit) {
+        // In mms_config.xml, the max width has always been declared larger than the max height.
+        // Swap the width and height limits if necessary so we scale the picture as little as
+        // possible.
+        if (mHeight > mWidth) {
+            int temp = widthLimit;
+            widthLimit = heightLimit;
+            heightLimit = temp;
+        }
         int outWidth = mWidth;
         int outHeight = mHeight;
 
-        int scaleFactor = 1;
+        float scaleFactor = 1.F;
         while ((outWidth / scaleFactor > widthLimit) || (outHeight / scaleFactor > heightLimit)) {
-            scaleFactor *= 2;
+            scaleFactor = .75F;
         }
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
@@ -219,10 +227,11 @@ public class UriImage {
         try {
             ByteArrayOutputStream os = null;
             int attempts = 1;
+            int sampleSize = 1;
 
             do {
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = scaleFactor;
+                options.inSampleSize = sampleSize;
                 input = mContext.getContentResolver().openInputStream(mUri);
                 int quality = MessageUtils.IMAGE_COMPRESSION_QUALITY;
                 try {
@@ -233,8 +242,8 @@ public class UriImage {
                     if (options.outWidth > widthLimit || options.outHeight > heightLimit) {
                         // The decoder does not support the inSampleSize option.
                         // Scale the bitmap using Bitmap library.
-                        int scaledWidth = outWidth / scaleFactor;
-                        int scaledHeight = outHeight / scaleFactor;
+                        int scaledWidth = (int)(outWidth * scaleFactor);
+                        int scaledHeight = (int)(outHeight * scaleFactor);
 
                         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                             Log.v(TAG, "getResizedImageData: retry scaling using " +
@@ -242,8 +251,7 @@ public class UriImage {
                                     ", h=" + scaledHeight);
                         }
 
-                        b = Bitmap.createScaledBitmap(b, outWidth / scaleFactor,
-                                outHeight / scaleFactor, false);
+                        b = Bitmap.createScaledBitmap(b, scaledWidth, scaledHeight, false);
                         if (b == null) {
                             return null;
                         }
@@ -258,6 +266,7 @@ public class UriImage {
                     b.compress(CompressFormat.JPEG, quality, os);
                     int jpgFileSize = os.size();
                     if (jpgFileSize > byteLimit) {
+                        sampleSize *= 2;    // works best as a power of two
                         int reducedQuality = quality * byteLimit / jpgFileSize;
                         if (reducedQuality >= MessageUtils.MINIMUM_IMAGE_COMPRESSION_QUALITY) {
                             quality = reducedQuality;
@@ -279,12 +288,12 @@ public class UriImage {
                 if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     Log.v(TAG, "attempt=" + attempts
                             + " size=" + (os == null ? 0 : os.size())
-                            + " width=" + outWidth / scaleFactor
-                            + " height=" + outHeight / scaleFactor
+                            + " width=" + outWidth * scaleFactor
+                            + " height=" + outHeight * scaleFactor
                             + " scaleFactor=" + scaleFactor
                             + " quality=" + quality);
                 }
-                scaleFactor *= 2;
+                scaleFactor *= .75F;
                 attempts++;
             } while ((os == null || os.size() > byteLimit) && attempts < NUMBER_OF_RESIZE_ATTEMPTS);
 

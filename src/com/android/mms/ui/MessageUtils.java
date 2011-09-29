@@ -51,8 +51,6 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.media.CamcorderProfile;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -61,9 +59,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
 import android.telephony.PhoneNumberUtils;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Time;
@@ -71,7 +67,6 @@ import android.text.style.URLSpan;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -435,74 +430,6 @@ public class MessageUtils {
         return DateUtils.formatDateTime(context, when, format_flags);
     }
 
-    /**
-     * @parameter recipientIds space-separated list of ids
-     */
-    public static String getRecipientsByIds(Context context, String recipientIds,
-                                            boolean allowQuery) {
-        String value = sRecipientAddress.get(recipientIds);
-        if (value != null) {
-            return value;
-        }
-        if (!TextUtils.isEmpty(recipientIds)) {
-            StringBuilder addressBuf = extractIdsToAddresses(
-                    context, recipientIds, allowQuery);
-            if (addressBuf == null) {
-                // temporary error?  Don't memoize.
-                return "";
-            }
-            value = addressBuf.toString();
-        } else {
-            value = "";
-        }
-        sRecipientAddress.put(recipientIds, value);
-        return value;
-    }
-
-    private static StringBuilder extractIdsToAddresses(Context context, String recipients,
-                                                       boolean allowQuery) {
-        StringBuilder addressBuf = new StringBuilder();
-        String[] recipientIds = recipients.split(" ");
-        boolean firstItem = true;
-        for (String recipientId : recipientIds) {
-            String value = sRecipientAddress.get(recipientId);
-
-            if (value == null) {
-                if (!allowQuery) {
-                    // when allowQuery is false, if any value from sRecipientAddress.get() is null,
-                    // return null for the whole thing. We don't want to stick partial result
-                    // into sRecipientAddress for multiple recipient ids.
-                    return null;
-                }
-
-                Uri uri = Uri.parse("content://mms-sms/canonical-address/" + recipientId);
-                Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
-                                               uri, null, null, null, null);
-                if (c != null) {
-                    try {
-                        if (c.moveToFirst()) {
-                            value = c.getString(0);
-                            sRecipientAddress.put(recipientId, value);
-                        }
-                    } finally {
-                        c.close();
-                    }
-                }
-            }
-            if (value == null) {
-                continue;
-            }
-            if (firstItem) {
-                firstItem = false;
-            } else {
-                addressBuf.append(";");
-            }
-            addressBuf.append(value);
-        }
-
-        return (addressBuf.length() == 0) ? null : addressBuf;
-    }
-
     public static void selectAudio(Context context, int requestCode) {
         if (context instanceof Activity) {
             Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
@@ -615,35 +542,11 @@ public class MessageUtils {
     /**
      * The quality parameter which is used to compress JPEG images.
      */
-    public static final int IMAGE_COMPRESSION_QUALITY = 80;
+    public static final int IMAGE_COMPRESSION_QUALITY = 95;
     /**
      * The minimum quality parameter which is used to compress JPEG images.
      */
     public static final int MINIMUM_IMAGE_COMPRESSION_QUALITY = 50;
-
-    public static Uri saveBitmapAsPart(Context context, Uri messageUri, Bitmap bitmap)
-            throws MmsException {
-
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        bitmap.compress(CompressFormat.JPEG, IMAGE_COMPRESSION_QUALITY, os);
-
-        PduPart part = new PduPart();
-
-        part.setContentType("image/jpeg".getBytes());
-        String contentId = "Image" + System.currentTimeMillis();
-        part.setContentLocation((contentId + ".jpg").getBytes());
-        part.setContentId(contentId.getBytes());
-        part.setData(os.toByteArray());
-
-        Uri retVal = PduPersister.getPduPersister(context).persistPart(part,
-                        ContentUris.parseId(messageUri));
-
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("saveBitmapAsPart: persisted part with uri=" + retVal);
-        }
-
-        return retVal;
-    }
 
     /**
      * Message overhead that reduces the maximum image byte size.
