@@ -3219,7 +3219,9 @@ public class ComposeMessageActivity extends Activity
         int recipientCount = recipientCount();
 
         return recipientCount > 0 && recipientCount <= MmsConfig.getRecipientLimit() &&
-            (mWorkingMessage.hasAttachment() || mWorkingMessage.hasText());
+            (mWorkingMessage.hasAttachment() ||
+                    mWorkingMessage.hasText() ||
+                    mWorkingMessage.hasSubject());
     }
 
     private int recipientCount() {
