@@ -760,7 +760,7 @@ public class WorkingMessage {
             mConversation.setDraftState(true);
 
             PduPersister persister = PduPersister.getPduPersister(mActivity);
-            SendReq sendReq = makeSendReq(mConversation, mSubject, null);
+            SendReq sendReq = makeSendReq(mConversation, mSubject);
 
             // If we don't already have a Uri lying around, make a new one.  If we do
             // have one already, make sure it is synced to disk.
@@ -1047,7 +1047,7 @@ public class WorkingMessage {
             // Do the dirty work of sending the message off of the main UI thread.
             new Thread(new Runnable() {
                 public void run() {
-                    final SendReq sendReq = makeSendReq(conv, subject, mActivity);
+                    final SendReq sendReq = makeSendReq(conv, subject);
 
                     // Make sure the text in slide 0 is no longer holding onto a reference to
                     // the text in the message text box.
@@ -1206,6 +1206,23 @@ public class WorkingMessage {
                 LogTag.debug("sendMmsWorker: update draft MMS message " + mmsUri);
             }
 
+            // One last check to verify the address of the recipient.
+            String[] dests = conv.getRecipients().getNumbers(true /* scrub for MMS address */);
+            if (dests.length == 1) {
+                // verify the single address matches what's in the database. If we get a different
+                // address back, jam the new value back into the SendReq.
+                String newAddress =
+                    Conversation.verifySingleRecipient(mActivity, conv.getThreadId(), dests[0]);
+
+                if (!newAddress.equals(dests[0])) {
+                    dests[0] = newAddress;
+                    EncodedStringValue[] encodedNumbers = EncodedStringValue.encodeStrings(dests);
+                    if (encodedNumbers != null) {
+                        sendReq.setTo(encodedNumbers);
+                    }
+                }
+            }
+
             if (mmsUri == null) {
                 // Create a new MMS message if one hasn't been made yet.
                 mmsUri = createDraftMmsMessage(persister, sendReq, slideshow);
@@ -1324,14 +1341,8 @@ public class WorkingMessage {
      * makeSendReq should always return a non-null SendReq, whether the dest addresses are
      * valid or not.
      */
-    private static SendReq makeSendReq(Conversation conv, CharSequence subject,
-            final Context context) {
+    private static SendReq makeSendReq(Conversation conv, CharSequence subject) {
         String[] dests = conv.getRecipients().getNumbers(true /* scrub for MMS address */);
-
-        if (context != null && dests.length == 1) {
-            // verify the single address matches what's in the database
-            dests[0] = Conversation.verifySingleRecipient(context, conv.getThreadId(), dests[0]);
-        }
 
         SendReq req = new SendReq();
         EncodedStringValue[] encodedNumbers = EncodedStringValue.encodeStrings(dests);
@@ -1371,7 +1382,7 @@ public class WorkingMessage {
                 try {
                     DraftCache.getInstance().setSavingDraft(true);
                     final PduPersister persister = PduPersister.getPduPersister(mActivity);
-                    final SendReq sendReq = makeSendReq(conv, mSubject, null);
+                    final SendReq sendReq = makeSendReq(conv, mSubject);
 
                     if (mMessageUri == null) {
                         mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow);
