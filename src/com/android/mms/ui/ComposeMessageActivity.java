@@ -2178,7 +2178,7 @@ public class ComposeMessageActivity extends Activity
             public void run() {
                 drawBottomPanel();
                 updateSendButtonState();
-                drawTopPanel(false);
+                drawTopPanel(isSubjectEditorVisible());
             }
         });
     }
