@@ -22,6 +22,7 @@ import java.io.File;
 import com.google.android.mms.ContentType;
 import com.android.mms.ExceedMessageSizeException;
 import com.google.android.mms.MmsException;
+import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.ResolutionException;
@@ -425,7 +426,7 @@ public class SlideEditorActivity extends Activity {
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 // We have to pass a uri to store the picture data, otherwise the camera will return
                 // a very small image bitmap.
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Mms.ScrapSpace.CONTENT_URI);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, MmsApp.SCRAP_CONTENT_URI);
                 startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
                 break;
 
@@ -572,7 +573,8 @@ public class SlideEditorActivity extends Activity {
                 break;
 
             case REQUEST_CODE_TAKE_PICTURE:
-                File file = new File(Mms.ScrapSpace.SCRAP_FILE_PATH);
+                MmsApp app = MmsApp.getApplication();
+                String filePath = app.getScrapPath();
 
                 // There's only a single scrap file, but there can be several slides. We rename
                 // the scrap file to a new scrap file with the slide number as part of the filename.
@@ -580,17 +582,12 @@ public class SlideEditorActivity extends Activity {
                 // Replace the filename ".temp.jpg" with ".temp#.jpg" where # is the slide number
                 Uri pictureUri = null;
                 try {
-                    int lastSlash = Mms.ScrapSpace.SCRAP_FILE_PATH.lastIndexOf('/');
-                    if (lastSlash < 0) {
-                        throw new MmsException("No slash in SCRAP_FILE_PATH");
-                    }
-                    String newTempFilePath =
-                        Mms.ScrapSpace.SCRAP_FILE_PATH.substring(0, lastSlash + 1)
-                        + ".temp" + mPosition + ".jpg";
-                    File newTempFile = new File(newTempFilePath);
+                    File newTempFile = new File(app.getScrapPath(".temp#.jpg"));
                     // remove any existing file before rename
+                    File oldTempFile = new File(filePath);
+
                     boolean deleted = newTempFile.delete();
-                    boolean renamed = file.renameTo(newTempFile);
+                    boolean renamed = oldTempFile.renameTo(newTempFile);
                     if (!renamed) {
                         throw new MmsException("Couldn't rename scrap file");
                     }

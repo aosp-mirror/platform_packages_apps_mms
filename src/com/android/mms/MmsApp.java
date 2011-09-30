@@ -36,6 +36,7 @@ import android.content.res.Configuration;
 import android.location.Country;
 import android.location.CountryDetector;
 import android.location.CountryListener;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.telephony.TelephonyManager;
@@ -122,5 +123,24 @@ public class MmsApp extends Application {
 
     public String getCurrentCountryIso() {
         return mCountryIso == null ? Locale.getDefault().getCountry() : mCountryIso;
+    }
+
+    /**
+     * The content:// style URL for this table
+     */
+    public static final Uri SCRAP_CONTENT_URI = Uri.parse("content://mms_temp_file/scrapSpace");
+
+    /**
+     * This is the scrap file we use to store the media attachment when the user
+     * chooses to capture a photo to be attached . We pass {#link@Uri} to the Camera app,
+     * which streams the captured image to the uri. Internally we write the media content
+     * to this file. It's named '.temp.jpg' so Gallery won't pick it up.
+     */
+    public String getScrapPath(String fileName) {
+        return getExternalCacheDir().getAbsolutePath() + "/" + fileName;
+    }
+
+    public String getScrapPath() {
+        return getScrapPath(".temp.jpg");
     }
 }

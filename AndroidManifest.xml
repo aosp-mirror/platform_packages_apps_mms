@@ -287,5 +287,9 @@
             </intent-filter>
         </service>
 
+        <provider android:name="TempFileProvider"
+                  android:authorities="mms_temp_file"
+                  android:multiprocess="true" />
+
     </application>
 </manifest>
