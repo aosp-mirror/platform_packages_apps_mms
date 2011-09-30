@@ -2449,7 +2449,7 @@ public class ComposeMessageActivity extends Activity
             case AttachmentTypeSelectorAdapter.TAKE_PICTURE: {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Mms.ScrapSpace.CONTENT_URI);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, MmsApp.SCRAP_CONTENT_URI);
                 startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
                 break;
             }
@@ -2567,7 +2567,7 @@ public class ComposeMessageActivity extends Activity
                 // create a file based uri and pass to addImage(). We want to read the JPEG
                 // data directly from file (using UriImage) instead of decoding it into a Bitmap,
                 // which takes up too much memory and could easily lead to OOM.
-                File file = new File(Mms.ScrapSpace.SCRAP_FILE_PATH);
+                File file = new File(MmsApp.getApplication().getScrapPath());
                 Uri uri = Uri.fromFile(file);
                 addImage(uri, false);
                 break;
