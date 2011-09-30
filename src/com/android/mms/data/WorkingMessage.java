@@ -1494,6 +1494,8 @@ public class WorkingMessage {
         // that means we deleted the thread, too. Must reset the thread id
         // so we'll eventually create a new thread.
         if (haveDraft && conv.getMessageCount() == 0) {
+            asyncDeleteDraftSmsMessage(conv);
+
             // Clean out drafts for this thread -- if the recipient set changes,
             // we will lose track of the original draft and be unable to delete
             // it later.  The message will be re-saved if necessary upon exit of
