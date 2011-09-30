@@ -159,6 +159,7 @@
 
         <activity android:name=".ui.SlideshowActivity"
             android:noHistory="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/MmsHoloTheme"
             android:label="@string/slideshow_activity">
         </activity>
