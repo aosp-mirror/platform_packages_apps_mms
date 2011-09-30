@@ -706,8 +706,7 @@ public class ComposeMessageActivity extends Activity
                 return false;
             }
         }
-        if (!(Mms.isEmailAddress(name) || Mms.isPhoneNumber(name) ||
-                MessageUtils.isLocalNumber(contact.getNumber()))) {     // Handle "Me"
+        if (!(Mms.isEmailAddress(name) || Mms.isPhoneNumber(name) || contact.isMe())) {
             return false;
         }
         return true;
