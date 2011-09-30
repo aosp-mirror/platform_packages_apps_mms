@@ -40,6 +40,7 @@ import android.util.Log;
 
 import com.android.common.contacts.DataUsageStatUpdater;
 import com.android.common.userhappiness.UserHappinessSignals;
+import com.android.mms.ContentRestrictionException;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
@@ -1018,6 +1019,9 @@ public class WorkingMessage {
      * Send this message over the network.  Will call back with onMessageSent() once
      * it has been dispatched to the telephony stack.  This WorkingMessage object is
      * no longer useful after this method has been called.
+     *
+     * @throws ContentRestrictionException if sending an MMS and uaProfUrl is not defined
+     * in mms_config.xml.
      */
     public void send(final String recipientsInUI) {
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
@@ -1035,6 +1039,18 @@ public class WorkingMessage {
         String msgTxt = mText.toString();
 
         if (requiresMms() || addressContainsEmailToMms(conv, msgTxt)) {
+            // uaProfUrl setting in mms_config.xml must be present to send an MMS.
+            // However, SMS service will still work in the absence of a uaProfUrl address.
+            if (MmsConfig.getUaProfUrl() == null) {
+                String err = "WorkingMessage.send MMS sending failure. mms_config.xml is " +
+                        "missing uaProfUrl setting.  uaProfUrl is required for MMS service, " +
+                        "but can be absent for SMS.";
+                RuntimeException ex = new ContentRestrictionException(err);
+                Log.e(TAG, err, ex);
+                // now, let's just crash.
+                throw ex;
+            }
+
             // Make local copies of the bits we need for sending a message,
             // because we will be doing it off of the main thread, which will
             // immediately continue on to resetting some of this state.

@@ -372,7 +372,6 @@ public class MmsConfig {
                 String.format("MmsConfig.loadMmsSettings mms_config.xml missing %s setting",
                         errorStr);
             Log.e(TAG, err);
-            throw new ContentRestrictionException(err);
         }
     }
 
