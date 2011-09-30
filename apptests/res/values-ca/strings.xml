@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/*
+ * Copyright (C) 2011 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="sms_recipient_label" msgid="5386729712089560319">"Núm. de destinatari"</string>
+    <string name="sms_content_label" msgid="6925011114651008350">"Cos del missatge"</string>
+    <string name="sms_send_message" msgid="8981993688052085706">"Envia"</string>
+    <string name="sms_send_multi_message" msgid="770621664833955226">"Envia cinc missatges"</string>
+    <string name="sms_send_long_message" msgid="2393262590085164889">"Envia un missatge llarg"</string>
+    <string name="sms_prime_message" msgid="6552450490792253465">"Prepara un missatge llarg"</string>
+    <string name="sms_long_message" msgid="1666294083519819794">"Ara és el moment en què tots els bons homes han d\'acudir en ajuda del seu país."</string>
+    <string name="reply" msgid="767653312635150733">"Respon"</string>
+    <string name="dismiss" msgid="3587724410950536331">"Omet"</string>
+    <string name="activity_label" msgid="3968117725702962381">"Comprovador de SMS"</string>
+</resources>

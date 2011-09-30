@@ -20,7 +20,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sms_recipient_label" msgid="5386729712089560319">"# Penerima"</string>
-    <string name="sms_content_label" msgid="6925011114651008350">"Badan Mesej"</string>
+    <string name="sms_content_label" msgid="6925011114651008350">"Isi Mesej"</string>
     <string name="sms_send_message" msgid="8981993688052085706">"Hantar"</string>
     <string name="sms_send_multi_message" msgid="770621664833955226">"Hantar lima mesej"</string>
     <string name="sms_send_long_message" msgid="2393262590085164889">"Hantar mesej yang panjang"</string>

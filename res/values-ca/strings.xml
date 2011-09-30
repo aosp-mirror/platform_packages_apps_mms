@@ -198,8 +198,7 @@
     <string name="delete_unlocked" msgid="7545321606698162261">"Suprimeix els missatges bloquejats"</string>
     <string name="delete" msgid="1409973060081564612">"Suprimeix"</string>
     <string name="select_conversations" msgid="5754828781497722394">"Selecciona les converses"</string>
-    <!-- no translation found for no_conversations (2095684444005566703) -->
-    <skip />
+    <string name="no_conversations" msgid="2095684444005566703">"Cap conversa"</string>
     <string name="cannot_get_details" msgid="6493664168168047746">"No es poden obtenir els detalls"</string>
     <string name="message_details_title" msgid="9223295113731634528">"Detalls del missatge"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Tipus: "</string>
@@ -318,7 +317,6 @@
     <string name="storage_limits_setting" msgid="4952781049308537373">"Defineix els límits"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Sense límits"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"En aquests moments no es pot enviar el missatge. Hi ha massa missatges multimèdia sense enviar."</string>
-    <string name="me" msgid="341726346007839961">"Mi"</string>
     <string name="sending_message" msgid="2054406576361149715">"S\'ESTÀ ENVIANT..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Massa destinataris"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"S\'estan afegint destinataris..."</string>
