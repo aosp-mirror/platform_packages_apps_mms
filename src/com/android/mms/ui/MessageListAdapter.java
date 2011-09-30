@@ -31,13 +31,12 @@ import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import com.android.mms.R;
 import com.google.android.mms.MmsException;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.regex.Pattern;
 
 /**
@@ -108,16 +107,12 @@ public class MessageListAdapter extends CursorAdapter {
     public static final int OUTGOING_ITEM_TYPE = 1;
 
     protected LayoutInflater mInflater;
-    private final ListView mListView;
     private final LruCache<Long, MessageItem> mMessageItemCache;
     private final ColumnsMap mColumnsMap;
     private OnDataSetChangedListener mOnDataSetChangedListener;
     private Handler mMsgListItemHandler;
     private Pattern mHighlight;
     private Context mContext;
-
-    private HashMap<String, HashSet<MessageListItem>> mAddressToMessageListItems
-        = new HashMap<String, HashSet<MessageListItem>>();
 
     public MessageListAdapter(
             Context context, Cursor c, ListView listView,
@@ -128,7 +123,6 @@ public class MessageListAdapter extends CursorAdapter {
 
         mInflater = (LayoutInflater) context.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
-        mListView = listView;
         mMessageItemCache = new LruCache<Long, MessageItem>(CACHE_SIZE);
 
         if (useDefaultColumnsMap) {
@@ -136,6 +130,17 @@ public class MessageListAdapter extends CursorAdapter {
         } else {
             mColumnsMap = new ColumnsMap(c);
         }
+
+        listView.setRecyclerListener(new AbsListView.RecyclerListener() {
+            @Override
+            public void onMovedToScrapHeap(View view) {
+                if (view instanceof MessageListItem) {
+                    MessageListItem mli = (MessageListItem) view;
+                    // Clear references to resources
+                    mli.unbind();
+                }
+            }
+        });
     }
 
     @Override
@@ -147,37 +152,8 @@ public class MessageListAdapter extends CursorAdapter {
             MessageItem msgItem = getCachedMessageItem(type, msgId, cursor);
             if (msgItem != null) {
                 MessageListItem mli = (MessageListItem) view;
-
-                // Remove previous item from mapping
-                MessageItem oldMessageItem = mli.getMessageItem();
-                if (oldMessageItem != null) {
-                    String oldAddress = oldMessageItem.mAddress;
-                    if (oldAddress != null) {
-                        HashSet<MessageListItem> set = mAddressToMessageListItems.get(oldAddress);
-                        if (set != null) {
-                            set.remove(mli);
-                        }
-                    }
-                }
-
                 mli.bind(msgItem, cursor.getPosition() == cursor.getCount() - 1);
                 mli.setMsgListItemHandler(mMsgListItemHandler);
-
-                // Add current item to mapping
-
-                String addr;
-                if (!Sms.isOutgoingFolder(msgItem.mBoxId)) {
-                    addr = msgItem.mAddress;
-                } else {
-                    addr = MessageUtils.getLocalNumber();
-                }
-
-                HashSet<MessageListItem> set = mAddressToMessageListItems.get(addr);
-                if (set == null) {
-                    set = new HashSet<MessageListItem>();
-                    mAddressToMessageListItems.put(addr, set);
-                }
-                set.add(mli);
             }
         }
     }
@@ -193,15 +169,6 @@ public class MessageListAdapter extends CursorAdapter {
 
     public void setMsgListItemHandler(Handler handler) {
         mMsgListItemHandler = handler;
-    }
-
-    public void notifyImageLoaded(String address) {
-        HashSet<MessageListItem> set = mAddressToMessageListItems.get(address);
-        if (set != null) {
-            for (MessageListItem mli : set) {
-                mli.bind(mli.getMessageItem(), false);
-            }
-        }
     }
 
     @Override

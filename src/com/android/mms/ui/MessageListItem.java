@@ -161,6 +161,21 @@ public class MessageListItem extends LinearLayout implements
         }
     }
 
+    public void unbind() {
+        // Clear all references to the message item, which can contain attachments and other
+        // memory-intensive objects
+        mMessageItem = null;
+        if (mImageView != null) {
+            // Because #setOnClickListener may have set the listener to an object that has the
+            // message item in its closure.
+            mImageView.setOnClickListener(null);
+        }
+        if (mSlideShowButton != null) {
+            // Because #drawPlaybackButton sets the tag to mMessageItem
+            mSlideShowButton.setTag(null);
+        }
+    }
+
     public MessageItem getMessageItem() {
         return mMessageItem;
     }
