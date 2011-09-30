@@ -214,6 +214,7 @@ public class MessageListItem extends LinearLayout implements
         mLockedIndicator.setVisibility(View.GONE);
         mDeliveredIndicator.setVisibility(View.GONE);
         mDetailsIndicator.setVisibility(View.GONE);
+        updateAvatarView(msgItem.mAddress, false);
     }
 
     private void updateAvatarView(String addr, boolean isSelf) {
