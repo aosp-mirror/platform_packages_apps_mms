@@ -42,7 +42,7 @@
     <string name="view_delivery_report" msgid="8219095994071575215">"Buka umbiko"</string>
     <string name="delete_message" msgid="6442394955910357234">"Susa"</string>
     <string name="expire_on" msgid="4436268382742593921">"Okuphelelwa yisikhathi: <xliff:g id="DATE">%s</xliff:g>"</string>
-    <string name="kilobyte" msgid="534782148965716631">"I-KB"</string>
+    <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Umyalezo ongathunyelwanga"</string>
     <string name="undelivered_msg_dialog_body" msgid="3574032060588309397">"Ayikwazi ukuthumela lomyalezo."\n"Umzamo owenziwe: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="6755818550013032420">"Ayikwazi ukuthumela lomyalezo."</string>
@@ -198,8 +198,7 @@
     <string name="delete_unlocked" msgid="7545321606698162261">"Susa imiyalezo evaliwe"</string>
     <string name="delete" msgid="1409973060081564612">"Susa"</string>
     <string name="select_conversations" msgid="5754828781497722394">"Khetha izingxoxo"</string>
-    <!-- no translation found for no_conversations (2095684444005566703) -->
-    <skip />
+    <string name="no_conversations" msgid="2095684444005566703">"Azikho izingxoxo"</string>
     <string name="cannot_get_details" msgid="6493664168168047746">"Ayikwazi ukuthola imininingwane"</string>
     <string name="message_details_title" msgid="9223295113731634528">"Imininingwane yomyalezo"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Uhlobo: "</string>
@@ -275,7 +274,7 @@
     <string name="message_download_failed_title" msgid="5722226064394767921">"Umlayezo awuzange ulandwe"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"Umlayezo awuthunyelwanga"</string>
     <string name="message_failed_body" msgid="2740907094762116644">"Khetha ukubona kuqala umyalezo bese uzama futhi."</string>
-    <string name="download_later" msgid="4486286146421650880">"Okwamanje ayikwazi ukulayisha. Sicela uzame futhi emva kwesikhathi."</string>
+    <string name="download_later" msgid="4486286146421650880">"Okwamanje ayikwazi ukulayisha. Sicela uzame futhi emuva kwesikhathi."</string>
     <string name="select_audio" msgid="3120822451872772124">"Khetha umsindo"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Gcina isinamathiseli"</string>
     <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Isinamathiseli silondoloziwe"</string>
@@ -318,7 +317,6 @@
     <string name="storage_limits_setting" msgid="4952781049308537373">"Hlela imikhawulo"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Ayikho imikhawulo"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Ayikwazi ukuthumela umyalezo okwamanje. Kunemiyalezo eminingi kakhulu yoxhumano oluxubile engathunyelwanga."</string>
-    <string name="me" msgid="341726346007839961">"Mina"</string>
     <string name="sending_message" msgid="2054406576361149715">"IYATHUMELA…"</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Kunabamukeli abaningi kakhulu"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Yengeza abamukeli..."</string>
