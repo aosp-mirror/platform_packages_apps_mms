@@ -38,6 +38,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Browser;
+import android.provider.ContactsContract.Profile;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
@@ -215,16 +216,20 @@ public class MessageListItem extends LinearLayout implements
         mDetailsIndicator.setVisibility(View.GONE);
     }
 
-    private void updateAvatarView(String addr) {
+    private void updateAvatarView(String addr, boolean isSelf) {
         Drawable avatarDrawable;
-        if (!TextUtils.isEmpty(addr)) {
-            Contact contact = Contact.get(addr, false);
+        if (isSelf || !TextUtils.isEmpty(addr)) {
+            Contact contact = isSelf ? Contact.getMe(false) : Contact.get(addr, false);
             avatarDrawable = contact.getAvatar(mContext, sDefaultContactImage);
 
-            if (contact.existsInDatabase()) {
-                mAvatar.assignContactUri(contact.getUri());
+            if (isSelf) {
+                mAvatar.assignContactUri(Profile.CONTENT_URI);
             } else {
-                mAvatar.assignContactFromPhone(contact.getNumber(), true);
+                if (contact.existsInDatabase()) {
+                    mAvatar.assignContactUri(contact.getUri());
+                } else {
+                    mAvatar.assignContactFromPhone(contact.getNumber(), true);
+                }
             }
         } else {
             avatarDrawable = sDefaultContactImage;
@@ -242,13 +247,9 @@ public class MessageListItem extends LinearLayout implements
         // displaying it by the Presenter.
         mBodyTextView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
-        String addr = null;
-        if (!Sms.isOutgoingFolder(msgItem.mBoxId)) {
-            addr = msgItem.mAddress;
-        } else {
-            addr = MmsApp.getApplication().getTelephonyManager().getLine1Number();
-        }
-        updateAvatarView(addr);
+        boolean isSelf = Sms.isOutgoingFolder(msgItem.mBoxId);
+        String addr = isSelf ? null : msgItem.mAddress;
+        updateAvatarView(addr, isSelf);
 
         // Get and/or lazily set the formatted message from/on the
         // MessageItem.  Because the MessageItem instances come from a

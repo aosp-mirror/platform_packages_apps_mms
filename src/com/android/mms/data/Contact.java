@@ -35,17 +35,20 @@ import android.database.sqlite.SqliteWrapper;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
+import com.android.mms.R;
 
 public class Contact {
     public static final int CONTACT_METHOD_TYPE_UNKNOWN = 0;
     public static final int CONTACT_METHOD_TYPE_PHONE = 1;
     public static final int CONTACT_METHOD_TYPE_EMAIL = 2;
+    public static final int CONTACT_METHOD_TYPE_SELF = 3;       // the "Me" or profile contact
     public static final String TEL_SCHEME = "tel";
     public static final String CONTENT_SCHEME = "content";
     private static final int CONTACT_METHOD_ID_UNKNOWN = -1;
     private static final String TAG = "Contact";
     private static final boolean V = false;
     private static ContactsCache sContactCache;
+    private static final String SELF_ITEM_KEY = "Self_Item_Key";
 
 //    private static final ContentObserver sContactsObserver = new ContentObserver(new Handler()) {
 //        @Override
@@ -89,6 +92,7 @@ public class Contact {
     private byte [] mAvatarData;
     private boolean mIsStale;
     private boolean mQueryPending;
+    private boolean mIsMe;          // true if this contact is me!
 
     public interface UpdateListener {
         public void onUpdate(Contact updated);
@@ -102,6 +106,11 @@ public class Contact {
      */
     private Contact(String number) {
         init(number, "");
+    }
+
+    private Contact(boolean isMe) {
+        init(SELF_ITEM_KEY, "");
+        mIsMe = isMe;
     }
 
     private void init(String number, String name) {
@@ -152,6 +161,10 @@ public class Contact {
         return sContactCache.get(number, canBlock);
     }
 
+    public static Contact getMe(boolean canBlock) {
+        return sContactCache.getMe(canBlock);
+    }
+
     public static List<Contact> getByPhoneUris(Parcelable[] uris) {
         return sContactCache.getContactInfoForPhoneUris(uris);
     }
@@ -169,6 +182,10 @@ public class Contact {
         // updated with the latest info. They redraw themselves when we call the
         // listener's onUpdate().
         sContactCache.invalidate();
+    }
+
+    public boolean isMe() {
+        return mIsMe;
     }
 
     private static String emptyIfNull(String s) {
@@ -412,6 +429,14 @@ public class Contact {
         private static final int CONTACT_STATUS_COLUMN = 6;
         private static final int PHONE_NORMALIZED_NUMBER = 7;
 
+        private static final String[] SELF_PROJECTION = new String[] {
+                Phone._ID,                      // 0
+                Phone.DISPLAY_NAME,             // 1
+        };
+
+        private static final int SELF_ID_COLUMN = 0;
+        private static final int SELF_NAME_COLUMN = 1;
+
         // query params for contact lookup by email
         private static final Uri EMAIL_WITH_PRESENCE_URI = Data.CONTENT_URI;
 
@@ -495,8 +520,16 @@ public class Contact {
             mTaskQueue.push(r);
         }
 
+        public Contact getMe(boolean canBlock) {
+            return get(SELF_ITEM_KEY, true, canBlock);
+        }
+
         public Contact get(String number, boolean canBlock) {
-            if (V) logWithTrace("get(%s, %s)", number, canBlock);
+            return get(number, false, canBlock);
+        }
+
+        private Contact get(String number, boolean isMe, boolean canBlock) {
+            if (V) logWithTrace("get(%s, %s, %s)", number, isMe, canBlock);
 
             if (TextUtils.isEmpty(number)) {
                 number = "";        // In some places (such as Korea), it's possible to receive
@@ -507,7 +540,7 @@ public class Contact {
 
             // Always return a Contact object, if if we don't have an actual contact
             // in the contacts db.
-            Contact contact = get(number);
+            Contact contact = internalGet(number, isMe);
             Runnable r = null;
 
             synchronized (contact) {
@@ -661,7 +694,7 @@ public class Contact {
                 return;
             }
 
-            Contact entry = getContactInfo(c.mNumber);
+            Contact entry = getContactInfo(c);
             synchronized (c) {
                 if (contactChanged(c, entry)) {
                     if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
@@ -679,12 +712,7 @@ public class Contact {
                     c.mContactMethodType = entry.mContactMethodType;
                     c.mNumberE164 = entry.mNumberE164;
                     c.mDefaultCountryIso = entry.mDefaultCountryIso;
-                    // Check to see if this is the local ("me") number and update the name.
-                    if (MessageUtils.isLocalNumber(c.mNumber)) {
-                        c.mName = mContext.getString(com.android.mms.R.string.me);
-                    } else {
-                        c.mName = entry.mName;
-                    }
+                    c.mName = entry.mName;
 
                     c.notSynchronizedUpdateNameAndNumber();
 
@@ -718,11 +746,13 @@ public class Contact {
         /**
          * Returns the caller info in Contact.
          */
-        public Contact getContactInfo(String numberOrEmail) {
-            if (Mms.isEmailAddress(numberOrEmail) || isAlphaNumber(numberOrEmail)) {
-                return getContactInfoForEmailAddress(numberOrEmail);
+        private Contact getContactInfo(Contact c) {
+            if (c.mIsMe) {
+                return getContactInfoForSelf();
+            } else if (Mms.isEmailAddress(c.mNumber) || isAlphaNumber(c.mNumber)) {
+                return getContactInfoForEmailAddress(c.mNumber);
             } else {
-                return getContactInfoForPhoneNumber(numberOrEmail);
+                return getContactInfoForPhoneNumber(c.mNumber);
             }
         }
 
@@ -805,6 +835,32 @@ public class Contact {
             return entry;
         }
 
+        /**
+         * @return a Contact containing the info for the profile.
+         */
+        private Contact getContactInfoForSelf() {
+            Contact entry = new Contact(true);
+            entry.mContactMethodType = CONTACT_METHOD_TYPE_SELF;
+
+            //if (LOCAL_DEBUG) log("getContactInfoForSelf: number=" + number);
+            Cursor cursor = mContext.getContentResolver().query(
+                    Profile.CONTENT_URI, SELF_PROJECTION, null, null, null);
+            if (cursor == null) {
+                Log.w(TAG, "getContactInfoForSelf() returned NULL cursor!"
+                        + " contact uri used " + Profile.CONTENT_URI);
+                return entry;
+            }
+
+            try {
+                if (cursor.moveToFirst()) {
+                    fillSelfContact(entry, cursor);
+                }
+            } finally {
+                cursor.close();
+            }
+            return entry;
+        }
+
         private void fillPhoneTypeContact(final Contact contact, final Cursor cursor) {
             synchronized (contact) {
                 contact.mContactMethodType = CONTACT_METHOD_TYPE_PHONE;
@@ -818,8 +874,26 @@ public class Contact {
                 contact.mNumberE164 = cursor.getString(PHONE_NORMALIZED_NUMBER);
                 contact.mDefaultCountryIso = MmsApp.getApplication().getCurrentCountryIso();
                 if (V) {
-                    log("queryContactInfoByNumber: name=" + contact.mName + ", number="
+                    log("fillPhoneTypeContact: name=" + contact.mName + ", number="
                             + contact.mNumber + ", presence=" + contact.mPresenceResId);
+                }
+            }
+            byte[] data = loadAvatarData(contact);
+
+            synchronized (contact) {
+                contact.mAvatarData = data;
+            }
+        }
+
+        private void fillSelfContact(final Contact contact, final Cursor cursor) {
+            synchronized (contact) {
+                contact.mName = cursor.getString(SELF_NAME_COLUMN);
+                if (TextUtils.isEmpty(contact.mName)) {
+                    contact.mName = mContext.getString(R.string.messagelist_sender_self);
+                }
+                if (V) {
+                    log("fillSelfContact: name=" + contact.mName + ", number="
+                            + contact.mNumber);
                 }
             }
             byte[] data = loadAvatarData(contact);
@@ -838,7 +912,7 @@ public class Contact {
         private byte[] loadAvatarData(Contact entry) {
             byte [] data = null;
 
-            if (entry.mPersonId == 0 || entry.mAvatar != null) {
+            if ((!entry.mIsMe && entry.mPersonId == 0) || entry.mAvatar != null) {
                 return null;
             }
 
@@ -848,7 +922,7 @@ public class Contact {
 
             // If the contact is "me", then use my local profile photo. Otherwise, build a
             // uri to get the avatar of the contact.
-            Uri contactUri = MessageUtils.isLocalNumber(entry.mNumber) ?
+            Uri contactUri = entry.mIsMe ?
                     Profile.CONTENT_URI :
                     ContentUris.withAppendedId(Contacts.CONTENT_URI, entry.mPersonId);
 
@@ -974,11 +1048,11 @@ public class Contact {
         static final int STATIC_KEY_BUFFER_MAXIMUM_LENGTH = 5;
         static CharBuffer sStaticKeyBuffer = CharBuffer.allocate(STATIC_KEY_BUFFER_MAXIMUM_LENGTH);
 
-        public Contact get(String numberOrEmail) {
+        private Contact internalGet(String numberOrEmail, boolean isMe) {
             synchronized (ContactsCache.this) {
                 // See if we can find "number" in the hashtable.
                 // If so, just return the result.
-                final boolean isNotRegularPhoneNumber = Mms.isEmailAddress(numberOrEmail) ||
+                final boolean isNotRegularPhoneNumber = isMe || Mms.isEmailAddress(numberOrEmail) ||
                         MessageUtils.isAlias(numberOrEmail);
                 final String key = isNotRegularPhoneNumber ?
                         numberOrEmail : key(numberOrEmail, sStaticKeyBuffer);
@@ -1003,7 +1077,9 @@ public class Contact {
                     // call toString() since it may be the static CharBuffer
                     mContactsHash.put(key, candidates);
                 }
-                Contact c = new Contact(numberOrEmail);
+                Contact c = isMe ?
+                        new Contact(true) :
+                        new Contact(numberOrEmail);
                 candidates.add(c);
                 return c;
             }
