@@ -198,8 +198,7 @@
     <string name="delete_unlocked" msgid="7545321606698162261">"የተቆለፉ መልዕክቶችን ሰርዝ"</string>
     <string name="delete" msgid="1409973060081564612">"ሰርዝ"</string>
     <string name="select_conversations" msgid="5754828781497722394">"ንግግሮች ምረጥ"</string>
-    <!-- no translation found for no_conversations (2095684444005566703) -->
-    <skip />
+    <string name="no_conversations" msgid="2095684444005566703">"ምንም ውይይቶች የሉም፡፡"</string>
     <string name="cannot_get_details" msgid="6493664168168047746">"ዝርዝሮች ማግኘት አልተቻለም።"</string>
     <string name="message_details_title" msgid="9223295113731634528">"የመልዕክት ዝርዝሮች"</string>
     <string name="message_type_label" msgid="7975373966795945566">"ዓይነት: "</string>
@@ -318,7 +317,6 @@
     <string name="storage_limits_setting" msgid="4952781049308537373">"ወሰን አዘጋጅ"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"ወሰን የለም"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"መልዕክት አሁን መላክ አልተቻለም።ያልተላኩ በጣም ብዙ ማህደረ ብዙ መረጃመልዕክቶች አሉ።"</string>
-    <string name="me" msgid="341726346007839961">"እኔ"</string>
     <string name="sending_message" msgid="2054406576361149715">"በመላክ ላይ…"</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"በጣም ብዙ ተቀባዮች"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"ተቀባዮችን ማከል..."</string>

@@ -53,7 +53,7 @@
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Тема: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Текст защищен средствами DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Обнаруженных прав DRM недостаточно."</string>
-    <string name="copy_message_text" msgid="4296252229544252834">"Копировать текст"</string>
+    <string name="copy_message_text" msgid="4296252229544252834">"Скопировать текст"</string>
     <string name="message_options" msgid="6838806653341967550">"Параметры сообщения"</string>
     <string name="done" msgid="7479926268660505871">"Готово"</string>
     <string name="move_up" msgid="7307578107431739359">"Переместить вверх"</string>
@@ -198,8 +198,7 @@
     <string name="delete_unlocked" msgid="7545321606698162261">"Удалить заблокированные сообщения"</string>
     <string name="delete" msgid="1409973060081564612">"Удалить"</string>
     <string name="select_conversations" msgid="5754828781497722394">"Выберите цепочки"</string>
-    <!-- no translation found for no_conversations (2095684444005566703) -->
-    <skip />
+    <string name="no_conversations" msgid="2095684444005566703">"Нет цепочек"</string>
     <string name="cannot_get_details" msgid="6493664168168047746">"Не удается получить сведения"</string>
     <string name="message_details_title" msgid="9223295113731634528">"Сведения о сообщении"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Тип: "</string>
@@ -318,7 +317,6 @@
     <string name="storage_limits_setting" msgid="4952781049308537373">"Установить ограничения"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Нет ограничений"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Не удается отправить сообщение сейчас. Слишком много неотправленных MMS."</string>
-    <string name="me" msgid="341726346007839961">"Я"</string>
     <string name="sending_message" msgid="2054406576361149715">"Отправка..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Слишком много получателей"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Добавление получателей..."</string>

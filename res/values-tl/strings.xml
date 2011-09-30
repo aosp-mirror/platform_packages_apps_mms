@@ -198,8 +198,7 @@
     <string name="delete_unlocked" msgid="7545321606698162261">"Tanggalin ang mga naka-lock na mensahe"</string>
     <string name="delete" msgid="1409973060081564612">"Tanggalin"</string>
     <string name="select_conversations" msgid="5754828781497722394">"Pumili ng mga pag-uusap"</string>
-    <!-- no translation found for no_conversations (2095684444005566703) -->
-    <skip />
+    <string name="no_conversations" msgid="2095684444005566703">"Walang mga pag-uusap"</string>
     <string name="cannot_get_details" msgid="6493664168168047746">"Hindi makakuha ng mga detalye"</string>
     <string name="message_details_title" msgid="9223295113731634528">"Mga detalye ng mensahe"</string>
     <string name="message_type_label" msgid="7975373966795945566">"I-type: "</string>
@@ -318,7 +317,6 @@
     <string name="storage_limits_setting" msgid="4952781049308537373">"Itakda ang mga limitasyon"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Walang mga limitasyon"</string>
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Hindi maaaring magpadala ng mensahe ngayon. May masyadong maraming hindi naipadalang mutimedia na mensahe."</string>
-    <string name="me" msgid="341726346007839961">"Ako"</string>
     <string name="sending_message" msgid="2054406576361149715">"Ipinapadala..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Masyadong maraming recipient"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Nagdaragdag ng mga recipient..."</string>
