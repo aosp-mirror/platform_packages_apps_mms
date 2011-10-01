@@ -205,7 +205,12 @@ public class SlideView extends AbsoluteLayout implements
             mAudioPlayer.release();
             mAudioPlayer = null;
         }
+
+        // Reset state variables
         mIsPrepared = false;
+        mStartWhenPrepared = false;
+        mSeekWhenPrepared = 0;
+        mStopWhenPrepared = false;
 
         try {
             mAudioPlayer = new MediaPlayer();
