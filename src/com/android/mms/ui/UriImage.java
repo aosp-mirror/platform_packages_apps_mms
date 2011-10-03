@@ -228,17 +228,44 @@ public class UriImage {
             ByteArrayOutputStream os = null;
             int attempts = 1;
             int sampleSize = 1;
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            int quality = MessageUtils.IMAGE_COMPRESSION_QUALITY;
+            Bitmap b = null;
 
+            // In this loop, attempt to decode the stream with the best possible subsampling (we
+            // start with 1, which means no subsampling - get the original content) without running
+            // out of memory.
             do {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = sampleSize;
                 input = mContext.getContentResolver().openInputStream(mUri);
-                int quality = MessageUtils.IMAGE_COMPRESSION_QUALITY;
+                options.inSampleSize = sampleSize;
                 try {
-                    Bitmap b = BitmapFactory.decodeStream(input, null, options);
-                    if (b == null) {
-                        return null;
+                    b = BitmapFactory.decodeStream(input, null, options);
+                } catch (OutOfMemoryError e) {
+                    Log.w(TAG, "getResizedImageData: img too large to decode (OutOfMemoryError), " +
+                            "may try with larger sampleSize. Curr sampleSize=" + sampleSize);
+                    sampleSize *= 2;    // works best as a power of two
+                    attempts++;
+                    continue;
+                } finally {
+                    if (input != null) {
+                        try {
+                            input.close();
+                        } catch (IOException e) {
+                            Log.e(TAG, e.getMessage(), e);
+                        }
                     }
+                }
+            } while (b == null && attempts < NUMBER_OF_RESIZE_ATTEMPTS);
+
+            if (b == null) {
+                return null;
+            }
+
+            attempts = 1;   // reset count for second loop
+            // In this loop, we attempt to compress/resize the content to fit the given dimension
+            // and file-size limits.
+            do {
+                try {
                     if (options.outWidth > widthLimit || options.outHeight > heightLimit) {
                         // The decoder does not support the inSampleSize option.
                         // Scale the bitmap using Bitmap library.
@@ -266,7 +293,6 @@ public class UriImage {
                     b.compress(CompressFormat.JPEG, quality, os);
                     int jpgFileSize = os.size();
                     if (jpgFileSize > byteLimit) {
-                        sampleSize *= 2;    // works best as a power of two
                         int reducedQuality = quality * byteLimit / jpgFileSize;
                         if (reducedQuality >= MessageUtils.MINIMUM_IMAGE_COMPRESSION_QUALITY) {
                             quality = reducedQuality;
@@ -304,14 +330,6 @@ public class UriImage {
         } catch (java.lang.OutOfMemoryError e) {
             Log.e(TAG, e.getMessage(), e);
             return null;
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    Log.e(TAG, e.getMessage(), e);
-                }
-            }
         }
     }
 }
