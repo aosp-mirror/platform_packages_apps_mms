@@ -32,6 +32,7 @@ import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 /**
  * Suggestions provider for mms.  Queries the "words" table to provide possible word suggestions.
@@ -113,54 +114,36 @@ public class SuggestionsProvider extends android.content.ContentProvider {
         }
 
         private class Row {
-            public Row(int row, long sourceId, long which, String text, int startOffset, int endOffset) {
-                mText = text;
-                mRowNumber = row;
-                mStartOffset = startOffset;
-                mEndOffset = endOffset;
-                mSourceId = sourceId;
-                mWhich = which;
-            }
-            String mText;
-            int mRowNumber;
-            int mStartOffset;
-            int mEndOffset;
-            long mSourceId;
-            long mWhich;
+            private String mSnippet;
+            private int mRowNumber;
 
-            public String getWord() {
-                return mText;
+            public Row(int row, String snippet) {
+                mSnippet = snippet.trim();
+                mRowNumber = row;
+            }
+            public String getSnippet() {
+                return mSnippet;
             }
         }
 
         /*
-         * Compute 1 or more rows for each row in the database.  This is necessary if
-         * we decide to show multiple matches for a given row (for example, foo giving
-         * a result for food and another result for fool.
-         *
-         * In the current implementation of this method we only return a single result
-         * for each database row.
+         * Compute rows for rows in the cursor.  The cursor can contain duplicates which
+         * are filtered out in the while loop.  Using DISTINCT on the result of the
+         * FTS3 snippet function does not work so we do it here in the code.
          */
         private void computeRows() {
-            int textColumn = mDatabaseCursor.getColumnIndex("index_text");
-            int offsetsColumn = mDatabaseCursor.getColumnIndex("offsets(words)");
-            int sourceIdColumn = mDatabaseCursor.getColumnIndex("source_id");
-            int whichColumn = mDatabaseCursor.getColumnIndex("table_to_use");
+            int snippetColumn = mDatabaseCursor.getColumnIndex("snippet");
 
             int count = mDatabaseCursor.getCount();
+            String previousSnippet = null;
+
             for (int i = 0; i < count; i++) {
                 mDatabaseCursor.moveToPosition(i);
-                String message = mDatabaseCursor.getString(textColumn);
-                long which = mDatabaseCursor.getLong(whichColumn);
-
-                int [] offsets = computeOffsets(mDatabaseCursor.getString(offsetsColumn));
-
-                // just use the first match
-                int startOffset  = offsets[2];
-                int length       = offsets[3];
-                int endOffset    = startOffset + length;
-                long sourceId    = mDatabaseCursor.getLong(sourceIdColumn);
-                mRows.add(new Row(i, sourceId, which, message, startOffset, endOffset));
+                String snippet = mDatabaseCursor.getString(snippetColumn);
+                if (!TextUtils.equals(previousSnippet, snippet)) {
+                    mRows.add(new Row(i, snippet));
+                    previousSnippet = snippet;
+                }
             }
         }
 
@@ -317,17 +300,15 @@ public class SuggestionsProvider extends android.content.ContentProvider {
             switch (column - mColumnCount) {
                 case INTENT_DATA_COLUMN:
                     Uri.Builder b = Uri.parse("content://mms-sms/search").buildUpon();
-                    b = b.appendQueryParameter("pattern", SuggestionsCursor.this.mQuery);
-                    b = b.appendQueryParameter("source_id", String.valueOf(row.mSourceId));
-                    b = b.appendQueryParameter("which_table", String.valueOf(row.mWhich));
+                    b = b.appendQueryParameter("pattern", row.getSnippet());
                     Uri u = b.build();
                     return u.toString();
                 case INTENT_ACTION_COLUMN:
                     return Intent.ACTION_SEARCH;
                 case INTENT_EXTRA_DATA_COLUMN:
-                    return SuggestionsCursor.this.mQuery;
+                    return row.getSnippet();
                 case INTENT_TEXT_COLUMN:
-                    return row.getWord();
+                    return row.getSnippet();
                 default:
                     return null;
             }
