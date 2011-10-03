@@ -62,8 +62,20 @@ public class MmsConfig {
     private static int mMinimumSlideElementDuration = 7;        // default to 7 sec
     private static boolean mNotifyWapMMSC = false;
     private static boolean mAllowAttachAudio = true;
+
+    // See the comment below for mEnableMultipartSMS.
     private static int mSmsToMmsTextThreshold = 4;
+
+    // This flag is somewhat confusing. If mEnableMultipartSMS is true, long sms messages are
+    // always sent as multi-part sms messages, with no checked limit on the number of segments.
+    // If mEnableMultipartSMS is false, then mSmsToMmsTextThreshold is used to determine the
+    // limit of the number of sms segments before turning the long sms message into an mms
+    // message. For example, if mSmsToMmsTextThreshold is 4, then a long sms message with three
+    // or fewer segments will be sent as a multi-part sms. When the user types more characters
+    // to cause the message to be 4 segments or more, the send button will show the MMS tag to
+    // indicate the message will be sent as an mms.
     private static boolean mEnableMultipartSMS = true;
+
     private static boolean mEnableSlideDuration = true;
     private static boolean mEnableMMSReadReports = true;        // key: "enableMMSReadReports"
     private static boolean mEnableSMSDeliveryReports = true;    // key: "enableSMSDeliveryReports"
