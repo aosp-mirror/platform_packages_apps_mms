@@ -199,14 +199,6 @@ public class UriImage {
     private static final int NUMBER_OF_RESIZE_ATTEMPTS = 4;
 
     private byte[] getResizedImageData(int widthLimit, int heightLimit, int byteLimit) {
-        // In mms_config.xml, the max width has always been declared larger than the max height.
-        // Swap the width and height limits if necessary so we scale the picture as little as
-        // possible.
-        if (mHeight > mWidth) {
-            int temp = widthLimit;
-            widthLimit = heightLimit;
-            heightLimit = temp;
-        }
         int outWidth = mWidth;
         int outHeight = mHeight;
 
