@@ -21,6 +21,7 @@ import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.LogTag;
+import com.android.mms.TempFileProvider;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.model.MediaModel;
 import com.android.mms.model.SlideModel;
@@ -461,6 +462,7 @@ public class MessageUtils {
             intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
             intent.putExtra("android.intent.extra.sizeLimit", sizeLimit);
             intent.putExtra("android.intent.extra.durationLimit", durationLimit);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, TempFileProvider.SCRAP_CONTENT_URI);
 
             ((Activity) context).startActivityForResult(intent, requestCode);
         }

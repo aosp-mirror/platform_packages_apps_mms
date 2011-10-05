@@ -25,6 +25,7 @@ import android.provider.Telephony.Mms.Rate;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.PduHeaders;
 
 import java.io.File;
@@ -32,8 +33,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import android.provider.Telephony.Threads;
 
+/**
+ * The TempFileProvider manages a uri, backed by a file, for passing to the camera app for
+ * capturing pictures and videos and storing the data in a file in the messaging app.
+ */
 public class TempFileProvider extends ContentProvider {
     private static String TAG = "TempFileProvider";
+
+    /**
+     * The content:// style URL for this table
+     */
+    public static final Uri SCRAP_CONTENT_URI = Uri.parse("content://mms_temp_file/scrapSpace");
 
     private static final int MMS_SCRAP_SPACE = 1;
     private static final UriMatcher sURLMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -69,7 +79,7 @@ public class TempFileProvider extends ContentProvider {
     }
 
     private ParcelFileDescriptor getTempStoreFd() {
-        String fileName = MmsApp.getApplication().getScrapPath();
+        String fileName = getScrapPath();
         ParcelFileDescriptor pfd = null;
 
         try {
@@ -117,5 +127,50 @@ public class TempFileProvider extends ContentProvider {
         }
 
         return fd;
+    }
+
+
+    /**
+     * This is the scrap file we use to store the media attachment when the user
+     * chooses to capture a photo to be attached . We pass {#link@Uri} to the Camera app,
+     * which streams the captured image to the uri. Internally we write the media content
+     * to this file. It's named '.temp.jpg' so Gallery won't pick it up.
+     */
+    public static String getScrapPath(String fileName) {
+        return MmsApp.getApplication().getExternalCacheDir().getAbsolutePath() + "/" + fileName;
+    }
+
+    public static String getScrapPath() {
+        return getScrapPath(".temp.jpg");
+    }
+
+    /**
+     * renameScrapFile renames the single scrap file to a new name so newer uses of the scrap
+     * file won't overwrite the previously captured data.
+     * @param fileExtension file extension for the temp file, typically ".jpg" or ".3gp"
+     * @param uniqueIdentifier a separator to add to the file to make it unique,
+     *        such as the slide number. This parameter can be empty or null.
+     * @return uri of renamed file. If there's an error renaming, null will be returned
+     */
+    public static Uri renameScrapFile(String fileExtension, String uniqueIdentifier) {
+        String filePath = getScrapPath();
+        // There's only a single scrap file, but there can be several slides. We rename
+        // the scrap file to a new scrap file with the slide number as part of the filename.
+
+        // Replace the filename ".temp.jpg" with ".temp#.[jpg | 3gp]" where # is the unique
+        // identifier. The content of the file may be a picture or a .3gp video.
+        Uri pictureUri = null;
+        if (uniqueIdentifier == null) {
+            uniqueIdentifier = "";
+        }
+        File newTempFile = new File(getScrapPath(".temp" + uniqueIdentifier +
+                fileExtension));
+        File oldTempFile = new File(filePath);
+        // remove any existing file before rename
+        boolean deleted = newTempFile.delete();
+        if (!oldTempFile.renameTo(newTempFile)) {
+            return null;
+        }
+        return Uri.fromFile(newTempFile);
     }
 }

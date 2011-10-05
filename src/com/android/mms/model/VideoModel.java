@@ -35,6 +35,7 @@ import android.net.Uri;
 import android.provider.MediaStore.Images;
 import android.text.TextUtils;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
 import com.google.android.mms.ContentType;
 import java.io.IOException;
@@ -62,6 +63,40 @@ public class VideoModel extends RegionMediaModel {
     }
 
     private void initModelFromUri(Uri uri) throws MmsException {
+        String scheme = uri.getScheme();
+        if (scheme.equals("content")) {
+            initFromContentUri(uri);
+        } else if (uri.getScheme().equals("file")) {
+            initFromFile(uri);
+        }
+        initMediaDuration();
+    }
+
+    private void initFromFile(Uri uri) {
+        mSrc = uri.getPath();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        String extension = MimeTypeMap.getFileExtensionFromUrl(mSrc);
+        if (TextUtils.isEmpty(extension)) {
+            // getMimeTypeFromExtension() doesn't handle spaces in filenames nor can it handle
+            // urlEncoded strings. Let's try one last time at finding the extension.
+            int dotPos = mSrc.lastIndexOf('.');
+            if (0 <= dotPos) {
+                extension = mSrc.substring(dotPos + 1);
+            }
+        }
+        mContentType = mimeTypeMap.getMimeTypeFromExtension(extension);
+        // It's ok if mContentType is null. Eventually we'll show a toast telling the
+        // user the video couldn't be attached.
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.v(TAG, "New VideoModel initFromFile created:"
+                    + " mSrc=" + mSrc
+                    + " mContentType=" + mContentType
+                    + " mUri=" + uri);
+        }
+    }
+
+    private void initFromContentUri(Uri uri) throws MmsException {
         ContentResolver cr = mContext.getContentResolver();
         Cursor c = SqliteWrapper.query(mContext, cr, uri, null, null, null, null);
 
@@ -103,7 +138,7 @@ public class VideoModel extends RegionMediaModel {
                     }
 
                     if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                        Log.v(TAG, "New VideoModel created:"
+                        Log.v(TAG, "New VideoModel initFromContentUri created:"
                                 + " mSrc=" + mSrc
                                 + " mContentType=" + mContentType
                                 + " mUri=" + uri);
@@ -117,8 +152,6 @@ public class VideoModel extends RegionMediaModel {
         } else {
             throw new MmsException("Bad URI: " + uri);
         }
-
-        initMediaDuration();
     }
 
     // EventListener Interface
