@@ -162,6 +162,12 @@ public class SlideEditorActivity extends Activity {
 
         try {
             mSlideshowModel = SlideshowModel.createFromMessageUri(this, mUri);
+            // Confirm that we have at least 1 slide to display
+            if (mSlideshowModel.size() == 0) {
+                Log.e(TAG, "Loaded slideshow is empty; can't edit nothingness, exiting.");
+                finish();
+                return;
+            }
             // Register an observer to watch whether the data model is changed.
             mSlideshowModel.registerModelChangedObserver(mModelChangedObserver);
             mSlideshowEditor = new SlideshowEditor(this, mSlideshowModel);
