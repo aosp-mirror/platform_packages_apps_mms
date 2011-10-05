@@ -18,6 +18,8 @@
 package com.android.mms.ui;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 
 import com.android.mms.LogTag;
 import com.android.mms.R;
@@ -516,7 +518,7 @@ public class ConversationList extends ListActivity
      * @param threadIds list of threadIds to delete or null for all threads
      * @param handler query handler to do the background locked query
      */
-    public static void confirmDeleteThreads(ArrayList<Long> threadIds, AsyncQueryHandler handler) {
+    public static void confirmDeleteThreads(Collection<Long> threadIds, AsyncQueryHandler handler) {
         Conversation.startQueryHaveLockedMessages(handler, threadIds,
                 HAVE_LOCKED_MESSAGES_TOKEN);
     }
@@ -531,7 +533,7 @@ public class ConversationList extends ListActivity
      * @param context used to load the various UI elements
      */
     public static void confirmDeleteThreadDialog(final DeleteThreadListener listener,
-            ArrayList<Long> threadIds,
+            Collection<Long> threadIds,
             boolean hasLockedMessages,
             Context context) {
         View contents = View.inflate(context, R.layout.delete_thread_dialog_view, null);
@@ -586,12 +588,12 @@ public class ConversationList extends ListActivity
     };
 
     public static class DeleteThreadListener implements OnClickListener {
-        private final ArrayList<Long> mThreadIds;
+        private final Collection<Long> mThreadIds;
         private final AsyncQueryHandler mHandler;
         private final Context mContext;
         private boolean mDeleteLockedMessages;
 
-        public DeleteThreadListener(ArrayList<Long> threadIds, AsyncQueryHandler handler,
+        public DeleteThreadListener(Collection<Long> threadIds, AsyncQueryHandler handler,
                 Context context) {
             mThreadIds = threadIds;
             mHandler = handler;
@@ -670,7 +672,7 @@ public class ConversationList extends ListActivity
                 break;
 
             case HAVE_LOCKED_MESSAGES_TOKEN:
-                ArrayList<Long> threadIds = (ArrayList<Long>)cookie;
+                Collection<Long> threadIds = (Collection<Long>)cookie;
                 confirmDeleteThreadDialog(new DeleteThreadListener(threadIds, mQueryHandler,
                         ConversationList.this), threadIds,
                         cursor != null && cursor.getCount() > 0,
@@ -715,9 +717,11 @@ public class ConversationList extends ListActivity
     private class ModeCallback implements ListView.MultiChoiceModeListener {
         private View mMultiSelectActionBarView;
         private TextView mSelectedConvCount;
+        private HashSet<Long> mSelectedThreadIds;
 
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             MenuInflater inflater = getMenuInflater();
+            mSelectedThreadIds = new HashSet<Long>();
             inflater.inflate(R.menu.conversation_multi_select_menu, menu);
 
             if (mMultiSelectActionBarView == null) {
@@ -747,21 +751,8 @@ public class ConversationList extends ListActivity
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.delete:
-                    ListView listView = getListView();
-                    int numSelected = listView.getCheckedItemCount();
-                    if (numSelected > 0) {
-                        ArrayList<Long> threadIds = new ArrayList<Long>();
-                        int numConvs = mAdapter.getCount();
-                        SparseBooleanArray selectedItems = listView.getCheckedItemPositions();
-                        for (int i = 0; i < numConvs; i++) {
-                            if (selectedItems.get(i)) {
-                                Cursor cursor  = (Cursor) getListView().getItemAtPosition(i);
-                                Conversation conv = Conversation.from(ConversationList.this,
-                                        cursor);
-                                threadIds.add(conv.getThreadId());
-                            }
-                        }
-                        confirmDeleteThreads(threadIds, mQueryHandler);
+                    if (mSelectedThreadIds.size() > 0) {
+                        confirmDeleteThreads(mSelectedThreadIds, mQueryHandler);
                     }
                     mode.finish();
                     break;
@@ -775,6 +766,7 @@ public class ConversationList extends ListActivity
         public void onDestroyActionMode(ActionMode mode) {
             ConversationListAdapter adapter = (ConversationListAdapter)getListView().getAdapter();
             adapter.uncheckAll();
+            mSelectedThreadIds = null;
         }
 
         public void onItemCheckedStateChanged(ActionMode mode,
@@ -786,6 +778,13 @@ public class ConversationList extends ListActivity
             Cursor cursor  = (Cursor)listView.getItemAtPosition(position);
             Conversation conv = Conversation.from(ConversationList.this, cursor);
             conv.setIsChecked(checked);
+            long threadId = conv.getThreadId();
+
+            if (checked) {
+                mSelectedThreadIds.add(threadId);
+            } else {
+                mSelectedThreadIds.remove(threadId);
+            }
         }
 
     }

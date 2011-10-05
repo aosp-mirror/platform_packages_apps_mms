@@ -70,6 +70,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -647,7 +648,7 @@ public class MessageUtils {
     }
 
     public static void handleReadReport(final Context context,
-            final ArrayList<Long> threadIds,
+            final Collection<Long> threadIds,
             final int status,
             final Runnable callback) {
         StringBuilder selectionBuilder = new StringBuilder(Mms.MESSAGE_TYPE + " = "
