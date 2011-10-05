@@ -95,20 +95,21 @@ public class DraftCache {
                 MmsSms.CONTENT_DRAFT_URI,
                 DRAFT_PROJECTION, null, null, null);
 
-        try {
-            if (cursor.moveToFirst()) {
-                for (; !cursor.isAfterLast(); cursor.moveToNext()) {
-                    long threadId = cursor.getLong(COLUMN_DRAFT_THREAD_ID);
-                    newDraftSet.add(threadId);
-                    if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
-                        log("rebuildCache: add tid=" + threadId);
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    for (; !cursor.isAfterLast(); cursor.moveToNext()) {
+                        long threadId = cursor.getLong(COLUMN_DRAFT_THREAD_ID);
+                        newDraftSet.add(threadId);
+                        if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
+                            log("rebuildCache: add tid=" + threadId);
+                        }
                     }
                 }
+            } finally {
+                cursor.close();
             }
-        } finally {
-            cursor.close();
         }
-
         mDraftSet = newDraftSet;
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
