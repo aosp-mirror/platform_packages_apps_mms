@@ -126,6 +126,7 @@ import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
+import com.android.mms.TempFileProvider;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
@@ -2448,7 +2449,7 @@ public class ComposeMessageActivity extends Activity
             case AttachmentTypeSelectorAdapter.TAKE_PICTURE: {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, MmsApp.SCRAP_CONTENT_URI);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, TempFileProvider.SCRAP_CONTENT_URI);
                 startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
                 break;
             }
@@ -2566,7 +2567,7 @@ public class ComposeMessageActivity extends Activity
                 // create a file based uri and pass to addImage(). We want to read the JPEG
                 // data directly from file (using UriImage) instead of decoding it into a Bitmap,
                 // which takes up too much memory and could easily lead to OOM.
-                File file = new File(MmsApp.getApplication().getScrapPath());
+                File file = new File(TempFileProvider.getScrapPath());
                 Uri uri = Uri.fromFile(file);
                 addImage(uri, false);
                 break;
@@ -2578,6 +2579,10 @@ public class ComposeMessageActivity extends Activity
             }
 
             case REQUEST_CODE_TAKE_VIDEO:
+                Uri videoUri = TempFileProvider.renameScrapFile(".3gp", null);
+                addVideo(videoUri, false);      // can handle null videoUri
+                break;
+
             case REQUEST_CODE_ATTACH_VIDEO:
                 addVideo(data.getData(), false);
                 break;

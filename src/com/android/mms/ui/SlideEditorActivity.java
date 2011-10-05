@@ -26,6 +26,7 @@ import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.ResolutionException;
+import com.android.mms.TempFileProvider;
 import com.android.mms.UnsupportContentTypeException;
 import com.android.mms.model.IModelChangedObserver;
 import com.android.mms.model.LayoutModel;
@@ -426,7 +427,7 @@ public class SlideEditorActivity extends Activity {
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 // We have to pass a uri to store the picture data, otherwise the camera will return
                 // a very small image bitmap.
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, MmsApp.SCRAP_CONTENT_URI);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, TempFileProvider.SCRAP_CONTENT_URI);
                 startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
                 break;
 
@@ -573,35 +574,21 @@ public class SlideEditorActivity extends Activity {
                 break;
 
             case REQUEST_CODE_TAKE_PICTURE:
-                MmsApp app = MmsApp.getApplication();
-                String filePath = app.getScrapPath();
-
-                // There's only a single scrap file, but there can be several slides. We rename
-                // the scrap file to a new scrap file with the slide number as part of the filename.
-
-                // Replace the filename ".temp.jpg" with ".temp#.jpg" where # is the slide number
                 Uri pictureUri = null;
+                boolean showError = false;
                 try {
-                    File newTempFile = new File(app.getScrapPath(".temp#.jpg"));
-                    // remove any existing file before rename
-                    File oldTempFile = new File(filePath);
+                    pictureUri = TempFileProvider.renameScrapFile(".jpg",
+                            Integer.toString(mPosition));
 
-                    boolean deleted = newTempFile.delete();
-                    boolean renamed = oldTempFile.renameTo(newTempFile);
-                    if (!renamed) {
-                        throw new MmsException("Couldn't rename scrap file");
+                    if (pictureUri == null) {
+                        showError = true;
+                    } else {
+                        mSlideshowEditor.changeImage(mPosition, pictureUri);
+                        setReplaceButtonText(R.string.replace_image);
                     }
-                    pictureUri = Uri.fromFile(newTempFile);
-
-                    mSlideshowEditor.changeImage(mPosition, pictureUri);
-
-                    setReplaceButtonText(R.string.replace_image);
                 } catch (MmsException e) {
                     Log.e(TAG, "add image failed", e);
-                    notifyUser("add picture failed");
-                    Toast.makeText(SlideEditorActivity.this,
-                            getResourcesString(R.string.failed_to_add_media, getPictureString()),
-                            Toast.LENGTH_SHORT).show();
+                    showError = true;
                 } catch (UnsupportContentTypeException e) {
                     MessageUtils.showErrorDialog(SlideEditorActivity.this,
                             getResourcesString(R.string.unsupported_media_format, getPictureString()),
@@ -612,6 +599,12 @@ public class SlideEditorActivity extends Activity {
                 } catch (ExceedMessageSizeException e) {
                     MessageUtils.resizeImageAsync(this, pictureUri, new Handler(),
                             mResizeImageCallback, false);
+                }
+                if (showError) {
+                    notifyUser("add picture failed");
+                    Toast.makeText(SlideEditorActivity.this,
+                            getResourcesString(R.string.failed_to_add_media, getPictureString()),
+                            Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -669,8 +662,29 @@ public class SlideEditorActivity extends Activity {
                 }
                 break;
 
-            case REQUEST_CODE_CHANGE_VIDEO:
             case REQUEST_CODE_TAKE_VIDEO:
+                try {
+                    Uri videoUri = TempFileProvider.renameScrapFile(".3gp",
+                            Integer.toString(mPosition));
+
+                    mSlideshowEditor.changeVideo(mPosition, videoUri);
+                } catch (MmsException e) {
+                    notifyUser("add video failed");
+                    Toast.makeText(SlideEditorActivity.this,
+                            getResourcesString(R.string.failed_to_add_media, getVideoString()),
+                            Toast.LENGTH_SHORT).show();
+                } catch (UnsupportContentTypeException e) {
+                    MessageUtils.showErrorDialog(SlideEditorActivity.this,
+                            getResourcesString(R.string.unsupported_media_format, getVideoString()),
+                            getResourcesString(R.string.select_different_media, getVideoString()));
+                } catch (ExceedMessageSizeException e) {
+                    MessageUtils.showErrorDialog(SlideEditorActivity.this,
+                            getResourcesString(R.string.exceed_message_size_limitation),
+                            getResourcesString(R.string.failed_to_add_media, getVideoString()));
+                }
+                break;
+
+            case REQUEST_CODE_CHANGE_VIDEO:
                 try {
                     mSlideshowEditor.changeVideo(mPosition, data.getData());
                 } catch (MmsException e) {

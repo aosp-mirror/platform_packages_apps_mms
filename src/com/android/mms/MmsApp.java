@@ -17,6 +17,7 @@
 
 package com.android.mms;
 
+import java.io.File;
 import java.util.Locale;
 
 import com.android.mms.data.Contact;
@@ -29,6 +30,7 @@ import com.android.mms.util.SmileyParser;
 import com.android.mms.util.RateController;
 import com.android.mms.MmsConfig;
 import com.android.mms.transaction.MessagingNotification;
+import com.google.android.mms.MmsException;
 
 import android.app.Application;
 import android.content.Context;
@@ -40,6 +42,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 public class MmsApp extends Application {
     public static final String LOG_TAG = "Mms";
@@ -123,24 +126,5 @@ public class MmsApp extends Application {
 
     public String getCurrentCountryIso() {
         return mCountryIso == null ? Locale.getDefault().getCountry() : mCountryIso;
-    }
-
-    /**
-     * The content:// style URL for this table
-     */
-    public static final Uri SCRAP_CONTENT_URI = Uri.parse("content://mms_temp_file/scrapSpace");
-
-    /**
-     * This is the scrap file we use to store the media attachment when the user
-     * chooses to capture a photo to be attached . We pass {#link@Uri} to the Camera app,
-     * which streams the captured image to the uri. Internally we write the media content
-     * to this file. It's named '.temp.jpg' so Gallery won't pick it up.
-     */
-    public String getScrapPath(String fileName) {
-        return getExternalCacheDir().getAbsolutePath() + "/" + fileName;
-    }
-
-    public String getScrapPath() {
-        return getScrapPath(".temp.jpg");
     }
 }
