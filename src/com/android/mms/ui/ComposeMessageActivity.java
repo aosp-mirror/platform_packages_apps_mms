@@ -799,6 +799,9 @@ public class ComposeMessageActivity extends Activity
 
     private final void addCallAndContactMenuItems(
             ContextMenu menu, MsgListMenuClickListener l, MessageItem msgItem) {
+        if (TextUtils.isEmpty(msgItem.mBody)) {
+            return;
+        }
         SpannableString msg = new SpannableString(msgItem.mBody);
         Linkify.addLinks(msg, Linkify.ALL);
         ArrayList<String> uris =
