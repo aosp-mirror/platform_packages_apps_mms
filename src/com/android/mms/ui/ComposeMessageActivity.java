@@ -36,6 +36,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -72,12 +73,12 @@ import android.os.Message;
 import android.os.Parcelable;
 import android.os.SystemProperties;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Email;
+import android.provider.ContactsContract.Contacts;
 import android.provider.DrmStore;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.ContactsContract.Intents;
-import android.provider.ContactsContract.Contacts;
-import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.MediaStore.Images;
 import android.provider.MediaStore.Video;
 import android.provider.Telephony.Mms;
@@ -88,11 +89,13 @@ import android.telephony.SmsMessage;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.TextKeyListener;
 import android.text.style.URLSpan;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -101,7 +104,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
@@ -113,7 +115,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.CursorAdapter;
@@ -796,24 +797,72 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
-    private boolean haveEmailContact(String emailAddress) {
+    private final void addCallAndContactMenuItems(
+            ContextMenu menu, MsgListMenuClickListener l, MessageItem msgItem) {
+        SpannableString msg = new SpannableString(msgItem.mBody);
+        Linkify.addLinks(msg, Linkify.ALL);
+        ArrayList<String> uris =
+            MessageUtils.extractUris(msg.getSpans(0, msg.length(), URLSpan.class));
+
+        // Remove any dupes so they don't get added to the menu multiple times
+        HashSet<String> collapsedUris = new HashSet<String>();
+        for (String uri : uris) {
+            collapsedUris.add(uri.toLowerCase());
+        }
+        for (String uriString : collapsedUris) {
+            String prefix = null;
+            int sep = uriString.indexOf(":");
+            if (sep >= 0) {
+                prefix = uriString.substring(0, sep);
+                uriString = uriString.substring(sep + 1);
+            }
+            Uri contactUri = null;
+            boolean knownPrefix = true;
+            if ("mailto".equalsIgnoreCase(prefix))  {
+                contactUri = getContactUriForEmail(uriString);
+            } else if ("tel".equalsIgnoreCase(prefix)) {
+                contactUri = getContactUriForPhoneNumber(uriString);
+            } else {
+                knownPrefix = false;
+            }
+            if (knownPrefix && contactUri == null) {
+                Intent intent = ConversationList.createAddContactIntent(uriString);
+
+                String addContactString = getString(R.string.menu_add_address_to_contacts,
+                        uriString);
+                menu.add(0, MENU_ADD_ADDRESS_TO_CONTACTS, 0, addContactString)
+                    .setOnMenuItemClickListener(l)
+                    .setIntent(intent);
+            }
+        }
+    }
+
+    private Uri getContactUriForEmail(String emailAddress) {
         Cursor cursor = SqliteWrapper.query(this, getContentResolver(),
                 Uri.withAppendedPath(Email.CONTENT_LOOKUP_URI, Uri.encode(emailAddress)),
-                new String[] { Contacts.DISPLAY_NAME }, null, null, null);
+                new String[] { Email.CONTACT_ID, Contacts.DISPLAY_NAME }, null, null, null);
 
         if (cursor != null) {
             try {
                 while (cursor.moveToNext()) {
-                    String name = cursor.getString(0);
+                    String name = cursor.getString(1);
                     if (!TextUtils.isEmpty(name)) {
-                        return true;
+                        return ContentUris.withAppendedId(Contacts.CONTENT_URI, cursor.getLong(0));
                     }
                 }
             } finally {
                 cursor.close();
             }
         }
-        return false;
+        return null;
+    }
+
+    private Uri getContactUriForPhoneNumber(String phoneNumber) {
+        Contact contact = Contact.get(phoneNumber, false);
+        if (contact.existsInDatabase()) {
+            return contact.getUri();
+        }
+        return null;
     }
 
     private final OnCreateContextMenuListener mMsgListMenuCreateListener =
@@ -853,6 +902,8 @@ public class ComposeMessageActivity extends Activity
                 menu.add(0, MENU_COPY_MESSAGE_TEXT, 0, R.string.copy_message_text)
                 .setOnMenuItemClickListener(l);
             }
+
+            addCallAndContactMenuItems(menu, l, msgItem);
 
             // Forward is not available for undownloaded messages.
             if (msgItem.isDownloaded()) {
