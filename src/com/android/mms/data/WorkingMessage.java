@@ -417,13 +417,14 @@ public class WorkingMessage {
         // the listener than there was a change.
         if (result == OK) {
             mAttachmentType = type;
-            mStatusListener.onAttachmentChanged();
         } else if (append) {
             // We added a new slide and what we attempted to insert on the slide failed.
             // Delete that slide, otherwise we could end up with a bunch of blank slides.
             SlideshowEditor slideShowEditor = new SlideshowEditor(mActivity, mSlideshow);
             slideShowEditor.removeSlide(mSlideshow.size() - 1);
         }
+        mStatusListener.onAttachmentChanged();  // have to call whether succeeded or failed,
+                                                // because a replace that fails, removes the slide
 
         if (!MmsConfig.getMultipartSmsEnabled()) {
             if (!append && mAttachmentType == TEXT && type == TEXT) {
@@ -514,6 +515,11 @@ public class WorkingMessage {
         slide.removeVideo();
         slide.removeAudio();
         slide.setDuration(0);
+        // Clear the attachment type since we removed all the attachments. If this isn't cleared
+        // and the slide.add fails (for instance, a selected video could be too big), we'll be
+        // left in a state where we think we have an attachment, but it's been removed from the
+        // slide.
+        mAttachmentType = TEXT;
 
         // If we're changing to text, just bail out.
         if (type == TEXT) {
