@@ -25,7 +25,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -39,7 +38,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Browser;
 import android.provider.ContactsContract.Profile;
-import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
 import android.text.Html;
@@ -53,7 +51,6 @@ import android.text.style.TextAppearanceSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -62,8 +59,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.QuickContactBadge;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.mms.MmsApp;
@@ -212,6 +207,7 @@ public class MessageListItem extends LinearLayout implements
                 mDownloadingLabel.setVisibility(View.GONE);
                 mDownloadButton.setVisibility(View.VISIBLE);
                 mDownloadButton.setOnClickListener(new OnClickListener() {
+                    @Override
                     public void onClick(View v) {
                         mDownloadingLabel.setVisibility(View.VISIBLE);
                         mDownloadButton.setVisibility(View.GONE);
@@ -313,18 +309,22 @@ public class MessageListItem extends LinearLayout implements
         }
     }
 
+    @Override
     public void startAudio() {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public void startVideo() {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public void setAudio(Uri audio, String name, Map<String, ?> extras) {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public void setImage(String name, Bitmap bitmap) {
         inflateMmsView();
 
@@ -362,6 +362,7 @@ public class MessageListItem extends LinearLayout implements
 
 
     private LineHeightSpan mSpan = new LineHeightSpan() {
+        @Override
         public void chooseHeight(CharSequence text, int start,
                 int end, int spanstartv, int v, FontMetricsInt fm) {
             fm.ascent -= 10;
@@ -424,6 +425,7 @@ public class MessageListItem extends LinearLayout implements
                 // onClickListener. It allows the item to respond to embedded html links and at the
                 // same time, allows the slide show play button to work.
                 setOnClickListener(new OnClickListener() {
+                    @Override
                     public void onClick(View v) {
                         onMessageListItemClick();
                     }
@@ -436,6 +438,7 @@ public class MessageListItem extends LinearLayout implements
     }
 
     // OnClick Listener for the playback button
+    @Override
     public void onClick(View v) {
         MessageItem mi = (MessageItem) v.getTag();
         switch (mi.mAttachmentType) {
@@ -448,6 +451,16 @@ public class MessageListItem extends LinearLayout implements
     }
 
     public void onMessageListItemClick() {
+        // If the message is a failed one, clicking it should reload it in the compose view,
+        // regardless of whether it has links in it
+        if (mMessageItem != null &&
+                mMessageItem.isOutgoingMessage() &&
+                mMessageItem.isFailedMessage() ) {
+            recomposeFailedMessage();
+            return;
+        }
+
+        // Check for links. If none, do nothing; if 1, open it; if >1, ask user to pick one
         URLSpan[] spans = mBodyTextView.getUrls();
 
         if (spans.length == 0) {
@@ -463,6 +476,7 @@ public class MessageListItem extends LinearLayout implements
 
             ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(mContext, android.R.layout.select_dialog_item, urls) {
+                @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
                     try {
@@ -481,7 +495,8 @@ public class MessageListItem extends LinearLayout implements
                         }
                         tv.setText(url);
                     } catch (android.content.pm.PackageManager.NameNotFoundException ex) {
-                        ;
+                        // it's ok if we're unable to set the drawable for this view - the user
+                        // can still use it
                     }
                     return v;
                 }
@@ -490,6 +505,7 @@ public class MessageListItem extends LinearLayout implements
             AlertDialog.Builder b = new AlertDialog.Builder(mContext);
 
             DialogInterface.OnClickListener click = new DialogInterface.OnClickListener() {
+                @Override
                 public final void onClick(DialogInterface dialog, int which) {
                     if (which >= 0) {
                         Uri uri = Uri.parse(urls.get(which));
@@ -507,6 +523,7 @@ public class MessageListItem extends LinearLayout implements
             b.setAdapter(adapter, click);
 
             b.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
                 public final void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
@@ -516,17 +533,18 @@ public class MessageListItem extends LinearLayout implements
         }
     }
 
-
     private void setOnClickListener(final MessageItem msgItem) {
         switch(msgItem.mAttachmentType) {
         case WorkingMessage.IMAGE:
         case WorkingMessage.VIDEO:
             mImageView.setOnClickListener(new OnClickListener() {
+                @Override
                 public void onClick(View v) {
                     MessageUtils.viewMmsMessageAttachment(mContext, null, msgItem.mSlideshow);
                 }
             });
             mImageView.setOnLongClickListener(new OnLongClickListener() {
+                @Override
                 public boolean onLongClick(View v) {
                     return v.showContextMenu();
                 }
@@ -539,23 +557,23 @@ public class MessageListItem extends LinearLayout implements
         }
     }
 
-    private void setErrorIndicatorClickListener(final MessageItem msgItem) {
-        String type = msgItem.mType;
+    /**
+     * Assuming the current message is a failed one, reload it into the compose view so that the
+     * user can resend it.
+     */
+    private void recomposeFailedMessage() {
+        String type = mMessageItem.mType;
         final int what;
         if (type.equals("sms")) {
             what = MSG_LIST_EDIT_SMS;
         } else {
             what = MSG_LIST_EDIT_MMS;
         }
-        mDeliveredIndicator.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                if (null != mHandler) {
-                    Message msg = Message.obtain(mHandler, what);
-                    msg.obj = new Long(msgItem.mMsgId);
-                    msg.sendToTarget();
-                }
-            }
-        });
+        if (null != mHandler) {
+            Message msg = Message.obtain(mHandler, what);
+            msg.obj = new Long(mMessageItem.mMsgId);
+            msg.sendToTarget();
+        }
     }
 
     private void drawRightStatusIndicator(MessageItem msgItem) {
@@ -568,11 +586,8 @@ public class MessageListItem extends LinearLayout implements
         }
 
         // Delivery icon
-        if (msgItem.isOutgoingMessage() && msgItem.isFailedMessage()) {
-            mDeliveredIndicator.setImageResource(R.drawable.ic_list_alert_sms_failed);
-            setErrorIndicatorClickListener(msgItem);
-            mDeliveredIndicator.setVisibility(View.VISIBLE);
-        } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.FAILED) {
+        if ((msgItem.isOutgoingMessage() && msgItem.isFailedMessage()) ||
+                msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.FAILED) {
             mDeliveredIndicator.setImageResource(R.drawable.ic_list_alert_sms_failed);
             mDeliveredIndicator.setVisibility(View.VISIBLE);
         } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.RECEIVED) {
@@ -591,22 +606,27 @@ public class MessageListItem extends LinearLayout implements
         }
     }
 
+    @Override
     public void setImageRegionFit(String fit) {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public void setImageVisibility(boolean visible) {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public void setText(String name, String text) {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public void setTextVisibility(boolean visible) {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public void setVideo(String name, Uri video) {
         inflateMmsView();
 
@@ -623,43 +643,52 @@ public class MessageListItem extends LinearLayout implements
         }
     }
 
+    @Override
     public void setVideoVisibility(boolean visible) {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public void stopAudio() {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public void stopVideo() {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public void reset() {
         if (mImageView != null) {
             mImageView.setVisibility(GONE);
         }
     }
 
+    @Override
     public void setVisibility(boolean visible) {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public void pauseAudio() {
         // TODO Auto-generated method stub
 
     }
 
+    @Override
     public void pauseVideo() {
         // TODO Auto-generated method stub
 
     }
 
+    @Override
     public void seekAudio(int seekTo) {
         // TODO Auto-generated method stub
 
     }
 
+    @Override
     public void seekVideo(int seekTo) {
         // TODO Auto-generated method stub
 
