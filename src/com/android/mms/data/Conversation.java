@@ -1,6 +1,7 @@
 package com.android.mms.data;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -666,7 +667,7 @@ public class Conversation {
      * @param token   The token that will be passed to onQueryComplete
      */
     public static void startQueryHaveLockedMessages(AsyncQueryHandler handler,
-            ArrayList<Long> threadIds,
+            Collection<Long> threadIds,
             int token) {
         handler.cancelOperation(token);
         Uri uri = MmsSms.CONTENT_LOCKED_URI;
