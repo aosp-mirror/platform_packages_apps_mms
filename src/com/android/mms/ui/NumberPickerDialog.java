@@ -97,6 +97,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
         mNumberPicker.setValue(number);
         mNumberPicker.setOnLongPressUpdateInterval(100); // make the repeat rate three times as fast
                                                          // as normal since the range is so large.
+        mNumberPicker.setWrapSelectorWheel(false);       // don't wrap from min->max
     }
 
     public void onClick(DialogInterface dialog, int which) {
