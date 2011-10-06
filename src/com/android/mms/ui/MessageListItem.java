@@ -710,25 +710,11 @@ public class MessageListItem extends LinearLayout implements
             Path path = mPath;
             path.reset();
 
-            // This block of code draws our own background but omits the top pixel so that
-            // if the previous item draws it's border there we don't overwrite it.
-            path.moveTo(l, t + 1);
-            path.lineTo(r, t + 1);
-            path.lineTo(r, b);
-            path.lineTo(l, b);
-            path.close();
-
-            Paint paint = mPaint;
-            paint.setStyle(Paint.Style.FILL);
-            paint.setColor(0xffffffff);
-            c.drawPath(path, paint);
-
             super.dispatchDraw(c);
 
             path.reset();
 
             r -= 1;
-
 
             // This block of code draws the border around the "message block" section
             // of the layout.  This would normally be a simple rectangle but we omit
@@ -757,6 +743,7 @@ public class MessageListItem extends LinearLayout implements
                 path.lineTo(r, t + mAvatar.getFarOffset());
             }
 
+            Paint paint = mPaint;
 //            paint.setColor(0xff00ff00);
             paint.setColor(0xffcccccc);
             paint.setStrokeWidth(1F);
