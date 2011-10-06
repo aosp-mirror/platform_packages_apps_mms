@@ -150,26 +150,20 @@ public class AttachmentEditor extends LinearLayout {
         SlideModel slide = mSlideshow.get(0);
         if (slide.hasImage()) {
             return createMediaView(
-                    inPortrait ? R.id.image_attachment_view_portrait_stub :
-                        R.id.image_attachment_view_landscape_stub,
-                    inPortrait ? R.id.image_attachment_view_portrait :
-                        R.id.image_attachment_view_landscape,
+                    R.id.image_attachment_view_stub,
+                    R.id.image_attachment_view,
                     R.id.view_image_button, R.id.replace_image_button, R.id.remove_image_button,
                     MSG_VIEW_IMAGE, MSG_REPLACE_IMAGE, MSG_REMOVE_ATTACHMENT);
         } else if (slide.hasVideo()) {
             return createMediaView(
-                    inPortrait ? R.id.video_attachment_view_portrait_stub :
-                        R.id.video_attachment_view_landscape_stub,
-                    inPortrait ? R.id.video_attachment_view_portrait :
-                        R.id.video_attachment_view_landscape,
+                    R.id.video_attachment_view_stub,
+                    R.id.video_attachment_view,
                     R.id.view_video_button, R.id.replace_video_button, R.id.remove_video_button,
                     MSG_PLAY_VIDEO, MSG_REPLACE_VIDEO, MSG_REMOVE_ATTACHMENT);
         } else if (slide.hasAudio()) {
             return createMediaView(
-                    inPortrait ? R.id.audio_attachment_view_portrait_stub :
-                        R.id.audio_attachment_view_landscape_stub,
-                    inPortrait ? R.id.audio_attachment_view_portrait :
-                        R.id.audio_attachment_view_landscape,
+                    R.id.audio_attachment_view_stub,
+                    R.id.audio_attachment_view,
                     R.id.play_audio_button, R.id.replace_audio_button, R.id.remove_audio_button,
                     MSG_PLAY_AUDIO, MSG_REPLACE_AUDIO, MSG_REMOVE_ATTACHMENT);
         } else {
@@ -204,11 +198,9 @@ public class AttachmentEditor extends LinearLayout {
     }
 
     private SlideViewInterface createSlideshowView(boolean inPortrait) {
-        LinearLayout view =(LinearLayout) getStubView(inPortrait ?
-                R.id.slideshow_attachment_view_portrait_stub :
-                R.id.slideshow_attachment_view_landscape_stub,
-                inPortrait ? R.id.slideshow_attachment_view_portrait :
-                    R.id.slideshow_attachment_view_landscape);
+        LinearLayout view =(LinearLayout) getStubView(
+                R.id.slideshow_attachment_view_stub,
+                R.id.slideshow_attachment_view);
         view.setVisibility(View.VISIBLE);
 
         Button editBtn = (Button) view.findViewById(R.id.edit_slideshow_button);
