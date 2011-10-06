@@ -19,7 +19,7 @@
 -->
 
 <com.android.mms.ui.ImageAttachmentView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/image_attachment_view_portrait"
+    android:id="@+id/image_attachment_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"

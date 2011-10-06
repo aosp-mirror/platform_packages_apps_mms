@@ -19,7 +19,7 @@
 -->
 
 <com.android.mms.ui.SlideshowAttachmentView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/slideshow_attachment_view_landscape"
+    android:id="@+id/slideshow_attachment_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -40,40 +40,40 @@
              image.
         -->
         <FrameLayout
-            android:layout_width="200dip"
-            android:layout_height="100dip"
+            android:layout_width="240dip"
+            android:layout_height="180dip"
             android:layout_gravity="center"
             android:background="@android:drawable/picture_frame" >
 
-            <LinearLayout
-                android:orientation="vertical"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/slideshow_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="0dip"
+                android:layout_weight="1" />
 
-                <ImageView
-                    android:id="@+id/slideshow_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/slideshow_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@drawable/text_color_black" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/slideshow_text"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/text_color_black" />
 
-                <ImageButton
-                    android:id="@+id/play_slideshow_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/mms_play_btn" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/play_slideshow_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/mms_play_btn" />
 
             </LinearLayout>
         </FrameLayout>
@@ -82,15 +82,15 @@
     <LinearLayout
         android:orientation="vertical"
         android:gravity="center_vertical"
-        android:paddingRight="8dp"
         android:layout_width="wrap_content"
+        android:paddingRight="8dp"
         android:layout_height="match_parent">
 
         <Button
             android:id="@+id/edit_slideshow_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
-            android:layout_height="32dip"
+            android:layout_height="45dip"
             android:textColor="@android:color/black"
             android:text="@string/edit" />
 
@@ -98,7 +98,7 @@
             android:id="@+id/send_slideshow_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
-            android:layout_height="32dip"
+            android:layout_height="45dip"
             android:textColor="@android:color/black"
             android:text="@string/send" />
 
@@ -106,7 +106,7 @@
             android:id="@+id/remove_slideshow_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="100dip"
-            android:layout_height="32dip"
+            android:layout_height="45dip"
             android:textColor="@android:color/black"
             android:text="@string/remove" />
 
