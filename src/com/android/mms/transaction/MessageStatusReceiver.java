@@ -47,8 +47,9 @@ public class MessageStatusReceiver extends BroadcastReceiver {
 
             Uri messageUri = intent.getData();
             byte[] pdu = (byte[]) intent.getExtra("pdu");
+            String format = intent.getStringExtra("format");
 
-            SmsMessage message = updateMessageStatus(context, messageUri, pdu);
+            SmsMessage message = updateMessageStatus(context, messageUri, pdu, format);
 
             // Called on the UI thread so don't block.
             if (message.getStatus() < Sms.STATUS_PENDING)
@@ -57,12 +58,13 @@ public class MessageStatusReceiver extends BroadcastReceiver {
        }
     }
 
-    private SmsMessage updateMessageStatus(Context context, Uri messageUri, byte[] pdu) {
+    private SmsMessage updateMessageStatus(Context context, Uri messageUri, byte[] pdu,
+            String format) {
         // Create a "status/#" URL and use it to update the
         // message's status in the database.
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
                             messageUri, ID_PROJECTION, null, null, null);
-        SmsMessage message = SmsMessage.createFromPdu(pdu);
+        SmsMessage message = SmsMessage.createFromPdu(pdu, format);
 
         try {
             if (cursor.moveToFirst()) {

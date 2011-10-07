@@ -104,7 +104,8 @@ public class ClassZeroActivity extends Activity {
                 R.drawable.class_zero_background);
 
         byte[] pdu = getIntent().getByteArrayExtra("pdu");
-        mMessage = SmsMessage.createFromPdu(pdu);
+        String format = getIntent().getStringExtra("format");
+        mMessage = SmsMessage.createFromPdu(pdu, format);
         CharSequence messageChars = mMessage.getMessageBody();
         String message = messageChars.toString();
         if (TextUtils.isEmpty(message)) {
