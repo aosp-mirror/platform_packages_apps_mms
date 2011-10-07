@@ -2579,7 +2579,7 @@ public class ComposeMessageActivity extends Activity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (DEBUG) {
+        if (LogTag.VERBOSE) {
             log("requestCode=" + requestCode + ", resultCode=" + resultCode + ", data=" + data);
         }
         mWaitingForSubActivity = false;          // We're back!
@@ -2593,18 +2593,36 @@ public class ComposeMessageActivity extends Activity
             mWorkingMessage.asyncDeleteDraftSmsMessage(mConversation);
         }
 
-        // If there's no data (because the user didn't select a picture and
-        // just hit BACK, for example), there's nothing to do.
-        if (requestCode != REQUEST_CODE_TAKE_PICTURE) {
-            if (data == null) {
-                return;
+        if (requestCode == REQUEST_CODE_ADD_CONTACT) {
+            // The user might have added a new contact. When we tell contacts to add a contact
+            // and tap "Done", we're not returned to Messaging. If we back out to return to
+            // messaging after adding a contact, the resultCode is RESULT_CANCELED. Therefore,
+            // assume a contact was added and get the contact and force our cached contact to
+            // get reloaded with the new info (such as contact name). After the
+            // contact is reloaded, the function onUpdate() in this file will get called
+            // and it will update the title bar, etc.
+            if (mAddContactIntent != null) {
+                String address =
+                    mAddContactIntent.getStringExtra(ContactsContract.Intents.Insert.EMAIL);
+                if (address == null) {
+                    address =
+                        mAddContactIntent.getStringExtra(ContactsContract.Intents.Insert.PHONE);
+                }
+                if (address != null) {
+                    Contact contact = Contact.get(address, false);
+                    if (contact != null) {
+                        contact.reload();
+                    }
+                }
             }
-        } else if (resultCode != RESULT_OK){
-            if (DEBUG) log("bail due to resultCode=" + resultCode);
+        }
+
+        if (resultCode != RESULT_OK){
+            if (LogTag.VERBOSE) log("bail due to resultCode=" + resultCode);
             return;
         }
 
-        switch(requestCode) {
+        switch (requestCode) {
             case REQUEST_CODE_CREATE_SLIDESHOW:
                 if (data != null) {
                     WorkingMessage newMessage = WorkingMessage.load(this, data.getData());
@@ -2628,7 +2646,9 @@ public class ComposeMessageActivity extends Activity
             }
 
             case REQUEST_CODE_ATTACH_IMAGE: {
-                addImage(data.getData(), false);
+                if (data != null) {
+                    addImage(data.getData(), false);
+                }
                 break;
             }
 
@@ -2638,7 +2658,9 @@ public class ComposeMessageActivity extends Activity
                 break;
 
             case REQUEST_CODE_ATTACH_VIDEO:
-                addVideo(data.getData(), false);
+                if (data != null) {
+                    addVideo(data.getData(), false);
+                }
                 break;
 
             case REQUEST_CODE_ATTACH_SOUND: {
@@ -2651,7 +2673,9 @@ public class ComposeMessageActivity extends Activity
             }
 
             case REQUEST_CODE_RECORD_SOUND:
-                addAudio(data.getData());
+                if (data != null) {
+                    addAudio(data.getData());
+                }
                 break;
 
             case REQUEST_CODE_ECM_EXIT_DIALOG:
@@ -2661,33 +2685,14 @@ public class ComposeMessageActivity extends Activity
                 }
                 break;
 
-            case REQUEST_CODE_ADD_CONTACT:
-                // The user just added a new contact. We saved the contact info in
-                // mAddContactIntent. Get the contact and force our cached contact to
-                // get reloaded with the new info (such as contact name). After the
-                // contact is reloaded, the function onUpdate() in this file will get called
-                // and it will update the title bar, etc.
-                if (mAddContactIntent != null) {
-                    String address =
-                        mAddContactIntent.getStringExtra(ContactsContract.Intents.Insert.EMAIL);
-                    if (address == null) {
-                        address =
-                            mAddContactIntent.getStringExtra(ContactsContract.Intents.Insert.PHONE);
-                    }
-                    if (address != null) {
-                        Contact contact = Contact.get(address, false);
-                        if (contact != null) {
-                            contact.reload();
-                        }
-                    }
+            case REQUEST_CODE_PICK:
+                if (data != null) {
+                    processPickResult(data);
                 }
                 break;
 
-            case REQUEST_CODE_PICK:
-                processPickResult(data);
-                break;
             default:
-                // TODO
+                if (LogTag.VERBOSE) log("bail due to unknown requestCode=" + requestCode);
                 break;
         }
     }
