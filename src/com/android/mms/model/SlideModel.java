@@ -491,11 +491,15 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
     }
 
     public boolean removeAudio() {
-        return remove(mAudio);
+        boolean result = remove(mAudio);
+        resetDuration();
+        return result;
     }
 
     public boolean removeVideo() {
-        return remove(mVideo);
+        boolean result = remove(mVideo);
+        resetDuration();
+        return result;
     }
 
     public TextModel getText() {
@@ -512,6 +516,16 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
 
     public VideoModel getVideo() {
         return (VideoModel) mVideo;
+    }
+
+    public void resetDuration() {
+        // If we remove all the objects that have duration, reset the slide back to its
+        // default duration. If we don't do this, if the user replaces a 10 sec video with
+        // a 3 sec audio, the duration will remain at 10 sec (see the way updateDuration() below
+        // works).
+        if (!hasAudio() && !hasVideo()) {
+            mDuration = DEFAULT_SLIDE_DURATION;
+        }
     }
 
     public void updateDuration(int duration) {

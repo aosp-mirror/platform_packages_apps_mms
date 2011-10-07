@@ -514,7 +514,6 @@ public class WorkingMessage {
         slide.removeImage();
         slide.removeVideo();
         slide.removeAudio();
-        slide.setDuration(0);
         // Clear the attachment type since we removed all the attachments. If this isn't cleared
         // and the slide.add fails (for instance, a selected video could be too big), we'll be
         // left in a state where we think we have an attachment, but it's been removed from the
