@@ -604,8 +604,16 @@ public class MessagingNotification {
         //    thread will dismiss one undelivered notification but will still display the
         //    notification.If you select the 2nd undelivered one it will dismiss the notification.
 
-        long[] msgThreadId = {0};
+        long[] msgThreadId = {0, 1};    // Dummy initial values, just to initialize the memory
         int totalFailedCount = getUndeliveredMessageCount(context, msgThreadId);
+        if (totalFailedCount == 0 && !isDownload) {
+            return;
+        }
+        // The getUndeliveredMessageCount method puts a non-zero value in msgThreadId[1] if all
+        // failures are from the same thread.
+        // If isDownload is true, we're dealing with 1 specific failure; therefore "all failed" are
+        // indeed in the same thread since there's only 1.
+        boolean allFailedInSameThread = (msgThreadId[1] != 0) || isDownload;
 
         Intent failedIntent;
         Notification notification = new Notification();
@@ -615,23 +623,26 @@ public class MessagingNotification {
             description = context.getString(R.string.notification_failed_multiple,
                     Integer.toString(totalFailedCount));
             title = context.getString(R.string.notification_failed_multiple_title);
-
-            failedIntent = new Intent(context, ConversationList.class);
         } else {
             title = isDownload ?
                         context.getString(R.string.message_download_failed_title) :
                         context.getString(R.string.message_send_failed_title);
 
             description = context.getString(R.string.message_failed_body);
+        }
+
+        if (allFailedInSameThread) {
             failedIntent = new Intent(context, ComposeMessageActivity.class);
             if (isDownload) {
                 // When isDownload is true, the valid threadId is passed into this function.
                 failedIntent.putExtra("failed_download_flag", true);
             } else {
-                threadId = (msgThreadId[0] != 0 ? msgThreadId[0] : 0);
+                threadId = msgThreadId[0];
                 failedIntent.putExtra("undelivered_flag", true);
             }
             failedIntent.putExtra("thread_id", threadId);
+        } else {
+            failedIntent = new Intent(context, ConversationList.class);
         }
 
         failedIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -663,10 +674,15 @@ public class MessagingNotification {
         }
     }
 
-    // threadIdResult[0] contains the thread id of the first message.
-    // threadIdResult[1] is nonzero if the thread ids of all the messages are the same.
-    // You can pass in null for threadIdResult.
-    // You can pass in a threadIdResult of size 1 to avoid the comparison of each thread id.
+    /**
+     * Query the DB and return the number of undelivered messages (total for both SMS and MMS)
+     * @param context The context
+     * @param threadIdResult A container to put the result in, according to the following rules:
+     *  threadIdResult[0] contains the thread id of the first message.
+     *  threadIdResult[1] is nonzero if the thread ids of all the messages are the same.
+     *  You can pass in null for threadIdResult.
+     *  You can pass in a threadIdResult of size 1 to avoid the comparison of each thread id.
+     */
     private static int getUndeliveredMessageCount(Context context, long[] threadIdResult) {
         Cursor undeliveredCursor = SqliteWrapper.query(context, context.getContentResolver(),
                 UNDELIVERED_URI, new String[] { Mms.THREAD_ID }, "read=0", null, null);
