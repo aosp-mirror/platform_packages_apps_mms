@@ -368,24 +368,39 @@ public class SmsReceiverService extends Service {
     }
 
     private void handleBootCompleted() {
-        moveOutboxMessagesToQueuedBox();
+        // Some messages may get stuck in the outbox. At this point, they're probably irrelevant
+        // to the user, so mark them as failed and notify the user, who can then decide whether to
+        // resend them manually.
+        int numMoved = moveOutboxMessagesToFailedBox();
+        if (numMoved > 0) {
+            MessagingNotification.notifySendFailed(getApplicationContext(), true);
+        }
+
+        // Send any queued messages that were waiting from before the reboot.
         sendFirstQueuedMessage();
 
         // Called off of the UI thread so ok to block.
         MessagingNotification.blockingUpdateNewMessageIndicator(this, true, false);
     }
 
-    private void moveOutboxMessagesToQueuedBox() {
-        ContentValues values = new ContentValues(1);
+    /**
+     * Move all messages that are in the outbox to the failed state and set them to unread.
+     * @return The number of messages that were actually moved
+     */
+    private int moveOutboxMessagesToFailedBox() {
+        ContentValues values = new ContentValues(3);
 
-        values.put(Sms.TYPE, Sms.MESSAGE_TYPE_QUEUED);
+        values.put(Sms.TYPE, Sms.MESSAGE_TYPE_FAILED);
+        values.put(Sms.ERROR_CODE, SmsManager.RESULT_ERROR_GENERIC_FAILURE);
+        values.put(Sms.READ, Integer.valueOf(0));
 
         int messageCount = SqliteWrapper.update(
                 getApplicationContext(), getContentResolver(), Outbox.CONTENT_URI,
                 values, "type = " + Sms.MESSAGE_TYPE_OUTBOX, null);
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
-            Log.v(TAG, "moveOutboxMessagesToQueuedBox messageCount: " + messageCount);
+            Log.v(TAG, "moveOutboxMessagesToFailedBox messageCount: " + messageCount);
         }
+        return messageCount;
     }
 
     public static final String CLASS_ZERO_BODY_KEY = "CLASS_ZERO_BODY";
