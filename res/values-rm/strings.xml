@@ -26,7 +26,8 @@
     <string name="menu_send_email" msgid="671366308915241664">"Trametter in e-mail a <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Scriver"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Parameters"</string>
-    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Agiuntar <xliff:g id="NAME">%s</xliff:g> als contacts"</string>
+    <!-- no translation found for menu_add_address_to_contacts (8013282802147375764) -->
+    <skip />
     <string name="menu_call" msgid="5877123227307074690">"Telefonar"</string>
     <!-- no translation found for menu_search (2289469305728821360) -->
     <skip />
