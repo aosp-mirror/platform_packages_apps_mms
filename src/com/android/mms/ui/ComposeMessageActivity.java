@@ -2429,9 +2429,6 @@ public class ComposeMessageActivity extends Activity
                 break;
 
             case android.R.id.home:
-                onBackPressed();
-                break;
-
             case MENU_CONVERSATION_LIST:
                 exitComposeMessageActivity(new Runnable() {
                     public void run() {
