@@ -1737,6 +1737,8 @@ public class ComposeMessageActivity extends Activity
                 return;
             }
             mSubjectTextEditor = (EditText)findViewById(R.id.subject);
+            mSubjectTextEditor.setFilters(new InputFilter[] {
+                    new LengthFilter(MmsConfig.getMaxSubjectLength())});
         }
 
         mSubjectTextEditor.setOnKeyListener(show ? mSubjectKeyListener : null);
