@@ -38,6 +38,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.app.SearchManager.OnDismissListener;
+import android.app.SearchableInfo;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -74,13 +75,13 @@ import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 /**
  * This activity provides a list view of existing conversations.
  */
-public class ConversationList extends ListActivity
-            implements DraftCache.OnDraftChangedListener, OnDismissListener {
+public class ConversationList extends ListActivity implements DraftCache.OnDraftChangedListener {
     private static final String TAG = "ConversationList";
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG;
@@ -104,8 +105,9 @@ public class ConversationList extends ListActivity
     private Handler mHandler;
     private boolean mNeedToMarkAsSeen;
     private TextView mUnreadConvCount;
-    private Menu mMenu;
-    private SearchManager mSearchManager;
+
+    private MenuItem mSearchItem;
+    private SearchView mSearchView;
 
     static private final String CHECKED_MESSAGE_LIMITS = "checked_message_limits";
 
@@ -133,8 +135,6 @@ public class ConversationList extends ListActivity
         setupActionBar();
 
         mTitle = getString(R.string.app_label);
-
-        mSearchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
 
         mHandler = new Handler();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -308,19 +308,39 @@ public class ConversationList extends ListActivity
         }
     }
 
+    SearchView.OnQueryTextListener mQueryTextListener = new SearchView.OnQueryTextListener() {
+        public boolean onQueryTextSubmit(String query) {
+            Intent intent = new Intent();
+            intent.setClass(ConversationList.this, SearchActivity.class);
+            intent.putExtra(SearchManager.QUERY, query);
+            startActivity(intent);
+            mSearchItem.collapseActionView();
+            return true;
+        }
+
+        public boolean onQueryTextChange(String newText) {
+            return false;
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.conversation_list_menu, menu);
 
+        mSearchItem = menu.findItem(R.id.search);
+        mSearchView = (SearchView) mSearchItem.getActionView();
 
-        // It looks dangerous to hold onto the menu, but Activity's docs say:
-        // "You can safely hold on to menu (and any items created
-        // from it), making modifications to it as desired, until the next
-        // time onCreateOptionsMenu() is called."
-        mMenu = menu;
+        mSearchView.setOnQueryTextListener(mQueryTextListener);
+        mSearchView.setQueryHint(getString(R.string.search_hint));
+        mSearchView.setIconifiedByDefault(true);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
-        return super.onCreateOptionsMenu(menu);
+        if (searchManager != null) {
+            SearchableInfo info = searchManager.getSearchableInfo(this.getComponentName());
+            mSearchView.setSearchableInfo(info);
+        }
+
+        return true;
     }
 
     @Override
@@ -340,11 +360,7 @@ public class ConversationList extends ListActivity
 
     @Override
     public boolean onSearchRequested() {
-        if (mMenu != null) {
-            getActionBar().hide();
-            mSearchManager.setOnDismissListener(this);
-        }
-        startSearch(null, false, null /*appData*/, false);
+        mSearchItem.expandActionView();
         return true;
     }
 
@@ -353,9 +369,6 @@ public class ConversationList extends ListActivity
         switch(item.getItemId()) {
             case R.id.action_compose_new:
                 createNewMessage();
-                break;
-            case R.id.action_search:
-                onSearchRequested();
                 break;
             case R.id.action_delete_all:
                 // The invalid threadId of -1 means all threads here.
@@ -792,11 +805,5 @@ public class ConversationList extends ListActivity
     private void log(String format, Object... args) {
         String s = String.format(format, args);
         Log.d(TAG, "[" + Thread.currentThread().getId() + "] " + s);
-    }
-
-    // Called when search is dismissed
-    public void onDismiss() {
-        mSearchManager.setOnDismissListener(null);
-        getActionBar().show();
     }
 }
