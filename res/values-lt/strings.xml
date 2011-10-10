@@ -26,7 +26,8 @@
     <string name="menu_send_email" msgid="671366308915241664">"Siųsti el. laišką <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Sukurti"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Nustatymai"</string>
-    <string name="menu_add_address_to_contacts" msgid="2313624913486309940">"Pridėti <xliff:g id="NAME">%s</xliff:g> prie Adresinės"</string>
+    <!-- no translation found for menu_add_address_to_contacts (8013282802147375764) -->
+    <skip />
     <string name="menu_call" msgid="5877123227307074690">"Skambinti"</string>
     <string name="menu_search" msgid="2289469305728821360">"Paieška"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Ištrinti visas gijas"</string>
