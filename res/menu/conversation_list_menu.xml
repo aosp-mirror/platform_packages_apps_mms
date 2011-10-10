@@ -21,11 +21,11 @@
         android:icon="@drawable/ic_menu_msg_compose_holo_dark"
         android:showAsAction="always|withText" />
 
-    <item android:id="@+id/action_search"
-        android:icon="@drawable/ic_menu_search_holo_dark"
-        android:showAsAction="always|collapseActionView"
-        android:title="@string/menu_search"
-        android:alphabeticShortcut="s"  />
+    <item android:id="@+id/search"
+          android:title="@string/menu_search"
+          android:icon="@drawable/ic_menu_search_holo_dark"
+          android:showAsAction="ifRoom|collapseActionView"
+          android:actionViewClass="android.widget.SearchView" />
 
     <item android:id="@+id/action_settings"
         android:title="@string/menu_preferences"
