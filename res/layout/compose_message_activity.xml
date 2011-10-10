@@ -49,7 +49,6 @@
             android:capitalize="sentences"
             android:autoText="true"
             android:singleLine="true"
-            android:maxLength="40"
             android:hint="@string/subject_hint"
             android:visibility="gone"/>
     </LinearLayout>

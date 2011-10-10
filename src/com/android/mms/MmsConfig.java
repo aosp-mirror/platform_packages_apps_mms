@@ -92,6 +92,9 @@ public class MmsConfig {
     private static int mAliasRuleMinChars = 2;
     private static int mAliasRuleMaxChars = 48;
 
+    private static int mMaxSubjectLength = 40;  // maximum number of characters allowed for mms
+                                                // subject
+
     public static void init(Context context) {
         if (LOCAL_LOGV) {
             Log.v(TAG, "MmsConfig.init()");
@@ -235,6 +238,10 @@ public class MmsConfig {
         return mAllowAttachAudio;
     }
 
+    public static int getMaxSubjectLength() {
+        return mMaxSubjectLength;
+    }
+
     public static final void beginDocument(XmlPullParser parser, String firstElementName) throws XmlPullParserException, IOException
     {
         int type;
@@ -344,6 +351,8 @@ public class MmsConfig {
                             mSmsToMmsTextThreshold = Integer.parseInt(text);
                         } else if ("maxMessageTextSize".equalsIgnoreCase(value)) {
                             mMaxTextLength = Integer.parseInt(text);
+                        } else if ("maxSubjectLength".equalsIgnoreCase(value)) {
+                            mMaxSubjectLength = Integer.parseInt(text);
                         }
                     } else if ("string".equals(tag)) {
                         // string config tags go here
