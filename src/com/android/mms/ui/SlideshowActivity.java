@@ -21,6 +21,7 @@ import com.android.mms.R;
 import com.android.mms.dom.AttrImpl;
 import com.android.mms.dom.smil.SmilDocumentImpl;
 import com.android.mms.dom.smil.SmilPlayer;
+import com.android.mms.dom.smil.SmilPlayer.SmilPlayerState;
 import com.android.mms.dom.smil.parser.SmilXmlSerializer;
 import com.android.mms.model.LayoutModel;
 import com.android.mms.model.RegionModel;
@@ -182,6 +183,7 @@ public class SlideshowActivity extends Activity implements EventListener {
                         || mSmilPlayer.isPlayedState();
             }
 
+            @Override
             public void run() {
                 mSmilPlayer = SmilPlayer.getPlayer();
                 if (mSlideCount > 1) {
@@ -227,12 +229,36 @@ public class SlideshowActivity extends Activity implements EventListener {
                         SmilDocumentImpl.SMIL_DOCUMENT_END_EVENT,
                         SlideshowActivity.this, false);
 
+                // The SmilPlayer is a singleton for some reason... so clear any prior listener.
+                mSmilPlayer.setOnPlayStateChangeListener(null);
                 mSmilPlayer.init(mSmilDoc);
                 if (isRotating()) {
                     mSmilPlayer.reload();
                 } else {
                     mSmilPlayer.play();
                 }
+                // Note: we set the listener after we call play because we don't want the initial
+                // state update to cause the media controller UI to be shown (and plus, it crashes
+                // if called before the activity is "running").
+                mSmilPlayer.setOnPlayStateChangeListener(
+                    new SmilPlayer.OnPlayStateChangeListener() {
+                        @Override
+                        public void onPlayStateChanged(final SmilPlayerState newState) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // If we've just paused or resumed playback, refresh the UI by
+                                    // calling show(). For other states, there's no need to refresh.
+                                    if (mMediaController != null &&
+                                            (newState == SmilPlayerState.PAUSED ||
+                                                newState == SmilPlayerState.PLAYING ||
+                                                newState == SmilPlayerState.STOPPED)) {
+                                        mMediaController.show();
+                                    }
+                                }
+                            });
+                        }
+                    });
             }
         });
     }
@@ -243,14 +269,16 @@ public class SlideshowActivity extends Activity implements EventListener {
         mMediaController.setAnchorView(findViewById(R.id.slide_view));
         mMediaController.setPrevNextListeners(
             new OnClickListener() {
-              public void onClick(View v) {
-                  mSmilPlayer.next();
-              }
+                @Override
+                public void onClick(View v) {
+                    mSmilPlayer.next();
+                }
             },
             new OnClickListener() {
-              public void onClick(View v) {
-                  mSmilPlayer.prev();
-              }
+                @Override
+                public void onClick(View v) {
+                    mSmilPlayer.prev();
+                }
             });
     }
 
@@ -325,55 +353,63 @@ public class SlideshowActivity extends Activity implements EventListener {
             mPlayer = player;
         }
 
+        @Override
         public int getBufferPercentage() {
             // We don't need to buffer data, always return 100%.
             return 100;
         }
 
+        @Override
         public int getCurrentPosition() {
             return mPlayer.getCurrentPosition();
         }
 
+        @Override
         public int getDuration() {
             return mPlayer.getDuration();
         }
 
+        @Override
         public boolean isPlaying() {
-            return mPlayer != null ? mPlayer.isPlayingState() : false;
+            return mPlayer.isPlayingState();
         }
 
+        @Override
         public void pause() {
-            if (mPlayer != null) {
-                mPlayer.pause();
-            }
+            mPlayer.pause();
         }
 
+        @Override
         public void seekTo(int pos) {
             // Don't need to support.
         }
 
+        @Override
         public void start() {
-            if (mPlayer != null) {
-                mPlayer.start();
-            }
+            mPlayer.start();
         }
 
+        @Override
         public boolean canPause() {
             return true;
         }
 
+        @Override
         public boolean canSeekBackward() {
             return true;
         }
 
+        @Override
         public boolean canSeekForward() {
             return true;
         }
     }
 
+    @Override
     public void handleEvent(Event evt) {
         final Event event = evt;
         mHandler.post(new Runnable() {
+            @Override
             public void run() {
                 String type = event.getType();
                 if(type.equals(SmilDocumentImpl.SMIL_DOCUMENT_END_EVENT)) {
