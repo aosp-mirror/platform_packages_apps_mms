@@ -45,7 +45,7 @@ public class SmilPlayer implements Runnable {
     private static final boolean LOCAL_LOGV = false;
     private static final int TIMESLICE = 200;
 
-    private static enum SmilPlayerState {
+    public static enum SmilPlayerState {
         INITIALIZED,
         PLAYING,
         PLAYED,
@@ -63,10 +63,22 @@ public class SmilPlayer implements Runnable {
         PREV
     }
 
+    /**
+     * Implement this interface to be notified of playback state changes
+     */
+    public interface OnPlayStateChangeListener {
+        /**
+         * Called when the player's state changes
+         * @param newState The new state
+         */
+        public void onPlayStateChanged(SmilPlayerState newState);
+    }
+
     public static final String MEDIA_TIME_UPDATED_EVENT = "mediaTimeUpdated";
 
     private static final Comparator<TimelineEntry> sTimelineEntryComparator =
         new Comparator<TimelineEntry>() {
+        @Override
         public int compare(TimelineEntry o1, TimelineEntry o2) {
             return Double.compare(o1.getOffsetTime(), o2.getOffsetTime());
         }
@@ -84,6 +96,7 @@ public class SmilPlayer implements Runnable {
     private SmilPlayerAction mAction = SmilPlayerAction.NO_ACTIVE_ACTION;
     private ArrayList<ElementTime> mActiveElements;
     private Event mMediaTimeUpdatedEvent;
+    private OnPlayStateChangeListener mStateChangeListener;
 
     private static ArrayList<TimelineEntry> getParTimeline(
             ElementParallelTimeContainer par, double offset, double maxOffset) {
@@ -311,6 +324,7 @@ public class SmilPlayer implements Runnable {
             mPlayerThread = new Thread(this);
             mState = SmilPlayerState.PLAYING;
             mPlayerThread.start();
+            notifyPlayStateChangeListener();
         } else {
             Log.w(TAG, "Error State: Playback is playing!");
         }
@@ -371,6 +385,19 @@ public class SmilPlayer implements Runnable {
         mAction = SmilPlayerAction.PREV;
         notifyAll();
       }
+    }
+
+    /**
+     * Specifies a listener to notify when the playback state changes
+     */
+    public synchronized void setOnPlayStateChangeListener(OnPlayStateChangeListener listener) {
+        mStateChangeListener = listener;
+    }
+
+    private synchronized void notifyPlayStateChangeListener() {
+        if (mStateChangeListener != null) {
+            mStateChangeListener.onPlayStateChanged(mState);
+        }
     }
 
     private synchronized boolean isBeginOfSlide(TimelineEntry entry) {
@@ -506,6 +533,7 @@ public class SmilPlayer implements Runnable {
             if (isStartAction()) {
                 mAction = SmilPlayerAction.NO_ACTIVE_ACTION;
                 mState = SmilPlayerState.PLAYING;
+                notifyPlayStateChangeListener();
             }
         } catch (InterruptedException e) {
             Log.e(TAG, "Unexpected InterruptedException.", e);
@@ -624,6 +652,7 @@ public class SmilPlayer implements Runnable {
         pauseActiveElements();
         mState = SmilPlayerState.PAUSED;
         mAction = SmilPlayerAction.NO_ACTIVE_ACTION;
+        notifyPlayStateChangeListener();
     }
 
     private synchronized void actionStop() {
@@ -633,6 +662,7 @@ public class SmilPlayer implements Runnable {
         mCurrentSlide = 0;
         mState = SmilPlayerState.STOPPED;
         mAction = SmilPlayerAction.NO_ACTIVE_ACTION;
+        notifyPlayStateChangeListener();
     }
 
     private synchronized void actionReload() {
@@ -640,6 +670,7 @@ public class SmilPlayer implements Runnable {
         mAction = SmilPlayerAction.NO_ACTIVE_ACTION;
     }
 
+    @Override
     public void run() {
         if (isStoppedState()) {
             return;
@@ -718,6 +749,7 @@ public class SmilPlayer implements Runnable {
         }
 
         mState = SmilPlayerState.PLAYED;
+        notifyPlayStateChangeListener();
     }
 
     private static final class TimelineEntry {
@@ -746,6 +778,7 @@ public class SmilPlayer implements Runnable {
             return mAction;
         }
 
+        @Override
         public String toString() {
             return "Type = " + mElement + " offset = " + getOffsetTime() + " action = " + getAction();
         }
