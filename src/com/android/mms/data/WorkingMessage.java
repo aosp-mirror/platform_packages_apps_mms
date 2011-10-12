@@ -846,11 +846,13 @@ public class WorkingMessage {
         // Mark this message as discarded in order to make saveDraft() no-op.
         mDiscarded = true;
 
-        // Delete our MMS message, if there is one.
-        if (mMessageUri != null) {
-            asyncDelete(mMessageUri, null, null);
+        // Delete any associated drafts if there are any.
+        if (mHasMmsDraft) {
+            asyncDeleteDraftMmsMessage(mConversation);
         }
-
+        if (mHasSmsDraft) {
+            asyncDeleteDraftSmsMessage(mConversation);
+        }
         clearConversation(mConversation, true);
     }
 
