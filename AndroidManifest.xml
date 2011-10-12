@@ -158,6 +158,7 @@
 
         <activity android:name=".ui.SlideEditorActivity"
             android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation|keyboardHidden"
             android:theme="@style/MmsHoloTheme"
             android:label="@string/edit_slide_activity" />
 

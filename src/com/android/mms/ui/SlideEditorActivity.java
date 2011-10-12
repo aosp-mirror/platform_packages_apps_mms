@@ -23,6 +23,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -803,4 +804,10 @@ public class SlideEditorActivity extends Activity {
             setReplaceButtonText(R.string.add_picture);
         }
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
 }
