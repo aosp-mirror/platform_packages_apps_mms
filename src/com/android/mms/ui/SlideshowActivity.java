@@ -320,6 +320,16 @@ public class SlideshowActivity extends Activity implements EventListener {
 
     private class SmilPlayerController implements MediaPlayerControl {
         private final SmilPlayer mPlayer;
+        /**
+         * We need to cache the playback state because when the MediaController issues a play or
+         * pause command, it expects subsequent calls to {@link #isPlaying()} to return the right
+         * value immediately. However, the SmilPlayer executes play and pause asynchronously, so
+         * {@link #isPlaying()} will return the wrong value for some time. That's why we keep our
+         * own version of the state of whether the player is playing.
+         *
+         * Initialized to true because we always programatically start the SmilPlayer upon creation
+         */
+        private boolean mCachedIsPlaying = true;
 
         public SmilPlayerController(SmilPlayer player) {
             mPlayer = player;
@@ -339,13 +349,12 @@ public class SlideshowActivity extends Activity implements EventListener {
         }
 
         public boolean isPlaying() {
-            return mPlayer != null ? mPlayer.isPlayingState() : false;
+            return mCachedIsPlaying;
         }
 
         public void pause() {
-            if (mPlayer != null) {
-                mPlayer.pause();
-            }
+            mPlayer.pause();
+            mCachedIsPlaying = false;
         }
 
         public void seekTo(int pos) {
@@ -353,9 +362,8 @@ public class SlideshowActivity extends Activity implements EventListener {
         }
 
         public void start() {
-            if (mPlayer != null) {
-                mPlayer.start();
-            }
+            mPlayer.start();
+            mCachedIsPlaying = true;
         }
 
         public boolean canPause() {
