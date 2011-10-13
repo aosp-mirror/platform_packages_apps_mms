@@ -166,16 +166,16 @@ import android.text.InputFilter.LengthFilter;
 public class ComposeMessageActivity extends Activity
         implements View.OnClickListener, TextView.OnEditorActionListener,
         MessageStatusListener, Contact.UpdateListener {
-    public static final int REQUEST_CODE_ATTACH_IMAGE     = 10;
-    public static final int REQUEST_CODE_TAKE_PICTURE     = 11;
-    public static final int REQUEST_CODE_ATTACH_VIDEO     = 12;
-    public static final int REQUEST_CODE_TAKE_VIDEO       = 13;
-    public static final int REQUEST_CODE_ATTACH_SOUND     = 14;
-    public static final int REQUEST_CODE_RECORD_SOUND     = 15;
-    public static final int REQUEST_CODE_CREATE_SLIDESHOW = 16;
-    public static final int REQUEST_CODE_ECM_EXIT_DIALOG  = 17;
-    public static final int REQUEST_CODE_ADD_CONTACT      = 18;
-    public static final int REQUEST_CODE_PICK             = 19;
+    public static final int REQUEST_CODE_ATTACH_IMAGE     = 100;
+    public static final int REQUEST_CODE_TAKE_PICTURE     = 101;
+    public static final int REQUEST_CODE_ATTACH_VIDEO     = 102;
+    public static final int REQUEST_CODE_TAKE_VIDEO       = 103;
+    public static final int REQUEST_CODE_ATTACH_SOUND     = 104;
+    public static final int REQUEST_CODE_RECORD_SOUND     = 105;
+    public static final int REQUEST_CODE_CREATE_SLIDESHOW = 106;
+    public static final int REQUEST_CODE_ECM_EXIT_DIALOG  = 107;
+    public static final int REQUEST_CODE_ADD_CONTACT      = 108;
+    public static final int REQUEST_CODE_PICK             = 109;
 
     private static final String TAG = "Mms/compose";
 
@@ -327,7 +327,7 @@ public class ComposeMessageActivity extends Activity
                 case AttachmentEditor.MSG_PLAY_AUDIO:
                 case AttachmentEditor.MSG_PLAY_SLIDESHOW:
                     MessageUtils.viewMmsMessageAttachment(ComposeMessageActivity.this,
-                            mWorkingMessage);
+                            mWorkingMessage, msg.what);
                     break;
 
                 case AttachmentEditor.MSG_REPLACE_IMAGE:

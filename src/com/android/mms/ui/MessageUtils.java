@@ -799,6 +799,11 @@ public class MessageUtils {
      */
     public static void viewMmsMessageAttachment(Context context, Uri msgUri,
             SlideshowModel slideshow) {
+        viewMmsMessageAttachment(context, msgUri, slideshow, 0);
+    }
+
+    private static void viewMmsMessageAttachment(Context context, Uri msgUri,
+            SlideshowModel slideshow, int requestCode) {
         boolean isSimple = (slideshow == null) ? false : slideshow.isSimple();
         if (isSimple) {
             // In attachment-editor mode, we only ever have one slide.
@@ -819,11 +824,16 @@ public class MessageUtils {
             // Launch the slideshow activity to play/view.
             Intent intent = new Intent(context, SlideshowActivity.class);
             intent.setData(msgUri);
-            context.startActivity(intent);
+            if (requestCode > 0 && context instanceof Activity) {
+                ((Activity)context).startActivityForResult(intent, requestCode);
+            } else {
+                context.startActivity(intent);
+            }
         }
     }
 
-    public static void viewMmsMessageAttachment(Context context, WorkingMessage msg) {
+    public static void viewMmsMessageAttachment(Context context, WorkingMessage msg,
+            int requestCode) {
         SlideshowModel slideshow = msg.getSlideshow();
         if (slideshow == null) {
             throw new IllegalStateException("msg.getSlideshow() == null");
@@ -833,7 +843,9 @@ public class MessageUtils {
         } else {
             Uri uri = msg.saveAsMms(false);
             if (uri != null) {
-                viewMmsMessageAttachment(context, uri, slideshow);
+                // Pass null for the slideshow paramater, otherwise viewMmsMessageAttachment
+                // will persist the slideshow to disk again (we just did that above in saveAsMms)
+                viewMmsMessageAttachment(context, uri, null, requestCode);
             }
         }
     }
