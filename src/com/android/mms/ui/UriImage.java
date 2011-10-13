@@ -19,6 +19,8 @@ package com.android.mms.ui;
 
 import com.android.mms.model.ImageModel;
 import com.android.mms.LogTag;
+
+import com.google.android.mms.ContentType;
 import com.google.android.mms.pdu.PduPart;
 import android.database.sqlite.SqliteWrapper;
 
@@ -179,6 +181,16 @@ public class UriImage {
         return mHeight;
     }
 
+    /**
+     * Get a version of this image resized to fit the given dimension and byte-size limits. Note
+     * that the content type of the resulting PduPart may not be the same as the content type of
+     * this UriImage; always call {@link PduPart#getContentType()} to get the new content type.
+     *
+     * @param widthLimit The width limit, in pixels
+     * @param heightLimit The height limit, in pixels
+     * @param byteLimit The binary size limit, in bytes
+     * @return A new PduPart containing the resized image data
+     */
     public PduPart getResizedImageAsPart(int widthLimit, int heightLimit, int byteLimit) {
         PduPart part = new PduPart();
 
@@ -191,13 +203,22 @@ public class UriImage {
         }
 
         part.setData(data);
-        part.setContentType(getContentType().getBytes());
+        // getResizedImageData ALWAYS compresses to JPEG, regardless of the original content type
+        part.setContentType(ContentType.IMAGE_JPEG.getBytes());
 
         return part;
     }
 
     private static final int NUMBER_OF_RESIZE_ATTEMPTS = 4;
 
+    /**
+     * Resize and recompress the image such that it fits the given limits. The resulting byte
+     * array contains an image in JPEG format, regardless of the original image's content type.
+     * @param widthLimit The width limit, in pixels
+     * @param heightLimit The height limit, in pixels
+     * @param byteLimit The binary size limit, in bytes
+     * @return A resized/recompressed version of this image, in JPEG format
+     */
     private byte[] getResizedImageData(int widthLimit, int heightLimit, int byteLimit) {
         int outWidth = mWidth;
         int outHeight = mHeight;

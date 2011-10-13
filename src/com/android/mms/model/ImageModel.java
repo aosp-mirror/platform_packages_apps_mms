@@ -26,6 +26,8 @@ import android.drm.mobile1.DrmException;
 import com.android.mms.drm.DrmWrapper;
 import com.android.mms.ui.UriImage;
 import com.android.mms.ui.MessageUtils;
+
+import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
@@ -244,6 +246,9 @@ public class ImageModel extends RegionMediaModel {
             throw new ExceedMessageSizeException("Not enough memory to turn image into part: " +
                     getUri());
         }
+
+        // Update the content type because it may have changed due to resizing/recompressing
+        mContentType = new String(part.getContentType());
 
         String src = getSrc();
         byte[] srcBytes = src.getBytes();
