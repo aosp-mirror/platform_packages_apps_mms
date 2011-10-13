@@ -21,14 +21,19 @@ import static com.android.mms.ui.MessageListAdapter.COLUMN_MSG_TYPE;
 
 import com.android.mms.R;
 import com.android.mms.ui.ComposeMessageActivity;
-
+import com.android.mms.ui.RecipientsEditor;
+import android.os.SystemClock;
 import android.database.Cursor;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.util.Log;
+
 
 /**
  * Test threads with thousands of messages
@@ -38,9 +43,11 @@ import android.widget.Button;
 public class MultiPartSmsTests
 extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
 
-    private TextView mRecipientsView;
+    private static final String TAG = "MultiPartSmsTests";
+    private static final int SMS_RECEIVE_TIMER = 5 * 60 * 1000; //5 minutes;
+    private ComposeMessageActivity mActivity = null;
+    private RecipientsEditor mRecipientsEditor;
     private EditText mTextEditor;
-    static final String TAG = "MultiPartSmsTests";
 
     // NOTE: the longer the message, the longer is takes to send and get back the
     // received message. You'll have to adjust the timeout in testLongSmsMessage().
@@ -82,16 +89,24 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
     private String mMyNumber;
 
     public MultiPartSmsTests() {
-        super("com.android.mms", ComposeMessageActivity.class);
+        super(ComposeMessageActivity.class);
     }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
-        ComposeMessageActivity a = getActivity();
-        mRecipientsView = (TextView)a.findViewById(R.id.recipients_editor);
-        mTextEditor = (EditText)a.findViewById(R.id.embedded_text_editor);
+        mActivity = getActivity();
+        ViewStub stub = (ViewStub)mActivity.findViewById(R.id.recipients_editor_stub);
+        if (stub != null) {
+            View stubView = stub.inflate();
+            mRecipientsEditor = (RecipientsEditor) stubView.findViewById(R.id.recipients_editor);
+        } else {
+            mRecipientsEditor = (RecipientsEditor)mActivity.findViewById(R.id.recipients_editor);
+            mRecipientsEditor.setVisibility(View.VISIBLE);
+        }
+        mTextEditor = (EditText)mActivity.findViewById(R.id.embedded_text_editor);
+
         mMyNumber = MessageUtils.getLocalNumber();
         assertNotNull("null number for this phone", mMyNumber);
         // WARNING: MessageUtils.getLocalNumber returned some 206 number as the number
@@ -99,7 +114,8 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
         // ended up failing because it sent a gigantic message to some unknown number
         // and never received the number back. For now, I'm just hardwiring the number
         // of my phone.
-        mMyNumber = "6502782055";
+//        mMyNumber = "6502782055";
+        mMyNumber = "6509330537";
     }
 
     private abstract class MessageRunnable implements Runnable {
@@ -113,15 +129,20 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
     private MessageRunnable mSendSmsMessage = new MessageRunnable() {
         public void run() {
             // only on the first message will there be a recipients editor
-            if (mRecipientsView.getVisibility() == View.VISIBLE) {
-                mRecipientsView.setText(mRecipient);
+            if (mRecipientsEditor.getVisibility() == View.VISIBLE) {
+                mRecipientsEditor.setText(mRecipient);
             }
             mTextEditor.setText(mLongMessage);
-            final ComposeMessageActivity a = getActivity();
-            Button send = (Button)a.findViewById(R.id.send_button);
+            ImageButton send = (ImageButton)mActivity.findViewById(R.id.send_button_sms);
             send.performClick();
         }
     };
+
+    private void sleep(long sleepTime) {
+        try {
+            Thread.sleep(sleepTime);
+        } catch (InterruptedException e) {}
+    }
 
     /**
      * Send a a long multi-part SMS message
@@ -129,31 +150,39 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
     @LargeTest
     public void testLongSmsMessage() throws Throwable {
         final ComposeMessageActivity a = getActivity();
-        a.runOnUiThread(new Runnable() {
+        mActivity.runOnUiThread(new Runnable() {
             public void run() {
-                a.initialize(0);
-                a.loadMessageContent();
+                mActivity.initialize(0);
+                mActivity.loadMessageContent();
             }
         });
-        int msgCount = a.mMsgListAdapter.getCount();
 
+        // wait 5 seconds for the activity to run on UI thread and
+        // mMsgListAdapter get updated with latest information.
+        sleep(5 * 1000);
+        int msgCount = mActivity.mMsgListAdapter.getCount();
+        Log.v(TAG, "msgCount: " + msgCount);
+        // Send out message to the recipient
         mSendSmsMessage.setRecipient(mMyNumber);
         runTestOnUiThread(mSendSmsMessage);
 
-        // Wait for five minutes to send the long message and then receive it. Make sure
-        // the sent and received messages compare the same.
+        // Wait for maximum 5 minutes to send the long message
+        // and then receive it. Make sure the sent and received messages compare the same.
         boolean received = false;
-        for (int i = 0; i < 100; i++) {
-            Thread.sleep(5000);     // wait 5 seconds between checks
-            if (msgCount + 2 >= a.mMsgListAdapter.getCount()) {
-                // The "msgCount + 2" is to account for the sent and received message. Of
-                // course, another message could be received by the target phone during this time
-                // which would cause this function to falsely fail.
-                Cursor cursor = a.mMsgListAdapter.getCursor();
+        long startTime = System.currentTimeMillis();
+        while ((System.currentTimeMillis() - startTime) <= SMS_RECEIVE_TIMER) {
+            sleep( 5 * 1000);     // wait 5 seconds between checks
+            Log.v(TAG, "Message Count: " + mActivity.mMsgListAdapter.getCount());
+            if (msgCount + 2 == mActivity.mMsgListAdapter.getCount()) {
+                // The "msgCount + 2" is to account for the sent and received message.
+                // Other cases: 1) fail to send/receive sms message, test fail
+                // 2) another message could be received by the target phone during this time
+                //    test will falsely fail
+                Cursor cursor = mActivity.mMsgListAdapter.getCursor();
                 cursor.moveToLast();
                 String type = cursor.getString(COLUMN_MSG_TYPE);
                 long msgId = cursor.getLong(COLUMN_ID);
-                MessageItem msgItem = a.mMsgListAdapter.getCachedMessageItem(type, msgId, cursor);
+                MessageItem msgItem = mActivity.mMsgListAdapter.getCachedMessageItem(type, msgId, cursor);
                 assertNotNull("got a null last MessageItem", msgItem);
                 assertEquals("The sent and received messages aren't the same",
                         mLongMessage,
