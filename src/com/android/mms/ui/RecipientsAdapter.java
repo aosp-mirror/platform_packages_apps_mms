@@ -17,7 +17,6 @@
 
 package com.android.mms.ui;
 
-import com.android.common.ArrayListCursor;
 import com.android.mms.MmsApp;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
@@ -25,6 +24,7 @@ import com.android.mms.data.Contact;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.net.Uri;
 import android.provider.ContactsContract.Contacts;
@@ -38,8 +38,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 /**
  * This adapter is used to filter contacts on both name and number.
@@ -201,26 +199,23 @@ public class RecipientsAdapter extends ResourceCursorAdapter {
                     null);
 
         if (phone.length() > 0) {
-            ArrayList result = new ArrayList();
-            result.add(Integer.valueOf(-1));                    // ID
-            result.add(Long.valueOf(-1));                       // CONTACT_ID
-            result.add(Integer.valueOf(Phone.TYPE_CUSTOM));     // TYPE
-            result.add(phone);                                  // NUMBER
+            Object[] result = new Object[7];
+            result[0] = Integer.valueOf(-1);                    // ID
+            result[1] = Long.valueOf(-1);                       // CONTACT_ID
+            result[2] = Integer.valueOf(Phone.TYPE_CUSTOM);     // TYPE
+            result[3] = phone;                                  // NUMBER
 
             /*
              * The "\u00A0" keeps Phone.getDisplayLabel() from deciding
              * to display the default label ("Home") next to the transformation
              * of the letters into numbers.
              */
-            result.add("\u00A0");                               // LABEL
-            result.add(cons);                                   // NAME
-            result.add(phone);                                  // NORMALIZED_NUMBER
+            result[4] = "\u00A0";                               // LABEL
+            result[5] = cons;                                   // NAME
+            result[6] = phone;                                  // NORMALIZED_NUMBER
 
-            ArrayList<ArrayList> wrap = new ArrayList<ArrayList>();
-            wrap.add(result);
-
-            ArrayListCursor translated = new ArrayListCursor(PROJECTION_PHONE, wrap);
-
+            MatrixCursor translated = new MatrixCursor(PROJECTION_PHONE, 1);
+            translated.addRow(result);
             return new MergeCursor(new Cursor[] { translated, phoneCursor });
         } else {
             return phoneCursor;
