@@ -26,11 +26,15 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.mms.R;
+import com.android.mms.ui.ComposeMessageActivity;
+import com.android.mms.ui.RecipientsEditor;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -47,7 +51,7 @@ import java.util.Random;
 public class LongThreadTest
 extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
 
-    private TextView mRecipientsView;
+    private RecipientsEditor mRecipientsEditor;
     private EditText mTextEditor;
     private EditText mSubjectTextEditor;    // Text editor for MMS subject
     static final String TAG = "LongThreadTest";
@@ -55,26 +59,34 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
     private ArrayList<String> mRecipients;
     private int mWordCount;
     private Random mRandom = new Random();
+    private ComposeMessageActivity mActivity;
 
     public LongThreadTest() {
-        super("com.android.mms", ComposeMessageActivity.class);
+        super(ComposeMessageActivity.class);
     }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
-        ComposeMessageActivity a = getActivity();
-        mRecipientsView = (TextView)a.findViewById(R.id.recipients_editor);
-        mTextEditor = (EditText)a.findViewById(R.id.embedded_text_editor);
-        mSubjectTextEditor = (EditText)a.findViewById(R.id.subject);
+        mActivity = getActivity();
+        ViewStub stub = (ViewStub)mActivity.findViewById(R.id.recipients_editor_stub);
+        if (stub != null) {
+            View stubView = stub.inflate();
+            mRecipientsEditor = (RecipientsEditor) stubView.findViewById(R.id.recipients_editor);
+        } else {
+            mRecipientsEditor = (RecipientsEditor)mActivity.findViewById(R.id.recipients_editor);
+            mRecipientsEditor.setVisibility(View.VISIBLE);
+        }
+        mTextEditor = (EditText)mActivity.findViewById(R.id.embedded_text_editor);
+        mSubjectTextEditor = (EditText)mActivity.findViewById(R.id.subject);
 
         // Read in dictionary of words
         mWords = new ArrayList<String>(98568);      // count of words in words file
         StringBuilder sb = new StringBuilder();
         try {
             Log.v(TAG, "Loading dictionary of words");
-            FileInputStream words = a.openFileInput("words");
+            FileInputStream words = mActivity.openFileInput("words");
             int c;
             while ((c = words.read()) != -1) {
                 if (c == '\r' || c == '\n') {
@@ -99,7 +111,7 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
         mRecipients = new ArrayList<String>();
         try {
             Log.v(TAG, "Loading recipients");
-            FileInputStream recipients = a.openFileInput("recipients");
+            FileInputStream recipients = mActivity.openFileInput("recipients");
             int c;
             while ((c = recipients.read()) != -1) {
                 if (c == '\r' || c == '\n' || c == ',') {
@@ -359,12 +371,12 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
     private MessageRunnable mSendSmsMessage = new MessageRunnable() {
         public void run() {
             // only on the first message will there be a recipients editor
-            if (mRecipientsView.getVisibility() == View.VISIBLE) {
-                mRecipientsView.setText(mRecipient);
+            if (mRecipientsEditor.getVisibility() == View.VISIBLE) {
+                mRecipientsEditor.setText(mRecipient);
             }
             mTextEditor.setText(generateMessage());
             final ComposeMessageActivity a = getActivity();
-            Button send = (Button)a.findViewById(R.id.send_button);
+            ImageButton send = (ImageButton)mActivity.findViewById(R.id.send_button_sms);
             send.performClick();
         }
     };
@@ -372,17 +384,17 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
     private MessageRunnable mSendMmsMessage = new MessageRunnable() {
         public void run() {
             // only on the first message will there be a recipients editor
-            if (mRecipientsView.getVisibility() == View.VISIBLE) {
-                mRecipientsView.setText(mRecipient);
+            if (mRecipientsEditor.getVisibility() == View.VISIBLE) {
+                mRecipientsEditor.setText(mRecipient);
             }
             // Add a subject
             final ComposeMessageActivity a = getActivity();
             MenuItem item = new AddSubjectMenuItem();
-            a.onOptionsItemSelected(item);
+            mActivity.onOptionsItemSelected(item);
             mSubjectTextEditor.setText(generateMessage());
 
             mTextEditor.setText(generateMessage());
-            Button send = (Button)a.findViewById(R.id.send_button);
+            Button send = (Button)mActivity.findViewById(R.id.send_button);
             send.performClick();
         }
     };
@@ -400,10 +412,10 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
 
         final ComposeMessageActivity a = getActivity();
         for (String recipient : mRecipients) {
-            a.runOnUiThread(new Runnable() {
+            mActivity.runOnUiThread(new Runnable() {
                 public void run() {
-                    a.initialize(0);
-                    a.loadMessageContent();
+                    mActivity.initialize(0);
+                    mActivity.loadMessageContent();
                 }
             });
 

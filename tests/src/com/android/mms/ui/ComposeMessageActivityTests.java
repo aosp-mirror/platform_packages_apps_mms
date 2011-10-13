@@ -17,6 +17,8 @@
 package com.android.mms.ui;
 
 import com.android.mms.R;
+import com.android.mms.ui.ComposeMessageActivity;
+import com.android.mms.ui.RecipientsEditor;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
 import com.android.mms.data.WorkingMessage;
@@ -30,27 +32,29 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 /**
  * Various instrumentation tests for ComposeMessageActivity.
  */
 public class ComposeMessageActivityTests
-extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
+    extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
 
+    private static final String TAG = "ComposeMessageActivityTests";
     private Context mContext;
-
-    private TextView mRecipientsView;
+    private RecipientsEditor mRecipientsEditor;
     private EditText mTextEditor;
     private MessageListView mMsgListView;
     private MessageListAdapter mMsgListAdapter;
     private ColumnsMap mColumnsMap;
-    private static final String TAG = "ComposeMessageActivityTests";
+    private ComposeMessageActivity mActivity;
 
     public ComposeMessageActivityTests() {
-        super("com.android.mms", ComposeMessageActivity.class);
+        super(ComposeMessageActivity.class);
     }
 
     @Override
@@ -58,10 +62,18 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
         super.setUp();
         mContext = getInstrumentation().getTargetContext();
 
-        ComposeMessageActivity a = getActivity();
-        mRecipientsView = (TextView)a.findViewById(R.id.recipients_editor);
-        mTextEditor = (EditText)a.findViewById(R.id.embedded_text_editor);
-        mMsgListView = (MessageListView)a.findViewById(R.id.history);
+        mActivity = getActivity();
+
+        ViewStub stub = (ViewStub)mActivity.findViewById(R.id.recipients_editor_stub);
+        if (stub != null) {
+            View stubView = stub.inflate();
+            mRecipientsEditor = (RecipientsEditor) stubView.findViewById(R.id.recipients_editor);
+        } else {
+            mRecipientsEditor = (RecipientsEditor)mActivity.findViewById(R.id.recipients_editor);
+            mRecipientsEditor.setVisibility(View.VISIBLE);
+        }
+        mTextEditor = (EditText)mActivity.findViewById(R.id.embedded_text_editor);
+        mMsgListView = (MessageListView)mActivity.findViewById(R.id.history);
         mMsgListAdapter = (MessageListAdapter)mMsgListView.getAdapter();
     }
 
@@ -141,14 +153,12 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
      */
     @LargeTest
     public void testSendMessage() throws Throwable {
-        final ComposeMessageActivity a = getActivity();
-
         runTestOnUiThread(new Runnable() {
             public void run() {
-                checkFocused(mRecipientsView);
-                mRecipientsView.setText("2012130903");
+                checkFocused(mRecipientsEditor);
+                mRecipientsEditor.setText("2012130903");
                 mTextEditor.setText("This is a test message");
-                Button send = (Button)a.findViewById(R.id.send_button);
+                ImageButton send = (ImageButton)mActivity.findViewById(R.id.send_button_sms);
                 send.performClick();
             }
         });
@@ -174,7 +184,7 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
      */
     @SmallTest
     private void checkFocused(View focused) {
-        assertEquals(focused == mRecipientsView, mRecipientsView.isFocused());
+        assertEquals(focused == mRecipientsEditor, mRecipientsEditor.isFocused());
         assertEquals(focused == mTextEditor, mTextEditor.isFocused());
     }
 
@@ -184,13 +194,12 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
     // the threads directly to the mms provider's threads table.
     @LargeTest
     public void testCreateManyThreads() {
-        ComposeMessageActivity cma = getActivity();
         for (int i = 0; i < 10; i++) {
             String phoneNum = String.format("424-123-%04d", i);
             ContactList contactList = ContactList.getByNumbers(phoneNum, false, false);
-            Conversation conv = Conversation.get(cma, contactList, false);
+            Conversation conv = Conversation.get(mActivity, contactList, false);
 
-            WorkingMessage workingMsg = WorkingMessage.loadDraft(cma, conv);
+            WorkingMessage workingMsg = WorkingMessage.loadDraft(mActivity, conv);
             workingMsg.setConversation(conv);
             workingMsg.setText("This is test #" + i + " thread id: " + conv.getThreadId());
 
