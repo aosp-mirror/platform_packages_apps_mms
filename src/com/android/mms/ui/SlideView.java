@@ -162,8 +162,6 @@ public class SlideView extends AbsoluteLayout implements
             LayoutInflater factory = LayoutInflater.from(getContext());
             mAudioInfoView = factory.inflate(R.layout.playing_audio_info, null);
             int height = mAudioInfoView.getHeight();
-            TextView audioName = (TextView) mAudioInfoView.findViewById(R.id.name);
-            audioName.setText(name);
             if (mConformanceMode) {
                 mViewPort.addView(mAudioInfoView, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                         AUDIO_INFO_HEIGHT));
@@ -176,6 +174,8 @@ public class SlideView extends AbsoluteLayout implements
                 }
             }
         }
+        TextView audioName = (TextView) mAudioInfoView.findViewById(R.id.name);
+        audioName.setText(name);
         mAudioInfoView.setVisibility(View.GONE);
     }
 

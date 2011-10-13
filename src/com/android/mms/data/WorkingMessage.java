@@ -1169,8 +1169,8 @@ public class WorkingMessage {
     private void sendSmsWorker(String msgText, String semiSepRecipients, long threadId) {
         String[] dests = TextUtils.split(semiSepRecipients, ";");
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            LogTag.debug("sendSmsWorker sending message: recipients=" + semiSepRecipients +
-                    ", threadId=" + threadId);
+            Log.d(LogTag.TRANSACTION, "sendSmsWorker sending message: recipients=" +
+                    semiSepRecipients + ", threadId=" + threadId);
         }
         MessageSender sender = new SmsMessageSender(mActivity, dests, msgText, threadId);
         try {
@@ -1471,7 +1471,7 @@ public class WorkingMessage {
     private String readDraftSmsMessage(Conversation conv) {
         long thread_id = conv.getThreadId();
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            LogTag.debug("readDraftSmsMessage conv: " + conv);
+            Log.d(TAG, "readDraftSmsMessage conv: " + conv);
         }
         // If it's an invalid thread or we know there's no draft, don't bother.
         if (thread_id <= 0 || !conv.hasDraft()) {
