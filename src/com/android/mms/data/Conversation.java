@@ -429,7 +429,7 @@ public class Conversation {
      */
     public synchronized void setRecipients(ContactList list) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            LogTag.debug("setRecipients before: " + this.toString());
+            Log.d(TAG, "setRecipients before: " + this.toString());
         }
         mRecipients = list;
 
@@ -437,7 +437,7 @@ public class Conversation {
         mThreadId = 0;
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            LogTag.debug("setRecipients after: " + this.toString());
+            Log.d(TAG, "setRecipients after: " + this.toString());
         }
 }
 
@@ -742,7 +742,7 @@ public class Conversation {
         }
 
         if (Log.isLoggable(LogTag.THREAD_CACHE, Log.VERBOSE)) {
-            LogTag.debug("fillFromCursor: conv=" + conv + ", recipientIds=" + recipientIds);
+            Log.d(TAG, "fillFromCursor: conv=" + conv + ", recipientIds=" + recipientIds);
         }
     }
 
@@ -807,7 +807,7 @@ public class Conversation {
                 // We update cache entries in place so people with long-
                 // held references get updated.
                 if (Log.isLoggable(LogTag.THREAD_CACHE, Log.VERBOSE)) {
-                    LogTag.debug("Conversation.Cache.put: conv= " + c + ", hash: " + c.hashCode());
+                    Log.d(TAG, "Conversation.Cache.put: conv= " + c + ", hash: " + c.hashCode());
                 }
 
                 if (sInstance.mCache.contains(c)) {
