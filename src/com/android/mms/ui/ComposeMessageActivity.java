@@ -66,6 +66,7 @@ import android.drm.mobile1.DrmRawContent;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -272,6 +273,7 @@ public class ComposeMessageActivity extends Activity
     private WorkingMessage mWorkingMessage;         // The message currently being composed.
 
     private AlertDialog mSmileyDialog;
+    private ProgressDialog mAttachmentProgressDialog;
 
     private boolean mWaitingForSubActivity;
     private int mLastRecipientCount;            // Used for warning the user on too many recipients.
@@ -384,6 +386,15 @@ public class ComposeMessageActivity extends Activity
             }
 
             return false;
+        }
+    };
+
+    // Shows a progress spinner for loading attachments. Should be canceled if exiting the activity.
+    private Runnable mShowAttachmentProgressRunnable = new Runnable() {
+        public void run() {
+            if (mAttachmentProgressDialog != null) {
+                mAttachmentProgressDialog.show();
+            }
         }
     };
 
@@ -2043,6 +2054,9 @@ public class ComposeMessageActivity extends Activity
         //Contact.stopPresenceObserver();
 
         removeRecipientsListeners();
+
+        // remove any callback to display a progress spinner when loading attachments.
+        mAttachmentEditorHandler.removeCallbacks(mShowAttachmentProgressRunnable);
     }
 
     @Override
@@ -2825,31 +2839,112 @@ public class ComposeMessageActivity extends Activity
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             log("append=" + append + ", uri=" + uri);
         }
-
-        int result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, uri, append);
-
-        if (result == WorkingMessage.IMAGE_TOO_LARGE ||
-            result == WorkingMessage.MESSAGE_SIZE_EXCEEDED) {
-            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                log("resize image " + uri);
-            }
-            MessageUtils.resizeImageAsync(this,
-                    uri, mAttachmentEditorHandler, mResizeImageCallback, append);
-            return;
-        }
-        handleAddAttachmentError(result, R.string.type_picture);
+        new SetAttachmentTask(WorkingMessage.IMAGE, append, R.string.type_picture).execute(uri);
     }
 
     private void addVideo(Uri uri, boolean append) {
         if (uri != null) {
-            int result = mWorkingMessage.setAttachment(WorkingMessage.VIDEO, uri, append);
-            handleAddAttachmentError(result, R.string.type_video);
+            new SetAttachmentTask(WorkingMessage.VIDEO, append, R.string.type_video).execute(uri);
         }
     }
 
     private void addAudio(Uri uri) {
-        int result = mWorkingMessage.setAttachment(WorkingMessage.AUDIO, uri, false);
-        handleAddAttachmentError(result, R.string.type_audio);
+        new SetAttachmentTask(WorkingMessage.AUDIO, false, R.string.type_audio).execute(uri);
+    }
+
+    /**
+     * Task to asynchronously set MMS attachments on the current WorkingMessage.
+     * Displays a progress spinner while the attachments are loaded.  The progress spinner
+     * will only show if the attachment has not finished loading after a certain amount of time.
+     */
+    private class SetAttachmentTask extends AsyncTask<Uri, Void, Void> {
+        private final int mType;  // the uri attachment type that will be passed to this task
+        private final boolean mAppend;  // whether to append to the current working message
+        private final int mMediaTypeStringId;  // string id for the attachment type description
+
+        /**
+         * Creates a AsyncTask that can set attachments to the current WorkingMessage
+         *
+         * @param type the WorkingMessage attachment type (i.e. WorkingMessage.IMAGE)
+         * @param append whether to append the attachment or not.
+         * @param mediaTypeStringId id for the string describing the attachment type.
+         */
+        public SetAttachmentTask(int type, boolean append, final int mediaTypeStringId) {
+            mType = type;
+            mAppend = append;
+            mMediaTypeStringId = mediaTypeStringId;
+            // lazy initialization of progress dialog for loading attachments
+            if (mAttachmentProgressDialog == null) {
+                mAttachmentProgressDialog = createProgressDialog();
+            }
+
+        }
+
+        /**
+         * Initializes the progress dialog with its intended settings.
+         */
+        private ProgressDialog createProgressDialog() {
+            ProgressDialog dialog = new ProgressDialog(ComposeMessageActivity.this);
+            dialog.setIndeterminate(true);
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
+            dialog.setMessage(ComposeMessageActivity.this.
+                    getText(R.string.adding_attachments_title));
+            return dialog;
+        }
+
+        /**
+         * Activates a progress spinner on the UI.  This assumes the UI has invoked this Task.
+         */
+        @Override
+        protected void onPreExecute() {
+            // activate spinner after half a second
+            mAttachmentEditorHandler.postDelayed(mShowAttachmentProgressRunnable, 500);
+        }
+
+        /**
+         * Asynchronously sets the specified Uri media source as an attachment on the current
+         * WorkingMessage.  This Task is only intended to handle the first Uri passed.
+         */
+        @Override
+        protected Void doInBackground(Uri... uris) {
+            if (uris != null && uris.length != 0) {
+                final Uri uri = uris[0];
+
+                final int result;
+                try {
+                    result = mWorkingMessage.setAttachment(mType, uri, mAppend);
+                } finally {
+                    // Cancel pending display of the progress bar if the image has finished loading.
+                    mAttachmentEditorHandler.removeCallbacks(mShowAttachmentProgressRunnable);
+                }
+
+                // special handling for images
+                if (mType == WorkingMessage.IMAGE &&
+                    (result == WorkingMessage.IMAGE_TOO_LARGE ||
+                    result == WorkingMessage.MESSAGE_SIZE_EXCEEDED) ) {
+                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                        log("resize image " + uri);
+                    }
+                    MessageUtils.resizeImageAsync(ComposeMessageActivity.this,
+                            uri, mAttachmentEditorHandler, mResizeImageCallback, mAppend);
+                } else {
+                    handleAddAttachmentError(result, mMediaTypeStringId);
+                }
+            }
+            return null;
+        }
+
+        /**
+         * Deactivates the progress spinner on the UI. This assumes the UI has invoked this Task.
+         */
+        @Override
+        protected void onPostExecute(Void result) {
+            if (mAttachmentProgressDialog != null && mAttachmentProgressDialog.isShowing()) {
+                mAttachmentProgressDialog.dismiss();
+            }
+        }
     }
 
     private boolean handleForwardedMessage() {
