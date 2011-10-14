@@ -36,8 +36,15 @@ public class DrmUtils {
     }
 
     public static void cleanupStorage(Context context) {
-        SqliteWrapper.delete(context, context.getContentResolver(),
-                DRM_TEMP_URI, null, null);
+        try {
+            SqliteWrapper.delete(context, context.getContentResolver(),
+                    DRM_TEMP_URI, null, null);
+        } catch (RuntimeException e) {
+            // If clearing the temp storage fails, that's not the end of the world; we'll just try
+            // again next time. Could potentially fail in the not-so-understood case described in
+            // b/5415438 (but in any case, we shouldn't kill the app if this fails).
+            Log.e(TAG, e.getMessage(), e);
+        }
     }
 
     public static Uri insert(Context context, DrmWrapper drmObj)
