@@ -196,9 +196,7 @@ public class SuggestionsProvider extends android.content.ContentProvider {
         }
 
         public CursorWindow getWindow() {
-//          return ((CrossProcessCursor)mCursor).getWindow();
-            CursorWindow window = new CursorWindow(false);
-            return window;
+            return null;
         }
 
         public boolean onMove(int oldPosition, int newPosition) {
