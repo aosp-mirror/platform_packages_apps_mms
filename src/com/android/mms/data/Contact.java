@@ -78,7 +78,6 @@ public class Contact {
     private int mContactMethodType;
     private String mNumber;
     private String mNumberE164;
-    private String mDefaultCountryIso;
     private String mName;
     private String mNameAndNumber;   // for display, e.g. Fred Flintstone <670-782-1123>
     private boolean mNumberIsModified; // true if the number is modified
@@ -199,20 +198,17 @@ public class Contact {
      * @param number
      * @param numberE164 the number's E.164 representation, is used to get the
      *        country the number belongs to.
-     * @param defaultCountryIso is used to format the number when numberE164 is
-     *        not available.
-     *
      * @return the formatted name and number
      */
-    public static String formatNameAndNumber(
-            String name, String number, String numberE164, String defaultCountryIso) {
+    public static String formatNameAndNumber(String name, String number, String numberE164) {
         // Format like this: Mike Cleron <(650) 555-1234>
         //                   Erick Tseng <(650) 555-1212>
         //                   Tutankhamun <tutank1341@gmail.com>
         //                   (408) 555-1289
         String formattedNumber = number;
         if (!Mms.isEmailAddress(number)) {
-            formattedNumber = PhoneNumberUtils.formatNumber(number, numberE164, defaultCountryIso);
+            formattedNumber = PhoneNumberUtils.formatNumber(number, numberE164,
+                    MmsApp.getApplication().getCurrentCountryIso());
         }
 
         if (!TextUtils.isEmpty(name) && !name.equals(number)) {
@@ -232,7 +228,12 @@ public class Contact {
     }
 
     public synchronized void setNumber(String number) {
-        mNumber = number;
+        if (!Mms.isEmailAddress(number)) {
+            mNumber = PhoneNumberUtils.formatNumber(number, mNumberE164,
+                    MmsApp.getApplication().getCurrentCountryIso());
+        } else {
+            mNumber = number;
+        }
         notSynchronizedUpdateNameAndNumber();
         mNumberIsModified = true;
     }
@@ -257,12 +258,8 @@ public class Contact {
         return mNameAndNumber;
     }
 
-    private synchronized void updateNameAndNumber() {
-       notSynchronizedUpdateNameAndNumber();
-    }
-
     private void notSynchronizedUpdateNameAndNumber() {
-        mNameAndNumber = formatNameAndNumber(mName, mNumber, mNumberE164, mDefaultCountryIso);
+        mNameAndNumber = formatNameAndNumber(mName, mNumber, mNumberE164);
     }
 
     public synchronized long getRecipientId() {
@@ -711,7 +708,6 @@ public class Contact {
                     c.mContactMethodId = entry.mContactMethodId;
                     c.mContactMethodType = entry.mContactMethodType;
                     c.mNumberE164 = entry.mNumberE164;
-                    c.mDefaultCountryIso = entry.mDefaultCountryIso;
                     c.mName = entry.mName;
 
                     c.notSynchronizedUpdateNameAndNumber();
@@ -872,7 +868,6 @@ public class Contact {
                         cursor.getInt(CONTACT_PRESENCE_COLUMN));
                 contact.mPresenceText = cursor.getString(CONTACT_STATUS_COLUMN);
                 contact.mNumberE164 = cursor.getString(PHONE_NORMALIZED_NUMBER);
-                contact.mDefaultCountryIso = MmsApp.getApplication().getCurrentCountryIso();
                 if (V) {
                     log("fillPhoneTypeContact: name=" + contact.mName + ", number="
                             + contact.mNumber + ", presence=" + contact.mPresenceResId);
