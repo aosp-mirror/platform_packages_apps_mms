@@ -3778,7 +3778,13 @@ public class ComposeMessageActivity extends Activity
                 @SuppressWarnings("unchecked")
                 public final void onClick(DialogInterface dialog, int which) {
                     HashMap<String, Object> item = (HashMap<String, Object>) a.getItem(which);
-                    mTextEditor.append((String)item.get("text"));
+
+                    String smiley = (String)item.get("text");
+                    if (mSubjectTextEditor != null && mSubjectTextEditor.hasFocus()) {
+                        mSubjectTextEditor.append(smiley);
+                    } else {
+                        mTextEditor.append(smiley);
+                    }
 
                     dialog.dismiss();
                 }
