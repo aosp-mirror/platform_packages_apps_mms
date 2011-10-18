@@ -779,6 +779,9 @@ public class Contact {
                 // The example "T-Mobile" will exit here because there are no numbers.
                 return true;        // we're not an sms address, consider it an alpha number
             }
+            if (MessageUtils.isAlias(number)) {
+                return true;
+            }
             number = PhoneNumberUtils.extractNetworkPortion(number);
             if (TextUtils.isEmpty(number)) {
                 return true;    // there are no digits whatsoever in the number
