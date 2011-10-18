@@ -880,6 +880,10 @@ public class MessageUtils {
             return false;
         }
 
+        if (PhoneNumberUtils.isEmergencyNumber(string)) {
+            return false;
+        }
+
         if (!isAlphaNumeric(string)) {
             return false;
         }
