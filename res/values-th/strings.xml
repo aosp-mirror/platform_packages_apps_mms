@@ -20,14 +20,13 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"การรับส่งข้อความ"</string>
+    <string name="app_label" msgid="1503967887341230795">"ข้อความ"</string>
     <string name="new_message" msgid="1530369762346003973">"ข้อความใหม่"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"โทรหา <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"ส่งอีเมลถึง <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"เขียน"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"การตั้งค่า"</string>
-    <!-- no translation found for menu_add_address_to_contacts (8013282802147375764) -->
-    <skip />
+    <string name="menu_add_address_to_contacts" msgid="8013282802147375764">"เพิ่ม <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> ในสมุดโทรศัพท์"</string>
     <string name="menu_call" msgid="5877123227307074690">"โทร"</string>
     <string name="menu_search" msgid="2289469305728821360">"ค้นหา"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"ลบชุดข้อความทั้งหมด"</string>
@@ -298,9 +297,9 @@
     <string name="edit_slide_activity" msgid="8752829671778696983">"แก้ไขภาพนิ่ง"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"การนำเสนอภาพนิ่ง"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"ข้อความคลาส 0"</string>
-    <string name="search_label" msgid="6042598929386174964">"การรับส่งข้อความ"</string>
-    <string name="search_hint" msgid="7183732852849365466">"ค้นหาการรับส่งข้อความ"</string>
-    <string name="search" msgid="7560238620274735199">"การรับส่งข้อความ"</string>
+    <string name="search_label" msgid="6042598929386174964">"ข้อความ"</string>
+    <string name="search_hint" msgid="7183732852849365466">"ค้นหาข้อความ"</string>
+    <string name="search" msgid="7560238620274735199">"ข้อความ"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"ข้อมูลในข้อความของคุณ"</string>
     <string name="search_empty" msgid="645052646985297065">"ไม่พบรายการที่ตรงกัน"</string>
   <plurals name="search_results_title">
@@ -311,7 +310,7 @@
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"ล้างข้อมูล"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"ประวัติการค้นหาจะถูกล้าง"</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"ล้างประวัติการค้นหา"</string>
-    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"ล้างการค้นหาการรับส่งข้อความก่อนหน้าไม่ให้แสดงในช่องค้นหา"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"ล้างการค้นหาข้อความก่อนหน้าไม่ให้แสดงในช่องค้นหา"</string>
     <string name="save" msgid="6847069284991531310">"บันทึก"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"จำกัดจำนวนข้อความ"</string>
     <string name="storage_limits_message" msgid="8729608389698270388">"คุณต้องการจำกัดจำนวนข้อความที่จะบันทึกไว้ในการสนทนาแต่ละครั้งหรือไม่"</string>
