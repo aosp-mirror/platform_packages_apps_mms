@@ -514,6 +514,7 @@ public class MessageUtils {
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.putExtra("SingleItemOnly", true); // So we don't see "surrounding" images in Gallery
 
         String contentType;
         if (mm.isDrmProtected()) {
