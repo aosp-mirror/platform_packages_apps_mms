@@ -172,6 +172,7 @@
 
         <activity android:name=".ui.MessagingPreferenceActivity"
             android:theme="@style/MmsHoloTheme"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/preferences_title" />
 
         <receiver android:name=".transaction.PushReceiver"
