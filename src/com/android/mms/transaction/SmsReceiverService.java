@@ -351,7 +351,8 @@ public class SmsReceiverService extends Service {
 
     private void handleSmsReceived(Intent intent, int error) {
         SmsMessage[] msgs = Intents.getMessagesFromIntent(intent);
-        Uri messageUri = insertMessage(this, msgs, error);
+        String format = intent.getStringExtra("format");
+        Uri messageUri = insertMessage(this, msgs, error, format);
 
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
             SmsMessage sms = msgs[0];
@@ -422,12 +423,12 @@ public class SmsReceiverService extends Service {
      * <code>Uri</code> of the thread containing this message
      * so that we can use it for notification.
      */
-    private Uri insertMessage(Context context, SmsMessage[] msgs, int error) {
+    private Uri insertMessage(Context context, SmsMessage[] msgs, int error, String format) {
         // Build the helper classes to parse the messages.
         SmsMessage sms = msgs[0];
 
         if (sms.getMessageClass() == SmsMessage.MessageClass.CLASS_0) {
-            displayClassZeroMessage(context, sms);
+            displayClassZeroMessage(context, sms, format);
             return null;
         } else if (sms.isReplace()) {
             return replaceMessage(context, msgs, error);
@@ -600,11 +601,12 @@ public class SmsReceiverService extends Service {
      * the body of the message
      *
      */
-    private void displayClassZeroMessage(Context context, SmsMessage sms) {
+    private void displayClassZeroMessage(Context context, SmsMessage sms, String format) {
         // Using NEW_TASK here is necessary because we're calling
         // startActivity from outside an activity.
         Intent smsDialogIntent = new Intent(context, ClassZeroActivity.class)
                 .putExtra("pdu", sms.getPdu())
+                .putExtra("format", format)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                           | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
