@@ -151,8 +151,8 @@
     <string name="preferences_title" msgid="6650089610332670157">"Настройки"</string>
     <string name="restore_default" msgid="7165341506551155053">"Възстановяване на стандартните настройки"</string>
     <string name="pref_notification_settings_title" msgid="4860726154770053004">"Настройки за известия"</string>
-    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Настройки за мултимедийно съобщение (MMS)"</string>
-    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Настройки за текстово съобщение (SMS)"</string>
+    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Настройки за мултимедийни съобщения (MMS)"</string>
+    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Настройки за текстови съобщения (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"Настройки на хранилището"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Управление на съобщенията, съхранени на SIM картата"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Заявка за подаване на отчет за всяко изпратено от вас съобщение"</string>
@@ -165,7 +165,7 @@
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Четене на отчети"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Отчети за доставка"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Изтриване на стари съобщения"</string>
-    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Ограничение за текстово съобщение"</string>
+    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Ограничение за текстови съобщения"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Ограничение за мултимедийни съобщения"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Известия"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Да се показват известия за съобщения в лентата на състоянието"</string>
