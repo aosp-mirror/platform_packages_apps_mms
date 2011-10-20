@@ -24,6 +24,7 @@ import android.drm.mobile1.DrmException;
 import com.android.mms.drm.DrmWrapper;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
+import com.google.android.mms.pdu.CharacterSets;
 import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPart;
 
@@ -117,6 +118,16 @@ public class MediaModelFactory {
         throw new IllegalArgumentException("Region not found or bad region ID.");
     }
 
+    // When we encounter a content type we can't handle, such as "application/vnd.smaf", instead
+    // of throwing an exception and crashing, insert an empty TextModel in its place.
+    private static MediaModel createEmptyTextModel(Context context, DrmWrapper wrapper,
+            RegionModel regionModel) throws IOException {
+        return wrapper != null ?
+                new TextModel(context, ContentType.TEXT_PLAIN, null, CharacterSets.ANY_CHARSET,
+                        wrapper, regionModel) :
+                new TextModel(context, ContentType.TEXT_PLAIN, null, regionModel);
+    }
+
     private static MediaModel getGenericMediaModel(Context context,
             String tag, String src, SMILMediaElement sme, PduPart part,
             RegionModel regionModel) throws DrmException, IOException, MmsException {
@@ -158,8 +169,9 @@ public class MediaModelFactory {
                     media = new AudioModel(context, contentType, src,
                             wrapper);
                 } else {
-                    throw new UnsupportContentTypeException(
-                        "Unsupported Content-Type: " + drmContentType);
+                    Log.d(TAG, "[MediaModelFactory] getGenericMediaModel Unsupported Content-Type: "
+                            + contentType);
+                    media = createEmptyTextModel(context, wrapper, regionModel);
                 }
             } else {
                 throw new IllegalArgumentException("Unsupported TAG: " + tag);
@@ -191,8 +203,9 @@ public class MediaModelFactory {
                     media = new AudioModel(context, contentType, src,
                             part.getDataUri());
                 } else {
-                    throw new UnsupportContentTypeException(
-                        "Unsupported Content-Type: " + contentType);
+                    Log.d(TAG, "[MediaModelFactory] getGenericMediaModel Unsupported Content-Type: "
+                            + contentType);
+                    media = createEmptyTextModel(context, null, regionModel);
                 }
             } else {
                 throw new IllegalArgumentException("Unsupported TAG: " + tag);
