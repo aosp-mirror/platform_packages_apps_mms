@@ -768,16 +768,6 @@ public class ComposeMessageActivity extends Activity
             selEnd = textView.getSelectionEnd();
         }
 
-        if (selStart == -1) {
-            //sender is not being selected, it may be within the message body
-            textView = (TextView) msglistItem.findViewById(R.id.body_text_view);
-            if (textView != null) {
-                text = textView.getText();
-                selStart = textView.getSelectionStart();
-                selEnd = textView.getSelectionEnd();
-            }
-        }
-
         // Check that some text is actually selected, rather than the cursor
         // just being placed within the TextView.
         if (selStart != selEnd) {
@@ -3245,9 +3235,6 @@ public class ComposeMessageActivity extends Activity
 
     private void confirmDeleteDialog(OnClickListener listener, boolean locked) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(locked ? R.string.confirm_dialog_locked_title :
-            R.string.confirm_dialog_title);
-        builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setCancelable(true);
         builder.setMessage(locked ? R.string.confirm_delete_locked_message :
                     R.string.confirm_delete_message);
@@ -3258,8 +3245,6 @@ public class ComposeMessageActivity extends Activity
 
     void undeliveredMessageDialog(long date) {
         String body;
-        LinearLayout dialog = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.retry_sending_dialog, null);
 
         if (date >= 0) {
             body = getString(R.string.undelivered_msg_dialog_body,
@@ -3269,12 +3254,7 @@ public class ComposeMessageActivity extends Activity
             body = getString(R.string.undelivered_sms_dialog_body);
         }
 
-        ((TextView) dialog.findViewById(R.id.body_text_view)).setText(body);
-
-        Toast undeliveredDialog = new Toast(this);
-        undeliveredDialog.setView(dialog);
-        undeliveredDialog.setDuration(Toast.LENGTH_LONG);
-        undeliveredDialog.show();
+        Toast.makeText(this, body, Toast.LENGTH_LONG).show();
     }
 
     private void startMsgListQuery() {
