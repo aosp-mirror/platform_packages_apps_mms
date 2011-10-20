@@ -63,7 +63,6 @@ public class WarnOfStorageLimitsActivity extends Activity implements DialogInter
 
         // Set up the "dialog"
         final AlertController.AlertParams p = mAlertParams;
-        p.mTitle = getString(R.string.storage_limits_title);
         p.mMessage = getString(R.string.storage_limits_message);
         p.mPositiveButtonText = getString(R.string.storage_limits_setting);
         p.mNegativeButtonText = getString(R.string.storage_limits_setting_dismiss);
