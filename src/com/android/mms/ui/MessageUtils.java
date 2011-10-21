@@ -864,62 +864,32 @@ public class MessageUtils {
         }
     }
 
+    // An alias (or commonly called "nickname") is:
+    // Nickname must begin with a letter.
+    // Only letters a-z, numbers 0-9, or . are allowed in Nickname field.
     public static boolean isAlias(String string) {
         if (!MmsConfig.isAliasEnabled()) {
             return false;
         }
 
-        if (TextUtils.isEmpty(string)) {
-            return false;
-        }
-
-        // TODO: not sure if this is the right thing to use. Mms.isPhoneNumber() is
-        // intended for searching for things that look like they might be phone numbers
-        // in arbitrary text, not for validating whether something is in fact a phone number.
-        // It will miss many things that are legitimate phone numbers.
-        if (Mms.isPhoneNumber(string)) {
-            return false;
-        }
-
-        if (PhoneNumberUtils.isEmergencyNumber(string)) {
-            return false;
-        }
-
-        if (!isAlphaNumeric(string)) {
-            return false;
-        }
-
-        int len = string.length();
+        int len = string == null ? 0 : string.length();
 
         if (len < MmsConfig.getAliasMinChars() || len > MmsConfig.getAliasMaxChars()) {
             return false;
         }
 
-        return true;
-    }
-
-    public static boolean isAlphaNumeric(String s) {
-        char[] chars = s.toCharArray();
-        for (int x = 0; x < chars.length; x++) {
-            char c = chars[x];
-
-            if ((c >= 'a') && (c <= 'z')) {
-                continue;
-            }
-            if ((c >= 'A') && (c <= 'Z')) {
-                continue;
-            }
-            if ((c >= '0') && (c <= '9')) {
-                continue;
-            }
-
+        if (!Character.isLetter(string.charAt(0))) {    // Nickname begins with a letter
             return false;
         }
+        for (int i = 1; i < len; i++) {
+            char c = string.charAt(i);
+            if (!(Character.isLetterOrDigit(c) || c == '.')) {
+                return false;
+            }
+        }
+
         return true;
     }
-
-
-
 
     /**
      * Given a phone number, return the string without syntactic sugar, meaning parens,
