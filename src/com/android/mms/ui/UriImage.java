@@ -279,7 +279,8 @@ public class UriImage {
             // and file-size limits.
             do {
                 try {
-                    if (options.outWidth > widthLimit || options.outHeight > heightLimit) {
+                    if (options.outWidth > widthLimit || options.outHeight > heightLimit ||
+                            (os != null && os.size() > byteLimit)) {
                         // The decoder does not support the inSampleSize option.
                         // Scale the bitmap using Bitmap library.
                         int scaledWidth = (int)(outWidth * scaleFactor);
@@ -306,17 +307,17 @@ public class UriImage {
                     b.compress(CompressFormat.JPEG, quality, os);
                     int jpgFileSize = os.size();
                     if (jpgFileSize > byteLimit) {
-                        int reducedQuality = quality * byteLimit / jpgFileSize;
-                        if (reducedQuality >= MessageUtils.MINIMUM_IMAGE_COMPRESSION_QUALITY) {
-                            quality = reducedQuality;
-
-                            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                                Log.v(TAG, "getResizedImageData: compress(2) w/ quality=" + quality);
-                            }
-
-                            os = new ByteArrayOutputStream();
-                            b.compress(CompressFormat.JPEG, quality, os);
+                        quality = quality * byteLimit / jpgFileSize;
+                        if (quality < MessageUtils.MINIMUM_IMAGE_COMPRESSION_QUALITY) {
+                            quality = MessageUtils.MINIMUM_IMAGE_COMPRESSION_QUALITY;
                         }
+
+                        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                            Log.v(TAG, "getResizedImageData: compress(2) w/ quality=" + quality);
+                        }
+
+                        os = new ByteArrayOutputStream();
+                        b.compress(CompressFormat.JPEG, quality, os);
                     }
                 } catch (java.lang.OutOfMemoryError e) {
                     Log.w(TAG, "getResizedImageData - image too big (OutOfMemoryError), will try "
