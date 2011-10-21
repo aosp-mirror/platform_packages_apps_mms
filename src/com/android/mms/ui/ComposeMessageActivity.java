@@ -1451,8 +1451,14 @@ public class ComposeMessageActivity extends Activity
                     // Use fallback name.
                     fileName = fallback;
                 } else {
+                    // For locally captured videos, fileName can end up being something like this:
+                    //      /mnt/sdcard/Android/data/com.android.mms/cache/.temp1.3gp
                     fileName = new String(location);
                 }
+                File originalFile = new File(fileName);
+                fileName = originalFile.getName();  // Strip the full path of where the "part" is
+                                                    // stored down to just the leaf filename.
+
                 // Depending on the location, there may be an
                 // extension already on the name or not
                 String dir = Environment.getExternalStorageDirectory() + "/"
