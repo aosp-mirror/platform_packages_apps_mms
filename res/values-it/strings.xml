@@ -49,7 +49,7 @@
     <string name="delete_thread" msgid="757258847736632791">"Elimina thread"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Inoltra"</string>
     <string name="download" msgid="4488877642230207631">"Scarica"</string>
-    <string name="downloading" msgid="1779557575565350637">"Download in corso"</string>
+    <string name="downloading" msgid="1779557575565350637">"Download..."</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Oggetto: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Testo protetto con DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Diritti DRM insufficienti."</string>
@@ -103,8 +103,8 @@
     <string name="cannot_send_message" msgid="3918913277571649400">"Impossibile inviare il messaggio"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Il messaggio non ha destinatari validi."</string>
     <string name="cannot_forward_drm_obj" msgid="84606990079390099">"Impossibile inoltrare l\'oggetto DRM incluso nel messaggio."</string>
-    <string name="converting_to_picture_message" msgid="2980023239017588627">"Conversione in messaggio multimediale in corso..."</string>
-    <string name="converting_to_text_message" msgid="6374423235426015422">"Conversione in messaggio di testo in corso..."</string>
+    <string name="converting_to_picture_message" msgid="2980023239017588627">"Conversione in messaggio multimediale..."</string>
+    <string name="converting_to_text_message" msgid="6374423235426015422">"Conversione in messaggio di testo..."</string>
     <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"Impossibile aggiungere altre diapositive."</string>
     <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"Impossibile aggiungere video e immagine a una diapositiva."</string>
     <string name="cannot_save_message" msgid="5026354972915392301">"Impossibile salvare il messaggio."</string>
@@ -319,7 +319,7 @@
     <string name="too_many_unsent_mms" msgid="8005932837414848242">"Impossibile inviare il messaggio in questo momento. Troppi messaggi multimediali non inviati."</string>
     <string name="sending_message" msgid="2054406576361149715">"INVIO..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Troppi destinatari"</string>
-    <string name="adding_recipients" msgid="2962810172527532357">"Aggiunta destinatari in corso…"</string>
+    <string name="adding_recipients" msgid="2962810172527532357">"Aggiunta destinatari..."</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
     <string name="error_state" msgid="5177386717626893507">"Stato non coerente"</string>
