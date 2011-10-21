@@ -114,7 +114,8 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
                 mImage = media;
                 mCanAddVideo = false;
             } else {
-                throw new IllegalStateException();
+                Log.w(TAG, "[SlideModel] content type " + media.getContentType() +
+                    " - can't add image in this state");
             }
         } else if (media.isAudio()) {
             if (mCanAddAudio) {
@@ -122,7 +123,8 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
                 mAudio = media;
                 mCanAddVideo = false;
             } else {
-                throw new IllegalStateException();
+                Log.w(TAG, "[SlideModel] content type " + media.getContentType() +
+                    " - can't add audio in this state");
             }
         } else if (media.isVideo()) {
             if (mCanAddVideo) {
@@ -131,7 +133,8 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
                 mCanAddImage = false;
                 mCanAddAudio = false;
             } else {
-                throw new IllegalStateException();
+                Log.w(TAG, "[SlideModel] content type " + media.getContentType() +
+                    " - can't add video in this state");
             }
         }
     }
