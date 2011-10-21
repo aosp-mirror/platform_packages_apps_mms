@@ -168,7 +168,7 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Sms-begrænsning"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Mms-begrænsning"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Meddelelser"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Vis meddelelser om beskeder på statusbjælken"</string>
+    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Vis underretninger vedr. beskeder på statusbjælken"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibration"</string>
     <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibration ved meddelelse"</string>
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Vælg ringetone"</string>
@@ -181,7 +181,7 @@
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibration"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Automatisk hentning"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Hent automatisk beskeder"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Aut. hent. u. roaming"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Aut. hent. under roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Hent automatisk beskeder under roaming"</string>
     <string name="confirm_dialog_title" msgid="5810813994465120375">"Slet"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Vil du slette låst besked?"</string>
