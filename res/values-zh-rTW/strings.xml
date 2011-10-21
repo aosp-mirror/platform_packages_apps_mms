@@ -29,7 +29,7 @@
     <string name="menu_add_address_to_contacts" msgid="8013282802147375764">"將 <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> 新增至通訊錄"</string>
     <string name="menu_call" msgid="5877123227307074690">"撥打"</string>
     <string name="menu_search" msgid="2289469305728821360">"搜尋"</string>
-    <string name="menu_delete_all" msgid="808729454898114735">"刪除所有訊息串"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"刪除所有會話串"</string>
     <string name="menu_delete" msgid="1851666911396479006">"刪除會話串"</string>
     <string name="menu_view" msgid="7448852683948080108">"檢視串連"</string>
     <string name="menu_debug_dump" msgid="6855869130206549643">"DEBUG DUMP"</string>
