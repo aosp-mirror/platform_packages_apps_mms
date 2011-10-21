@@ -300,14 +300,12 @@ public class UriImage {
 
                     // Compress the image into a JPG. Start with MessageUtils.IMAGE_COMPRESSION_QUALITY.
                     // In case that the image byte size is still too large reduce the quality in
-                    // proportion to the desired byte size. Should the quality fall below
-                    // MINIMUM_IMAGE_COMPRESSION_QUALITY skip a compression attempt and we will enter
-                    // the next round with a smaller image to start with.
+                    // proportion to the desired byte size.
                     os = new ByteArrayOutputStream();
                     b.compress(CompressFormat.JPEG, quality, os);
                     int jpgFileSize = os.size();
                     if (jpgFileSize > byteLimit) {
-                        quality = quality * byteLimit / jpgFileSize;
+                        quality = (quality * byteLimit) / jpgFileSize;  // watch for int division!
                         if (quality < MessageUtils.MINIMUM_IMAGE_COMPRESSION_QUALITY) {
                             quality = MessageUtils.MINIMUM_IMAGE_COMPRESSION_QUALITY;
                         }
