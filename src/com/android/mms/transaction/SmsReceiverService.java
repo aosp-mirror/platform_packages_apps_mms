@@ -449,9 +449,23 @@ public class SmsReceiverService extends Service {
     private Uri replaceMessage(Context context, SmsMessage[] msgs, int error) {
         SmsMessage sms = msgs[0];
         ContentValues values = extractContentValues(sms);
-
-        values.put(Inbox.BODY, sms.getMessageBody());
         values.put(Sms.ERROR_CODE, error);
+        int pduCount = msgs.length;
+
+        if (pduCount == 1) {
+            // There is only one part, so grab the body directly.
+            values.put(Inbox.BODY, replaceFormFeeds(sms.getDisplayMessageBody()));
+        } else {
+            // Build up the body from the parts.
+            StringBuilder body = new StringBuilder();
+            for (int i = 0; i < pduCount; i++) {
+                sms = msgs[i];
+                if (sms.mWrappedSmsMessage != null) {
+                    body.append(sms.getDisplayMessageBody());
+                }
+            }
+            values.put(Inbox.BODY, replaceFormFeeds(body.toString()));
+        }
 
         ContentResolver resolver = context.getContentResolver();
         String originatingAddress = sms.getOriginatingAddress();
