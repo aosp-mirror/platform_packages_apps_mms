@@ -273,7 +273,7 @@ public class ComposeMessageActivity extends Activity
     private WorkingMessage mWorkingMessage;         // The message currently being composed.
 
     private AlertDialog mSmileyDialog;
-    private ProgressDialog mAttachmentProgressDialog;
+    private ProgressDialog mProgressDialog;
 
     private boolean mWaitingForSubActivity;
     private int mLastRecipientCount;            // Used for warning the user on too many recipients.
@@ -389,11 +389,11 @@ public class ComposeMessageActivity extends Activity
         }
     };
 
-    // Shows a progress spinner for loading attachments. Should be canceled if exiting the activity.
-    private Runnable mShowAttachmentProgressRunnable = new Runnable() {
+    // Shows the activity's progress spinner. Should be canceled if exiting the activity.
+    private Runnable mShowProgressDialogRunnable = new Runnable() {
         public void run() {
-            if (mAttachmentProgressDialog != null) {
-                mAttachmentProgressDialog.show();
+            if (mProgressDialog != null) {
+                mProgressDialog.show();
             }
         }
     };
@@ -2051,8 +2051,7 @@ public class ComposeMessageActivity extends Activity
 
         removeRecipientsListeners();
 
-        // remove any callback to display a progress spinner when loading attachments.
-        mAttachmentEditorHandler.removeCallbacks(mShowAttachmentProgressRunnable);
+        clearPendingProgressDialog();
     }
 
     @Override
@@ -2652,25 +2651,25 @@ public class ComposeMessageActivity extends Activity
                 // which takes up too much memory and could easily lead to OOM.
                 File file = new File(TempFileProvider.getScrapPath());
                 Uri uri = Uri.fromFile(file);
-                addImage(uri, false);
+                addImageAsync(uri, false);
                 break;
             }
 
             case REQUEST_CODE_ATTACH_IMAGE: {
                 if (data != null) {
-                    addImage(data.getData(), false);
+                    addImageAsync(data.getData(), false);
                 }
                 break;
             }
 
             case REQUEST_CODE_TAKE_VIDEO:
                 Uri videoUri = TempFileProvider.renameScrapFile(".3gp", null);
-                addVideo(videoUri, false);      // can handle null videoUri
+                addVideoAsync(videoUri, false);      // can handle null videoUri
                 break;
 
             case REQUEST_CODE_ATTACH_VIDEO:
                 if (data != null) {
-                    addVideo(data.getData(), false);
+                    addVideoAsync(data.getData(), false);
                 }
                 break;
 
@@ -2833,49 +2832,84 @@ public class ComposeMessageActivity extends Activity
         });
     }
 
+    private void addImageAsync(final Uri uri, final boolean append) {
+        runAsyncWithDialog(new Runnable() {
+            public void run() {
+                addImage(uri, append);
+            }
+        }, R.string.adding_attachments_title);
+    }
+
     private void addImage(Uri uri, boolean append) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             log("append=" + append + ", uri=" + uri);
         }
-        new SetAttachmentTask(WorkingMessage.IMAGE, append, R.string.type_picture).execute(uri);
+
+        int result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, uri, append);
+
+        if (result == WorkingMessage.IMAGE_TOO_LARGE ||
+            result == WorkingMessage.MESSAGE_SIZE_EXCEEDED) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                log("resize image " + uri);
+            }
+            MessageUtils.resizeImageAsync(ComposeMessageActivity.this,
+                    uri, mAttachmentEditorHandler, mResizeImageCallback, append);
+            return;
+        }
+        handleAddAttachmentError(result, R.string.type_picture);
+    }
+
+    private void addVideoAsync(final Uri uri, final boolean append) {
+        runAsyncWithDialog(new Runnable() {
+            public void run() {
+                addVideo(uri, append);
+            }
+        }, R.string.adding_attachments_title);
     }
 
     private void addVideo(Uri uri, boolean append) {
         if (uri != null) {
-            new SetAttachmentTask(WorkingMessage.VIDEO, append, R.string.type_video).execute(uri);
+            int result = mWorkingMessage.setAttachment(WorkingMessage.VIDEO, uri, append);
+            handleAddAttachmentError(result, R.string.type_video);
         }
     }
 
     private void addAudio(Uri uri) {
-        new SetAttachmentTask(WorkingMessage.AUDIO, false, R.string.type_audio).execute(uri);
+        int result = mWorkingMessage.setAttachment(WorkingMessage.AUDIO, uri, false);
+        handleAddAttachmentError(result, R.string.type_audio);
     }
 
     /**
-     * Task to asynchronously set MMS attachments on the current WorkingMessage.
-     * Displays a progress spinner while the attachments are loaded.  The progress spinner
-     * will only show if the attachment has not finished loading after a certain amount of time.
+     * Asynchronously executes a task while blocking the UI with a progress spinner.
+     *
+     * Must be invoked by the UI thread.  No exceptions!
+     *
+     * @param task the work to be done wrapped in a Runnable
+     * @param dialogStringId the id of the string to be shown in the dialog
      */
-    private class SetAttachmentTask extends AsyncTask<Uri, Void, Void> {
-        private final int mType;  // the uri attachment type that will be passed to this task
-        private final boolean mAppend;  // whether to append to the current working message
-        private final int mMediaTypeStringId;  // string id for the attachment type description
+    private void runAsyncWithDialog(final Runnable task, final int dialogStringId) {
+        new ModalDialogAsyncTask(dialogStringId).execute(new Runnable[] {task});
+    }
+
+    /**
+     * Asynchronously performs tasks specified by Runnables.
+     * Displays a progress spinner while the tasks are running.  The progress spinner
+     * will only show if tasks have not finished after a certain amount of time.
+     *
+     * This AsyncTask must be instantiated and invoked on the UI thread.
+     */
+    private class ModalDialogAsyncTask extends AsyncTask<Runnable, Void, Void> {
+        final int mDialogStringId;
 
         /**
-         * Creates a AsyncTask that can set attachments to the current WorkingMessage
-         *
-         * @param type the WorkingMessage attachment type (i.e. WorkingMessage.IMAGE)
-         * @param append whether to append the attachment or not.
-         * @param mediaTypeStringId id for the string describing the attachment type.
+         * Creates the Task with the specified string id to be shown in the dialog
          */
-        public SetAttachmentTask(int type, boolean append, final int mediaTypeStringId) {
-            mType = type;
-            mAppend = append;
-            mMediaTypeStringId = mediaTypeStringId;
+        public ModalDialogAsyncTask(int dialogStringId) {
+            this.mDialogStringId = dialogStringId;
             // lazy initialization of progress dialog for loading attachments
-            if (mAttachmentProgressDialog == null) {
-                mAttachmentProgressDialog = createProgressDialog();
+            if (mProgressDialog == null) {
+                mProgressDialog = createProgressDialog();
             }
-
         }
 
         /**
@@ -2888,7 +2922,7 @@ public class ComposeMessageActivity extends Activity
             dialog.setCanceledOnTouchOutside(false);
             dialog.setCancelable(false);
             dialog.setMessage(ComposeMessageActivity.this.
-                    getText(R.string.adding_attachments_title));
+                    getText(mDialogStringId));
             return dialog;
         }
 
@@ -2898,37 +2932,22 @@ public class ComposeMessageActivity extends Activity
         @Override
         protected void onPreExecute() {
             // activate spinner after half a second
-            mAttachmentEditorHandler.postDelayed(mShowAttachmentProgressRunnable, 500);
+            mAttachmentEditorHandler.postDelayed(mShowProgressDialogRunnable, 500);
         }
 
         /**
-         * Asynchronously sets the specified Uri media source as an attachment on the current
-         * WorkingMessage.  This Task is only intended to handle the first Uri passed.
+         * Perform the specified Runnable tasks on a background thread
          */
         @Override
-        protected Void doInBackground(Uri... uris) {
-            if (uris != null && uris.length != 0) {
-                final Uri uri = uris[0];
-
-                final int result;
+        protected Void doInBackground(Runnable... params) {
+            if (params != null) {
                 try {
-                    result = mWorkingMessage.setAttachment(mType, uri, mAppend);
+                    for (int i = 0; i < params.length; i++) {
+                        params[i].run();
+                    }
                 } finally {
                     // Cancel pending display of the progress bar if the image has finished loading.
-                    mAttachmentEditorHandler.removeCallbacks(mShowAttachmentProgressRunnable);
-                }
-
-                // special handling for images
-                if (mType == WorkingMessage.IMAGE &&
-                    (result == WorkingMessage.IMAGE_TOO_LARGE ||
-                    result == WorkingMessage.MESSAGE_SIZE_EXCEEDED) ) {
-                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                        log("resize image " + uri);
-                    }
-                    MessageUtils.resizeImageAsync(ComposeMessageActivity.this,
-                            uri, mAttachmentEditorHandler, mResizeImageCallback, mAppend);
-                } else {
-                    handleAddAttachmentError(result, mMediaTypeStringId);
+                    mAttachmentEditorHandler.removeCallbacks(mShowProgressDialogRunnable);
                 }
             }
             return null;
@@ -2939,8 +2958,8 @@ public class ComposeMessageActivity extends Activity
          */
         @Override
         protected void onPostExecute(Void result) {
-            if (mAttachmentProgressDialog != null && mAttachmentProgressDialog.isShowing()) {
-                mAttachmentProgressDialog.dismiss();
+            if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                mProgressDialog.dismiss();
             }
         }
     }
@@ -2983,8 +3002,12 @@ public class ComposeMessageActivity extends Activity
         String action = intent.getAction();
         if (Intent.ACTION_SEND.equals(action)) {
             if (extras.containsKey(Intent.EXTRA_STREAM)) {
-                Uri uri = (Uri)extras.getParcelable(Intent.EXTRA_STREAM);
-                addAttachment(mimeType, uri, false);
+                final Uri uri = (Uri)extras.getParcelable(Intent.EXTRA_STREAM);
+                runAsyncWithDialog(new Runnable() {
+                    public void run() {
+                        addAttachment(mimeType, uri, false);
+                    }
+                }, R.string.adding_attachments_title);
                 return true;
             } else if (extras.containsKey(Intent.EXTRA_TEXT)) {
                 mWorkingMessage.setText(extras.getString(Intent.EXTRA_TEXT));
@@ -3005,39 +3028,20 @@ public class ComposeMessageActivity extends Activity
                                 Toast.LENGTH_LONG).show();
             }
 
-            // Attach all the pictures/videos off of the UI thread.
-            // Show a progress alert if adding all the slides hasn't finished
-            // within one second.
-            // Stash the runnable for showing it away so we can cancel
-            // it later if adding completes ahead of the deadline.
-            final AlertDialog dialog = new AlertDialog.Builder(ComposeMessageActivity.this)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle(R.string.adding_attachments_title)
-                .setMessage(R.string.adding_attachments)
-                .create();
-            final Runnable showProgress = new Runnable() {
-                public void run() {
-                    dialog.show();
-                }
-            };
-            // Schedule it for one second from now.
-            mAttachmentEditorHandler.postDelayed(showProgress, 1000);
-
+            // Attach all the pictures/videos asynchronously off of the UI thread.
+            // Show a progress dialog if adding all the slides hasn't finished
+            // within half a second.
             final int numberToImport = importCount;
-            new Thread(new Runnable() {
+            runAsyncWithDialog(new Runnable() {
                 public void run() {
                     for (int i = 0; i < numberToImport; i++) {
                         Parcelable uri = uris.get(i);
                         addAttachment(mimeType, (Uri) uri, true);
                     }
-                    // Cancel pending show of the progress alert if necessary.
-                    mAttachmentEditorHandler.removeCallbacks(showProgress);
-                    dialog.dismiss();
                 }
-            }, "addAttachment").start();
+            }, R.string.adding_attachments_title);
             return true;
         }
-
         return false;
     }
 
@@ -3811,6 +3815,13 @@ public class ComposeMessageActivity extends Activity
 
     private void removeRecipientsListeners() {
         Contact.removeListener(this);
+    }
+
+    private void clearPendingProgressDialog() {
+        // remove any callback to display a progress spinner
+        mAttachmentEditorHandler.removeCallbacks(mShowProgressDialogRunnable);
+        // clear the dialog so any pending dialog.dismiss() call can be avoided
+        mProgressDialog = null;
     }
 
     public static Intent createIntent(Context context, long threadId) {
