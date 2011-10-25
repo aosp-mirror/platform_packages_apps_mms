@@ -150,7 +150,7 @@
     <string name="try_to_send" msgid="1996751738286080976">"Prøv at sende"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Indstillinger"</string>
     <string name="restore_default" msgid="7165341506551155053">"Gendan standardindstillinger"</string>
-    <string name="pref_notification_settings_title" msgid="4860726154770053004">"Indstillinger for meddelelser"</string>
+    <string name="pref_notification_settings_title" msgid="4860726154770053004">"Indstillinger for underretninger"</string>
     <string name="pref_mms_settings_title" msgid="2573616208360684392">"Indstillinger for mms"</string>
     <string name="pref_sms_settings_title" msgid="9088516111717417514">"Indstillinger for sms"</string>
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"Indstillinger for lager"</string>
