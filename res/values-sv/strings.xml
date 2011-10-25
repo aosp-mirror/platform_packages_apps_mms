@@ -26,7 +26,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"Skicka e-post till <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Skriv"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Inställningar"</string>
-    <string name="menu_add_address_to_contacts" msgid="8013282802147375764">"Lägg till <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> i Kontakter"</string>
+    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"Lägg till <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> i Personer"</string>
     <string name="menu_call" msgid="5877123227307074690">"Ring"</string>
     <string name="menu_search" msgid="2289469305728821360">"Sök"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Ta bort alla trådar"</string>
@@ -44,8 +44,8 @@
     <string name="expire_on" msgid="4436268382742593921">"Upphör att gälla: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"kB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Meddelande som inte levererats"</string>
-    <string name="undelivered_msg_dialog_body" msgid="3574032060588309397">"Det gick inte att skicka meddelandet."\n"Försökte: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
-    <string name="undelivered_sms_dialog_body" msgid="6755818550013032420">"Det gick inte att skicka meddelandet."</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Det gick inte att skicka meddelandet."\n"Försökte: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Det gick inte att skicka meddelandet."</string>
     <string name="delete_thread" msgid="757258847736632791">"Ta bort tråd"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Vidarebefordra"</string>
     <string name="download" msgid="4488877642230207631">"Hämta"</string>
@@ -60,7 +60,7 @@
     <string name="move_down" msgid="6356509518429479053">"Flytta ned"</string>
     <string name="remove_slide" msgid="2225604354024914900">"Ta bort bild"</string>
     <string name="add_slide" msgid="9140721399423564187">"Lägg till bild"</string>
-    <string name="add_slide_hint" msgid="563319570849475501">"Välj om du vill skapa en ny bild."</string>
+    <string name="add_slide_hint" msgid="7351356961076244584">"Tryck här om du vill skapa en ny bild."</string>
     <string name="discard_slideshow" msgid="5054239124146413609">"Ignorera bildspel"</string>
     <string name="slide_show_part" msgid="5077675385448696846">"Del <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text" msgid="2164068850029476539">"Ta bort text"</string>
@@ -84,13 +84,13 @@
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Skriv ett meddelande"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Öppna tangentbordet och skriv ett meddelande"</string>
     <string name="compressing" msgid="1961357529661045180">"Bilden är för stor. Komprimerar..."</string>
-    <string name="unsupported_media_format" msgid="5037111178813903722">"Formatet för <xliff:g id="NAME">%1$s</xliff:g> stöds inte"</string>
-    <string name="select_different_media" msgid="7573116916321879964">"Välj annan <xliff:g id="NAME">%1$s</xliff:g>."</string>
+    <string name="unsupported_media_format" msgid="1350489690977363764">"Formatet för <xliff:g id="NAME">%1$s</xliff:g> stöds inte"</string>
+    <string name="select_different_media" msgid="6241623357299382183">"Välj en annan <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Meddelandet överskrider storleksgränsen."</string>
     <string name="message_too_big_for_video" msgid="2639367545165352543">"Meddelandet är för stort för att bifogas till en video."</string>
-    <string name="failed_to_add_media" msgid="8272471485019037446">"Du kan tyvärr inte lägga till <xliff:g id="NAME">%1$s</xliff:g> i ditt meddelande."</string>
+    <string name="failed_to_add_media" msgid="7207464170168708485">"Du kan inte lägga till <xliff:g id="NAME">%1$s</xliff:g> i ditt meddelande."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Du har inte ändrat storlek på bilden."</string>
-    <string name="resize_image_error_information" msgid="4897031754321114959">"Den här bilden är för stor för att skickas, trots att du har gjort den mindre."</string>
+    <string name="resize_image_error_information" msgid="3783200130776554475">"Den här bilden är för stor för att skickas, trots att du har gjort den mindre."</string>
     <string name="forward_prefix" msgid="276280492803486464">"Vidarebefordra: "</string>
     <string name="discard_message" msgid="6078326880056142781">"Släng"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Ditt meddelande slängs eftersom det inte finns några giltiga mottagare."</string>
@@ -98,22 +98,22 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Ogiltig måladress."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Tjänsten är inte aktiverad på nätverket."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Meddelandet har upphört att gälla eller är inte tillgängligt."</string>
-    <string name="service_network_problem" msgid="5418984934499160536">"Fel: nätverksproblem."</string>
-    <string name="invalid_recipient_message" msgid="7315539322634238519">"Ange giltiga mottagare, annars kommer inte meddelandena fram."</string>
-    <string name="cannot_send_message" msgid="3918913277571649400">"Det går inte att skicka meddelandet"</string>
+    <string name="service_network_problem" msgid="4583269174855943025">"Kunde inte skickas på grund av nätverksproblem."</string>
+    <string name="invalid_recipient_message" msgid="6465343105010999068">"Ange giltiga mottagare, annars kommer inte meddelandet fram."</string>
+    <string name="cannot_send_message" msgid="3414307479833622644">"Det går inte att skicka meddelandet"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Du har inte angett några giltiga mottagare för meddelandet."</string>
-    <string name="cannot_forward_drm_obj" msgid="84606990079390099">"Det går inte att vidarebefordra DRM-objektet som ingår i meddelandet."</string>
+    <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"Det går inte att vidarebefordra DRM-objektet som ingår i meddelandet."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"Konverterar till MMS …"</string>
     <string name="converting_to_text_message" msgid="6374423235426015422">"Konverterar till SMS …"</string>
-    <string name="cannot_add_slide_anymore" msgid="8437666385579890987">"Det går inte att lägga till fler bilder."</string>
-    <string name="cannot_add_picture_and_video" msgid="4721981351130823908">"Det går inte att lägga till videoklipp och bild på samma bildspelsbild."</string>
-    <string name="cannot_save_message" msgid="5026354972915392301">"Det går inte att spara meddelandet."</string>
+    <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"Det går inte att lägga till fler bilder."</string>
+    <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"Det går inte att lägga till video och foto på samma bild."</string>
+    <string name="cannot_save_message" msgid="3375907366965264446">"Det går inte att spara meddelandet."</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"Meddelande sparat som utkast."</string>
-    <string name="too_many_recipients" msgid="4239709214735078881">"Meddelandet har för många mottagare (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). Gränsen går vid <xliff:g id="MAXLIMIT">%2$s</xliff:g> mottagare."</string>
+    <string name="too_many_recipients" msgid="7003415094007176931">"Meddelandet har för många mottagare (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). Gränsen går vid <xliff:g id="MAXLIMIT">%2$s</xliff:g> mottagare."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"Det finns en maxgräns på <xliff:g id="MAXLIMIT">%1$s</xliff:g> bilagor. Endast de <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> första läggs till."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Lägger till bilagor"</string>
-    <string name="adding_attachments" msgid="2423616900586221924">"Vänta medan objekt läggs till i bildspelet."</string>
-    <string name="cannot_play_audio" msgid="575086601128003093">"Det går inte att spela upp ljudet."</string>
+    <string name="adding_attachments" msgid="5871373105122355632">"Vänta medan objekt läggs till i bildspelet."</string>
+    <string name="cannot_play_audio" msgid="253920977253666735">"Det går inte att spela upp ljudet."</string>
     <string name="preview" msgid="5438149136136446756">"Förhandsgranskning"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Förhandsgranskning"</string>
     <string name="replace_image" msgid="3171240952601443619">"Ersätt bild"</string>
@@ -123,8 +123,8 @@
     <string name="layout_top" msgid="6811021650398972346">"Layout (överst)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Layout (nederkant)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Skriv ett meddelande eller lämna tomt"</string>
-    <string name="duration_not_a_number" msgid="8005480904677546322">"Varaktigheten måste vara ett tal"</string>
-    <string name="duration_zero" msgid="109945354056393575">"Varaktigheten måste vara mer än noll sekunder"</string>
+    <string name="duration_not_a_number" msgid="2856636898040421237">"Varaktigheten måste anges med siffror."</string>
+    <string name="duration_zero" msgid="3549377790195185977">"Varaktigheten måste vara mer än noll sekunder."</string>
     <string name="secs" msgid="6886003523109967972">"sekunder"</string>
   <string-array name="select_dialog_items">
     <item msgid="4840183714016984112">"1 sekund"</item>
@@ -137,10 +137,10 @@
     <item msgid="3400770414689795703">"8 sekunder"</item>
     <item msgid="4358760614161107970">"8 sekunder"</item>
     <item msgid="2618179407176906471">"10 sekunder"</item>
-    <item msgid="6238597861937337981">"Annan…"</item>
+    <item msgid="7786079681602275449">"Övrigt"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"Visa kontakt"</string>
-    <string name="menu_add_to_contacts" msgid="2978074583938544513">"Lägg till i Kontakter"</string>
+    <string name="menu_add_to_contacts" msgid="1258127580972228970">"Lägg till i Personer"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"Avsändaradress dold"</string>
     <string name="yes" msgid="3246158147503160811">"OK"</string>
     <string name="no" msgid="4289742508556913860">"Avbryt"</string>
@@ -150,10 +150,10 @@
     <string name="try_to_send" msgid="1996751738286080976">"Försök skicka"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Inställningar"</string>
     <string name="restore_default" msgid="7165341506551155053">"Återställ standardinställn."</string>
-    <string name="pref_notification_settings_title" msgid="4860726154770053004">"Aviseringsinställningar"</string>
-    <string name="pref_mms_settings_title" msgid="2573616208360684392">"MMS-inställningar"</string>
-    <string name="pref_sms_settings_title" msgid="9088516111717417514">"SMS-inställningar"</string>
-    <string name="pref_sms_storage_title" msgid="2531726671883516470">"Lagringsinställningar"</string>
+    <string name="pref_notification_settings_title" msgid="6420782563630369776">"Meddelanden"</string>
+    <string name="pref_mms_settings_title" msgid="55618772118264355">"MMS"</string>
+    <string name="pref_sms_settings_title" msgid="5173078369851066881">"SMS"</string>
+    <string name="pref_sms_storage_title" msgid="9001233319190616445">"Lagring"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Hantera meddelanden som sparats på SIM-kortet"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Begär en leveransrapport för varje meddelande du skickar"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Begär en läsrapport för varje meddelande du skickar"</string>
@@ -171,7 +171,7 @@
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Visa meddelandeaviseringar i statusfältet"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibrera"</string>
     <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibrera även vid aviseringar"</string>
-    <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"Välj ringsignal"</string>
+    <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"Välj ringsignal"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Ange hur många meddelanden som ska sparas"</string>
   <string-array name="prefEntries_vibrateWhen">
     <item msgid="2520871831815631409">"Alltid"</item>
@@ -183,23 +183,23 @@
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Hämta meddelanden automatiskt"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Autohämtning vid roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Hämta meddelanden automatiskt vid roaming"</string>
-    <string name="confirm_dialog_title" msgid="5810813994465120375">"Ta bort"</string>
+    <string name="confirm_dialog_title" msgid="2187213750475782725">"Ta bort?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Vill du ta bort det låsta meddelandet?"</string>
   <plurals name="confirm_delete_conversation">
-    <item quantity="one" msgid="350118636090800360">"En konversation kommer att tas bort."</item>
-    <item quantity="other" msgid="6918094955792544014">"<xliff:g id="NUMBER">%1$s</xliff:g> konversationer kommer att tas bort."</item>
+    <item quantity="one" msgid="7509396981963472833">"En konversation tas bort."</item>
+    <item quantity="other" msgid="4076915774012081811">"<xliff:g id="NUMBER">%1$s</xliff:g> konversationer tas bort."</item>
   </plurals>
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Hela tråden tas bort."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Alla trådar tas bort."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Meddelandet tas bort."</string>
-    <string name="confirm_delete_locked_message" msgid="5863578342246077057">"Vill du ta bort det låsta meddelandet?"</string>
-    <string name="confirm_delete_all_SIM_messages" msgid="65701806463341097">"Alla meddelanden på SIM-kortet tas bort."</string>
-    <string name="confirm_delete_SIM_message" msgid="767624259182679915">"Meddelandet tas bort från SIM-kortet."</string>
+    <string name="confirm_delete_locked_message" msgid="7203411948190100955">"Vill du ta bort det här låsta meddelandet?"</string>
+    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"Alla meddelanden på SIM-kortet tas bort."</string>
+    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"Detta meddelande tas bort från SIM-kortet."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Ta bort låsta meddelanden"</string>
     <string name="delete" msgid="1409973060081564612">"Ta bort"</string>
-    <string name="select_conversations" msgid="5754828781497722394">"Välj konversationer"</string>
-    <string name="no_conversations" msgid="2095684444005566703">"Inga konversationer"</string>
-    <string name="cannot_get_details" msgid="6493664168168047746">"Det går inte att hämta info"</string>
+    <string name="select_conversations" msgid="7816517565640002844">"Välj konversationer"</string>
+    <string name="no_conversations" msgid="6773767655149258445">"Inga konversationer."</string>
+    <string name="cannot_get_details" msgid="850292987983026806">"Det går inte att hämta info."</string>
     <string name="message_details_title" msgid="9223295113731634528">"Meddelandeinfo"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Typ: "</string>
     <string name="text_message" msgid="8196464345251877972">"SMS"</string>
@@ -228,7 +228,7 @@
     <string name="sim_delete" msgid="610790510655316922">"Ta bort"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"SMS på SIM-kortet"</string>
     <string name="sim_view" msgid="1997173541766393706">"Visa"</string>
-    <string name="sim_empty" msgid="1763174398613486328">"Inga meddelanden på SIM-kortet."</string>
+    <string name="sim_empty" msgid="2356766833071636297">"Inga meddelanden på SIM-kortet."</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"Rapport"</string>
     <string name="status_none" msgid="8253075950774894961">"(Ingen)"</string>
     <string name="status_pending" msgid="2739860824607984892">"Väntar"</string>
@@ -248,42 +248,42 @@
     <string name="attach_slideshow" msgid="3497422151091037063">"Bildspel"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"Text i nederkant"</string>
     <string name="select_top_text" msgid="6734183477539197815">"Text i överkant"</string>
-    <string name="delivery_toast_body" msgid="4478305651728684364">"Meddelande mottaget av %s"</string>
+    <string name="delivery_toast_body" msgid="5960519861835727013">"Meddelande mottaget av %s."</string>
     <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> olästa meddelanden."</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"Nya meddelanden"</string>
-    <string name="notification_failed_multiple" msgid="4081781748475686236">"Det gick inte att skicka <xliff:g id="COUNT">%s</xliff:g> meddelanden."</string>
+    <string name="notification_failed_multiple" msgid="6192531993698497229">"Det gick inte att skicka <xliff:g id="COUNT">%s</xliff:g> meddelanden"</string>
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"Meddelandena har inte skickats"</string>
     <string name="sim_full_title" msgid="1809829051697702810">"SIM-kortet är fullt"</string>
     <string name="sim_full_body" msgid="6241664980790322925">"Ta bort några meddelanden om du vill ha plats för nya."</string>
     <string name="sms_full_title" msgid="6041287140125011854">"SMS-minnet är fullt"</string>
-    <string name="sms_full_body" msgid="7757490997215434514">"Ett inkommande meddelande avvisades eftersom minnet är fullt. Ta bort gamla meddelanden."</string>
+    <string name="sms_full_body" msgid="4885861852397651868">"Ett inkommande meddelande avvisades eftersom minnet är fullt. Ta bort några gamla meddelanden."</string>
     <string name="sms_rejected_title" msgid="8548394922491529811">"SMS avvisades"</string>
-    <string name="sms_rejected_body" msgid="7187754586609631934">"Ett inkommande meddelande avvisades av okänd anledning."</string>
+    <string name="sms_rejected_body" msgid="7813671133968158562">"Ett inkommande meddelande avvisades av okänd anledning."</string>
     <string name="type_audio" msgid="3842064092332309756">"ljud"</string>
     <string name="type_picture" msgid="4091928975383609443">"bild"</string>
     <string name="type_video" msgid="8521556159545168441">"video"</string>
     <string name="confirm" msgid="3155110885840591914">"Bekräfta"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"En läsrapport skickas."</string>
-    <string name="message_queued" msgid="8869479754825264671">"Det går inte att skicka meddelandet just nu. Det skickas så snart tjänsten blir tillgänglig."</string>
+    <string name="message_queued" msgid="7975945623873194737">"Det går inte att skicka meddelandet just nu. Det skickas så snart tjänsten blir tillgänglig."</string>
     <string name="fdn_check_failure" msgid="7880740763778173551">"Du kan bara skicka meddelanden till dina fasta nummer."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Inget ämne)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Okänd avsändare"</string>
-    <string name="dl_failure_notification" msgid="2457080452886498701">"Det gick inte att hämta meddelandet <xliff:g id="SUBJECT">%1$s</xliff:g> från <xliff:g id="FROM">%2$s</xliff:g>."</string>
+    <string name="dl_failure_notification" msgid="8097699679464396537">"Det gick inte att hämta meddelandet <xliff:g id="SUBJECT">%1$s</xliff:g> från <xliff:g id="FROM">%2$s</xliff:g>."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Bekräfta"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Du håller på att skicka ett stort antal MMS. Vill du fortsätta?"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"Meddelandet har inte hämtats"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"Meddelandet har inte skickats"</string>
-    <string name="message_failed_body" msgid="2740907094762116644">"Välj om du vill granska meddelandet och försöka igen."</string>
-    <string name="download_later" msgid="4486286146421650880">"Det går inte att hämta just nu. Försök igen senare."</string>
-    <string name="select_audio" msgid="3120822451872772124">"Välja ljud"</string>
+    <string name="message_failed_body" msgid="3421296112073915245">"Tryck om du vill granska meddelandet och försöka igen."</string>
+    <string name="download_later" msgid="5531365714424360903">"Det går inte att hämta just nu. Försök igen senare."</string>
+    <string name="select_audio" msgid="3528161449756771832">"Välj ljud"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Spara bilagan"</string>
-    <string name="copy_to_sdcard_success" msgid="6940309183311068648">"Bilagan har sparats"</string>
-    <string name="copy_to_sdcard_fail" msgid="4209780336940754675">"Bilagan kunde inte sparas"</string>
+    <string name="copy_to_sdcard_success" msgid="7948625615155992014">"Bilagan har sparats."</string>
+    <string name="copy_to_sdcard_fail" msgid="4944606369631916737">"Kunde inte spara bilagan."</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Spara som ringsignal"</string>
-    <string name="saved_ringtone" msgid="6616730290861857836">"Ringsignalen sparad"</string>
-    <string name="saved_ringtone_fail" msgid="5447210504935083544">"Det gick inte att spara ringsignalen"</string>
+    <string name="saved_ringtone" msgid="3847363932276708626">"Ringsignalen sparades."</string>
+    <string name="saved_ringtone_fail" msgid="4778500070919251116">"Det gick inte att spara ringsignalen."</string>
     <string name="menu_insert_smiley" msgid="4964504393061025071">"Infoga känsloikon"</string>
-    <string name="select_link_title" msgid="600168208731216059">"Välj åtgärd"</string>
+    <string name="select_link_title" msgid="3371818607625768447">"Välj åtgärd"</string>
     <string name="slide_number" msgid="1923958526266726635">"Bild <xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
     <item quantity="one" msgid="1654101988340583935">"<xliff:g id="NUMBER">%s</xliff:g> sekunder"</item>
@@ -296,12 +296,12 @@
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"Redigera bildspel"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"Redigera bild"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Bildspel"</string>
-    <string name="class_0_message_activity" msgid="8474176218999130627">"Meddelande, klass 0"</string>
+    <string name="class_0_message_activity" msgid="6631339964159861048">"Meddelande, klass 0"</string>
     <string name="search_label" msgid="6042598929386174964">"Meddelanden"</string>
-    <string name="search_hint" msgid="7183732852849365466">"Sök i meddelanden"</string>
+    <string name="search_hint" msgid="7273727663577472044">"Sök i meddelanden"</string>
     <string name="search" msgid="7560238620274735199">"Meddelanden"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"Text i dina meddelanden"</string>
-    <string name="search_empty" msgid="645052646985297065">"Inga träffar"</string>
+    <string name="search_empty" msgid="2109551478056039278">"Inga träffar."</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> resultat för <xliff:g id="SEARCH">%2$s</xliff:g>"</item>
     <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> resultat för <xliff:g id="SEARCH">%2$s</xliff:g>"</item>
@@ -313,10 +313,10 @@
     <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Visa inte tidigare meddelandesökningar i sökrutan"</string>
     <string name="save" msgid="6847069284991531310">"Spara"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"Begränsa meddelanden"</string>
-    <string name="storage_limits_message" msgid="8729608389698270388">"Vill du begränsa hur många meddelanden som sparas per konversation?"</string>
+    <string name="storage_limits_message" msgid="2010501485394745696">"Begränsa antalet meddelanden som sparas per konversation?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"Ange begränsningar"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Ingen begränsning"</string>
-    <string name="too_many_unsent_mms" msgid="8005932837414848242">"Det går inte att skicka meddelandet nu. Det finns för många MMS som inte har skickats."</string>
+    <string name="too_many_unsent_mms" msgid="4436493698891224126">"Det går inte att skicka meddelandet just nu. Det finns för många MMS som inte har skickats."</string>
     <string name="sending_message" msgid="2054406576361149715">"SKICKAR..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"För många mottagare"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Lägger till mottagare..."</string>
