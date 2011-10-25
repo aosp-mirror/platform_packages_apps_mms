@@ -282,6 +282,9 @@ public abstract class MediaModel extends Model implements EventListener {
                 // avoid reading the whole stream to get its length
                 FileInputStream f = (FileInputStream) input;
                 mSize = (int) f.getChannel().size();
+                // sometimes mSize will be zero here. It's tempting to count the bytes as the code
+                // does below, but that turns out to be very slow. We'll deal with a zero size
+                // when we resize the media.
             } else {
                 while (-1 != input.read()) {
                     mSize++;
