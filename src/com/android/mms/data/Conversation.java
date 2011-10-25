@@ -1115,7 +1115,7 @@ public class Conversation {
             c.moveToPosition(-1);
             while (c.moveToNext()) {
                 String snippet = MessageUtils.extractEncStrFromCursor(c, SNIPPET, SNIPPET_CS);
-                LogTag.debug("dumpThreadsTable threadId: " + c.getLong(ID) +
+                Log.d(TAG, "dumpThreadsTable threadId: " + c.getLong(ID) +
                         " " + ThreadsColumns.DATE + " : " + c.getLong(DATE) +
                         " " + ThreadsColumns.MESSAGE_COUNT + " : " + c.getInt(MESSAGE_COUNT) +
                         " " + ThreadsColumns.SNIPPET + " : " + snippet +
@@ -1125,7 +1125,7 @@ public class Conversation {
                         " " + ThreadsColumns.RECIPIENT_IDS + " : " + c.getString(RECIPIENT_IDS));
 
                 ContactList recipients = ContactList.getByIds(c.getString(RECIPIENT_IDS), false);
-                LogTag.debug("----recipients: " + recipients.serialize());
+                Log.d(TAG, "----recipients: " + recipients.serialize());
             }
         } finally {
             c.close();
