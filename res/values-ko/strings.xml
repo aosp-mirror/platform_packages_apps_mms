@@ -74,7 +74,7 @@
     <string name="subject_hint" msgid="4296714962311604126">"제목"</string>
     <string name="add_attachment" msgid="7103751293360532684">"첨부"</string>
     <string name="add_subject" msgid="7616134948428265870">"제목 추가"</string>
-    <string name="discard" msgid="1624800293064498479">"삭제"</string>
+    <string name="discard" msgid="1624800293064498479">"취소"</string>
     <string name="view" msgid="7929667761715467136">"보기"</string>
     <string name="replace" msgid="7587904998114459388">"바꾸기"</string>
     <string name="remove" msgid="4625444913256213175">"삭제"</string>
@@ -159,7 +159,7 @@
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"보내는 메시지마다 읽음 여부 보고"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"보내는 메시지마다 전송 여부 보고"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"한도에 도달하면 이전 메시지 삭제"</string>
-    <string name="pref_summary_delete_limit" msgid="597128041393045216">"대화당 <xliff:g id="COUNT">%1$s</xliff:g>개 메시지"</string>
+    <string name="pref_summary_delete_limit" msgid="597128041393045216">"대화당 메시지 <xliff:g id="COUNT">%1$s</xliff:g>개"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"SIM 카드 메시지 관리"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"전송 여부 보고"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"읽음 여부 보고"</string>
@@ -198,7 +198,7 @@
     <string name="delete_unlocked" msgid="7545321606698162261">"잠긴 메시지 삭제"</string>
     <string name="delete" msgid="1409973060081564612">"삭제"</string>
     <string name="select_conversations" msgid="5754828781497722394">"대화 선택"</string>
-    <string name="no_conversations" msgid="2095684444005566703">"대화 없음"</string>
+    <string name="no_conversations" msgid="2095684444005566703">"문자 메세지 없음"</string>
     <string name="cannot_get_details" msgid="6493664168168047746">"세부정보를 가져올 수 없음"</string>
     <string name="message_details_title" msgid="9223295113731634528">"메시지 세부정보"</string>
     <string name="message_type_label" msgid="7975373966795945566">"유형: "</string>
@@ -240,9 +240,9 @@
     <string name="recipient_label" msgid="3922667485312634446">"받는사람: "</string>
     <string name="status_label" msgid="7283375460919181660">"상태: "</string>
     <string name="attach_image" msgid="6439985727687107742">"사진"</string>
-    <string name="attach_take_photo" msgid="4280601313184373837">"사진 캡처"</string>
+    <string name="attach_take_photo" msgid="4280601313184373837">"사진 촬영"</string>
     <string name="attach_video" msgid="4264272693501538294">"동영상"</string>
-    <string name="attach_record_video" msgid="3099814114743078615">"동영상 캡처"</string>
+    <string name="attach_record_video" msgid="3099814114743078615">"동영상 촬영"</string>
     <string name="attach_sound" msgid="3149325985970669609">"오디오"</string>
     <string name="attach_record_sound" msgid="6011431304469858929">"오디오 녹음"</string>
     <string name="attach_slideshow" msgid="3497422151091037063">"슬라이드쇼"</string>

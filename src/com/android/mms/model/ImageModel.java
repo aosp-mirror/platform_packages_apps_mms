@@ -220,6 +220,7 @@ public class ImageModel extends RegionMediaModel {
 
         int widthLimit = MmsConfig.getMaxImageWidth();
         int heightLimit = MmsConfig.getMaxImageHeight();
+        int size = getMediaSize();
         // In mms_config.xml, the max width has always been declared larger than the max height.
         // Swap the width and height limits if necessary so we scale the picture as little as
         // possible.
@@ -229,11 +230,26 @@ public class ImageModel extends RegionMediaModel {
             heightLimit = temp;
         }
 
-        // Check if we're already within the limits - in which case we don't need to resize
-        if (getMediaSize() <= byteLimit &&
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.v(TAG, "resizeMedia size: " + size + " image.getWidth(): "
+                    + image.getWidth() + " widthLimit: " + widthLimit
+                    + " image.getHeight(): " + image.getHeight()
+                    + " heightLimit: " + heightLimit
+                    + " image.getContentType(): " + image.getContentType());
+        }
+
+        // Check if we're already within the limits - in which case we don't need to resize.
+        // The size can be zero here, even when the media has content. See the comment in
+        // MediaModel.initMediaSize. Sometimes it'll compute zero and it's costly to read the
+        // whole stream to compute the size. When we call getResizedImageAsPart(), we'll correctly
+        // set the size.
+        if (size != 0 && size <= byteLimit &&
                 image.getWidth() <= widthLimit &&
                 image.getHeight() <= heightLimit &&
                 SUPPORTED_MMS_IMAGE_CONTENT_TYPES.contains(image.getContentType())) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                Log.v(TAG, "resizeMedia - already sized");
+            }
             return;
         }
 
@@ -259,6 +275,11 @@ public class ImageModel extends RegionMediaModel {
 
         PduPersister persister = PduPersister.getPduPersister(mContext);
         this.mSize = part.getData().length;
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.v(TAG, "resizeMedia mSize: " + mSize);
+        }
+
         Uri newUri = persister.persistPart(part, messageId);
         setUri(newUri);
     }
