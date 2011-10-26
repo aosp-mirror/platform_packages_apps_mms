@@ -28,11 +28,9 @@
         android:maxLines="1"
         android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="18pt"
-        android:textColor="@android:color/holo_blue_light"
+        android:textColor="#ccffffff"
         android:layout_gravity="center_vertical"
         android:paddingRight="10dip"
-        android:layout_marginTop="-2dip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
