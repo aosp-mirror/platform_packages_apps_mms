@@ -100,7 +100,6 @@ import android.text.util.Linkify;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -115,7 +114,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.CursorAdapter;
@@ -384,7 +382,6 @@ public class ComposeMessageActivity extends Activity
                 mWorkingMessage.setSubject(null, true);
                 return true;
             }
-
             return false;
         }
     };
@@ -2419,6 +2416,7 @@ public class ComposeMessageActivity extends Activity
             case MENU_ADD_SUBJECT:
                 showSubjectEditor(true);
                 mWorkingMessage.setSubject("", true);
+                updateSendButtonState();
                 mSubjectTextEditor.requestFocus();
                 break;
             case MENU_ADD_ATTACHMENT:
@@ -3199,6 +3197,7 @@ public class ComposeMessageActivity extends Activity
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             mWorkingMessage.setSubject(s, true);
+            updateSendButtonState();
         }
 
         public void afterTextChanged(Editable s) { }
@@ -3502,7 +3501,8 @@ public class ComposeMessageActivity extends Activity
             mAttachmentEditor.setCanSend(false);
         }
 
-        View sendButton = showSmsOrMmsSendButton(mWorkingMessage.requiresMms());
+        boolean requiresMms = mWorkingMessage.requiresMms();
+        View sendButton = showSmsOrMmsSendButton(requiresMms);
         sendButton.setEnabled(enable);
         sendButton.setFocusable(enable);
     }
