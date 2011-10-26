@@ -161,9 +161,9 @@
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Supprimer lorsque les limites suivantes sont atteintes"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> messages par conversation"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Gestion messages carte SIM"</string>
-    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Accusés de réception"</string>
+    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Accusé de réception"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Confirmations de lecture"</string>
-    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Accusés de réception"</string>
+    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Accusé de réception"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Anciens messages"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limite pour les SMS"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite pour les MMS"</string>
@@ -232,7 +232,7 @@
     <string name="delivery_header_title" msgid="5361719578869045764">"Rapport"</string>
     <string name="status_none" msgid="8253075950774894961">"(Aucun)"</string>
     <string name="status_pending" msgid="2739860824607984892">"En attente"</string>
-    <string name="status_read" msgid="7576195253780627332">"Lire"</string>
+    <string name="status_read" msgid="7576195253780627332">"Lu"</string>
     <string name="status_received" msgid="7264334589461906965">"Reçu"</string>
     <string name="status_failed" msgid="1998776666856593544">"Échec"</string>
     <string name="status_unread" msgid="8555305495998700198">"Non lu"</string>
