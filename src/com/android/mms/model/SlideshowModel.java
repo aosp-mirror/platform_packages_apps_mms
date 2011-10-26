@@ -20,6 +20,7 @@ package com.android.mms.model;
 
 import com.android.mms.ContentRestrictionException;
 import com.android.mms.ExceedMessageSizeException;
+import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.dom.smil.parser.SmilXmlSerializer;
@@ -658,8 +659,6 @@ public class SlideshowModel extends Model
      * @throws MmsException, ExceedMessageSizeException
      */
     public void finalResize(Uri messageUri) throws MmsException, ExceedMessageSizeException {
-//        Log.v(TAG, "Original message size: " + getCurrentMessageSize() + " getMaxMessageSize: "
-//                + MmsConfig.getMaxMessageSize());
 
         // Figure out if we have any media items that need to be resized and total up the
         // sizes of the items that can't be resized.
@@ -673,6 +672,11 @@ public class SlideshowModel extends Model
                     fixedSizeTotal += media.getMediaSize();
                 }
             }
+        }
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.v(TAG, "finalResize: original message size: " + getCurrentMessageSize() +
+                    " getMaxMessageSize: " + MmsConfig.getMaxMessageSize() +
+                    " fixedSizeTotal: " + fixedSizeTotal);
         }
         if (resizableCnt > 0) {
             int remainingSize = MmsConfig.getMaxMessageSize() - fixedSizeTotal - SLIDESHOW_SLOP;
@@ -696,8 +700,9 @@ public class SlideshowModel extends Model
                     totalSize += media.getMediaSize();
                 }
             }
-//            Log.v(TAG, "New message size: " + totalSize + " getMaxMessageSize: "
-//                    + MmsConfig.getMaxMessageSize());
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                Log.v(TAG, "finalResize: new message size: " + totalSize);
+            }
 
             if (totalSize > MmsConfig.getMaxMessageSize()) {
                 throw new ExceedMessageSizeException("After compressing pictures, message too big");
