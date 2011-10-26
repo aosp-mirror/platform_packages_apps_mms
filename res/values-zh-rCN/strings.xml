@@ -81,7 +81,7 @@
     <string name="send" msgid="4589898724889248486">"发送"</string>
     <string name="mms" msgid="1587631213714914559">"彩信"</string>
     <string name="all_threads" msgid="2663426830306307194">"所有会话"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"键入讯息"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"键入信息"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"打开键盘键入讯息"</string>
     <string name="compressing" msgid="1961357529661045180">"图片过大。正在压缩…"</string>
     <string name="unsupported_media_format" msgid="5037111178813903722">"不支持<xliff:g id="NAME">%1$s</xliff:g>格式"</string>
@@ -159,7 +159,7 @@
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"要求每次发送信息后都返回已读回执"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"要求每次发送信息后都返回发送报告"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"达到数量上限时删除旧信息"</string>
-    <string name="pref_summary_delete_limit" msgid="597128041393045216">"每个会话限存储 <xliff:g id="COUNT">%1$s</xliff:g> 条短信"</string>
+    <string name="pref_summary_delete_limit" msgid="597128041393045216">"每个会话限存储 <xliff:g id="COUNT">%1$s</xliff:g> 条信息"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"管理 SIM 卡中的信息"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"发送报告"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"已读报告"</string>
@@ -172,7 +172,7 @@
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"振动"</string>
     <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"收到通知时还振动提醒"</string>
     <string name="pref_title_notification_ringtone" msgid="5159574093788155149">"选择铃声"</string>
-    <string name="pref_messages_to_save" msgid="3202539743892934926">"设置要保存的彩信数量"</string>
+    <string name="pref_messages_to_save" msgid="3202539743892934926">"设置要保存的信息数量"</string>
   <string-array name="prefEntries_vibrateWhen">
     <item msgid="2520871831815631409">"始终"</item>
     <item msgid="6069709696037750627">"仅在静音时"</item>
@@ -228,7 +228,7 @@
     <string name="sim_delete" msgid="610790510655316922">"删除"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"SIM 卡上的短信"</string>
     <string name="sim_view" msgid="1997173541766393706">"查看"</string>
-    <string name="sim_empty" msgid="1763174398613486328">"SIM 卡中无信息。"</string>
+    <string name="sim_empty" msgid="1763174398613486328">"SIM 卡中未存短信。"</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"报告"</string>
     <string name="status_none" msgid="8253075950774894961">"(无)"</string>
     <string name="status_pending" msgid="2739860824607984892">"待发送"</string>
@@ -297,7 +297,7 @@
     <string name="edit_slide_activity" msgid="8752829671778696983">"编辑幻灯片"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"播放幻灯片"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"0 类信息"</string>
-    <string name="search_label" msgid="6042598929386174964">"正在传递短信"</string>
+    <string name="search_label" msgid="6042598929386174964">"短信"</string>
     <string name="search_hint" msgid="7183732852849365466">"搜索短信"</string>
     <string name="search" msgid="7560238620274735199">"短信"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"消息中的文字"</string>
@@ -308,9 +308,9 @@
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> 项符合“<xliff:g id="SEARCH">%2$s</xliff:g>”的搜索结果"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"清除"</string>
-    <string name="confirm_clear_search_text" msgid="8731877031837077478">"搜索历史记录将被清除。"</string>
-    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"清除搜索历史记录"</string>
-    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"清除以前的短信搜索历史记录，使其不再出现在“搜索”框中"</string>
+    <string name="confirm_clear_search_text" msgid="8731877031837077478">"搜索记录将被清除。"</string>
+    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"清除搜索记录"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"清除以前的短信搜索记录，使其不再出现在“搜索”框中"</string>
     <string name="save" msgid="6847069284991531310">"保存"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"限制短信数"</string>
     <string name="storage_limits_message" msgid="8729608389698270388">"是否要限制每个会话存储的短信数？"</string>

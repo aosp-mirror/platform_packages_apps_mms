@@ -33,7 +33,7 @@
     <string name="menu_delete" msgid="1851666911396479006">"מחק שרשור"</string>
     <string name="menu_view" msgid="7448852683948080108">"הצג שרשור"</string>
     <string name="menu_debug_dump" msgid="6855869130206549643">"DEBUG DUMP"</string>
-    <string name="refreshing" msgid="987335057871404222">"מרענן???"</string>
+    <string name="refreshing" msgid="987335057871404222">"מרענן…"</string>
     <string name="has_draft" msgid="2487465595514636160">"טיוטה"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(ללא נושא)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"אני"</string>
@@ -137,7 +137,7 @@
     <item msgid="3400770414689795703">"8 שניות"</item>
     <item msgid="4358760614161107970">"9 שניות"</item>
     <item msgid="2618179407176906471">"10 שניות"</item>
-    <item msgid="6238597861937337981">"אחר???"</item>
+    <item msgid="6238597861937337981">"אחר…"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"הצג איש קשר"</string>
     <string name="menu_add_to_contacts" msgid="2978074583938544513">"הוסף לאנשי קשר"</string>
