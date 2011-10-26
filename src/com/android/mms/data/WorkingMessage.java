@@ -1306,7 +1306,7 @@ public class WorkingMessage {
             long msgId = ContentUris.parseId(mmsUri);
             SqliteWrapper.update(mActivity, mContentResolver,
                     PendingMessages.CONTENT_URI,
-                    values, PendingMessages._ID + "=" + msgId, null);
+                    values, PendingMessages.MSG_ID + "=" + msgId, null);
         } catch (MmsException e) {
             // Not much we can do here. If the p.move throws an exception, we'll just
             // leave the message in the draft box.
