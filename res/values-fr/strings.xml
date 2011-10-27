@@ -162,7 +162,7 @@
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> messages par conversation"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Gestion messages carte SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Accusé de réception"</string>
-    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Confirmations de lecture"</string>
+    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Confirmation de lecture"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Accusé de réception"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Anciens messages"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limite pour les SMS"</string>
