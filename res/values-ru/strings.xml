@@ -149,7 +149,7 @@
     <string name="edit" msgid="5912118407791492696">"Изменить"</string>
     <string name="try_to_send" msgid="1996751738286080976">"Попытаться отправить"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Настройки"</string>
-    <string name="restore_default" msgid="7165341506551155053">"Восстановить значения по умолчанию"</string>
+    <string name="restore_default" msgid="7165341506551155053">"Восстановить настройки"</string>
     <string name="pref_notification_settings_title" msgid="6420782563630369776">"Уведомления"</string>
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Мультимедийные сообщения (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Текстовые сообщения (SMS)"</string>
@@ -239,7 +239,7 @@
     <string name="status_rejected" msgid="2613641949065942678">"Отклоненные"</string>
     <string name="recipient_label" msgid="3922667485312634446">"Получатель: "</string>
     <string name="status_label" msgid="7283375460919181660">"Статус: "</string>
-    <string name="attach_image" msgid="6439985727687107742">"Рисунки"</string>
+    <string name="attach_image" msgid="6439985727687107742">"Изображение"</string>
     <string name="attach_take_photo" msgid="4280601313184373837">"Снять фото"</string>
     <string name="attach_video" msgid="4264272693501538294">"Видео"</string>
     <string name="attach_record_video" msgid="3099814114743078615">"Снять видео"</string>
@@ -303,8 +303,8 @@
     <string name="search_setting_description" msgid="4104004595086437572">"Текст в сообщениях"</string>
     <string name="search_empty" msgid="2109551478056039278">"Совпадений нет."</string>
   <plurals name="search_results_title">
-    <item quantity="one" msgid="4657073733087431350">"Результатов по запросу \"<xliff:g id="SEARCH">%2$s</xliff:g>\": <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
-    <item quantity="other" msgid="6196382287749539209">"Результатов по запросу \"<xliff:g id="SEARCH">%2$s</xliff:g>\": <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
+    <item quantity="one" msgid="4657073733087431350">"Поиск \"<xliff:g id="SEARCH">%2$s</xliff:g>\" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</item>
+    <item quantity="other" msgid="6196382287749539209">"Поиск \"<xliff:g id="SEARCH">%2$s</xliff:g>\" (<xliff:g id="NUMBER">%1$s</xliff:g>)"</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"Результатов для \"<xliff:g id="SEARCH">%2$s</xliff:g>\": <xliff:g id="COUNT">%1$s</xliff:g>"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Очистить"</string>

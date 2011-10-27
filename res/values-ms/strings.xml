@@ -26,7 +26,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"Hantar e-mel kepada <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Karang"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Tetapan"</string>
-    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"Tambah <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> ke Orang"</string>
+    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"Tambahkan <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> pada Orang"</string>
     <string name="menu_call" msgid="5877123227307074690">"Panggil"</string>
     <string name="menu_search" msgid="2289469305728821360">"Carian"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Padamkan semua urutan"</string>
@@ -44,7 +44,7 @@
     <string name="expire_on" msgid="4436268382742593921">"Tamat tempoh: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Mesej tidak diserahkan"</string>
-    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Tidak dapat menghantar mesej ini "\n" Percubaan dibuat: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Tidak dapat menghantar mesej ini "\n"Percubaan dibuat: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Tidak dapat menghantar mesej ini."</string>
     <string name="delete_thread" msgid="757258847736632791">"Padam urutan"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Kirim semula"</string>
@@ -88,7 +88,7 @@
     <string name="select_different_media" msgid="6241623357299382183">"Pilih <xliff:g id="NAME">%1$s</xliff:g> yang berbeza ."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Had saiz mesej dicapai."</string>
     <string name="message_too_big_for_video" msgid="2639367545165352543">"Mesej terlalu besar untuk dilampirkan video."</string>
-    <string name="failed_to_add_media" msgid="7207464170168708485">"Anda tidak boleh menambah <xliff:g id="NAME">%1$s</xliff:g> ini ke mesej anda."</string>
+    <string name="failed_to_add_media" msgid="7207464170168708485">"Anda tidak boleh menambahkan <xliff:g id="NAME">%1$s</xliff:g> ini pada mesej anda."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Gambar tidak berubah saiznya."</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"Gambar ini adalah terlalu besar untuk dihantar, walaupun apabila diubah saiz."</string>
     <string name="forward_prefix" msgid="276280492803486464">"K.s.: "</string>
@@ -113,7 +113,7 @@
     <string name="too_many_attachments" msgid="3774037894899750070">"Lampiran dihadkan kepada <xliff:g id="MAXLIMIT">%1$s</xliff:g>. Hanya <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> yang pertama sahaja akan ditambahkan."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Menambah lampiran"</string>
     <string name="adding_attachments" msgid="5871373105122355632">"Tunggu sementara item ditambahkan pada tayangan slaid."</string>
-    <string name="cannot_play_audio" msgid="253920977253666735">"Tidak boleh memainkan audio"</string>
+    <string name="cannot_play_audio" msgid="253920977253666735">"Tidak boleh memainkan audio."</string>
     <string name="preview" msgid="5438149136136446756">"Pratonton"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Pratonton"</string>
     <string name="replace_image" msgid="3171240952601443619">"Ganti gambar"</string>
@@ -140,7 +140,7 @@
     <item msgid="7786079681602275449">"Lain-lain"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"Lihat kenalan"</string>
-    <string name="menu_add_to_contacts" msgid="1258127580972228970">"Tambah kepada Orang"</string>
+    <string name="menu_add_to_contacts" msgid="1258127580972228970">"Tambahkan pada Orang"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"Alamat pengirim tersembunyi"</string>
     <string name="yes" msgid="3246158147503160811">"OK"</string>
     <string name="no" msgid="4289742508556913860">"Batal"</string>
@@ -186,13 +186,13 @@
     <string name="confirm_dialog_title" msgid="2187213750475782725">"Padam?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Padamkan mesej berkunci?"</string>
   <plurals name="confirm_delete_conversation">
-    <item quantity="one" msgid="7509396981963472833">"Satu perbualan akan dipadamkan"</item>
+    <item quantity="one" msgid="7509396981963472833">"Satu perbualan akan dipadamkan."</item>
     <item quantity="other" msgid="4076915774012081811">"<xliff:g id="NUMBER">%1$s</xliff:g> perbualan akan dipadamkan."</item>
   </plurals>
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Keseluruhan urutan akan dipadamkan."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Semua urutan akan dipadamkan."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Mesej akan dipadamkan."</string>
-    <string name="confirm_delete_locked_message" msgid="7203411948190100955">"Padam mesej yang dikunci ini?"</string>
+    <string name="confirm_delete_locked_message" msgid="7203411948190100955">"Padamkan mesej yang dikunci ini?"</string>
     <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"Semua mesej pada kad SIM akan dipadamkan."</string>
     <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"Mesej ini pada kad SIM akan dipadamkan."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Padamkan mesej berkunci"</string>
@@ -251,12 +251,12 @@
     <string name="delivery_toast_body" msgid="5960519861835727013">"Mesej diterima oleh %s."</string>
     <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> mesej belum dibaca."</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"Mesej baru"</string>
-    <string name="notification_failed_multiple" msgid="6192531993698497229">"<xliff:g id="COUNT">%s</xliff:g> mesej tidak boleh dihantar."</string>
+    <string name="notification_failed_multiple" msgid="6192531993698497229">"<xliff:g id="COUNT">%s</xliff:g> mesej tidak boleh dihantar"</string>
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"Mesej tidak dihantar"</string>
     <string name="sim_full_title" msgid="1809829051697702810">"Kad SIM penuh"</string>
     <string name="sim_full_body" msgid="6241664980790322925">"Padam beberapa mesej untuk membuat ruang untuk lebih banyak mesej."</string>
     <string name="sms_full_title" msgid="6041287140125011854">"Memori mesej teks penuh"</string>
-    <string name="sms_full_body" msgid="4885861852397651868">"Suatu mesej yang masuk telah ditolak kerana memori penuh. Padam beberapa mesej lama."</string>
+    <string name="sms_full_body" msgid="4885861852397651868">"Suatu mesej yang masuk telah ditolak kerana memori penuh. Padamkan beberapa mesej lama."</string>
     <string name="sms_rejected_title" msgid="8548394922491529811">"Mesej teks ditolak"</string>
     <string name="sms_rejected_body" msgid="7813671133968158562">"Suatu mesej yang masuk telah ditolak kerana sebab yang tidak diketahui."</string>
     <string name="type_audio" msgid="3842064092332309756">"audio"</string>
@@ -274,7 +274,7 @@
     <string name="message_download_failed_title" msgid="5722226064394767921">"Mesej tidak dimuat turun"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"Mesej tidak dihantar"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"Sentuh untuk menyemak semula mesej dan cuba lagi."</string>
-    <string name="download_later" msgid="5531365714424360903">"Tidak boleh muat turun sekarang. Cuba lagi kemudian."</string>
+    <string name="download_later" msgid="5531365714424360903">"Tidak boleh memuat turun sekarang. Cuba lagi kemudian."</string>
     <string name="select_audio" msgid="3528161449756771832">"Pilih audio"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Menyimpan lampiran"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"Lampiran disimpan."</string>

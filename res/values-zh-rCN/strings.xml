@@ -26,7 +26,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"发送电子邮件至<xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"撰写"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"设置"</string>
-    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"添加 <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> 至联系人"</string>
+    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"将 <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> 添加到联系人"</string>
     <string name="menu_call" msgid="5877123227307074690">"呼叫"</string>
     <string name="menu_search" msgid="2289469305728821360">"搜索"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"删除所有会话"</string>
@@ -84,7 +84,7 @@
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"键入信息"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"打开键盘键入讯息"</string>
     <string name="compressing" msgid="1961357529661045180">"图片过大。正在压缩…"</string>
-    <string name="unsupported_media_format" msgid="1350489690977363764">"<xliff:g id="NAME">%1$s</xliff:g>格式不受支持。"</string>
+    <string name="unsupported_media_format" msgid="1350489690977363764">"不支持<xliff:g id="NAME">%1$s</xliff:g>格式。"</string>
     <string name="select_different_media" msgid="6241623357299382183">"选择其他<xliff:g id="NAME">%1$s</xliff:g>。"</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"已达到信息大小上限。"</string>
     <string name="message_too_big_for_video" msgid="2639367545165352543">"该短信太大，无法附加视频。"</string>
@@ -140,7 +140,7 @@
     <item msgid="7786079681602275449">"其他"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"查看联系人"</string>
-    <string name="menu_add_to_contacts" msgid="1258127580972228970">"添加至联系人"</string>
+    <string name="menu_add_to_contacts" msgid="1258127580972228970">"添加到联系人"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"隐藏的发送者地址"</string>
     <string name="yes" msgid="3246158147503160811">"确定"</string>
     <string name="no" msgid="4289742508556913860">"取消"</string>
@@ -248,7 +248,7 @@
     <string name="attach_slideshow" msgid="3497422151091037063">"幻灯片"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"底部文本"</string>
     <string name="select_top_text" msgid="6734183477539197815">"顶部文本"</string>
-    <string name="delivery_toast_body" msgid="5960519861835727013">"短信已发送给%s。"</string>
+    <string name="delivery_toast_body" msgid="5960519861835727013">"%s 收到了短信。"</string>
     <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> 条未读信息。"</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"新信息"</string>
     <string name="notification_failed_multiple" msgid="6192531993698497229">"<xliff:g id="COUNT">%s</xliff:g> 条短信无法发送"</string>
@@ -258,7 +258,7 @@
     <string name="sms_full_title" msgid="6041287140125011854">"短信内存已满"</string>
     <string name="sms_full_body" msgid="4885861852397651868">"存储空间已满，无法接收短信，请删除部分旧短信。"</string>
     <string name="sms_rejected_title" msgid="8548394922491529811">"短信遭拒"</string>
-    <string name="sms_rejected_body" msgid="7813671133968158562">"由于未知原因导致无法接收短信。"</string>
+    <string name="sms_rejected_body" msgid="7813671133968158562">"由于未知原因导致收不到短信。"</string>
     <string name="type_audio" msgid="3842064092332309756">"音频"</string>
     <string name="type_picture" msgid="4091928975383609443">"图片"</string>
     <string name="type_video" msgid="8521556159545168441">"视频"</string>
