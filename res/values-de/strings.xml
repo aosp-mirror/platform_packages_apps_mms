@@ -175,7 +175,7 @@
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Anzahl der zu speichernden Nachrichten festlegen"</string>
   <string-array name="prefEntries_vibrateWhen">
     <item msgid="2520871831815631409">"Immer"</item>
-    <item msgid="6069709696037750627">"Nur im Lautlosmodus"</item>
+    <item msgid="6069709696037750627">"Nur im Lautlos-Modus"</item>
     <item msgid="7486145357487111435">"Nie"</item>
   </string-array>
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibration"</string>
