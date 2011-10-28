@@ -85,7 +85,7 @@
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Ouvrez le clavier pour saisir un message"</string>
     <string name="compressing" msgid="1961357529661045180">"Image trop grande. Compression en cours..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Format <xliff:g id="NAME">%1$s</xliff:g> non compatible."</string>
-    <string name="select_different_media" msgid="6241623357299382183">"Sélectionnez une autre <xliff:g id="NAME">%1$s</xliff:g>."</string>
+    <string name="select_different_media" msgid="6241623357299382183">"Sélectionnez autre <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Taille maximale atteinte pour ce message."</string>
     <string name="message_too_big_for_video" msgid="2639367545165352543">"Impossible de joindre une vidéo. Le message est trop volumineux."</string>
     <string name="failed_to_add_media" msgid="7207464170168708485">"Vous ne pouvez pas ajouter l\'élément <xliff:g id="NAME">%1$s</xliff:g> à votre message."</string>
@@ -274,7 +274,7 @@
     <string name="message_download_failed_title" msgid="5722226064394767921">"Message non téléchargé"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"Le message n\'a pas été envoyé."</string>
     <string name="message_failed_body" msgid="3421296112073915245">"Appuyez pour relire le message, puis réessayez."</string>
-    <string name="download_later" msgid="5531365714424360903">"Impossible de procéder au téléchargement pour le moment. Veuillez réessayer ultérieurement."</string>
+    <string name="download_later" msgid="5531365714424360903">"Impossible de télécharger pour le moment. Veuillez réessayer ultérieurement."</string>
     <string name="select_audio" msgid="3528161449756771832">"Sélectionner un fichier audio"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Enregistrer le fichier"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"Pièce jointe enregistrée."</string>
@@ -316,7 +316,7 @@
     <string name="storage_limits_message" msgid="2010501485394745696">"Limiter le nombre de messages enregistrés par conversation ?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"Définir les limites"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Aucune limite"</string>
-    <string name="too_many_unsent_mms" msgid="4436493698891224126">"Impossible d\'envoyer le message maintenant. Trop grand nombre de messages multimédias non envoyés."</string>
+    <string name="too_many_unsent_mms" msgid="4436493698891224126">"Impossible d\'envoyer le message maintenant. Trop grand nombre de MMS non envoyés."</string>
     <string name="sending_message" msgid="2054406576361149715">"ENVOI EN COURS..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Trop de destinataires"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Ajout de destinataires..."</string>
