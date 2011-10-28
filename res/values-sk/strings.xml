@@ -123,7 +123,7 @@
     <string name="layout_top" msgid="6811021650398972346">"Rozloženie (hore)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Rozloženie (dole)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Napíšte správu alebo pole ponechajte prázdne"</string>
-    <string name="duration_not_a_number" msgid="2856636898040421237">"Hodnota pre trvanie musí byť číslo."</string>
+    <string name="duration_not_a_number" msgid="2856636898040421237">"Hodnota trvania musí byť číslo."</string>
     <string name="duration_zero" msgid="3549377790195185977">"Doba trvania musí byť väčšia než 0 s."</string>
     <string name="secs" msgid="6886003523109967972">"s"</string>
   <string-array name="select_dialog_items">
@@ -153,7 +153,7 @@
     <string name="pref_notification_settings_title" msgid="6420782563630369776">"Upozornenia"</string>
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Multimediálne správy (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Textové správy (SMS)"</string>
-    <string name="pref_sms_storage_title" msgid="9001233319190616445">"Ukladací priestor"</string>
+    <string name="pref_sms_storage_title" msgid="9001233319190616445">"Úložisko"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Umožňuje spravovať správy uložené na karte SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Pri každej odoslanej správe požadovať potvrdenie o doručení"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Pri každej odoslanej správe požadovať potvrdenie o prečítaní"</string>

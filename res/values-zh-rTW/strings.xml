@@ -84,13 +84,13 @@
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"輸入訊息"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"開啟鍵盤即可輸入訊息"</string>
     <string name="compressing" msgid="1961357529661045180">"相片太大，壓縮中..."</string>
-    <string name="unsupported_media_format" msgid="1350489690977363764">"不支援的 <xliff:g id="NAME">%1$s</xliff:g> 格式。"</string>
-    <string name="select_different_media" msgid="6241623357299382183">"請選擇其他 <xliff:g id="NAME">%1$s</xliff:g>。"</string>
+    <string name="unsupported_media_format" msgid="1350489690977363764">"不支援的<xliff:g id="NAME">%1$s</xliff:g>格式。"</string>
+    <string name="select_different_media" msgid="6241623357299382183">"請選擇其他<xliff:g id="NAME">%1$s</xliff:g>。"</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"已達最大簡訊長度。"</string>
     <string name="message_too_big_for_video" msgid="2639367545165352543">"訊息內容過多，無法附加影片。"</string>
-    <string name="failed_to_add_media" msgid="7207464170168708485">"您無法在簡訊中加入 <xliff:g id="NAME">%1$s</xliff:g>。"</string>
+    <string name="failed_to_add_media" msgid="7207464170168708485">"您無法在訊息中加入<xliff:g id="NAME">%1$s</xliff:g>。"</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"圖片大小未改變。"</string>
-    <string name="resize_image_error_information" msgid="3783200130776554475">"重新調整這個圖片的大小後仍然超過上限，因此無法傳送。"</string>
+    <string name="resize_image_error_information" msgid="3783200130776554475">"調整這個圖片的大小後仍然超過上限，因此無法傳送。"</string>
     <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
     <string name="discard_message" msgid="6078326880056142781">"捨棄"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"由於收件者地址無效，您的訊息將被捨棄。"</string>
@@ -106,10 +106,10 @@
     <string name="converting_to_picture_message" msgid="2980023239017588627">"正在轉換成多媒體訊息…"</string>
     <string name="converting_to_text_message" msgid="6374423235426015422">"正在轉換成簡訊…"</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"無法新增更多投影片。"</string>
-    <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"無法在一張投影片中同時加入影片和相片。"</string>
+    <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"無法在一張投影片中同時加入影片和圖片。"</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"無法儲存訊息。"</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"簡訊已存成草稿。"</string>
-    <string name="too_many_recipients" msgid="7003415094007176931">"訊息的收件者過多 (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g> 位)，上限為 <xliff:g id="MAXLIMIT">%2$s</xliff:g> 位收件者。"</string>
+    <string name="too_many_recipients" msgid="7003415094007176931">"訊息的收件者過多 (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g> 位)，最多只能有 <xliff:g id="MAXLIMIT">%2$s</xliff:g> 位收件者。"</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"附件上限為 <xliff:g id="MAXLIMIT">%1$s</xliff:g> 個附件，系統僅會加入前 <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> 個項目。"</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"正在加入附件"</string>
     <string name="adding_attachments" msgid="5871373105122355632">"正在將這個項目加入投影播放，請稍候。"</string>
@@ -124,7 +124,7 @@
     <string name="layout_bottom" msgid="5822765871095491843">"投影片版面 (底部)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"輸入訊息或留白"</string>
     <string name="duration_not_a_number" msgid="2856636898040421237">"持續時間必須是數字。"</string>
-    <string name="duration_zero" msgid="3549377790195185977">"持續時間必須大於零秒。"</string>
+    <string name="duration_zero" msgid="3549377790195185977">"持續時間必須大於 0 秒。"</string>
     <string name="secs" msgid="6886003523109967972">"秒"</string>
   <string-array name="select_dialog_items">
     <item msgid="4840183714016984112">"1 秒"</item>
@@ -258,13 +258,13 @@
     <string name="sms_full_title" msgid="6041287140125011854">"簡訊記憶體已滿"</string>
     <string name="sms_full_body" msgid="4885861852397651868">"記憶體已滿，無法接收外來訊息。請刪除部分舊訊息。"</string>
     <string name="sms_rejected_title" msgid="8548394922491529811">"簡訊遭到拒絕"</string>
-    <string name="sms_rejected_body" msgid="7813671133968158562">"由於不明原因，無法接收外來訊息。"</string>
+    <string name="sms_rejected_body" msgid="7813671133968158562">"無法接收外來訊息，原因不明。"</string>
     <string name="type_audio" msgid="3842064092332309756">"音訊"</string>
     <string name="type_picture" msgid="4091928975383609443">"圖片"</string>
     <string name="type_video" msgid="8521556159545168441">"影片"</string>
     <string name="confirm" msgid="3155110885840591914">"確認"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"讀取回條將要送出。"</string>
-    <string name="message_queued" msgid="7975945623873194737">"目前無法傳送訊息，系統將於服務恢復後立即傳送訊息。"</string>
+    <string name="message_queued" msgid="7975945623873194737">"目前無法傳送訊息，待系統服務恢復正常後便立即傳送訊息。"</string>
     <string name="fdn_check_failure" msgid="7880740763778173551">"您只能向您的固定撥號號碼傳送訊息。"</string>
     <string name="no_subject" msgid="4168963736134552285">"(沒有主旨)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"未知的寄件者"</string>

@@ -192,7 +192,7 @@
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"전체 대화목록이 삭제됩니다."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"대화목록이 모두 삭제됩니다."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"메시지가 삭제됩니다."</string>
-    <string name="confirm_delete_locked_message" msgid="7203411948190100955">"잠겨 있는 메시지를 삭제하시겠습니까?"</string>
+    <string name="confirm_delete_locked_message" msgid="7203411948190100955">"이 잠긴 메시지를 삭제하시겠습니까?"</string>
     <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"SIM 카드에 있는 모든 메시지가 삭제됩니다."</string>
     <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"SIM 카드에서 이 메시지를 삭제합니다."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"잠긴 메시지 삭제"</string>
@@ -256,7 +256,7 @@
     <string name="sim_full_title" msgid="1809829051697702810">"SIM 카드 용량이 가득 참"</string>
     <string name="sim_full_body" msgid="6241664980790322925">"저장 공간을 늘리려면 메시지를 일부 삭제하세요."</string>
     <string name="sms_full_title" msgid="6041287140125011854">"문자 메시지 메모리가 가득 참"</string>
-    <string name="sms_full_body" msgid="4885861852397651868">"메모리가 가득 차서 수신 메시지가 거부되었습니다. 이전 메시지를 일부 삭제하세요."</string>
+    <string name="sms_full_body" msgid="4885861852397651868">"메모리가 가득 차서 수신 메시지가 거부되었습니다. 이전 메시지를 삭제하세요."</string>
     <string name="sms_rejected_title" msgid="8548394922491529811">"문자 메시지가 거부됨"</string>
     <string name="sms_rejected_body" msgid="7813671133968158562">"알 수 없는 이유로 인해 수신 메시지가 거부되었습니다."</string>
     <string name="type_audio" msgid="3842064092332309756">"오디오"</string>

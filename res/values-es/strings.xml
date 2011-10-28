@@ -99,14 +99,14 @@
     <string name="service_not_activated" msgid="9178218144019626176">"No se ha activado el servicio en la red."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"El mensaje ha caducado o no está disponible."</string>
     <string name="service_network_problem" msgid="4583269174855943025">"No se ha podido realizar el envío debido a una incidencia relacionada con la red."</string>
-    <string name="invalid_recipient_message" msgid="6465343105010999068">"Corrige la información de destinatarios para que se pueda enviar el mensaje."</string>
-    <string name="cannot_send_message" msgid="3414307479833622644">"No se puede enviar el mensaje."</string>
+    <string name="invalid_recipient_message" msgid="6465343105010999068">"Corrige la dirección de los destinatarios para que se pueda enviar el mensaje."</string>
+    <string name="cannot_send_message" msgid="3414307479833622644">"No se puede enviar el mensaje"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Los destinatarios del mensaje no son válidos."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"No se puede reenviar el objeto DRM incluido en el mensaje."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"Convirtiendo en mensaje multimedia..."</string>
     <string name="converting_to_text_message" msgid="6374423235426015422">"Convirtiendo en mensaje de texto..."</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"No puedes añadir más diapositivas."</string>
-    <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"No puedes añadir vídeos a una diapositiva que ya tenga imágenes ni viceversa."</string>
+    <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"No puedes añadir vídeos a una diapositiva que ya tenga imágenes o viceversa."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"No se puede guardar el mensaje."</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"Mensaje guardado como borrador"</string>
     <string name="too_many_recipients" msgid="7003415094007176931">"El mensaje tiene demasiados destinatarios (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). No se admiten más de <xliff:g id="MAXLIMIT">%2$s</xliff:g> destinatarios."</string>
@@ -150,7 +150,7 @@
     <string name="try_to_send" msgid="1996751738286080976">"Intentar envío"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Ajustes"</string>
     <string name="restore_default" msgid="7165341506551155053">"Restaurar configuración predeterminada"</string>
-    <string name="pref_notification_settings_title" msgid="6420782563630369776">"Notificationes"</string>
+    <string name="pref_notification_settings_title" msgid="6420782563630369776">"Notificaciones"</string>
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Mensajes multimedia (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Mensajes de texto (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Almacenamiento"</string>
@@ -192,7 +192,7 @@
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Se eliminará toda la cadena."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Se eliminarán todas las conversaciones."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Se eliminará el mensaje."</string>
-    <string name="confirm_delete_locked_message" msgid="7203411948190100955">"¿Estás seguro de que quieres eliminar este mensaje bloqueado?"</string>
+    <string name="confirm_delete_locked_message" msgid="7203411948190100955">"¿Seguro que quieres eliminar este mensaje bloqueado?"</string>
     <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"Se eliminarán todos los mensajes de la tarjeta SIM."</string>
     <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"Se eliminará el mensaje de la tarjeta SIM."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Eliminar mensajes bloqueados"</string>

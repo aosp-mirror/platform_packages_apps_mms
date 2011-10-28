@@ -84,7 +84,7 @@
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Digitar mensagem"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Abra o teclado para digitar a mensagem"</string>
     <string name="compressing" msgid="1961357529661045180">"Imagem muito grande. Comprimindo..."</string>
-    <string name="unsupported_media_format" msgid="1350489690977363764">"Formato de <xliff:g id="NAME">%1$s</xliff:g> não suportado"</string>
+    <string name="unsupported_media_format" msgid="1350489690977363764">"Formato de <xliff:g id="NAME">%1$s</xliff:g> não suportado."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Selecionar um <xliff:g id="NAME">%1$s</xliff:g> diferente."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Limite de tamanho da mensagem atingido."</string>
     <string name="message_too_big_for_video" msgid="2639367545165352543">"A mensagem é muito grande para anexar um vídeo."</string>
@@ -277,7 +277,7 @@
     <string name="download_later" msgid="5531365714424360903">"Não é possível fazer download no momento. Tente novamente mais tarde."</string>
     <string name="select_audio" msgid="3528161449756771832">"Selecionar áudio"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Salvar anexo"</string>
-    <string name="copy_to_sdcard_success" msgid="7948625615155992014">"Anexo salvo"</string>
+    <string name="copy_to_sdcard_success" msgid="7948625615155992014">"Anexo salvo."</string>
     <string name="copy_to_sdcard_fail" msgid="4944606369631916737">"Não foi possível salvar anexo."</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Salvar como toque"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Toque salvo"</string>

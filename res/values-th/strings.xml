@@ -165,8 +165,8 @@
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"รายงานการอ่าน"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"รายงานการส่ง"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"ลบข้อความเก่า"</string>
-    <string name="pref_title_sms_delete" msgid="6890538316799296878">"จำนวนสูงสุดของข้อความตัวอักษร"</string>
-    <string name="pref_title_mms_delete" msgid="7265878070847351664">"จำนวนสูงสุดของข้อความมัลติมีเดีย"</string>
+    <string name="pref_title_sms_delete" msgid="6890538316799296878">"ข้อความตัวอักษรสูงสุด"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"ข้อความมัลติมีเดียสูงสุด"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"การแจ้งเตือน"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"แสดงการแจ้งเตือนข้อความบนแถบสถานะ"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"สั่น"</string>
@@ -176,7 +176,7 @@
   <string-array name="prefEntries_vibrateWhen">
     <item msgid="2520871831815631409">"ทุกครั้ง"</item>
     <item msgid="6069709696037750627">"เฉพาะเมื่อปิดเสียง"</item>
-    <item msgid="7486145357487111435">"ไม่เคย"</item>
+    <item msgid="7486145357487111435">"ไม่ต้องเลย"</item>
   </string-array>
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"สั่น"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"เรียกอัตโนมัติ"</string>

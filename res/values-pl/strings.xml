@@ -149,20 +149,20 @@
     <string name="edit" msgid="5912118407791492696">"Edytuj"</string>
     <string name="try_to_send" msgid="1996751738286080976">"Spróbuj wysłać"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Ustawienia"</string>
-    <string name="restore_default" msgid="7165341506551155053">"Przywróć ustawienia domyślne"</string>
+    <string name="restore_default" msgid="7165341506551155053">"Przywróć domyślne"</string>
     <string name="pref_notification_settings_title" msgid="6420782563630369776">"Powiadomienia"</string>
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Wiadomości MMS"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Wiadomości SMS"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Pamięć"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Zarządzanie wiadomościami zapisanymi na karcie SIM"</string>
-    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Żądaj potwierdzenia dostarczenia każdej wysłanej wiadomości"</string>
-    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Żądanie raportu przeczytania każdej wysłanej wiadomości"</string>
-    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Żądaj potwierdzenia dostarczenia każdej wysłanej wiadomości"</string>
-    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Usuń stare wiadomości po osiągnięciu limitów"</string>
+    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Potwierdzaj dostarczenie każdej wysłanej wiadomości"</string>
+    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Potwierdzaj, że wysłana wiadomość została przeczytana"</string>
+    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Potwierdzaj dostarczenie każdej wysłanej wiadomości"</string>
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Usuń stare wiadomości po osiągnięciu limitu"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> wiadomości w wątku"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Wiadomości na karcie SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Raporty dostarczenia"</string>
-    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Raporty odczytu"</string>
+    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Raporty przeczytania"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Raporty dostarczenia"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Usuń stare wiadomości"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limit wiadomości tekstowych"</string>
@@ -181,7 +181,7 @@
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Wibracje"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Autoodbieranie"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Odbierz wiadomości automatycznie"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Autoodbieranie w roamingu"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"W roamingu"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Odbierz wiadomości automatycznie w roamingu"</string>
     <string name="confirm_dialog_title" msgid="2187213750475782725">"Usunąć?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Czy usunąć zablokowaną wiadomość?"</string>
@@ -226,7 +226,7 @@
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopiuj do pamięci tabletu"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Kopiuj do pamięci telefonu"</string>
     <string name="sim_delete" msgid="610790510655316922">"Usuń"</string>
-    <string name="sim_manage_messages_title" msgid="3989147182100584333">"Wiadomości tekstowe na karcie SIM"</string>
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"Wiadomości na karcie SIM"</string>
     <string name="sim_view" msgid="1997173541766393706">"Wyświetl"</string>
     <string name="sim_empty" msgid="2356766833071636297">"Brak wiadomości na karcie SIM"</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"Raport"</string>
@@ -241,7 +241,7 @@
     <string name="status_label" msgid="7283375460919181660">"Stan: "</string>
     <string name="attach_image" msgid="6439985727687107742">"Zdjęcia"</string>
     <string name="attach_take_photo" msgid="4280601313184373837">"Zrób zdjęcie"</string>
-    <string name="attach_video" msgid="4264272693501538294">"Filmy wideo"</string>
+    <string name="attach_video" msgid="4264272693501538294">"Filmy"</string>
     <string name="attach_record_video" msgid="3099814114743078615">"Nagraj film wideo"</string>
     <string name="attach_sound" msgid="3149325985970669609">"Audio"</string>
     <string name="attach_record_sound" msgid="6011431304469858929">"Nagraj audio"</string>
@@ -304,9 +304,9 @@
     <string name="search_empty" msgid="2109551478056039278">"Brak wyników"</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> wynik dla zapytania „<xliff:g id="SEARCH">%2$s</xliff:g>”"</item>
-    <item quantity="other" msgid="6196382287749539209">"Liczba wyników dla zapytania „<xliff:g id="SEARCH">%2$s</xliff:g>”: <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
+    <item quantity="other" msgid="6196382287749539209">"Wyniki dla „<xliff:g id="SEARCH">%2$s</xliff:g>”: <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
   </plurals>
-    <string name="search_history" msgid="4127805495662693154">"Liczba wyników dla zapytania „<xliff:g id="SEARCH">%2$s</xliff:g>”: <xliff:g id="COUNT">%1$s</xliff:g>"</string>
+    <string name="search_history" msgid="4127805495662693154">"Wyniki dla „<xliff:g id="SEARCH">%2$s</xliff:g>”: <xliff:g id="COUNT">%1$s</xliff:g>"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Wyczyść"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"Historia wyszukiwania zostanie wyczyszczona."</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Wyczyść historię wyszukiwania"</string>

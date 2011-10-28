@@ -26,7 +26,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"E-mail küldése a következőnek: <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Levélírás"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Beállítások"</string>
-    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"<xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> hozzáadása a személyekhez"</string>
+    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"<xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> hozzáadása a névjegyekhez"</string>
     <string name="menu_call" msgid="5877123227307074690">"Hívás"</string>
     <string name="menu_search" msgid="2289469305728821360">"Keresés"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Összes beszélgetés törlése"</string>
@@ -44,8 +44,8 @@
     <string name="expire_on" msgid="4436268382742593921">"Lejár: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"kB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Kézbesítetlen üzenet"</string>
-    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Az üzenet elküldése nem sikerült."\n"Utolsó kísérlet: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
-    <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Az üzenet elküldése nem sikerült."</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Nem sikerült elküldeni az üzenetet."\n"Utolsó kísérlet: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Nem sikerült elküldeni az üzenetet."</string>
     <string name="delete_thread" msgid="757258847736632791">"Szál törlése"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Továbbítás"</string>
     <string name="download" msgid="4488877642230207631">"Letöltés"</string>
@@ -140,7 +140,7 @@
     <item msgid="7786079681602275449">"Egyéb"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"Névjegy megtekintése"</string>
-    <string name="menu_add_to_contacts" msgid="1258127580972228970">"Hozzáadás személyekhez"</string>
+    <string name="menu_add_to_contacts" msgid="1258127580972228970">"Hozzáadás a névjegyekhez"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"A küldő címe elrejtve"</string>
     <string name="yes" msgid="3246158147503160811">"OK"</string>
     <string name="no" msgid="4289742508556913860">"Mégse"</string>
@@ -268,7 +268,7 @@
     <string name="fdn_check_failure" msgid="7880740763778173551">"Csak a fix hívószámokra tud üzeneteket küldeni."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Nincs tárgy)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Ismeretlen feladó"</string>
-    <string name="dl_failure_notification" msgid="8097699679464396537">"Nem sikerült <xliff:g id="FROM">%2$s</xliff:g> feladó <xliff:g id="SUBJECT">%1$s</xliff:g> levelének a letöltése."</string>
+    <string name="dl_failure_notification" msgid="8097699679464396537">"Nem sikerült letölteni <xliff:g id="FROM">%2$s</xliff:g> \"<xliff:g id="SUBJECT">%1$s</xliff:g>\" tárgyú levelét."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Megerősítés"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Sok multimédiás üzenetet készül elküldeni. Folytatja?"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"Az üzenet nincs letöltve"</string>
@@ -278,10 +278,10 @@
     <string name="select_audio" msgid="3528161449756771832">"Hang kiválasztása"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Melléklet mentése"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"A melléklet elmentve."</string>
-    <string name="copy_to_sdcard_fail" msgid="4944606369631916737">"A melléklet mentése nem sikerült."</string>
+    <string name="copy_to_sdcard_fail" msgid="4944606369631916737">"Nem sikerült menteni a mellékletet."</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Mentés csengőhangként"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"A csengőhang mentve."</string>
-    <string name="saved_ringtone_fail" msgid="4778500070919251116">"A csengőhang mentése nem sikerült."</string>
+    <string name="saved_ringtone_fail" msgid="4778500070919251116">"Nem sikerült menteni a csengőhangot."</string>
     <string name="menu_insert_smiley" msgid="4964504393061025071">"Hangulatjel beszúrása"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Művelet kiválasztása"</string>
     <string name="slide_number" msgid="1923958526266726635">"<xliff:g id="NUMBER">%s</xliff:g>. dia"</string>
