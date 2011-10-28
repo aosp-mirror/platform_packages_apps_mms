@@ -26,7 +26,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"Пошаљи поруку е-поште кориснику <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Нова порука"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Подешавања"</string>
-    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"Додавање <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> у Особе"</string>
+    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"Додавање <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> у Људе"</string>
     <string name="menu_call" msgid="5877123227307074690">"Позови"</string>
     <string name="menu_search" msgid="2289469305728821360">"Претражи"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Избриши све нити"</string>
@@ -88,7 +88,7 @@
     <string name="select_different_media" msgid="6241623357299382183">"Изаберите другу  ставку <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Достигнуто је ограничење за величину поруке."</string>
     <string name="message_too_big_for_video" msgid="2639367545165352543">"Није могуће приложити видео јер је порука превелика."</string>
-    <string name="failed_to_add_media" msgid="7207464170168708485">"Жао нам је, не можете да додате ову ставку <xliff:g id="NAME">%1$s</xliff:g> у поруку."</string>
+    <string name="failed_to_add_media" msgid="7207464170168708485">"Жао нам је, не можете да додате ставку <xliff:g id="NAME">%1$s</xliff:g> у поруку."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Величина слике није промењена."</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"Ова слика је превелика за слање, чак и када јој се промени величина."</string>
     <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
@@ -140,7 +140,7 @@
     <item msgid="7786079681602275449">"Друго"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"Прикажи контакт"</string>
-    <string name="menu_add_to_contacts" msgid="1258127580972228970">"Додај у Особе"</string>
+    <string name="menu_add_to_contacts" msgid="1258127580972228970">"Додај у Људе"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"Скривена адреса пошиљаоца"</string>
     <string name="yes" msgid="3246158147503160811">"Потврди"</string>
     <string name="no" msgid="4289742508556913860">"Откажи"</string>

@@ -88,9 +88,9 @@
     <string name="select_different_media" msgid="6241623357299382183">"Velg et annet <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Maksimal meldingsstørelse nådd."</string>
     <string name="message_too_big_for_video" msgid="2639367545165352543">"Meldingen er for stor til å legge ved en video."</string>
-    <string name="failed_to_add_media" msgid="7207464170168708485">"Du kan ikke legge til dette <xliff:g id="NAME">%1$s</xliff:g> i meldingen din."</string>
+    <string name="failed_to_add_media" msgid="7207464170168708485">"Du kan ikke legge til <xliff:g id="NAME">%1$s</xliff:g> i meldingen din."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Bildet ble ikke skalert."</string>
-    <string name="resize_image_error_information" msgid="3783200130776554475">"Dette bildet er for stort til å sende, selv etter at størrelsen er endret."</string>
+    <string name="resize_image_error_information" msgid="3783200130776554475">"Dette bildet er for stort til å sendes, selv etter at størrelsen er endret."</string>
     <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
     <string name="discard_message" msgid="6078326880056142781">"Forkast"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Meldingen vil bli forkastet, siden den ikke har noen gyldige mottagere."</string>
@@ -99,8 +99,8 @@
     <string name="service_not_activated" msgid="9178218144019626176">"Tjenesten er ikke aktivert på nettverket."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Meldingen er utløpt eller ikke tilgjengelig."</string>
     <string name="service_network_problem" msgid="4583269174855943025">"Kunne ikke sende på grunn av nettverksproblem."</string>
-    <string name="invalid_recipient_message" msgid="6465343105010999068">"Korriger mottaker(e), ellers kan ikke vedkommende motta meldingen."</string>
-    <string name="cannot_send_message" msgid="3414307479833622644">"Kan ikke sende melding"</string>
+    <string name="invalid_recipient_message" msgid="6465343105010999068">"Korriger mottaker(e), ellers kommer ikke meldingen frem."</string>
+    <string name="cannot_send_message" msgid="3414307479833622644">"Kan ikke sende meldingen"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Meldingen har ingen gyldige mottakere."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"DRM-objektet i meldingen kan ikke videresendes."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"Konverterer til MMS…"</string>
@@ -150,7 +150,7 @@
     <string name="try_to_send" msgid="1996751738286080976">"Prøv å sende"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Innstillinger"</string>
     <string name="restore_default" msgid="7165341506551155053">"Gjennopprett standardinnstillinger"</string>
-    <string name="pref_notification_settings_title" msgid="6420782563630369776">"Varslinger"</string>
+    <string name="pref_notification_settings_title" msgid="6420782563630369776">"Varsler"</string>
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Multimediemeldinger (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Tekstmeldinger (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Lagring"</string>
@@ -273,15 +273,15 @@
     <string name="confirm_rate_limit" msgid="234228299751243067">"Et stort antall multimediemeldinger blir sendt. Er dette OK?"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"Melding ikke lastet ned"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"Melding ikke sendt"</string>
-    <string name="message_failed_body" msgid="3421296112073915245">"Trykk for å lese gjennom meldingen og prøv på nytt."</string>
+    <string name="message_failed_body" msgid="3421296112073915245">"Trykk for å lese gjennom meldingen og prøve på nytt."</string>
     <string name="download_later" msgid="5531365714424360903">"Kan ikke laste ned akkurat nå. Prøv på nytt senere."</string>
     <string name="select_audio" msgid="3528161449756771832">"Velg lyd"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Lagre vedlegg"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"Vedlegg lagret."</string>
-    <string name="copy_to_sdcard_fail" msgid="4944606369631916737">"Kunne ikke lagre vedlegg."</string>
+    <string name="copy_to_sdcard_fail" msgid="4944606369631916737">"Kunne ikke lagre vedlegget."</string>
     <string name="save_ringtone" msgid="2310157075045201051">"Lagre som ringetone"</string>
-    <string name="saved_ringtone" msgid="3847363932276708626">"Ringetone lagret."</string>
-    <string name="saved_ringtone_fail" msgid="4778500070919251116">"Kunne ikke lagre ringetone."</string>
+    <string name="saved_ringtone" msgid="3847363932276708626">"Ringetonen er lagret."</string>
+    <string name="saved_ringtone_fail" msgid="4778500070919251116">"Kunne ikke lagre ringetonen."</string>
     <string name="menu_insert_smiley" msgid="4964504393061025071">"Sett inn smilefjes"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Velg handling"</string>
     <string name="slide_number" msgid="1923958526266726635">"Lysbilde <xliff:g id="NUMBER">%s</xliff:g>"</string>
