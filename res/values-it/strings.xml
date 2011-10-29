@@ -151,13 +151,13 @@
     <string name="preferences_title" msgid="6650089610332670157">"Impostazioni"</string>
     <string name="restore_default" msgid="7165341506551155053">"Ripristina impostazioni predefinite"</string>
     <string name="pref_notification_settings_title" msgid="4860726154770053004">"Impostazioni notifiche"</string>
-    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Impostazioni messaggi multimediali (MMS)"</string>
-    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Impostazioni messaggi di testo (SMS)"</string>
+    <string name="pref_mms_settings_title" msgid="2573616208360684392">"Impostazioni MMS"</string>
+    <string name="pref_sms_settings_title" msgid="9088516111717417514">"Impostazioni SMS"</string>
     <string name="pref_sms_storage_title" msgid="2531726671883516470">"Impostazioni di archiviazione"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Gestisci i messaggi memorizzati nella SIM"</string>
-    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Richiedi una conferma di consegna per ogni messaggio inviato"</string>
-    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Richiedi una conferma di lettura per ogni messaggio inviato"</string>
-    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Richiedi una conferma di consegna per ogni messaggio inviato"</string>
+    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Richiedi conferma di consegna per ogni messaggio inviato"</string>
+    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Richiedi conferma di lettura per ogni messaggio inviato"</string>
+    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Richiedi conferma di consegna per ogni messaggio inviato"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Elimina vecchi messaggi al raggiungimento dei limiti"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> messaggi per conversazione"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Gestisci messaggi della SIM"</string>
@@ -165,8 +165,8 @@
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Conferme di lettura"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Rapporti consegna"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Elimina vecchi messaggi"</string>
-    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limite messaggio di testo"</string>
-    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite mess. multimediale"</string>
+    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limite SMS"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite MMS"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notifiche"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Visualizza notifiche messaggi nella barra di stato"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibrazione"</string>
