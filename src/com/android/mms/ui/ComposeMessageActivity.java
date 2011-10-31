@@ -1008,11 +1008,16 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void editMmsMessageItem(MessageItem msgItem) {
+        // Load the selected message in as the working message.
+        WorkingMessage newWorkingMessage = WorkingMessage.load(this, msgItem.mMessageUri);
+        if (newWorkingMessage == null) {
+            return;
+        }
+
         // Discard the current message in progress.
         mWorkingMessage.discard();
 
-        // Load the selected message in as the working message.
-        mWorkingMessage = WorkingMessage.load(this, msgItem.mMessageUri);
+        mWorkingMessage = newWorkingMessage;
         mWorkingMessage.setConversation(mConversation);
 
         drawTopPanel(false);
