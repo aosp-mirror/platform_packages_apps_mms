@@ -44,7 +44,7 @@
     <string name="expire_on" msgid="4436268382742593921">"تاریخ انقضا: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"کیلوبایت"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"پیام تحویل داده نشده"</string>
-    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"این پیام ارسال نشد."\n"آخرین تلاش انجام شده:<xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"این پیام ارسال نشد."\n"تلاش انجام شده:<xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"این پیام ارسال نشد."</string>
     <string name="delete_thread" msgid="757258847736632791">"حذف رشته"</string>
     <string name="menu_forward" msgid="9026858380050046756">"هدایت"</string>
@@ -85,7 +85,7 @@
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"برای تایپ پیام صفحه کلید را باز کنید"</string>
     <string name="compressing" msgid="1961357529661045180">"تصویر خیلی بزرگ است. در حال فشرده سازی..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"قالب <xliff:g id="NAME">%1$s</xliff:g> پشتیبانی نشده."</string>
-    <string name="select_different_media" msgid="6241623357299382183">"یک <xliff:g id="NAME">%1$s</xliff:g> را انتخاب کنید."</string>
+    <string name="select_different_media" msgid="6241623357299382183">"یک <xliff:g id="NAME">%1$s</xliff:g> متفاوت را انتخاب کنید."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"از حداکثر اندازه پیام بیشتر شد."</string>
     <string name="message_too_big_for_video" msgid="2639367545165352543">"پیام خیلی بزرگ است و به ویدیو پیوست نمی شود."</string>
     <string name="failed_to_add_media" msgid="7207464170168708485">"نمی‌توانید این <xliff:g id="NAME">%1$s</xliff:g> را به پیام خود اضافه کنید."</string>
@@ -270,13 +270,13 @@
     <string name="fdn_check_failure" msgid="7880740763778173551">"فقط می توانید به شماره های شماره گیری ثابت خود پیام ارسال کنید."</string>
     <string name="no_subject" msgid="4168963736134552285">"(بدون موضوع)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"فرستنده ناشناس"</string>
-    <string name="dl_failure_notification" msgid="8097699679464396537">"نمی‌توانید پیام <xliff:g id="SUBJECT">%1$s</xliff:g> را از <xliff:g id="FROM">%2$s</xliff:g> دانلود کنید."</string>
+    <string name="dl_failure_notification" msgid="8097699679464396537">"پیام <xliff:g id="SUBJECT">%1$s</xliff:g> از <xliff:g id="FROM">%2$s</xliff:g> دانلود نشد."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"تأیید"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"تعداد زیادی از پیام های چند رسانه ای در حال ارسال هستند. این را تأیید می کنید؟"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"پیام دانلود نشد"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"پیام ارسال نشد"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"برای مرور پیام لمس کنید و دوباره سعی کنید."</string>
-    <string name="download_later" msgid="5531365714424360903">"در حال حاضر نمی‌توانید دانلود کنید. دوباره سعی کنید."</string>
+    <string name="download_later" msgid="5531365714424360903">"در حال حاضر نمی‌توانید دانلود کنید. در فرصتی دیگر دوباره سعی کنید."</string>
     <string name="select_audio" msgid="3528161449756771832">"انتخاب صدا"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"ذخیره پیوست"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"پیوست ذخیره شد."</string>
