@@ -30,6 +30,7 @@ import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.util.DraftCache;
+import com.google.android.mms.util.PduCache;
 
 /**
  * An interface for finding information about conversations and/or creating new ones.
@@ -644,6 +645,7 @@ public class Conversation {
             long threadId) {
         Uri uri = ContentUris.withAppendedId(Threads.CONTENT_URI, threadId);
         String selection = deleteAll ? null : "locked=0";
+        PduCache.getInstance().purge(uri);
         handler.startDelete(token, null, uri, selection, null);
     }
 
@@ -656,6 +658,7 @@ public class Conversation {
      */
     public static void startDeleteAll(AsyncQueryHandler handler, int token, boolean deleteAll) {
         String selection = deleteAll ? null : "locked=0";
+        PduCache.getInstance().purge(Threads.CONTENT_URI);
         handler.startDelete(token, null, Threads.CONTENT_URI, selection, null);
     }
 

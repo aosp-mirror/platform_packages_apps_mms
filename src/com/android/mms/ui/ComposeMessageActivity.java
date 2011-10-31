@@ -141,6 +141,7 @@ import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendReq;
+import com.google.android.mms.util.PduCache;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.transaction.MessagingNotification;
@@ -516,6 +517,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         public void onClick(DialogInterface dialog, int whichButton) {
+            PduCache.getInstance().purge(mDeleteUri);
             mBackgroundQueryHandler.startDelete(DELETE_MESSAGE_TOKEN,
                     null, mDeleteUri, mDeleteLocked ? null : "locked=0", null);
             dialog.dismiss();
@@ -1065,7 +1067,7 @@ public class ComposeMessageActivity extends Activity
                 // Copy the parts of the message here.
                 uri = persister.persist(sendReq, Mms.Draft.CONTENT_URI);
             } catch (MmsException e) {
-                Log.e(TAG, "Failed to copy message: " + msgItem.mMessageUri, e);
+                Log.e(TAG, "Failed to copy message: " + msgItem.mMessageUri);
                 Toast.makeText(ComposeMessageActivity.this,
                         R.string.cannot_save_message, Toast.LENGTH_SHORT).show();
                 return;
@@ -1194,8 +1196,13 @@ public class ComposeMessageActivity extends Activity
      * @param msgId
      */
     private boolean haveSomethingToCopyToSDCard(long msgId) {
-        PduBody body = PduBodyCache.getPduBody(this,
-                ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
+        PduBody body = null;
+        try {
+            body = SlideshowModel.getPduBody(this,
+                        ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
+        } catch (MmsException e) {
+            Log.e(TAG, "haveSomethingToCopyToSDCard can't load pdu body: " + msgId);
+        }
         if (body == null) {
             return false;
         }
@@ -1230,35 +1237,18 @@ public class ComposeMessageActivity extends Activity
     }
 
     /**
-     * Simple cache to prevent having to load the same PduBody again and again for the same uri.
-     */
-    private static class PduBodyCache {
-        private static PduBody mLastPduBody;
-        private static Uri mLastUri;
-
-        static public PduBody getPduBody(Context context, Uri contentUri) {
-            if (contentUri.equals(mLastUri)) {
-                return mLastPduBody;
-            }
-            try {
-                mLastPduBody = SlideshowModel.getPduBody(context, contentUri);
-                mLastUri = contentUri;
-             } catch (MmsException e) {
-                 Log.e(TAG, e.getMessage(), e);
-                 return null;
-             }
-             return mLastPduBody;
-        }
-    };
-
-    /**
      * Copies media from an Mms to the DrmProvider
      * @param msgId
      */
     private boolean copyToDrmProvider(long msgId) {
         boolean result = true;
-        PduBody body = PduBodyCache.getPduBody(this,
-                ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
+        PduBody body = null;
+        try {
+            body = SlideshowModel.getPduBody(this,
+                        ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
+        } catch (MmsException e) {
+            Log.e(TAG, "copyToDrmProvider can't load pdu body: " + msgId);
+        }
         if (body == null) {
             return false;
         }
@@ -1313,8 +1303,13 @@ public class ComposeMessageActivity extends Activity
      * @param msgId
      */
     private String getDrmMimeType(long msgId) {
-        PduBody body = PduBodyCache.getPduBody(this,
-                ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
+        PduBody body = null;
+        try {
+            body = SlideshowModel.getPduBody(this,
+                        ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
+        } catch (MmsException e) {
+            Log.e(TAG, "getDrmMimeType can't load pdu body: " + msgId);
+        }
         if (body == null) {
             return null;
         }
@@ -1414,8 +1409,13 @@ public class ComposeMessageActivity extends Activity
      */
     private boolean copyMedia(long msgId) {
         boolean result = true;
-        PduBody body = PduBodyCache.getPduBody(this,
-                ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
+        PduBody body = null;
+        try {
+            body = SlideshowModel.getPduBody(this,
+                        ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
+        } catch (MmsException e) {
+            Log.e(TAG, "copyMedia can't load pdu body: " + msgId);
+        }
         if (body == null) {
             return false;
         }
@@ -1470,7 +1470,7 @@ public class ComposeMessageActivity extends Activity
                                 + Environment.DIRECTORY_DOWNLOADS  + "/";
                 String extension;
                 int index;
-                if ((index = fileName.indexOf(".")) == -1) {
+                if ((index = fileName.lastIndexOf('.')) == -1) {
                     String type = new String(part.getContentType());
                     extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(type);
                 } else {
