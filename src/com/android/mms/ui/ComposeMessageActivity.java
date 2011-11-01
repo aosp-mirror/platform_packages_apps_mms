@@ -2654,7 +2654,7 @@ public class ComposeMessageActivity extends Activity
                 // create a file based uri and pass to addImage(). We want to read the JPEG
                 // data directly from file (using UriImage) instead of decoding it into a Bitmap,
                 // which takes up too much memory and could easily lead to OOM.
-                File file = new File(TempFileProvider.getScrapPath());
+                File file = new File(TempFileProvider.getScrapPath(this));
                 Uri uri = Uri.fromFile(file);
                 addImageAsync(uri, false);
                 break;
@@ -2668,7 +2668,7 @@ public class ComposeMessageActivity extends Activity
             }
 
             case REQUEST_CODE_TAKE_VIDEO:
-                Uri videoUri = TempFileProvider.renameScrapFile(".3gp", null);
+                Uri videoUri = TempFileProvider.renameScrapFile(".3gp", null, this);
                 addVideoAsync(videoUri, false);      // can handle null videoUri
                 break;
 

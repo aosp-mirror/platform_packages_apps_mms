@@ -6,32 +6,14 @@ package com.android.mms;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
-import android.provider.BaseColumns;
-import android.provider.Telephony;
-import android.provider.Telephony.CanonicalAddressesColumns;
-import android.provider.Telephony.Mms;
-import android.provider.Telephony.MmsSms;
-import android.provider.Telephony.Mms.Addr;
-import android.provider.Telephony.Mms.Part;
-import android.provider.Telephony.Mms.Rate;
-import android.text.TextUtils;
 import android.util.Log;
-
-import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.PduHeaders;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import android.provider.Telephony.Threads;
 
 /**
  * The TempFileProvider manages a uri, backed by a file, for passing to the camera app for
@@ -79,7 +61,7 @@ public class TempFileProvider extends ContentProvider {
     }
 
     private ParcelFileDescriptor getTempStoreFd() {
-        String fileName = getScrapPath();
+        String fileName = getScrapPath(getContext());
         ParcelFileDescriptor pfd = null;
 
         try {
@@ -136,12 +118,12 @@ public class TempFileProvider extends ContentProvider {
      * which streams the captured image to the uri. Internally we write the media content
      * to this file. It's named '.temp.jpg' so Gallery won't pick it up.
      */
-    public static String getScrapPath(String fileName) {
-        return MmsApp.getApplication().getExternalCacheDir().getAbsolutePath() + "/" + fileName;
+    public static String getScrapPath(Context context, String fileName) {
+        return context.getExternalCacheDir().getAbsolutePath() + "/" + fileName;
     }
 
-    public static String getScrapPath() {
-        return getScrapPath(".temp.jpg");
+    public static String getScrapPath(Context context) {
+        return getScrapPath(context, ".temp.jpg");
     }
 
     /**
@@ -152,18 +134,18 @@ public class TempFileProvider extends ContentProvider {
      *        such as the slide number. This parameter can be empty or null.
      * @return uri of renamed file. If there's an error renaming, null will be returned
      */
-    public static Uri renameScrapFile(String fileExtension, String uniqueIdentifier) {
-        String filePath = getScrapPath();
+    public static Uri renameScrapFile(String fileExtension, String uniqueIdentifier,
+            Context context) {
+        String filePath = getScrapPath(context);
         // There's only a single scrap file, but there can be several slides. We rename
         // the scrap file to a new scrap file with the slide number as part of the filename.
 
         // Replace the filename ".temp.jpg" with ".temp#.[jpg | 3gp]" where # is the unique
         // identifier. The content of the file may be a picture or a .3gp video.
-        Uri pictureUri = null;
         if (uniqueIdentifier == null) {
             uniqueIdentifier = "";
         }
-        File newTempFile = new File(getScrapPath(".temp" + uniqueIdentifier +
+        File newTempFile = new File(getScrapPath(context, ".temp" + uniqueIdentifier +
                 fileExtension));
         File oldTempFile = new File(filePath);
         // remove any existing file before rename
