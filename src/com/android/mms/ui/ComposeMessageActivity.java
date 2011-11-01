@@ -1024,6 +1024,7 @@ public class ComposeMessageActivity extends Activity
 
         mWorkingMessage = newWorkingMessage;
         mWorkingMessage.setConversation(mConversation);
+        invalidateOptionsMenu();
 
         drawTopPanel(false);
 
@@ -1813,6 +1814,7 @@ public class ComposeMessageActivity extends Activity
 
         // Let the working message know what conversation it belongs to
         mWorkingMessage.setConversation(mConversation);
+        invalidateOptionsMenu();
 
         // Show the recipients editor if we don't have a valid thread. Hide it otherwise.
         if (mConversation.getThreadId() <= 0) {
@@ -1915,6 +1917,7 @@ public class ComposeMessageActivity extends Activity
             if (mConversation.getThreadId() == 0) {
                 mConversation = conversation;
                 mWorkingMessage.setConversation(mConversation);
+                invalidateOptionsMenu();
             }
             mConversation.markAsRead();         // dismiss any notifications for this convo
         } else {
@@ -1966,6 +1969,7 @@ public class ComposeMessageActivity extends Activity
                 loadDraft();
                 mWorkingMessage.setConversation(mConversation);
                 mAttachmentEditor.update(mWorkingMessage);
+                invalidateOptionsMenu();
             }
         }
     }
@@ -2347,6 +2351,8 @@ public class ComposeMessageActivity extends Activity
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu) ;
+
         menu.clear();
 
         if (isRecipientCallable()) {
@@ -2646,6 +2652,7 @@ public class ComposeMessageActivity extends Activity
                         mWorkingMessage.setConversation(mConversation);
                         drawTopPanel(false);
                         updateSendButtonState();
+                        invalidateOptionsMenu();
                     }
                 }
                 break;
@@ -3490,6 +3497,7 @@ public class ComposeMessageActivity extends Activity
 
         mLastRecipientCount = 0;
         mSendingMessage = false;
+        invalidateOptionsMenu();
    }
 
     private void updateSendButtonState() {
