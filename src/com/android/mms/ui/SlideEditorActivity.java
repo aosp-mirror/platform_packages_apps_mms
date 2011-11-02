@@ -584,7 +584,7 @@ public class SlideEditorActivity extends Activity {
                 boolean showError = false;
                 try {
                     pictureUri = TempFileProvider.renameScrapFile(".jpg",
-                            Integer.toString(mPosition));
+                            Integer.toString(mPosition), this);
 
                     if (pictureUri == null) {
                         showError = true;
@@ -671,7 +671,7 @@ public class SlideEditorActivity extends Activity {
             case REQUEST_CODE_TAKE_VIDEO:
                 try {
                     Uri videoUri = TempFileProvider.renameScrapFile(".3gp",
-                            Integer.toString(mPosition));
+                            Integer.toString(mPosition), this);
 
                     mSlideshowEditor.changeVideo(mPosition, videoUri);
                 } catch (MmsException e) {
