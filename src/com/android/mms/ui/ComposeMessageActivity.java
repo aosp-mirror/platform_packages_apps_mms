@@ -3676,6 +3676,8 @@ public class ComposeMessageActivity extends Activity
                     mTextEditor.requestFocus();
 
                     mConversation.blockMarkAsRead(false);
+                    
+                    invalidateOptionsMenu();    // some menu items depend on the adapter's count
                     return;
 
                 case ConversationList.HAVE_LOCKED_MESSAGES_TOKEN:
