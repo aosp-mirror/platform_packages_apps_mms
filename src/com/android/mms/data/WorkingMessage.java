@@ -377,6 +377,7 @@ public class WorkingMessage {
             LogTag.debug("setAttachment type=%d uri %s", type, dataUri);
         }
         int result = OK;
+        SlideshowEditor slideShowEditor = new SlideshowEditor(mActivity, mSlideshow);
 
         // Special case for deleting a slideshow. When ComposeMessageActivity gets told to
         // remove an attachment (search for AttachmentEditor.MSG_REMOVE_ATTACHMENT), it calls
@@ -388,41 +389,24 @@ public class WorkingMessage {
         // see their old slideshow they previously deleted. Here we really delete the slideshow.
         if (type == TEXT && mAttachmentType == SLIDESHOW && mSlideshow != null && dataUri == null
                 && !append) {
-            SlideshowEditor slideShowEditor = new SlideshowEditor(mActivity, mSlideshow);
             slideShowEditor.removeAllSlides();
         }
 
         // Make sure mSlideshow is set up and has a slide.
-        ensureSlideshow();
+        ensureSlideshow();      // mSlideshow can be null before this call, won't be afterwards
+        slideShowEditor.setSlideshow(mSlideshow);
 
-        // Change the attachment and translate the various underlying
-        // exceptions into useful error codes.
-        try {
-            if (append) {
-                appendMedia(type, dataUri);
-            } else {
-                changeMedia(type, dataUri);
-            }
-        } catch (MmsException e) {
-            result = UNKNOWN_ERROR;
-        } catch (UnsupportContentTypeException e) {
-            result = UNSUPPORTED_TYPE;
-        } catch (ExceedMessageSizeException e) {
-            result = MESSAGE_SIZE_EXCEEDED;
-        } catch (ResolutionException e) {
-            result = IMAGE_TOO_LARGE;
-        }
+        // Change the attachment
+        result = append ? appendMedia(type, dataUri, slideShowEditor)
+                : changeMedia(type, dataUri, slideShowEditor);
 
         // If we were successful, update mAttachmentType and notify
         // the listener than there was a change.
         if (result == OK) {
             mAttachmentType = type;
-        } else if (append) {
-            // We added a new slide and what we attempted to insert on the slide failed.
-            // Delete that slide, otherwise we could end up with a bunch of blank slides.
-            SlideshowEditor slideShowEditor = new SlideshowEditor(mActivity, mSlideshow);
-            slideShowEditor.removeSlide(mSlideshow.size() - 1);
         }
+        correctAttachmentState();
+
         mStatusListener.onAttachmentChanged();  // have to call whether succeeded or failed,
                                                 // because a replace that fails, removes the slide
 
@@ -449,7 +433,6 @@ public class WorkingMessage {
             // Set HAS_ATTACHMENT if we need it.
             updateState(HAS_ATTACHMENT, hasAttachment(), true);
         }
-        correctAttachmentState();
         return result;
     }
 
@@ -499,21 +482,23 @@ public class WorkingMessage {
 
     /**
      * Change the message's attachment to the data in the specified Uri.
-     * Used only for single-slide ("attachment mode") messages.
+     * Used only for single-slide ("attachment mode") messages. If the attachment fails to
+     * attach, restore the slide to its original state.
      */
-    private void changeMedia(int type, Uri uri) throws MmsException {
-        SlideModel slide = mSlideshow.get(0);
-        MediaModel media;
+    private int changeMedia(int type, Uri uri, SlideshowEditor slideShowEditor) {
+        SlideModel originalSlide = mSlideshow.get(0);
+        if (originalSlide != null) {
+            slideShowEditor.removeSlide(0);     // remove the original slide
+        }
+        slideShowEditor.addNewSlide(0);
+        SlideModel slide = mSlideshow.get(0);   // get the new empty slide
+        int result = OK;
 
         if (slide == null) {
             Log.w(LogTag.TAG, "[WorkingMessage] changeMedia: no slides!");
-            return;
+            return result;
         }
 
-        // Remove any previous attachments.
-        slide.removeImage();
-        slide.removeVideo();
-        slide.removeAudio();
         // Clear the attachment type since we removed all the attachments. If this isn't cleared
         // and the slide.add fails (for instance, a selected video could be too big), we'll be
         // left in a state where we think we have an attachment, but it's been removed from the
@@ -522,38 +507,28 @@ public class WorkingMessage {
 
         // If we're changing to text, just bail out.
         if (type == TEXT) {
-            return;
+            return result;
         }
 
-        // Make a correct MediaModel for the type of attachment.
-        if (type == IMAGE) {
-            media = new ImageModel(mActivity, uri, mSlideshow.getLayout().getImageRegion());
-        } else if (type == VIDEO) {
-            media = new VideoModel(mActivity, uri, mSlideshow.getLayout().getImageRegion());
-        } else if (type == AUDIO) {
-            media = new AudioModel(mActivity, uri);
-        } else {
-            throw new IllegalArgumentException("changeMedia type=" + type + ", uri=" + uri);
+        result = internalChangeMedia(type, uri, 0, slideShowEditor);
+        if (result != OK) {
+            slideShowEditor.removeSlide(0);             // remove the failed slide
+            if (originalSlide != null) {
+                slideShowEditor.addSlide(0, originalSlide); // restore the original slide.
+            }
         }
-
-        // Add it to the slide.
-        slide.add(media);
-
-        // For video and audio, set the duration of the slide to
-        // that of the attachment.
-        if (type == VIDEO || type == AUDIO) {
-            slide.updateDuration(media.getDuration());
-        }
+        return result;
     }
 
     /**
      * Add the message's attachment to the data in the specified Uri to a new slide.
      */
-    private void appendMedia(int type, Uri uri) throws MmsException {
+    private int appendMedia(int type, Uri uri, SlideshowEditor slideShowEditor) {
+        int result = OK;
 
         // If we're changing to text, just bail out.
         if (type == TEXT) {
-            return;
+            return result;
         }
 
         // The first time this method is called, mSlideshow.size() is going to be
@@ -566,32 +541,45 @@ public class WorkingMessage {
             addNewSlide = false;
         }
         if (addNewSlide) {
-            SlideshowEditor slideShowEditor = new SlideshowEditor(mActivity, mSlideshow);
             if (!slideShowEditor.addNewSlide()) {
-                return;
+                return result;
             }
         }
-        // Make a correct MediaModel for the type of attachment.
-        MediaModel media;
-        SlideModel slide = mSlideshow.get(mSlideshow.size() - 1);
-        if (type == IMAGE) {
-            media = new ImageModel(mActivity, uri, mSlideshow.getLayout().getImageRegion());
-        } else if (type == VIDEO) {
-            media = new VideoModel(mActivity, uri, mSlideshow.getLayout().getImageRegion());
-        } else if (type == AUDIO) {
-            media = new AudioModel(mActivity, uri);
-        } else {
-            throw new IllegalArgumentException("changeMedia type=" + type + ", uri=" + uri);
+        int slideNum = mSlideshow.size() - 1;
+        result = internalChangeMedia(type, uri, slideNum, slideShowEditor);
+        if (result != OK) {
+            // We added a new slide and what we attempted to insert on the slide failed.
+            // Delete that slide, otherwise we could end up with a bunch of blank slides.
+            // It's ok that we're removing the slide even if we didn't add it (because it was
+            // the first default slide). If adding the first slide fails, we want to remove it.
+            slideShowEditor.removeSlide(slideNum);
         }
+        return result;
+    }
 
-        // Add it to the slide.
-        slide.add(media);
-
-        // For video and audio, set the duration of the slide to
-        // that of the attachment.
-        if (type == VIDEO || type == AUDIO) {
-            slide.updateDuration(media.getDuration());
+    private int internalChangeMedia(int type, Uri uri, int slideNum,
+            SlideshowEditor slideShowEditor) {
+        int result = OK;
+        try {
+            if (type == IMAGE) {
+                slideShowEditor.changeImage(slideNum, uri);
+            } else if (type == VIDEO) {
+                slideShowEditor.changeVideo(slideNum, uri);
+            } else if (type == AUDIO) {
+                slideShowEditor.changeAudio(slideNum, uri);
+            } else {
+                result = UNSUPPORTED_TYPE;
+            }
+        } catch (MmsException e) {
+            result = UNKNOWN_ERROR;
+        } catch (UnsupportContentTypeException e) {
+            result = UNSUPPORTED_TYPE;
+        } catch (ExceedMessageSizeException e) {
+            result = MESSAGE_SIZE_EXCEEDED;
+        } catch (ResolutionException e) {
+            result = IMAGE_TOO_LARGE;
         }
+        return result;
     }
 
     /**
