@@ -870,6 +870,47 @@ public class WorkingMessage {
     }
 
     /**
+     * To be called from our Activity's onSaveInstanceState() to give us a chance
+     * to stow our state away for later retrieval.
+     *
+     * @param bundle The Bundle passed in to onSaveInstanceState
+     */
+    public void writeStateToBundle(Bundle bundle) {
+        if (hasSubject()) {
+            bundle.putString("subject", mSubject.toString());
+        }
+
+        if (mMessageUri != null) {
+            bundle.putParcelable("msg_uri", mMessageUri);
+        } else if (hasText()) {
+            bundle.putString("sms_body", mText.toString());
+        }
+    }
+
+    /**
+     * To be called from our Activity's onCreate() if the activity manager
+     * has given it a Bundle to reinflate
+     * @param bundle The Bundle passed in to onCreate
+     */
+    public void readStateFromBundle(Bundle bundle) {
+        if (bundle == null) {
+            return;
+        }
+
+        String subject = bundle.getString("subject");
+        setSubject(subject, false);
+
+        Uri uri = (Uri)bundle.getParcelable("msg_uri");
+        if (uri != null) {
+            loadFromUri(uri);
+            return;
+        } else {
+            String body = bundle.getString("sms_body");
+            mText = body;
+        }
+    }
+
+    /**
      * Update the temporary list of recipients, used when setting up a
      * new conversation.  Will be converted to a ContactList on any
      * save event (send, save draft, etc.)
