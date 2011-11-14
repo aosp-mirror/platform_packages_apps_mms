@@ -20,7 +20,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"העברת הודעות"</string>
+    <string name="app_label" msgid="1503967887341230795">"סמס"</string>
     <string name="new_message" msgid="1530369762346003973">"הודעה חדשה"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"התקשר אל <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"שלח דוא\"ל אל <xliff:g id="NAME">%s</xliff:g>"</string>
@@ -297,9 +297,9 @@
     <string name="edit_slide_activity" msgid="8752829671778696983">"ערוך שקופית"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"מצגת"</string>
     <string name="class_0_message_activity" msgid="8474176218999130627">"הודעה ברמה 0"</string>
-    <string name="search_label" msgid="6042598929386174964">"העברת הודעות"</string>
+    <string name="search_label" msgid="6042598929386174964">"סמס"</string>
     <string name="search_hint" msgid="7183732852849365466">"חפש בהעברת הודעות"</string>
-    <string name="search" msgid="7560238620274735199">"העברת הודעות"</string>
+    <string name="search" msgid="7560238620274735199">"סמס"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"טקסט בהודעות"</string>
     <string name="search_empty" msgid="645052646985297065">"אין התאמות"</string>
   <plurals name="search_results_title">
@@ -310,7 +310,7 @@
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"נקה"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"היסטוריית החיפושים תנוקה."</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"נקה את היסטוריית החיפושים"</string>
-    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"נקה את החיפושים הקודמים של \'העברת הודעות\' כדי שלא יופיעו בתיבה \'חפש\'"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"נקה את החיפושים הקודמים של \'סמס\' כדי שלא יופיעו בתיבה \'חפש\'"</string>
     <string name="save" msgid="6847069284991531310">"שמור"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"הגבל הודעות"</string>
     <string name="storage_limits_message" msgid="8729608389698270388">"האם ברצונך להגביל את מספר ההודעות שתשמור בכל שיחה?"</string>
