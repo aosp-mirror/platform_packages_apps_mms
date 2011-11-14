@@ -152,8 +152,8 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
         final ComposeMessageActivity a = getActivity();
         mActivity.runOnUiThread(new Runnable() {
             public void run() {
-                mActivity.initialize(0);
-                mActivity.loadMessageContent();
+                a.initialize(null, 0);
+                a.loadMessageContent();
             }
         });
 
