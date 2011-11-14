@@ -22,12 +22,15 @@ import com.android.mms.MmsConfig;
 import com.android.mms.R;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -35,13 +38,10 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.provider.SearchRecentSuggestions;
-import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.mms.util.Recycler;
-
-import android.content.res.Resources;
 
 /**
  * With this activity, users can set preferences for MMS and SMS and
@@ -73,6 +73,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
     private Preference mManageSimPref;
     private Preference mClearHistoryPref;
     private ListPreference mVibrateWhenPref;
+    private CheckBoxPreference mEnableNotificationsPref;
     private Recycler mSmsRecycler;
     private Recycler mMmsRecycler;
     private static final int CONFIRM_CLEAR_SEARCH_HISTORY_DIALOG = 3;
@@ -82,13 +83,6 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.preferences);
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        setMessagePreferences();
-    }
-
-    private void setMessagePreferences() {
         mManageSimPref = findPreference("pref_key_manage_sim_messages");
         mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
         mSmsDeliveryReportPref = findPreference("pref_key_sms_delivery_reports");
@@ -96,8 +90,24 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         mMmsReadReportPref = findPreference("pref_key_mms_read_reports");
         mMmsLimitPref = findPreference("pref_key_mms_delete_limit");
         mClearHistoryPref = findPreference("pref_key_mms_clear_history");
+        mEnableNotificationsPref = (CheckBoxPreference) findPreference(NOTIFICATION_ENABLED);
         mVibrateWhenPref = (ListPreference) findPreference(NOTIFICATION_VIBRATE_WHEN);
 
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        setMessagePreferences();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Since the enabled notifications pref can be changed outside of this activity,
+        // we have to reload it whenever we resume.
+        setEnabledNotificationsPref();
+    }
+
+    private void setMessagePreferences() {
         if (!MmsApp.getApplication().getTelephonyManager().hasIccCard()) {
             // No SIM card, remove the SIM-related prefs
             PreferenceCategory smsCategory =
@@ -136,6 +146,8 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
             }
         }
 
+        setEnabledNotificationsPref();
+
         // If needed, migrate vibration setting from a previous version
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (!sharedPreferences.contains(NOTIFICATION_VIBRATE_WHEN) &&
@@ -152,6 +164,12 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         // Fix up the recycler's summary with the correct values
         setSmsDisplayLimit();
         setMmsDisplayLimit();
+    }
+
+    private void setEnabledNotificationsPref() {
+        // The "enable notifications" setting is really stored in our own prefs. Read the
+        // current value and set the checkbox to match.
+        mEnableNotificationsPref.setChecked(getNotificationEnabled(this));
     }
 
     private void setSmsDisplayLimit() {
@@ -211,6 +229,9 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         } else if (preference == mClearHistoryPref) {
             showDialog(CONFIRM_CLEAR_SEARCH_HISTORY_DIALOG);
             return true;
+        } else if (preference == mEnableNotificationsPref) {
+            // Update the actual "enable notifications" value that is stored in secure settings.
+            enableNotifications(mEnableNotificationsPref.isChecked(), this);
         }
 
         return super.onPreferenceTreeClick(preferenceScreen, preference);
@@ -265,4 +286,20 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         return super.onCreateDialog(id);
     }
 
+    public static boolean getNotificationEnabled(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean notificationsEnabled =
+            prefs.getBoolean(MessagingPreferenceActivity.NOTIFICATION_ENABLED, true);
+        return notificationsEnabled;
+    }
+
+    public static void enableNotifications(boolean enabled, Context context) {
+        // Store the value of notifications in SharedPreferences
+        SharedPreferences.Editor editor =
+            PreferenceManager.getDefaultSharedPreferences(context).edit();
+
+        editor.putBoolean(MessagingPreferenceActivity.NOTIFICATION_ENABLED, enabled);
+
+        editor.apply();
+    }
 }

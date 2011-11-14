@@ -62,5 +62,10 @@
             android:text="@string/sms_prime_message"
             android:layout_width="150dip"
             android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/turn_off_notification_message"
+            android:text="@string/turn_off_notification_message"
+            android:layout_width="150dip"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>

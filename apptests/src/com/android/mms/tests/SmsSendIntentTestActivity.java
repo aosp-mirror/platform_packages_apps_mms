@@ -16,19 +16,17 @@
 
 package com.android.mms.tests;
 
-import java.util.List;
-
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.mms.tests.R;
@@ -45,6 +43,9 @@ public class SmsSendIntentTestActivity extends Activity {
     private static final String TAG = "SmsSendIntentTestActivity";
     private EditText mRecipient;
     private EditText mMessage;
+
+    private final int NOTIFICATION_MENU = 100;
+    private final int NOTIFICATIONS_REQUEST_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,15 @@ public class SmsSendIntentTestActivity extends Activity {
                 mMessage.setText(R.string.sms_long_message);
             }
         });
+
+        Button notificationsButton = (Button) findViewById(R.id.turn_off_notification_message);
+        notificationsButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                Intent intent =
+                    new Intent("com.android.mms.intent.action.MESSAGING_APP_NOTIFICATIONS");
+                startActivityForResult(intent, NOTIFICATIONS_REQUEST_CODE);
+            }
+        });
     }
 
     private void sendMessage(int count, int dupeCount) {
@@ -113,5 +123,39 @@ public class SmsSendIntentTestActivity extends Activity {
             intent.putExtra(Intent.EXTRA_TEXT, message);
             startService(intent);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == NOTIFICATIONS_REQUEST_CODE) {
+            String msg = "result: ";
+            if (resultCode == RESULT_OK) {
+                msg += "ok";
+            } else if (resultCode == RESULT_CANCELED) {
+                msg += "canceled";
+            } else {
+                msg += resultCode;
+            }
+            Button notificationsButton = (Button) findViewById(R.id.turn_off_notification_message);
+            notificationsButton.setText(msg);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(Menu.NONE, NOTIFICATION_MENU, Menu.NONE, R.string.menu_notifications);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case NOTIFICATION_MENU:
+                Intent intent =
+                    new Intent("com.android.mms.intent.action.MESSAGING_APP_NOTIFICATIONS");
+                startActivity(intent);
+                break;
+        }
+        return true;
     }
 }
