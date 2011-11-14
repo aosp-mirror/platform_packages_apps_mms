@@ -292,5 +292,12 @@
                   android:authorities="mms_temp_file"
                   android:multiprocess="true" />
 
+        <activity android:name=".ui.MiniPreferenceActivity" >
+            <intent-filter>
+                <action android:name="com.android.mms.intent.action.MESSAGING_APP_NOTIFICATIONS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 </manifest>
