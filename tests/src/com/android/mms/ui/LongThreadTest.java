@@ -414,8 +414,8 @@ extends ActivityInstrumentationTestCase2<ComposeMessageActivity> {
         for (String recipient : mRecipients) {
             mActivity.runOnUiThread(new Runnable() {
                 public void run() {
-                    mActivity.initialize(0);
-                    mActivity.loadMessageContent();
+                    a.initialize(null, 0);
+                    a.loadMessageContent();
                 }
             });
 
