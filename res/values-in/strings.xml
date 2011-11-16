@@ -229,7 +229,7 @@
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Pesan teks pada kartu SIM"</string>
     <string name="sim_view" msgid="1997173541766393706">"Lihat"</string>
     <string name="sim_empty" msgid="2356766833071636297">"Tidak ada pesan dalam kartu SIM."</string>
-    <string name="delivery_header_title" msgid="5361719578869045764">"Laporkan sebagai"</string>
+    <string name="delivery_header_title" msgid="5361719578869045764">"Laporkan"</string>
     <string name="status_none" msgid="8253075950774894961">"(Tak Satu Pun)"</string>
     <string name="status_pending" msgid="2739860824607984892">"Tertunda"</string>
     <string name="status_read" msgid="7576195253780627332">"Telah dibaca"</string>
@@ -327,4 +327,6 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> orang"</item>
   </plurals>
+    <!-- no translation found for disable_notifications_dialog_message (7644011234972074096) -->
+    <skip />
 </resources>

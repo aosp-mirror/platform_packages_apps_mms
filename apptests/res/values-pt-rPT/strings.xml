@@ -17,6 +17,8 @@
  */
  -->
 
+<!--  DO NOT LOCALIZE - this is just a test app  -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sms_recipient_label" msgid="5386729712089560319">"N.º do destinatário"</string>
@@ -26,7 +28,11 @@
     <string name="sms_send_long_message" msgid="2393262590085164889">"Enviar uma mensagem longa"</string>
     <string name="sms_prime_message" msgid="6552450490792253465">"Preparar uma mensagem longa"</string>
     <string name="sms_long_message" msgid="1666294083519819794">"Chegou a hora de todos os homens de bem acorrerem em auxílio do seu país."</string>
+    <!-- no translation found for turn_off_notification_message (7385884578852634418) -->
+    <skip />
     <string name="reply" msgid="767653312635150733">"Responder"</string>
     <string name="dismiss" msgid="3587724410950536331">"Ignorar"</string>
     <string name="activity_label" msgid="3968117725702962381">"Testador de SMS"</string>
+    <!-- no translation found for menu_notifications (7484390730312096695) -->
+    <skip />
 </resources>

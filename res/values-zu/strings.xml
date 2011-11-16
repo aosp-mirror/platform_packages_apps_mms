@@ -215,7 +215,7 @@
     <string name="message_size_label" msgid="4698016210013319786">"Usayizi womlayezo: "</string>
     <string name="priority_label" msgid="7397600367853359607">"Okubalulekile: "</string>
     <string name="priority_high" msgid="5627897207952009214">"Phezulu"</string>
-    <string name="priority_normal" msgid="5715227727384683550">"Kuvamile"</string>
+    <string name="priority_normal" msgid="5715227727384683550">"Jwayelekile"</string>
     <string name="priority_low" msgid="8928782666023373987">"Phansi"</string>
     <string name="message_class_label" msgid="5115748690481550562">"Isigaba somyalezo: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"Ikhodi yephutha: "</string>
@@ -327,4 +327,5 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> abantu"</item>
   </plurals>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Misa izaziso zokuphindw akwemiyalezo yombhalo kusuka ku-app Yemiyalezo yangokwakhona?"</string>
 </resources>
