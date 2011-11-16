@@ -22,7 +22,7 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="1503967887341230795">"Nhắn tin"</string>
     <string name="new_message" msgid="1530369762346003973">"Tin nhắn mới"</string>
-    <string name="menu_call_back" msgid="7538482331117914146">"Gọi <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_call_back" msgid="7538482331117914146">"Gọi <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Gửi email đến <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Soạn"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Cài đặt"</string>
@@ -71,14 +71,14 @@
     <string name="add_video" msgid="7816866867806595144">"Thêm video"</string>
     <string name="remove_video" msgid="5258603891528497799">"Xoá video"</string>
     <string name="to_hint" msgid="224029549150332986">"Tới"</string>
-    <string name="subject_hint" msgid="4296714962311604126">"Chủ đề"</string>
+    <string name="subject_hint" msgid="4296714962311604126">"Chủ đề"</string>
     <string name="add_attachment" msgid="7103751293360532684">"Đính kèm"</string>
     <string name="add_subject" msgid="7616134948428265870">"Thêm chủ đề"</string>
     <string name="discard" msgid="1624800293064498479">"Hủy"</string>
     <string name="view" msgid="7929667761715467136">"Xem"</string>
     <string name="replace" msgid="7587904998114459388">"Thay thế"</string>
     <string name="remove" msgid="4625444913256213175">"Xoá"</string>
-    <string name="send" msgid="4589898724889248486">"Gửi"</string>
+    <string name="send" msgid="4589898724889248486">"Gửi"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Tất cả chuỗi thư"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Nhập tin nhắn"</string>
@@ -114,12 +114,12 @@
     <string name="adding_attachments_title" msgid="2034535554212405529">"Đang thêm tệp đính kèm"</string>
     <string name="adding_attachments" msgid="5871373105122355632">"Hãy đợi trong khi các mục được thêm vào trình chiếu."</string>
     <string name="cannot_play_audio" msgid="253920977253666735">"Không thể phát âm thanh."</string>
-    <string name="preview" msgid="5438149136136446756">"Xem trước"</string>
-    <string name="preview_slideshow" msgid="6824095909448728427">"Xem trước"</string>
+    <string name="preview" msgid="5438149136136446756">"Xem trước"</string>
+    <string name="preview_slideshow" msgid="6824095909448728427">"Xem trước"</string>
     <string name="replace_image" msgid="3171240952601443619">"Thay thế ảnh"</string>
     <string name="duration_sec" msgid="6617032324007824096">"Thời lượng (<xliff:g id="DURATION">%s</xliff:g> giây)"</string>
     <string name="duration_selector_title" msgid="5981097971537625852">"Thời lượng trang trình bày "</string>
-    <string name="layout_selector_title" msgid="7344600117972450771">"Bố cục trình chiếu "</string>
+    <string name="layout_selector_title" msgid="7344600117972450771">"Bố cục trình chiếu "</string>
     <string name="layout_top" msgid="6811021650398972346">"Bốc cục (trên cùng)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Bố cục (dưới cùng)"</string>
     <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Nhập tin nhắn hoặc để trống"</string>
@@ -145,8 +145,8 @@
     <string name="yes" msgid="3246158147503160811">"OK"</string>
     <string name="no" msgid="4289742508556913860">"Hủy"</string>
     <string name="set" msgid="4642365398263275979">"Đặt"</string>
-    <string name="play" msgid="1888432400937785115">"Phát"</string>
-    <string name="edit" msgid="5912118407791492696">"Chỉnh sửa"</string>
+    <string name="play" msgid="1888432400937785115">"Phát"</string>
+    <string name="edit" msgid="5912118407791492696">"Chỉnh sửa"</string>
     <string name="try_to_send" msgid="1996751738286080976">"Cố gắng gửi"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Cài đặt"</string>
     <string name="restore_default" msgid="7165341506551155053">"Khôi phục cài đặt mặc định"</string>
@@ -209,9 +209,9 @@
     <string name="to_address_label" msgid="5837363600471845801">"Tới: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Bcc: "</string>
     <string name="sent_label" msgid="2722190650145251584">"Đã gửi: "</string>
-    <string name="received_label" msgid="8618029024731693906">"Đã nhận: "</string>
+    <string name="received_label" msgid="8618029024731693906">"Đã nhận: "</string>
     <string name="saved_label" msgid="4183160415593488207">"Đã lưu: "</string>
-    <string name="subject_label" msgid="8721241914144101631">"Chủ đề: "</string>
+    <string name="subject_label" msgid="8721241914144101631">"Chủ đề: "</string>
     <string name="message_size_label" msgid="4698016210013319786">"Kích thước tin nhắn: "</string>
     <string name="priority_label" msgid="7397600367853359607">"Mức độ ưu tiên: "</string>
     <string name="priority_high" msgid="5627897207952009214">"Cao"</string>
@@ -219,7 +219,7 @@
     <string name="priority_low" msgid="8928782666023373987">"Thấp"</string>
     <string name="message_class_label" msgid="5115748690481550562">"Lớp thông báo: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"Mã lỗi: "</string>
-    <string name="menu_edit" msgid="3056513240155967777">"Chỉnh sửa"</string>
+    <string name="menu_edit" msgid="3056513240155967777">"Chỉnh sửa"</string>
     <string name="menu_delete_messages" msgid="2610286783513247420">"Xoá tin nhắn"</string>
     <string name="menu_lock" msgid="7603793126077557472">"Khóa"</string>
     <string name="menu_unlock" msgid="6662865558677424039">"Mở khóa"</string>
@@ -233,19 +233,19 @@
     <string name="status_none" msgid="8253075950774894961">"(Không)"</string>
     <string name="status_pending" msgid="2739860824607984892">"Đang chờ xử lý"</string>
     <string name="status_read" msgid="7576195253780627332">"Đã đọc"</string>
-    <string name="status_received" msgid="7264334589461906965">"Đã nhận"</string>
+    <string name="status_received" msgid="7264334589461906965">"Đã nhận"</string>
     <string name="status_failed" msgid="1998776666856593544">"Không thành công"</string>
     <string name="status_unread" msgid="8555305495998700198">"Chưa đọc"</string>
     <string name="status_rejected" msgid="2613641949065942678">"Bị từ chối"</string>
     <string name="recipient_label" msgid="3922667485312634446">"Người nhận: "</string>
-    <string name="status_label" msgid="7283375460919181660">"Trạng thái: "</string>
+    <string name="status_label" msgid="7283375460919181660">"Trạng thái: "</string>
     <string name="attach_image" msgid="6439985727687107742">"Ảnh"</string>
     <string name="attach_take_photo" msgid="4280601313184373837">"Chụp ảnh"</string>
     <string name="attach_video" msgid="4264272693501538294">"Video"</string>
     <string name="attach_record_video" msgid="3099814114743078615">"Quay video"</string>
     <string name="attach_sound" msgid="3149325985970669609">"Âm thanh"</string>
     <string name="attach_record_sound" msgid="6011431304469858929">"Ghi âm thanh"</string>
-    <string name="attach_slideshow" msgid="3497422151091037063">"Trình chiếu"</string>
+    <string name="attach_slideshow" msgid="3497422151091037063">"Trình chiếu"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"Văn bản dưới cùng"</string>
     <string name="select_top_text" msgid="6734183477539197815">"Văn bản trên cùng"</string>
     <string name="delivery_toast_body" msgid="5960519861835727013">"Tin nhắn đã nhận được bởi %s."</string>
@@ -292,10 +292,10 @@
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"Thông báo gửi"</string>
     <string name="storage_limits_activity" msgid="8810530813311077716">"Giới hạn dung lượng"</string>
-    <string name="change_duration_activity" msgid="7048606979485031693">"Thay đổi thời lượng"</string>
-    <string name="edit_slideshow_activity" msgid="8751493388760050529">"Chỉnh sửa trình chiếu"</string>
-    <string name="edit_slide_activity" msgid="8752829671778696983">"Chỉnh sửa trang trình bày"</string>
-    <string name="slideshow_activity" msgid="5658249461317434432">"Trình chiếu"</string>
+    <string name="change_duration_activity" msgid="7048606979485031693">"Thay đổi thời lượng"</string>
+    <string name="edit_slideshow_activity" msgid="8751493388760050529">"Chỉnh sửa trình chiếu"</string>
+    <string name="edit_slide_activity" msgid="8752829671778696983">"Chỉnh sửa trang trình bày"</string>
+    <string name="slideshow_activity" msgid="5658249461317434432">"Trình chiếu"</string>
     <string name="class_0_message_activity" msgid="6631339964159861048">"Thông báo Lớp 0"</string>
     <string name="search_label" msgid="6042598929386174964">"Nhắn tin"</string>
     <string name="search_hint" msgid="7273727663577472044">"Tìm kiếm trong tin nhắn"</string>
@@ -308,7 +308,7 @@
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> kết quả cho \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Xoá"</string>
-    <string name="confirm_clear_search_text" msgid="8731877031837077478">"Lịch sử tìm kiếm sẽ bị xoá."</string>
+    <string name="confirm_clear_search_text" msgid="8731877031837077478">"Lịch sử tìm kiếm sẽ bị xoá."</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Xoá lịch sử tìm kiếm"</string>
     <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Xoá tìm kiếm Nhắn tin trước đó khỏi hiển thị trong hộp Tìm kiếm"</string>
     <string name="save" msgid="6847069284991531310">"Lưu"</string>
@@ -327,4 +327,6 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> người"</item>
   </plurals>
+    <!-- no translation found for disable_notifications_dialog_message (7644011234972074096) -->
+    <skip />
 </resources>
