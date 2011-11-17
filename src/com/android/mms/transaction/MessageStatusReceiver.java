@@ -38,11 +38,9 @@ public class MessageStatusReceiver extends BroadcastReceiver {
     private static final String LOG_TAG = "MessageStatusReceiver";
     private static final Uri STATUS_URI =
             Uri.parse("content://sms/status");
-    private Context mContext;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        mContext = context;
         if (MESSAGE_STATUS_RECEIVED_ACTION.equals(intent.getAction())) {
 
             Uri messageUri = intent.getData();
@@ -52,7 +50,7 @@ public class MessageStatusReceiver extends BroadcastReceiver {
             SmsMessage message = updateMessageStatus(context, messageUri, pdu, format);
 
             // Called on the UI thread so don't block.
-            if (message.getStatus() < Sms.STATUS_PENDING)
+            if (message != null && message.getStatus() < Sms.STATUS_PENDING)
                 MessagingNotification.nonBlockingUpdateNewMessageIndicator(context,
                         true, message.isStatusReportMessage());
        }
@@ -60,11 +58,14 @@ public class MessageStatusReceiver extends BroadcastReceiver {
 
     private SmsMessage updateMessageStatus(Context context, Uri messageUri, byte[] pdu,
             String format) {
+        SmsMessage message = SmsMessage.createFromPdu(pdu, format);
+        if (message == null) {
+            return null;
+        }
         // Create a "status/#" URL and use it to update the
         // message's status in the database.
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
                             messageUri, ID_PROJECTION, null, null, null);
-        SmsMessage message = SmsMessage.createFromPdu(pdu, format);
 
         try {
             if (cursor.moveToFirst()) {
