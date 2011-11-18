@@ -590,20 +590,30 @@ public class MessageListItem extends LinearLayout implements
             mLockedIndicator.setVisibility(View.GONE);
         }
 
-        // Delivery icon
+        // Delivery icon - we can show a failed icon for both sms and mms, but for an actual
+        // delivery, we only show the icon for sms. We don't have the information here in mms to
+        // know whether the message has been delivered. For mms, msgItem.mDeliveryStatus set
+        // to MessageItem.DeliveryStatus.RECEIVED simply means the setting requesting a
+        // delivery report was turned on when the message was sent. Yes, it's confusing!
         if ((msgItem.isOutgoingMessage() && msgItem.isFailedMessage()) ||
                 msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.FAILED) {
             mDeliveredIndicator.setImageResource(R.drawable.ic_list_alert_sms_failed);
             mDeliveredIndicator.setVisibility(View.VISIBLE);
-        } else if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.RECEIVED) {
+        } else if (msgItem.isSms() &&
+                msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.RECEIVED) {
             mDeliveredIndicator.setImageResource(R.drawable.ic_sms_mms_delivered);
             mDeliveredIndicator.setVisibility(View.VISIBLE);
         } else {
             mDeliveredIndicator.setVisibility(View.GONE);
         }
 
-        // Message details icon
-        if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.INFO || msgItem.mReadReport) {
+        // Message details icon - this icon is shown both for sms and mms messages. For mms,
+        // we show the icon if the read report or delivery report setting was set when the
+        // message was sent. Showing the icon tells the user there's more information
+        // by selecting the "View report" menu.
+        if (msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.INFO || msgItem.mReadReport
+                || (msgItem.isMms() &&
+                        msgItem.mDeliveryStatus == MessageItem.DeliveryStatus.RECEIVED)) {
             mDetailsIndicator.setImageResource(R.drawable.ic_sms_mms_details);
             mDetailsIndicator.setVisibility(View.VISIBLE);
         } else {
