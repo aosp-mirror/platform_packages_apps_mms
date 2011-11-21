@@ -28,11 +28,9 @@
     <string name="sms_send_long_message" msgid="2393262590085164889">"Siųsti ilgą pranešimą"</string>
     <string name="sms_prime_message" msgid="6552450490792253465">"Paruošti ilgą pranešimą"</string>
     <string name="sms_long_message" msgid="1666294083519819794">"Dabar pats metas visiems geros valios žmonėms padėti savo šaliai."</string>
-    <!-- no translation found for turn_off_notification_message (7385884578852634418) -->
-    <skip />
+    <string name="turn_off_notification_message" msgid="7385884578852634418">"Atlikite veiksmus, kad išjungtumėte pranešimus apie susirašinėjimą žinutėmis"</string>
     <string name="reply" msgid="767653312635150733">"Atsakyti"</string>
     <string name="dismiss" msgid="3587724410950536331">"Atsisakyti"</string>
     <string name="activity_label" msgid="3968117725702962381">"SMS tikrintuvas"</string>
-    <!-- no translation found for menu_notifications (7484390730312096695) -->
-    <skip />
+    <string name="menu_notifications" msgid="7484390730312096695">"SMS pranešimų nustatymai"</string>
 </resources>

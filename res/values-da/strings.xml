@@ -150,7 +150,7 @@
     <string name="try_to_send" msgid="1996751738286080976">"Prøv at sende"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Indstillinger"</string>
     <string name="restore_default" msgid="7165341506551155053">"Gendan standardindstillinger"</string>
-    <string name="pref_notification_settings_title" msgid="6420782563630369776">"Meddelelser"</string>
+    <string name="pref_notification_settings_title" msgid="6420782563630369776">"Underretninger"</string>
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Mms-beskeder"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Sms-beskeder"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Lagerplads"</string>
@@ -167,7 +167,7 @@
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Slet gamle beskeder"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Sms-begrænsning"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Mms-begrænsning"</string>
-    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Meddelelser"</string>
+    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Underretninger"</string>
     <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Vis underretninger vedr. beskeder på statusbjælken"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibration"</string>
     <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibration ved meddelelse"</string>
@@ -327,6 +327,5 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> personer"</item>
   </plurals>
-    <!-- no translation found for disable_notifications_dialog_message (7644011234972074096) -->
-    <skip />
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Vil du stoppe dobbelte underretninger via sms fra standardappen Meddelelser?"</string>
 </resources>
