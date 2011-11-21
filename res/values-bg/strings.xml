@@ -327,6 +327,5 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> души"</item>
   </plurals>
-    <!-- no translation found for disable_notifications_dialog_message (7644011234972074096) -->
-    <skip />
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Да се спрат ли дублиращите се известия с SMS от основното приложение Съобщения?"</string>
 </resources>

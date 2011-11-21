@@ -153,7 +153,7 @@
     <string name="pref_notification_settings_title" msgid="6420782563630369776">"Izaziso"</string>
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Imiyalezo (MMS) wemalthimidiya"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Umyalezo (SMS) wombhalo"</string>
-    <string name="pref_sms_storage_title" msgid="9001233319190616445">"Ukugcina"</string>
+    <string name="pref_sms_storage_title" msgid="9001233319190616445">"Isitoreji"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Phatha imlayezo egcinwe ekhadini lakho le-SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Cela umbiko wokuthumela womlayezo ngamunye owuthumelayo"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Cela umbiko wokufundiwe womyalezo ngamunye owuthumelayo"</string>
@@ -327,5 +327,5 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> abantu"</item>
   </plurals>
-    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Misa izaziso zokuphindw akwemiyalezo yombhalo kusuka ku-app Yemiyalezo yangokwakhona?"</string>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Misa ukuphindwa kwezaziso zemiyalezo yombhalo kusuka kuhlelo lokusebenza Yemiyalezo ezenzakalelayo?"</string>
 </resources>

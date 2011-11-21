@@ -28,11 +28,9 @@
     <string name="sms_send_long_message" msgid="2393262590085164889">"Küldjön egy hosszú üzenetet"</string>
     <string name="sms_prime_message" msgid="6552450490792253465">"Emeljen ki egy hosszú üzenetet"</string>
     <string name="sms_long_message" msgid="1666294083519819794">"Most jött el az ideje, hogy minden jó ember az országa segítségére siessen."</string>
-    <!-- no translation found for turn_off_notification_message (7385884578852634418) -->
-    <skip />
+    <string name="turn_off_notification_message" msgid="7385884578852634418">"Ki szeretném kapcsolni az értesítésekkel kapcsolatos üzeneteket"</string>
     <string name="reply" msgid="767653312635150733">"Válasz"</string>
     <string name="dismiss" msgid="3587724410950536331">"Elvetés"</string>
     <string name="activity_label" msgid="3968117725702962381">"SMS Teszter"</string>
-    <!-- no translation found for menu_notifications (7484390730312096695) -->
-    <skip />
+    <string name="menu_notifications" msgid="7484390730312096695">"SMS-értesítés beállításai"</string>
 </resources>
