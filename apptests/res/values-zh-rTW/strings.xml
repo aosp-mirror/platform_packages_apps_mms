@@ -17,6 +17,8 @@
  */
  -->
 
+<!--  DO NOT LOCALIZE - this is just a test app  -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sms_recipient_label" msgid="5386729712089560319">"收件者 #"</string>
@@ -26,7 +28,9 @@
     <string name="sms_send_long_message" msgid="2393262590085164889">"發送長訊息"</string>
     <string name="sms_prime_message" msgid="6552450490792253465">"填入長訊息"</string>
     <string name="sms_long_message" msgid="1666294083519819794">"現在是所有優秀人才前來幫助自己國家/地區的時候了！"</string>
+    <string name="turn_off_notification_message" msgid="7385884578852634418">"發出關閉訊息通知的請求"</string>
     <string name="reply" msgid="767653312635150733">"回覆"</string>
     <string name="dismiss" msgid="3587724410950536331">"關閉"</string>
     <string name="activity_label" msgid="3968117725702962381">"簡訊測試人員"</string>
+    <string name="menu_notifications" msgid="7484390730312096695">"SMS 通知設定"</string>
 </resources>

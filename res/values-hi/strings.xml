@@ -59,22 +59,22 @@
     <string name="move_up" msgid="7307578107431739359">"ऊपर जाएं"</string>
     <string name="move_down" msgid="6356509518429479053">"नीचे जाएं"</string>
     <string name="remove_slide" msgid="2225604354024914900">"स्लाइड निकालें"</string>
-    <string name="add_slide" msgid="9140721399423564187">"स्लाइड जोड़ें"</string>
+    <string name="add_slide" msgid="9140721399423564187">"स्लाइड जोड़ें"</string>
     <string name="add_slide_hint" msgid="7351356961076244584">"नई स्‍लाइड बनाने के लिए स्‍पर्श करें."</string>
-    <string name="discard_slideshow" msgid="5054239124146413609">"स्लाइडशो छोड़ें"</string>
+    <string name="discard_slideshow" msgid="5054239124146413609">"स्लाइडशो छोड़ें"</string>
     <string name="slide_show_part" msgid="5077675385448696846">"भाग <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text" msgid="2164068850029476539">"पाठ हटाएं"</string>
-    <string name="add_picture" msgid="7819574884962571479">"चित्र जोड़ें"</string>
+    <string name="add_picture" msgid="7819574884962571479">"चित्र जोड़ें"</string>
     <string name="remove_picture" msgid="6378701749074289096">"चित्र निकालें"</string>
     <string name="add_music" msgid="3827442822987116233">"संगीत जोड़ें"</string>
     <string name="remove_music" msgid="858889733416015223">"संगीत निकालें"</string>
-    <string name="add_video" msgid="7816866867806595144">"वीडियो जोड़ें"</string>
+    <string name="add_video" msgid="7816866867806595144">"वीडियो जोड़ें"</string>
     <string name="remove_video" msgid="5258603891528497799">"वीडियो निकालें"</string>
     <string name="to_hint" msgid="224029549150332986">"प्रति"</string>
     <string name="subject_hint" msgid="4296714962311604126">"विषय"</string>
     <string name="add_attachment" msgid="7103751293360532684">"अनुलग्न करें"</string>
-    <string name="add_subject" msgid="7616134948428265870">"विषय जोड़ें"</string>
-    <string name="discard" msgid="1624800293064498479">"छोड़ें"</string>
+    <string name="add_subject" msgid="7616134948428265870">"विषय जोड़ें"</string>
+    <string name="discard" msgid="1624800293064498479">"छोड़ें"</string>
     <string name="view" msgid="7929667761715467136">"देखें"</string>
     <string name="replace" msgid="7587904998114459388">"बदलें"</string>
     <string name="remove" msgid="4625444913256213175">"निकालें"</string>
@@ -83,17 +83,17 @@
     <string name="all_threads" msgid="2663426830306307194">"सभी थ्रेड"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"संदेश लि‍खें"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"संदेश लि‍खने के लि‍ए कीबोर्ड खोलें"</string>
-    <string name="compressing" msgid="1961357529661045180">"चित्र बहुत बड़ा है. संपीड़ित कर रहा है..."</string>
+    <string name="compressing" msgid="1961357529661045180">"चित्र बहुत बड़ा है. संपीड़ित कर रहा है..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"असमर्थित <xliff:g id="NAME">%1$s</xliff:g> प्रारूप."</string>
     <string name="select_different_media" msgid="6241623357299382183">"कोई भिन्‍न <xliff:g id="NAME">%1$s</xliff:g> चुनें."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"संदेश आकार सीमा तक पहुंच गया है."</string>
-    <string name="message_too_big_for_video" msgid="2639367545165352543">"वीडियो अनुलग्न करने के लिए संदेश बहुत बड़ा है."</string>
-    <string name="failed_to_add_media" msgid="7207464170168708485">"आप अपने संदेश में यह <xliff:g id="NAME">%1$s</xliff:g> नहीं जोड़ सकते."</string>
+    <string name="message_too_big_for_video" msgid="2639367545165352543">"वीडियो अनुलग्न करने के लिए संदेश बहुत बड़ा है."</string>
+    <string name="failed_to_add_media" msgid="7207464170168708485">"आप अपने संदेश में यह <xliff:g id="NAME">%1$s</xliff:g> नहीं जोड़ सकते."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"चित्र का आकार नहीं बदला गया."</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"आकार बदलने पर भी यह चित्र भेजे जाने के लिए बहुत बड़ा है."</string>
     <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
-    <string name="discard_message" msgid="6078326880056142781">"छोड़ें"</string>
-    <string name="discard_message_reason" msgid="2667664943003796133">"आपका संदेश छोड़ दिया जाएगा क्योंकि इसमें कोई भी मान्य प्राप्तकर्ता नहीं है."</string>
+    <string name="discard_message" msgid="6078326880056142781">"छोड़ें"</string>
+    <string name="discard_message_reason" msgid="2667664943003796133">"आपका संदेश छोड़ दिया जाएगा क्योंकि इसमें कोई भी मान्य प्राप्तकर्ता नहीं है."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"अमान्य प्राप्तकर्ता: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"अमान्य गंतव्य पता."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"नेटवर्क पर सेवा सक्रिय नहीं है."</string>
@@ -105,14 +105,14 @@
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"संदेश में शामिल DRM ऑब्जेक्ट अग्रेषित नहीं किया जा सकता."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"मल्टीमीडिया संदेश में कनवर्ट कर रहा है..."</string>
     <string name="converting_to_text_message" msgid="6374423235426015422">"पाठ संदेश में कनवर्ट कर रहा है..."</string>
-    <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"अधिक स्लाइड नहीं जोड़ सकता."</string>
-    <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"एक स्लाइड में वीडियो और चित्र नहीं जोड़ सकता."</string>
+    <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"अधिक स्लाइड नहीं जोड़ सकता."</string>
+    <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"एक स्लाइड में वीडियो और चित्र नहीं जोड़ सकता."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"संदेश नहीं सहेज सकता."</string>
-    <string name="message_saved_as_draft" msgid="2503018972659880692">"संदेश ड्राफ़्ट के रूप में सहेजा गया."</string>
+    <string name="message_saved_as_draft" msgid="2503018972659880692">"संदेश ड्राफ़्ट के रूप में सहेजा गया."</string>
     <string name="too_many_recipients" msgid="7003415094007176931">"संदेश में बहुत अधिक प्राप्तकर्ता (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>) हैं. प्राप्तकर्ताओं की सीमा <xliff:g id="MAXLIMIT">%2$s</xliff:g> है."</string>
-    <string name="too_many_attachments" msgid="3774037894899750070">"अनुलग्नकों की सीमा <xliff:g id="MAXLIMIT">%1$s</xliff:g> है. केवल पहले <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> जोड़े जाएंगे."</string>
-    <string name="adding_attachments_title" msgid="2034535554212405529">"अनुलग्नक जोड़ रहा है"</string>
-    <string name="adding_attachments" msgid="5871373105122355632">"आइटम स्लाइड शो में जोड़े जाते समय प्रतीक्षा करें."</string>
+    <string name="too_many_attachments" msgid="3774037894899750070">"अनुलग्नकों की सीमा <xliff:g id="MAXLIMIT">%1$s</xliff:g> है. केवल पहले <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> जोड़े जाएंगे."</string>
+    <string name="adding_attachments_title" msgid="2034535554212405529">"अनुलग्नक जोड़ रहा है"</string>
+    <string name="adding_attachments" msgid="5871373105122355632">"आइटम स्लाइड शो में जोड़े जाते समय प्रतीक्षा करें."</string>
     <string name="cannot_play_audio" msgid="253920977253666735">"ऑडियो नहीं चला सकता."</string>
     <string name="preview" msgid="5438149136136446756">"पूर्वावलोकन"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"पूर्वावलोकन"</string>
@@ -224,7 +224,7 @@
     <string name="menu_lock" msgid="7603793126077557472">"लॉक करें"</string>
     <string name="menu_unlock" msgid="6662865558677424039">"अनलॉक करें"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"टेबलेट स्मृति में प्रतिलिपि करें"</string>
-    <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"फ़ोन स्मृति में प्रतिलिपि करें"</string>
+    <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"फ़ोन स्मृति में प्रतिलिपि करें"</string>
     <string name="sim_delete" msgid="610790510655316922">"हटाएं"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"सिम कार्ड पर पाठ संदेश"</string>
     <string name="sim_view" msgid="1997173541766393706">"देखें"</string>
@@ -235,7 +235,7 @@
     <string name="status_read" msgid="7576195253780627332">"पढ़ें"</string>
     <string name="status_received" msgid="7264334589461906965">"प्राप्त"</string>
     <string name="status_failed" msgid="1998776666856593544">"असफल"</string>
-    <string name="status_unread" msgid="8555305495998700198">"बिना पढ़ी"</string>
+    <string name="status_unread" msgid="8555305495998700198">"बिना पढ़ी"</string>
     <string name="status_rejected" msgid="2613641949065942678">"निरस्त"</string>
     <string name="recipient_label" msgid="3922667485312634446">"प्राप्तकर्ता: "</string>
     <string name="status_label" msgid="7283375460919181660">"स्थिति: "</string>
@@ -249,7 +249,7 @@
     <string name="select_bottom_text" msgid="4201966447623311931">"निचले भाग पर पाठ"</string>
     <string name="select_top_text" msgid="6734183477539197815">"पाठ शीर्ष पर"</string>
     <string name="delivery_toast_body" msgid="5960519861835727013">"%s द्वारा संदेश प्राप्त किया गया."</string>
-    <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> बिना पढ़े संदेश."</string>
+    <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> बिना पढ़े संदेश."</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"नए संदेश"</string>
     <string name="notification_failed_multiple" msgid="6192531993698497229">"<xliff:g id="COUNT">%s</xliff:g> संदेश नहीं भेजे जा सके"</string>
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"संदेश नहीं भेजे गए"</string>
@@ -270,7 +270,7 @@
     <string name="unknown_sender" msgid="4929330613278853635">"अज्ञात प्रेषक"</string>
     <string name="dl_failure_notification" msgid="8097699679464396537">"<xliff:g id="FROM">%2$s</xliff:g> से संदेश <xliff:g id="SUBJECT">%1$s</xliff:g> डाउनलोड नहीं किया जा सका."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"पुष्टि करें"</string>
-    <string name="confirm_rate_limit" msgid="234228299751243067">"बड़ी संख्या में मल्टीमीडिया संदेश भेजे जा रहे हैं. क्या यह ठीक है?"</string>
+    <string name="confirm_rate_limit" msgid="234228299751243067">"बड़ी संख्या में मल्टीमीडिया संदेश भेजे जा रहे हैं. क्या यह ठीक है?"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"संदेश डाउनलोड नहीं किया गया"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"संदेश नहीं भेजा गया"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"संदेश की समीक्षा करने के लिए स्‍पर्श करें और पुनः प्रयास करें."</string>
@@ -308,9 +308,9 @@
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"\"<xliff:g id="SEARCH">%2$s</xliff:g>\" के लिए <xliff:g id="COUNT">%1$s</xliff:g> परिणाम"</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"साफ़ करें"</string>
-    <string name="confirm_clear_search_text" msgid="8731877031837077478">"खोज इतिहास साफ़ कर दिया जाएगा."</string>
+    <string name="confirm_clear_search_text" msgid="8731877031837077478">"खोज इतिहास साफ़ कर दिया जाएगा."</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"खोज इतिहास साफ़ करें"</string>
-    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"खोज बॉक्स में पिछली संदेश सेवा खोज प्रदर्शन साफ़ करें"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"खोज बॉक्स में पिछली संदेश सेवा खोज प्रदर्शन साफ़ करें"</string>
     <string name="save" msgid="6847069284991531310">"सहेजें"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"संदेश सीमित करें"</string>
     <string name="storage_limits_message" msgid="2010501485394745696">"प्रति बातचीत सहेजे जाने वाले संदेशों की संख्या सीमित करें?"</string>
@@ -319,7 +319,7 @@
     <string name="too_many_unsent_mms" msgid="4436493698891224126">"अभी संदेश नहीं भेज सकता. न भेजे गए मल्टीमीडिया संदेश बहुत अधिक हैं."</string>
     <string name="sending_message" msgid="2054406576361149715">"भेज रहा है..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"बहुत अधिक प्राप्तकर्ता"</string>
-    <string name="adding_recipients" msgid="2962810172527532357">"प्राप्तकर्ता जोड़ रहा है..."</string>
+    <string name="adding_recipients" msgid="2962810172527532357">"प्राप्तकर्ता जोड़ रहा है..."</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
     <string name="error_state" msgid="5177386717626893507">"असंगत स्थिति"</string>
@@ -327,4 +327,5 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> लोग"</item>
   </plurals>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"डिफ़ॉल्ट संदेश सेवा एप्लिकेशन से डुप्लिकेट पाठ संदेश सूचनाएं रोकें?"</string>
 </resources>

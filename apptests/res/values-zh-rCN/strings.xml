@@ -17,6 +17,8 @@
  */
  -->
 
+<!--  DO NOT LOCALIZE - this is just a test app  -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sms_recipient_label" msgid="5386729712089560319">"收件人 #"</string>
@@ -26,7 +28,9 @@
     <string name="sms_send_long_message" msgid="2393262590085164889">"发送长讯息"</string>
     <string name="sms_prime_message" msgid="6552450490792253465">"编写长讯息"</string>
     <string name="sms_long_message" msgid="1666294083519819794">"现在是所有好男儿为国家效力的时候了。"</string>
+    <string name="turn_off_notification_message" msgid="7385884578852634418">"连续尝试关闭短信通知"</string>
     <string name="reply" msgid="767653312635150733">"回复"</string>
     <string name="dismiss" msgid="3587724410950536331">"关闭"</string>
     <string name="activity_label" msgid="3968117725702962381">"短信测试器"</string>
+    <string name="menu_notifications" msgid="7484390730312096695">"短信通知设置"</string>
 </resources>
