@@ -160,7 +160,7 @@
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Omba ripoti ya kutuma kwa kila ujumbe unaotuma"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Futa ujumbe wa zamani kwa kuwa mipaka imefikiwa"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"Ujumbe <xliff:g id="COUNT">%1$s</xliff:g> kwa kila gumzo"</string>
-    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Dhibiti ujumbe wa kadi ya SIM"</string>
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Dhibiti ujumbe wa SIM kadi"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Ripoti za kupeleka"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Soma ripoti"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Ripoti za kupeleka"</string>
