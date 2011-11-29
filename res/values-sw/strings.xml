@@ -81,7 +81,7 @@
     <string name="send" msgid="4589898724889248486">"Tuma"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Hesi zote za parafujo"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Aina ya ujumbe"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Andika ujumbe"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Fungua kibodi ili kucharaza ujumbe"</string>
     <string name="compressing" msgid="1961357529661045180">"Picha ni kubwa sana. Inafinyaza..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Fomati ya <xliff:g id="NAME">%1$s</xliff:g> ambayo haiauniwi."</string>
@@ -160,7 +160,7 @@
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Omba ripoti ya kutuma kwa kila ujumbe unaotuma"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Futa ujumbe wa zamani kwa kuwa mipaka imefikiwa"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"Ujumbe <xliff:g id="COUNT">%1$s</xliff:g> kwa kila gumzo"</string>
-    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Dhibiti ujumbe wa kadi ya SIM"</string>
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Dhibiti ujumbe wa SIM kadi"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Ripoti za kupeleka"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Soma ripoti"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Ripoti za kupeleka"</string>
@@ -285,7 +285,7 @@
     <string name="saved_ringtone" msgid="3847363932276708626">"Mlio wa simu umehifadhiwa."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Haikuweza kuhifadhi mlio wa simu."</string>
     <string name="menu_insert_smiley" msgid="4964504393061025071">"Ingiza kicheshi"</string>
-    <string name="select_link_title" msgid="3371818607625768447">"Kuchagua kitendo"</string>
+    <string name="select_link_title" msgid="3371818607625768447">"Chagua kitendo"</string>
     <string name="slide_number" msgid="1923958526266726635">"Slaidi <xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
     <item quantity="one" msgid="1654101988340583935">"Sekunde <xliff:g id="NUMBER">%s</xliff:g>"</item>
@@ -329,4 +329,5 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"Watu <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
   </plurals>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Komesha arifa  zilizorudufishwa za ujumbe wa maandishi kutoka kwa programu msingi ya Ujumbe?"</string>
 </resources>

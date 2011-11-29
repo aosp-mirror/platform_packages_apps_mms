@@ -17,6 +17,8 @@
  */
  -->
 
+<!--  DO NOT LOCALIZE - this is just a test app  -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sms_recipient_label" msgid="5386729712089560319">"Nr odbiorcy"</string>
@@ -26,7 +28,9 @@
     <string name="sms_send_long_message" msgid="2393262590085164889">"Wyślij długą wiadomość"</string>
     <string name="sms_prime_message" msgid="6552450490792253465">"Przygotuj długą wiadomość"</string>
     <string name="sms_long_message" msgid="1666294083519819794">"To moment, w którym wszyscy dobrzy ludzie powinni przyjść z pomocą swojemu krajowi."</string>
+    <string name="turn_off_notification_message" msgid="7385884578852634418">"Wyślij informację o zamiarze wyłączenia powiadomień SMS."</string>
     <string name="reply" msgid="767653312635150733">"Odpowiedz"</string>
     <string name="dismiss" msgid="3587724410950536331">"Odrzuć"</string>
     <string name="activity_label" msgid="3968117725702962381">"Testowanie wiadomości SMS"</string>
+    <string name="menu_notifications" msgid="7484390730312096695">"Ustawienia powiadomień SMS"</string>
 </resources>

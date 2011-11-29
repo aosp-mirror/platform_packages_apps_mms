@@ -17,6 +17,8 @@
  */
  -->
 
+<!--  DO NOT LOCALIZE - this is just a test app  -->
+
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sms_recipient_label" msgid="5386729712089560319">"נמען מס\'"</string>
@@ -26,7 +28,9 @@
     <string name="sms_send_long_message" msgid="2393262590085164889">"שלח הודעה ארוכה"</string>
     <string name="sms_prime_message" msgid="6552450490792253465">"הכן הודעה ארוכה"</string>
     <string name="sms_long_message" msgid="1666294083519819794">"הגיע הזמן שכל האנשים הטובים יתגייסו למען המדינה שלהם."</string>
+    <string name="turn_off_notification_message" msgid="7385884578852634418">"כבה התראות על הודעות"</string>
     <string name="reply" msgid="767653312635150733">"השב"</string>
     <string name="dismiss" msgid="3587724410950536331">"סגור"</string>
     <string name="activity_label" msgid="3968117725702962381">"בוחן SMS"</string>
+    <string name="menu_notifications" msgid="7484390730312096695">"הגדרות התראות SMS"</string>
 </resources>

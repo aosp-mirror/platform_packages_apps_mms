@@ -327,4 +327,5 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"Broj osoba: <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
   </plurals>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Prestati s dupliciranjem obavijesti putem tekstualnih poruka iz zadane aplikacije za slanje poruka?"</string>
 </resources>
