@@ -158,7 +158,7 @@
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Yêu cầu thông báo gửi cho mỗi tin nhắn bạn gửi"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Yêu cầu báo cáo đọc cho mỗi tin nhắn bạn gửi"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Yêu cầu thông báo gửi cho mỗi tin nhắn bạn gửi"</string>
-    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Xóa đã đạt đến giới hạn tin nhắn cũ"</string>
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Xóa tin nhắn cũ khi đạt đến giới hạn"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> tin nhắn mỗi cuộc hội thoại"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Quản lý tin nhắn trên thẻ SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Thông báo gửi"</string>
@@ -182,7 +182,7 @@
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Tự động truy xuất"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Tự động truy xuất tin nhắn"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Tự động truy xuất khi chuyển vùng"</string>
-    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Tự đông truy xuất tin nhắn khi chuyển vùng"</string>
+    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Tự động truy xuất tin nhắn khi chuyển vùng"</string>
     <string name="confirm_dialog_title" msgid="2187213750475782725">"Xóa?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Xóa tin nhắn bị khóa?"</string>
   <plurals name="confirm_delete_conversation">
@@ -244,7 +244,7 @@
     <string name="attach_video" msgid="4264272693501538294">"Video"</string>
     <string name="attach_record_video" msgid="3099814114743078615">"Quay video"</string>
     <string name="attach_sound" msgid="3149325985970669609">"Âm thanh"</string>
-    <string name="attach_record_sound" msgid="6011431304469858929">"Ghi âm thanh"</string>
+    <string name="attach_record_sound" msgid="6011431304469858929">"Ghi âm"</string>
     <string name="attach_slideshow" msgid="3497422151091037063">"Trình chiếu"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"Văn bản dưới cùng"</string>
     <string name="select_top_text" msgid="6734183477539197815">"Văn bản trên cùng"</string>

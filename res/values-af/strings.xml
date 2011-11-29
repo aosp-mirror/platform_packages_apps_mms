@@ -81,7 +81,7 @@
     <string name="send" msgid="4589898724889248486">"Stuur"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Alle drade"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Voer boodskap in"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Skryf boodskap"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Open sleutelbord om boodskap in te voer"</string>
     <string name="compressing" msgid="1961357529661045180">"Prent te groot. Pers tans saam..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Nie-ondersteunde <xliff:g id="NAME">%1$s</xliff:g>-formaat."</string>

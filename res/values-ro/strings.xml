@@ -29,8 +29,8 @@
     <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"Adăugaţi <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> la Persoane"</string>
     <string name="menu_call" msgid="5877123227307074690">"Apelaţi"</string>
     <string name="menu_search" msgid="2289469305728821360">"Căutaţi"</string>
-    <string name="menu_delete_all" msgid="808729454898114735">"Ştergeţi toate şirurile"</string>
-    <string name="menu_delete" msgid="1851666911396479006">"Ştergeţi firul de conversaţie"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"Ştergeţi toate conversaţiile"</string>
+    <string name="menu_delete" msgid="1851666911396479006">"Ştergeţi conversaţia"</string>
     <string name="menu_view" msgid="7448852683948080108">"Vizualizaţi firele de conversaţie"</string>
     <string name="menu_debug_dump" msgid="6855869130206549643">"DEBUG DUMP"</string>
     <string name="refreshing" msgid="987335057871404222">"Se actualizează..."</string>
@@ -46,7 +46,7 @@
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Mesaje neexpediate"</string>
     <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Acest mesaj nu s-a putut trimite."\n"Încercare efectuată: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Acest mesaj nu s-a putut trimite."</string>
-    <string name="delete_thread" msgid="757258847736632791">"Ştergeţi firul de conversaţie"</string>
+    <string name="delete_thread" msgid="757258847736632791">"Ştergeţi conversaţia"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Redirecţionaţi"</string>
     <string name="download" msgid="4488877642230207631">"Descărcaţi"</string>
     <string name="downloading" msgid="1779557575565350637">"Se descarcă"</string>
