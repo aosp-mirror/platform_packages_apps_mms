@@ -301,6 +301,13 @@ public class MessagingNotification {
             Uri msgUri = Mms.CONTENT_URI.buildUpon().appendPath(
                     Long.toString(msgId)).build();
             String address = AddressUtils.getFrom(context, msgUri);
+
+            Contact contact = Contact.get(address, false);
+            if (contact.getSendToVoicemail()) {
+                // don't notify
+                return null;
+            }
+
             String subject = getMmsSubject(
                     cursor.getString(COLUMN_SUBJECT), cursor.getInt(COLUMN_SUBJECT_CS));
             long threadId = cursor.getLong(COLUMN_THREAD_ID);
@@ -369,6 +376,13 @@ public class MessagingNotification {
             }
 
             String address = cursor.getString(COLUMN_SMS_ADDRESS);
+
+            Contact contact = Contact.get(address, false);
+            if (contact.getSendToVoicemail()) {
+                // don't notify
+                return null;
+            }
+
             String body = cursor.getString(COLUMN_SMS_BODY);
             long threadId = cursor.getLong(COLUMN_THREAD_ID);
             long timeMillis = cursor.getLong(COLUMN_DATE);
