@@ -588,8 +588,7 @@ public class TransactionService extends Service implements Observer {
                     }
 
                     // Restart timer
-                    sendMessageDelayed(obtainMessage(EVENT_CONTINUE_MMS_CONNECTIVITY),
-                                       APN_EXTENSION_WAIT);
+                    renewMmsConnectivity();
                     return;
 
                 case EVENT_TRANSACTION_REQUEST:
@@ -835,6 +834,13 @@ public class TransactionService extends Service implements Observer {
         }
     }
 
+    private void renewMmsConnectivity() {
+        // Set a timer to keep renewing our "lease" on the MMS connection
+        mServiceHandler.sendMessageDelayed(
+                mServiceHandler.obtainMessage(EVENT_CONTINUE_MMS_CONNECTIVITY),
+                           APN_EXTENSION_WAIT);
+    }
+
     private class ConnectivityBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -869,6 +875,17 @@ public class TransactionService extends Service implements Observer {
                 if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                     Log.v(TAG, "   type is not TYPE_MOBILE_MMS, bail");
                 }
+                // This is a very specific fix to handle the case where the phone receives an
+                // incoming call during the time we're trying to setup the mms connection.
+                // When the call ends, restart the process of mms connectivity.
+                if (networkInfo != null &&
+                        Phone.REASON_VOICE_CALL_ENDED.equals(networkInfo.getReason())) {
+                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                        Log.v(TAG, "   reason is " + Phone.REASON_VOICE_CALL_ENDED +
+                                ", retrying mms connectivity");
+                    }
+                    renewMmsConnectivity();
+                }
                 return;
             }
 
@@ -888,10 +905,7 @@ public class TransactionService extends Service implements Observer {
                 return;
             }
 
-            // Set a timer to keep renewing our "lease" on the MMS connection
-            mServiceHandler.sendMessageDelayed(
-                    mServiceHandler.obtainMessage(EVENT_CONTINUE_MMS_CONNECTIVITY),
-                               APN_EXTENSION_WAIT);
+            renewMmsConnectivity();
             mServiceHandler.processPendingTransaction(null, settings);
         }
     };
