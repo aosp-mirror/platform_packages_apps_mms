@@ -92,6 +92,7 @@ public class Contact {
     private boolean mIsStale;
     private boolean mQueryPending;
     private boolean mIsMe;          // true if this contact is me!
+    private boolean mSendToVoicemail;   // true if this contact should not put up notification
 
     public interface UpdateListener {
         public void onUpdate(Contact updated);
@@ -121,6 +122,7 @@ public class Contact {
         mPersonId = 0;
         mPresenceResId = 0;
         mIsStale = true;
+        mSendToVoicemail = false;
     }
     @Override
     public String toString() {
@@ -240,6 +242,10 @@ public class Contact {
 
     public boolean isNumberModified() {
         return mNumberIsModified;
+    }
+
+    public boolean getSendToVoicemail() {
+        return mSendToVoicemail;
     }
 
     public void setIsNumberModified(boolean flag) {
@@ -414,7 +420,8 @@ public class Contact {
                 Phone.CONTACT_ID,               // 4
                 Phone.CONTACT_PRESENCE,         // 5
                 Phone.CONTACT_STATUS,           // 6
-                Phone.NORMALIZED_NUMBER         // 7
+                Phone.NORMALIZED_NUMBER,        // 7
+                Contacts.SEND_TO_VOICEMAIL      // 8
         };
 
         private static final int PHONE_ID_COLUMN = 0;
@@ -425,6 +432,7 @@ public class Contact {
         private static final int CONTACT_PRESENCE_COLUMN = 5;
         private static final int CONTACT_STATUS_COLUMN = 6;
         private static final int PHONE_NORMALIZED_NUMBER = 7;
+        private static final int SEND_TO_VOICEMAIL = 8;
 
         private static final String[] SELF_PROJECTION = new String[] {
                 Phone._ID,                      // 0
@@ -446,12 +454,14 @@ public class Contact {
                 Email.CONTACT_PRESENCE,       // 2
                 Email.CONTACT_ID,             // 3
                 Phone.DISPLAY_NAME,           // 4
+                Contacts.SEND_TO_VOICEMAIL    // 5
         };
         private static final int EMAIL_ID_COLUMN = 0;
         private static final int EMAIL_NAME_COLUMN = 1;
         private static final int EMAIL_STATUS_COLUMN = 2;
         private static final int EMAIL_CONTACT_ID_COLUMN = 3;
         private static final int EMAIL_CONTACT_NAME_COLUMN = 4;
+        private static final int EMAIL_SEND_TO_VOICEMAIL_COLUMN = 5;
 
         private final Context mContext;
 
@@ -664,6 +674,10 @@ public class Contact {
                 return true;
             }
 
+            if (orig.mSendToVoicemail != newContactData.mSendToVoicemail) {
+                return true;
+            }
+
             String oldName = emptyIfNull(orig.mName);
             String newName = emptyIfNull(newContactData.mName);
             if (!oldName.equals(newName)) {
@@ -709,6 +723,7 @@ public class Contact {
                     c.mContactMethodType = entry.mContactMethodType;
                     c.mNumberE164 = entry.mNumberE164;
                     c.mName = entry.mName;
+                    c.mSendToVoicemail = entry.mSendToVoicemail;
 
                     c.notSynchronizedUpdateNameAndNumber();
 
@@ -871,9 +886,11 @@ public class Contact {
                         cursor.getInt(CONTACT_PRESENCE_COLUMN));
                 contact.mPresenceText = cursor.getString(CONTACT_STATUS_COLUMN);
                 contact.mNumberE164 = cursor.getString(PHONE_NORMALIZED_NUMBER);
+                contact.mSendToVoicemail = cursor.getInt(SEND_TO_VOICEMAIL) == 1;
                 if (V) {
                     log("fillPhoneTypeContact: name=" + contact.mName + ", number="
-                            + contact.mNumber + ", presence=" + contact.mPresenceResId);
+                            + contact.mNumber + ", presence=" + contact.mPresenceResId
+                            + " SendToVoicemail: " + contact.mSendToVoicemail);
                 }
             }
             byte[] data = loadAvatarData(contact);
@@ -977,6 +994,7 @@ public class Contact {
                         entry.mPresenceResId = getPresenceIconResourceId(
                                 cursor.getInt(EMAIL_STATUS_COLUMN));
                         entry.mPersonId = cursor.getLong(EMAIL_CONTACT_ID_COLUMN);
+                        entry.mSendToVoicemail = cursor.getInt(EMAIL_SEND_TO_VOICEMAIL_COLUMN) == 1;
 
                         synchronized (entry) {
                             entry.mPresenceResId = getPresenceIconResourceId(
