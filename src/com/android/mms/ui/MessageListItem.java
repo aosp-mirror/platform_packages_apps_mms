@@ -145,6 +145,10 @@ public class MessageListItem extends LinearLayout implements
         mIsLastItemInList = isLastItem;
 
         setLongClickable(false);
+        setClickable(false);    // let the list view handle clicks on the item normally. When
+                                // clickable is true, clicks bypass the listview and go straight
+                                // to this listitem. We always want the listview to handle the
+                                // clicks first.
 
         switch (msgItem.mMessageType) {
             case PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND:
