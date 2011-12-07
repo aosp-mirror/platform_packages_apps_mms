@@ -617,8 +617,6 @@ public class MessageUtils {
     public static void showDiscardDraftConfirmDialog(Context context,
             OnClickListener listener) {
         new AlertDialog.Builder(context)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle(R.string.discard_message)
                 .setMessage(R.string.discard_message_reason)
                 .setPositiveButton(R.string.yes, listener)
                 .setNegativeButton(R.string.no, null)

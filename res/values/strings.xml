@@ -185,8 +185,6 @@
     <string name="resize_image_error_information">This picture is too large to send, even when resized.</string>
     <!-- String prepended to forwarded messages to indicate they were forwarded -->
     <string name="forward_prefix">Fwd:\u0020</string>
-    <!-- Dialog box title that appears when a draft message will not be saved due to invalid recipients -->
-    <string name="discard_message">Discard</string>
     <!-- Dialog message text explaining that a draft message will not be saved due to invalid recipients -->
     <string name="discard_message_reason">Your message will be discarded because it has no valid recipients.</string>
     <!-- Dialog box title indicating which recipients are invalid when the user tries to send a message with invalid recipients -->
@@ -717,9 +715,6 @@
 
     <!-- Brief small label shown to right of message when it is being sent. -->
     <string name="sending_message">SENDING\u2026</string>
-
-    <!-- Title of progress dialog for picker -->
-    <string name="pick_too_many_recipients">Too many recipients</string>
 
     <!-- Message of progress dialog for picker -->
     <string name="adding_recipients">Adding recipients\u2026</string>
