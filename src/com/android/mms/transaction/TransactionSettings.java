@@ -25,10 +25,10 @@ import android.net.Uri;
 import com.android.internal.telephony.Phone;
 import com.android.mms.LogTag;
 
+import android.net.NetworkUtils;
 import android.provider.Telephony;
 import android.text.TextUtils;
 import android.util.Log;
-
 
 /**
  * Container of transaction settings. Instances of this class are contained
@@ -84,8 +84,10 @@ public class TransactionSettings {
                 // Read values from APN settings
                 if (isValidApnType(cursor.getString(COLUMN_TYPE), Phone.APN_TYPE_MMS)) {
                     sawValidApn = true;
-                    mServiceCenter = cursor.getString(COLUMN_MMSC).trim();
-                    mProxyAddress = cursor.getString(COLUMN_MMSPROXY);
+                    mServiceCenter = NetworkUtils.trimV4AddrZeros(
+                            cursor.getString(COLUMN_MMSC).trim());
+                    mProxyAddress = NetworkUtils.trimV4AddrZeros(
+                            cursor.getString(COLUMN_MMSPROXY));
                     if (isProxySet()) {
                         String portString = cursor.getString(COLUMN_MMSPORT);
                         try {
