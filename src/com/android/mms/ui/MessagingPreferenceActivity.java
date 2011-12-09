@@ -81,6 +81,23 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+
+        loadPrefs();
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Since the enabled notifications pref can be changed outside of this activity,
+        // we have to reload it whenever we resume.
+        setEnabledNotificationsPref();
+    }
+
+    private void loadPrefs() {
         addPreferencesFromResource(R.xml.preferences);
 
         mManageSimPref = findPreference("pref_key_manage_sim_messages");
@@ -93,18 +110,21 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         mEnableNotificationsPref = (CheckBoxPreference) findPreference(NOTIFICATION_ENABLED);
         mVibrateWhenPref = (ListPreference) findPreference(NOTIFICATION_VIBRATE_WHEN);
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         setMessagePreferences();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void restoreDefaultPreferences() {
+        PreferenceManager.getDefaultSharedPreferences(this).edit().clear().apply();
+        setPreferenceScreen(null);
+        loadPrefs();
 
-        // Since the enabled notifications pref can be changed outside of this activity,
-        // we have to reload it whenever we resume.
-        setEnabledNotificationsPref();
+        // NOTE: After restoring preferences, the auto delete function (i.e. message recycler)
+        // will be turned off by default. However, we really want the default to be turned on.
+        // Because all the prefs are cleared, that'll cause:
+        // ConversationList.runOneTimeStorageLimitCheckForLegacyMessages to get executed the
+        // next time the user runs the Messaging app and it will either turn on the setting
+        // by default, or if the user is over the limits, encourage them to turn on the setting
+        // manually.
     }
 
     private void setMessagePreferences() {
@@ -237,14 +257,6 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
 
-
-    private void restoreDefaultPreferences() {
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .edit().clear().apply();
-        setPreferenceScreen(null);
-        addPreferencesFromResource(R.xml.preferences);
-        setMessagePreferences();
-    }
 
     NumberPickerDialog.OnNumberSetListener mSmsLimitListener =
         new NumberPickerDialog.OnNumberSetListener() {
