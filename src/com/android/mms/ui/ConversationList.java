@@ -105,7 +105,6 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     private Handler mHandler;
     private boolean mNeedToMarkAsSeen;
     private TextView mUnreadConvCount;
-
     private MenuItem mSearchItem;
     private SearchView mSearchView;
 
@@ -127,8 +126,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
         listView.setMultiChoiceModeListener(new ModeCallback());
 
         // Tell the list view which view to display when the list is empty
-        View emptyView = findViewById(R.id.empty);
-        listView.setEmptyView(emptyView);
+        listView.setEmptyView(findViewById(R.id.empty));
 
         initListAdapter();
 
@@ -300,6 +298,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
         try {
             setTitle(getString(R.string.refreshing));
             setProgressBarIndeterminateVisibility(true);
+            ((TextView)(getListView().getEmptyView())).setText(R.string.loading_conversations);
 
             Conversation.startQueryForAll(mQueryHandler, THREAD_LIST_QUERY_TOKEN);
             Conversation.startQuery(mQueryHandler, UNREAD_THREADS_QUERY_TOKEN, Threads.READ + "=0");
@@ -660,6 +659,20 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
             super(contentResolver);
         }
 
+        // Test code used for various scenarios where its desirable to insert a delay in
+        // responding to query complete. To use, uncomment out the block below and then
+        // comment out the @Override and onQueryComplete line.
+//        @Override
+//        protected void onQueryComplete(final int token, final Object cookie, final Cursor cursor) {
+//            mHandler.postDelayed(new Runnable() {
+//                public void run() {
+//                    myonQueryComplete(token, cookie, cursor);
+//                    }
+//            }, 2000);
+//        }
+//
+//        protected void myonQueryComplete(int token, Object cookie, Cursor cursor) {
+
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch (token) {
@@ -667,6 +680,10 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                 mListAdapter.changeCursor(cursor);
                 setTitle(mTitle);
                 setProgressBarIndeterminateVisibility(false);
+
+                if (mListAdapter.getCount() == 0) {
+                    ((TextView)(getListView().getEmptyView())).setText(R.string.no_conversations);
+                }
 
                 if (mNeedToMarkAsSeen) {
                     mNeedToMarkAsSeen = false;

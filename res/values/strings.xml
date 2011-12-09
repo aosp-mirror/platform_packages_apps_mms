@@ -418,6 +418,8 @@
     <string name="select_conversations">Choose conversations</string>
     <!-- Show this in the middle of the main activity when there are no conversations [CHAR LIMIT=none] -->
     <string name="no_conversations">No conversations.</string>
+    <!-- Show this in the middle of the main activity when loading conversations [CHAR LIMIT=none] -->
+    <string name="loading_conversations">Loading conversations.</string>
 
     <!-- When the user tries to view message details and some error occurs while
          retrieving those details, this message will be shown. -->
