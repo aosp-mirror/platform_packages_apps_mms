@@ -919,7 +919,6 @@ public class WorkingMessage {
                 s = "{...} len=" + size;
             }
         }
-        Log.i(TAG, "setWorkingRecipients: numbers=" + s);
     }
 
     private void dumpWorkingRecipients() {
