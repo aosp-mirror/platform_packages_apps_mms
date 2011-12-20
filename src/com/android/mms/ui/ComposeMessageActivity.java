@@ -48,6 +48,7 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -87,7 +88,7 @@ import android.provider.Telephony.Sms;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
-import android.text.ClipboardManager;
+import android.content.ClipboardManager;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableString;
@@ -1036,9 +1037,8 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void copyToClipboard(String str) {
-        ClipboardManager clip =
-            (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
-        clip.setText(str);
+        ClipboardManager clipboard = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboard.setPrimaryClip(ClipData.newPlainText(null, str));
     }
 
     private void forwardMessage(MessageItem msgItem) {
