@@ -266,6 +266,21 @@ public class MessageListAdapter extends CursorAdapter {
         return boxId == Mms.MESSAGE_BOX_INBOX ? INCOMING_ITEM_TYPE : OUTGOING_ITEM_TYPE;
     }
 
+    public Cursor getCursorForItem(MessageItem item) {
+        Cursor cursor = getCursor();
+        if (isCursorValid(cursor)) {
+            if (cursor.moveToFirst()) {
+                do {
+                    long id = cursor.getLong(mRowIDColumn);
+                    if (id == item.mMsgId) {
+                        return cursor;
+                    }
+                } while (cursor.moveToNext());
+            }
+        }
+        return null;
+    }
+
     public static class ColumnsMap {
         public int mColumnMsgType;
         public int mColumnMsgId;
