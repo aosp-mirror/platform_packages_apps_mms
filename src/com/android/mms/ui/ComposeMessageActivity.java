@@ -890,7 +890,7 @@ public class ComposeMessageActivity extends Activity
 
             menu.setHeaderTitle(R.string.message_options);
 
-            MsgListMenuClickListener l = new MsgListMenuClickListener();
+            MsgListMenuClickListener l = new MsgListMenuClickListener(msgItem);
 
             // It is unclear what would make most sense for copying an MMS message
             // to the clipboard, so we currently do SMS only.
@@ -1088,41 +1088,43 @@ public class ComposeMessageActivity extends Activity
      * Context menu handlers for the message list view.
      */
     private final class MsgListMenuClickListener implements MenuItem.OnMenuItemClickListener {
-        public boolean onMenuItemClick(MenuItem item) {
-            if (!isCursorValid()) {
-                return false;
-            }
-            Cursor cursor = mMsgListAdapter.getCursor();
-            String type = cursor.getString(COLUMN_MSG_TYPE);
-            long msgId = cursor.getLong(COLUMN_ID);
-            MessageItem msgItem = getMessageItem(type, msgId, true);
+        private MessageItem mMsgItem;
 
-            if (msgItem == null) {
+        public MsgListMenuClickListener(MessageItem msgItem) {
+            mMsgItem = msgItem;
+        }
+
+        public boolean onMenuItemClick(MenuItem item) {
+            if (mMsgItem == null) {
                 return false;
             }
 
             switch (item.getItemId()) {
                 case MENU_EDIT_MESSAGE:
-                    editMessageItem(msgItem);
+                    editMessageItem(mMsgItem);
                     drawBottomPanel();
                     return true;
 
                 case MENU_COPY_MESSAGE_TEXT:
-                    copyToClipboard(msgItem.mBody);
+                    copyToClipboard(mMsgItem.mBody);
                     return true;
 
                 case MENU_FORWARD_MESSAGE:
-                    forwardMessage(msgItem);
+                    forwardMessage(mMsgItem);
                     return true;
 
                 case MENU_VIEW_SLIDESHOW:
                     MessageUtils.viewMmsMessageAttachment(ComposeMessageActivity.this,
-                            ContentUris.withAppendedId(Mms.CONTENT_URI, msgId), null);
+                            ContentUris.withAppendedId(Mms.CONTENT_URI, mMsgItem.mMsgId), null);
                     return true;
 
                 case MENU_VIEW_MESSAGE_DETAILS: {
+                    Cursor cursor = mMsgListAdapter.getCursorForItem(mMsgItem);
+                    if (cursor == null) {
+                        return false;
+                    }
                     String messageDetails = MessageUtils.getMessageDetails(
-                            ComposeMessageActivity.this, cursor, msgItem.mMessageSize);
+                            ComposeMessageActivity.this, cursor, mMsgItem.mMessageSize);
                     new AlertDialog.Builder(ComposeMessageActivity.this)
                             .setTitle(R.string.message_details_title)
                             .setMessage(messageDetails)
@@ -1132,34 +1134,35 @@ public class ComposeMessageActivity extends Activity
                 }
                 case MENU_DELETE_MESSAGE: {
                     DeleteMessageListener l = new DeleteMessageListener(
-                            msgItem.mMessageUri, msgItem.mLocked);
-                    confirmDeleteDialog(l, msgItem.mLocked);
+                            mMsgItem.mMessageUri, mMsgItem.mLocked);
+                    confirmDeleteDialog(l, mMsgItem.mLocked);
                     return true;
                 }
                 case MENU_DELIVERY_REPORT:
-                    showDeliveryReport(msgId, type);
+                    showDeliveryReport(mMsgItem.mMsgId, mMsgItem.mType);
                     return true;
 
                 case MENU_COPY_TO_SDCARD: {
-                    int resId = copyMedia(msgId) ? R.string.copy_to_sdcard_success :
+                    int resId = copyMedia(mMsgItem.mMsgId) ? R.string.copy_to_sdcard_success :
                         R.string.copy_to_sdcard_fail;
                     Toast.makeText(ComposeMessageActivity.this, resId, Toast.LENGTH_SHORT).show();
                     return true;
                 }
 
                 case MENU_COPY_TO_DRM_PROVIDER: {
-                    int resId = getDrmMimeSavedStringRsrc(msgId, copyToDrmProvider(msgId));
+                    int resId = getDrmMimeSavedStringRsrc(mMsgItem.mMsgId,
+                            copyToDrmProvider(mMsgItem.mMsgId));
                     Toast.makeText(ComposeMessageActivity.this, resId, Toast.LENGTH_SHORT).show();
                     return true;
                 }
 
                 case MENU_LOCK_MESSAGE: {
-                    lockMessage(msgItem, true);
+                    lockMessage(mMsgItem, true);
                     return true;
                 }
 
                 case MENU_UNLOCK_MESSAGE: {
-                    lockMessage(msgItem, false);
+                    lockMessage(mMsgItem, false);
                     return true;
                 }
 
