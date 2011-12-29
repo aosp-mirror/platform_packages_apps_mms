@@ -131,12 +131,12 @@
     <item msgid="3734955613666864447">"2 sekundy"</item>
     <item msgid="6032232473048379828">"3 sekundy"</item>
     <item msgid="5978471781525927827">"4 sekundy"</item>
-    <item msgid="4888440297621208402">"5 sekund"</item>
-    <item msgid="6047246213264166841">"6 sekund"</item>
-    <item msgid="2327501250056533797">"7 sekund"</item>
-    <item msgid="3400770414689795703">"8 sekund"</item>
-    <item msgid="4358760614161107970">"9 sekund"</item>
-    <item msgid="2618179407176906471">"10 sekund"</item>
+    <item msgid="4888440297621208402">"5 sek."</item>
+    <item msgid="6047246213264166841">"6 sek."</item>
+    <item msgid="2327501250056533797">"7 sek."</item>
+    <item msgid="3400770414689795703">"8 sek."</item>
+    <item msgid="4358760614161107970">"9 sek."</item>
+    <item msgid="2618179407176906471">"10 sek."</item>
     <item msgid="7786079681602275449">"Inny"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"Pokaż kontakt"</string>
@@ -199,6 +199,7 @@
     <string name="delete" msgid="1409973060081564612">"Usuń"</string>
     <string name="select_conversations" msgid="7816517565640002844">"Wybierz wątki"</string>
     <string name="no_conversations" msgid="6773767655149258445">"Brak wątków"</string>
+    <string name="loading_conversations" msgid="5510430408235967094">"Ładowanie konwersacji"</string>
     <string name="cannot_get_details" msgid="850292987983026806">"Nie można uzyskać szczegółów."</string>
     <string name="message_details_title" msgid="9223295113731634528">"Szczegóły wiadomości"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Typ: "</string>

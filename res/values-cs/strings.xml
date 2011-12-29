@@ -199,6 +199,7 @@
     <string name="delete" msgid="1409973060081564612">"Smazat"</string>
     <string name="select_conversations" msgid="7816517565640002844">"Zvolit konverzace"</string>
     <string name="no_conversations" msgid="6773767655149258445">"Žádné konverzace."</string>
+    <string name="loading_conversations" msgid="5510430408235967094">"Načítání konverzací..."</string>
     <string name="cannot_get_details" msgid="850292987983026806">"Podrobnosti nelze načíst."</string>
     <string name="message_details_title" msgid="9223295113731634528">"Podrobnosti zprávy"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Typ: "</string>

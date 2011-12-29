@@ -199,6 +199,7 @@
     <string name="delete" msgid="1409973060081564612">"Supprimer"</string>
     <string name="select_conversations" msgid="7816517565640002844">"Sélectionner des conversations"</string>
     <string name="no_conversations" msgid="6773767655149258445">"Aucune conversation"</string>
+    <string name="loading_conversations" msgid="5510430408235967094">"Chargement des conversations en cours…"</string>
     <string name="cannot_get_details" msgid="850292987983026806">"Impossible de récupérer les détails."</string>
     <string name="message_details_title" msgid="9223295113731634528">"Détails du message"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Type : "</string>

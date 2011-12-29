@@ -199,6 +199,7 @@
     <string name="delete" msgid="1409973060081564612">"Eliminar"</string>
     <string name="select_conversations" msgid="7816517565640002844">"Elige conversaciones"</string>
     <string name="no_conversations" msgid="6773767655149258445">"Ninguna conversación"</string>
+    <string name="loading_conversations" msgid="5510430408235967094">"Cargando conversaciones"</string>
     <string name="cannot_get_details" msgid="850292987983026806">"No se puede obtener detalles."</string>
     <string name="message_details_title" msgid="9223295113731634528">"Detalles del mensaje"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Tipo: "</string>
@@ -288,7 +289,7 @@
   <plurals name="slide_duration">
     <item quantity="one" msgid="1654101988340583935">"<xliff:g id="NUMBER">%s</xliff:g>segundo"</item>
     <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g> segundos"</item>
-    <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g>segundos"</item>
+    <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g> segundos"</item>
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"Informe de entrega"</string>
     <string name="storage_limits_activity" msgid="8810530813311077716">"Límites de almacenamiento"</string>

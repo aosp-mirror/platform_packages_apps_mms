@@ -20,7 +20,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"Kutuma ujumbe"</string>
+    <string name="app_label" msgid="1503967887341230795">"SMS/MMS"</string>
     <string name="new_message" msgid="1530369762346003973">"Ujumbe mpya"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Piga simu <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Tuma ujumbe kwa <xliff:g id="NAME">%s</xliff:g>"</string>
@@ -199,6 +199,7 @@
     <string name="delete" msgid="1409973060081564612">"Futa"</string>
     <string name="select_conversations" msgid="7816517565640002844">"Chagua mazungumzo"</string>
     <string name="no_conversations" msgid="6773767655149258445">"Hakuna mazungumzo."</string>
+    <string name="loading_conversations" msgid="5510430408235967094">"Inapakia mazungumzo."</string>
     <string name="cannot_get_details" msgid="850292987983026806">"Haiwezi kupata maelezo."</string>
     <string name="message_details_title" msgid="9223295113731634528">"Maelezo ya ujumbe"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Aina: "</string>
@@ -299,9 +300,9 @@
     <string name="edit_slide_activity" msgid="8752829671778696983">"Hariri slaidi"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Onyesho la slaidi"</string>
     <string name="class_0_message_activity" msgid="6631339964159861048">"Ujumbe wa tabaka 0"</string>
-    <string name="search_label" msgid="6042598929386174964">"Kutuma ujumbe"</string>
+    <string name="search_label" msgid="6042598929386174964">"SMS/MMS"</string>
     <string name="search_hint" msgid="7273727663577472044">"Tafuta ujumbe"</string>
-    <string name="search" msgid="7560238620274735199">"Kutuma ujumbe"</string>
+    <string name="search" msgid="7560238620274735199">"SMS/MMS"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"Maandishi katika ujumbe wako"</string>
     <string name="search_empty" msgid="2109551478056039278">"Hakuna zinazolingana"</string>
   <plurals name="search_results_title">
