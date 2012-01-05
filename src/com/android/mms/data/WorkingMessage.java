@@ -827,6 +827,7 @@ public class WorkingMessage {
                 // user turns an mms back into a sms, such as creating an mms draft with a picture,
                 // then removing the picture.
                 asyncDeleteDraftMmsMessage(mConversation);
+                mMessageUri = null;
             }
         }
 
@@ -1597,6 +1598,7 @@ public class WorkingMessage {
         values.put(Sms.TYPE, Sms.MESSAGE_TYPE_DRAFT);
         SqliteWrapper.insert(mActivity, mContentResolver, Sms.CONTENT_URI, values);
         asyncDeleteDraftMmsMessage(conv);
+        mMessageUri = null;
     }
 
     private void asyncDelete(final Uri uri, final String selection, final String[] selectionArgs) {
