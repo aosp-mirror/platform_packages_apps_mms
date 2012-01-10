@@ -3743,11 +3743,18 @@ public class ComposeMessageActivity extends Activity
             // If we're deleting the whole conversation, throw away
             // our current working message and bail.
             if (token == ConversationList.DELETE_CONVERSATION_TOKEN) {
+                ContactList recipients = mConversation.getRecipients();
                 mWorkingMessage.discard();
 
-                // Rebuild the contacts cache now that a thread and its associated unique
-                // recipients have been deleted.
-                Contact.init(ComposeMessageActivity.this);
+                // Remove any recipients referenced by this single thread from the
+                // contacts cache. It's possible for two or more threads to reference
+                // the same contact. That's ok if we remove it. We'll recreate that contact
+                // when we init all Conversations below.
+                if (recipients != null) {
+                    for (Contact contact : recipients) {
+                        contact.removeFromCache();
+                    }
+                }
 
                 // Make sure the conversation cache reflects the threads in the DB.
                 Conversation.init(ComposeMessageActivity.this);

@@ -646,7 +646,7 @@ public class Conversation {
         Uri uri = ContentUris.withAppendedId(Threads.CONTENT_URI, threadId);
         String selection = deleteAll ? null : "locked=0";
         PduCache.getInstance().purge(uri);
-        handler.startDelete(token, null, uri, selection, null);
+        handler.startDelete(token, new Long(threadId), uri, selection, null);
     }
 
     /**
@@ -659,7 +659,7 @@ public class Conversation {
     public static void startDeleteAll(AsyncQueryHandler handler, int token, boolean deleteAll) {
         String selection = deleteAll ? null : "locked=0";
         PduCache.getInstance().purge(Threads.CONTENT_URI);
-        handler.startDelete(token, null, Threads.CONTENT_URI, selection, null);
+        handler.startDelete(token, new Long(-1), Threads.CONTENT_URI, selection, null);
     }
 
     /**

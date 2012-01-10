@@ -166,6 +166,10 @@ public class Contact {
         return sContactCache.getMe(canBlock);
     }
 
+    public void removeFromCache() {
+        sContactCache.remove(this);
+    }
+
     public static List<Contact> getByPhoneUris(Parcelable[] uris) {
         return sContactCache.getContactInfoForPhoneUris(uris);
     }
@@ -1110,6 +1114,39 @@ public class Contact {
                         synchronized (c) {
                             c.mIsStale = true;
                         }
+                    }
+                }
+            }
+        }
+
+        // Remove a contact from the ContactsCache based on the number or email address
+        private void remove(Contact contact) {
+            synchronized (ContactsCache.this) {
+                String number = contact.getNumber();
+                final boolean isNotRegularPhoneNumber = contact.isMe() ||
+                                    Mms.isEmailAddress(number) ||
+                                    MessageUtils.isAlias(number);
+                final String key = isNotRegularPhoneNumber ?
+                        number : key(number, sStaticKeyBuffer);
+                ArrayList<Contact> candidates = mContactsHash.get(key);
+                if (candidates != null) {
+                    int length = candidates.size();
+                    for (int i = 0; i < length; i++) {
+                        Contact c = candidates.get(i);
+                        if (isNotRegularPhoneNumber) {
+                            if (number.equals(c.mNumber)) {
+                                candidates.remove(i);
+                                break;
+                            }
+                        } else {
+                            if (PhoneNumberUtils.compare(number, c.mNumber)) {
+                                candidates.remove(i);
+                                break;
+                            }
+                        }
+                    }
+                    if (candidates.size() == 0) {
+                        mContactsHash.remove(key);
                     }
                 }
             }
