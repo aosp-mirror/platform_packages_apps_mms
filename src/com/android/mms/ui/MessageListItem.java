@@ -470,28 +470,25 @@ public class MessageListItem extends LinearLayout implements
         }
 
         // Check for links. If none, do nothing; if 1, open it; if >1, ask user to pick one
-        URLSpan[] spans = mBodyTextView.getUrls();
+        final URLSpan[] spans = mBodyTextView.getUrls();
 
         if (spans.length == 0) {
             // Do nothing.
         } else if (spans.length == 1) {
-            Uri uri = Uri.parse(spans[0].getURL());
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            intent.putExtra(Browser.EXTRA_APPLICATION_ID, mContext.getPackageName());
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-            mContext.startActivity(intent);
+            spans[0].onClick(mBodyTextView);
         } else {
-            final java.util.ArrayList<String> urls = MessageUtils.extractUris(spans);
-
-            ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(mContext, android.R.layout.select_dialog_item, urls) {
+            ArrayAdapter<URLSpan> adapter =
+                new ArrayAdapter<URLSpan>(mContext, android.R.layout.select_dialog_item, spans) {
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
                     try {
-                        String url = getItem(position).toString();
+                        URLSpan span = getItem(position);
+                        String url = span.getURL();
+                        Uri uri = Uri.parse(url);
                         TextView tv = (TextView) v;
-                        Drawable d = mContext.getPackageManager().getActivityIcon(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                        Drawable d = mContext.getPackageManager().getActivityIcon(
+                                new Intent(Intent.ACTION_VIEW, uri));
                         if (d != null) {
                             d.setBounds(0, 0, d.getIntrinsicHeight(), d.getIntrinsicHeight());
                             tv.setCompoundDrawablePadding(10);
@@ -517,11 +514,7 @@ public class MessageListItem extends LinearLayout implements
                 @Override
                 public final void onClick(DialogInterface dialog, int which) {
                     if (which >= 0) {
-                        Uri uri = Uri.parse(urls.get(which));
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        intent.putExtra(Browser.EXTRA_APPLICATION_ID, mContext.getPackageName());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                        mContext.startActivity(intent);
+                        spans[which].onClick(mBodyTextView);
                     }
                     dialog.dismiss();
                 }
