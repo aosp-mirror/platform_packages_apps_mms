@@ -37,7 +37,6 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.SearchManager;
-import android.app.SearchManager.OnDismissListener;
 import android.app.SearchableInfo;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
@@ -57,7 +56,6 @@ import android.provider.ContactsContract.Contacts;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Threads;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.Gravity;
@@ -718,10 +716,25 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
         protected void onDeleteComplete(int token, Object cookie, int result) {
             switch (token) {
             case DELETE_CONVERSATION_TOKEN:
-                // Rebuild the contacts cache now that a thread and its associated unique
-                // recipients have been deleted.
-                Contact.init(ConversationList.this);
+                long threadId = cookie != null ? (Long)cookie : -1;     // default to all threads
 
+                if (threadId == -1) {
+                    // Rebuild the contacts cache now that all threads and their associated unique
+                    // recipients have been deleted.
+                    Contact.init(ConversationList.this);
+                } else {
+                    // Remove any recipients referenced by this single thread from the
+                    // contacts cache. It's possible for two or more threads to reference
+                    // the same contact. That's ok if we remove it. We'll recreate that contact
+                    // when we init all Conversations below.
+                    Conversation conv = Conversation.get(ConversationList.this, threadId, false);
+                    if (conv != null) {
+                        ContactList recipients = conv.getRecipients();
+                        for (Contact contact : recipients) {
+                            contact.removeFromCache();
+                        }
+                    }
+                }
                 // Make sure the conversation cache reflects the threads in the DB.
                 Conversation.init(ConversationList.this);
 
