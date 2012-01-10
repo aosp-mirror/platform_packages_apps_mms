@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 
 import com.android.mms.R;
 import com.android.mms.data.Contact;
+import com.android.mms.data.WorkingMessage;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.TextModel;
@@ -168,7 +169,21 @@ public class MessageItem {
                 mMessageSize = (int) notifInd.getMessageSize();
                 timestamp = notifInd.getExpiry() * 1000L;
             } else {
-                MultimediaMessagePdu msg = (MultimediaMessagePdu) p.load(mMessageUri);
+                MultimediaMessagePdu msg = null;
+                try {
+                    msg = (MultimediaMessagePdu) p.load(mMessageUri);
+                } catch (MmsException e) {
+                    Log.w(TAG, "Couldn't load mms: " + mMessageUri);
+                    mSlideshow = null;
+                    mAttachmentType = WorkingMessage.TEXT;
+                    mDeliveryStatus = DeliveryStatus.NONE;
+                    mReadReport = false;
+                    mBody = null;
+                    mMessageSize = 0;
+                    mTextContentType = null;
+                    mTimestamp = null;
+                    return;
+                }
                 mSlideshow = SlideshowModel.createFromPduBody(context, msg.getBody());
                 mAttachmentType = MessageUtils.getAttachmentType(mSlideshow);
 

@@ -288,10 +288,12 @@ public class MessageListItem extends LinearLayout implements
         if (msgItem.isSms()) {
             hideMmsViewIfNeeded();
         } else {
-            Presenter presenter = PresenterFactory.getPresenter(
-                    "MmsThumbnailPresenter", mContext,
-                    this, msgItem.mSlideshow);
-            presenter.present();
+            if (msgItem.mSlideshow != null) {
+                Presenter presenter = PresenterFactory.getPresenter(
+                        "MmsThumbnailPresenter", mContext,
+                        this, msgItem.mSlideshow);
+                presenter.present();
+            }
 
             if (msgItem.mAttachmentType != WorkingMessage.TEXT) {
                 inflateMmsView();
