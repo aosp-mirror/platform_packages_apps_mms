@@ -38,6 +38,7 @@ import android.database.sqlite.SqliteWrapper;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -477,6 +478,7 @@ public class MessagingNotification {
         }
 
         Notification notification = new Notification(iconRes, ticker, timeMillis);
+        Intent[] intents;
 
         // If we have more than one unique thread, change the title (which would
         // normally be the contact who sent the message) to a generic one that
@@ -484,13 +486,26 @@ public class MessagingNotification {
         // user to the conversation list instead of the specific thread.
         if (uniqueThreadCount > 1) {
             title = context.getString(R.string.notification_multiple_title);
-            clickIntent = new Intent(Intent.ACTION_MAIN);
+            Intent mainActivityIntent = new Intent(Intent.ACTION_MAIN);
 
-            clickIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+            mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                     | Intent.FLAG_ACTIVITY_SINGLE_TOP
                     | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            clickIntent.setType("vnd.android-dir/mms-sms");
+            mainActivityIntent.setType("vnd.android-dir/mms-sms");
+            intents = new Intent[1];
+            intents[0] = mainActivityIntent;
+        } else {
+            // Build a stack of intents so when the user hits back from the ComposeMessageActivity
+            // we're sending them to, they'll up on ConversationList.
+            intents = new Intent[2];
+
+            // First: root activity of the MessagingApp: ConversationList.
+            // This is a convenient way to make the proper Intent to launch and
+            // reset an application's task.
+            intents[0] = Intent.makeRestartActivityTask(new ComponentName(context,
+                    ConversationList.class));
+            intents[1] = clickIntent;
         }
 
         // If there is more than one message, change the description (which
@@ -502,7 +517,7 @@ public class MessagingNotification {
         }
 
         // Make a startActivity() PendingIntent for the notification.
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, clickIntent,
+        PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, intents,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Update the notification.
