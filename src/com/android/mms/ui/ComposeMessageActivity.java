@@ -146,6 +146,7 @@ import com.android.mms.model.SlideshowModel;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
+import com.android.mms.util.AddressUtils;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
 
@@ -717,7 +718,9 @@ public class ComposeMessageActivity extends Activity
                 return false;
             }
         }
-        if (!(Mms.isEmailAddress(name) || Mms.isPhoneNumber(name) || contact.isMe())) {
+        if (!(Mms.isEmailAddress(name) ||
+                AddressUtils.isPossiblePhoneNumber(name) ||
+                contact.isMe())) {
             return false;
         }
         return true;
