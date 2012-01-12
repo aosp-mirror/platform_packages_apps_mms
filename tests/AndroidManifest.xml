@@ -37,4 +37,8 @@
     <instrumentation android:name="com.android.mms.MmsLaunchPerformance"
                      android:targetPackage="com.android.mms"
                      android:label="Mms Launch Performance Test"/>
+
+    <instrumentation android:name="com.android.mms.SmsTestRunner"
+                     android:targetPackage="com.android.mms"
+                     android:label="Sms stress Test"/>
 </manifest>
