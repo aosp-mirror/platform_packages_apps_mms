@@ -63,6 +63,17 @@ public class MmsApp extends Application {
         // Load the default preference values
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
+        // Figure out the country *before* loading contacts and formatting numbers
+        mCountryDetector = (CountryDetector) getSystemService(Context.COUNTRY_DETECTOR);
+        mCountryListener = new CountryListener() {
+            @Override
+            public synchronized void onCountryDetected(Country country) {
+                mCountryIso = country.getCountryIso();
+            }
+        };
+        mCountryDetector.addCountryListener(mCountryListener, getMainLooper());
+        mCountryIso = mCountryDetector.detectCountry().getCountryIso();
+
         MmsConfig.init(this);
         Contact.init(this);
         DraftCache.init(this);
@@ -73,15 +84,6 @@ public class MmsApp extends Application {
         LayoutManager.init(this);
         SmileyParser.init(this);
         MessagingNotification.init(this);
-        mCountryDetector = (CountryDetector) getSystemService(Context.COUNTRY_DETECTOR);
-        mCountryListener = new CountryListener() {
-            @Override
-            public synchronized void onCountryDetected(Country country) {
-                mCountryIso = country.getCountryIso();
-            }
-        };
-        mCountryDetector.addCountryListener(mCountryListener, getMainLooper());
-        mCountryDetector.detectCountry();
     }
 
     synchronized public static MmsApp getApplication() {
@@ -125,6 +127,6 @@ public class MmsApp extends Application {
     }
 
     public String getCurrentCountryIso() {
-        return mCountryIso == null ? Locale.getDefault().getCountry() : mCountryIso;
+        return mCountryIso;
     }
 }
