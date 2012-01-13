@@ -311,6 +311,7 @@ public class RecipientsEditor extends RecipientEditTextView {
 
     private static String getNumberAt(Spanned sp, int start, int end, Context context) {
         String number = getFieldAt("number", sp, start, end, context);
+        number = PhoneNumberUtils.replaceUnicodeDigits(number);
         if (!TextUtils.isEmpty(number)) {
             Rfc822Token[] tokens = Rfc822Tokenizer.tokenize(number);
             if (tokens.length == 0) {
