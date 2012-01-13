@@ -407,6 +407,18 @@ public class WorkingMessage {
         }
         correctAttachmentState();
 
+        if (type == IMAGE) {
+            // Prime the image's cache; helps A LOT when the image is coming from the network
+            // (e.g. Picasa album). See b/5445690.
+            int numSlides = mSlideshow.size();
+            if (numSlides > 0) {
+                ImageModel imgModel = mSlideshow.get(numSlides - 1).getImage();
+                if (imgModel != null && !imgModel.isDrmProtected()) {
+                    imgModel.getBitmap();
+                }
+            }
+        }
+
         mStatusListener.onAttachmentChanged();  // have to call whether succeeded or failed,
                                                 // because a replace that fails, removes the slide
 
