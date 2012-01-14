@@ -147,6 +147,7 @@ import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
 import com.android.mms.util.AddressUtils;
+import com.android.mms.util.PhoneNumberFormatter;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
 
@@ -1686,6 +1687,8 @@ public class ComposeMessageActivity extends Activity
                 }
             }
         });
+
+        PhoneNumberFormatter.setPhoneNumberFormattingTextWatcher(this, mRecipientsEditor);
 
         mTopPanel.setVisibility(View.VISIBLE);
     }
