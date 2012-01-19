@@ -134,30 +134,42 @@ public class RetryScheduler implements Observer {
                     boolean retry = true;
                     int respStatus = getResponseStatus(msgId);
                     int errorString = 0;
-                    switch (respStatus) {
-                        case PduHeaders.RESPONSE_STATUS_ERROR_SENDING_ADDRESS_UNRESOLVED:
-                            errorString = R.string.invalid_destination;
-                            break;
-
-                        case PduHeaders.RESPONSE_STATUS_ERROR_SERVICE_DENIED:
-                        case PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_SERVICE_DENIED:
-                            errorString = R.string.service_not_activated;
-                            break;
-
-                        case PduHeaders.RESPONSE_STATUS_ERROR_NETWORK_PROBLEM:
-                            errorString = R.string.service_network_problem;
-                            break;
-
-                        case PduHeaders.RESPONSE_STATUS_ERROR_TRANSIENT_MESSAGE_NOT_FOUND:
-                        case PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_MESSAGE_NOT_FOUND:
-                            errorString = R.string.service_message_not_found;
-                            break;
+                    if (!isRetryDownloading) {
+                        // Send Transaction case
+                        switch (respStatus) {
+                            case PduHeaders.RESPONSE_STATUS_ERROR_SENDING_ADDRESS_UNRESOLVED:
+                                errorString = R.string.invalid_destination;
+                                break;
+                            case PduHeaders.RESPONSE_STATUS_ERROR_SERVICE_DENIED:
+                            case PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_SERVICE_DENIED:
+                                errorString = R.string.service_not_activated;
+                                break;
+                            case PduHeaders.RESPONSE_STATUS_ERROR_NETWORK_PROBLEM:
+                                errorString = R.string.service_network_problem;
+                                break;
+                            case PduHeaders.RESPONSE_STATUS_ERROR_TRANSIENT_MESSAGE_NOT_FOUND:
+                            case PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_MESSAGE_NOT_FOUND:
+                                errorString = R.string.service_message_not_found;
+                                break;
+                        }
+                        if (errorString != 0) {
+                            DownloadManager.getInstance().showErrorCodeToast(errorString);
+                            retry = false;
+                        }
+                    } else {
+                        // apply R880 IOT issue (Conformance 11.6 Retrieve Invalid Message)
+                        // Notification Transaction case
+                        respStatus = getRetrieveStatus(msgId);
+                        if (respStatus ==
+                                PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_MESSAGE_NOT_FOUND) {
+                            DownloadManager.getInstance().showErrorCodeToast(
+                                    R.string.service_message_not_found);
+                            SqliteWrapper.delete(mContext, mContext.getContentResolver(), uri,
+                                    null, null);
+                            retry = false;
+                            return;
+                        }
                     }
-                    if (errorString != 0) {
-                        DownloadManager.getInstance().showErrorCodeToast(errorString);
-                        retry = false;
-                    }
-
                     if ((retryIndex < scheme.getRetryLimit()) && retry) {
                         long retryAt = current + scheme.getWaitingInterval();
 
@@ -241,6 +253,27 @@ public class RetryScheduler implements Observer {
             Log.e(TAG, "Response status is: " + respStatus);
         }
         return respStatus;
+    }
+
+    // apply R880 IOT issue (Conformance 11.6 Retrieve Invalid Message)
+    private int getRetrieveStatus(long msgID) {
+        int retrieveStatus = 0;
+        Cursor cursor = SqliteWrapper.query(mContext, mContentResolver,
+                Mms.Inbox.CONTENT_URI, null, Mms._ID + "=" + msgID, null, null);
+        try {
+            if (cursor.moveToFirst()) {
+                retrieveStatus = cursor.getInt(cursor.getColumnIndexOrThrow(
+                            Mms.RESPONSE_STATUS));
+            }
+        } finally {
+            cursor.close();
+        }
+        if (retrieveStatus != 0) {
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                Log.v(TAG, "Retrieve status is: " + retrieveStatus);
+            }
+        }
+        return retrieveStatus;
     }
 
     public static void setRetryAlarm(Context context) {
