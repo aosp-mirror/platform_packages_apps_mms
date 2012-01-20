@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Telephony.Sms;
+import android.provider.Telephony.Sms.Inbox;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
@@ -74,7 +75,7 @@ public class MessageStatusReceiver extends BroadcastReceiver {
                 Uri updateUri = ContentUris.withAppendedId(STATUS_URI, messageId);
                 int status = message.getStatus();
                 boolean isStatusReport = message.isStatusReportMessage();
-                ContentValues contentValues = new ContentValues(1);
+                ContentValues contentValues = new ContentValues(2);
 
                 if (Log.isLoggable(LogTag.TAG, Log.DEBUG)) {
                     log("updateMessageStatus: msgUrl=" + messageUri + ", status=" + status +
@@ -82,6 +83,7 @@ public class MessageStatusReceiver extends BroadcastReceiver {
                 }
 
                 contentValues.put(Sms.STATUS, status);
+                contentValues.put(Inbox.DATE_SENT, System.currentTimeMillis());
                 SqliteWrapper.update(context, context.getContentResolver(),
                                     updateUri, contentValues, null, null);
             } else {

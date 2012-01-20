@@ -23,6 +23,7 @@ import com.android.mms.data.Contact;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import android.widget.TextView;
 public class DeliveryReportListItem extends LinearLayout {
     private TextView mRecipientView;
     private TextView mStatusView;
+    private TextView mDeliveryDateView;
     private ImageView mIconView;
 
     DeliveryReportListItem(Context context) {
@@ -46,6 +48,7 @@ public class DeliveryReportListItem extends LinearLayout {
 
         mRecipientView = (TextView) findViewById(R.id.recipient);
         mStatusView = (TextView) findViewById(R.id.status);
+        mDeliveryDateView = (TextView) findViewById(R.id.delivery_date);
         mIconView = (ImageView) findViewById(R.id.icon);
     }
 
@@ -53,7 +56,7 @@ public class DeliveryReportListItem extends LinearLayout {
         super(context, attrs);
     }
 
-    public final void bind(String recipient, String status) {
+    public final void bind(String recipient, String status, String deliveryDate) {
         // Recipient
         if (!TextUtils.isEmpty(recipient)) {
             mRecipientView.setText(Contact.get(recipient, false).getName());
@@ -81,6 +84,13 @@ public class DeliveryReportListItem extends LinearLayout {
             mIconView.setImageResource(R.drawable.ic_sms_mms_not_delivered);
         } else {
             // No status report or unknown
+        }
+
+        if (TextUtils.isEmpty(deliveryDate)) {
+            mDeliveryDateView.setVisibility(View.GONE);
+        } else {
+            mDeliveryDateView.setVisibility(View.VISIBLE);
+            mDeliveryDateView.setText(deliveryDate);
         }
     }
 }
