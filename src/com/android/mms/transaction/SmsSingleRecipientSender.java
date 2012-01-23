@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
+import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 import android.util.Log;
 
@@ -52,8 +53,10 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
             messages = smsManager.divideMessage(msgText);
         } else {
             messages = smsManager.divideMessage(mMessageText);
-            // remove spaces from destination number (e.g. "801 555 1212" -> "8015551212")
-            mDest = mDest.replaceAll(" ", "");
+            // remove spaces and dashes from destination number
+            // (e.g. "801 555 1212" -> "8015551212")
+            // (e.g. "+8211-123-4567" -> "+82111234567")
+            mDest = PhoneNumberUtils.stripSeparators(mDest);
             mDest = Conversation.verifySingleRecipient(mContext, mThreadId, mDest);
         }
         int messageCount = messages.size();
