@@ -253,6 +253,10 @@ public class UriImage {
                 options.inSampleSize = sampleSize;
                 try {
                     b = BitmapFactory.decodeStream(input, null, options);
+                    if (b == null) {
+                        return null;    // Couldn't decode and it wasn't because of an exception,
+                                        // bail.
+                    }
                 } catch (OutOfMemoryError e) {
                     Log.w(TAG, "getResizedImageData: img too large to decode (OutOfMemoryError), " +
                             "may try with larger sampleSize. Curr sampleSize=" + sampleSize);

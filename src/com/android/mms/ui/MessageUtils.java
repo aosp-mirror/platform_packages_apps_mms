@@ -526,9 +526,12 @@ public class MessageUtils {
         context.startActivity(intent);
     }
 
-    public static void showErrorDialog(Context context,
+    public static void showErrorDialog(Activity activity,
             String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        if (activity.isFinishing()) {
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         builder.setIcon(R.drawable.ic_sms_mms_not_delivered);
         builder.setTitle(title);
