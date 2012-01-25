@@ -18,18 +18,18 @@
 -->
 <!-- DO NOT LOCALIZE - this is just a test app -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="sms_recipient_label">Recipient #</string>
-    <string name="sms_content_label">Message Body</string>
-    <string name="sms_send_message">Send</string>
-    <string name="sms_send_multi_message">Send five messages</string>
-    <string name="sms_send_long_message">Send a long message</string>
-    <string name="sms_prime_message">Prime a long message</string>
-    <string name="sms_long_message">Now is the time for all good men to come to the aid of their country.</string>
-    <string name="turn_off_notification_message">Fire off intent to turn off messaging notifications</string>
-    <string name="reply">Reply</string>
-    <string name="dismiss">Dismiss</string>
-    <string name="activity_label">Sms Tester</string>
-    <string name="menu_notifications">Sms notification settings</string>
+    <string name="sms_recipient_label" translatable="false">Recipient #</string>
+    <string name="sms_content_label" translatable="false">Message Body</string>
+    <string name="sms_send_message" translatable="false">Send</string>
+    <string name="sms_send_multi_message" translatable="false">Send five messages</string>
+    <string name="sms_send_long_message" translatable="false">Send a long message</string>
+    <string name="sms_prime_message" translatable="false">Prime a long message</string>
+    <string name="sms_long_message" translatable="false">Now is the time for all good men to come to the aid of their country.</string>
+    <string name="turn_off_notification_message" translatable="false">Fire off intent to turn off messaging notifications</string>
+    <string name="reply" translatable="false">Reply</string>
+    <string name="dismiss" translatable="false">Dismiss</string>
+    <string name="activity_label" translatable="false">Sms Tester</string>
+    <string name="menu_notifications" translatable="false">Sms notification settings</string>
 
 </resources>
 
