@@ -263,7 +263,9 @@ public class MessageListAdapter extends CursorAdapter {
         } else {
             boxId = cursor.getInt(mColumnsMap.mColumnMmsMessageBox);
         }
-        return boxId == Mms.MESSAGE_BOX_INBOX ? INCOMING_ITEM_TYPE : OUTGOING_ITEM_TYPE;
+        // Note that messages from the SIM card all have a boxId of zero: Mms.MESSAGE_BOX_ALL
+        return (boxId == Mms.MESSAGE_BOX_INBOX || boxId == Mms.MESSAGE_BOX_ALL) ?
+                INCOMING_ITEM_TYPE : OUTGOING_ITEM_TYPE;
     }
 
     public Cursor getCursorForItem(MessageItem item) {
