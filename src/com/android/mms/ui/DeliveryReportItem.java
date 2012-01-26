@@ -18,15 +18,17 @@
 package com.android.mms.ui;
 
 /**
- * This object holds information used by the DeliveryReportAdapter to create 
+ * This object holds information used by the DeliveryReportAdapter to create
  * DeliveryReportListItems.
  */
 public class DeliveryReportItem {
     String recipient;
     String status;
-    
-    public DeliveryReportItem(String recipient, String status) {
+    String deliveryDate;
+
+    public DeliveryReportItem(String recipient, String status, String deliveryDate) {
         this.recipient = recipient;
         this.status = status;
+        this.deliveryDate = deliveryDate;
     }
 }

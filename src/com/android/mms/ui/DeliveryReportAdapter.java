@@ -53,7 +53,7 @@ public class DeliveryReportAdapter extends ArrayAdapter<DeliveryReportItem> {
             }
         }
 
-        listItem.bind(item.recipient, item.status);
+        listItem.bind(item.recipient, item.status, item.deliveryDate);
 
         return listItem;
     }

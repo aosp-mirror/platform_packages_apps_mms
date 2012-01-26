@@ -73,7 +73,9 @@ public class DeliveryReportActivity extends ListActivity {
 
     static final String[] SMS_REPORT_STATUS_PROJECTION = new String[] {
         Sms.ADDRESS,            //0
-        Sms.STATUS              //1
+        Sms.STATUS,             //1
+        Sms.DATE_SENT,          //2
+        Sms.TYPE                //3
     };
 
     // These indices must sync up with the projections above.
@@ -82,6 +84,8 @@ public class DeliveryReportActivity extends ListActivity {
     static final int COLUMN_READ_REPORT         = 2;
     static final int COLUMN_DELIVERY_STATUS     = 1;
     static final int COLUMN_READ_STATUS         = 2;
+    static final int COLUMN_DATE_SENT           = 2;
+    static final int COLUMN_MESSAGE_TYPE        = 3;
 
     private long mMessageId;
     private String mMessageType;
@@ -111,7 +115,7 @@ public class DeliveryReportActivity extends ListActivity {
         List<DeliveryReportItem> items = getReportItems();
         if (items == null) {
             items = new ArrayList<DeliveryReportItem>(1);
-            items.add(new DeliveryReportItem("", getString(R.string.status_none)));
+            items.add(new DeliveryReportItem("", getString(R.string.status_none), null));
             Log.w(LOG_TAG, "cursor == null");
         }
         setListAdapter(new DeliveryReportAdapter(this, items));
@@ -180,10 +184,22 @@ public class DeliveryReportActivity extends ListActivity {
 
             List<DeliveryReportItem> items = new ArrayList<DeliveryReportItem>();
             while (c.moveToNext()) {
+                // For sent messages with delivery reports, we stick the delivery time in the
+                // date_sent column (see MessageStatusReceiver).
+                String deliveryDateString = null;
+                long deliveryDate = c.getLong(COLUMN_DATE_SENT);
+                int messageType = c.getInt(COLUMN_MESSAGE_TYPE);
+                if (messageType == Sms.MESSAGE_TYPE_SENT && deliveryDate > 0) {
+                    deliveryDateString = getString(R.string.delivered_label) +
+                            MessageUtils.formatTimeStampString(this,
+                                    deliveryDate, true);
+                }
+
                 items.add(new DeliveryReportItem(
                                 getString(R.string.recipient_label) + c.getString(COLUMN_RECIPIENT),
-                                getString(R.string.status_label) + 
-                                    getSmsStatusText(c.getInt(COLUMN_DELIVERY_STATUS))));
+                                getString(R.string.status_label) +
+                                        getSmsStatusText(c.getInt(COLUMN_DELIVERY_STATUS)),
+                                        deliveryDateString));
             }
             return items;
         } finally {
@@ -263,10 +279,10 @@ public class DeliveryReportActivity extends ListActivity {
         Map<String, MmsReportStatus> reportStatus = getMmsReportStatus();
         List<DeliveryReportItem> items = new ArrayList<DeliveryReportItem>();
         for (MmsReportRequest reportReq : reportReqs) {
-            String statusText = getString(R.string.status_label) + 
+            String statusText = getString(R.string.status_label) +
                 getMmsReportStatusText(reportReq, reportStatus);
-            items.add(new DeliveryReportItem(getString(R.string.recipient_label) + 
-                    reportReq.getRecipient(), statusText));
+            items.add(new DeliveryReportItem(getString(R.string.recipient_label) +
+                    reportReq.getRecipient(), statusText, null));
         }
         return items;
     }
