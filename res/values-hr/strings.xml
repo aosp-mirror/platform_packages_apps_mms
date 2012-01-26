@@ -92,7 +92,6 @@
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Nije promijenjena veličina slike."</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"Ova slika prevelika je za slanje čak i ako se promijeni njezina veličina."</string>
     <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
-    <string name="discard_message" msgid="6078326880056142781">"Odbaci"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Vaša poruka bit će odbačena jer nema važećih primatelja."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Nevažeći primatelj(i): &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"Nevažeća odredišna adresa."</string>
@@ -240,6 +239,8 @@
     <string name="status_rejected" msgid="2613641949065942678">"Odbijeno"</string>
     <string name="recipient_label" msgid="3922667485312634446">"Primatelj: "</string>
     <string name="status_label" msgid="7283375460919181660">"Status: "</string>
+    <!-- no translation found for delivered_label (3514011729156932928) -->
+    <skip />
     <string name="attach_image" msgid="6439985727687107742">"Slike"</string>
     <string name="attach_take_photo" msgid="4280601313184373837">"Snimi sliku"</string>
     <string name="attach_video" msgid="4264272693501538294">"Videozapisi"</string>
@@ -319,7 +320,6 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Nema ograničenja"</string>
     <string name="too_many_unsent_mms" msgid="4436493698891224126">"Ovu poruku trenutačno nije moguće poslati. Postoji previše neposlanih multimedijskih poruka."</string>
     <string name="sending_message" msgid="2054406576361149715">"SLANJE..."</string>
-    <string name="pick_too_many_recipients" msgid="650087588867628044">"Previše primatelja"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Dodavanje primatelja…"</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>

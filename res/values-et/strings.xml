@@ -92,7 +92,6 @@
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Pildi suurust ei muudetud."</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"Isegi pärast pildi suuruse muutmist on see saatmiseks ikka liiga suur."</string>
     <string name="forward_prefix" msgid="276280492803486464">"Edasi: "</string>
-    <string name="discard_message" msgid="6078326880056142781">"Loobu"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Teie sõnumist loobutakse, kuna sel pole kehtivaid saajaid."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Vale(d) saaja(d): &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"Kehtetu sihtkoha-aadress."</string>
@@ -199,6 +198,7 @@
     <string name="delete" msgid="1409973060081564612">"Kustuta"</string>
     <string name="select_conversations" msgid="7816517565640002844">"Vestluste valimine"</string>
     <string name="no_conversations" msgid="6773767655149258445">"Vestluseid pole."</string>
+    <string name="loading_conversations" msgid="5510430408235967094">"Meilivestluste laadimine."</string>
     <string name="cannot_get_details" msgid="850292987983026806">"Üksikasju ei õnnestu hankida."</string>
     <string name="message_details_title" msgid="9223295113731634528">"Sõnumi üksikasjad"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Tüüp: "</string>
@@ -239,6 +239,8 @@
     <string name="status_rejected" msgid="2613641949065942678">"Tagasi lükatud"</string>
     <string name="recipient_label" msgid="3922667485312634446">"Saaja: "</string>
     <string name="status_label" msgid="7283375460919181660">"Olek: "</string>
+    <!-- no translation found for delivered_label (3514011729156932928) -->
+    <skip />
     <string name="attach_image" msgid="6439985727687107742">"Pildid"</string>
     <string name="attach_take_photo" msgid="4280601313184373837">"Jäädvusta pilt"</string>
     <string name="attach_video" msgid="4264272693501538294">"Videod"</string>
@@ -318,7 +320,6 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Piirangud puuduvad"</string>
     <string name="too_many_unsent_mms" msgid="4436493698891224126">"Sõnumit ei saa praegu saata. Liiga palju saatmata multimeediumsõnumeid."</string>
     <string name="sending_message" msgid="2054406576361149715">"SAATMINE ..."</string>
-    <string name="pick_too_many_recipients" msgid="650087588867628044">"Liiga palju saajaid"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Saajate lisamine…"</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
@@ -327,4 +328,5 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> inimest"</item>
   </plurals>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Kas peatada sõnumiside vaikerakenduse tekstsõnumite topeltteatised?"</string>
 </resources>

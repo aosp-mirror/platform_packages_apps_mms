@@ -92,7 +92,6 @@
     <string name="failed_to_resize_image" msgid="5608354151631833669">"未调整图片大小。"</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"重新调整大小后，此照片仍然过大，因此无法发送。"</string>
     <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
-    <string name="discard_message" msgid="6078326880056142781">"舍弃"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"您的信息没有有效的接收者，将被舍弃。"</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"无效接收者：&lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"目标地址无效。"</string>
@@ -240,6 +239,8 @@
     <string name="status_rejected" msgid="2613641949065942678">"已拒绝"</string>
     <string name="recipient_label" msgid="3922667485312634446">"接收者： "</string>
     <string name="status_label" msgid="7283375460919181660">"状态： "</string>
+    <!-- no translation found for delivered_label (3514011729156932928) -->
+    <skip />
     <string name="attach_image" msgid="6439985727687107742">"照片"</string>
     <string name="attach_take_photo" msgid="4280601313184373837">"拍摄照片"</string>
     <string name="attach_video" msgid="4264272693501538294">"视频"</string>
@@ -319,7 +320,6 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"无限制"</string>
     <string name="too_many_unsent_mms" msgid="4436493698891224126">"目前无法发送彩信。未发送的彩信过多。"</string>
     <string name="sending_message" msgid="2054406576361149715">"正在发送..."</string>
-    <string name="pick_too_many_recipients" msgid="650087588867628044">"收件人过多"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"正在添加收件人..."</string>
     <string name="draft_separator" msgid="5402575086540243019">"， "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
