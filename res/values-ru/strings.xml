@@ -92,7 +92,6 @@
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Не удалось изменить размер рисунка."</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"Изображение слишком велико для отправки даже после изменения размера."</string>
     <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
-    <string name="discard_message" msgid="6078326880056142781">"Отменить"</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Сообщение будет удалено, так как не указан ни один реальный получатель."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Недопустимые получатели: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"Неверный адрес получателя."</string>
@@ -209,8 +208,8 @@
     <string name="from_label" msgid="2055117571548171397">"От: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Кому: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Скрытая копия: "</string>
-    <string name="sent_label" msgid="2722190650145251584">"Отправленные: "</string>
-    <string name="received_label" msgid="8618029024731693906">"Полученные: "</string>
+    <string name="sent_label" msgid="2722190650145251584">"Отправлено: "</string>
+    <string name="received_label" msgid="8618029024731693906">"Получено: "</string>
     <string name="saved_label" msgid="4183160415593488207">"Сохранено: "</string>
     <string name="subject_label" msgid="8721241914144101631">"Тема: "</string>
     <string name="message_size_label" msgid="4698016210013319786">"Размер сообщения: "</string>
@@ -234,12 +233,14 @@
     <string name="status_none" msgid="8253075950774894961">"(Нет)"</string>
     <string name="status_pending" msgid="2739860824607984892">"Ожидает"</string>
     <string name="status_read" msgid="7576195253780627332">"Прочитанные"</string>
-    <string name="status_received" msgid="7264334589461906965">"Полученные"</string>
+    <string name="status_received" msgid="7264334589461906965">"Получено"</string>
     <string name="status_failed" msgid="1998776666856593544">"Сбой"</string>
     <string name="status_unread" msgid="8555305495998700198">"Непрочитанные"</string>
     <string name="status_rejected" msgid="2613641949065942678">"Отклоненные"</string>
     <string name="recipient_label" msgid="3922667485312634446">"Получатель: "</string>
     <string name="status_label" msgid="7283375460919181660">"Статус: "</string>
+    <!-- no translation found for delivered_label (3514011729156932928) -->
+    <skip />
     <string name="attach_image" msgid="6439985727687107742">"Изображение"</string>
     <string name="attach_take_photo" msgid="4280601313184373837">"Снять фото"</string>
     <string name="attach_video" msgid="4264272693501538294">"Видео"</string>
@@ -319,7 +320,6 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Нет ограничений"</string>
     <string name="too_many_unsent_mms" msgid="4436493698891224126">"Не удалось отправить сообщение. Слишком много неотправленных MMS."</string>
     <string name="sending_message" msgid="2054406576361149715">"Отправка..."</string>
-    <string name="pick_too_many_recipients" msgid="650087588867628044">"Слишком много получателей"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Добавление получателей..."</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
