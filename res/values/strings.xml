@@ -508,6 +508,8 @@
     <string name="recipient_label">Recipient:\u0020</string>
     <!-- Label in "Report" window -->
     <string name="status_label">Status:\u0020</string>
+    <!-- Label in "Report" window [CHAR LIMIT=50]-->
+    <string name="delivered_label">Delivered:\u0020</string>
 
 
     <!-- Attachment Type Selector Adapter. This string is an option in the "Attach" dialog, "Add music" dialog -->

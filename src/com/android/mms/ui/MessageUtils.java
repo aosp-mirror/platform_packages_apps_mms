@@ -337,6 +337,18 @@ public class MessageUtils {
         long date = cursor.getLong(MessageListAdapter.COLUMN_SMS_DATE);
         details.append(MessageUtils.formatTimeStampString(context, date, true));
 
+        // Delivered: ***
+        if (smsType == Sms.MESSAGE_TYPE_SENT) {
+            // For sent messages with delivery reports, we stick the delivery time in the
+            // date_sent column (see MessageStatusReceiver).
+            long dateDelivered = cursor.getLong(MessageListAdapter.COLUMN_SMS_DATE_SENT);
+            if (dateDelivered > 0) {
+                details.append('\n');
+                details.append(res.getString(R.string.delivered_label));
+                details.append(MessageUtils.formatTimeStampString(context, dateDelivered, true));
+            }
+        }
+
         // Error code: ***
         int errorCode = cursor.getInt(MessageListAdapter.COLUMN_SMS_ERROR_CODE);
         if (errorCode != 0) {
