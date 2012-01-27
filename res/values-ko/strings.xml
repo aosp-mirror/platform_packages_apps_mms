@@ -320,6 +320,7 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"한도 없음"</string>
     <string name="too_many_unsent_mms" msgid="4436493698891224126">"현재 메시지를 보낼 수 없습니다. 보내지 않은 멀티미디어 메시지가 너무 많습니다."</string>
     <string name="sending_message" msgid="2054406576361149715">"보내는 중..."</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"수신자가 너무 많음"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"수신자 추가 중..."</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>

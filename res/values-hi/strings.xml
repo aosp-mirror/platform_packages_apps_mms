@@ -320,6 +320,7 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"कोई सीमाएं नहीं"</string>
     <string name="too_many_unsent_mms" msgid="4436493698891224126">"अभी संदेश नहीं भेज सकता. न भेजे गए मल्टीमीडिया संदेश बहुत अधिक हैं."</string>
     <string name="sending_message" msgid="2054406576361149715">"भेज रहा है..."</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"बहुत अधिक प्राप्तकर्ता"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"प्राप्तकर्ता जोड़ रहा है..."</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>

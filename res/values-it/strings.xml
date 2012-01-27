@@ -239,8 +239,7 @@
     <string name="status_rejected" msgid="2613641949065942678">"Rifiutato"</string>
     <string name="recipient_label" msgid="3922667485312634446">"Destinatario: "</string>
     <string name="status_label" msgid="7283375460919181660">"Stato: "</string>
-    <!-- no translation found for delivered_label (3514011729156932928) -->
-    <skip />
+    <string name="delivered_label" msgid="3514011729156932928">"Recapitato: "</string>
     <string name="attach_image" msgid="6439985727687107742">"Immagini"</string>
     <string name="attach_take_photo" msgid="4280601313184373837">"Scatta foto"</string>
     <string name="attach_video" msgid="4264272693501538294">"Video"</string>
@@ -320,6 +319,7 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Nessun limite"</string>
     <string name="too_many_unsent_mms" msgid="4436493698891224126">"Impossibile inviare il messaggio in questo momento. Troppi messaggi multimediali non inviati."</string>
     <string name="sending_message" msgid="2054406576361149715">"INVIO..."</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"Troppi destinatari"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Aggiunta destinatari..."</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
