@@ -42,6 +42,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,6 +59,7 @@ public class ImageModel extends RegionMediaModel {
     private static final boolean LOCAL_LOGV = false;
 
     private static final int THUMBNAIL_BOUNDS_LIMIT = 480;
+    private static final int PICTURE_SIZE_LIMIT = 100 * 1024;
 
     /**
      * These are the image content types that MMS supports. Anything else needs to be transcoded
@@ -70,7 +72,8 @@ public class ImageModel extends RegionMediaModel {
 
     private int mWidth;
     private int mHeight;
-    private SoftReference<Bitmap> mBitmapCache = new SoftReference<Bitmap>(null);
+    private SoftReference<Bitmap> mFullSizeBitmapCache = new SoftReference<Bitmap>(null);
+    private SoftReference<Bitmap> mThumbnailBitmapCache = new SoftReference<Bitmap>(null);
 
     public ImageModel(Context context, Uri uri, RegionModel region)
             throws MmsException {
@@ -146,21 +149,13 @@ public class ImageModel extends RegionMediaModel {
         cr.checkImageContentType(mContentType);
     }
 
-    public Bitmap getBitmap() {
-        return internalGetBitmap(getUri());
-    }
-
-    public Bitmap getBitmapWithDrmCheck() throws DrmException {
-        return internalGetBitmap(getUriWithDrmCheck());
-    }
-
-    private Bitmap internalGetBitmap(Uri uri) {
-        Bitmap bm = mBitmapCache.get();
+    public Bitmap getThumbnailBitmap() {
+        Bitmap bm = mThumbnailBitmapCache.get();
         if (bm == null) {
             try {
-                bm = createThumbnailBitmap(THUMBNAIL_BOUNDS_LIMIT, uri);
+                bm = createBitmap(THUMBNAIL_BOUNDS_LIMIT, getUri());
                 if (bm != null) {
-                    mBitmapCache = new SoftReference<Bitmap>(bm);
+                    mThumbnailBitmapCache = new SoftReference<Bitmap>(bm);
                 }
             } catch (OutOfMemoryError ex) {
                 // fall through and return a null bitmap. The callers can handle a null
@@ -170,43 +165,30 @@ public class ImageModel extends RegionMediaModel {
         return bm;
     }
 
-    private Bitmap createThumbnailBitmap(int thumbnailBoundsLimit, Uri uri) {
-        int outWidth = mWidth;
-        int outHeight = mHeight;
-
-        int s = 1;
-        while ((outWidth / s > thumbnailBoundsLimit)
-                || (outHeight / s > thumbnailBoundsLimit)) {
-            s *= 2;
-        }
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            Log.v(TAG, "createThumbnailBitmap: scale=" + s + ", w=" + outWidth / s
-                    + ", h=" + outHeight / s);
-        }
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = s;
-
-        InputStream input = null;
-        try {
-            input = mContext.getContentResolver().openInputStream(uri);
-            return BitmapFactory.decodeStream(input, null, options);
-        } catch (FileNotFoundException e) {
-            Log.e(TAG, e.getMessage(), e);
-            return null;
-        } catch (OutOfMemoryError ex) {
-            if (DEBUG) {
-                MessageUtils.writeHprofDataToFile();
-            }
-            throw ex;
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    Log.e(TAG, e.getMessage(), e);
+    public Bitmap getBitmapWithDrmCheck(int width, int height) throws DrmException {
+        Uri uri = getUriWithDrmCheck();     // will throw exception if no drm rights
+        Bitmap bm = mFullSizeBitmapCache.get();
+        if (bm == null) {
+            try {
+                bm = createBitmap(Math.max(width, height), uri);
+                if (bm != null) {
+                    mFullSizeBitmapCache = new SoftReference<Bitmap>(bm);
                 }
+            } catch (OutOfMemoryError ex) {
+                // fall through and return a null bitmap. The callers can handle a null
+                // result and show R.drawable.ic_missing_thumbnail_picture
             }
         }
+        return bm;
+    }
+
+    private Bitmap createBitmap(int thumbnailBoundsLimit, Uri uri) {
+        byte[] data = UriImage.getResizedImageData(mWidth, mHeight,
+                thumbnailBoundsLimit, thumbnailBoundsLimit, PICTURE_SIZE_LIMIT, uri, mContext);
+        if (LOCAL_LOGV) {
+            Log.v(TAG, "createBitmap size: " + (data == null ? data : data.length));
+        }
+        return data == null ? null : BitmapFactory.decodeByteArray(data, 0, data.length);
     }
 
     @Override

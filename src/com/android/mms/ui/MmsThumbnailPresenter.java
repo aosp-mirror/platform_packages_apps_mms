@@ -69,7 +69,7 @@ public class MmsThumbnailPresenter extends Presenter {
         if (image.isDrmProtected()) {
             showDrmIcon(view, image.getSrc());
         } else {
-            view.setImage(image.getSrc(), image.getBitmap());
+            view.setImage(image.getSrc(), image.getThumbnailBitmap());
         }
     }
 

@@ -40,6 +40,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class UriImage {
     private static final String TAG = "Mms/image";
@@ -194,7 +195,8 @@ public class UriImage {
     public PduPart getResizedImageAsPart(int widthLimit, int heightLimit, int byteLimit) {
         PduPart part = new PduPart();
 
-        byte[] data = getResizedImageData(widthLimit, heightLimit, byteLimit);
+        byte[] data =  getResizedImageData(mWidth, mHeight,
+                widthLimit, heightLimit, byteLimit, mUri, mContext);
         if (data == null) {
             if (LOCAL_LOGV) {
                 Log.v(TAG, "Resize image failed.");
@@ -219,9 +221,10 @@ public class UriImage {
      * @param byteLimit The binary size limit, in bytes
      * @return A resized/recompressed version of this image, in JPEG format
      */
-    private byte[] getResizedImageData(int widthLimit, int heightLimit, int byteLimit) {
-        int outWidth = mWidth;
-        int outHeight = mHeight;
+    public static byte[] getResizedImageData(int width, int height,
+            int widthLimit, int heightLimit, int byteLimit, Uri uri, Context context) {
+        int outWidth = width;
+        int outHeight = height;
 
         float scaleFactor = 1.F;
         while ((outWidth * scaleFactor > widthLimit) || (outHeight * scaleFactor > heightLimit)) {
@@ -229,11 +232,11 @@ public class UriImage {
         }
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            Log.v(TAG, "getResizedImageData: wlimit=" + widthLimit +
+            Log.v(TAG, "getResizedBitmap: wlimit=" + widthLimit +
                     ", hlimit=" + heightLimit + ", sizeLimit=" + byteLimit +
-                    ", mWidth=" + mWidth + ", mHeight=" + mHeight +
+                    ", width=" + width + ", height=" + height +
                     ", initialScaleFactor=" + scaleFactor +
-                    ", mUri=" + mUri);
+                    ", uri=" + uri);
         }
 
         InputStream input = null;
@@ -249,7 +252,7 @@ public class UriImage {
             // start with 1, which means no subsampling - get the original content) without running
             // out of memory.
             do {
-                input = mContext.getContentResolver().openInputStream(mUri);
+                input = context.getContentResolver().openInputStream(uri);
                 options.inSampleSize = sampleSize;
                 try {
                     b = BitmapFactory.decodeStream(input, null, options);
@@ -258,7 +261,7 @@ public class UriImage {
                                         // bail.
                     }
                 } catch (OutOfMemoryError e) {
-                    Log.w(TAG, "getResizedImageData: img too large to decode (OutOfMemoryError), " +
+                    Log.w(TAG, "getResizedBitmap: img too large to decode (OutOfMemoryError), " +
                             "may try with larger sampleSize. Curr sampleSize=" + sampleSize);
                     sampleSize *= 2;    // works best as a power of two
                     attempts++;
@@ -338,8 +341,7 @@ public class UriImage {
                 attempts++;
             } while ((os == null || os.size() > byteLimit) && attempts < NUMBER_OF_RESIZE_ATTEMPTS);
             b.recycle();        // done with the bitmap, release the memory
-
-            return os == null ? null : os.toByteArray();
+            return (os == null || os.size() > byteLimit) ? null : os.toByteArray();
         } catch (FileNotFoundException e) {
             Log.e(TAG, e.getMessage(), e);
             return null;

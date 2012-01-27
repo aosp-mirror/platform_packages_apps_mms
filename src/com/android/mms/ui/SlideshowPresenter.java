@@ -49,8 +49,8 @@ public class SlideshowPresenter extends Presenter {
     protected int mLocation;
     protected final int mSlideNumber;
 
-    protected float mWidthTransformRatio;
-    protected float mHeightTransformRatio;
+    protected float mWidthTransformRatio = 1.0f;
+    protected float mHeightTransformRatio = 1.0f;
 
     // Since only the original thread that created a view hierarchy can touch
     // its views, we have to use Handler to manage the views in the some
@@ -199,16 +199,27 @@ public class SlideshowPresenter extends Presenter {
      */
     protected void presentImage(SlideViewInterface view, ImageModel image,
             RegionModel r, boolean dataChanged) throws DrmException {
+        int transformedWidth = transformWidth(r.getWidth());
+        int transformedHeight = transformWidth(r.getHeight());
+
+        if (LOCAL_LOGV) {
+            Log.v(TAG, "presentImage r.getWidth: " + r.getWidth()
+                    + ", r.getHeight: " + r.getHeight() +
+                    " transformedWidth: " + transformedWidth +
+                    " transformedHeight: " + transformedHeight);
+        }
+
         if (dataChanged) {
-            view.setImage(image.getSrc(), image.getBitmapWithDrmCheck());
+            view.setImage(image.getSrc(),
+                    image.getBitmapWithDrmCheck(r.getWidth(), r.getHeight()));
         }
 
         if (view instanceof AdaptableSlideViewInterface) {
             ((AdaptableSlideViewInterface) view).setImageRegion(
                     transformWidth(r.getLeft()),
                     transformHeight(r.getTop()),
-                    transformWidth(r.getWidth()),
-                    transformHeight(r.getHeight()));
+                    transformedWidth,
+                    transformedHeight);
         }
         view.setImageRegionFit(r.getFit());
         view.setImageVisibility(image.isVisible());
