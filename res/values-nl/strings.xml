@@ -239,8 +239,7 @@
     <string name="status_rejected" msgid="2613641949065942678">"Afgewezen"</string>
     <string name="recipient_label" msgid="3922667485312634446">"Ontvanger: "</string>
     <string name="status_label" msgid="7283375460919181660">"Status: "</string>
-    <!-- no translation found for delivered_label (3514011729156932928) -->
-    <skip />
+    <string name="delivered_label" msgid="3514011729156932928">"Geleverd: "</string>
     <string name="attach_image" msgid="6439985727687107742">"Foto\'s"</string>
     <string name="attach_take_photo" msgid="4280601313184373837">"Foto nemen"</string>
     <string name="attach_video" msgid="4264272693501538294">"Video\'s"</string>
@@ -320,6 +319,7 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Geen limieten"</string>
     <string name="too_many_unsent_mms" msgid="4436493698891224126">"Kan dit bericht nu niet verzenden. Te veel niet-verzonden multimediaberichten."</string>
     <string name="sending_message" msgid="2054406576361149715">"VERZENDEN…"</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"Te veel ontvangers"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Ontvangers toevoegen…"</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>

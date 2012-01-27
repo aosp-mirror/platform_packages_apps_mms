@@ -322,6 +322,7 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"بدون محدودیت"</string>
     <string name="too_many_unsent_mms" msgid="4436493698891224126">"اکنون ارسال پیام امکان‌پذیر نیست. تعداد زیادی پیامهای چند رسانه‌ای ارسال نشده وجود دارد."</string>
     <string name="sending_message" msgid="2054406576361149715">"در حال ارسال..."</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"تعداد زیادی گیرنده وجود دارد"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"افزودن گیرندگان..."</string>
     <string name="draft_separator" msgid="5402575086540243019">"، "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>

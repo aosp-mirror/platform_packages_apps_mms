@@ -239,8 +239,7 @@
     <string name="status_rejected" msgid="2613641949065942678">"已拒絕"</string>
     <string name="recipient_label" msgid="3922667485312634446">"收件者： "</string>
     <string name="status_label" msgid="7283375460919181660">"狀態： "</string>
-    <!-- no translation found for delivered_label (3514011729156932928) -->
-    <skip />
+    <string name="delivered_label" msgid="3514011729156932928">"已傳送： "</string>
     <string name="attach_image" msgid="6439985727687107742">"圖片"</string>
     <string name="attach_take_photo" msgid="4280601313184373837">"擷取圖片"</string>
     <string name="attach_video" msgid="4264272693501538294">"影片"</string>
@@ -320,6 +319,7 @@
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"不設定上限"</string>
     <string name="too_many_unsent_mms" msgid="4436493698891224126">"尚未傳送的多媒體訊息過多，因此目前無法傳送訊息。"</string>
     <string name="sending_message" msgid="2054406576361149715">"傳送中..."</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"收件者過多"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"正在新增收件者..."</string>
     <string name="draft_separator" msgid="5402575086540243019">"， "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
