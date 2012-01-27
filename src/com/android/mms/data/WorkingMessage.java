@@ -414,7 +414,7 @@ public class WorkingMessage {
             if (numSlides > 0) {
                 ImageModel imgModel = mSlideshow.get(numSlides - 1).getImage();
                 if (imgModel != null && !imgModel.isDrmProtected()) {
-                    imgModel.getBitmap();
+                    imgModel.getThumbnailBitmap();
                 }
             }
         }

@@ -53,12 +53,12 @@ public class LayoutManager {
         }
     }
 
-    private static LayoutParameters getLayoutParameters(int displayType) {
+    private LayoutParameters getLayoutParameters(int displayType) {
         switch (displayType) {
             case LayoutParameters.HVGA_LANDSCAPE:
-                return new HVGALayoutParameters(LayoutParameters.HVGA_LANDSCAPE);
+                return new HVGALayoutParameters(mContext, LayoutParameters.HVGA_LANDSCAPE);
             case LayoutParameters.HVGA_PORTRAIT:
-                return new HVGALayoutParameters(LayoutParameters.HVGA_PORTRAIT);
+                return new HVGALayoutParameters(mContext, LayoutParameters.HVGA_PORTRAIT);
         }
 
         throw new IllegalArgumentException(
