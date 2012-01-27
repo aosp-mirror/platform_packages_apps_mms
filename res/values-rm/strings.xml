@@ -376,6 +376,7 @@
     <skip />
     <!-- no translation found for sending_message (2054406576361149715) -->
     <skip />
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"Memia blers destinaturs"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Agiuntar destinaturs..."</string>
     <!-- no translation found for draft_separator (5402575086540243019) -->
     <skip />
