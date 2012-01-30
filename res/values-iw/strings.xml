@@ -239,8 +239,7 @@
     <string name="status_rejected" msgid="2613641949065942678">"נדחה"</string>
     <string name="recipient_label" msgid="3922667485312634446">"נמען: "</string>
     <string name="status_label" msgid="7283375460919181660">"סטטוס: "</string>
-    <!-- no translation found for delivered_label (3514011729156932928) -->
-    <skip />
+    <string name="delivered_label" msgid="3514011729156932928">"נמסר: "</string>
     <string name="attach_image" msgid="6439985727687107742">"תמונות"</string>
     <string name="attach_take_photo" msgid="4280601313184373837">"צלם תמונה"</string>
     <string name="attach_video" msgid="4264272693501538294">"סרטוני וידאו"</string>
