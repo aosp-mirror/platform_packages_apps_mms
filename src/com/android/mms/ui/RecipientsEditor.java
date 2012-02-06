@@ -57,6 +57,8 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         // For the focus to move to the message body when soft Next is pressed
         setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
+        setThreshold(1);    // pop-up the list after a single char is typed
+
         /*
          * The point of this TextWatcher is that when the user chooses
          * an address completion from the AutoCompleteTextView menu, it

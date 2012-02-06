@@ -2326,12 +2326,14 @@ public class ComposeMessageActivity extends Activity
     public void onMessageSent() {
         // If we already have messages in the list adapter, it
         // will be auto-requerying; don't thrash another query in.
-        if (mMsgListAdapter.getCount() == 0) {
+        // TODO: relying on auto-requerying seems unreliable when priming an MMS into the outbox.
+        // Need to investigate.
+//        if (mMsgListAdapter.getCount() == 0) {
             if (LogTag.VERBOSE) {
                 log("onMessageSent");
             }
             startMsgListQuery();
-        }
+//        }
     }
 
     public void onMaxPendingMessagesReached() {
