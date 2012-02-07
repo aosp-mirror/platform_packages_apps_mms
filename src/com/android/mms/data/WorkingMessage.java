@@ -1685,6 +1685,18 @@ public class WorkingMessage {
                         }
                         return;
                     }
+
+                    if (conv.getMessageCount() == 0) {
+                        // createDraftMmsMessage can create the new thread in the threads table (the
+                        // call to createDraftMmsDraftMessage calls PduPersister.persist() which
+                        // can call Threads.getOrCreateThreadId()). Meanwhile, when the user goes
+                        // back to ConversationList while we're saving a draft from CMA's.onStop,
+                        // ConversationList will delete all threads from the thread table that
+                        // don't have associated sms or pdu entries. In case our thread got deleted,
+                        // well call clearThreadId() so ensureThreadId will query the db for the new
+                        // thread.
+                        conv.clearThreadId();   // force us to get the updated thread id
+                    }
                     long threadId = conv.ensureThreadId();
                     conv.setDraftState(true);
                     updateDraftSmsMessage(conv, contents);
