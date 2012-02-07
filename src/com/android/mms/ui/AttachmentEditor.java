@@ -58,7 +58,9 @@ public class AttachmentEditor extends LinearLayout {
     private SlideshowModel mSlideshow;
     private Presenter mPresenter;
     private boolean mCanSend;
+    private boolean mCanEdit;
     private Button mSendButton;
+    private Button mEditButton;
 
     public AttachmentEditor(Context context, AttributeSet attr) {
         super(context, attr);
@@ -108,6 +110,19 @@ public class AttachmentEditor extends LinearLayout {
         if (null != mSendButton) {
             mSendButton.setEnabled(mCanSend);
             mSendButton.setFocusable(mCanSend);
+        }
+    }
+
+    public void setCanEdit(boolean enable) {
+        if (mCanEdit != enable) {
+            mCanEdit = enable;
+            updateEditButton();
+        }
+    }
+
+    private void updateEditButton() {
+        if (null != mEditButton) {
+            mEditButton.setEnabled(mCanEdit);
         }
     }
 
@@ -202,13 +217,15 @@ public class AttachmentEditor extends LinearLayout {
                 R.id.slideshow_attachment_view);
         view.setVisibility(View.VISIBLE);
 
-        Button editBtn = (Button) view.findViewById(R.id.edit_slideshow_button);
+        mEditButton = (Button) view.findViewById(R.id.edit_slideshow_button);
         mSendButton = (Button) view.findViewById(R.id.send_slideshow_button);
         updateSendButton();
         final ImageButton playBtn = (ImageButton) view.findViewById(
                 R.id.play_slideshow_button);
 
-        editBtn.setOnClickListener(new MessageOnClick(MSG_EDIT_SLIDESHOW));
+        if (mEditButton != null) {
+            mEditButton.setOnClickListener(new MessageOnClick(MSG_EDIT_SLIDESHOW));
+        }
         mSendButton.setOnClickListener(new MessageOnClick(MSG_SEND_SLIDESHOW));
         playBtn.setOnClickListener(new MessageOnClick(MSG_PLAY_SLIDESHOW));
 
