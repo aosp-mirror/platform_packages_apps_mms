@@ -66,6 +66,7 @@ import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.PduBody;
+import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendReq;
 
@@ -771,7 +772,7 @@ public class WorkingMessage {
             // If we don't already have a Uri lying around, make a new one.  If we do
             // have one already, make sure it is synced to disk.
             if (mMessageUri == null) {
-                mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow);
+                mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow, null);
             } else {
                 updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
             }
@@ -1229,38 +1230,14 @@ public class WorkingMessage {
     }
 
     private void sendMmsWorker(Conversation conv, Uri mmsUri, PduPersister persister,
-                               SlideshowModel slideshow, SendReq sendReq) {
-        // If user tries to send the message, it's a signal the inputted text is what they wanted.
-        UserHappinessSignals.userAcceptedImeText(mActivity);
-
-        // First make sure we don't have too many outstanding unsent message.
-        Cursor cursor = null;
-        try {
-            cursor = SqliteWrapper.query(mActivity, mContentResolver,
-                    Mms.Outbox.CONTENT_URI, MMS_OUTBOX_PROJECTION, null, null, null);
-            if (cursor != null) {
-                long maxMessageSize = MmsConfig.getMaxSizeScaleForPendingMmsAllowed() *
-                    MmsConfig.getMaxMessageSize();
-                long totalPendingSize = 0;
-                while (cursor.moveToNext()) {
-                    totalPendingSize += cursor.getLong(MMS_MESSAGE_SIZE_INDEX);
-                }
-                if (totalPendingSize >= maxMessageSize) {
-                    unDiscard();    // it wasn't successfully sent. Allow it to be saved as a draft.
-                    mStatusListener.onMaxPendingMessagesReached();
-                    return;
-                }
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        mStatusListener.onPreMessageSent();
+            SlideshowModel slideshow, SendReq sendReq) {
         long threadId = 0;
-
+        Cursor cursor = null;
+        boolean newMessage = false;
         try {
+            // Put a placeholder message in the database first
             DraftCache.getInstance().setSavingDraft(true);
+            mStatusListener.onPreMessageSent();
 
             // Make sure we are still using the correct thread ID for our
             // recipient set.
@@ -1286,14 +1263,54 @@ public class WorkingMessage {
                     }
                 }
             }
+            newMessage = mmsUri == null;
+            if (newMessage) {
+                // Write something in the database so the new message will appear as sending
+                ContentValues values = new ContentValues();
+                values.put(Mms.MESSAGE_BOX, Mms.MESSAGE_BOX_OUTBOX);
+                values.put(Mms.THREAD_ID, threadId);
+                values.put(Mms.MESSAGE_TYPE, PduHeaders.MESSAGE_TYPE_SEND_REQ);
+                mmsUri = SqliteWrapper.insert(mActivity, mContentResolver, Mms.Outbox.CONTENT_URI,
+                        values);
+            }
+            mStatusListener.onMessageSent();
 
-            if (mmsUri == null) {
+            // If user tries to send the message, it's a signal the inputted text is
+            // what they wanted.
+            UserHappinessSignals.userAcceptedImeText(mActivity);
+
+            // First make sure we don't have too many outstanding unsent message.
+            cursor = SqliteWrapper.query(mActivity, mContentResolver,
+                    Mms.Outbox.CONTENT_URI, MMS_OUTBOX_PROJECTION, null, null, null);
+            if (cursor != null) {
+                long maxMessageSize = MmsConfig.getMaxSizeScaleForPendingMmsAllowed() *
+                MmsConfig.getMaxMessageSize();
+                long totalPendingSize = 0;
+                while (cursor.moveToNext()) {
+                    totalPendingSize += cursor.getLong(MMS_MESSAGE_SIZE_INDEX);
+                }
+                if (totalPendingSize >= maxMessageSize) {
+                    unDiscard();    // it wasn't successfully sent. Allow it to be saved as a draft.
+                    mStatusListener.onMaxPendingMessagesReached();
+                    markMmsMessageWithError(mmsUri);
+                    return;
+                }
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        try {
+            if (newMessage) {
                 // Create a new MMS message if one hasn't been made yet.
-                mmsUri = createDraftMmsMessage(persister, sendReq, slideshow);
+                mmsUri = createDraftMmsMessage(persister, sendReq, slideshow, mmsUri);
             } else {
                 // Otherwise, sync the MMS message in progress to disk.
                 updateDraftMmsMessage(mmsUri, persister, slideshow, sendReq);
             }
+
             // Be paranoid and clean any draft SMS up.
             deleteDraftSmsMessage(threadId);
         } finally {
@@ -1315,7 +1332,6 @@ public class WorkingMessage {
             mStatusListener.onAttachmentError(error);
             return;
         }
-
         MessageSender sender = new MmsMessageSender(mActivity, mmsUri,
                 slideshow.getCurrentMessageSize());
         try {
@@ -1330,8 +1346,6 @@ public class WorkingMessage {
         } catch (Exception e) {
             Log.e(TAG, "Failed to send message: " + mmsUri + ", threadId=" + threadId, e);
         }
-
-        mStatusListener.onMessageSent();
     }
 
     private void markMmsMessageWithError(Uri mmsUri) {
@@ -1424,11 +1438,11 @@ public class WorkingMessage {
     }
 
     private static Uri createDraftMmsMessage(PduPersister persister, SendReq sendReq,
-            SlideshowModel slideshow) {
+            SlideshowModel slideshow, Uri preUri) {
         try {
             PduBody pb = slideshow.toPduBody();
             sendReq.setBody(pb);
-            Uri res = persister.persist(sendReq, Mms.Draft.CONTENT_URI);
+            Uri res = persister.persist(sendReq, preUri == null ? Mms.Draft.CONTENT_URI : preUri);
             slideshow.sync(pb);
             return res;
         } catch (MmsException e) {
@@ -1449,7 +1463,7 @@ public class WorkingMessage {
                     final SendReq sendReq = makeSendReq(conv, mSubject);
 
                     if (mMessageUri == null) {
-                        mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow);
+                        mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow, null);
                     } else {
                         updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
                     }
