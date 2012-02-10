@@ -197,7 +197,7 @@
     <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"Denne besked på SIM-kortet vil blive slettet."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Slet låste beskeder"</string>
     <string name="delete" msgid="1409973060081564612">"Slet"</string>
-    <string name="select_conversations" msgid="7816517565640002844">"Marker samtaler"</string>
+    <string name="select_conversations" msgid="7816517565640002844">"Markér samtaler"</string>
     <string name="no_conversations" msgid="6773767655149258445">"Der er ingen samtaler."</string>
     <string name="cannot_get_details" msgid="850292987983026806">"Detaljerne kan ikke hentes."</string>
     <string name="message_details_title" msgid="9223295113731634528">"Beskeddetaljer"</string>

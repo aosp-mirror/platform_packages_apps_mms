@@ -208,8 +208,8 @@
     <string name="from_label" msgid="2055117571548171397">"От: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Кому: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Скрытая копия: "</string>
-    <string name="sent_label" msgid="2722190650145251584">"Отправленные: "</string>
-    <string name="received_label" msgid="8618029024731693906">"Полученные: "</string>
+    <string name="sent_label" msgid="2722190650145251584">"Отправлено: "</string>
+    <string name="received_label" msgid="8618029024731693906">"Получено: "</string>
     <string name="saved_label" msgid="4183160415593488207">"Сохранено: "</string>
     <string name="subject_label" msgid="8721241914144101631">"Тема: "</string>
     <string name="message_size_label" msgid="4698016210013319786">"Размер сообщения: "</string>
@@ -233,7 +233,7 @@
     <string name="status_none" msgid="8253075950774894961">"(Нет)"</string>
     <string name="status_pending" msgid="2739860824607984892">"Ожидает"</string>
     <string name="status_read" msgid="7576195253780627332">"Прочитанные"</string>
-    <string name="status_received" msgid="7264334589461906965">"Полученные"</string>
+    <string name="status_received" msgid="7264334589461906965">"Получено"</string>
     <string name="status_failed" msgid="1998776666856593544">"Сбой"</string>
     <string name="status_unread" msgid="8555305495998700198">"Непрочитанные"</string>
     <string name="status_rejected" msgid="2613641949065942678">"Отклоненные"</string>

@@ -23,22 +23,22 @@
     <string name="app_label" msgid="1503967887341230795">"Mensajería"</string>
     <string name="new_message" msgid="1530369762346003973">"Mensaje nuevo"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Llamar a <xliff:g id="NAME">%s</xliff:g>"</string>
-    <string name="menu_send_email" msgid="671366308915241664">"Enviar correo electrónico para <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email" msgid="671366308915241664">"Enviar correo para <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Redactar"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Configuración"</string>
     <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"Añadir <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> a Contactos"</string>
     <string name="menu_call" msgid="5877123227307074690">"Llamar"</string>
     <string name="menu_search" msgid="2289469305728821360">"Buscar"</string>
-    <string name="menu_delete_all" msgid="808729454898114735">"Eliminar todas las cadenas"</string>
-    <string name="menu_delete" msgid="1851666911396479006">"Eliminar cadena"</string>
-    <string name="menu_view" msgid="7448852683948080108">"Ver cadena"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"Eliminar todas las conversaciones"</string>
+    <string name="menu_delete" msgid="1851666911396479006">"Eliminar conversación"</string>
+    <string name="menu_view" msgid="7448852683948080108">"Ver conversación"</string>
     <string name="menu_debug_dump" msgid="6855869130206549643">"Volcado de depuración"</string>
     <string name="refreshing" msgid="987335057871404222">"Actualizando..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Borrador"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Sin asunto)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Yo"</string>
     <string name="view_slideshow" msgid="4990460971211388453">"Ver presentación de diapositivas"</string>
-    <string name="view_message_details" msgid="7613457646645796831">"Ver los detalles"</string>
+    <string name="view_message_details" msgid="7613457646645796831">"Ver detalles"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Ver informe"</string>
     <string name="delete_message" msgid="6442394955910357234">"Eliminar"</string>
     <string name="expire_on" msgid="4436268382742593921">"Expira: <xliff:g id="DATE">%s</xliff:g>"</string>
@@ -46,10 +46,10 @@
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Mensaje no entregado"</string>
     <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"No se pudo enviar este mensaje."\n" Último intento: <xliff:g id="MESSAGE">%s</xliff:g>"</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"No se pudo enviar este mensaje."</string>
-    <string name="delete_thread" msgid="757258847736632791">"Eliminar cadena"</string>
+    <string name="delete_thread" msgid="757258847736632791">"Eliminar conversación"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Reenviar"</string>
     <string name="download" msgid="4488877642230207631">"Descargar"</string>
-    <string name="downloading" msgid="1779557575565350637">"Descarga"</string>
+    <string name="downloading" msgid="1779557575565350637">"Descargando..."</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Asunto: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Texto protegido por DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Se detectaron derechos de DRM insuficientes."</string>
@@ -149,7 +149,7 @@
     <string name="edit" msgid="5912118407791492696">"Editar"</string>
     <string name="try_to_send" msgid="1996751738286080976">"Intenta enviar"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Configuración"</string>
-    <string name="restore_default" msgid="7165341506551155053">"Restaurar configuración predeterminada"</string>
+    <string name="restore_default" msgid="7165341506551155053">"Restablecer la configuración a los valores predeterminados"</string>
     <string name="pref_notification_settings_title" msgid="6420782563630369776">"Notificaciones"</string>
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Mensajes multimedia (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Mensajes de texto (SMS)"</string>
@@ -158,19 +158,19 @@
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Solicita un informe de entrega para cada mensaje que envías"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Solicita un informe de lectura para cada mensaje que envías"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Solicita un informe de entrega para cada mensaje que envías"</string>
-    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Eliminar los mensajes antiguos cuando se alcanzan los límites"</string>
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Eliminar los mensajes antiguos al alcanzar la cantidad máxima"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> mensajes por conversación"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Admin. mensajes de tarj. SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Informes de entrega"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Informes leídos"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Informes de entrega"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Eliminar mensajes antiguos"</string>
-    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Límite de mensaje de texto"</string>
+    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Límite de mensajes de texto"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Límite de mensaje multimedia"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notificaciones"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Visualizar notificaciones de mensaje en barra de estado"</string>
+    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Mostrar notificaciones de mensaje en la barra de estado"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibrar"</string>
-    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"También vibrar cuando se reciba una notificación"</string>
+    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibrar cuando se reciba una notificación"</string>
     <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"Elegir un tono"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Establecer el número de mensajes que se deben guardar"</string>
   <string-array name="prefEntries_vibrateWhen">
@@ -179,9 +179,9 @@
     <item msgid="7486145357487111435">"Nunca"</item>
   </string-array>
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibrar"</string>
-    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Recup. automática"</string>
+    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Recuperación automática"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Recuperar mensajes automáticamente"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recup. Aut. en roaming"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recuperación automática en roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Recuperar mensajes automáticamente durante el roaming"</string>
     <string name="confirm_dialog_title" msgid="2187213750475782725">"¿Eliminar?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"¿Deseas eliminar el mensaje bloqueado?"</string>
@@ -189,8 +189,8 @@
     <item quantity="one" msgid="7509396981963472833">"Se eliminará una conversación."</item>
     <item quantity="other" msgid="4076915774012081811">"Se eliminarán <xliff:g id="NUMBER">%1$s</xliff:g> conversaciones."</item>
   </plurals>
-    <string name="confirm_delete_conversation" msgid="6115966687389279855">"Se eliminará toda la cadena."</string>
-    <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Todos los artículos se eliminarán."</string>
+    <string name="confirm_delete_conversation" msgid="6115966687389279855">"Se eliminará toda la conversación."</string>
+    <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Se eliminarán todas las conversaciones."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"El mensaje se eliminará."</string>
     <string name="confirm_delete_locked_message" msgid="7203411948190100955">"¿Deseas eliminar este mensaje bloqueado?"</string>
     <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"Todos los mensajes de la tarjeta SIM se eliminarán."</string>
@@ -282,13 +282,13 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Guardar como timbre"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Tono guardado"</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"No se pudo guardar el tono."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Insertar ícono gestual"</string>
+    <string name="menu_insert_smiley" msgid="4964504393061025071">"Insertar emoticón"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Elegir acción"</string>
     <string name="slide_number" msgid="1923958526266726635">"Diapositiva <xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
     <item quantity="one" msgid="1654101988340583935">"<xliff:g id="NUMBER">%s</xliff:g>segundo"</item>
     <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g> segundos"</item>
-    <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g>segundos"</item>
+    <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g> segundos"</item>
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"Informe de entrega"</string>
     <string name="storage_limits_activity" msgid="8810530813311077716">"Límites de almacenamiento"</string>
@@ -307,10 +307,10 @@
     <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> resultados para \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> resultados para \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</string>
-    <string name="confirm_clear_search_title" msgid="8510295993632032904">"Borrar"</string>
+    <string name="confirm_clear_search_title" msgid="8510295993632032904">"Eliminar"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"Se borrará el historial de búsquedas."</string>
-    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Borrar historial de búsqueda"</string>
-    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Borrar las búsquedas anteriores del Centro de mensajes para que no aparezcan en el cuadro de búsqueda."</string>
+    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Eliminar historial de búsqueda"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Eliminar las búsquedas anteriores del Centro de mensajes para que no aparezcan en el cuadro de búsqueda."</string>
     <string name="save" msgid="6847069284991531310">"Guardar"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"Limitar mensajes"</string>
     <string name="storage_limits_message" msgid="2010501485394745696">"¿Deseas limitar la cantidad de mensajes que se guardan por conversación?"</string>
