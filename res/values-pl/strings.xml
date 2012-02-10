@@ -131,12 +131,12 @@
     <item msgid="3734955613666864447">"2 sekundy"</item>
     <item msgid="6032232473048379828">"3 sekundy"</item>
     <item msgid="5978471781525927827">"4 sekundy"</item>
-    <item msgid="4888440297621208402">"5 sekund"</item>
-    <item msgid="6047246213264166841">"6 sekund"</item>
-    <item msgid="2327501250056533797">"7 sekund"</item>
-    <item msgid="3400770414689795703">"8 sekund"</item>
-    <item msgid="4358760614161107970">"9 sekund"</item>
-    <item msgid="2618179407176906471">"10 sekund"</item>
+    <item msgid="4888440297621208402">"5 sek."</item>
+    <item msgid="6047246213264166841">"6 sek."</item>
+    <item msgid="2327501250056533797">"7 sek."</item>
+    <item msgid="3400770414689795703">"8 sek."</item>
+    <item msgid="4358760614161107970">"9 sek."</item>
+    <item msgid="2618179407176906471">"10 sek."</item>
     <item msgid="7786079681602275449">"Inny"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"Pokaż kontakt"</string>

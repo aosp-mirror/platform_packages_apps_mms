@@ -163,7 +163,7 @@
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Gestisci messaggi della SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Conferme di recapito"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Conferme di lettura"</string>
-    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Rapporti consegna"</string>
+    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Conferme di recapito"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Elimina vecchi messaggi"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limite SMS"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite MMS"</string>
