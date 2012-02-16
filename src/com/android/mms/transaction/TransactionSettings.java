@@ -28,6 +28,7 @@ import com.android.mms.LogTag;
 
 import android.net.NetworkUtils;
 import android.provider.Telephony;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -94,17 +95,24 @@ public class TransactionSettings {
                     sawValidApn = true;
                     mServiceCenter = NetworkUtils.trimV4AddrZeros(
                             cursor.getString(COLUMN_MMSC).trim());
-                    mProxyAddress = NetworkUtils.trimV4AddrZeros(
-                            cursor.getString(COLUMN_MMSPROXY));
-                    if (isProxySet()) {
-                        String portString = cursor.getString(COLUMN_MMSPORT);
-                        try {
-                            mProxyPort = Integer.parseInt(portString);
-                        } catch (NumberFormatException e) {
-                            if (TextUtils.isEmpty(portString)) {
-                                Log.w(TAG, "mms port not set!");
-                            } else {
-                                Log.e(TAG, "Bad port number format: " + portString, e);
+
+                   TelephonyManager telephonyMgr = (TelephonyManager)context
+                            .getSystemService(Context.TELEPHONY_SERVICE);
+                    int networkType = telephonyMgr.getNetworkType();
+                    if (!((networkType == TelephonyManager.NETWORK_TYPE_EHRPD)
+                        || (networkType == TelephonyManager.NETWORK_TYPE_LTE))) {
+                        mProxyAddress = NetworkUtils.trimV4AddrZeros(
+                                cursor.getString(COLUMN_MMSPROXY));
+                        if (isProxySet()) {
+                            String portString = cursor.getString(COLUMN_MMSPORT);
+                            try {
+                                mProxyPort = Integer.parseInt(portString);
+                            } catch (NumberFormatException e) {
+                                if (TextUtils.isEmpty(portString)) {
+                                    Log.w(TAG, "mms port not set!");
+                                } else {
+                                    Log.e(TAG, "Bad port number format: " + portString, e);
+                                }
                             }
                         }
                     }
