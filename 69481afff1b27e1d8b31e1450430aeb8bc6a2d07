@@ -1,0 +1,9 @@
+Change-Id: I2585bb18b3d783369043d0898b89a95d8ad90ffa
+Verified+1: Jean-Baptiste Queru <jbq@google.com>
+Code-Review+1: Tom Taylor <tomastaylor@gmail.com>
+Code-Review+2: Tom Taylor <tomtaylor@google.com>
+Submitted-by: Jean-Baptiste Queru <jbq@google.com>
+Submitted-at: Fri, 17 Feb 2012 11:03:38 -0800
+Reviewed-on: https://android-review.googlesource.com/18638
+Project: platform/packages/apps/Mms
+Branch: refs/heads/master
