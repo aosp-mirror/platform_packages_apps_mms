@@ -22,7 +22,6 @@ import com.android.mms.MmsConfig;
 import com.android.mms.R;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -37,6 +36,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.provider.SearchRecentSuggestions;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,7 +47,8 @@ import com.android.mms.util.Recycler;
  * With this activity, users can set preferences for MMS and SMS and
  * can access and manipulate SMS messages stored on the SIM.
  */
-public class MessagingPreferenceActivity extends PreferenceActivity {
+public class MessagingPreferenceActivity extends PreferenceActivity
+            implements OnPreferenceChangeListener {
     // Symbolic names for the keys used for preference lookup
     public static final String MMS_DELIVERY_REPORT_MODE = "pref_key_mms_delivery_reports";
     public static final String EXPIRY_TIME              = "pref_key_mms_expiry";
@@ -77,6 +78,8 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
     private Recycler mSmsRecycler;
     private Recycler mMmsRecycler;
     private static final int CONFIRM_CLEAR_SEARCH_HISTORY_DIALOG = 3;
+    private CharSequence[] mVibrateEntries;
+    private CharSequence[] mVibrateValues;
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -93,6 +96,9 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         mEnableNotificationsPref = (CheckBoxPreference) findPreference(NOTIFICATION_ENABLED);
         mVibrateWhenPref = (ListPreference) findPreference(NOTIFICATION_VIBRATE_WHEN);
 
+        mVibrateEntries = getResources().getTextArray(R.array.prefEntries_vibrateWhen);
+        mVibrateValues = getResources().getTextArray(R.array.prefValues_vibrateWhen);
+
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         setMessagePreferences();
@@ -105,6 +111,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         // Since the enabled notifications pref can be changed outside of this activity,
         // we have to reload it whenever we resume.
         setEnabledNotificationsPref();
+        registerListeners();
     }
 
     private void setMessagePreferences() {
@@ -164,6 +171,8 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         // Fix up the recycler's summary with the correct values
         setSmsDisplayLimit();
         setMmsDisplayLimit();
+
+        adjustVibrateSummary(mVibrateWhenPref.getValue());
     }
 
     private void setEnabledNotificationsPref() {
@@ -301,5 +310,29 @@ public class MessagingPreferenceActivity extends PreferenceActivity {
         editor.putBoolean(MessagingPreferenceActivity.NOTIFICATION_ENABLED, enabled);
 
         editor.apply();
+    }
+
+    private void registerListeners() {
+        mVibrateWhenPref.setOnPreferenceChangeListener(this);
+    }
+
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        boolean result = false;
+        if (preference == mVibrateWhenPref) {
+            adjustVibrateSummary((String)newValue);
+            result = true;
+        }
+        return result;
+    }
+
+    private void adjustVibrateSummary(String value) {
+        int len = mVibrateValues.length;
+        for (int i = 0; i < len; i++) {
+            if (mVibrateValues[i].equals(value)) {
+                mVibrateWhenPref.setSummary(mVibrateEntries[i]);
+                return;
+            }
+        }
+        mVibrateWhenPref.setSummary(null);
     }
 }
