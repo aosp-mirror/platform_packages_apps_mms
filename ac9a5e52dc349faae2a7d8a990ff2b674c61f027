@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADB3////I\u003d",
+        "filename": "src/com/android/mms/transaction/MessagingNotification.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-02-17T19:34:04Z",
+      "side": 1,
+      "message": "Technically, Android code style requires 8 spaces here. No worry, the issue existed in the pre-existing code, so technically you haven\u0027t introduced any new style violation :)",
+      "revId": "ac9a5e52dc349faae2a7d8a990ff2b674c61f027",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
