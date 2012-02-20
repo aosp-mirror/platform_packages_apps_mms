@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC/n////M\u003d",
+        "filename": "src/com/android/mms/transaction/RetrieveTransaction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1004644
+      },
+      "writtenOn": "2012-02-20T10:54:09Z",
+      "side": 1,
+      "message": "Tom, while your version looks more efficient, it would behave differently in the following case:\n\n- encodedSubjectReceived !\u003d null\n- encodedSubjectStored \u003d\u003d null when iterating through cursor the 1st time\n- encodedSubjectStored !\u003d null when iterating through cursor the 2nd time\n\nIn the current version, the for loop will neither enter the “if” clause nor the “else if” clause in the first iteration. In the second iteration it will enter the “else if” clause and may then return true.\nIn your version, the for loop will enter the “if” clause in the first iteration and then return false (without entering the second iteration).",
+      "parentUuid": "AAABCH///Zg\u003d",
+      "revId": "444aec41f387f73a7a5f1a91b20a9744a1be3e12",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///ZY\u003d",
         "filename": "src/com/android/mms/transaction/RetrieveTransaction.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2011-06-10T16:26:56Z",
       "side": 1,
       "message": "Should we compare some other fields as well? body? date_sent?",
+      "revId": "444aec41f387f73a7a5f1a91b20a9744a1be3e12",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC/n////I\u003d",
+        "filename": "src/com/android/mms/transaction/RetrieveTransaction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1004644
+      },
+      "writtenOn": "2012-02-20T10:54:09Z",
+      "side": 1,
+      "message": "The change aims to get certain operator test servers working with the code. We verified that this solution works with these test servers. We believe that adding more conditions would make the code more complex than needed.",
+      "parentUuid": "AAABCH///ZY\u003d",
       "revId": "444aec41f387f73a7a5f1a91b20a9744a1be3e12",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
