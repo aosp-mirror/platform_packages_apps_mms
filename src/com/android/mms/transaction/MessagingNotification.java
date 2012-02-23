@@ -341,18 +341,22 @@ public class MessagingNotification {
                     SMS_STATUS_PROJECTION, NEW_DELIVERY_SM_CONSTRAINT,
                     null, Sms.DATE);
 
-        if (cursor == null)
+        if (cursor == null) {
             return null;
+        }
 
         try {
-            if (!cursor.moveToLast())
-            return null;
+            if (!cursor.moveToLast()) {
+                return null;
+            }
 
             String address = cursor.getString(COLUMN_SMS_ADDRESS);
             long timeMillis = 3000;
 
-            return new MmsSmsDeliveryInfo(String.format(
-                context.getString(R.string.delivery_toast_body), address),
+            Contact contact = Contact.get(address, false);
+            String name = contact.getNameAndNumber();
+
+            return new MmsSmsDeliveryInfo(context.getString(R.string.delivery_toast_body, name),
                 timeMillis);
 
         } finally {
