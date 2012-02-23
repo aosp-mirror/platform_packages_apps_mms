@@ -23,6 +23,7 @@ import com.android.mms.util.DownloadManager;
 import com.android.mms.util.Recycler;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.AcknowledgeInd;
+import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.PduComposer;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduParser;
@@ -37,6 +38,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Inbox;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.IOException;
@@ -199,21 +201,64 @@ public class RetrieveTransaction extends Transaction implements Runnable {
                                    + Mms.MESSAGE_TYPE + " = ?)";
             String[] selectionArgs = new String[] { messageId,
                     String.valueOf(PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF) };
+
             Cursor cursor = SqliteWrapper.query(
                     context, context.getContentResolver(),
-                    Mms.CONTENT_URI, new String[] { Mms._ID },
+                    Mms.CONTENT_URI, new String[] { Mms._ID, Mms.SUBJECT, Mms.SUBJECT_CHARSET },
                     selection, selectionArgs, null);
+
             if (cursor != null) {
                 try {
                     if (cursor.getCount() > 0) {
-                        // We already received the same message before.
-                        return true;
+                        // A message with identical message ID and type found.
+                        // Do some additional checks to be sure it's a duplicate.
+                        return isDuplicateMessageExtra(cursor, rc);
                     }
                 } finally {
                     cursor.close();
                 }
             }
         }
+        return false;
+    }
+
+    private static boolean isDuplicateMessageExtra(Cursor cursor, RetrieveConf rc) {
+        // Compare message subjects, taking encoding into account
+        EncodedStringValue encodedSubjectReceived = null;
+        EncodedStringValue encodedSubjectStored = null;
+        String subjectReceived = null;
+        String subjectStored = null;
+        String subject = null;
+
+        encodedSubjectReceived = rc.getSubject();
+        if (encodedSubjectReceived != null) {
+            subjectReceived = encodedSubjectReceived.getString();
+        }
+
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            int subjectIdx = cursor.getColumnIndex(Mms.SUBJECT);
+            int charsetIdx = cursor.getColumnIndex(Mms.SUBJECT_CHARSET);
+            subject = cursor.getString(subjectIdx);
+            int charset = cursor.getInt(charsetIdx);
+            if (subject != null) {
+                encodedSubjectStored = new EncodedStringValue(charset, PduPersister
+                        .getBytes(subject));
+            }
+            if (encodedSubjectStored == null && encodedSubjectReceived == null) {
+                // Both encoded subjects are null - return true
+                return true;
+            } else if (encodedSubjectStored != null && encodedSubjectReceived != null) {
+                subjectStored = encodedSubjectStored.getString();
+                if (!TextUtils.isEmpty(subjectStored) && !TextUtils.isEmpty(subjectReceived)) {
+                    // Both decoded subjects are non-empty - compare them
+                    return subjectStored.equals(subjectReceived);
+                } else if (TextUtils.isEmpty(subjectStored) && TextUtils.isEmpty(subjectReceived)) {
+                    // Both decoded subjects are "" - return true
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
