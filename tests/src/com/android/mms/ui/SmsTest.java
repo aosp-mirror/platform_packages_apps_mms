@@ -20,26 +20,16 @@ import static com.android.mms.ui.MessageListAdapter.COLUMN_ID;
 import static com.android.mms.ui.MessageListAdapter.COLUMN_MSG_TYPE;
 
 import com.android.mms.R;
-import com.android.mms.data.Conversation;
-import com.android.mms.data.Contact;
-import com.android.mms.data.ContactList;
 import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.RecipientsEditor;
 import com.android.mms.SmsTestRunner;
 
-import android.os.SystemClock;
 import android.database.Cursor;
 import android.content.Context;
-import android.content.Intent;
-import android.telephony.PhoneNumberUtils;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.LargeTest;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.util.Log;
 
@@ -49,7 +39,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
-
 
 /**
  * Base class for sms tests.
@@ -111,8 +100,8 @@ public class SmsTest
         }
         loadRecipientsList();
         loadMessage();
-        Log.v(TAG, String.format("mReceiveTimer: %d, mRecipient: %s",
-                                 mReceiveTimer, mRecipient));
+        Log.v(TAG, String.format("mReceiveTimer: %d, mRecipient: %s, mMessage: ",
+                                 mReceiveTimer, mRecipient, mMessage));
     }
 
     @Override
@@ -164,6 +153,7 @@ public class SmsTest
 
         Context targetAppContext = mInst.getTargetContext().getApplicationContext();
         String filePath = String.format("%s/%s", targetAppContext.getFilesDir(), messageFileName);
+        Log.v(TAG, "filePath: " + filePath);
         // Read messages from a file
         byte[] buffer = new byte[(int) new File(filePath).length()];
         BufferedInputStream bf = null;
