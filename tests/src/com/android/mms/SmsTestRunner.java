@@ -21,7 +21,6 @@ import android.test.InstrumentationTestRunner;
 import android.test.InstrumentationTestSuite;
 
 import com.android.mms.ui.MultiPartSmsTests;
-import com.android.mms.ui.LongThreadTest;
 import com.android.mms.ui.SmsStressTest;
 
 import junit.framework.TestSuite;
@@ -29,7 +28,7 @@ import junit.framework.TestSuite;
 /**
  * TestRunner for Sms tests
  * To run the test type command
- * adb shell am instrument -e recipeint 6509339530 -e messages 10
+ * adb shell am instrument -e recipient 6509339530 -e messages 10
  * -e messagefile words -e recipientfile recipients -e receivetimer 180
  * -e sendinterval 10 -w com.android.mms.tests/com.android.mms.SmsTestRunner
  */
