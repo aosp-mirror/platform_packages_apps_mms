@@ -27,14 +27,15 @@
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/mms_inline_attachment_size"
+        android:layout_height="@dimen/mms_inline_attachment_size"
         android:layout_gravity="center"
-        android:maxWidth="178dip"
-        android:maxHeight="178dip"
-        android:adjustViewBounds="true"
+        android:maxWidth="@dimen/mms_inline_attachment_size"
+        android:maxHeight="@dimen/mms_inline_attachment_size"
+        android:adjustViewBounds="false"
+        android:scaleType="centerInside"
         android:background="@drawable/attachment_selector"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <ImageButton
         android:id="@+id/play_slideshow_button"

@@ -32,6 +32,7 @@ import com.android.mms.model.TextModel;
 import com.android.mms.model.VideoModel;
 import com.android.mms.model.MediaModel.MediaAction;
 import com.android.mms.ui.AdaptableSlideViewInterface.OnSizeChangedListener;
+import com.android.mms.util.ItemLoadedCallback;
 
 import android.content.Context;
 import android.os.Handler;
@@ -112,7 +113,9 @@ public class SlideshowPresenter extends Presenter {
     }
 
     @Override
-    public void present() {
+    public void present(ItemLoadedCallback callback) {
+        // This is called to show a full-screen slideshow. Presently, all parts of
+        // a slideshow (images, sounds, etc.) are loaded and displayed on the UI thread.
         presentSlide((SlideViewInterface) mView, ((SlideshowModel) mModel).get(mLocation));
     }
 
@@ -329,5 +332,10 @@ public class SlideshowPresenter extends Presenter {
         } else if (model instanceof RegionModel) {
             // TODO:
         }
+    }
+
+    @Override
+    public void cancelBackgroundLoading() {
+        // For now, the SlideshowPresenter does no background loading so there is nothing to cancel.
     }
 }

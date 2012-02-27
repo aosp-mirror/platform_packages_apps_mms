@@ -107,7 +107,7 @@ public class MessageListAdapter extends CursorAdapter {
     public static final int OUTGOING_ITEM_TYPE = 1;
 
     protected LayoutInflater mInflater;
-    private final LruCache<Long, MessageItem> mMessageItemCache;
+    private final MessageItemCache mMessageItemCache;
     private final ColumnsMap mColumnsMap;
     private OnDataSetChangedListener mOnDataSetChangedListener;
     private Handler mMsgListItemHandler;
@@ -123,7 +123,7 @@ public class MessageListAdapter extends CursorAdapter {
 
         mInflater = (LayoutInflater) context.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
-        mMessageItemCache = new LruCache<Long, MessageItem>(CACHE_SIZE);
+        mMessageItemCache = new MessageItemCache(CACHE_SIZE);
 
         if (useDefaultColumnsMap) {
             mColumnsMap = new ColumnsMap();
@@ -169,6 +169,12 @@ public class MessageListAdapter extends CursorAdapter {
 
     public void setMsgListItemHandler(Handler handler) {
         mMsgListItemHandler = handler;
+    }
+
+    public void cancelBackgroundLoading() {
+        mMessageItemCache.evictAll();   // causes entryRemoved to be called for each MessageItem
+                                        // in the cache which causes us to cancel loading of
+                                        // background pdu's and images.
     }
 
     @Override
@@ -442,4 +448,15 @@ public class MessageListAdapter extends CursorAdapter {
         }
     }
 
+    private static class MessageItemCache extends LruCache<Long, MessageItem> {
+        public MessageItemCache(int maxSize) {
+            super(maxSize);
+        }
+
+        @Override
+        protected void entryRemoved(boolean evicted, Long key,
+                MessageItem oldValue, MessageItem newValue) {
+            oldValue.cancelPduLoading();
+        }
+    }
 }

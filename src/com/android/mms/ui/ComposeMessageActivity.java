@@ -2092,6 +2092,7 @@ public class ComposeMessageActivity extends Activity
 
         if (mMsgListAdapter != null) {
             mMsgListAdapter.changeCursor(null);
+            mMsgListAdapter.cancelBackgroundLoading();
         }
 
         if (mRecipientsEditor != null) {

@@ -21,6 +21,7 @@ import android.content.Context;
 
 import com.android.mms.model.IModelChangedObserver;
 import com.android.mms.model.Model;
+import com.android.mms.util.ItemLoadedCallback;
 
 /**
  * An abstract message presenter.
@@ -50,5 +51,11 @@ public abstract class Presenter implements IModelChangedObserver {
         return mModel;
     }
 
-    public abstract void present();
+    public void setModel(Model model) {
+        mModel = model;
+    }
+
+    public abstract void present(ItemLoadedCallback callback);
+
+    public abstract void cancelBackgroundLoading();
 }

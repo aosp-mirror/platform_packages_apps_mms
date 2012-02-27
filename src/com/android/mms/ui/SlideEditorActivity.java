@@ -785,7 +785,7 @@ public class SlideEditorActivity extends Activity {
 
     private void showCurrentSlide() {
         mPresenter.setLocation(mPosition);
-        mPresenter.present();
+        mPresenter.present(null);
         updateTitle();
 
         if (mSlideshowModel.get(mPosition).hasImage()) {
