@@ -20,14 +20,16 @@ package com.android.mms.model;
 import com.android.mms.ContentRestrictionException;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.LogTag;
+import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.dom.smil.SmilMediaElementImpl;
 import android.drm.mobile1.DrmException;
 import com.android.mms.drm.DrmWrapper;
 import com.android.mms.ui.UriImage;
-import com.android.mms.ui.MessageUtils;
+import com.android.mms.util.ItemLoadedCallback;
+import com.android.mms.util.ItemLoadedFuture;
+import com.android.mms.util.ThumbnailManager;
 
-import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
@@ -42,10 +44,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -58,7 +57,6 @@ public class ImageModel extends RegionMediaModel {
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 
-    private static final int THUMBNAIL_BOUNDS_LIMIT = 480;
     private static final int PICTURE_SIZE_LIMIT = 100 * 1024;
 
     /**
@@ -73,7 +71,7 @@ public class ImageModel extends RegionMediaModel {
     private int mWidth;
     private int mHeight;
     private SoftReference<Bitmap> mFullSizeBitmapCache = new SoftReference<Bitmap>(null);
-    private SoftReference<Bitmap> mThumbnailBitmapCache = new SoftReference<Bitmap>(null);
+    private ItemLoadedFuture mItemLoadedFuture;
 
     public ImageModel(Context context, Uri uri, RegionModel region)
             throws MmsException {
@@ -149,20 +147,19 @@ public class ImageModel extends RegionMediaModel {
         cr.checkImageContentType(mContentType);
     }
 
-    public Bitmap getThumbnailBitmap() {
-        Bitmap bm = mThumbnailBitmapCache.get();
-        if (bm == null) {
-            try {
-                bm = createBitmap(THUMBNAIL_BOUNDS_LIMIT, getUri());
-                if (bm != null) {
-                    mThumbnailBitmapCache = new SoftReference<Bitmap>(bm);
-                }
-            } catch (OutOfMemoryError ex) {
-                // fall through and return a null bitmap. The callers can handle a null
-                // result and show R.drawable.ic_missing_thumbnail_picture
+    public void loadThumbnailBitmap(ItemLoadedCallback callback) {
+        ThumbnailManager thumbnailManager = MmsApp.getApplication().getThumbnailManager();
+        mItemLoadedFuture = thumbnailManager.getThumbnail(getUri(), mWidth, mHeight, callback);
+    }
+
+    public void cancelThumbnailLoading() {
+        if (mItemLoadedFuture != null) {
+            if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
+                Log.v(TAG, "cancelThumbnailLoading for: " + this);
             }
+            mItemLoadedFuture.cancel();
+            mItemLoadedFuture = null;
         }
-        return bm;
     }
 
     public Bitmap getBitmapWithDrmCheck(int width, int height) throws DrmException {

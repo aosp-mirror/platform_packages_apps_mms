@@ -385,7 +385,7 @@ public class SlideshowEditActivity extends ListActivity {
             Presenter presenter = PresenterFactory.getPresenter(
                     "SlideshowPresenter", mContext, slideListItemView, mSlideshow);
             ((SlideshowPresenter) presenter).setLocation(position);
-            presenter.present();
+            presenter.present(null);
 
             return slideListItemView;
         }

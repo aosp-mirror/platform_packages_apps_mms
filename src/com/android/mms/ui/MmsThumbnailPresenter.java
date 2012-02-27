@@ -17,6 +17,11 @@
 
 package com.android.mms.ui;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+
 import com.android.mms.R;
 import com.android.mms.model.AudioModel;
 import com.android.mms.model.ImageModel;
@@ -24,21 +29,19 @@ import com.android.mms.model.Model;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.VideoModel;
-
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
+import com.android.mms.util.ItemLoadedCallback;
 
 public class MmsThumbnailPresenter extends Presenter {
     private static final String TAG = "MmsThumbnailPresenter";
+    private ItemLoadedCallback mOnLoadedCallback;
 
     public MmsThumbnailPresenter(Context context, ViewInterface view, Model model) {
         super(context, view, model);
     }
 
     @Override
-    public void present() {
+    public void present(ItemLoadedCallback callback) {
+        mOnLoadedCallback = callback;
         SlideModel slide = ((SlideshowModel) mModel).get(0);
         if (slide != null) {
             presentFirstSlide((SlideViewInterface) mView, slide);
@@ -69,7 +72,25 @@ public class MmsThumbnailPresenter extends Presenter {
         if (image.isDrmProtected()) {
             showDrmIcon(view, image.getSrc());
         } else {
-            view.setImage(image.getSrc(), image.getThumbnailBitmap());
+            view.setImage(image.getSrc(), null);    // inflate the view and show loading icon
+            // while we're loading the real bitmap
+            image.loadThumbnailBitmap(new ItemLoadedCallback<Bitmap>() {
+                public void onItemLoaded(Bitmap bitmap, Throwable exception) {
+                    if (exception == null) {
+                        // Right now we're only handling image loaded callbacks.
+                        SlideModel slide = ((SlideshowModel) mModel).get(0);
+                        Log.e(TAG, "handleCallbackResult: " + slide + " bitmap: " + bitmap);
+                        if (slide != null) {
+                            if (slide.hasImage()) {
+                                ((SlideViewInterface)mView).setImage(null, bitmap);
+                            }
+                        }
+                    }
+                    if (mOnLoadedCallback != null) {
+                        mOnLoadedCallback.onItemLoaded(bitmap, exception);
+                    }
+                }
+            });
         }
     }
 
@@ -95,4 +116,14 @@ public class MmsThumbnailPresenter extends Presenter {
     public void onModelChanged(Model model, boolean dataChanged) {
         // TODO Auto-generated method stub
     }
+
+    public void cancelBackgroundLoading() {
+        // Currently we only support background loading of thumbnails. If we extend background
+        // loading to other media types, we should add a cancelLoading API to Model.
+        SlideModel slide = ((SlideshowModel) mModel).get(0);
+        if (slide != null && slide.hasImage()) {
+            slide.getImage().cancelThumbnailLoading();
+        }
+    }
+
 }

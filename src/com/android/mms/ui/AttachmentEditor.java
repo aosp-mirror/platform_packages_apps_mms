@@ -21,6 +21,7 @@ import com.android.mms.R;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
+import com.android.mms.util.ItemLoadedCallback;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -90,7 +91,7 @@ public class AttachmentEditor extends LinearLayout {
             mPresenter.setView(mView);
         }
 
-        mPresenter.present();
+        mPresenter.present(null);
         return true;
     }
 

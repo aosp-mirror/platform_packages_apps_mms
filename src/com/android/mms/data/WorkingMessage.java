@@ -31,32 +31,28 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
-import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
 import android.provider.Telephony.MmsSms.PendingMessages;
+import android.provider.Telephony.Sms;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.common.contacts.DataUsageStatUpdater;
 import com.android.common.userhappiness.UserHappinessSignals;
+
 import com.android.mms.ContentRestrictionException;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.ResolutionException;
 import com.android.mms.UnsupportContentTypeException;
-import com.android.mms.model.AudioModel;
 import com.android.mms.model.ImageModel;
-import com.android.mms.model.MediaModel;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.TextModel;
-import com.android.mms.model.VideoModel;
 import com.android.mms.transaction.MessageSender;
 import com.android.mms.transaction.MmsMessageSender;
 import com.android.mms.transaction.SmsMessageSender;
-import com.android.mms.ui.AttachmentEditor;
 import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.SlideshowEditor;
@@ -415,7 +411,8 @@ public class WorkingMessage {
             if (numSlides > 0) {
                 ImageModel imgModel = mSlideshow.get(numSlides - 1).getImage();
                 if (imgModel != null && !imgModel.isDrmProtected()) {
-                    imgModel.getThumbnailBitmap();
+                    cancelThumbnailLoading();
+                    imgModel.loadThumbnailBitmap(null);
                 }
             }
         }
@@ -466,6 +463,16 @@ public class WorkingMessage {
         }
 
         return false;
+    }
+
+    private void cancelThumbnailLoading() {
+        int numSlides = mSlideshow != null ? mSlideshow.size() : 0;
+        if (numSlides > 0) {
+            ImageModel imgModel = mSlideshow.get(numSlides - 1).getImage();
+            if (imgModel != null) {
+                imgModel.cancelThumbnailLoading();
+            }
+        }
     }
 
     /**
@@ -847,6 +854,8 @@ public class WorkingMessage {
 
         // Mark this message as discarded in order to make saveDraft() no-op.
         mDiscarded = true;
+
+        cancelThumbnailLoading();
 
         // Delete any associated drafts if there are any.
         if (mHasMmsDraft) {

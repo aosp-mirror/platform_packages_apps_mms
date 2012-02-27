@@ -17,33 +17,29 @@
 
 package com.android.mms;
 
-import java.io.File;
-import java.util.Locale;
-
-import com.android.mms.data.Contact;
-import com.android.mms.data.Conversation;
-import com.android.mms.layout.LayoutManager;
-import com.android.mms.util.DownloadManager;
-import com.android.mms.util.DraftCache;
-import com.android.mms.drm.DrmUtils;
-import com.android.mms.util.SmileyParser;
-import com.android.mms.util.RateController;
-import com.android.mms.MmsConfig;
-import com.android.mms.transaction.MessagingNotification;
-import com.google.android.mms.MmsException;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.location.Country;
 import android.location.CountryDetector;
 import android.location.CountryListener;
-import android.net.Uri;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import com.android.mms.data.Contact;
+import com.android.mms.data.Conversation;
+import com.android.mms.drm.DrmUtils;
+import com.android.mms.layout.LayoutManager;
+import com.android.mms.transaction.MessagingNotification;
+import com.android.mms.util.DownloadManager;
+import com.android.mms.util.DraftCache;
+import com.android.mms.util.PduLoaderManager;
+import com.android.mms.util.RateController;
+import com.android.mms.util.SmileyParser;
+import com.android.mms.util.ThumbnailManager;
 
 public class MmsApp extends Application {
     public static final String LOG_TAG = "Mms";
@@ -54,6 +50,8 @@ public class MmsApp extends Application {
     private CountryListener mCountryListener;
     private String mCountryIso;
     private static MmsApp sMmsApp = null;
+    private PduLoaderManager mPduLoaderManager;
+    private ThumbnailManager mThumbnailManager;
 
     @Override
     public void onCreate() {
@@ -74,6 +72,10 @@ public class MmsApp extends Application {
         };
         mCountryDetector.addCountryListener(mCountryListener, getMainLooper());
         mCountryIso = mCountryDetector.detectCountry().getCountryIso();
+
+        Context context = getApplicationContext();
+        mPduLoaderManager = new PduLoaderManager(context);
+        mThumbnailManager = new ThumbnailManager(context);
 
         MmsConfig.init(this);
         Contact.init(this);
@@ -105,6 +107,22 @@ public class MmsApp extends Application {
     public void onTerminate() {
         DrmUtils.cleanupStorage(this);
         mCountryDetector.removeCountryListener(mCountryListener);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+
+        mPduLoaderManager.onLowMemory();
+        mThumbnailManager.onLowMemory();
+    }
+
+    public PduLoaderManager getPduLoaderManager() {
+        return mPduLoaderManager;
+    }
+
+    public ThumbnailManager getThumbnailManager() {
+        return mThumbnailManager;
     }
 
     @Override

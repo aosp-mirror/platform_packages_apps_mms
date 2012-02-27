@@ -278,6 +278,10 @@ public class UriImage {
             } while (b == null && attempts < NUMBER_OF_RESIZE_ATTEMPTS);
 
             if (b == null) {
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)
+                        && attempts >= NUMBER_OF_RESIZE_ATTEMPTS) {
+                    Log.v(TAG, "getResizedImageData: gave up after too many attempts to resize");
+                }
                 return null;
             }
 
@@ -301,6 +305,9 @@ public class UriImage {
 
                         b = Bitmap.createScaledBitmap(b, scaledWidth, scaledHeight, false);
                         if (b == null) {
+                            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                                Log.v(TAG, "Bitmap.createScaledBitmap returned NULL!");
+                            }
                             return null;
                         }
                     }
@@ -341,6 +348,12 @@ public class UriImage {
                 attempts++;
             } while ((os == null || os.size() > byteLimit) && attempts < NUMBER_OF_RESIZE_ATTEMPTS);
             b.recycle();        // done with the bitmap, release the memory
+            boolean resultTooBig = os.size() > byteLimit;
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE) && resultTooBig) {
+                Log.v(TAG, "getResizedImageData returning NULL because the result is too big: " +
+                        " requested max: " + byteLimit + " actual: " +os.size());
+            }
+
             return (os == null || os.size() > byteLimit) ? null : os.toByteArray();
         } catch (FileNotFoundException e) {
             Log.e(TAG, e.getMessage(), e);
