@@ -39,6 +39,7 @@ import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.TextModel;
 import com.android.mms.ui.MessageListAdapter.ColumnsMap;
 import com.android.mms.util.AddressUtils;
+import com.android.mms.util.DownloadManager;
 import com.android.mms.util.ItemLoadedCallback;
 import com.android.mms.util.ItemLoadedFuture;
 import com.android.mms.util.PduLoaderManager;
@@ -99,6 +100,7 @@ public class MessageItem {
     int mMessageSize;
     int mErrorType;
     int mErrorCode;
+    int mMmsStatus;
     Cursor mCursor;
     ColumnsMap mColumnsMap;
     private PduLoadedCallback mPduLoadedCallback;
@@ -176,6 +178,7 @@ public class MessageItem {
             mMessageSize = 0;
             mTextContentType = null;
             mTimestamp = null;
+            mMmsStatus = cursor.getInt(columnsMap.mColumnMmsStatus);
 
             // Start an async load of the pdu. If the pdu is already loaded, the callback
             // will get called immediately
@@ -261,6 +264,10 @@ public class MessageItem {
 
     public long getMessageId() {
         return mMsgId;
+    }
+
+    public int getMmsDownloadStatus() {
+        return mMmsStatus & ~DownloadManager.DEFERRED_MASK;
     }
 
     @Override
