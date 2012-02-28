@@ -21,6 +21,7 @@ import com.android.mms.R;
 import android.database.sqlite.SqliteWrapper;
 import com.android.mms.transaction.MessagingNotification;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 
@@ -92,6 +93,9 @@ public class ManageSimMessages extends Activity
         setContentView(R.layout.sim_list);
         mSimList = (ListView) findViewById(R.id.messages);
         mMessage = (TextView) findViewById(R.id.empty_message);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         init();
     }
@@ -299,6 +303,12 @@ public class ManageSimMessages extends Activity
                         dialog.dismiss();
                     }
                 }, R.string.confirm_delete_all_SIM_messages);
+                break;
+
+            case android.R.id.home:
+                // The user clicked on the Messaging icon in the action bar. Take them back from
+                // wherever they came from
+                finish();
                 break;
         }
 
