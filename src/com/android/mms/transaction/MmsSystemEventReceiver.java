@@ -77,7 +77,8 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
             // We should check whether there are unread incoming
             // messages in the Inbox and then update the notification icon.
             // Called on the UI thread so don't block.
-            MessagingNotification.nonBlockingUpdateNewMessageIndicator(context, false, false);
+            MessagingNotification.nonBlockingUpdateNewMessageIndicator(
+                    context, MessagingNotification.THREAD_NONE, false);
         }
     }
 

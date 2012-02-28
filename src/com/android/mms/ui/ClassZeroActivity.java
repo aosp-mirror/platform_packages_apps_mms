@@ -92,7 +92,10 @@ public class ClassZeroActivity extends Activity {
             messageUri = storeMessage(mMessage);
         }
         if (!mRead && messageUri != null) {
-            MessagingNotification.nonBlockingUpdateNewMessageIndicator(this, true, false);
+            MessagingNotification.nonBlockingUpdateNewMessageIndicator(
+                    this,
+                    MessagingNotification.THREAD_ALL,   // always notify on class-zero msgs
+                    false);
         }
     }
 

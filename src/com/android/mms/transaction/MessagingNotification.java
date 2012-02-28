@@ -51,7 +51,6 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.text.Spannable;
@@ -73,11 +72,17 @@ import java.util.TreeSet;
  * otherwise, hide the indicator.
  */
 public class MessagingNotification {
+
     private static final String TAG = LogTag.APP;
 
     private static final int NOTIFICATION_ID = 123;
     public static final int MESSAGE_FAILED_NOTIFICATION_ID = 789;
     public static final int DOWNLOAD_FAILED_NOTIFICATION_ID = 531;
+    /**
+     * This is the volume at which to play the in-conversation notification sound,
+     * expressed as a fraction of the system notification volume.
+     */
+    private static final float IN_CONVERSATION_NOTIFICATION_VOLUME = 0.25f;
 
     // This must be consistent with the column constants below.
     private static final String[] MMS_STATUS_PROJECTION = new String[] {
@@ -96,6 +101,9 @@ public class MessagingNotification {
     private static final int COLUMN_SUBJECT     = 3;
     private static final int COLUMN_SUBJECT_CS  = 4;
     private static final int COLUMN_SMS_BODY    = 4;
+
+    private static final String[] SMS_THREAD_ID_PROJECTION = new String[] { Sms.THREAD_ID };
+    private static final String[] MMS_THREAD_ID_PROJECTION = new String[] { Mms.THREAD_ID };
 
     private static final String NEW_INCOMING_SM_CONSTRAINT =
             "(" + Sms.TYPE + " = " + Sms.MESSAGE_TYPE_INBOX
@@ -121,6 +129,7 @@ public class MessagingNotification {
             "com.android.mms.NOTIFICATION_DELETED_ACTION";
 
     public static class OnDeletedReceiver extends BroadcastReceiver {
+        @Override
         public void onReceive(Context context, Intent intent) {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 Log.d(TAG, "[MessagingNotification] clear notification: mark all msgs seen");
@@ -128,7 +137,16 @@ public class MessagingNotification {
 
             Conversation.markAllConversationsAsSeen(context);
         }
-    };
+    }
+
+    public static final long THREAD_ALL = -1;
+    public static final long THREAD_NONE = -2;
+    /**
+     * Keeps track of the thread ID of the conversation that's currently displayed to the user
+     */
+    private static long sCurrentlyDisplayedThreadId;
+    private static final Object sCurrentlyDisplayedThreadLock = new Object();
+
     private static OnDeletedReceiver sNotificationDeletedReceiver = new OnDeletedReceiver();
     private static Intent sNotificationOnDeleteIntent;
     private static Handler mToastHandler = new Handler();
@@ -147,6 +165,21 @@ public class MessagingNotification {
     }
 
     /**
+     * Specifies which message thread is currently being viewed by the user. New messages in that
+     * thread will not generate a notification icon and will play the notification sound at a lower
+     * volume. Make sure you set this to THREAD_NONE when the UI component that shows the thread is
+     * no longer visible to the user (e.g. Activity.onPause(), etc.)
+     * @param threadId The ID of the thread that the user is currently viewing. Pass THREAD_NONE
+     *  if the user is not viewing a thread, or THREAD_ALL if the user is viewing the conversation
+     *  list (note: that latter one has no effect as of this implementation)
+     */
+    public static void setCurrentlyDisplayedThreadId(long threadId) {
+        synchronized (sCurrentlyDisplayedThreadLock) {
+            sCurrentlyDisplayedThreadId = threadId;
+        }
+    }
+
+    /**
      * Checks to see if there are any "unseen" messages or delivery
      * reports.  Shows the most recent notification if there is one.
      * Does its work and query in a worker thread.
@@ -154,11 +187,12 @@ public class MessagingNotification {
      * @param context the context to use
      */
     public static void nonBlockingUpdateNewMessageIndicator(final Context context,
-            final boolean isNew,
+            final long newMsgThreadId,
             final boolean isStatusMessage) {
         new Thread(new Runnable() {
+            @Override
             public void run() {
-                blockingUpdateNewMessageIndicator(context, isNew, isStatusMessage);
+                blockingUpdateNewMessageIndicator(context, newMsgThreadId, isStatusMessage);
             }
         }).start();
     }
@@ -168,10 +202,20 @@ public class MessagingNotification {
      * reports.  Shows the most recent notification if there is one.
      *
      * @param context the context to use
-     * @param isNew if notify a new message comes, it should be true, otherwise, false.
+     * @param newMsgThreadId The thread ID of a new message that we're to notify about; if there's
+     *  no new message, use THREAD_NONE. If we should notify about multiple or unknown thread IDs,
+     *  use THREAD_ALL.
+     * @param isStatusMessage
      */
-    public static void blockingUpdateNewMessageIndicator(Context context, boolean isNew,
+    public static void blockingUpdateNewMessageIndicator(Context context, long newMsgThreadId,
             boolean isStatusMessage) {
+        synchronized (sCurrentlyDisplayedThreadLock) {
+            if (newMsgThreadId > 0 && newMsgThreadId == sCurrentlyDisplayedThreadId) {
+                playInConversationNotificationSound(context);
+                return;
+            }
+        }
+
         SortedSet<MmsSmsNotificationInfo> accumulator =
                 new TreeSet<MmsSmsNotificationInfo>(INFO_COMPARATOR);
         MmsSmsDeliveryInfo delivery = null;
@@ -187,9 +231,9 @@ public class MessagingNotification {
         if (!accumulator.isEmpty()) {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 Log.d(TAG, "blockingUpdateNewMessageIndicator: count=" + count +
-                        ", isNew=" + isNew);
+                        ", newMsgThreadId=" + newMsgThreadId);
             }
-            accumulator.first().deliver(context, isNew, count, threads.size());
+            accumulator.first().deliver(context, newMsgThreadId != THREAD_NONE, count, threads.size());
         }
 
         // And deals with delivery reports (which use Toasts). It's safe to call in a worker
@@ -201,17 +245,38 @@ public class MessagingNotification {
     }
 
     /**
+     * Play the in-conversation notification sound (it's the regular notification sound, but
+     * played at half-volume
+     */
+    private static void playInConversationNotificationSound(Context context) {
+        final AudioManager audioManager =
+            (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        String ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE,
+                null);
+        if (TextUtils.isEmpty(ringtoneStr)) {
+            // Nothing to play
+            return;
+        }
+        Uri ringtoneUri = Uri.parse(ringtoneStr);
+        NotificationPlayer player = new NotificationPlayer(LogTag.APP);
+        player.play(context, ringtoneUri, false, AudioManager.STREAM_NOTIFICATION,
+                IN_CONVERSATION_NOTIFICATION_VOLUME);
+    }
+
+    /**
      * Updates all pending notifications, clearing or updating them as
      * necessary.
      */
     public static void blockingUpdateAllNotifications(final Context context) {
-        nonBlockingUpdateNewMessageIndicator(context, false, false);
+        nonBlockingUpdateNewMessageIndicator(context, THREAD_NONE, false);
         updateSendFailedNotification(context);
         updateDownloadFailedNotification(context);
     }
 
     private static final int accumulateNotificationInfo(
-            SortedSet set, MmsSmsNotificationInfo info) {
+            SortedSet<MmsSmsNotificationInfo> set, MmsSmsNotificationInfo info) {
         if (info != null) {
             set.add(info);
 
@@ -237,13 +302,13 @@ public class MessagingNotification {
     }
 
     private static final class MmsSmsNotificationInfo {
-        public Intent mClickIntent;
-        public String mDescription;
-        public int mIconResourceId;
-        public CharSequence mTicker;
-        public long mTimeMillis;
-        public String mTitle;
-        public int mCount;
+        public final Intent mClickIntent;
+        public final String mDescription;
+        public final int mIconResourceId;
+        public final CharSequence mTicker;
+        public final long mTimeMillis;
+        public final String mTitle;
+        public final int mCount;
 
         public MmsSmsNotificationInfo(
                 Intent clickIntent, String description, int iconResourceId,
@@ -271,6 +336,7 @@ public class MessagingNotification {
 
     private static final class MmsSmsNotificationInfoComparator
             implements Comparator<MmsSmsNotificationInfo> {
+        @Override
         public int compare(
                 MmsSmsNotificationInfo info1, MmsSmsNotificationInfo info2) {
             return Long.signum(info2.getTime() - info1.getTime());
@@ -298,6 +364,7 @@ public class MessagingNotification {
             if (!cursor.moveToFirst()) {
                 return null;
             }
+
             long msgId = cursor.getLong(COLUMN_MMS_ID);
             Uri msgUri = Mms.CONTENT_URI.buildUpon().appendPath(
                     Long.toString(msgId)).build();
@@ -460,6 +527,7 @@ public class MessagingNotification {
         }
 
         mToastHandler.post(new Runnable() {
+            @Override
             public void run() {
                 Toast.makeText(context, message, (int)timeMillis).show();
             }
@@ -716,7 +784,7 @@ public class MessagingNotification {
      */
     private static int getUndeliveredMessageCount(Context context, long[] threadIdResult) {
         Cursor undeliveredCursor = SqliteWrapper.query(context, context.getContentResolver(),
-                UNDELIVERED_URI, new String[] { Mms.THREAD_ID }, "read=0", null, null);
+                UNDELIVERED_URI, MMS_THREAD_ID_PROJECTION, "read=0", null, null);
         if (undeliveredCursor == null) {
             return 0;
         }
@@ -795,5 +863,67 @@ public class MessagingNotification {
 
     public static boolean isFailedToDownload(Intent intent) {
         return (intent != null) && intent.getBooleanExtra("failed_download_flag", false);
+    }
+
+    /**
+     * Get the thread ID of the SMS message with the given URI
+     * @param context The context
+     * @param uri The URI of the SMS message
+     * @return The thread ID, or THREAD_NONE if the URI contains no entries
+     */
+    public static long getSmsThreadId(Context context, Uri uri) {
+        Cursor cursor = SqliteWrapper.query(
+            context,
+            context.getContentResolver(),
+            uri,
+            SMS_THREAD_ID_PROJECTION,
+            null,
+            null,
+            null);
+
+        if (cursor == null) {
+            return THREAD_NONE;
+        }
+
+        try {
+            if (cursor.moveToFirst()) {
+                return cursor.getLong(cursor.getColumnIndex(Sms.THREAD_ID));
+            } else {
+                return THREAD_NONE;
+            }
+        } finally {
+            cursor.close();
+        }
+    }
+
+    /**
+     * Get the thread ID of the MMS message with the given URI
+     * @param context The context
+     * @param uri The URI of the SMS message
+     * @return The thread ID, or THREAD_NONE if the URI contains no entries
+     */
+    public static long getThreadId(Context context, Uri uri) {
+        Cursor cursor = SqliteWrapper.query(
+                context,
+                context.getContentResolver(),
+                uri,
+                MMS_THREAD_ID_PROJECTION,
+                null,
+                null,
+                null);
+
+        if (cursor == null) {
+            return THREAD_NONE;
+        }
+
+        try {
+            if (cursor.moveToFirst()) {
+                return cursor.getLong(cursor.getColumnIndex(Mms.THREAD_ID));
+            } else {
+                return THREAD_NONE;
+            }
+        } finally {
+            cursor.close();
+        }
     }
 }
