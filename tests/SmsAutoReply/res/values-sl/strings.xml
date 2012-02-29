@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="hello" msgid="4362104386868779475">"Pozdravljen, svet, AutoReplyActivity!"</string>
+    <string name="app_name" msgid="8981613135633738208">"SmsAutoReply"</string>
+</resources>
