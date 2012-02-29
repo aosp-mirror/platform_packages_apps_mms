@@ -112,7 +112,6 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.conversation_list_screen);
 
         mQueryHandler = new ThreadListQueryHandler(getContentResolver());
@@ -295,7 +294,6 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     private void startAsyncQuery() {
         try {
             setTitle(getString(R.string.refreshing));
-            setProgressBarIndeterminateVisibility(true);
             ((TextView)(getListView().getEmptyView())).setText(R.string.loading_conversations);
 
             Conversation.startQueryForAll(mQueryHandler, THREAD_LIST_QUERY_TOKEN);
@@ -677,7 +675,6 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
             case THREAD_LIST_QUERY_TOKEN:
                 mListAdapter.changeCursor(cursor);
                 setTitle(mTitle);
-                setProgressBarIndeterminateVisibility(false);
 
                 if (mListAdapter.getCount() == 0) {
                     ((TextView)(getListView().getEmptyView())).setText(R.string.no_conversations);
