@@ -232,6 +232,8 @@
             </intent-filter>
         </receiver>
 
+        <service android:name=".transaction.MessageStatusService"/>
+
         <receiver android:name=".transaction.SimFullReceiver">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SIM_FULL" />
