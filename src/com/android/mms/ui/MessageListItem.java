@@ -39,6 +39,7 @@ import android.os.Message;
 import android.provider.ContactsContract.Profile;
 import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
+import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -206,11 +207,22 @@ public class MessageListItem extends LinearLayout implements
 
         switch (mMessageItem.getMmsDownloadStatus()) {
             case DownloadManager.STATE_DOWNLOADING:
-                inflateDownloadControls();
-                mDownloadingLabel.setVisibility(View.VISIBLE);
-                mDownloadButton.setVisibility(View.GONE);
+                showDownloadingAttachment();
                 break;
+            case DownloadManager.STATE_UNKNOWN:
             case DownloadManager.STATE_UNSTARTED:
+                DownloadManager downloadManager = DownloadManager.getInstance();
+                boolean autoDownload = downloadManager.isAuto();
+                boolean dataSuspended = (MmsApp.getApplication().getTelephonyManager()
+                        .getDataState() == TelephonyManager.DATA_SUSPENDED);
+
+                // If we're going to automatically start downloading the mms attachment, then
+                // don't bother showing the download button for an instant before the actual
+                // download begins. Instead, show downloading as taking place.
+                if (autoDownload && !dataSuspended) {
+                    showDownloadingAttachment();
+                    break;
+                }
             case DownloadManager.STATE_TRANSIENT_FAILURE:
             case DownloadManager.STATE_PERMANENT_FAILURE:
             default:
@@ -238,6 +250,12 @@ public class MessageListItem extends LinearLayout implements
         mDeliveredIndicator.setVisibility(View.GONE);
         mDetailsIndicator.setVisibility(View.GONE);
         updateAvatarView(mMessageItem.mAddress, false);
+    }
+
+    private void showDownloadingAttachment() {
+        inflateDownloadControls();
+        mDownloadingLabel.setVisibility(View.VISIBLE);
+        mDownloadButton.setVisibility(View.GONE);
     }
 
     private void updateAvatarView(String addr, boolean isSelf) {

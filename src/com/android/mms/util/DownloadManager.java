@@ -53,6 +53,7 @@ public class DownloadManager {
 
     public static final int DEFERRED_MASK           = 0x04;
 
+    public static final int STATE_UNKNOWN           = 0x00;
     public static final int STATE_UNSTARTED         = 0x80;
     public static final int STATE_DOWNLOADING       = 0x81;
     public static final int STATE_TRANSIENT_FAILURE = 0x82;
