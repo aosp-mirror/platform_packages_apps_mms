@@ -51,7 +51,7 @@ public class DownloadManager {
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 
-    private static final int DEFERRED_MASK           = 0x04;
+    public static final int DEFERRED_MASK           = 0x04;
 
     public static final int STATE_UNSTARTED         = 0x80;
     public static final int STATE_DOWNLOADING       = 0x81;
@@ -264,7 +264,7 @@ public class DownloadManager {
         if (cursor != null) {
             try {
                 if (cursor.moveToFirst()) {
-                    return cursor.getInt(0) &~ DEFERRED_MASK;
+                    return cursor.getInt(0) & ~DEFERRED_MASK;
                 }
             } finally {
                 cursor.close();

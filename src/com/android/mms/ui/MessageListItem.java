@@ -204,8 +204,7 @@ public class MessageListItem extends LinearLayout implements
 
         mDateView.setText(msgSizeText + " " + mMessageItem.mTimestamp);
 
-        int state = DownloadManager.getInstance().getState(mMessageItem.mMessageUri);
-        switch (state) {
+        switch (mMessageItem.getMmsDownloadStatus()) {
             case DownloadManager.STATE_DOWNLOADING:
                 inflateDownloadControls();
                 mDownloadingLabel.setVisibility(View.VISIBLE);
