@@ -143,6 +143,10 @@ public class BasicSlideEditorView extends LinearLayout implements
         }
     }
 
+    public void setVideoThumbnail(String name, Bitmap bitmap) {
+        mImageView.setImageBitmap(bitmap);
+    }
+
     public void setVideoVisibility(boolean visible) {
         // TODO Auto-generated method stub
     }

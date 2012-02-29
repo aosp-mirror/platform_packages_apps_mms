@@ -73,6 +73,7 @@ import com.android.mms.transaction.TransactionService;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.ItemLoadedCallback;
 import com.android.mms.util.SmileyParser;
+import com.android.mms.util.ThumbnailManager.ImageLoaded;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.pdu.PduHeaders;
 
@@ -368,21 +369,25 @@ public class MessageListItem extends LinearLayout implements
         requestLayout();
     }
 
-    static private class ImageLoadedCallback implements ItemLoadedCallback<Bitmap> {
-        private long mMessageId;
-        private MessageListItem mListItem;
+    static private class ImageLoadedCallback implements ItemLoadedCallback<ImageLoaded> {
+        private final long mMessageId;
+        private final MessageListItem mListItem;
 
         public ImageLoadedCallback(MessageListItem listItem) {
             mListItem = listItem;
             mMessageId = listItem.getMessageItem().getMessageId();
         }
 
-        public void onItemLoaded(Bitmap bitmap, Throwable exception) {
+        public void onItemLoaded(ImageLoaded imageLoaded, Throwable exception) {
             // Make sure we're still pointing to the same message. The list item could have
             // been recycled.
             MessageItem msgItem = mListItem.mMessageItem;
             if (msgItem != null && msgItem.getMessageId() == mMessageId) {
-                mListItem.setImage(null, bitmap);
+                if (imageLoaded.mIsVideo) {
+                    mListItem.setVideoThumbnail(null, imageLoaded.mBitmap);
+                } else {
+                    mListItem.setImage(null, imageLoaded.mBitmap);
+                }
             }
         }
     }
@@ -719,15 +724,14 @@ public class MessageListItem extends LinearLayout implements
     }
 
     @Override
-    public void setVideo(String name, Uri video) {
+    public void setVideo(String name, Uri uri) {
+    }
+
+    @Override
+    public void setVideoThumbnail(String name, Bitmap bitmap) {
         inflateMmsView();
 
         try {
-            Bitmap bitmap = VideoAttachmentView.createVideoThumbnail(mContext, video);
-            if (null == bitmap) {
-                bitmap = BitmapFactory.decodeResource(getResources(),
-                        R.drawable.ic_missing_thumbnail_video);
-            }
             mImageView.setImageBitmap(bitmap);
             mImageView.setVisibility(VISIBLE);
         } catch (java.lang.OutOfMemoryError e) {

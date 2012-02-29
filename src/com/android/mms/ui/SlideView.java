@@ -540,4 +540,7 @@ public class SlideView extends AbsoluteLayout implements
             view.setVisibility(View.GONE);
         }
     }
+
+    public void setVideoThumbnail(String name, Bitmap bitmap) {
+    }
 }

@@ -99,6 +99,10 @@ public class VideoAttachmentView extends LinearLayout implements
         }
     }
 
+    public void setVideoThumbnail(String name, Bitmap thumbnail) {
+        mThumbnailView.setImageBitmap(thumbnail);
+    }
+
     public static Bitmap createVideoThumbnail(Context context, Uri uri) {
         Bitmap bitmap = null;
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();

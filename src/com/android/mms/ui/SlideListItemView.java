@@ -131,6 +131,9 @@ public class SlideListItemView extends LinearLayout implements SlideViewInterfac
         }
     }
 
+    public void setVideoThumbnail(String name, Bitmap thumbnail) {
+    }
+
     public void setVideoVisibility(boolean visible) {
         // TODO Auto-generated method stub
     }
