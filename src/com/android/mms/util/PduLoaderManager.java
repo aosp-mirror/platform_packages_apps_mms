@@ -199,8 +199,8 @@ public class PduLoaderManager extends BackgroundLoaderManager {
     }
 
     public static class PduLoaded {
-        public GenericPdu mPdu;
-        public SlideshowModel mSlideshow;
+        public final GenericPdu mPdu;
+        public final SlideshowModel mSlideshow;
 
         public PduLoaded(GenericPdu pdu, SlideshowModel slideshow) {
             mPdu = pdu;

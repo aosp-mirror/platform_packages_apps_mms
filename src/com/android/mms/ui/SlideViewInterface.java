@@ -31,6 +31,7 @@ public interface SlideViewInterface extends ViewInterface {
     void setImageVisibility(boolean visible);
 
     void setVideo(String name, Uri video);
+    void setVideoThumbnail(String name, Bitmap bitmap);
     void setVideoVisibility(boolean visible);
     void startVideo();
     void stopVideo();

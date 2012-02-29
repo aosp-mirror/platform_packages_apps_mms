@@ -153,6 +153,9 @@ public class AudioAttachmentView extends LinearLayout implements
 
     }
 
+    public void setVideoThumbnail(String name, Bitmap bitmap) {
+    }
+
     public void setVideoVisibility(boolean visible) {
         // TODO Auto-generated method stub
 

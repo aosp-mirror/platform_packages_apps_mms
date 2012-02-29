@@ -152,4 +152,7 @@ public class SlideshowAttachmentView extends LinearLayout implements
         // TODO Auto-generated method stub
 
     }
+
+    public void setVideoThumbnail(String name, Bitmap bitmap) {
+    }
 }

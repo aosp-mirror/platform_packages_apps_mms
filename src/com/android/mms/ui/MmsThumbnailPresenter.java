@@ -30,6 +30,7 @@ import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.VideoModel;
 import com.android.mms.util.ItemLoadedCallback;
+import com.android.mms.util.ThumbnailManager.ImageLoaded;
 
 public class MmsThumbnailPresenter extends Presenter {
     private static final String TAG = "MmsThumbnailPresenter";
@@ -60,11 +61,33 @@ public class MmsThumbnailPresenter extends Presenter {
         }
     }
 
+    private ItemLoadedCallback<ImageLoaded> mImageLoadedCallback =
+            new ItemLoadedCallback<ImageLoaded>() {
+        public void onItemLoaded(ImageLoaded imageLoaded, Throwable exception) {
+            if (exception == null) {
+                // Right now we're only handling image loaded callbacks.
+                SlideModel slide = ((SlideshowModel) mModel).get(0);
+                if (slide != null) {
+                    if (slide.hasVideo() && imageLoaded.mIsVideo) {
+                        ((SlideViewInterface)mView).setVideoThumbnail(null, imageLoaded.mBitmap);
+                    } else if (slide.hasImage() && !imageLoaded.mIsVideo) {
+                        ((SlideViewInterface)mView).setImage(null, imageLoaded.mBitmap);
+                    }
+                }
+            }
+            if (mOnLoadedCallback != null) {
+                mOnLoadedCallback.onItemLoaded(imageLoaded, exception);
+            }
+        }
+    };
+
     private void presentVideoThumbnail(SlideViewInterface view, VideoModel video) {
         if (video.isDrmProtected()) {
             showDrmIcon(view, video.getSrc());
         } else {
-            view.setVideo(video.getSrc(), video.getUri());
+            view.setVideoThumbnail(video.getSrc(), null);  // inflate the view and show loading icon
+            // while we're loading the real bitmap
+            video.loadThumbnailBitmap(mImageLoadedCallback);
         }
     }
 
@@ -74,23 +97,7 @@ public class MmsThumbnailPresenter extends Presenter {
         } else {
             view.setImage(image.getSrc(), null);    // inflate the view and show loading icon
             // while we're loading the real bitmap
-            image.loadThumbnailBitmap(new ItemLoadedCallback<Bitmap>() {
-                public void onItemLoaded(Bitmap bitmap, Throwable exception) {
-                    if (exception == null) {
-                        // Right now we're only handling image loaded callbacks.
-                        SlideModel slide = ((SlideshowModel) mModel).get(0);
-                        Log.e(TAG, "handleCallbackResult: " + slide + " bitmap: " + bitmap);
-                        if (slide != null) {
-                            if (slide.hasImage()) {
-                                ((SlideViewInterface)mView).setImage(null, bitmap);
-                            }
-                        }
-                    }
-                    if (mOnLoadedCallback != null) {
-                        mOnLoadedCallback.onItemLoaded(bitmap, exception);
-                    }
-                }
-            });
+            image.loadThumbnailBitmap(mImageLoadedCallback);
         }
     }
 

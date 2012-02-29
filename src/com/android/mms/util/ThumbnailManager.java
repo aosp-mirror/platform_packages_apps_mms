@@ -21,11 +21,15 @@ import java.util.Set;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.util.Log;
 
 import com.android.mms.LogTag;
+import com.android.mms.model.SlideshowModel;
 import com.android.mms.ui.UriImage;
+import com.android.mms.util.PduLoaderManager.PduLoaded;
+import com.google.android.mms.pdu.GenericPdu;
 
 /**
  * Primary {@link ThumbnailManager} implementation used by {@link MessagingApplication}.
@@ -75,7 +79,24 @@ public class ThumbnailManager extends BackgroundLoaderManager {
      * @return
      */
     public ItemLoadedFuture getThumbnail(Uri uri, int width, int height,
-            final ItemLoadedCallback<Bitmap> callback) {
+            final ItemLoadedCallback<ImageLoaded> callback) {
+        return getThumbnail(uri, false, width, height, callback);
+    }
+
+    /**
+     * getVideoThumbnail must be called on the same thread that created ThumbnailManager. This is
+     * normally the UI thread.
+     * @param uri the uri of the image
+     * @param callback the callback to call when the thumbnail is fully loaded
+     * @return
+     */
+    public ItemLoadedFuture getVideoThumbnail(Uri uri,
+            final ItemLoadedCallback<ImageLoaded> callback) {
+        return getThumbnail(uri, true, 0, 0, callback);
+    }
+
+    private ItemLoadedFuture getThumbnail(Uri uri, boolean isVideo, int width, int height,
+            final ItemLoadedCallback<ImageLoaded> callback) {
         if (uri == null) {
             throw new NullPointerException();
         }
@@ -97,7 +118,8 @@ public class ThumbnailManager extends BackgroundLoaderManager {
 
         if (thumbnailExists) {
             if (callbackRequired) {
-                callback.onItemLoaded(thumbnail, null);
+                ImageLoaded imageLoaded = new ImageLoaded(thumbnail, isVideo);
+                callback.onItemLoaded(imageLoaded, null);
             }
             return new NullItemLoadedFuture();
         }
@@ -108,7 +130,7 @@ public class ThumbnailManager extends BackgroundLoaderManager {
 
         if (newTaskRequired) {
             mPendingTaskUris.add(uri);
-            Runnable task = new ThumbnailTask(uri, width, height);
+            Runnable task = new ThumbnailTask(uri, isVideo, width, height);
             mExecutor.execute(task);
         }
         return new ItemLoadedFuture() {
@@ -136,14 +158,16 @@ public class ThumbnailManager extends BackgroundLoaderManager {
         private final Uri mUri;
         private final int mWidth;
         private final int mHeight;
+        private final boolean mIsVideo;
 
-        public ThumbnailTask(Uri uri, int width, int height) {
+        public ThumbnailTask(Uri uri, boolean isVideo, int width, int height) {
             if (uri == null) {
                 throw new NullPointerException();
             }
             mUri = uri;
             mWidth = width;
             mHeight = height;
+            mIsVideo = isVideo;
         }
 
         /** {@inheritDoc} */
@@ -158,29 +182,46 @@ public class ThumbnailManager extends BackgroundLoaderManager {
                 }
             }
 
-            byte[] data = UriImage.getResizedImageData(mWidth, mHeight,
-                    THUMBNAIL_BOUNDS_LIMIT, THUMBNAIL_BOUNDS_LIMIT,
-                    PICTURE_SIZE_LIMIT, mUri, mContext);
-            if (Log.isLoggable(LogTag.THUMBNAIL_CACHE, Log.DEBUG)) {
-                Log.v(TAG, "createBitmap size: " + (data == null ? data : data.length));
+            Bitmap bitmap = null;
+            if (mIsVideo) {
+                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                try {
+                    retriever.setDataSource(mContext, mUri);
+                    bitmap = retriever.getFrameAtTime(-1);
+                } catch (RuntimeException ex) {
+                    // Assume this is a corrupt video file.
+                } finally {
+                    try {
+                        retriever.release();
+                    } catch (RuntimeException ex) {
+                        // Ignore failures while cleaning up.
+                    }
+                }
+            } else {
+                byte[] data = UriImage.getResizedImageData(mWidth, mHeight,
+                        THUMBNAIL_BOUNDS_LIMIT, THUMBNAIL_BOUNDS_LIMIT,
+                        PICTURE_SIZE_LIMIT, mUri, mContext);
+                if (Log.isLoggable(LogTag.THUMBNAIL_CACHE, Log.DEBUG)) {
+                    Log.v(TAG, "createBitmap size: " + (data == null ? data : data.length));
+                }
+                bitmap = data == null ? null :
+                    BitmapFactory.decodeByteArray(data, 0, data.length);
+                if (Log.isLoggable(LogTag.THUMBNAIL_CACHE, Log.DEBUG) && bitmap == null) {
+                    Log.v(TAG, "DECODED BITMAP IS NULL!!!");
+                }
             }
-            Bitmap bitmap = data == null ? null :
-                BitmapFactory.decodeByteArray(data, 0, data.length);
-            if (Log.isLoggable(LogTag.THUMBNAIL_CACHE, Log.DEBUG) && bitmap == null) {
-                Log.v(TAG, "DECODED BITMAP IS NULL!!!");
-            }
-
             final Bitmap resultBitmap = bitmap;
             mCallbackHandler.post(new Runnable() {
                 public void run() {
                     final Set<ItemLoadedCallback> callbacks = mCallbacks.get(mUri);
                     if (callbacks != null) {
                         // Make a copy so that the callback can unregister itself
-                        for (final ItemLoadedCallback<Bitmap> callback : asList(callbacks)) {
+                        for (final ItemLoadedCallback<ImageLoaded> callback : asList(callbacks)) {
                             if (Log.isLoggable(TAG, Log.DEBUG)) {
                                 Log.d(TAG, "Invoking item loaded callback " + callback);
                             }
-                            callback.onItemLoaded(resultBitmap, null);
+                            ImageLoaded imageLoaded = new ImageLoaded(resultBitmap, mIsVideo);
+                            callback.onItemLoaded(imageLoaded, null);
                         }
                     } else {
                         if (Log.isLoggable(TAG, Log.DEBUG)) {
@@ -208,6 +249,16 @@ public class ThumbnailManager extends BackgroundLoaderManager {
                     }
                 }
             });
+        }
+    }
+
+    public static class ImageLoaded {
+        public final Bitmap mBitmap;
+        public final boolean mIsVideo;
+
+        public ImageLoaded(Bitmap bitmap, boolean isVideo) {
+            mBitmap = bitmap;
+            mIsVideo = isVideo;
         }
     }
 }

@@ -103,6 +103,9 @@ public class ImageAttachmentView extends LinearLayout implements SlideViewInterf
 
     }
 
+    public void setVideoThumbnail(String name, Bitmap bitmap) {
+    }
+
     public void setVideoVisibility(boolean visible) {
         // TODO Auto-generated method stub
 
