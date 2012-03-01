@@ -29,12 +29,14 @@ import org.w3c.dom.smil.SMILDocument;
 import org.w3c.dom.smil.SMILElement;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -238,7 +240,8 @@ public class SlideshowActivity extends Activity implements EventListener {
     }
 
     private void initMediaController() {
-        mMediaController = new MediaController(SlideshowActivity.this, false);
+        final Context dialogContext = new ContextThemeWrapper(this, android.R.style.Theme_DeviceDefault);
+        mMediaController = new MediaController(dialogContext, false);
         mMediaController.setMediaPlayer(new SmilPlayerController(mSmilPlayer));
         mMediaController.setAnchorView(findViewById(R.id.slide_view));
         mMediaController.setPrevNextListeners(
