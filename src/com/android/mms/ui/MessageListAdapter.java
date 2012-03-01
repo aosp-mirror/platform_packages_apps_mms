@@ -154,7 +154,8 @@ public class MessageListAdapter extends CursorAdapter {
             MessageItem msgItem = getCachedMessageItem(type, msgId, cursor);
             if (msgItem != null) {
                 MessageListItem mli = (MessageListItem) view;
-                mli.bind(msgItem, cursor.getPosition() == cursor.getCount() - 1);
+                int position = cursor.getPosition();
+                mli.bind(msgItem, position == cursor.getCount() - 1, position);
                 mli.setMsgListItemHandler(mMsgListItemHandler);
             }
         }

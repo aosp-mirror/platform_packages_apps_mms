@@ -61,6 +61,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
@@ -110,6 +111,7 @@ public class MessageListItem extends LinearLayout implements
     private boolean mIsLastItemInList;
     static private Drawable sDefaultContactImage;
     private Presenter mPresenter;
+    private int mPosition;      // for debugging
 
     public MessageListItem(Context context) {
         super(context);
@@ -145,9 +147,10 @@ public class MessageListItem extends LinearLayout implements
         mMessageBlock = findViewById(R.id.message_block);
     }
 
-    public void bind(MessageItem msgItem, boolean isLastItem) {
+    public void bind(MessageItem msgItem, boolean isLastItem, int position) {
         mMessageItem = msgItem;
         mIsLastItemInList = isLastItem;
+        mPosition = position;
 
         setLongClickable(false);
         setClickable(false);    // let the list view handle clicks on the item normally. When
@@ -323,7 +326,7 @@ public class MessageListItem extends LinearLayout implements
                     debugText = slide.getImage().getUri().toString();
                 }
             }
-            mBodyTextView.setText(debugText);
+            mBodyTextView.setText(mPosition + ": " + debugText);
         }
 
         // If we're in the process of sending a message (i.e. pending), then we show a "SENDING..."
@@ -336,7 +339,26 @@ public class MessageListItem extends LinearLayout implements
             hideMmsViewIfNeeded();
             mMessageItem.setOnPduLoaded(null);
         } else {
-            if (mMessageItem.mSlideshow != null) {
+            if (DEBUG) {
+                Log.v(TAG, "bindCommonMessage for item: " + mPosition + " " +
+                        mMessageItem.toString());
+            }
+            if (mMessageItem.mSlideshow == null) {
+                mMessageItem.setOnPduLoaded(new MessageItem.PduLoadedCallback() {
+                    public void onPduLoaded(MessageItem messageItem) {
+                        if (DEBUG) {
+                            Log.v(TAG, "PduLoadedCallback in MessageListItem for item: " + mPosition +
+                                    " " + (mMessageItem == null ? "NULL" : mMessageItem.toString()) +
+                                    " passed in item: " +
+                                    (messageItem == null ? "NULL" : messageItem.toString()));
+                        }
+                        if (messageItem != null && mMessageItem != null &&
+                                messageItem.getMessageId() == mMessageItem.getMessageId()) {
+                            bindCommonMessage();;
+                        }
+                    }
+                });
+            } else {
                 if (mPresenter == null) {
                     mPresenter = PresenterFactory.getPresenter(
                             "MmsThumbnailPresenter", mContext,
@@ -345,13 +367,6 @@ public class MessageListItem extends LinearLayout implements
                     mPresenter.setModel(mMessageItem.mSlideshow);
                     mPresenter.setView(this);
                 }
-                mMessageItem.setOnPduLoaded(new MessageItem.PduLoadedCallback() {
-                    public void onPduLoaded(MessageItem messageItem) {
-                        if (messageItem.getMessageId() == mMessageItem.getMessageId()) {
-                            MessageListItem.this.invalidate();
-                        }
-                    }
-                });
                 mPresenter.present(new ImageLoadedCallback(this));
             }
 
