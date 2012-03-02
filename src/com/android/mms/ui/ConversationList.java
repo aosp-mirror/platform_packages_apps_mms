@@ -98,7 +98,6 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
 
     private ThreadListQueryHandler mQueryHandler;
     private ConversationListAdapter mListAdapter;
-    private CharSequence mTitle;
     private SharedPreferences mPrefs;
     private Handler mHandler;
     private boolean mNeedToMarkAsSeen;
@@ -129,7 +128,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
 
         setupActionBar();
 
-        mTitle = getString(R.string.app_label);
+        setTitle(R.string.app_label);
 
         mHandler = new Handler();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -293,7 +292,6 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
 
     private void startAsyncQuery() {
         try {
-            setTitle(getString(R.string.refreshing));
             ((TextView)(getListView().getEmptyView())).setText(R.string.loading_conversations);
 
             Conversation.startQueryForAll(mQueryHandler, THREAD_LIST_QUERY_TOKEN);
@@ -674,7 +672,6 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
             switch (token) {
             case THREAD_LIST_QUERY_TOKEN:
                 mListAdapter.changeCursor(cursor);
-                setTitle(mTitle);
 
                 if (mListAdapter.getCount() == 0) {
                     ((TextView)(getListView().getEmptyView())).setText(R.string.no_conversations);
