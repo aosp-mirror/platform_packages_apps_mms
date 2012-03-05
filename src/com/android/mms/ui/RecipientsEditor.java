@@ -52,7 +52,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
 
     public RecipientsEditor(Context context, AttributeSet attrs) {
         super(context, attrs, android.R.attr.autoCompleteTextViewStyle);
-        mTokenizer = new RecipientsEditorTokenizer(context, this);
+        mTokenizer = new RecipientsEditorTokenizer();
         setTokenizer(mTokenizer);
         // For the focus to move to the message body when soft Next is pressed
         setImeOptions(EditorInfo.IME_ACTION_NEXT);
@@ -71,12 +71,14 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         addTextChangedListener(new TextWatcher() {
             private Annotation[] mAffected;
 
+            @Override
             public void beforeTextChanged(CharSequence s, int start,
                     int count, int after) {
                 mAffected = ((Spanned) s).getSpans(start, start + count,
                         Annotation.class);
             }
 
+            @Override
             public void onTextChanged(CharSequence s, int start,
                     int before, int after) {
                 if (before == 0 && after == 1) {    // inserting a character
@@ -89,6 +91,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
                 }
             }
 
+            @Override
             public void afterTextChanged(Editable s) {
                 if (mAffected != null) {
                     for (Annotation a : mAffected) {
@@ -328,19 +331,8 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
 
     private class RecipientsEditorTokenizer
             implements MultiAutoCompleteTextView.Tokenizer {
-        private final MultiAutoCompleteTextView mList;
-        private final Context mContext;
 
-        RecipientsEditorTokenizer(Context context, MultiAutoCompleteTextView list) {
-            mList = list;
-            mContext = context;
-        }
-
-        /**
-         * Returns the start of the token that ends at offset
-         * <code>cursor</code> within <code>text</code>.
-         * It is a method from the MultiAutoCompleteTextView.Tokenizer interface.
-         */
+        @Override
         public int findTokenStart(CharSequence text, int cursor) {
             int i = cursor;
             char c;
@@ -355,11 +347,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
             return i;
         }
 
-        /**
-         * Returns the end of the token (minus trailing punctuation)
-         * that begins at offset <code>cursor</code> within <code>text</code>.
-         * It is a method from the MultiAutoCompleteTextView.Tokenizer interface.
-         */
+        @Override
         public int findTokenEnd(CharSequence text, int cursor) {
             int i = cursor;
             int len = text.length();
@@ -376,11 +364,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
             return len;
         }
 
-        /**
-         * Returns <code>text</code>, modified, if necessary, to ensure that
-         * it ends with a token terminator (for example a space or comma).
-         * It is a method from the MultiAutoCompleteTextView.Tokenizer interface.
-         */
+        @Override
         public CharSequence terminateToken(CharSequence text) {
             int i = text.length();
 
@@ -407,7 +391,7 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         }
 
         public List<String> getNumbers() {
-            Spanned sp = mList.getText();
+            Spanned sp = RecipientsEditor.this.getText();
             int len = sp.length();
             List<String> list = new ArrayList<String>();
 
@@ -417,13 +401,13 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
                 char c;
                 if ((i == len) || ((c = sp.charAt(i)) == ',') || (c == ';')) {
                     if (i > start) {
-                        list.add(getNumberAt(sp, start, i, mContext));
+                        list.add(getNumberAt(sp, start, i, getContext()));
 
                         // calculate the recipients total length. This is so if the name contains
                         // commas or semis, we'll skip over the whole name to the next
                         // recipient, rather than parsing this single name into multiple
                         // recipients.
-                        int spanLen = getSpanLength(sp, start, i, mContext);
+                        int spanLen = getSpanLength(sp, start, i, getContext());
                         if (spanLen > i) {
                             i = spanLen;
                         }
