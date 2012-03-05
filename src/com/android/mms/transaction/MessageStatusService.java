@@ -58,10 +58,11 @@ public class MessageStatusService extends IntentService {
 
         SmsMessage message = updateMessageStatus(this, messageUri, pdu, format);
 
-        // Called on the UI thread so don't block.
-        if (message != null && message.getStatus() < Sms.STATUS_PENDING)
-            MessagingNotification.nonBlockingUpdateNewMessageIndicator(this,
-                    true, message.isStatusReportMessage());
+        // Called on a background thread, so it's OK to block.
+        if (message != null && message.getStatus() < Sms.STATUS_PENDING) {
+            MessagingNotification.blockingUpdateNewMessageIndicator(this,
+                    MessagingNotification.THREAD_NONE, message.isStatusReportMessage());
+        }
     }
 
     private SmsMessage updateMessageStatus(Context context, Uri messageUri, byte[] pdu,

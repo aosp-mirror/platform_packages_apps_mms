@@ -363,8 +363,9 @@ public class SmsReceiverService extends Service {
         }
 
         if (messageUri != null) {
+            long threadId = MessagingNotification.getSmsThreadId(this, messageUri);
             // Called off of the UI thread so ok to block.
-            MessagingNotification.blockingUpdateNewMessageIndicator(this, true, false);
+            MessagingNotification.blockingUpdateNewMessageIndicator(this, threadId, false);
         }
     }
 
@@ -381,7 +382,8 @@ public class SmsReceiverService extends Service {
         sendFirstQueuedMessage();
 
         // Called off of the UI thread so ok to block.
-        MessagingNotification.blockingUpdateNewMessageIndicator(this, true, false);
+        MessagingNotification.blockingUpdateNewMessageIndicator(
+                this, MessagingNotification.THREAD_ALL, false);
     }
 
     /**
@@ -651,7 +653,6 @@ public class SmsReceiverService extends Service {
             // Allow un-matched register-unregister calls
         }
     }
-
 }
 
 
