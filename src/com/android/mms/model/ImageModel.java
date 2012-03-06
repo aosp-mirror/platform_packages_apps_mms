@@ -147,9 +147,10 @@ public class ImageModel extends RegionMediaModel {
         cr.checkImageContentType(mContentType);
     }
 
-    public void loadThumbnailBitmap(ItemLoadedCallback callback) {
+    public ItemLoadedFuture loadThumbnailBitmap(ItemLoadedCallback callback) {
         ThumbnailManager thumbnailManager = MmsApp.getApplication().getThumbnailManager();
-        mItemLoadedFuture = thumbnailManager.getThumbnail(getUri(), mWidth, mHeight, callback);
+        mItemLoadedFuture = thumbnailManager.getThumbnail(getUri(), callback);
+        return mItemLoadedFuture;
     }
 
     public void cancelThumbnailLoading() {

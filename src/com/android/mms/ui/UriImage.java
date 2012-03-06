@@ -174,6 +174,10 @@ public class UriImage {
         return mSrc;
     }
 
+    public String getPath() {
+        return mPath;
+    }
+
     public int getWidth() {
         return mWidth;
     }

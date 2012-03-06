@@ -30,6 +30,7 @@ import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.VideoModel;
 import com.android.mms.util.ItemLoadedCallback;
+import com.android.mms.util.ItemLoadedFuture;
 import com.android.mms.util.ThumbnailManager.ImageLoaded;
 
 public class MmsThumbnailPresenter extends Presenter {
@@ -65,18 +66,20 @@ public class MmsThumbnailPresenter extends Presenter {
             new ItemLoadedCallback<ImageLoaded>() {
         public void onItemLoaded(ImageLoaded imageLoaded, Throwable exception) {
             if (exception == null) {
-                // Right now we're only handling image loaded callbacks.
-                SlideModel slide = ((SlideshowModel) mModel).get(0);
-                if (slide != null) {
-                    if (slide.hasVideo() && imageLoaded.mIsVideo) {
-                        ((SlideViewInterface)mView).setVideoThumbnail(null, imageLoaded.mBitmap);
-                    } else if (slide.hasImage() && !imageLoaded.mIsVideo) {
-                        ((SlideViewInterface)mView).setImage(null, imageLoaded.mBitmap);
+                if (mOnLoadedCallback != null) {
+                    mOnLoadedCallback.onItemLoaded(imageLoaded, exception);
+                } else {
+                    // Right now we're only handling image and video loaded callbacks.
+                    SlideModel slide = ((SlideshowModel) mModel).get(0);
+                    if (slide != null) {
+                        if (slide.hasVideo() && imageLoaded.mIsVideo) {
+                            ((SlideViewInterface)mView).setVideoThumbnail(null,
+                                    imageLoaded.mBitmap);
+                        } else if (slide.hasImage() && !imageLoaded.mIsVideo) {
+                            ((SlideViewInterface)mView).setImage(null, imageLoaded.mBitmap);
+                        }
                     }
                 }
-            }
-            if (mOnLoadedCallback != null) {
-                mOnLoadedCallback.onItemLoaded(imageLoaded, exception);
             }
         }
     };
@@ -85,9 +88,11 @@ public class MmsThumbnailPresenter extends Presenter {
         if (video.isDrmProtected()) {
             showDrmIcon(view, video.getSrc());
         } else {
-            view.setVideoThumbnail(video.getSrc(), null);  // inflate the view and show loading icon
-            // while we're loading the real bitmap
-            video.loadThumbnailBitmap(mImageLoadedCallback);
+            ItemLoadedFuture itemLoadedFuture = video.loadThumbnailBitmap(mImageLoadedCallback);
+            if (!itemLoadedFuture.isDone()) {
+                // inflate the view and show loading icon while waiting for the real thumbnail
+                view.setVideoThumbnail(video.getSrc(), null);
+            }
         }
     }
 
@@ -95,9 +100,11 @@ public class MmsThumbnailPresenter extends Presenter {
         if (image.isDrmProtected()) {
             showDrmIcon(view, image.getSrc());
         } else {
-            view.setImage(image.getSrc(), null);    // inflate the view and show loading icon
-            // while we're loading the real bitmap
-            image.loadThumbnailBitmap(mImageLoadedCallback);
+            ItemLoadedFuture itemLoadedFuture = image.loadThumbnailBitmap(mImageLoadedCallback);
+            if (!itemLoadedFuture.isDone()) {
+                // inflate the view and show loading icon while waiting for the real thumbnail
+                view.setImage(image.getSrc(), null);
+            }
         }
     }
 

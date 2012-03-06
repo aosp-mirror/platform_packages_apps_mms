@@ -1,4 +1,18 @@
-// Copyright 2012 Google Inc. All Rights Reserved.
+/*
+ * Copyright (C) 2012 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.android.mms.util;
 
@@ -7,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * A simple cache using {@link SoftReference SoftReferences} to play well with
+ * A simple cache with the option of using {@link SoftReference SoftReferences} to play well with
  * the garbage collector and an LRU cache eviction algorithm to limit the number
  * of {@link SoftReference SoftReferences}.
  * <p>
@@ -37,46 +51,76 @@ public class SimpleCache<K, V> {
         }
     }
 
+    @SuppressWarnings("serial")
+    private class HardReferenceMap extends LinkedHashMap<K, V> {
+
+        private final int mMaxCapacity;
+
+        public HardReferenceMap(int initialCapacity, int maxCapacity, float loadFactor) {
+            super(initialCapacity, loadFactor, true);
+            mMaxCapacity = maxCapacity;
+        }
+
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+            return size() > mMaxCapacity;
+        }
+    }
+
     private static <V> V unwrap(SoftReference<V> ref) {
         return ref != null ? ref.get() : null;
     }
 
-    private final SoftReferenceMap mReferences;
+    private final SoftReferenceMap mSoftReferences;
+    private final HardReferenceMap mHardReferences;
 
     /**
      * Constructor.
      *
-     * @param initialCapacity the initial capacity for the {@link SoftReference}
-     *            cache.
-     * @param maxCapacity the maximum capacity for the {@link SoftReference}
-     *            cache (this value may be large because {@link SoftReference
-     *            SoftReferences} don't consume much memory compared to the
+     * @param initialCapacity the initial capacity for the cache.
+     * @param maxCapacity the maximum capacity for the
+     *            cache (this value may be large if soft references are used because
+     *            {@link SoftReference SoftReferences} don't consume much memory compared to the
      *            larger data they typically contain).
      * @param loadFactor the initial load balancing factor for the internal
      *            {@link LinkedHashMap}
      */
-    public SimpleCache(int initialCapacity, int maxCapacity, float loadFactor) {
-        mReferences = new SoftReferenceMap(initialCapacity, maxCapacity, loadFactor);
+    public SimpleCache(int initialCapacity, int maxCapacity, float loadFactor,
+            boolean useHardReferences) {
+        if (useHardReferences) {
+            mSoftReferences = null;
+            mHardReferences = new HardReferenceMap(initialCapacity, maxCapacity, loadFactor);
+        } else {
+            mSoftReferences = new SoftReferenceMap(initialCapacity, maxCapacity, loadFactor);
+            mHardReferences = null;
+        }
     }
 
     /**
      * See {@link Map#get(Object)}.
      */
     public V get(Object key) {
-        return unwrap(mReferences.get(key));
+        return mSoftReferences != null ? unwrap(mSoftReferences.get(key))
+                : mHardReferences.get(key);
     }
 
     /**
      * See {@link Map#put(Object, Object)}.
      */
     public V put(K key, V value) {
-        return unwrap(mReferences.put(key, new SoftReference<V>(value)));
+        return mSoftReferences != null ?
+                unwrap(mSoftReferences.put(key, new SoftReference<V>(value)))
+                : mHardReferences.put(key, value);
     }
 
     /**
      * See {@link Map#clear()}.
      */
     public void clear() {
-        mReferences.clear();
+        if (mSoftReferences != null) {
+            mSoftReferences.clear();
+        } else {
+            mHardReferences.clear();
+        }
     }
 }

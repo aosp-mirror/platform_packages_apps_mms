@@ -112,6 +112,7 @@ public class MessageListItem extends LinearLayout implements
     static private Drawable sDefaultContactImage;
     private Presenter mPresenter;
     private int mPosition;      // for debugging
+    private ImageLoadedCallback mImageLoadedCallback;
 
     public MessageListItem(Context context) {
         super(context);
@@ -367,7 +368,12 @@ public class MessageListItem extends LinearLayout implements
                     mPresenter.setModel(mMessageItem.mSlideshow);
                     mPresenter.setView(this);
                 }
-                mPresenter.present(new ImageLoadedCallback(this));
+                if (mImageLoadedCallback == null) {
+                    mImageLoadedCallback = new ImageLoadedCallback(this);
+                } else {
+                    mImageLoadedCallback.reset(this);
+                }
+                mPresenter.present(mImageLoadedCallback);
             }
 
             if (mMessageItem.mAttachmentType != WorkingMessage.TEXT) {
@@ -385,11 +391,15 @@ public class MessageListItem extends LinearLayout implements
     }
 
     static private class ImageLoadedCallback implements ItemLoadedCallback<ImageLoaded> {
-        private final long mMessageId;
+        private long mMessageId;
         private final MessageListItem mListItem;
 
         public ImageLoadedCallback(MessageListItem listItem) {
             mListItem = listItem;
+            mMessageId = listItem.getMessageItem().getMessageId();
+        }
+
+        public void reset(MessageListItem listItem) {
             mMessageId = listItem.getMessageItem().getMessageId();
         }
 
@@ -433,10 +443,6 @@ public class MessageListItem extends LinearLayout implements
         inflateMmsView();
 
         try {
-            if (null == bitmap) {
-                bitmap = BitmapFactory.decodeResource(getResources(),
-                        R.drawable.ic_missing_thumbnail_picture);
-            }
             mImageView.setImageBitmap(bitmap);
             mImageView.setVisibility(VISIBLE);
         } catch (java.lang.OutOfMemoryError e) {

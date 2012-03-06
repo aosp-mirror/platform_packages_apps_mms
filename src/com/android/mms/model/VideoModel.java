@@ -203,9 +203,10 @@ public class VideoModel extends RegionMediaModel {
         return true;
     }
 
-    public void loadThumbnailBitmap(ItemLoadedCallback callback) {
+    public ItemLoadedFuture loadThumbnailBitmap(ItemLoadedCallback callback) {
         ThumbnailManager thumbnailManager = MmsApp.getApplication().getThumbnailManager();
         mItemLoadedFuture = thumbnailManager.getVideoThumbnail(getUri(), callback);
+        return mItemLoadedFuture;
     }
 
     public void cancelThumbnailLoading() {

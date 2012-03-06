@@ -153,7 +153,12 @@ abstract class BackgroundLoaderManager {
         }
 
         public Thread newThread(final Runnable r) {
-            return new Thread(r, mTag + "-" + mCount.getAndIncrement());
+            Thread t =  new Thread(r, mTag + "-" + mCount.getAndIncrement());
+
+            if (t.getPriority() != Thread.MIN_PRIORITY)
+                t.setPriority(Thread.MIN_PRIORITY);
+
+            return t;
         }
     }
 }
