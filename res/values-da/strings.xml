@@ -310,7 +310,7 @@
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> resultater for \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</string>
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"Ryd"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"Søgeoversigten ryddes."</string>
-    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Ryd søgeoversigt"</string>
+    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Ryd søgehistorik"</string>
     <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Ryd tidligere søgninger i Beskeder, så de ikke vises i søgefeltet"</string>
     <string name="save" msgid="6847069284991531310">"Gem"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"Begræns beskeder"</string>
