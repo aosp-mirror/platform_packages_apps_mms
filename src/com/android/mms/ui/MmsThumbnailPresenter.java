@@ -88,11 +88,7 @@ public class MmsThumbnailPresenter extends Presenter {
         if (video.isDrmProtected()) {
             showDrmIcon(view, video.getSrc());
         } else {
-            ItemLoadedFuture itemLoadedFuture = video.loadThumbnailBitmap(mImageLoadedCallback);
-            if (!itemLoadedFuture.isDone()) {
-                // inflate the view and show loading icon while waiting for the real thumbnail
-                view.setVideoThumbnail(video.getSrc(), null);
-            }
+            video.loadThumbnailBitmap(mImageLoadedCallback);
         }
     }
 
@@ -100,11 +96,7 @@ public class MmsThumbnailPresenter extends Presenter {
         if (image.isDrmProtected()) {
             showDrmIcon(view, image.getSrc());
         } else {
-            ItemLoadedFuture itemLoadedFuture = image.loadThumbnailBitmap(mImageLoadedCallback);
-            if (!itemLoadedFuture.isDone()) {
-                // inflate the view and show loading icon while waiting for the real thumbnail
-                view.setImage(image.getSrc(), null);
-            }
+            image.loadThumbnailBitmap(mImageLoadedCallback);
         }
     }
 

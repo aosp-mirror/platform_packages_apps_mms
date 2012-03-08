@@ -26,6 +26,7 @@ import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.MmsSms.PendingMessages;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Sms.Conversations;
+import android.provider.Telephony.TextBasedSmsColumns;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
@@ -105,8 +106,10 @@ public class MessageListAdapter extends CursorAdapter {
 
     private static final int CACHE_SIZE         = 50;
 
-    public static final int INCOMING_ITEM_TYPE = 0;
-    public static final int OUTGOING_ITEM_TYPE = 1;
+    public static final int INCOMING_ITEM_TYPE_SMS = 0;
+    public static final int OUTGOING_ITEM_TYPE_SMS = 1;
+    public static final int INCOMING_ITEM_TYPE_MMS = 2;
+    public static final int OUTGOING_ITEM_TYPE_MMS = 3;
 
     protected LayoutInflater mInflater;
     private final MessageItemCache mMessageItemCache;
@@ -205,9 +208,16 @@ public class MessageListAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return mInflater.inflate(getItemViewType(cursor) == INCOMING_ITEM_TYPE ?
-                R.layout.message_list_item_recv : R.layout.message_list_item_send,
-                parent, false);
+        int boxType = getItemViewType(cursor);
+        View view = mInflater.inflate((boxType == INCOMING_ITEM_TYPE_SMS ||
+                boxType == INCOMING_ITEM_TYPE_MMS) ?
+                        R.layout.message_list_item_recv : R.layout.message_list_item_send,
+                        parent, false);
+        if (boxType == INCOMING_ITEM_TYPE_MMS || boxType == OUTGOING_ITEM_TYPE_MMS) {
+            // We've got an mms item, pre-inflate the mms portion of the view
+            view.findViewById(R.id.mms_layout_view_stub).setVisibility(View.VISIBLE);
+        }
+        return view;
     }
 
     public MessageItem getCachedMessageItem(String type, long msgId, Cursor c) {
@@ -244,7 +254,7 @@ public class MessageListAdapter extends CursorAdapter {
         return true;
     }
 
-    /* MessageListAdapter says that it contains two types of views. Really, it just contains
+    /* MessageListAdapter says that it contains four types of views. Really, it just contains
      * a single type, a MessageListItem. Depending upon whether the message is an incoming or
      * outgoing message, the avatar and text and other items are laid out either left or right
      * justified. That works fine for everything but the message text. When views are recycled,
@@ -255,7 +265,7 @@ public class MessageListAdapter extends CursorAdapter {
      */
     @Override
     public int getViewTypeCount() {
-        return 2;   // Incoming and outgoing messages
+        return 4;   // Incoming and outgoing messages, both sms and mms
     }
 
     @Override
@@ -269,12 +279,16 @@ public class MessageListAdapter extends CursorAdapter {
         int boxId;
         if ("sms".equals(type)) {
             boxId = cursor.getInt(mColumnsMap.mColumnSmsType);
+            // Note that messages from the SIM card all have a boxId of zero.
+            return (boxId == TextBasedSmsColumns.MESSAGE_TYPE_INBOX ||
+                    boxId == TextBasedSmsColumns.MESSAGE_TYPE_ALL) ?
+                    INCOMING_ITEM_TYPE_SMS : OUTGOING_ITEM_TYPE_SMS;
         } else {
             boxId = cursor.getInt(mColumnsMap.mColumnMmsMessageBox);
+            // Note that messages from the SIM card all have a boxId of zero: Mms.MESSAGE_BOX_ALL
+            return (boxId == Mms.MESSAGE_BOX_INBOX || boxId == Mms.MESSAGE_BOX_ALL) ?
+                    INCOMING_ITEM_TYPE_MMS : OUTGOING_ITEM_TYPE_MMS;
         }
-        // Note that messages from the SIM card all have a boxId of zero: Mms.MESSAGE_BOX_ALL
-        return (boxId == Mms.MESSAGE_BOX_INBOX || boxId == Mms.MESSAGE_BOX_ALL) ?
-                INCOMING_ITEM_TYPE : OUTGOING_ITEM_TYPE;
     }
 
     public Cursor getCursorForItem(MessageItem item) {

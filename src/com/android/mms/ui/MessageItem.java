@@ -63,6 +63,8 @@ public class MessageItem {
 
     public enum DeliveryStatus  { NONE, INFO, FAILED, PENDING, RECEIVED }
 
+    public static int ATTACHMENT_TYPE_NOT_LOADED = -1;
+
     final Context mContext;
     final String mType;
     final long mMsgId;
@@ -171,7 +173,7 @@ public class MessageItem {
             }
             mLocked = cursor.getInt(columnsMap.mColumnMmsLocked) != 0;
             mSlideshow = null;
-            mAttachmentType = WorkingMessage.TEXT;
+            mAttachmentType = ATTACHMENT_TYPE_NOT_LOADED;
             mDeliveryStatus = DeliveryStatus.NONE;
             mReadReport = false;
             mBody = null;
