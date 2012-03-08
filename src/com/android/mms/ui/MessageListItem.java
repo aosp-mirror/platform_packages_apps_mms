@@ -87,6 +87,7 @@ public class MessageListItem extends LinearLayout implements
 
     private static final String TAG = "MessageListItem";
     private static final boolean DEBUG = false;
+    private static final boolean DEBUG_DONT_LOAD_IMAGES = false;
 
     static final int MSG_LIST_EDIT_MMS   = 1;
     static final int MSG_LIST_EDIT_SMS   = 2;
@@ -197,7 +198,7 @@ public class MessageListItem extends LinearLayout implements
     }
 
     private void bindNotifInd() {
-        hideMmsViewIfNeeded();
+        showMmsView(false);
 
         String msgSizeText = mContext.getString(R.string.message_size_label)
                                 + String.valueOf((mMessageItem.mMessageSize + 1023) / 1024)
@@ -337,12 +338,19 @@ public class MessageListItem extends LinearLayout implements
                     mMessageItem.mTimestamp);
 
         if (mMessageItem.isSms()) {
-            hideMmsViewIfNeeded();
+            showMmsView(false);
             mMessageItem.setOnPduLoaded(null);
         } else {
             if (DEBUG) {
                 Log.v(TAG, "bindCommonMessage for item: " + mPosition + " " +
                         mMessageItem.toString());
+            }
+            if (mMessageItem.mAttachmentType != WorkingMessage.TEXT) {
+                setImage(null, null);
+                setOnClickListener(mMessageItem);
+                drawPlaybackButton(mMessageItem);
+            } else {
+                showMmsView(false);
             }
             if (mMessageItem.mSlideshow == null) {
                 mMessageItem.setOnPduLoaded(new MessageItem.PduLoadedCallback() {
@@ -355,7 +363,7 @@ public class MessageListItem extends LinearLayout implements
                         }
                         if (messageItem != null && mMessageItem != null &&
                                 messageItem.getMessageId() == mMessageItem.getMessageId()) {
-                            bindCommonMessage();;
+                            bindCommonMessage();
                         }
                     }
                 });
@@ -374,15 +382,6 @@ public class MessageListItem extends LinearLayout implements
                     mImageLoadedCallback.reset(this);
                 }
                 mPresenter.present(mImageLoadedCallback);
-            }
-
-            if (mMessageItem.mAttachmentType != WorkingMessage.TEXT) {
-                inflateMmsView();
-                mMmsView.setVisibility(View.VISIBLE);
-                setOnClickListener(mMessageItem);
-                drawPlaybackButton(mMessageItem);
-            } else {
-                hideMmsViewIfNeeded();
             }
         }
         drawRightStatusIndicator(mMessageItem);
@@ -404,6 +403,9 @@ public class MessageListItem extends LinearLayout implements
         }
 
         public void onItemLoaded(ImageLoaded imageLoaded, Throwable exception) {
+            if (DEBUG_DONT_LOAD_IMAGES) {
+                return;
+            }
             // Make sure we're still pointing to the same message. The list item could have
             // been recycled.
             MessageItem msgItem = mListItem.mMessageItem;
@@ -414,12 +416,6 @@ public class MessageListItem extends LinearLayout implements
                     mListItem.setImage(null, imageLoaded.mBitmap);
                 }
             }
-        }
-    }
-
-    private void hideMmsViewIfNeeded() {
-        if (mMmsView != null) {
-            mMmsView.setVisibility(View.GONE);
         }
     }
 
@@ -440,7 +436,7 @@ public class MessageListItem extends LinearLayout implements
 
     @Override
     public void setImage(String name, Bitmap bitmap) {
-        inflateMmsView();
+        showMmsView(true);
 
         try {
             mImageView.setImageBitmap(bitmap);
@@ -450,14 +446,27 @@ public class MessageListItem extends LinearLayout implements
         }
     }
 
-    private void inflateMmsView() {
+    private void showMmsView(boolean visible) {
         if (mMmsView == null) {
-            //inflate the surrounding view_stub
-            findViewById(R.id.mms_layout_view_stub).setVisibility(VISIBLE);
-
             mMmsView = findViewById(R.id.mms_view);
-            mImageView = (ImageView) findViewById(R.id.image_view);
-            mSlideShowButton = (ImageButton) findViewById(R.id.play_slideshow_button);
+            // if mMmsView is still null here, that mean the mms section hasn't been inflated
+
+            if (visible && mMmsView == null) {
+                //inflate the mms view_stub
+                View mmsStub = findViewById(R.id.mms_layout_view_stub);
+                mmsStub.setVisibility(View.VISIBLE);
+                mMmsView = findViewById(R.id.mms_view);
+            }
+        }
+        if (mMmsView != null) {
+            if (mImageView == null) {
+                mImageView = (ImageView) findViewById(R.id.image_view);
+            }
+            if (mSlideShowButton == null) {
+                mSlideShowButton = (ImageButton) findViewById(R.id.play_slideshow_button);
+            }
+            mMmsView.setVisibility(visible ? View.VISIBLE : View.GONE);
+            mImageView.setVisibility(visible ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -750,7 +759,7 @@ public class MessageListItem extends LinearLayout implements
 
     @Override
     public void setVideoThumbnail(String name, Bitmap bitmap) {
-        inflateMmsView();
+        showMmsView(true);
 
         try {
             mImageView.setImageBitmap(bitmap);
@@ -777,9 +786,6 @@ public class MessageListItem extends LinearLayout implements
 
     @Override
     public void reset() {
-        if (mImageView != null) {
-            mImageView.setVisibility(GONE);
-        }
     }
 
     @Override
