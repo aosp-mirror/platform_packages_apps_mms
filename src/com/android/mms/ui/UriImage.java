@@ -67,18 +67,6 @@ public class UriImage {
             initFromFile(context, uri);
         }
 
-        mSrc = mPath.substring(mPath.lastIndexOf('/') + 1);
-
-        if(mSrc.startsWith(".") && mSrc.length() > 1) {
-            mSrc = mSrc.substring(1);
-        }
-
-        // Some MMSCs appear to have problems with filenames
-        // containing a space.  So just replace them with
-        // underscores in the name, which is typically not
-        // visible to the user anyway.
-        mSrc = mSrc.replace(' ', '_');
-
         mContext = context;
         mUri = uri;
 
@@ -105,12 +93,29 @@ public class UriImage {
         mContentType = mimeTypeMap.getMimeTypeFromExtension(extension);
         // It's ok if mContentType is null. Eventually we'll show a toast telling the
         // user the picture couldn't be attached.
+
+        buildSrcFromPath();
+    }
+
+    private void buildSrcFromPath() {
+        mSrc = mPath.substring(mPath.lastIndexOf('/') + 1);
+
+        if(mSrc.startsWith(".") && mSrc.length() > 1) {
+            mSrc = mSrc.substring(1);
+        }
+
+        // Some MMSCs appear to have problems with filenames
+        // containing a space.  So just replace them with
+        // underscores in the name, which is typically not
+        // visible to the user anyway.
+        mSrc = mSrc.replace(' ', '_');
     }
 
     private void initFromContentUri(Context context, Uri uri) {
         Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
                             uri, null, null, null, null);
 
+        mSrc = null;
         if (c == null) {
             throw new IllegalArgumentException(
                     "Query on " + uri + " returns null result.");
@@ -135,8 +140,26 @@ public class UriImage {
                 filePath = uri.getPath();
                 mContentType = c.getString(
                         c.getColumnIndexOrThrow(Images.Media.MIME_TYPE));
+
+                // use the original filename if possible
+                int nameIndex = c.getColumnIndex(Images.Media.DISPLAY_NAME);
+                if (nameIndex != -1) {
+                    mSrc = c.getString(nameIndex);
+                    if (!TextUtils.isEmpty(mSrc)) {
+                        // Some MMSCs appear to have problems with filenames
+                        // containing a space.  So just replace them with
+                        // underscores in the name, which is typically not
+                        // visible to the user anyway.
+                        mSrc = mSrc.replace(' ', '_');
+                    } else {
+                        mSrc = null;
+                    }
+                }
             }
             mPath = filePath;
+            if (mSrc == null) {
+                buildSrcFromPath();
+            }
         } finally {
             c.close();
         }
