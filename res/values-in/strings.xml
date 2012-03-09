@@ -61,7 +61,7 @@
     <string name="remove_slide" msgid="2225604354024914900">"Hapus slide"</string>
     <string name="add_slide" msgid="9140721399423564187">"Tambahkan slide"</string>
     <string name="add_slide_hint" msgid="7351356961076244584">"Sentuh untuk membuat slide baru."</string>
-    <string name="discard_slideshow" msgid="5054239124146413609">"Singkirkan rangkai slide"</string>
+    <string name="discard_slideshow" msgid="5054239124146413609">"Tutup rangkai slide"</string>
     <string name="slide_show_part" msgid="5077675385448696846">"Bagian <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text" msgid="2164068850029476539">"Hapus teks"</string>
     <string name="add_picture" msgid="7819574884962571479">"Tambahkan gambar"</string>
