@@ -310,6 +310,7 @@ public class MessageListItem extends LinearLayout implements
                                              mMessageItem.mSubject,
                                              mMessageItem.mHighlight,
                                              mMessageItem.mTextContentType);
+            mMessageItem.setCachedFormattedMessage(formattedMessage);
         }
         mBodyTextView.setText(formattedMessage);
 
