@@ -25,7 +25,7 @@
     <string name="menu_call_back" msgid="7538482331117914146">"Panggil <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Kirim email ke <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Tulis"</string>
-    <string name="menu_preferences" msgid="4693148116114749414">"Pengaturan"</string>
+    <string name="menu_preferences" msgid="4693148116114749414">"Setelan"</string>
     <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"Tambahkan <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> ke Orang"</string>
     <string name="menu_call" msgid="5877123227307074690">"Telepon"</string>
     <string name="menu_search" msgid="2289469305728821360">"Telusuri"</string>
@@ -147,8 +147,8 @@
     <string name="play" msgid="1888432400937785115">"Putar"</string>
     <string name="edit" msgid="5912118407791492696">"Edit"</string>
     <string name="try_to_send" msgid="1996751738286080976">"Cobalah mengirimkan"</string>
-    <string name="preferences_title" msgid="6650089610332670157">"Pengaturan"</string>
-    <string name="restore_default" msgid="7165341506551155053">"Pulihkan pengaturan bawaan"</string>
+    <string name="preferences_title" msgid="6650089610332670157">"Setelan"</string>
+    <string name="restore_default" msgid="7165341506551155053">"Pulihkan setelan bawaan"</string>
     <string name="pref_notification_settings_title" msgid="6420782563630369776">"Pemberitahuan"</string>
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Pesan multimedia (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Pesan teks (SMS)"</string>
