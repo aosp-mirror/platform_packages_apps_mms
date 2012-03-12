@@ -369,6 +369,14 @@ public class MessageItem {
                     }
                 }
             }
+            if (!isOutgoingMessage()) {
+                if (PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND == mMessageType) {
+                    mTimestamp = mContext.getString(R.string.expire_on,
+                            MessageUtils.formatTimeStampString(mContext, timestamp));
+                } else {
+                    mTimestamp =  MessageUtils.formatTimeStampString(mContext, timestamp);
+                }
+            }
             if (mPduLoadedCallback != null) {
                 mPduLoadedCallback.onPduLoaded(MessageItem.this);
             }
