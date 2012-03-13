@@ -148,7 +148,7 @@
     <string name="edit" msgid="5912118407791492696">"Edit"</string>
     <string name="try_to_send" msgid="1996751738286080976">"Cobalah mengirimkan"</string>
     <string name="preferences_title" msgid="6650089610332670157">"Setelan"</string>
-    <string name="restore_default" msgid="7165341506551155053">"Pulihkan setelan bawaan"</string>
+    <string name="restore_default" msgid="7165341506551155053">"Pulihkan setelan default"</string>
     <string name="pref_notification_settings_title" msgid="6420782563630369776">"Pemberitahuan"</string>
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Pesan multimedia (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Pesan teks (SMS)"</string>
@@ -328,5 +328,5 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> orang"</item>
   </plurals>
-    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Hentikan pemberitahuan pesan teks rangkap dari apl Perpesanan bawaan?"</string>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Hentikan pemberitahuan pesan teks rangkap dari apl Perpesanan default?"</string>
 </resources>
