@@ -26,6 +26,7 @@ import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.provider.MediaStore.Images;
+import android.provider.Telephony.Mms.Part;
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -109,8 +110,13 @@ public class VideoModel extends RegionMediaModel {
                         path = uri.toString();
                     }
                     mSrc = path.substring(path.lastIndexOf('/') + 1);
-                    mContentType = c.getString(c.getColumnIndexOrThrow(
-                            Images.Media.MIME_TYPE));
+                    if (VideoModel.isMmsUri(uri)) {
+                        mContentType = c.getString(c.getColumnIndexOrThrow(
+                                Part.CONTENT_TYPE));
+                    } else {
+                        mContentType = c.getString(c.getColumnIndexOrThrow(
+                                Images.Media.MIME_TYPE));
+                    }
                     if (TextUtils.isEmpty(mContentType)) {
                         throw new MmsException("Type of media is unknown.");
                     }
