@@ -626,7 +626,7 @@ public class MessageUtils {
                     }
                 });
             }
-        }).start();
+        }, "MessageUtils.resizeImageAsync").start();
     }
 
     public static void showDiscardDraftConfirmDialog(Context context,

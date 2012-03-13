@@ -194,7 +194,7 @@ public class MessagingNotification {
             public void run() {
                 blockingUpdateNewMessageIndicator(context, newMsgThreadId, isStatusMessage);
             }
-        }).start();
+        }, "MessagingNotification.nonBlockingUpdateNewMessageIndicator").start();
     }
 
     /**

@@ -302,6 +302,7 @@ public class Conversation {
         final Uri threadUri = getUri();
 
         new Thread(new Runnable() {
+            @Override
             public void run() {
                 synchronized(mMarkAsBlockedSyncer) {
                     if (mMarkAsReadBlocked) {
@@ -344,7 +345,7 @@ public class Conversation {
                 // Always update notifications regardless of the read state.
                 MessagingNotification.blockingUpdateAllNotifications(mContext);
             }
-        }).start();
+        }, "Conversation.markAsRead").start();
     }
 
     public void blockMarkAsRead(boolean block) {
@@ -907,10 +908,11 @@ public class Conversation {
      */
     public static void init(final Context context) {
         new Thread(new Runnable() {
+            @Override
             public void run() {
                 cacheAllThreads(context);
             }
-        }).start();
+        }, "Conversation.init").start();
     }
 
     public static void markAllConversationsAsSeen(final Context context) {
@@ -919,6 +921,7 @@ public class Conversation {
         }
 
         new Thread(new Runnable() {
+            @Override
             public void run() {
                 blockingMarkAllSmsMessagesAsSeen(context);
                 blockingMarkAllMmsMessagesAsSeen(context);
@@ -926,7 +929,7 @@ public class Conversation {
                 // Always update notifications regardless of the read state.
                 MessagingNotification.blockingUpdateAllNotifications(context);
             }
-        }).start();
+        }, "Conversation.markAllConversationsAsSeen").start();
     }
 
     private static void blockingMarkAllSmsMessagesAsSeen(final Context context) {

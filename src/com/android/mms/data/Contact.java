@@ -495,6 +495,7 @@ public class Contact {
             public TaskStack() {
                 mThingsToLoad = new ArrayList<Runnable>();
                 mWorkerThread = new Thread(new Runnable() {
+                    @Override
                     public void run() {
                         while (true) {
                             Runnable r = null;
@@ -515,7 +516,7 @@ public class Contact {
                             }
                         }
                     }
-                });
+                }, "Contact.ContactsCache.TaskStack worker thread");
                 mWorkerThread.start();
             }
 
@@ -577,6 +578,7 @@ public class Contact {
 
                     final Contact c = contact;
                     r = new Runnable() {
+                        @Override
                         public void run() {
                             updateContact(c);
                         }

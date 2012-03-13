@@ -1207,7 +1207,7 @@ public class ComposeMessageActivity extends Activity
                 getContentResolver().update(lockUri,
                         values, null, null);
             }
-        }, "lockMessage").start();
+        }, "ComposeMessageActivity.lockMessage").start();
     }
 
     /**
@@ -2046,7 +2046,7 @@ public class ComposeMessageActivity extends Activity
                 MessagingNotification.updateSendFailedNotificationForThread(
                         ComposeMessageActivity.this, threadId);
             }
-        }, "updateSendFailedNotification").start();
+        }, "ComposeMessageActivity.updateSendFailedNotification").start();
     }
 
     @Override
@@ -2843,7 +2843,7 @@ public class ComposeMessageActivity extends Activity
                 };
                 handler.post(populateWorker);
             }
-        }).start();
+        }, "ComoseMessageActivity.processPickResult").start();
     }
 
     private final ResizeImageResultCallback mResizeImageCallback = new ResizeImageResultCallback() {

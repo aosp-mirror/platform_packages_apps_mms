@@ -262,7 +262,7 @@ public class SearchActivity extends ListActivity
                         // ok, we do not have a thread id so continue
                     }
                 }
-            });
+            }, "Search thread");
             t.start();
             return;
         }

@@ -66,7 +66,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnKeyListener;
@@ -156,6 +155,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
 
     private final ConversationListAdapter.OnContentChangedListener mContentChangedListener =
         new ConversationListAdapter.OnContentChangedListener() {
+        @Override
         public void onContentChanged(ConversationListAdapter adapter) {
             startAsyncQuery();
         }
@@ -183,6 +183,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
             return;
         }
         new Thread(new Runnable() {
+            @Override
             public void run() {
                 if (Recycler.checkForThreadsOverLimit(ConversationList.this)) {
                     if (DEBUG) Log.v(TAG, "checkForThreadsOverLimit TRUE");
@@ -190,6 +191,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                     // that'll encourage the user to manually turn on the setting. Delay showing
                     // this activity until a couple of seconds after the conversation list appears.
                     mHandler.postDelayed(new Runnable() {
+                        @Override
                         public void run() {
                             Intent intent = new Intent(ConversationList.this,
                                     WarnOfStorageLimitsActivity.class);
@@ -200,6 +202,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                     if (DEBUG) Log.v(TAG, "checkForThreadsOverLimit silently turning on recycler");
                     // No threads were over the limit. Turn on the recycler by default.
                     runOnUiThread(new Runnable() {
+                        @Override
                         public void run() {
                             SharedPreferences.Editor editor = mPrefs.edit();
                             editor.putBoolean(MessagingPreferenceActivity.AUTO_DELETE, true);
@@ -209,12 +212,13 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                 }
                 // Remember that we don't have to do the check anymore when starting MMS.
                 runOnUiThread(new Runnable() {
+                    @Override
                     public void run() {
                         markCheckedMessageLimit();
                     }
                 });
             }
-        }).start();
+        }, "ConversationList.runOneTimeStorageLimitCheckForLegacyMessages").start();
     }
 
     /**
@@ -278,9 +282,11 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
         mListAdapter.changeCursor(null);
     }
 
+    @Override
     public void onDraftChanged(final long threadId, final boolean hasDraft) {
         // Run notifyDataSetChanged() on the main thread.
         mQueryHandler.post(new Runnable() {
+            @Override
             public void run() {
                 if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     log("onDraftChanged: threadId=" + threadId + ", hasDraft=" + hasDraft);
@@ -302,6 +308,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     }
 
     SearchView.OnQueryTextListener mQueryTextListener = new SearchView.OnQueryTextListener() {
+        @Override
         public boolean onQueryTextSubmit(String query) {
             Intent intent = new Intent();
             intent.setClass(ConversationList.this, SearchActivity.class);
@@ -311,6 +318,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
             return true;
         }
 
+        @Override
         public boolean onQueryTextChange(String newText) {
             return false;
         }
@@ -426,6 +434,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
 
     private final OnCreateContextMenuListener mConvListOnCreateContextMenuListener =
         new OnCreateContextMenuListener() {
+        @Override
         public void onCreateContextMenu(ContextMenu menu, View v,
                 ContextMenuInfo menuInfo) {
             Cursor cursor = mListAdapter.getCursor();
@@ -534,7 +543,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
      * depending on whether there are locked messages in the thread(s) and whether we're
      * deleting single/multiple threads or all threads.
      * @param listener gets called when the delete button is pressed
-     * @param deleteAll whether to show a single thread or all threads UI
+     * @param threadIds the thread IDs to be deleted (pass null for all threads)
      * @param hasLockedMessages whether the thread(s) contain locked messages
      * @param context used to load the various UI elements
      */
@@ -560,6 +569,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
         } else {
             listener.setDeleteLockedMessage(checkbox.isChecked());
             checkbox.setOnClickListener(new View.OnClickListener() {
+                @Override
                 public void onClick(View v) {
                     listener.setDeleteLockedMessage(checkbox.isChecked());
                 }
@@ -577,6 +587,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     }
 
     private final OnKeyListener mThreadListKeyListener = new OnKeyListener() {
+        @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
                 switch (keyCode) {
@@ -610,9 +621,11 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
             mDeleteLockedMessages = deleteLockedMessages;
         }
 
+        @Override
         public void onClick(DialogInterface dialog, final int whichButton) {
             MessageUtils.handleReadReport(mContext, mThreadIds,
                     PduHeaders.READ_STATUS__DELETED_WITHOUT_BEING_READ, new Runnable() {
+                @Override
                 public void run() {
                     int token = DELETE_CONVERSATION_TOKEN;
                     if (mThreadIds == null) {
@@ -632,6 +645,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     }
 
     private final Runnable mDeleteObsoleteThreadsRunnable = new Runnable() {
+        @Override
         public void run() {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 LogTag.debug("mDeleteObsoleteThreadsRunnable getSavingDraft(): " +
@@ -694,6 +708,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                 break;
 
             case HAVE_LOCKED_MESSAGES_TOKEN:
+                @SuppressWarnings("unchecked")
                 Collection<Long> threadIds = (Collection<Long>)cookie;
                 confirmDeleteThreadDialog(new DeleteThreadListener(threadIds, mQueryHandler,
                         ConversationList.this), threadIds,
@@ -756,13 +771,14 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
         private TextView mSelectedConvCount;
         private HashSet<Long> mSelectedThreadIds;
 
+        @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             MenuInflater inflater = getMenuInflater();
             mSelectedThreadIds = new HashSet<Long>();
             inflater.inflate(R.menu.conversation_multi_select_menu, menu);
 
             if (mMultiSelectActionBarView == null) {
-                mMultiSelectActionBarView = (ViewGroup)LayoutInflater.from(ConversationList.this)
+                mMultiSelectActionBarView = LayoutInflater.from(ConversationList.this)
                     .inflate(R.layout.conversation_list_multi_select_actionbar, null);
 
                 mSelectedConvCount =
@@ -774,6 +790,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
             return true;
         }
 
+        @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
             if (mMultiSelectActionBarView == null) {
                 ViewGroup v = (ViewGroup)LayoutInflater.from(ConversationList.this)
@@ -785,6 +802,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
             return true;
         }
 
+        @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.delete:
@@ -800,12 +818,14 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
             return true;
         }
 
+        @Override
         public void onDestroyActionMode(ActionMode mode) {
             ConversationListAdapter adapter = (ConversationListAdapter)getListView().getAdapter();
             adapter.uncheckAll();
             mSelectedThreadIds = null;
         }
 
+        @Override
         public void onItemCheckedStateChanged(ActionMode mode,
                 int position, long id, boolean checked) {
             ListView listView = getListView();

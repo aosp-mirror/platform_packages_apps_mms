@@ -1120,6 +1120,7 @@ public class WorkingMessage {
 
             // Do the dirty work of sending the message off of the main UI thread.
             new Thread(new Runnable() {
+                @Override
                 public void run() {
                     final SendReq sendReq = makeSendReq(conv, subject);
 
@@ -1130,17 +1131,18 @@ public class WorkingMessage {
 
                     updateSendStats(conv);
                 }
-            }).start();
+            }, "WorkingMessage.send MMS").start();
         } else {
             // Same rules apply as above.
             final String msgText = mText.toString();
             new Thread(new Runnable() {
+                @Override
                 public void run() {
                     preSendSmsWorker(conv, msgText, recipientsInUI);
 
                     updateSendStats(conv);
                 }
-            }).start();
+            }, "WorkingMessage.send SMS").start();
         }
 
         // update the Recipient cache with the new to address, if it's different
@@ -1465,6 +1467,7 @@ public class WorkingMessage {
         }
 
         new Thread(new Runnable() {
+            @Override
             public void run() {
                 try {
                     DraftCache.getInstance().setSavingDraft(true);
@@ -1501,7 +1504,7 @@ public class WorkingMessage {
                     DraftCache.getInstance().setSavingDraft(false);
                 }
             }
-        }).start();
+        }, "WorkingMessage.asyncUpdateDraftMmsMessage").start();
     }
 
     private static void updateDraftMmsMessage(Uri uri, PduPersister persister,
@@ -1591,6 +1594,7 @@ public class WorkingMessage {
 
     private void asyncUpdateDraftSmsMessage(final Conversation conv, final String contents) {
         new Thread(new Runnable() {
+            @Override
             public void run() {
                 try {
                     DraftCache.getInstance().setSavingDraft(true);
@@ -1601,7 +1605,7 @@ public class WorkingMessage {
                     DraftCache.getInstance().setSavingDraft(false);
                 }
             }
-        }).start();
+        }, "WorkingMessage.asyncUpdateDraftSmsMessage").start();
     }
 
     private void updateDraftSmsMessage(final Conversation conv, String contents) {
@@ -1629,10 +1633,11 @@ public class WorkingMessage {
             LogTag.debug("asyncDelete %s where %s", uri, selection);
         }
         new Thread(new Runnable() {
+            @Override
             public void run() {
                 SqliteWrapper.delete(mActivity, mContentResolver, uri, selection, selectionArgs);
             }
-        }).start();
+        }, "WorkingMessage.asyncDelete").start();
     }
 
     public void asyncDeleteDraftSmsMessage(Conversation conv) {

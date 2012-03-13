@@ -78,7 +78,7 @@ public class SendTransaction extends Transaction implements Runnable {
      */
     @Override
     public void process() {
-        mThread = new Thread(this);
+        mThread = new Thread(this, "SendTransaction");
         mThread.start();
     }
 
