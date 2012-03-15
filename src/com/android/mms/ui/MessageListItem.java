@@ -106,8 +106,9 @@ public class MessageListItem extends LinearLayout implements
     private String mDefaultCountryIso;
     private TextView mDateView;
     public View mMessageBlock;
-    private Path mPath = new Path();
-    private Paint mPaint = new Paint();
+    private Path mPathRight;
+    private Path mPathLeft;
+    private Paint mPaint;
     private QuickContactDivot mAvatar;
     private boolean mIsLastItemInList;
     static private Drawable sDefaultContactImage;
@@ -824,57 +825,54 @@ public class MessageListItem extends LinearLayout implements
      */
     @Override
     public void dispatchDraw(Canvas c) {
-        View v = mMessageBlock;
-        if (v != null) {
-            float l = v.getX();
-            float t = v.getY();
-            float r = v.getX() + v.getWidth();
-            float b = v.getY() + v.getHeight();
+        super.dispatchDraw(c);
 
-            Path path = mPath;
-            path.reset();
+        // This custom border is causing our scrolling fps to drop from 60+ to the mid 40's.
+        // Commenting out for now until we come up with a new UI design that doesn't require
+        // the border.
+        return;
 
-            super.dispatchDraw(c);
-
-            path.reset();
-
-            r -= 1;
-
-            // This block of code draws the border around the "message block" section
-            // of the layout.  This would normally be a simple rectangle but we omit
-            // the border at the point of the avatar's divot.  Also, the bottom is drawn
-            // 1 pixel below our own bounds to get it to line up with the border of
-            // the next item.
-            //
-            // But for the last item we draw the bottom in our own bounds -- so it will
-            // show up.
-            if (mIsLastItemInList) {
-                b -= 1;
-            }
-            if (mAvatar.getPosition() == Divot.RIGHT_UPPER) {
-                path.moveTo(l, t + mAvatar.getCloseOffset());
-                path.lineTo(l, t);
-                path.lineTo(r, t);
-                path.lineTo(r, b);
-                path.lineTo(l, b);
-                path.lineTo(l, t + mAvatar.getFarOffset());
-            } else if (mAvatar.getPosition() == Divot.LEFT_UPPER) {
-                path.moveTo(r, t + mAvatar.getCloseOffset());
-                path.lineTo(r, t);
-                path.lineTo(l, t);
-                path.lineTo(l, b);
-                path.lineTo(r, b);
-                path.lineTo(r, t + mAvatar.getFarOffset());
-            }
-
-            Paint paint = mPaint;
-//            paint.setColor(0xff00ff00);
-            paint.setColor(0xffcccccc);
-            paint.setStrokeWidth(1F);
-            paint.setStyle(Paint.Style.STROKE);
-            c.drawPath(path, paint);
-        } else {
-            super.dispatchDraw(c);
-        }
+//        View v = mMessageBlock;
+//        if (v != null) {
+//            Path path = null;
+//            if (mAvatar.getPosition() == Divot.RIGHT_UPPER) {
+//                if (mPathRight == null) {
+//                    float r = v.getWidth() - 1;
+//                    float b = v.getHeight();
+//
+//                    mPathRight = new Path();
+//                    mPathRight.moveTo(0, mAvatar.getCloseOffset());
+//                    mPathRight.lineTo(0, 0);
+//                    mPathRight.lineTo(r, 0);
+//                    mPathRight.lineTo(r, b);
+//                    mPathRight.lineTo(0, b);
+//                    mPathRight.lineTo(0, mAvatar.getFarOffset());
+//                }
+//                path = mPathRight;
+//            } else if (mAvatar.getPosition() == Divot.LEFT_UPPER) {
+//                if (mPathLeft == null) {
+//                    float r = v.getWidth() - 1;
+//                    float b = v.getHeight();
+//
+//                    mPathLeft = new Path();
+//                    mPathLeft.moveTo(r, mAvatar.getCloseOffset());
+//                    mPathLeft.lineTo(r, 0);
+//                    mPathLeft.lineTo(0, 0);
+//                    mPathLeft.lineTo(0, b);
+//                    mPathLeft.lineTo(r, b);
+//                    mPathLeft.lineTo(r, mAvatar.getFarOffset());
+//                }
+//                path = mPathLeft;
+//            }
+//            if (mPaint == null) {
+//                mPaint = new Paint();
+//                mPaint.setColor(0xffcccccc);
+//                mPaint.setStrokeWidth(1F);
+//                mPaint.setStyle(Paint.Style.STROKE);
+//                mPaint.setColor(0xff00ff00);  // turn on for debugging, draws lines in green
+//            }
+//            c.translate(v.getX(), v.getY());
+//            c.drawPath(path, mPaint);
+//        }
     }
 }
