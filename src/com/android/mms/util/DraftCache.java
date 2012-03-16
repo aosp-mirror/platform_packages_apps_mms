@@ -38,12 +38,15 @@ public class DraftCache {
 
     private final Context mContext;
 
-    private boolean mSavingDraft;   // true when were in the process of saving a draft. Check this
+    private boolean mSavingDraft;   // true when we're in the process of saving a draft. Check this
                                     // before deleting any empty threads from the db.
+    private final Object mSavingDraftLock = new Object();
 
     private HashSet<Long> mDraftSet = new HashSet<Long>(4);
+    private final Object mDraftSetLock = new Object();
     private final HashSet<OnDraftChangedListener> mChangeListeners
             = new HashSet<OnDraftChangedListener>(1);
+    private final Object mChangeListenersLock = new Object();
 
     public interface OnDraftChangedListener {
         void onDraftChanged(long threadId, boolean hasDraft);
@@ -72,23 +75,24 @@ public class DraftCache {
             log("refresh");
         }
 
-        new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 rebuildCache();
             }
-        }, "DraftCache.refresh").start();
+        }, "DraftCache.refresh");
+        thread.setPriority(Thread.MIN_PRIORITY);
+        thread.start();
     }
 
     /** Does the actual work of rebuilding the draft cache.
      */
-    private synchronized void rebuildCache() {
+    private void rebuildCache() {
         if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
             log("rebuildCache");
         }
 
-        HashSet<Long> oldDraftSet = mDraftSet;
-        HashSet<Long> newDraftSet = new HashSet<Long>(oldDraftSet.size());
+        HashSet<Long> newDraftSet = new HashSet<Long>();
 
         Cursor cursor = SqliteWrapper.query(
                 mContext,
@@ -111,31 +115,41 @@ public class DraftCache {
                 cursor.close();
             }
         }
-        mDraftSet = newDraftSet;
 
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            dump();
-        }
+        Set<Long> added;
+        Set<Long> removed;
+        synchronized (mDraftSetLock) {
+            HashSet<Long> oldDraftSet = mDraftSet;
+            mDraftSet = newDraftSet;
 
-        // If nobody's interested in finding out about changes,
-        // just bail out early.
-        if (mChangeListeners.size() < 1) {
-            return;
-        }
-
-        // Find out which drafts were removed and added and notify
-        // listeners.
-        Set<Long> added = new HashSet<Long>(newDraftSet);
-        added.removeAll(oldDraftSet);
-        Set<Long> removed = new HashSet<Long>(oldDraftSet);
-        removed.removeAll(newDraftSet);
-
-        for (OnDraftChangedListener l : mChangeListeners) {
-            for (long threadId : added) {
-                l.onDraftChanged(threadId, true);
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                dump();
             }
-            for (long threadId : removed) {
-                l.onDraftChanged(threadId, false);
+
+            // If nobody's interested in finding out about changes,
+            // just bail out early.
+            synchronized (mChangeListenersLock) {
+                if (mChangeListeners.size() < 1) {
+                    return;
+                }
+            }
+
+            // Find out which drafts were removed and added and notify
+            // listeners.
+            added = new HashSet<Long>(newDraftSet);
+            added.removeAll(oldDraftSet);
+            removed = new HashSet<Long>(oldDraftSet);
+            removed.removeAll(newDraftSet);
+        }
+
+        synchronized (mChangeListenersLock) {
+            for (OnDraftChangedListener l : mChangeListeners) {
+                for (long threadId : added) {
+                    l.onDraftChanged(threadId, true);
+                }
+                for (long threadId : removed) {
+                    l.onDraftChanged(threadId, false);
+                }
             }
         }
     }
@@ -144,16 +158,18 @@ public class DraftCache {
      *  a piecemeal basis, to be called when a draft has appeared
      *  or disappeared.
      */
-    public synchronized void setDraftState(long threadId, boolean hasDraft) {
+    public void setDraftState(long threadId, boolean hasDraft) {
         if (threadId <= 0) {
             return;
         }
 
         boolean changed;
-        if (hasDraft) {
-            changed = mDraftSet.add(threadId);
-        } else {
-            changed = mDraftSet.remove(threadId);
+        synchronized (mDraftSetLock) {
+            if (hasDraft) {
+                changed = mDraftSet.add(threadId);
+            } else {
+                changed = mDraftSet.remove(threadId);
+            }
         }
 
         if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
@@ -166,8 +182,10 @@ public class DraftCache {
 
         // Notify listeners if there was a change.
         if (changed) {
-            for (OnDraftChangedListener l : mChangeListeners) {
-                l.onDraftChanged(threadId, hasDraft);
+            synchronized (mChangeListenersLock) {
+                for (OnDraftChangedListener l : mChangeListeners) {
+                    l.onDraftChanged(threadId, hasDraft);
+                }
             }
         }
     }
@@ -175,30 +193,40 @@ public class DraftCache {
     /** Returns true if the given thread ID has a draft associated
      *  with it, false if not.
      */
-    public synchronized boolean hasDraft(long threadId) {
-        return mDraftSet.contains(threadId);
+    public boolean hasDraft(long threadId) {
+        synchronized (mDraftSetLock) {
+            return mDraftSet.contains(threadId);
+        }
     }
 
-    public synchronized void addOnDraftChangedListener(OnDraftChangedListener l) {
+    public void addOnDraftChangedListener(OnDraftChangedListener l) {
         if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
             log("addOnDraftChangedListener " + l);
         }
-        mChangeListeners.add(l);
+        synchronized (mChangeListenersLock) {
+            mChangeListeners.add(l);
+        }
     }
 
-    public synchronized void removeOnDraftChangedListener(OnDraftChangedListener l) {
+    public void removeOnDraftChangedListener(OnDraftChangedListener l) {
         if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
             log("removeOnDraftChangedListener " + l);
         }
-        mChangeListeners.remove(l);
+        synchronized (mChangeListenersLock) {
+            mChangeListeners.remove(l);
+        }
     }
 
-    public synchronized void setSavingDraft(final boolean savingDraft) {
-        mSavingDraft = savingDraft;
+    public void setSavingDraft(final boolean savingDraft) {
+        synchronized (mSavingDraftLock) {
+            mSavingDraft = savingDraft;
+        }
     }
 
-    public synchronized boolean getSavingDraft() {
-        return mSavingDraft;
+    public boolean getSavingDraft() {
+        synchronized (mSavingDraftLock) {
+            return mSavingDraft;
+        }
     }
 
     /**
