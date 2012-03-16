@@ -907,12 +907,14 @@ public class Conversation {
      * startup time.
      */
     public static void init(final Context context) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                cacheAllThreads(context);
-            }
-        }, "Conversation.init").start();
+        Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    cacheAllThreads(context);
+                }
+            }, "Conversation.init");
+        thread.setPriority(Thread.MIN_PRIORITY);
+        thread.start();
     }
 
     public static void markAllConversationsAsSeen(final Context context) {
