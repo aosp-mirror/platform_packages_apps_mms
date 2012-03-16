@@ -73,10 +73,11 @@ public class DraftCache {
         }
 
         new Thread(new Runnable() {
+            @Override
             public void run() {
                 rebuildCache();
             }
-        }).start();
+        }, "DraftCache.refresh").start();
     }
 
     /** Does the actual work of rebuilding the draft cache.

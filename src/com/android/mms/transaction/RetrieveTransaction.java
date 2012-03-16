@@ -122,7 +122,7 @@ public class RetrieveTransaction extends Transaction implements Runnable {
      */
     @Override
     public void process() {
-        new Thread(this).start();
+        new Thread(this, "RetrieveTransaction").start();
     }
 
     public void run() {

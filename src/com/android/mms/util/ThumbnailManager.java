@@ -158,9 +158,11 @@ public class ThumbnailManager extends BackgroundLoaderManager {
             mExecutor.execute(task);
         }
         return new ItemLoadedFuture() {
+            @Override
             public void cancel() {
                 cancelCallback(callback);
             }
+            @Override
             public boolean isDone() {
                 return false;
             }
@@ -174,6 +176,7 @@ public class ThumbnailManager extends BackgroundLoaderManager {
         mThumbnailCache.clear();
     }
 
+    @Override
     public String getTag() {
         return TAG;
     }
@@ -198,6 +201,7 @@ public class ThumbnailManager extends BackgroundLoaderManager {
         }
 
         /** {@inheritDoc} */
+        @Override
         public void run() {
             if (DEBUG_DISABLE_LOAD) {
                 return;
@@ -212,6 +216,7 @@ public class ThumbnailManager extends BackgroundLoaderManager {
             final Bitmap resultBitmap = getBitmap(mIsVideo);
 
             mCallbackHandler.post(new Runnable() {
+                @Override
                 public void run() {
                     final Set<ItemLoadedCallback> callbacks = mCallbacks.get(mUri);
                     if (callbacks != null) {

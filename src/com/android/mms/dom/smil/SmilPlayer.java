@@ -308,7 +308,7 @@ public class SmilPlayer implements Runnable {
             mCurrentTime = 0;
             mCurrentElement = 0;
             mCurrentSlide = 0;
-            mPlayerThread = new Thread(this);
+            mPlayerThread = new Thread(this, "SmilPlayer thread");
             mState = SmilPlayerState.PLAYING;
             mPlayerThread.start();
         } else {

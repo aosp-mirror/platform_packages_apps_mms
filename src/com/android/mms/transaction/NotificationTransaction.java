@@ -123,7 +123,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
      */
     @Override
     public void process() {
-        new Thread(this).start();
+        new Thread(this, "NotificationTransaction").start();
     }
 
     public void run() {

@@ -56,7 +56,7 @@ public class RecipientIdCache {
             public void run() {
                 fill();
             }
-        }).start();
+        }, "RecipientIdCache.init").start();
     }
 
     RecipientIdCache(Context context) {
@@ -271,7 +271,7 @@ public class RecipientIdCache {
 
         // We're running on the UI thread so just fire & forget, hope for the best.
         // (We were ignoring the return value anyway...)
-        new Thread("updateCanonicalAddressInDb") {
+        new Thread("insertCanonicalAddressInDb") {
             public void run() {
                 cr.insert(sAllCanonical, values);
             }
