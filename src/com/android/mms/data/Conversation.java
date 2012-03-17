@@ -922,7 +922,7 @@ public class Conversation {
             LogTag.debug("Conversation.markAllConversationsAsSeen");
         }
 
-        new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 blockingMarkAllSmsMessagesAsSeen(context);
@@ -931,7 +931,9 @@ public class Conversation {
                 // Always update notifications regardless of the read state.
                 MessagingNotification.blockingUpdateAllNotifications(context);
             }
-        }, "Conversation.markAllConversationsAsSeen").start();
+        }, "Conversation.markAllConversationsAsSeen");
+        thread.setPriority(Thread.MIN_PRIORITY);
+        thread.start();
     }
 
     private static void blockingMarkAllSmsMessagesAsSeen(final Context context) {

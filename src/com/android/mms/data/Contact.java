@@ -517,6 +517,7 @@ public class Contact {
                         }
                     }
                 }, "Contact.ContactsCache.TaskStack worker thread");
+                mWorkerThread.setPriority(Thread.MIN_PRIORITY);
                 mWorkerThread.start();
             }
 
