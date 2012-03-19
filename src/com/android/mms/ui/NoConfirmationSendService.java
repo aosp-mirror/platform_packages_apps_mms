@@ -16,6 +16,7 @@
 
 package com.android.mms.ui;
 
+import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
 import android.net.Uri;
@@ -25,34 +26,39 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.mms.data.Conversation;
+import com.android.mms.transaction.MessageStatusService;
 import com.android.mms.transaction.SmsMessageSender;
 
 /**
  * Respond to a special intent and send an SMS message without the user's intervention.
  */
-public class NoConfirmationSendService extends Service {
+public class NoConfirmationSendService extends IntentService {
+    public NoConfirmationSendService() {
+        // Class name will be the thread name.
+        super(NoConfirmationSendService.class.getName());
+
+        // Intent should be redelivered if the process gets killed before completing the job.
+        setIntentRedelivery(true);
+    }
+
     public static final String SEND_NO_CONFIRM_INTENT_ACTION =
         "com.android.mms.intent.action.SENDTO_NO_CONFIRMATION";
     private static final String TAG = "Mms/NoConfirmationSendService";
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        super.onStartCommand(intent, flags, startId);
-
-        ComposeMessageActivity.log("NoConfirmationSendService onStartCommand");
+    protected void onHandleIntent(Intent intent) {
+        ComposeMessageActivity.log("NoConfirmationSendService onHandleIntent");
 
         String action = intent.getAction();
         if (!SEND_NO_CONFIRM_INTENT_ACTION.equals(action)) {
-            ComposeMessageActivity.log("NoConfirmationSendService onStartCommand wrong action: " +
+            ComposeMessageActivity.log("NoConfirmationSendService onHandleIntent wrong action: " +
                     action);
-            stopSelf();
-            return START_NOT_STICKY;
+            return;
         }
         Bundle extras = intent.getExtras();
         if (extras == null) {
             ComposeMessageActivity.log("Called to send SMS but no extras");
-            stopSelf();
-            return START_NOT_STICKY;
+            return;
         }
 
         String message = extras.getString(Intent.EXTRA_TEXT);
@@ -62,8 +68,7 @@ public class NoConfirmationSendService extends Service {
 
         if (TextUtils.isEmpty(recipients) || TextUtils.isEmpty(message)) {
             ComposeMessageActivity.log("Recipient(s) and/or message cannot be empty");
-            stopSelf();
-            return START_NOT_STICKY;
+            return;
         }
         String[] dests = TextUtils.split(recipients, ";");
 
@@ -80,13 +85,5 @@ public class NoConfirmationSendService extends Service {
         } catch (Exception e) {
             Log.e(TAG, "Failed to send SMS message, threadId=" + threadId, e);
         }
-
-        stopSelf();
-        return START_NOT_STICKY;
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
     }
 }
