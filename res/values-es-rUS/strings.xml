@@ -329,4 +329,6 @@
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> personas"</item>
   </plurals>
     <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"¿Deseas dejar de recibir notificaciones de mensajes de texto duplicadas de la aplicación predeterminada del Centro de mensajes?"</string>
+    <!-- no translation found for view_more_conversations (7275920132410734671) -->
+    <skip />
 </resources>
