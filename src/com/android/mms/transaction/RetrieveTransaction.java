@@ -21,6 +21,7 @@ import com.android.mms.MmsConfig;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.Recycler;
+import com.android.mms.widget.MmsWidgetProvider;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.AcknowledgeInd;
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -175,6 +176,7 @@ public class RetrieveTransaction extends Transaction implements Runnable {
                 // Have to delete messages over limit *after* the delete above. Otherwise,
                 // it would be counted as part of the total.
                 Recycler.getMmsRecycler().deleteOldMessagesInSameThreadAsMessage(mContext, msgUri);
+                MmsWidgetProvider.notifyDatasetChanged(mContext);
             }
 
             // Send ACK to the Proxy-Relay to indicate we have fetched the

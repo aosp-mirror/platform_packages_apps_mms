@@ -39,16 +39,16 @@ public class Conversation {
     private static final String TAG = "Mms/conv";
     private static final boolean DEBUG = false;
 
-    private static final Uri sAllThreadsUri =
+    public static final Uri sAllThreadsUri =
         Threads.CONTENT_URI.buildUpon().appendQueryParameter("simple", "true").build();
 
-    private static final String[] ALL_THREADS_PROJECTION = {
+    public static final String[] ALL_THREADS_PROJECTION = {
         Threads._ID, Threads.DATE, Threads.MESSAGE_COUNT, Threads.RECIPIENT_IDS,
         Threads.SNIPPET, Threads.SNIPPET_CHARSET, Threads.READ, Threads.ERROR,
         Threads.HAS_ATTACHMENT
     };
 
-    private static final String[] UNREAD_PROJECTION = {
+    public static final String[] UNREAD_PROJECTION = {
         Threads._ID,
         Threads.READ
     };
