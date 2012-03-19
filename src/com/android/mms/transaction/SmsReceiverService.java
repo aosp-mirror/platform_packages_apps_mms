@@ -27,6 +27,7 @@ import com.android.mms.data.Contact;
 import com.android.mms.ui.ClassZeroActivity;
 import com.android.mms.util.Recycler;
 import com.android.mms.util.SendingProgressTokenManager;
+import com.android.mms.widget.MmsWidgetProvider;
 import com.google.android.mms.MmsException;
 import android.database.sqlite.SqliteWrapper;
 
@@ -568,7 +569,8 @@ public class SmsReceiverService extends Service {
         Uri insertedUri = SqliteWrapper.insert(context, resolver, Inbox.CONTENT_URI, values);
 
         // Now make sure we're not over the limit in stored messages
-        Recycler.getSmsRecycler().deleteOldMessagesByThreadId(getApplicationContext(), threadId);
+        Recycler.getSmsRecycler().deleteOldMessagesByThreadId(context, threadId);
+        MmsWidgetProvider.notifyDatasetChanged(context);
 
         return insertedUri;
     }

@@ -29,6 +29,7 @@ import com.android.mms.ui.ConversationList;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.AddressUtils;
 import com.android.mms.util.DownloadManager;
+import com.android.mms.widget.MmsWidgetProvider;
 
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.PduHeaders;
@@ -273,6 +274,7 @@ public class MessagingNotification {
         nonBlockingUpdateNewMessageIndicator(context, THREAD_NONE, false);
         updateSendFailedNotification(context);
         updateDownloadFailedNotification(context);
+        MmsWidgetProvider.notifyDatasetChanged(context);
     }
 
     private static final int accumulateNotificationInfo(

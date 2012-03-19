@@ -58,6 +58,7 @@ import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.SlideshowEditor;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.Recycler;
+import com.android.mms.widget.MmsWidgetProvider;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -1238,6 +1239,7 @@ public class WorkingMessage {
         }
 
         mStatusListener.onMessageSent();
+        MmsWidgetProvider.notifyDatasetChanged(mActivity);
     }
 
     private void sendMmsWorker(Conversation conv, Uri mmsUri, PduPersister persister,
@@ -1357,6 +1359,7 @@ public class WorkingMessage {
         } catch (Exception e) {
             Log.e(TAG, "Failed to send message: " + mmsUri + ", threadId=" + threadId, e);
         }
+        MmsWidgetProvider.notifyDatasetChanged(mActivity);
     }
 
     private void markMmsMessageWithError(Uri mmsUri) {

@@ -29,6 +29,7 @@ import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.Recycler;
+import com.android.mms.widget.MmsWidgetProvider;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.GenericPdu;
 import com.google.android.mms.pdu.NotificationInd;
@@ -211,6 +212,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
 
             // Make sure this thread isn't over the limits in message count.
             Recycler.getMmsRecycler().deleteOldMessagesInSameThreadAsMessage(mContext, mUri);
+            MmsWidgetProvider.notifyDatasetChanged(mContext);
         } catch (Throwable t) {
             Log.e(TAG, Log.getStackTraceString(t));
         } finally {

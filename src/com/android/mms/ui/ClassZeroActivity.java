@@ -38,7 +38,6 @@ import android.util.Log;
 import android.view.Window;
 
 import com.android.mms.R;
-import com.android.mms.transaction.SmsReceiverService;
 import com.android.mms.transaction.MessagingNotification;
 
 import android.database.sqlite.SqliteWrapper;

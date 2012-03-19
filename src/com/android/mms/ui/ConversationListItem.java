@@ -61,7 +61,7 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
 
     private Conversation mConversation;
 
-    private static final StyleSpan STYLE_BOLD = new StyleSpan(Typeface.BOLD);
+    public static final StyleSpan STYLE_BOLD = new StyleSpan(Typeface.BOLD);
 
     public ConversationListItem(Context context) {
         super(context);

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2010, Google Inc. -->
+
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="220dp"
+    android:minHeight="220dp"
+    android:updatePeriodMillis="0"
+    android:initialLayout="@layout/widget"
+    android:resizeMode="horizontal|vertical">
+</appwidget-provider>

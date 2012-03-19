@@ -751,5 +751,8 @@
     <!-- Message of the dialog used to disable messaging notifications [CHAR LIMIT=none] -->
     <string name="disable_notifications_dialog_message">Stop duplicate text message notifications from default Messaging app?</string>
 
+    <!-- Displayed at the end of the conversation list in the widget. Tapping on this will open the default conversation list. [CHAR LIMIT=35] -->
+    <string name="view_more_conversations">View more conversations</string>
+
 </resources>
 
