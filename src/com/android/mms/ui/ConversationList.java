@@ -703,7 +703,11 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                 break;
 
             case UNREAD_THREADS_QUERY_TOKEN:
-                int count = cursor.getCount();
+                int count = 0;
+                if (cursor != null) {
+                    count = cursor.getCount();
+                    cursor.close();
+                }
                 mUnreadConvCount.setText(count > 0 ? Integer.toString(count) : null);
                 break;
 
@@ -714,6 +718,9 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                         ConversationList.this), threadIds,
                         cursor != null && cursor.getCount() > 0,
                         ConversationList.this);
+                if (cursor != null) {
+                    cursor.close();
+                }
                 break;
 
             default:

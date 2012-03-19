@@ -3737,6 +3737,9 @@ public class ComposeMessageActivity extends Activity
                         log("onQueryComplete: msg history query result is for threadId " +
                                 tid + ", but mConversation has threadId " +
                                 mConversation.getThreadId() + " starting a new query");
+                        if (cursor != null) {
+                            cursor.close();
+                        }
                         startMsgListQuery();
                         return;
                     }
@@ -3794,6 +3797,9 @@ public class ComposeMessageActivity extends Activity
                             threadIds,
                             cursor != null && cursor.getCount() > 0,
                             ComposeMessageActivity.this);
+                    if (cursor != null) {
+                        cursor.close();
+                    }
                     break;
             }
         }
