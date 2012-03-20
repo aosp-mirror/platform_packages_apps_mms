@@ -48,6 +48,11 @@
             android:layout_width="150dip"
             android:layout_height="wrap_content" />
         <Button
+            android:id="@+id/sms_send_message_unlock_screen"
+            android:text="@string/sms_send_message_unlock_screen"
+            android:layout_width="150dip"
+            android:layout_height="wrap_content" />
+        <Button
             android:id="@+id/sms_send_multi_message"
             android:text="@string/sms_send_multi_message"
             android:layout_width="150dip"

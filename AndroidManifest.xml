@@ -127,6 +127,14 @@
                   android:theme="@style/MmsHoloTheme" >
         </activity-alias>
 
+        <activity android:name=".ui.ComposeMessageActivityNoLockScreen"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:windowSoftInputMode="stateHidden"
+                  android:theme="@style/MmsHoloTheme"
+                  android:exported="false"
+                  android:launchMode="singleTop" >
+        </activity>
+
         <activity android:name=".ui.DeliveryReportActivity"
             android:label="@string/delivery_report_activity"
             android:theme="@android:style/Theme.Dialog">

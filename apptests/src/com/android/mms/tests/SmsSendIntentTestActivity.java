@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.mms.tests;
+package com.android.mms.apptests;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -29,7 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.mms.tests.R;
+import com.android.mms.apptests.R;
 
 // This is a manual test application for testing the Messaging app's ability to send Sms messages
 // without the user having to confirm or press a send button. This app uses the intent:
@@ -56,12 +56,19 @@ public class SmsSendIntentTestActivity extends Activity {
         mRecipient = (EditText)findViewById(R.id.sms_recipient);
         mMessage = (EditText)findViewById(R.id.sms_content);
 
-        mRecipient.setText("650-278-2055"); // use this to prime a number
+        mRecipient.setText("650-933-0884"); // use this to prime a number
 
         Button sendButton = (Button) findViewById(R.id.sms_send_message);
         sendButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 sendMessage(1, 1);
+            }
+        });
+
+        Button sendUnlockButton = (Button) findViewById(R.id.sms_send_message_unlock_screen);
+        sendUnlockButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                sendMessageUnlockScreen();
             }
         });
 
@@ -94,6 +101,36 @@ public class SmsSendIntentTestActivity extends Activity {
                 startActivityForResult(intent, NOTIFICATIONS_REQUEST_CODE);
             }
         });
+    }
+
+    private void sendMessageUnlockScreen() {
+        String recipient = mRecipient.getText().toString();
+        if (TextUtils.isEmpty(recipient)) {
+            Toast.makeText(SmsSendIntentTestActivity.this, "Please enter a message recipient.",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String message = mMessage.getText().toString();
+        if (TextUtils.isEmpty(message)) {
+            Toast.makeText(SmsSendIntentTestActivity.this, "Please enter a message body.",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Toast.makeText(SmsSendIntentTestActivity.this, "You have five seconds to lock the screen.",
+                Toast.LENGTH_SHORT).show();
+
+        try {
+            Thread.sleep(5000);     // yeah, yeah, it's on the UI thread
+        } catch (Exception e) {
+        }
+
+        Uri uri = Uri.fromParts("smsto", recipient, null);
+        Intent intent = new Intent("com.android.mms.intent.action.SENDTO_NO_CONFIRMATION", uri);
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+        intent.putExtra("exit_on_sent", true);
+        intent.putExtra("showUI", true);
+        startService(intent);
     }
 
     private void sendMessage(int count, int dupeCount) {

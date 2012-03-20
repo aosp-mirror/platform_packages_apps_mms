@@ -17,16 +17,13 @@
 package com.android.mms.ui;
 
 import android.app.IntentService;
-import android.app.Service;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.mms.data.Conversation;
-import com.android.mms.transaction.MessageStatusService;
 import com.android.mms.transaction.SmsMessageSender;
 
 /**
@@ -66,24 +63,34 @@ public class NoConfirmationSendService extends IntentService {
         Uri intentUri = intent.getData();
         String recipients = Conversation.getRecipients(intentUri);
 
-        if (TextUtils.isEmpty(recipients) || TextUtils.isEmpty(message)) {
-            ComposeMessageActivity.log("Recipient(s) and/or message cannot be empty");
+        if (TextUtils.isEmpty(recipients)) {
+            ComposeMessageActivity.log("Recipient(s) cannot be empty");
             return;
         }
-        String[] dests = TextUtils.split(recipients, ";");
+        if (extras.getBoolean("showUI", false)) {
+            intent.setClassName(this, "com.android.mms.ui.ComposeMessageActivityNoLockScreen");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else {
+            if (TextUtils.isEmpty(message)) {
+                ComposeMessageActivity.log("Message cannot be empty");
+                return;
+            }
+            String[] dests = TextUtils.split(recipients, ";");
 
-        // Using invalid threadId 0 here. When the message is inserted into the db, the
-        // provider looks up the threadId based on the recipient(s).
-        long threadId = 0;
-        SmsMessageSender smsMessageSender = new SmsMessageSender(this, dests,
-                message, threadId);
-        try {
-            // This call simply puts the message on a queue and sends a broadcast to start
-            // a service to send the message. In queing up the message, however, it does
-            // insert the message into the DB.
-            smsMessageSender.sendMessage(threadId);
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to send SMS message, threadId=" + threadId, e);
+            // Using invalid threadId 0 here. When the message is inserted into the db, the
+            // provider looks up the threadId based on the recipient(s).
+            long threadId = 0;
+            SmsMessageSender smsMessageSender = new SmsMessageSender(this, dests,
+                    message, threadId);
+            try {
+                // This call simply puts the message on a queue and sends a broadcast to start
+                // a service to send the message. In queing up the message, however, it does
+                // insert the message into the DB.
+                smsMessageSender.sendMessage(threadId);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to send SMS message, threadId=" + threadId, e);
+            }
         }
     }
 }
