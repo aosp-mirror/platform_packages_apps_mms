@@ -37,7 +37,7 @@ public class SendIntentTests extends AndroidTestCase {
     public void testPermissionRequired() {
         testAndroidTestCaseSetupProperly();     // verify we have a context
 
-        Uri uri = Uri.fromParts("smsto", "650-278-2055", null);
+        Uri uri = Uri.fromParts("smsto", "650-933-0884", null);
         Intent intent = new Intent("com.android.mms.intent.action.SENDTO_NO_CONFIRMATION", uri);
         intent.putExtra(Intent.EXTRA_TEXT, "This is a test");
         getContext().startService(intent);

@@ -20,7 +20,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="sms_recipient_label" translatable="false">Recipient #</string>
     <string name="sms_content_label" translatable="false">Message Body</string>
-    <string name="sms_send_message" translatable="false">Send</string>
+    <string name="sms_send_message" translatable="false">Send (no confirmation)</string>
+    <string name="sms_send_message_unlock_screen" translatable="false">Send and unlock screen</string>
     <string name="sms_send_multi_message" translatable="false">Send five messages</string>
     <string name="sms_send_long_message" translatable="false">Send a long message</string>
     <string name="sms_prime_message" translatable="false">Prime a long message</string>
