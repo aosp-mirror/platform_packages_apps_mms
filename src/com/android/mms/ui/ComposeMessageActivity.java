@@ -309,6 +309,8 @@ public class ComposeMessageActivity extends Activity
      */
     private boolean mIsRunning;
 
+    private MenuItem mAddAttachmentMenu;
+
     @SuppressWarnings("unused")
     public static void log(String logMsg) {
         Thread current = Thread.currentThread();
@@ -2375,6 +2377,11 @@ public class ComposeMessageActivity extends Activity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if (mWorkingMessage.hasAttachment()) {
+                    mAddAttachmentMenu.setVisible(false);
+                } else {
+                    mAddAttachmentMenu.setVisible(true);
+                }
                 drawBottomPanel();
                 updateSendButtonState();
                 drawTopPanel(isSubjectEditorVisible());
@@ -2517,10 +2524,15 @@ public class ComposeMessageActivity extends Activity
                 menu.add(0, MENU_ADD_SUBJECT, 0, R.string.add_subject).setIcon(
                         R.drawable.ic_menu_edit);
             }
-            menu.add(0, MENU_ADD_ATTACHMENT, 0, R.string.add_attachment)
+            mAddAttachmentMenu = menu.add(0, MENU_ADD_ATTACHMENT, 0, R.string.add_attachment)
                 .setIcon(R.drawable.ic_menu_attachment)
-                .setTitle(R.string.add_attachment)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);    // add to actionbar
+                .setTitle(R.string.add_attachment);
+            mAddAttachmentMenu.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);    // add to actionbar
+            if (mWorkingMessage.hasAttachment()) {
+                mAddAttachmentMenu.setVisible(false);
+            } else {
+                mAddAttachmentMenu.setVisible(true);
+            }
         }
 
         if (isPreparedForSending()) {
