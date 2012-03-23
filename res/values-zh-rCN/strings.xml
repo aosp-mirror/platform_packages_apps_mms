@@ -328,7 +328,6 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> 个人"</item>
   </plurals>
-    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"要停止从默认“短信”应用程序接收重复的短信通知吗？"</string>
-    <!-- no translation found for view_more_conversations (7275920132410734671) -->
-    <skip />
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"要停止从默认“短信”应用接收重复的短信通知吗？"</string>
+    <string name="view_more_conversations" msgid="7275920132410734671">"查看更多会话"</string>
 </resources>

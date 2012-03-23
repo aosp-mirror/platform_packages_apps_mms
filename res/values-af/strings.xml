@@ -329,6 +329,5 @@
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> mense"</item>
   </plurals>
     <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Keer dat duplikaat-SMS-kennisgewings vanaf verstek-boodskapprogram ontvang word?"</string>
-    <!-- no translation found for view_more_conversations (7275920132410734671) -->
-    <skip />
+    <string name="view_more_conversations" msgid="7275920132410734671">"Bekyk nog gesprekke"</string>
 </resources>

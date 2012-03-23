@@ -329,6 +329,5 @@
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> personer"</item>
   </plurals>
     <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Vill du sluta kopiera meddelanden om SMS från standardappen Meddelanden?"</string>
-    <!-- no translation found for view_more_conversations (7275920132410734671) -->
-    <skip />
+    <string name="view_more_conversations" msgid="7275920132410734671">"Visa fler konversationer"</string>
 </resources>
