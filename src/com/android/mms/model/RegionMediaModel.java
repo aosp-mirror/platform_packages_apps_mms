@@ -17,8 +17,6 @@
 
 package com.android.mms.model;
 
-import com.android.mms.drm.DrmWrapper;
-
 import com.google.android.mms.MmsException;
 
 import android.content.Context;
@@ -44,13 +42,6 @@ public abstract class RegionMediaModel extends MediaModel {
     public RegionMediaModel(Context context, String tag, String contentType,
             String src, byte[] data, RegionModel region) {
         super(context, tag, contentType, src, data);
-        mRegion = region;
-    }
-
-    public RegionMediaModel(Context context, String tag, String contentType,
-            String src, DrmWrapper wrapper, RegionModel region)
-            throws IOException {
-        super(context, tag, contentType, src, wrapper);
         mRegion = region;
     }
 

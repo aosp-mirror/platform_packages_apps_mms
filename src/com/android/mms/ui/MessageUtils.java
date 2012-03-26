@@ -529,11 +529,7 @@ public class MessageUtils {
         intent.putExtra("SingleItemOnly", true); // So we don't see "surrounding" images in Gallery
 
         String contentType;
-        if (mm.isDrmProtected()) {
-            contentType = mm.getDrmObject().getContentType();
-        } else {
-            contentType = mm.getContentType();
-        }
+        contentType = mm.getContentType();
         intent.setDataAndType(mm.getUri(), contentType);
         context.startActivity(intent);
     }

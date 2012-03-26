@@ -17,57 +17,67 @@
 
 package com.android.mms.drm;
 
-import android.database.sqlite.SqliteWrapper;
-
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Context;
+import android.drm.*;
 import android.net.Uri;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.RandomAccessFile;
+
+import com.android.mms.MmsApp;
 
 public class DrmUtils {
     private static final String TAG = "DrmUtils";
-    private static final Uri DRM_TEMP_URI = Uri.parse("content://mms/drm");
+
+    /** The MIME type of special DRM files */
+    private static final String EXTENSION_ANDROID_FWDL = ".fl";
 
     private DrmUtils() {
     }
 
-    public static void cleanupStorage(Context context) {
-        try {
-            SqliteWrapper.delete(context, context.getContentResolver(),
-                    DRM_TEMP_URI, null, null);
-        } catch (RuntimeException e) {
-            // If clearing the temp storage fails, that's not the end of the world; we'll just try
-            // again next time. Could potentially fail in the not-so-understood case described in
-            // b/5415438 (but in any case, we shouldn't kill the app if this fails).
-            Log.e(TAG, e.getMessage(), e);
-        }
+    public static String getConvertExtension(String mimetype) {
+        return EXTENSION_ANDROID_FWDL;
     }
 
-    public static Uri insert(Context context, DrmWrapper drmObj)
-            throws IOException {
-        ContentResolver cr = context.getContentResolver();
-        Uri uri = SqliteWrapper.insert(context, cr, DRM_TEMP_URI,
-                                       new ContentValues(0));
-        OutputStream os = null;
-        try {
-            os = cr.openOutputStream(uri);
-            byte[] data = drmObj.getDecryptedData();
-            if (data != null) {
-                os.write(data);
-            }
-            return uri;
-        } finally {
-            if (os != null) {
-                try {
-                    os.close();
-                } catch (IOException e) {
-                    Log.e(TAG, e.getMessage(), e);
+    public static boolean isDrmType(String mimeType) {
+        boolean result = false;
+        DrmManagerClient drmManagerClient = MmsApp.getApplication().getDrmManagerClient();
+        if (drmManagerClient != null) {
+            try {
+                if (drmManagerClient.canHandle("", mimeType)) {
+                    result = true;
                 }
+            } catch (IllegalArgumentException ex) {
+                Log.w(TAG, "canHandle called with wrong parameters");
+            } catch (IllegalStateException ex) {
+                Log.w(TAG, "DrmManagerClient didn't initialize properly");
             }
         }
+        return result;
+    }
+
+    /**
+     * Check if content may be forwarded according to DRM
+     *
+     * @param uri Uri to content
+     * @return true if the content may be forwarded
+     */
+    public static boolean haveRightsForAction(Uri uri, int action) {
+        DrmManagerClient drmManagerClient = MmsApp.getApplication().getDrmManagerClient();
+
+        try {
+            // first check if the URI is registered as DRM in DRM-framework
+            if (drmManagerClient.canHandle(uri.toString(), null)) {
+                int check = drmManagerClient.checkRightsStatus(uri.toString(), action);
+                return (check == DrmStore.RightsStatus.RIGHTS_VALID);
+            }
+        } catch (Exception e) {
+            // Ignore exception and assume it is OK to forward file.
+        } finally {
+        }
+        return true;
     }
 }

@@ -20,7 +20,6 @@ package com.android.mms.model;
 import com.android.mms.ContentRestrictionException;
 import com.android.mms.dom.events.EventImpl;
 import com.android.mms.dom.smil.SmilMediaElementImpl;
-import com.android.mms.drm.DrmWrapper;
 import com.google.android.mms.MmsException;
 import android.database.sqlite.SqliteWrapper;
 
@@ -54,12 +53,6 @@ public class AudioModel extends MediaModel {
 
     public AudioModel(Context context, String contentType, String src, Uri uri) throws MmsException {
         super(context, SmilHelper.ELEMENT_TAG_AUDIO, contentType, src, uri);
-        mExtras = new HashMap<String, String>();
-    }
-
-    public AudioModel(Context context, String contentType, String src,
-            DrmWrapper wrapper) throws IOException {
-        super(context, SmilHelper.ELEMENT_TAG_AUDIO, contentType, src, wrapper);
         mExtras = new HashMap<String, String>();
     }
 

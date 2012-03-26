@@ -20,6 +20,7 @@ package com.android.mms;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.drm.DrmManagerClient;
 import android.location.Country;
 import android.location.CountryDetector;
 import android.location.CountryListener;
@@ -31,7 +32,6 @@ import android.util.Log;
 
 import com.android.mms.data.Contact;
 import com.android.mms.data.Conversation;
-import com.android.mms.drm.DrmUtils;
 import com.android.mms.layout.LayoutManager;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.util.DownloadManager;
@@ -52,6 +52,7 @@ public class MmsApp extends Application {
     private static MmsApp sMmsApp = null;
     private PduLoaderManager mPduLoaderManager;
     private ThumbnailManager mThumbnailManager;
+    private DrmManagerClient mDrmManagerClient;
 
     @Override
     public void onCreate() {
@@ -83,7 +84,6 @@ public class MmsApp extends Application {
         Conversation.init(this);
         DownloadManager.init(this);
         RateController.init(this);
-        DrmUtils.cleanupStorage(this);
         LayoutManager.init(this);
         SmileyParser.init(this);
         MessagingNotification.init(this);
@@ -105,7 +105,6 @@ public class MmsApp extends Application {
 
     @Override
     public void onTerminate() {
-        DrmUtils.cleanupStorage(this);
         mCountryDetector.removeCountryListener(mCountryListener);
     }
 
@@ -158,4 +157,12 @@ public class MmsApp extends Application {
     public String getCurrentCountryIso() {
         return mCountryIso;
     }
+
+    public DrmManagerClient getDrmManagerClient() {
+        if (mDrmManagerClient == null) {
+            mDrmManagerClient = new DrmManagerClient(getApplicationContext());
+        }
+        return mDrmManagerClient;
+    }
+
 }

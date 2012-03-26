@@ -126,29 +126,20 @@ public class SlideshowPresenter extends Presenter {
     protected void presentSlide(SlideViewInterface view, SlideModel model) {
         view.reset();
 
-        try {
-            for (MediaModel media : model) {
-                if (media instanceof RegionMediaModel) {
-                    presentRegionMedia(view, (RegionMediaModel) media, true);
-                } else if (media.isAudio()) {
-                    presentAudio(view, (AudioModel) media, true);
-                }
+        for (MediaModel media : model) {
+            if (media instanceof RegionMediaModel) {
+                presentRegionMedia(view, (RegionMediaModel) media, true);
+            } else if (media.isAudio()) {
+                presentAudio(view, (AudioModel) media, true);
             }
-        } catch (DrmException e) {
-            Log.e(TAG, e.getMessage(), e);
-            Toast.makeText(mContext,
-                    mContext.getString(R.string.insufficient_drm_rights),
-                    Toast.LENGTH_SHORT).show();
         }
     }
 
     /**
      * @param view
-     * @throws DrmException
      */
     protected void presentRegionMedia(SlideViewInterface view,
-            RegionMediaModel rMedia, boolean dataChanged)
-            throws DrmException {
+            RegionMediaModel rMedia, boolean dataChanged) {
         RegionModel r = (rMedia).getRegion();
         if (rMedia.isText()) {
             presentText(view, (TextModel) rMedia, r, dataChanged);
@@ -160,10 +151,10 @@ public class SlideshowPresenter extends Presenter {
     }
 
     protected void presentAudio(SlideViewInterface view, AudioModel audio,
-            boolean dataChanged) throws DrmException {
+            boolean dataChanged) {
         // Set audio only when data changed.
         if (dataChanged) {
-            view.setAudio(audio.getUriWithDrmCheck(), audio.getSrc(), audio.getExtras());
+            view.setAudio(audio.getUri(), audio.getSrc(), audio.getExtras());
         }
 
         MediaAction action = audio.getCurrentAction();
@@ -198,10 +189,9 @@ public class SlideshowPresenter extends Presenter {
      * @param view
      * @param image
      * @param r
-     * @throws DrmException
      */
     protected void presentImage(SlideViewInterface view, ImageModel image,
-            RegionModel r, boolean dataChanged) throws DrmException {
+            RegionModel r, boolean dataChanged) {
         int transformedWidth = transformWidth(r.getWidth());
         int transformedHeight = transformWidth(r.getHeight());
 
@@ -213,8 +203,7 @@ public class SlideshowPresenter extends Presenter {
         }
 
         if (dataChanged) {
-            view.setImage(image.getSrc(),
-                    image.getBitmapWithDrmCheck(r.getWidth(), r.getHeight()));
+            view.setImage(image.getSrc(), image.getBitmap(r.getWidth(), r.getHeight()));
         }
 
         if (view instanceof AdaptableSlideViewInterface) {
@@ -232,15 +221,14 @@ public class SlideshowPresenter extends Presenter {
      * @param view
      * @param video
      * @param r
-     * @throws DrmException
      */
     protected void presentVideo(SlideViewInterface view, VideoModel video,
-            RegionModel r, boolean dataChanged) throws DrmException {
+            RegionModel r, boolean dataChanged) {
         if (dataChanged) {
-            view.setVideo(video.getSrc(), video.getUriWithDrmCheck());
+            view.setVideo(video.getSrc(), video.getUri());
         }
 
-        if (view instanceof AdaptableSlideViewInterface) {
+            if (view instanceof AdaptableSlideViewInterface) {
             ((AdaptableSlideViewInterface) view).setVideoRegion(
                     transformWidth(r.getLeft()),
                     transformHeight(r.getTop()),
@@ -305,27 +293,13 @@ public class SlideshowPresenter extends Presenter {
             if (model instanceof RegionMediaModel) {
                 mHandler.post(new Runnable() {
                     public void run() {
-                        try {
-                            presentRegionMedia(view, (RegionMediaModel) model, dataChanged);
-                        } catch (DrmException e) {
-                            Log.e(TAG, e.getMessage(), e);
-                            Toast.makeText(mContext,
-                                    mContext.getString(R.string.insufficient_drm_rights),
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                        presentRegionMedia(view, (RegionMediaModel) model, dataChanged);
                     }
                 });
             } else if (((MediaModel) model).isAudio()) {
                 mHandler.post(new Runnable() {
                     public void run() {
-                        try {
-                            presentAudio(view, (AudioModel) model, dataChanged);
-                        } catch (DrmException e) {
-                            Log.e(TAG, e.getMessage(), e);
-                            Toast.makeText(mContext,
-                                    mContext.getString(R.string.insufficient_drm_rights),
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                        presentAudio(view, (AudioModel) model, dataChanged);
                     }
                 });
             }

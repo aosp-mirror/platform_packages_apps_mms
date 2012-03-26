@@ -53,6 +53,7 @@ import com.google.android.mms.util.PduCacheEntry;
 public class PduLoaderManager extends BackgroundLoaderManager {
     private static final String TAG = "Mms:PduLoaderManager";
 
+    private static final boolean DEBUG_DISABLE_CACHE = false;
     private static final boolean DEBUG_DISABLE_PDUS = false;
     private static final boolean DEBUG_LONG_WAIT = false;
 
@@ -82,7 +83,8 @@ public class PduLoaderManager extends BackgroundLoaderManager {
                 cacheEntry = mPduCache.get(uri);
             }
         }
-        final SlideshowModel slideshow = requestSlideshow ? mSlideshowCache.get(uri) : null;
+        final SlideshowModel slideshow = (requestSlideshow && !DEBUG_DISABLE_CACHE) ?
+                mSlideshowCache.get(uri) : null;
 
         final boolean slideshowExists = (!requestSlideshow || slideshow != null);
         final boolean pduExists = (cacheEntry != null && cacheEntry.getPdu() != null);

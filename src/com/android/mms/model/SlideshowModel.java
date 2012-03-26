@@ -24,8 +24,6 @@ import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.dom.smil.parser.SmilXmlSerializer;
-import android.drm.mobile1.DrmException;
-import com.android.mms.drm.DrmWrapper;
 import com.android.mms.layout.LayoutManager;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
@@ -210,8 +208,6 @@ public class SlideshowModel extends Model
                             (EventTarget) sme, media);
                     mediaSet.add(media);
                     totalMessageSize += media.getMediaSize();
-                } catch (DrmException e) {
-                    Log.e(TAG, e.getMessage(), e);
                 } catch (IOException e) {
                     Log.e(TAG, e.getMessage(), e);
                 } catch (IllegalArgumentException e) {
@@ -240,22 +236,11 @@ public class SlideshowModel extends Model
     }
 
     private PduBody makePduBody(SMILDocument document) {
-        return makePduBody(null, document, false);
-    }
-
-    private PduBody makePduBody(Context context, SMILDocument document, boolean isMakingCopy) {
         PduBody pb = new PduBody();
 
         boolean hasForwardLock = false;
         for (SlideModel slide : mSlides) {
             for (MediaModel media : slide) {
-                if (isMakingCopy) {
-                    if (media.isDrmProtected() && !media.isAllowedToForward()) {
-                        hasForwardLock = true;
-                        continue;
-                    }
-                }
-
                 PduPart part = new PduPart();
 
                 if (media.isText()) {
@@ -295,11 +280,7 @@ public class SlideshowModel extends Model
                     part.setContentId(contentId.getBytes());
                 }
 
-                if (media.isDrmProtected()) {
-                    DrmWrapper wrapper = media.getDrmObject();
-                    part.setDataUri(wrapper.getOriginalUri());
-                    part.setData(wrapper.getOriginalData());
-                } else if (media.isText()) {
+                if (media.isText()) {
                     part.setData(((TextModel) media).getText().getBytes());
                 } else if (media.isImage() || media.isVideo() || media.isAudio()) {
                     part.setDataUri(media.getUri());
@@ -309,13 +290,6 @@ public class SlideshowModel extends Model
 
                 pb.addPart(part);
             }
-        }
-
-        if (hasForwardLock && isMakingCopy && context != null) {
-            Toast.makeText(context,
-                    context.getString(R.string.cannot_forward_drm_obj),
-                    Toast.LENGTH_LONG).show();
-            document = SmilHelper.getDocument(pb);
         }
 
         // Create and insert SMIL part(as the first part) into the PduBody.
@@ -331,8 +305,8 @@ public class SlideshowModel extends Model
         return pb;
     }
 
-    public PduBody makeCopy(Context context) {
-        return makePduBody(context, SmilHelper.getDocument(this), true);
+    public PduBody makeCopy() {
+        return makePduBody(SmilHelper.getDocument(this));
     }
 
     public SMILDocument toSmilDocument() {

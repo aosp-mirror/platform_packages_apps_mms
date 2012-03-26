@@ -23,8 +23,6 @@ import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.dom.smil.SmilMediaElementImpl;
-import android.drm.mobile1.DrmException;
-import com.android.mms.drm.DrmWrapper;
 import com.android.mms.ui.UriImage;
 import com.android.mms.util.ItemLoadedCallback;
 import com.android.mms.util.ItemLoadedFuture;
@@ -52,7 +50,6 @@ import java.util.Set;
 
 
 public class ImageModel extends RegionMediaModel {
-    @SuppressWarnings("hiding")
     private static final String TAG = "Mms/image";
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
@@ -81,16 +78,10 @@ public class ImageModel extends RegionMediaModel {
     }
 
     public ImageModel(Context context, String contentType, String src,
-            Uri uri, RegionModel region) throws DrmException, MmsException {
+            Uri uri, RegionModel region) throws MmsException {
         super(context, SmilHelper.ELEMENT_TAG_IMAGE,
                 contentType, src, uri, region);
-        decodeImageBounds();
-    }
-
-    public ImageModel(Context context, String contentType, String src,
-            DrmWrapper wrapper, RegionModel regionModel) throws IOException {
-        super(context, SmilHelper.ELEMENT_TAG_IMAGE, contentType, src,
-                wrapper, regionModel);
+        decodeImageBounds(uri);
     }
 
     private void initModelFromUri(Uri uri) throws MmsException {
@@ -112,8 +103,8 @@ public class ImageModel extends RegionMediaModel {
         }
     }
 
-    private void decodeImageBounds() throws DrmException {
-        UriImage uriImage = new UriImage(mContext, getUriWithDrmCheck());
+    private void decodeImageBounds(Uri uri) {
+        UriImage uriImage = new UriImage(mContext, uri);
         mWidth = uriImage.getWidth();
         mHeight = uriImage.getHeight();
 
@@ -163,12 +154,20 @@ public class ImageModel extends RegionMediaModel {
         }
     }
 
-    public Bitmap getBitmapWithDrmCheck(int width, int height) throws DrmException {
-        Uri uri = getUriWithDrmCheck();     // will throw exception if no drm rights
+    private Bitmap createBitmap(int thumbnailBoundsLimit, Uri uri) {
+        byte[] data = UriImage.getResizedImageData(mWidth, mHeight,
+                thumbnailBoundsLimit, thumbnailBoundsLimit, PICTURE_SIZE_LIMIT, uri, mContext);
+        if (LOCAL_LOGV) {
+            Log.v(TAG, "createBitmap size: " + (data == null ? data : data.length));
+        }
+        return data == null ? null : BitmapFactory.decodeByteArray(data, 0, data.length);
+    }
+
+    public Bitmap getBitmap(int width, int height)  {
         Bitmap bm = mFullSizeBitmapCache.get();
         if (bm == null) {
             try {
-                bm = createBitmap(Math.max(width, height), uri);
+                bm = createBitmap(Math.max(width, height), getUri());
                 if (bm != null) {
                     mFullSizeBitmapCache = new SoftReference<Bitmap>(bm);
                 }
@@ -178,15 +177,6 @@ public class ImageModel extends RegionMediaModel {
             }
         }
         return bm;
-    }
-
-    private Bitmap createBitmap(int thumbnailBoundsLimit, Uri uri) {
-        byte[] data = UriImage.getResizedImageData(mWidth, mHeight,
-                thumbnailBoundsLimit, thumbnailBoundsLimit, PICTURE_SIZE_LIMIT, uri, mContext);
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "createBitmap size: " + (data == null ? data : data.length));
-        }
-        return data == null ? null : BitmapFactory.decodeByteArray(data, 0, data.length);
     }
 
     @Override

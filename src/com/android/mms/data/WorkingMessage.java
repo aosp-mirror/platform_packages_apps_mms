@@ -39,8 +39,6 @@ import android.util.Log;
 
 import com.android.common.contacts.DataUsageStatUpdater;
 import com.android.common.userhappiness.UserHappinessSignals;
-
-import com.android.mms.ContentRestrictionException;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
@@ -411,7 +409,7 @@ public class WorkingMessage {
             int numSlides = mSlideshow.size();
             if (numSlides > 0) {
                 ImageModel imgModel = mSlideshow.get(numSlides - 1).getImage();
-                if (imgModel != null && !imgModel.isDrmProtected()) {
+                if (imgModel != null) {
                     cancelThumbnailLoading();
                     imgModel.loadThumbnailBitmap(null);
                 }
@@ -1104,7 +1102,7 @@ public class WorkingMessage {
                 String err = "WorkingMessage.send MMS sending failure. mms_config.xml is " +
                         "missing uaProfUrl setting.  uaProfUrl is required for MMS service, " +
                         "but can be absent for SMS.";
-                RuntimeException ex = new ContentRestrictionException(err);
+                RuntimeException ex = new NullPointerException(err);
                 Log.e(TAG, err, ex);
                 // now, let's just crash.
                 throw ex;

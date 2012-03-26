@@ -25,6 +25,7 @@ import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.smil.ElementTime;
 
+import android.util.Config;
 import android.util.Log;
 import android.text.TextUtils;
 
@@ -37,7 +38,7 @@ import java.util.ListIterator;
 public class SlideModel extends Model implements List<MediaModel>, EventListener {
     public static final String TAG = "Mms/slideshow";
     private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = false;
+    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
     private static final int DEFAULT_SLIDE_DURATION = 5000;
 
     private final ArrayList<MediaModel> mMedia = new ArrayList<MediaModel>();

@@ -19,11 +19,8 @@ package com.android.mms.model;
 
 import com.android.mms.R;
 import com.android.mms.LogTag;
-import android.drm.mobile1.DrmException;
-import com.android.mms.drm.DrmWrapper;
 import android.media.MediaMetadataRetriever;        // TODO: remove dependency for SDK build
 import com.google.android.mms.MmsException;
-import com.android.mms.drm.DrmUtils;
 
 import org.w3c.dom.events.EventListener;
 
@@ -55,7 +52,6 @@ public abstract class MediaModel extends Model implements EventListener {
     protected short mFill;
     protected int mSize;
     protected int mSeekTo;
-    protected DrmWrapper mDrmObjectWrapper;
     protected boolean mMediaResizeable;
 
     private final ArrayList<MediaAction> mMediaActions;
@@ -90,18 +86,6 @@ public abstract class MediaModel extends Model implements EventListener {
         mSrc = src;
         mData = data;
         mSize = data.length;
-        mMediaActions = new ArrayList<MediaAction>();
-    }
-
-    public MediaModel(Context context, String tag, String contentType,
-            String src, DrmWrapper wrapper) throws IOException {
-        mContext = context;
-        mTag = tag;
-        mContentType = contentType;
-        mSrc = src;
-        mDrmObjectWrapper = wrapper;
-        mUri = DrmUtils.insert(context, wrapper);
-        mSize = wrapper.getOriginalData().length;
         mMediaActions = new ArrayList<MediaAction>();
     }
 
@@ -143,8 +127,7 @@ public abstract class MediaModel extends Model implements EventListener {
     }
 
     /**
-     * Get the URI of the media without checking DRM rights. Use this method
-     * only if the media is NOT DRM protected.
+     * Get the URI of the media.
      *
      * @return The URI of the media.
      */
@@ -152,29 +135,8 @@ public abstract class MediaModel extends Model implements EventListener {
         return mUri;
     }
 
-    /**
-     * Get the URI of the media with checking DRM rights. Use this method
-     * if the media is probably DRM protected.
-     *
-     * @return The URI of the media.
-     * @throws DrmException Insufficient DRM rights detected.
-     */
-    public Uri getUriWithDrmCheck() throws DrmException {
-        if (mUri != null) {
-            if (isDrmProtected() && !mDrmObjectWrapper.consumeRights()) {
-                throw new DrmException("Insufficient DRM rights.");
-            }
-        }
-        return mUri;
-    }
-
-    public byte[] getData() throws DrmException {
+    public byte[] getData() {
         if (mData != null) {
-            if (isDrmProtected() && !mDrmObjectWrapper.consumeRights()) {
-                throw new DrmException(
-                        mContext.getString(R.string.insufficient_drm_rights));
-            }
-
             byte[] data = new byte[mData.length];
             System.arraycopy(mData, 0, data, 0, mData.length);
             return data;
@@ -241,14 +203,6 @@ public abstract class MediaModel extends Model implements EventListener {
 
     public boolean isAudio() {
         return mTag.equals(SmilHelper.ELEMENT_TAG_AUDIO);
-    }
-
-    public boolean isDrmProtected() {
-        return mDrmObjectWrapper != null;
-    }
-
-    public boolean isAllowedToForward() {
-        return mDrmObjectWrapper.isAllowedToForward();
     }
 
     protected void initMediaDuration() throws MmsException {
@@ -330,10 +284,6 @@ public abstract class MediaModel extends Model implements EventListener {
 
     protected boolean isPlayable() {
         return false;
-    }
-
-    public DrmWrapper getDrmObject() {
-        return mDrmObjectWrapper;
     }
 
     protected void pauseMusicPlayer() {

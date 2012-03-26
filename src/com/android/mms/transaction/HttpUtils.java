@@ -52,6 +52,9 @@ import java.util.Locale;
 public class HttpUtils {
     private static final String TAG = LogTag.TRANSACTION;
 
+    private static final boolean DEBUG = false;
+    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
+
     public static final int HTTP_POST_METHOD = 1;
     public static final int HTTP_GET_METHOD = 2;
 

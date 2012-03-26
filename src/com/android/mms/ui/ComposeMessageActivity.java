@@ -62,6 +62,8 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SqliteWrapper;
+import android.drm.DrmManagerClient;
+import android.drm.DrmStore;
 import android.drm.mobile1.DrmException;
 import android.drm.mobile1.DrmRawContent;
 import android.graphics.drawable.Drawable;
@@ -77,7 +79,6 @@ import android.os.SystemProperties;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.Contacts;
-import android.provider.DrmStore;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.ContactsContract.Intents;
@@ -133,6 +134,7 @@ import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.data.WorkingMessage.MessageStatusListener;
+import com.android.mms.drm.DrmUtils;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.MmsException;
@@ -140,6 +142,7 @@ import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendReq;
+import com.google.android.mms.util.DownloadDrmHelper;
 import com.google.android.mms.util.PduCache;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
@@ -215,7 +218,7 @@ public class ComposeMessageActivity extends Activity
     private static final int MENU_ADD_ADDRESS_TO_CONTACTS = 27;
     private static final int MENU_LOCK_MESSAGE          = 28;
     private static final int MENU_UNLOCK_MESSAGE        = 29;
-    private static final int MENU_COPY_TO_DRM_PROVIDER  = 30;
+    private static final int MENU_SAVE_RINGTONE         = 30;
     private static final int MENU_PREFERENCES           = 31;
 
     private static final int RECIPIENTS_MAX_LENGTH = 312;
@@ -924,7 +927,7 @@ public class ComposeMessageActivity extends Activity
             addCallAndContactMenuItems(menu, l, msgItem);
 
             // Forward is not available for undownloaded messages.
-            if (msgItem.isDownloaded()) {
+            if (msgItem.isDownloaded() && isForwardable(msgId)) {
                 menu.add(0, MENU_FORWARD_MESSAGE, 0, R.string.menu_forward)
                         .setOnMenuItemClickListener(l);
             }
@@ -961,8 +964,8 @@ public class ComposeMessageActivity extends Activity
                             menu.add(0, MENU_COPY_TO_SDCARD, 0, R.string.copy_to_sdcard)
                             .setOnMenuItemClickListener(l);
                         }
-                        if (haveSomethingToCopyToDrmProvider(msgItem.mMsgId)) {
-                            menu.add(0, MENU_COPY_TO_DRM_PROVIDER, 0,
+                        if (isDrmRingtoneWithRights(msgItem.mMsgId)) {
+                            menu.add(0, MENU_SAVE_RINGTONE, 0,
                                     getDrmMimeMenuStringRsrc(msgItem.mMsgId))
                             .setOnMenuItemClickListener(l);
                         }
@@ -1072,8 +1075,7 @@ public class ComposeMessageActivity extends Activity
                 subject += msgItem.mSubject;
             }
             sendReq.setSubject(new EncodedStringValue(subject));
-            sendReq.setBody(msgItem.mSlideshow.makeCopy(
-                    ComposeMessageActivity.this));
+            sendReq.setBody(msgItem.mSlideshow.makeCopy());
 
             Uri uri = null;
             try {
@@ -1166,9 +1168,9 @@ public class ComposeMessageActivity extends Activity
                     return true;
                 }
 
-                case MENU_COPY_TO_DRM_PROVIDER: {
+                case MENU_SAVE_RINGTONE: {
                     int resId = getDrmMimeSavedStringRsrc(mMsgItem.mMsgId,
-                            copyToDrmProvider(mMsgItem.mMsgId));
+                            saveRingtone(mMsgItem.mMsgId));
                     Toast.makeText(ComposeMessageActivity.this, resId, Toast.LENGTH_SHORT).show();
                     return true;
                 }
@@ -1237,7 +1239,7 @@ public class ComposeMessageActivity extends Activity
             }
 
             if (ContentType.isImageType(type) || ContentType.isVideoType(type) ||
-                    ContentType.isAudioType(type)) {
+                    ContentType.isAudioType(type) || DrmUtils.isDrmType(type)) {
                 result = true;
                 break;
             }
@@ -1246,20 +1248,10 @@ public class ComposeMessageActivity extends Activity
     }
 
     /**
-     * Looks to see if there are any drm'd parts of the attachment that can be copied to the
-     * DrmProvider. Right now we only support saving audio (e.g. ringtones).
-     * @param msgId
-     */
-    private boolean haveSomethingToCopyToDrmProvider(long msgId) {
-        String mimeType = getDrmMimeType(msgId);
-        return isAudioMimeType(mimeType);
-    }
-
-    /**
      * Copies media from an Mms to the DrmProvider
      * @param msgId
      */
-    private boolean copyToDrmProvider(long msgId) {
+    private boolean saveRingtone(long msgId) {
         boolean result = true;
         PduBody body = null;
         try {
@@ -1277,51 +1269,55 @@ public class ComposeMessageActivity extends Activity
             PduPart part = body.getPart(i);
             String type = new String(part.getContentType());
 
-            if (ContentType.isDrmType(type)) {
+            if (DrmUtils.isDrmType(type)) {
                 // All parts (but there's probably only a single one) have to be successful
                 // for a valid result.
-                result &= copyPartToDrmProvider(part);
+                result &= copyPart(part, Long.toHexString(msgId));
             }
         }
         return result;
     }
 
-    private String mimeTypeOfDrmPart(PduPart part) {
-        Uri uri = part.getDataUri();
-        InputStream input = null;
+    /**
+     * Returns true if any part is drm'd audio with ringtone rights.
+     * @param msgId
+     * @return true if one of the parts is drm'd audio with rights to save as a ringtone.
+     */
+    private boolean isDrmRingtoneWithRights(long msgId) {
+        PduBody body = null;
         try {
-            input = mContentResolver.openInputStream(uri);
-            if (input instanceof FileInputStream) {
-                FileInputStream fin = (FileInputStream) input;
+            body = SlideshowModel.getPduBody(this,
+                        ContentUris.withAppendedId(Mms.CONTENT_URI, msgId));
+        } catch (MmsException e) {
+            Log.e(TAG, "isDrmRingtoneWithRights can't load pdu body: " + msgId);
+        }
+        if (body == null) {
+            return false;
+        }
 
-                DrmRawContent content = new DrmRawContent(fin, fin.available(),
-                        DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING);
-                String mimeType = content.getContentType();
-                return mimeType;
-            }
-        } catch (IOException e) {
-            // Ignore
-            Log.e(TAG, "IOException caught while opening or reading stream", e);
-        } catch (DrmException e) {
-            Log.e(TAG, "DrmException caught ", e);
-        } finally {
-            if (null != input) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    // Ignore
-                    Log.e(TAG, "IOException caught while closing stream", e);
+        int partNum = body.getPartsNum();
+        for (int i = 0; i < partNum; i++) {
+            PduPart part = body.getPart(i);
+            String type = new String(part.getContentType());
+
+            if (DrmUtils.isDrmType(type)) {
+                String mimeType = MmsApp.getApplication().getDrmManagerClient()
+                        .getOriginalMimeType(part.getDataUri());
+                if (ContentType.isAudioType(mimeType) && DrmUtils.haveRightsForAction(part.getDataUri(),
+                        DrmStore.Action.RINGTONE)) {
+                    return true;
                 }
             }
         }
-        return null;
+        return false;
     }
 
     /**
-     * Returns the type of the first drm'd pdu part.
+     * Returns true if all drm'd parts are forwardable.
      * @param msgId
+     * @return true if all drm'd parts are forwardable.
      */
-    private String getDrmMimeType(long msgId) {
+    private boolean isForwardable(long msgId) {
         PduBody body = null;
         try {
             body = SlideshowModel.getPduBody(this,
@@ -1330,100 +1326,39 @@ public class ComposeMessageActivity extends Activity
             Log.e(TAG, "getDrmMimeType can't load pdu body: " + msgId);
         }
         if (body == null) {
-            return null;
+            return false;
         }
 
         int partNum = body.getPartsNum();
-        for(int i = 0; i < partNum; i++) {
+        for (int i = 0; i < partNum; i++) {
             PduPart part = body.getPart(i);
             String type = new String(part.getContentType());
 
-            if (ContentType.isDrmType(type)) {
-                return mimeTypeOfDrmPart(part);
+            if (DrmUtils.isDrmType(type) && !DrmUtils.haveRightsForAction(part.getDataUri(),
+                        DrmStore.Action.TRANSFER)) {
+                    return false;
             }
         }
-        return null;
+        return true;
     }
 
     private int getDrmMimeMenuStringRsrc(long msgId) {
-        String mimeType = getDrmMimeType(msgId);
-        if (isAudioMimeType(mimeType)) {
+        if (isDrmRingtoneWithRights(msgId)) {
             return R.string.save_ringtone;
         }
         return 0;
     }
 
     private int getDrmMimeSavedStringRsrc(long msgId, boolean success) {
-        String mimeType = getDrmMimeType(msgId);
-        if (isAudioMimeType(mimeType)) {
+        if (isDrmRingtoneWithRights(msgId)) {
             return success ? R.string.saved_ringtone : R.string.saved_ringtone_fail;
         }
         return 0;
     }
 
-    private boolean isAudioMimeType(String mimeType) {
-        return mimeType != null && mimeType.startsWith("audio/");
-    }
-
-    private boolean isImageMimeType(String mimeType) {
-        return mimeType != null && mimeType.startsWith("image/");
-    }
-
-    private boolean copyPartToDrmProvider(PduPart part) {
-        Uri uri = part.getDataUri();
-
-        InputStream input = null;
-        try {
-            input = mContentResolver.openInputStream(uri);
-            if (input instanceof FileInputStream) {
-                FileInputStream fin = (FileInputStream) input;
-
-                // Build a nice title
-                byte[] location = part.getName();
-                if (location == null) {
-                    location = part.getFilename();
-                }
-                if (location == null) {
-                    location = part.getContentLocation();
-                }
-
-                // Depending on the location, there may be an
-                // extension already on the name or not
-                String title = new String(location);
-                int index;
-                if ((index = title.indexOf(".")) == -1) {
-                    String type = new String(part.getContentType());
-                } else {
-                    title = title.substring(0, index);
-                }
-
-                // transfer the file to the DRM content provider
-                Intent item = DrmStore.addDrmFile(mContentResolver, fin, title);
-                if (item == null) {
-                    Log.w(TAG, "unable to add file " + uri + " to DrmProvider");
-                    return false;
-                }
-            }
-        } catch (IOException e) {
-            // Ignore
-            Log.e(TAG, "IOException caught while opening or reading stream", e);
-            return false;
-        } finally {
-            if (null != input) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    // Ignore
-                    Log.e(TAG, "IOException caught while closing stream", e);
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     /**
-     * Copies media from an Mms to the "download" directory on the SD card
+     * Copies media from an Mms to the "download" directory on the SD card. If any of the parts
+     * are audio types, drm'd or not, they're copied to the "Ringtones" directory.
      * @param msgId
      */
     private boolean copyMedia(long msgId) {
@@ -1442,19 +1377,25 @@ public class ComposeMessageActivity extends Activity
         int partNum = body.getPartsNum();
         for(int i = 0; i < partNum; i++) {
             PduPart part = body.getPart(i);
-            String type = new String(part.getContentType());
 
-            if (ContentType.isImageType(type) || ContentType.isVideoType(type) ||
-                    ContentType.isAudioType(type)) {
-                result &= copyPart(part, Long.toHexString(msgId));   // all parts have to be successful for a valid result.
-            }
+            // all parts have to be successful for a valid result.
+            result &= copyPart(part, Long.toHexString(msgId));
         }
         return result;
     }
 
     private boolean copyPart(PduPart part, String fallback) {
         Uri uri = part.getDataUri();
-
+        String type = new String(part.getContentType());
+        boolean isDrm = DrmUtils.isDrmType(type);
+        if (isDrm) {
+            type = MmsApp.getApplication().getDrmManagerClient()
+                    .getOriginalMimeType(part.getDataUri());
+        }
+        if (ContentType.APP_SMIL.equals(type)) {
+            return true;    // we're not going to save the "application/smil" that often can
+                            // be a downloaded part. Pretend it was saved.
+        }
         InputStream input = null;
         FileOutputStream fout = null;
         try {
@@ -1484,19 +1425,22 @@ public class ComposeMessageActivity extends Activity
                                                     // stored down to just the leaf filename.
 
                 // Depending on the location, there may be an
-                // extension already on the name or not
+                // extension already on the name or not. If we've got audio, put the attachment
+                // in the Ringtones directory.
                 String dir = Environment.getExternalStorageDirectory() + "/"
-                                + Environment.DIRECTORY_DOWNLOADS  + "/";
+                                + (ContentType.isAudioType(type) ? Environment.DIRECTORY_RINGTONES :
+                                    Environment.DIRECTORY_DOWNLOADS)  + "/";
                 String extension;
                 int index;
                 if ((index = fileName.lastIndexOf('.')) == -1) {
-                    String type = new String(part.getContentType());
                     extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(type);
                 } else {
                     extension = fileName.substring(index + 1, fileName.length());
                     fileName = fileName.substring(0, index);
                 }
-
+                if (isDrm) {
+                    extension += DrmUtils.getConvertExtension(type);
+                }
                 File file = getUniqueDestination(dir + fileName, extension);
 
                 // make sure the path is valid and directories created for this file.

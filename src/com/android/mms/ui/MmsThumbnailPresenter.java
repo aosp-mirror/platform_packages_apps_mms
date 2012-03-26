@@ -85,27 +85,15 @@ public class MmsThumbnailPresenter extends Presenter {
     };
 
     private void presentVideoThumbnail(SlideViewInterface view, VideoModel video) {
-        if (video.isDrmProtected()) {
-            showDrmIcon(view, video.getSrc());
-        } else {
-            video.loadThumbnailBitmap(mImageLoadedCallback);
-        }
+        video.loadThumbnailBitmap(mImageLoadedCallback);
     }
 
     private void presentImageThumbnail(SlideViewInterface view, ImageModel image) {
-        if (image.isDrmProtected()) {
-            showDrmIcon(view, image.getSrc());
-        } else {
-            image.loadThumbnailBitmap(mImageLoadedCallback);
-        }
+        image.loadThumbnailBitmap(mImageLoadedCallback);
     }
 
     protected void presentAudioThumbnail(SlideViewInterface view, AudioModel audio) {
-        if (audio.isDrmProtected()) {
-            showDrmIcon(view, audio.getSrc());
-        } else {
-            view.setAudio(audio.getUri(), audio.getSrc(), audio.getExtras());
-        }
+        view.setAudio(audio.getUri(), audio.getSrc(), audio.getExtras());
     }
 
     // Show an icon instead of real content in the thumbnail.

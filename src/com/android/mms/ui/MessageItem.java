@@ -325,11 +325,7 @@ public class MessageItem {
                 SlideModel slide = mSlideshow == null ? null : mSlideshow.get(0);
                 if ((slide != null) && slide.hasText()) {
                     TextModel tm = slide.getText();
-                    if (tm.isDrmProtected()) {
-                        mBody = mContext.getString(R.string.drm_protected_text);
-                    } else {
-                        mBody = tm.getText();
-                    }
+                    mBody = tm.getText();
                     mTextContentType = tm.getContentType();
                 }
 
