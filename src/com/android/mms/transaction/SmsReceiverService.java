@@ -309,7 +309,7 @@ public class SmsReceiverService extends Service {
             }
 
             // Update the notification for failed messages since they may be deleted.
-            MessagingNotification.updateSendFailedNotification(this);
+            MessagingNotification.nonBlockingUpdateSendFailedNotification(this);
         } else if ((mResultCode == SmsManager.RESULT_ERROR_RADIO_OFF) ||
                 (mResultCode == SmsManager.RESULT_ERROR_NO_SERVICE)) {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {

@@ -50,6 +50,7 @@ import android.database.Cursor;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Telephony.Mms;
@@ -272,7 +273,7 @@ public class MessagingNotification {
      */
     public static void blockingUpdateAllNotifications(final Context context) {
         nonBlockingUpdateNewMessageIndicator(context, THREAD_NONE, false);
-        updateSendFailedNotification(context);
+        nonBlockingUpdateSendFailedNotification(context);
         updateDownloadFailedNotification(context);
         MmsWidgetProvider.notifyDatasetChanged(context);
     }
@@ -813,12 +814,21 @@ public class MessagingNotification {
         return count;
     }
 
-    public static void updateSendFailedNotification(Context context) {
-        if (getUndeliveredMessageCount(context, null) < 1) {
-            cancelNotification(context, MESSAGE_FAILED_NOTIFICATION_ID);
-        } else {
-            notifySendFailed(context);      // rebuild and adjust the message count if necessary.
-        }
+    public static void nonBlockingUpdateSendFailedNotification(final Context context) {
+        new AsyncTask<Void, Void, Integer>() {
+            protected Integer doInBackground(Void... none) {
+                return getUndeliveredMessageCount(context, null);
+            }
+
+            protected void onPostExecute(Integer result) {
+                if (result < 1) {
+                    cancelNotification(context, MESSAGE_FAILED_NOTIFICATION_ID);
+                } else {
+                    // rebuild and adjust the message count if necessary.
+                    notifySendFailed(context);
+                }
+            }
+        }.execute();
     }
 
     /**

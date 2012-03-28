@@ -760,7 +760,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                         MessagingNotification.THREAD_NONE, false);
                 // Update the notification for failed messages since they
                 // may be deleted.
-                MessagingNotification.updateSendFailedNotification(ConversationList.this);
+                MessagingNotification.nonBlockingUpdateSendFailedNotification(ConversationList.this);
 
                 // Make sure the list reflects the delete
                 startAsyncQuery();
