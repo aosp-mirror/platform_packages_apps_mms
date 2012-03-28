@@ -927,7 +927,7 @@ public class ComposeMessageActivity extends Activity
             addCallAndContactMenuItems(menu, l, msgItem);
 
             // Forward is not available for undownloaded messages.
-            if (msgItem.isDownloaded() && isForwardable(msgId)) {
+            if (msgItem.isDownloaded() && (msgItem.isSms() || isForwardable(msgId))) {
                 menu.add(0, MENU_FORWARD_MESSAGE, 0, R.string.menu_forward)
                         .setOnMenuItemClickListener(l);
             }
