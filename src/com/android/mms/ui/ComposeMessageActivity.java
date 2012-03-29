@@ -1803,7 +1803,10 @@ public class ComposeMessageActivity extends Activity
         updateSendButtonState();
 
         drawTopPanel(false);
-        drawBottomPanel();
+        if (intentHandled) {
+            // We're not loading a draft, so we can draw the bottom panel immediately.
+            drawBottomPanel();
+        }
 
         onKeyboardStateChanged(mIsKeyboardOpen);
 
@@ -3153,7 +3156,6 @@ public class ComposeMessageActivity extends Activity
         intent.setType(Phone.CONTENT_TYPE);
         // We have to wait for the constructing complete.
         ContactList contacts = mRecipientsEditor.constructContactsFromInput(true);
-        int recipientsCount = 0;
         int urisCount = 0;
         Uri[] uris = new Uri[contacts.size()];
         urisCount = 0;
@@ -3376,7 +3378,13 @@ public class ComposeMessageActivity extends Activity
             log("call WorkingMessage.loadDraft");
         }
 
-        mWorkingMessage = WorkingMessage.loadDraft(this, mConversation);
+        mWorkingMessage = WorkingMessage.loadDraft(this, mConversation,
+                new Runnable() {
+                    public void run() {
+                        drawTopPanel(false);
+                        drawBottomPanel();
+                    }
+                });
     }
 
     private void saveDraft(boolean isStopping) {

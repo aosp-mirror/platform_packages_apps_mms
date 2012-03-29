@@ -199,7 +199,7 @@ public class ComposeMessageActivityTests
             ContactList contactList = ContactList.getByNumbers(phoneNum, false, false);
             Conversation conv = Conversation.get(mActivity, contactList, false);
 
-            WorkingMessage workingMsg = WorkingMessage.loadDraft(mActivity, conv);
+            WorkingMessage workingMsg = WorkingMessage.loadDraft(mActivity, conv, null);
             workingMsg.setConversation(conv);
             workingMsg.setText("This is test #" + i + " thread id: " + conv.getThreadId());
 

@@ -58,6 +58,14 @@ public class MmsApp extends Application {
     public void onCreate() {
         super.onCreate();
 
+        if (Log.isLoggable(LogTag.STRICT_MODE_TAG, Log.DEBUG)) {
+            // Log tag for enabling/disabling StrictMode violation log. This will dump a stack
+            // in the log that shows the StrictMode violator.
+            // To enable: adb shell setprop log.tag.Mms:strictmode DEBUG
+            StrictMode.setThreadPolicy(
+                    new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
+        }
+
         sMmsApp = this;
 
         // Load the default preference values
@@ -87,16 +95,6 @@ public class MmsApp extends Application {
         LayoutManager.init(this);
         SmileyParser.init(this);
         MessagingNotification.init(this);
-
-        if (Log.isLoggable(LogTag.STRICT_MODE_TAG, Log.DEBUG)) {
-            // Log tag for enabling/disabling StrictMode violation log. This will dump a stack
-            // in the log that shows the StrictMode violator. For now, we're turning this
-            // on after doing all the initializations. Later, we may move this above the
-            // inits and fix them as well.
-            // To enable: adb shell setprop log.tag.Mms:strictmode DEBUG
-            StrictMode.setThreadPolicy(
-                    new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
-        }
     }
 
     synchronized public static MmsApp getApplication() {

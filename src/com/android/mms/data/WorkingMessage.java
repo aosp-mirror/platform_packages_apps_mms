@@ -28,6 +28,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
@@ -36,6 +37,7 @@ import android.provider.Telephony.Sms;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Pair;
 
 import com.android.common.contacts.DataUsageStatUpdater;
 import com.android.common.userhappiness.UserHappinessSignals;
@@ -279,46 +281,62 @@ public class WorkingMessage {
      * none exists.
      */
     public static WorkingMessage loadDraft(ComposeMessageActivity activity,
-                                           Conversation conv) {
-        WorkingMessage msg = new WorkingMessage(activity);
-        if (msg.loadFromConversation(conv)) {
-            return msg;
-        } else {
-            return createEmpty(activity);
-        }
-    }
+                                           final Conversation conv,
+                                           final Runnable onDraftLoaded) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) LogTag.debug("loadDraft %s", conv);
 
-    private boolean loadFromConversation(Conversation conv) {
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) LogTag.debug("loadFromConversation %s", conv);
-
-        long threadId = conv.getThreadId();
-        if (threadId <= 0) {
-            return false;
-        }
-
-        // Look for an SMS draft first.
-        mText = readDraftSmsMessage(conv);
-        if (!TextUtils.isEmpty(mText)) {
-            mHasSmsDraft = true;
-            return true;
-        }
-
-        // Then look for an MMS draft.
-        StringBuilder sb = new StringBuilder();
-        Uri uri = readDraftMmsMessage(mActivity, conv, sb);
-        if (uri != null) {
-            if (loadFromUri(uri)) {
-                // If there was an MMS message, readDraftMmsMessage
-                // will put the subject in our supplied StringBuilder.
-                if (sb.length() > 0) {
-                    setSubject(sb.toString(), false);
-                }
-                mHasMmsDraft = true;
-                return true;
+        final WorkingMessage msg = createEmpty(activity);
+        if (conv.getThreadId() <= 0) {
+            if (onDraftLoaded != null) {
+                onDraftLoaded.run();
             }
+            return msg;
         }
 
-        return false;
+        new AsyncTask<Void, Void, Pair<String, String>>() {
+
+            // Return a Pair where:
+            //    first - non-empty String representing the text of an SMS draft
+            //    second - non-null String representing the text of an MMS subject
+            protected Pair<String, String> doInBackground(Void... none) {
+                // Look for an SMS draft first.
+                String draftText = msg.readDraftSmsMessage(conv);
+                String subject = null;
+
+                if (TextUtils.isEmpty(draftText)) {
+                    // No SMS draft so look for an MMS draft.
+                    StringBuilder sb = new StringBuilder();
+                    Uri uri = readDraftMmsMessage(msg.mActivity, conv, sb);
+                    if (uri != null) {
+                        if (msg.loadFromUri(uri)) {
+                            // If there was an MMS message, readDraftMmsMessage
+                            // will put the subject in our supplied StringBuilder.
+                            subject = sb.toString();
+                        }
+                    }
+                }
+                Pair<String, String> result = new Pair<String, String>(draftText, subject);
+                return result;
+            }
+
+            protected void onPostExecute(Pair<String, String> result) {
+                if (!TextUtils.isEmpty(result.first)) {
+                    msg.mHasSmsDraft = true;
+                    msg.setText(result.first);
+                }
+                if (result.second != null) {
+                    msg.mHasMmsDraft = true;
+                    if (!TextUtils.isEmpty(result.second)) {
+                        msg.setSubject(result.second, false);
+                    }
+                }
+                if (onDraftLoaded != null) {
+                    onDraftLoaded.run();
+                }
+            }
+        }.execute();
+
+        return msg;
     }
 
     /**
