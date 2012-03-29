@@ -552,13 +552,21 @@ public class MessagingNotification {
             return;
         }
 
-        Notification notification = new Notification(iconRes, ticker, timeMillis);
+        final Notification.Builder noti = new Notification.Builder(context)
+                .setSmallIcon(iconRes)
+                .setTicker(ticker)
+                .setWhen(timeMillis);
+
         Intent[] intents;
 
         // If we have more than one unique thread, change the title (which would
         // normally be the contact who sent the message) to a generic one that
         // makes sense for multiple senders, and change the Intent to take the
         // user to the conversation list instead of the specific thread.
+
+        // TODO: use forthcoming notification templates to either:
+        //  - hoist one message out and show an overflow summary, or
+        //  - show a digest of the last N threads
         if (uniqueThreadCount > 1) {
             title = context.getString(R.string.notification_multiple_title);
             Intent mainActivityIntent = new Intent(Intent.ACTION_MAIN);
@@ -586,6 +594,8 @@ public class MessagingNotification {
         // If there is more than one message, change the description (which
         // would normally be a snippet of the individual message text) to
         // a string indicating how many "unseen" messages there are.
+
+        // TODO: show the most recent message in full plus some indication of older messages in the thread
         if (messageCount > 1) {
             description = context.getString(R.string.notification_multiple,
                     Integer.toString(messageCount));
@@ -596,7 +606,11 @@ public class MessagingNotification {
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Update the notification.
-        notification.setLatestEventInfo(context, title, description, pendingIntent);
+        noti.setContentTitle(title)
+            .setContentText(description)
+            .setContentIntent(pendingIntent);
+
+        int defaults = 0;
 
         if (isNew) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -620,23 +634,33 @@ public class MessagingNotification {
                 audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
 
             if (vibrateAlways || vibrateSilent && nowSilent) {
-                notification.defaults |= Notification.DEFAULT_VIBRATE;
+                defaults |= Notification.DEFAULT_VIBRATE;
             }
 
             String ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE,
                     null);
-            notification.sound = TextUtils.isEmpty(ringtoneStr) ? null : Uri.parse(ringtoneStr);
+            noti.setSound(TextUtils.isEmpty(ringtoneStr) ? null : Uri.parse(ringtoneStr));
         }
 
-        notification.flags |= Notification.FLAG_SHOW_LIGHTS;
-        notification.defaults |= Notification.DEFAULT_LIGHTS;
+        defaults |= Notification.DEFAULT_LIGHTS;
+
+        noti.setDefaults(defaults);
 
         // set up delete intent
-        notification.deleteIntent = PendingIntent.getBroadcast(context, 0,
-                sNotificationOnDeleteIntent, 0);
+        noti.setDeleteIntent(PendingIntent.getBroadcast(context, 0,
+                sNotificationOnDeleteIntent, 0));
 
         NotificationManager nm = (NotificationManager)
             context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        final Notification notification;
+        if (messageCount == 1) {
+            notification = new Notification.BigTextStyle(noti)
+                .bigText(description)
+                .build();
+        } else {
+            notification = noti.getNotification();
+        }
 
         nm.notify(NOTIFICATION_ID, notification);
     }
