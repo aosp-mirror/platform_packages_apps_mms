@@ -3679,6 +3679,8 @@ public class ComposeMessageActivity extends Activity
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
             switch(token) {
                 case MESSAGE_LIST_QUERY_TOKEN:
+                    mConversation.blockMarkAsRead(false);
+
                     // check consistency between the query result and 'mConversation'
                     long tid = (Long) cookie;
 
@@ -3735,8 +3737,6 @@ public class ComposeMessageActivity extends Activity
                     // FIXME: freshing layout changes the focused view to an unexpected
                     // one, set it back to TextEditor forcely.
                     mTextEditor.requestFocus();
-
-                    mConversation.blockMarkAsRead(false);
 
                     invalidateOptionsMenu();    // some menu items depend on the adapter's count
                     return;

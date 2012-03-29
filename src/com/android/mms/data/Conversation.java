@@ -14,6 +14,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.BaseColumns;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
@@ -90,7 +91,7 @@ public class Conversation {
     private static ContentValues mReadContentValues;
     private static boolean mLoadingThreads;
     private boolean mMarkAsReadBlocked;
-    private Object mMarkAsBlockedSyncer = new Object();
+    private boolean mMarkAsReadWaiting;
 
     private Conversation(Context context) {
         mContext = context;
@@ -294,73 +295,79 @@ public class Conversation {
     /**
      * Marks all messages in this conversation as read and updates
      * relevant notifications.  This method returns immediately;
-     * work is dispatched to a background thread.
+     * work is dispatched to a background thread. This function should
+     * always be called from the UI thread.
      */
     public void markAsRead() {
+        if (mMarkAsReadWaiting) {
+            // We've already been asked to mark everything as read, but we're blocked.
+            return;
+        }
+        if (mMarkAsReadBlocked) {
+            // We're blocked so record the fact that we want to mark the messages as read
+            // when we get unblocked.
+            mMarkAsReadWaiting = true;
+            return;
+        }
+        final Uri threadUri = getUri();
         // If we have no Uri to mark (as in the case of a conversation that
         // has not yet made its way to disk), there's nothing to do.
-        final Uri threadUri = getUri();
+        if (threadUri != null) {
+            new AsyncTask<Void, Void, Void>() {
+                protected Void doInBackground(Void... none) {
+                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                        LogTag.debug("markAsRead");
+                    }
+                    buildReadContentValues();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                synchronized(mMarkAsBlockedSyncer) {
-                    if (mMarkAsReadBlocked) {
+                    // Check the read flag first. It's much faster to do a query than
+                    // to do an update. Timing this function show it's about 10x faster to
+                    // do the query compared to the update, even when there's nothing to
+                    // update.
+                    boolean needUpdate = true;
+
+                    Cursor c = mContext.getContentResolver().query(threadUri,
+                            UNREAD_PROJECTION, UNREAD_SELECTION, null, null);
+                    if (c != null) {
                         try {
-                            mMarkAsBlockedSyncer.wait();
-                        } catch (InterruptedException e) {
+                            needUpdate = c.getCount() > 0;
+                        } finally {
+                            c.close();
                         }
                     }
 
-                    if (threadUri != null) {
-                        buildReadContentValues();
-
-                        // Check the read flag first. It's much faster to do a query than
-                        // to do an update. Timing this function show it's about 10x faster to
-                        // do the query compared to the update, even when there's nothing to
-                        // update.
-                        boolean needUpdate = true;
-
-                        Cursor c = mContext.getContentResolver().query(threadUri,
-                                UNREAD_PROJECTION, UNREAD_SELECTION, null, null);
-                        if (c != null) {
-                            try {
-                                needUpdate = c.getCount() > 0;
-                            } finally {
-                                c.close();
-                            }
-                        }
-
-                        if (needUpdate) {
-                            LogTag.debug("markAsRead: update read/seen for thread uri: " +
-                                    threadUri);
-                            mContext.getContentResolver().update(threadUri, mReadContentValues,
-                                    UNREAD_SELECTION, null);
-                        }
-
-                        setHasUnreadMessages(false);
+                    if (needUpdate) {
+                        LogTag.debug("markAsRead: update read/seen for thread uri: " +
+                                threadUri);
+                        mContext.getContentResolver().update(threadUri, mReadContentValues,
+                                UNREAD_SELECTION, null);
                     }
+                    setHasUnreadMessages(false);
+                    return null;
                 }
-
-                // Always update notifications regardless of the read state.
-                MessagingNotification.blockingUpdateAllNotifications(mContext);
-            }
-        }, "Conversation.markAsRead").start();
+            }.execute();
+        }
     }
 
+    /**
+     * Call this with false to prevent marking messages as read. The code calls this so
+     * the DB queries in markAsRead don't slow down the main query for messages. Once we've
+     * queried for all the messages (see ComposeMessageActivity.onQueryComplete), then we
+     * can mark messages as read. Only call this function on the UI thread.
+     */
     public void blockMarkAsRead(boolean block) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             LogTag.debug("blockMarkAsRead: " + block);
         }
 
-        synchronized(mMarkAsBlockedSyncer) {
-            if (block != mMarkAsReadBlocked) {
-                mMarkAsReadBlocked = block;
-                if (!mMarkAsReadBlocked) {
-                    mMarkAsBlockedSyncer.notifyAll();
+        if (block != mMarkAsReadBlocked) {
+            mMarkAsReadBlocked = block;
+            if (!mMarkAsReadBlocked) {
+                if (mMarkAsReadWaiting) {
+                    mMarkAsReadWaiting = false;
+                    markAsRead();
                 }
             }
-
         }
     }
 
