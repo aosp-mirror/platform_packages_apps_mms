@@ -217,8 +217,8 @@ public class Conversation {
             }
         }
 
-        String recipient = getRecipients(uri);
-        return get(context, ContactList.getByNumbers(recipient,
+        String recipients = getRecipients(uri).replace(',', ';');
+        return get(context, ContactList.getByNumbers(recipients,
                 allowQuery /* don't block */, true /* replace number */), allowQuery);
     }
 
