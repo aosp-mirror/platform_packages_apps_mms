@@ -103,7 +103,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     private CharSequence mTitle;
     private SharedPreferences mPrefs;
     private Handler mHandler;
-    private boolean mNeedToMarkAsSeen;
+    private boolean mNeedToRemoveObsoleteThreads;
     private TextView mUnreadConvCount;
 
     private MenuItem mSearchItem;
@@ -249,7 +249,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
 
         DraftCache.getInstance().addOnDraftChangedListener(this);
 
-        mNeedToMarkAsSeen = true;
+        mNeedToRemoveObsoleteThreads = true;
 
         startAsyncQuery();
 
@@ -668,13 +668,12 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                 setTitle(mTitle);
                 setProgressBarIndeterminateVisibility(false);
 
-                if (mNeedToMarkAsSeen) {
-                    mNeedToMarkAsSeen = false;
-                    Conversation.markAllConversationsAsSeen(getApplicationContext());
-
+                Conversation.markAllConversationsAsSeen(getApplicationContext());
+                if (mNeedToRemoveObsoleteThreads) {
+                    mNeedToRemoveObsoleteThreads = false;
                     // Delete any obsolete threads. Obsolete threads are threads that aren't
                     // referenced by at least one message in the pdu or sms tables. We only call
-                    // this on the first query (because of mNeedToMarkAsSeen).
+                    // this on the first query.
                     mHandler.post(mDeleteObsoleteThreadsRunnable);
                 }
                 break;
