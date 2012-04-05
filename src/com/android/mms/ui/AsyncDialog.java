@@ -81,6 +81,9 @@ public class AsyncDialog {
      * will only show if tasks have not finished after a certain amount of time.
      *
      * This AsyncTask must be instantiated and invoked on the UI thread.
+     *
+     * TODO: Need to implement a way for the background thread to pass a result to
+     * the onPostExecute thread. AsyncTask already provides this functionality.
      */
     private class ModalDialogAsyncTask extends AsyncTask<Runnable, Void, Void> {
         final Runnable mPostExecuteTask;

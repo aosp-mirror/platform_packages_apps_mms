@@ -229,6 +229,7 @@ public class WorkingMessage {
 
         WorkingMessage msg = new WorkingMessage(activity);
         if (msg.loadFromUri(uri)) {
+            msg.mHasMmsDraft = true;
             return msg;
         }
 

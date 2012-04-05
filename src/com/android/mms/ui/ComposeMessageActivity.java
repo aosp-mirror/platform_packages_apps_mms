@@ -287,7 +287,8 @@ public class ComposeMessageActivity extends Activity
 
     private Intent mAddContactIntent;   // Intent used to add a new contact
 
-    private Uri mMmsUri;                // Only used as a temporary to hold a slideshow uri
+    private Uri mTempMmsUri;            // Only used as a temporary to hold a slideshow uri
+    private long mTempThreadId;         // Only used as a temporary to hold a threadId
 
     private AsyncDialog mAsyncDialog;   // Used for background tasks.
 
@@ -318,19 +319,19 @@ public class ComposeMessageActivity extends Activity
             @Override
             public void run() {
                 // This runnable gets run in a background thread.
-                mMmsUri = mWorkingMessage.saveAsMms(false);
+                mTempMmsUri = mWorkingMessage.saveAsMms(false);
             }
         }, new Runnable() {
             @Override
             public void run() {
                 // Once the above background thread is complete, this runnable is run
                 // on the UI thread.
-                if (mMmsUri == null) {
+                if (mTempMmsUri == null) {
                     return;
                 }
                 Intent intent = new Intent(ComposeMessageActivity.this,
                         SlideshowEditActivity.class);
-                intent.setData(mMmsUri);
+                intent.setData(mTempMmsUri);
                 startActivityForResult(intent, REQUEST_CODE_CREATE_SLIDESHOW);
             }
         }, R.string.building_slideshow_title);
@@ -391,17 +392,17 @@ public class ComposeMessageActivity extends Activity
                 @Override
                 public void run() {
                     // This runnable gets run in a background thread.
-                    mMmsUri = mWorkingMessage.saveAsMms(false);
+                    mTempMmsUri = mWorkingMessage.saveAsMms(false);
                 }
             }, new Runnable() {
                 @Override
                 public void run() {
                     // Once the above background thread is complete, this runnable is run
                     // on the UI thread.
-                    if (mMmsUri == null) {
+                    if (mTempMmsUri == null) {
                         return;
                     }
-                    MessageUtils.launchSlideshowActivity(ComposeMessageActivity.this, mMmsUri,
+                    MessageUtils.launchSlideshowActivity(ComposeMessageActivity.this, mTempMmsUri,
                             requestCode);
                 }
             }, R.string.building_slideshow_title);
@@ -1113,46 +1114,77 @@ public class ComposeMessageActivity extends Activity
         clipboard.setPrimaryClip(ClipData.newPlainText(null, str));
     }
 
-    private void forwardMessage(MessageItem msgItem) {
-        Intent intent = createIntent(this, 0);
+    private void forwardMessage(final MessageItem msgItem) {
+        mTempThreadId = 0;
+        // The user wants to forward the message. If the message is an mms message, we need to
+        // persist the pdu to disk. This is done in a background task.
+        // If the task takes longer than a half second, a progress dialog is displayed.
+        // Once the PDU persisting is done, another runnable on the UI thread get executed to start
+        // the ForwardMessageActivity.
+        getAsyncDialog().runAsync(new Runnable() {
+            @Override
+            public void run() {
+                // This runnable gets run in a background thread.
+                if (msgItem.mType.equals("mms")) {
+                    SendReq sendReq = new SendReq();
+                    String subject = getString(R.string.forward_prefix);
+                    if (msgItem.mSubject != null) {
+                        subject += msgItem.mSubject;
+                    }
+                    sendReq.setSubject(new EncodedStringValue(subject));
+                    sendReq.setBody(msgItem.mSlideshow.makeCopy());
 
-        intent.putExtra("exit_on_sent", true);
-        intent.putExtra("forwarded_message", true);
-
-        if (msgItem.mType.equals("sms")) {
-            intent.putExtra("sms_body", msgItem.mBody);
-        } else {
-            SendReq sendReq = new SendReq();
-            String subject = getString(R.string.forward_prefix);
-            if (msgItem.mSubject != null) {
-                subject += msgItem.mSubject;
+                    mTempMmsUri = null;
+                    try {
+                        PduPersister persister =
+                                PduPersister.getPduPersister(ComposeMessageActivity.this);
+                        // Copy the parts of the message here.
+                        mTempMmsUri = persister.persist(sendReq, Mms.Draft.CONTENT_URI);
+                        mTempThreadId = MessagingNotification.getThreadId(
+                                ComposeMessageActivity.this, mTempMmsUri);
+                    } catch (MmsException e) {
+                        Log.e(TAG, "Failed to copy message: " + msgItem.mMessageUri);
+                        Toast.makeText(ComposeMessageActivity.this,
+                                R.string.cannot_save_message, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
             }
-            sendReq.setSubject(new EncodedStringValue(subject));
-            sendReq.setBody(msgItem.mSlideshow.makeCopy());
+        }, new Runnable() {
+            @Override
+            public void run() {
+                // Once the above background thread is complete, this runnable is run
+                // on the UI thread.
+                Intent intent = createIntent(ComposeMessageActivity.this, 0);
 
-            Uri uri = null;
-            try {
-                PduPersister persister = PduPersister.getPduPersister(this);
-                // Copy the parts of the message here.
-                uri = persister.persist(sendReq, Mms.Draft.CONTENT_URI);
-            } catch (MmsException e) {
-                Log.e(TAG, "Failed to copy message: " + msgItem.mMessageUri);
-                Toast.makeText(ComposeMessageActivity.this,
-                        R.string.cannot_save_message, Toast.LENGTH_SHORT).show();
-                return;
+                intent.putExtra("exit_on_sent", true);
+                intent.putExtra("forwarded_message", true);
+                if (mTempThreadId > 0) {
+                    intent.putExtra("thread_id", mTempThreadId);
+                }
+
+                if (msgItem.mType.equals("sms")) {
+                    intent.putExtra("sms_body", msgItem.mBody);
+                } else {
+                    intent.putExtra("msg_uri", mTempMmsUri);
+                    String subject = getString(R.string.forward_prefix);
+                    if (msgItem.mSubject != null) {
+                        subject += msgItem.mSubject;
+                    }
+                    intent.putExtra("subject", subject);
+                }
+                // ForwardMessageActivity is simply an alias in the manifest for
+                // ComposeMessageActivity. We have to make an alias because ComposeMessageActivity
+                // launch flags specify singleTop. When we forward a message, we want to start a
+                // separate ComposeMessageActivity. The only way to do that is to override the
+                // singleTop flag, which is impossible to do in code. By creating an alias to the
+                // activity, without the singleTop flag, we can launch a separate
+                // ComposeMessageActivity to edit the forward message.
+                intent.setClassName(ComposeMessageActivity.this,
+                        "com.android.mms.ui.ForwardMessageActivity");
+                startActivity(intent);
             }
-
-            intent.putExtra("msg_uri", uri);
-            intent.putExtra("subject", subject);
-        }
-        // ForwardMessageActivity is simply an alias in the manifest for ComposeMessageActivity.
-        // We have to make an alias because ComposeMessageActivity launch flags specify
-        // singleTop. When we forward a message, we want to start a separate ComposeMessageActivity.
-        // The only way to do that is to override the singleTop flag, which is impossible to do
-        // in code. By creating an alias to the activity, without the singleTop flag, we can
-        // launch a separate ComposeMessageActivity to edit the forward message.
-        intent.setClassName(this, "com.android.mms.ui.ForwardMessageActivity");
-        startActivity(intent);
+        }, R.string.building_slideshow_title);
     }
 
     /**
