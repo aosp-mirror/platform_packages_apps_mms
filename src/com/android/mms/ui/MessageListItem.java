@@ -89,8 +89,8 @@ public class MessageListItem extends LinearLayout implements
     private static final boolean DEBUG = false;
     private static final boolean DEBUG_DONT_LOAD_IMAGES = false;
 
-    static final int MSG_LIST_EDIT_MMS   = 1;
-    static final int MSG_LIST_EDIT_SMS   = 2;
+    static final int MSG_LIST_EDIT   = 1;
+    static final int MSG_LIST_PLAY  = 2;
 
     private View mMmsView;
     private ImageView mImageView;
@@ -566,13 +566,14 @@ public class MessageListItem extends LinearLayout implements
     // OnClick Listener for the playback button
     @Override
     public void onClick(View v) {
-        MessageItem mi = (MessageItem) v.getTag();
-        switch (mi.mAttachmentType) {
-            case WorkingMessage.VIDEO:
-            case WorkingMessage.AUDIO:
-            case WorkingMessage.SLIDESHOW:
-                MessageUtils.viewMmsMessageAttachment(mContext, mi.mMessageUri, mi.mSlideshow);
-                break;
+        sendMessage(mMessageItem, MSG_LIST_PLAY);
+    }
+
+    private void sendMessage(MessageItem messageItem, int message) {
+        if (mHandler != null) {
+            Message msg = Message.obtain(mHandler, message);
+            msg.obj = messageItem;
+            msg.sendToTarget(); // See ComposeMessageActivity.mMessageListItemHandler.handleMessage
         }
     }
 
@@ -582,7 +583,10 @@ public class MessageListItem extends LinearLayout implements
         if (mMessageItem != null &&
                 mMessageItem.isOutgoingMessage() &&
                 mMessageItem.isFailedMessage() ) {
-            recomposeFailedMessage();
+
+            // Assuming the current message is a failed one, reload it into the compose view so
+            // the user can resend it.
+            sendMessage(mMessageItem, MSG_LIST_EDIT);
             return;
         }
 
@@ -654,45 +658,26 @@ public class MessageListItem extends LinearLayout implements
 
     private void setOnClickListener(final MessageItem msgItem) {
         switch(msgItem.mAttachmentType) {
-        case WorkingMessage.IMAGE:
-        case WorkingMessage.VIDEO:
-            mImageView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MessageUtils.viewMmsMessageAttachment(mContext, null, msgItem.mSlideshow);
-                }
-            });
-            mImageView.setOnLongClickListener(new OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    return v.showContextMenu();
-                }
-            });
-            break;
+            case WorkingMessage.IMAGE:
+            case WorkingMessage.VIDEO:
+                mImageView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sendMessage(msgItem, MSG_LIST_PLAY);
+                    }
+                });
+                mImageView.setOnLongClickListener(new OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        return v.showContextMenu();
+                    }
+                });
+                break;
 
-        default:
-            mImageView.setOnClickListener(null);
-            break;
-        }
-    }
-
-    /**
-     * Assuming the current message is a failed one, reload it into the compose view so that the
-     * user can resend it.
-     */
-    private void recomposeFailedMessage() {
-        String type = mMessageItem.mType;
-        final int what;
-        if (type.equals("sms")) {
-            what = MSG_LIST_EDIT_SMS;
-        } else {
-            what = MSG_LIST_EDIT_MMS;
-        }
-        if (null != mHandler) {
-            Message msg = Message.obtain(mHandler, what);
-            msg.obj = new Long(mMessageItem.mMsgId);
-            msg.sendToTarget();
-        }
+            default:
+                mImageView.setOnClickListener(null);
+                break;
+            }
     }
 
     private void drawRightStatusIndicator(MessageItem msgItem) {

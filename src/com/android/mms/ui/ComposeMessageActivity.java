@@ -278,7 +278,6 @@ public class ComposeMessageActivity extends Activity
     private WorkingMessage mWorkingMessage;         // The message currently being composed.
 
     private AlertDialog mSmileyDialog;
-    private ProgressDialog mProgressDialog;
 
     private boolean mWaitingForSubActivity;
     private int mLastRecipientCount;            // Used for warning the user on too many recipients.
@@ -287,6 +286,10 @@ public class ComposeMessageActivity extends Activity
     private boolean mSendingMessage;    // Indicates the current message is sending, and shouldn't send again.
 
     private Intent mAddContactIntent;   // Intent used to add a new contact
+
+    private Uri mMmsUri;                // Only used as a temporary to hold a slideshow uri
+
+    private AsyncDialog mAsyncDialog;   // Used for background tasks.
 
     private String mDebugRecipients;
 
@@ -306,13 +309,31 @@ public class ComposeMessageActivity extends Activity
     //==========================================================
 
     private void editSlideshow() {
-        Uri dataUri = mWorkingMessage.saveAsMms(false);
-        if (dataUri == null) {
-            return;
-        }
-        Intent intent = new Intent(this, SlideshowEditActivity.class);
-        intent.setData(dataUri);
-        startActivityForResult(intent, REQUEST_CODE_CREATE_SLIDESHOW);
+        // The user wants to edit the slideshow. That requires us to persist the slideshow to
+        // disk as a PDU in saveAsMms. This code below does that persisting in a background
+        // task. If the task takes longer than a half second, a progress dialog is displayed.
+        // Once the PDU persisting is done, another runnable on the UI thread get executed to start
+        // the SlideshowEditActivity.
+        getAsyncDialog().runAsync(new Runnable() {
+            @Override
+            public void run() {
+                // This runnable gets run in a background thread.
+                mMmsUri = mWorkingMessage.saveAsMms(false);
+            }
+        }, new Runnable() {
+            @Override
+            public void run() {
+                // Once the above background thread is complete, this runnable is run
+                // on the UI thread.
+                if (mMmsUri == null) {
+                    return;
+                }
+                Intent intent = new Intent(ComposeMessageActivity.this,
+                        SlideshowEditActivity.class);
+                intent.setData(mMmsUri);
+                startActivityForResult(intent, REQUEST_CODE_CREATE_SLIDESHOW);
+            }
+        }, R.string.building_slideshow_title);
     }
 
     private final Handler mAttachmentEditorHandler = new Handler() {
@@ -333,8 +354,7 @@ public class ComposeMessageActivity extends Activity
                 case AttachmentEditor.MSG_PLAY_VIDEO:
                 case AttachmentEditor.MSG_PLAY_AUDIO:
                 case AttachmentEditor.MSG_PLAY_SLIDESHOW:
-                    MessageUtils.viewMmsMessageAttachment(ComposeMessageActivity.this,
-                            mWorkingMessage, msg.what);
+                    viewMmsMessageAttachment(msg.what);
                     break;
 
                 case AttachmentEditor.MSG_REPLACE_IMAGE:
@@ -353,26 +373,69 @@ public class ComposeMessageActivity extends Activity
         }
     };
 
+
+    private void viewMmsMessageAttachment(final int requestCode) {
+        SlideshowModel slideshow = mWorkingMessage.getSlideshow();
+        if (slideshow == null) {
+            throw new IllegalStateException("mWorkingMessage.getSlideshow() == null");
+        }
+        if (slideshow.isSimple()) {
+            MessageUtils.viewSimpleSlideshow(this, slideshow);
+        } else {
+            // The user wants to view the slideshow. That requires us to persist the slideshow to
+            // disk as a PDU in saveAsMms. This code below does that persisting in a background
+            // task. If the task takes longer than a half second, a progress dialog is displayed.
+            // Once the PDU persisting is done, another runnable on the UI thread get executed to
+            // start the SlideshowActivity.
+            getAsyncDialog().runAsync(new Runnable() {
+                @Override
+                public void run() {
+                    // This runnable gets run in a background thread.
+                    mMmsUri = mWorkingMessage.saveAsMms(false);
+                }
+            }, new Runnable() {
+                @Override
+                public void run() {
+                    // Once the above background thread is complete, this runnable is run
+                    // on the UI thread.
+                    if (mMmsUri == null) {
+                        return;
+                    }
+                    MessageUtils.launchSlideshowActivity(ComposeMessageActivity.this, mMmsUri,
+                            requestCode);
+                }
+            }, R.string.building_slideshow_title);
+        }
+    }
+
+
     private final Handler mMessageListItemHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            String type;
-            switch (msg.what) {
-                case MessageListItem.MSG_LIST_EDIT_MMS:
-                    type = "mms";
-                    break;
-                case MessageListItem.MSG_LIST_EDIT_SMS:
-                    type = "sms";
-                    break;
-                default:
-                    Log.w(TAG, "Unknown message: " + msg.what);
-                    return;
-            }
-
-            MessageItem msgItem = getMessageItem(type, (Long) msg.obj, false);
+            MessageItem msgItem = (MessageItem) msg.obj;
             if (msgItem != null) {
-                editMessageItem(msgItem);
-                drawBottomPanel();
+                switch (msg.what) {
+                    case MessageListItem.MSG_LIST_EDIT:
+                        editMessageItem(msgItem);
+                        drawBottomPanel();
+                        break;
+
+                    case MessageListItem.MSG_LIST_PLAY:
+                        switch (msgItem.mAttachmentType) {
+                            case WorkingMessage.VIDEO:
+                            case WorkingMessage.AUDIO:
+                            case WorkingMessage.SLIDESHOW:
+                                MessageUtils.viewMmsMessageAttachment(ComposeMessageActivity.this,
+                                        msgItem.mMessageUri, msgItem.mSlideshow,
+                                        getAsyncDialog());
+                                break;
+                        }
+                        break;
+
+                    default:
+                        Log.w(TAG, "Unknown message: " + msg.what);
+                        return;
+                }
             }
         }
     };
@@ -391,16 +454,6 @@ public class ComposeMessageActivity extends Activity
                 return true;
             }
             return false;
-        }
-    };
-
-    // Shows the activity's progress spinner. Should be canceled if exiting the activity.
-    private Runnable mShowProgressDialogRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (mProgressDialog != null) {
-                mProgressDialog.show();
-            }
         }
     };
 
@@ -1134,7 +1187,8 @@ public class ComposeMessageActivity extends Activity
 
                 case MENU_VIEW_SLIDESHOW:
                     MessageUtils.viewMmsMessageAttachment(ComposeMessageActivity.this,
-                            ContentUris.withAppendedId(Mms.CONTENT_URI, mMsgItem.mMsgId), null);
+                            ContentUris.withAppendedId(Mms.CONTENT_URI, mMsgItem.mMsgId), null,
+                            getAsyncDialog());
                     return true;
 
                 case MENU_VIEW_MESSAGE_DETAILS: {
@@ -2050,7 +2104,10 @@ public class ComposeMessageActivity extends Activity
 
         removeRecipientsListeners();
 
-        clearPendingProgressDialog();
+        // remove any callback to display a progress spinner
+        if (mAsyncDialog != null) {
+            mAsyncDialog.clearPendingProgressDialog();
+        }
 
         MessagingNotification.setCurrentlyDisplayedThreadId(MessagingNotification.THREAD_NONE);
     }
@@ -2864,12 +2921,12 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void addImageAsync(final Uri uri, final boolean append) {
-        runAsyncWithDialog(new Runnable() {
+        getAsyncDialog().runAsync(new Runnable() {
             @Override
             public void run() {
                 addImage(uri, append);
             }
-        }, R.string.adding_attachments_title);
+        }, null, R.string.adding_attachments_title);
     }
 
     private void addImage(Uri uri, boolean append) {
@@ -2892,12 +2949,12 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void addVideoAsync(final Uri uri, final boolean append) {
-        runAsyncWithDialog(new Runnable() {
+        getAsyncDialog().runAsync(new Runnable() {
             @Override
             public void run() {
                 addVideo(uri, append);
             }
-        }, R.string.adding_attachments_title);
+        }, null, R.string.adding_attachments_title);
     }
 
     private void addVideo(Uri uri, boolean append) {
@@ -2912,89 +2969,11 @@ public class ComposeMessageActivity extends Activity
         handleAddAttachmentError(result, R.string.type_audio);
     }
 
-    /**
-     * Asynchronously executes a task while blocking the UI with a progress spinner.
-     *
-     * Must be invoked by the UI thread.  No exceptions!
-     *
-     * @param task the work to be done wrapped in a Runnable
-     * @param dialogStringId the id of the string to be shown in the dialog
-     */
-    private void runAsyncWithDialog(final Runnable task, final int dialogStringId) {
-        new ModalDialogAsyncTask(dialogStringId).execute(new Runnable[] {task});
-    }
-
-    /**
-     * Asynchronously performs tasks specified by Runnables.
-     * Displays a progress spinner while the tasks are running.  The progress spinner
-     * will only show if tasks have not finished after a certain amount of time.
-     *
-     * This AsyncTask must be instantiated and invoked on the UI thread.
-     */
-    private class ModalDialogAsyncTask extends AsyncTask<Runnable, Void, Void> {
-        final int mDialogStringId;
-
-        /**
-         * Creates the Task with the specified string id to be shown in the dialog
-         */
-        public ModalDialogAsyncTask(int dialogStringId) {
-            this.mDialogStringId = dialogStringId;
-            // lazy initialization of progress dialog for loading attachments
-            if (mProgressDialog == null) {
-                mProgressDialog = createProgressDialog();
-            }
+    AsyncDialog getAsyncDialog() {
+        if (mAsyncDialog == null) {
+            mAsyncDialog = new AsyncDialog(this);
         }
-
-        /**
-         * Initializes the progress dialog with its intended settings.
-         */
-        private ProgressDialog createProgressDialog() {
-            ProgressDialog dialog = new ProgressDialog(ComposeMessageActivity.this);
-            dialog.setIndeterminate(true);
-            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.setCancelable(false);
-            dialog.setMessage(ComposeMessageActivity.this.
-                    getText(mDialogStringId));
-            return dialog;
-        }
-
-        /**
-         * Activates a progress spinner on the UI.  This assumes the UI has invoked this Task.
-         */
-        @Override
-        protected void onPreExecute() {
-            // activate spinner after half a second
-            mAttachmentEditorHandler.postDelayed(mShowProgressDialogRunnable, 500);
-        }
-
-        /**
-         * Perform the specified Runnable tasks on a background thread
-         */
-        @Override
-        protected Void doInBackground(Runnable... params) {
-            if (params != null) {
-                try {
-                    for (int i = 0; i < params.length; i++) {
-                        params[i].run();
-                    }
-                } finally {
-                    // Cancel pending display of the progress bar if the image has finished loading.
-                    mAttachmentEditorHandler.removeCallbacks(mShowProgressDialogRunnable);
-                }
-            }
-            return null;
-        }
-
-        /**
-         * Deactivates the progress spinner on the UI. This assumes the UI has invoked this Task.
-         */
-        @Override
-        protected void onPostExecute(Void result) {
-            if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                mProgressDialog.dismiss();
-            }
-        }
+        return mAsyncDialog;
     }
 
     private boolean handleForwardedMessage() {
@@ -3038,12 +3017,12 @@ public class ComposeMessageActivity extends Activity
         if (Intent.ACTION_SEND.equals(action)) {
             if (extras.containsKey(Intent.EXTRA_STREAM)) {
                 final Uri uri = (Uri)extras.getParcelable(Intent.EXTRA_STREAM);
-                runAsyncWithDialog(new Runnable() {
+                getAsyncDialog().runAsync(new Runnable() {
                     @Override
                     public void run() {
                         addAttachment(mimeType, uri, false);
                     }
-                }, R.string.adding_attachments_title);
+                }, null, R.string.adding_attachments_title);
                 return true;
             } else if (extras.containsKey(Intent.EXTRA_TEXT)) {
                 mWorkingMessage.setText(extras.getString(Intent.EXTRA_TEXT));
@@ -3068,7 +3047,7 @@ public class ComposeMessageActivity extends Activity
             // Show a progress dialog if adding all the slides hasn't finished
             // within half a second.
             final int numberToImport = importCount;
-            runAsyncWithDialog(new Runnable() {
+            getAsyncDialog().runAsync(new Runnable() {
                 @Override
                 public void run() {
                     for (int i = 0; i < numberToImport; i++) {
@@ -3076,7 +3055,7 @@ public class ComposeMessageActivity extends Activity
                         addAttachment(mimeType, (Uri) uri, true);
                     }
                 }
-            }, R.string.adding_attachments_title);
+            }, null, R.string.adding_attachments_title);
             return true;
         }
         return false;
@@ -3905,13 +3884,6 @@ public class ComposeMessageActivity extends Activity
 
     private void removeRecipientsListeners() {
         Contact.removeListener(this);
-    }
-
-    private void clearPendingProgressDialog() {
-        // remove any callback to display a progress spinner
-        mAttachmentEditorHandler.removeCallbacks(mShowProgressDialogRunnable);
-        // clear the dialog so any pending dialog.dismiss() call can be avoided
-        mProgressDialog = null;
     }
 
     public static Intent createIntent(Context context, long threadId) {

@@ -801,63 +801,65 @@ public class MessageUtils {
      *       This is hacky though since we will do saveDraft twice and slow down the UI.
      *       We should pass the slideshow in intent extra to the view activity instead of
      *       asking it to read attachments from database.
-     * @param context
+     * @param activity
      * @param msgUri the MMS message URI in database
      * @param slideshow the slideshow to save
      * @param persister the PDU persister for updating the database
      * @param sendReq the SendReq for updating the database
      */
-    public static void viewMmsMessageAttachment(Context context, Uri msgUri,
-            SlideshowModel slideshow) {
-        viewMmsMessageAttachment(context, msgUri, slideshow, 0);
+    public static void viewMmsMessageAttachment(Activity activity, Uri msgUri,
+            SlideshowModel slideshow, AsyncDialog asyncDialog) {
+        viewMmsMessageAttachment(activity, msgUri, slideshow, 0, asyncDialog);
     }
 
-    private static void viewMmsMessageAttachment(Context context, Uri msgUri,
-            SlideshowModel slideshow, int requestCode) {
+    public static void viewMmsMessageAttachment(final Activity activity, final Uri msgUri,
+            final SlideshowModel slideshow, final int requestCode, AsyncDialog asyncDialog) {
         boolean isSimple = (slideshow == null) ? false : slideshow.isSimple();
         if (isSimple) {
             // In attachment-editor mode, we only ever have one slide.
-            MessageUtils.viewSimpleSlideshow(context, slideshow);
+            MessageUtils.viewSimpleSlideshow(activity, slideshow);
         } else {
-            // If a slideshow was provided, save it to disk first.
-            if (slideshow != null) {
-                PduPersister persister = PduPersister.getPduPersister(context);
-                try {
-                    PduBody pb = slideshow.toPduBody();
-                    persister.updateParts(msgUri, pb);
-                    slideshow.sync(pb);
-                } catch (MmsException e) {
-                    Log.e(TAG, "Unable to save message for preview");
-                    return;
+            // The user wants to view the slideshow. We have to persist the slideshow parts
+            // in a background task. If the task takes longer than a half second, a progress dialog
+            // is displayed. Once the PDU persisting is done, another runnable on the UI thread get
+            // executed to start the SlideshowActivity.
+            asyncDialog.runAsync(new Runnable() {
+                @Override
+                public void run() {
+                    // If a slideshow was provided, save it to disk first.
+                    if (slideshow != null) {
+                        PduPersister persister = PduPersister.getPduPersister(activity);
+                        try {
+                            PduBody pb = slideshow.toPduBody();
+                            persister.updateParts(msgUri, pb);
+                            slideshow.sync(pb);
+                        } catch (MmsException e) {
+                            Log.e(TAG, "Unable to save message for preview");
+                            return;
+                        }
+                    }
                 }
-            }
-            // Launch the slideshow activity to play/view.
-            Intent intent = new Intent(context, SlideshowActivity.class);
-            intent.setData(msgUri);
-            if (requestCode > 0 && context instanceof Activity) {
-                ((Activity)context).startActivityForResult(intent, requestCode);
-            } else {
-                context.startActivity(intent);
-            }
+            }, new Runnable() {
+                @Override
+                public void run() {
+                    // Once the above background thread is complete, this runnable is run
+                    // on the UI thread to launch the slideshow activity.
+                    launchSlideshowActivity(activity, msgUri, requestCode);
+                }
+            }, R.string.building_slideshow_title);
         }
     }
 
-    public static void viewMmsMessageAttachment(Context context, WorkingMessage msg,
-            int requestCode) {
-        SlideshowModel slideshow = msg.getSlideshow();
-        if (slideshow == null) {
-            throw new IllegalStateException("msg.getSlideshow() == null");
-        }
-        if (slideshow.isSimple()) {
-            MessageUtils.viewSimpleSlideshow(context, slideshow);
+    public static void launchSlideshowActivity(Context context, Uri msgUri, int requestCode) {
+        // Launch the slideshow activity to play/view.
+        Intent intent = new Intent(context, SlideshowActivity.class);
+        intent.setData(msgUri);
+        if (requestCode > 0 && context instanceof Activity) {
+            ((Activity)context).startActivityForResult(intent, requestCode);
         } else {
-            Uri uri = msg.saveAsMms(false);
-            if (uri != null) {
-                // Pass null for the slideshow paramater, otherwise viewMmsMessageAttachment
-                // will persist the slideshow to disk again (we just did that above in saveAsMms)
-                viewMmsMessageAttachment(context, uri, null, requestCode);
-            }
+            context.startActivity(intent);
         }
+
     }
 
     /**

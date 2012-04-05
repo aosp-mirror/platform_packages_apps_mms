@@ -223,10 +223,12 @@
     <string name="too_many_recipients">Message has too many recipients (<xliff:g id="currentCount">%1$s</xliff:g>). There is a limit of <xliff:g id="maxLimit">%2$s</xliff:g> recipients.</string>
     <!-- Brief message that appears when too many videos/pictures are imported -->
     <string name="too_many_attachments">There is a limit of <xliff:g id="maxLimit">%1$s</xliff:g> attachments. Only the first <xliff:g id="currentCount">%2$s</xliff:g> will be added.</string>
-    <!-- Alert dialog title when adding attachments is taking a while -->
+    <!-- Alert dialog title when adding attachments is taking a while  [CHAR LIMIT=none] -->
     <string name="adding_attachments_title">Adding attachments</string>
     <!-- Alert dialog when adding attachments is taking a while -->
     <string name="adding_attachments">Wait while the items are added to the slideshow.</string>
+    <!-- Alert dialog title when creating a slideshow [CHAR LIMIT=none] -->
+    <string name="building_slideshow_title">Building slideshow</string>
 
     <!-- Error message indicating that an audio attachment cannot be played -->
     <string name="cannot_play_audio">Can\'t play audio.</string>

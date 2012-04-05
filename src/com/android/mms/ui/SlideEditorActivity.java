@@ -127,6 +127,7 @@ public class SlideEditorActivity extends Activity {
     private Uri mUri;
 
     private final static String MESSAGE_URI = "message_uri";
+    private AsyncDialog mAsyncDialog;   // Used for background tasks.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,6 +211,11 @@ public class SlideEditorActivity extends Activity {
     @Override
     protected void onPause()  {
         super.onPause();
+
+        // remove any callback to display a progress spinner
+        if (mAsyncDialog != null) {
+            mAsyncDialog.clearPendingProgressDialog();
+        }
 
         synchronized (this) {
             if (mDirty) {
@@ -318,8 +324,16 @@ public class SlideEditorActivity extends Activity {
         }
     };
 
+    private AsyncDialog getAsyncDialog() {
+        if (mAsyncDialog == null) {
+            mAsyncDialog = new AsyncDialog(this);
+        }
+        return mAsyncDialog;
+    }
+
     private void previewSlideshow() {
-        MessageUtils.viewMmsMessageAttachment(SlideEditorActivity.this, mUri, mSlideshowModel);
+        MessageUtils.viewMmsMessageAttachment(SlideEditorActivity.this, mUri, mSlideshowModel,
+                mAsyncDialog);
     }
 
     private void updateTitle() {
