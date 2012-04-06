@@ -1696,7 +1696,7 @@ public class ComposeMessageActivity extends Activity
         }
         mRecipientsPicker.setOnClickListener(this);
 
-        mRecipientsEditor.setAdapter(new RecipientsAdapter(this));
+        mRecipientsEditor.setAdapter(new ChipsRecipientAdapter(this));
         mRecipientsEditor.populate(recipients);
         mRecipientsEditor.setOnCreateContextMenuListener(mRecipientsMenuCreateListener);
         mRecipientsEditor.addTextChangedListener(mRecipientsWatcher);
@@ -1706,9 +1706,9 @@ public class ComposeMessageActivity extends Activity
         // recipients in the editor box. We may redesign the editor box UI for this use case.
         // mRecipientsEditor.setFilters(new InputFilter[] {
         //         new InputFilter.LengthFilter(RECIPIENTS_MAX_LENGTH) });
-        mRecipientsEditor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        mRecipientsEditor.setOnSelectChipRunnable(new Runnable() {
+            public void run() {
                 // After the user selects an item in the pop-up contacts list, move the
                 // focus to the text editor if there is only one recipient.  This helps
                 // the common case of selecting one recipient and then typing a message,
@@ -2154,13 +2154,6 @@ public class ComposeMessageActivity extends Activity
         if (mMsgListAdapter != null) {
             mMsgListAdapter.changeCursor(null);
             mMsgListAdapter.cancelBackgroundLoading();
-        }
-
-        if (mRecipientsEditor != null) {
-            CursorAdapter recipientsAdapter = (CursorAdapter)mRecipientsEditor.getAdapter();
-            if (recipientsAdapter != null) {
-                recipientsAdapter.changeCursor(null);
-            }
         }
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
@@ -3903,9 +3896,11 @@ public class ComposeMessageActivity extends Activity
                 // Rebuild the message list so each MessageItem will get the last contact info.
                 ComposeMessageActivity.this.mMsgListAdapter.notifyDataSetChanged();
 
-                if (mRecipientsEditor != null) {
-                    mRecipientsEditor.populate(recipients);
-                }
+                // Don't do this anymore. When we're showing chips, we don't want to switch from
+                // chips to text.
+//                if (mRecipientsEditor != null) {
+//                    mRecipientsEditor.populate(recipients);
+//                }
             }
         });
     }
