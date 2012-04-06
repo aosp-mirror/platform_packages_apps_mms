@@ -310,14 +310,15 @@ public class Conversation {
             return;
         }
         final Uri threadUri = getUri();
-        // If we have no Uri to mark (as in the case of a conversation that
-        // has not yet made its way to disk), there's nothing to do.
-        if (threadUri != null) {
-            new AsyncTask<Void, Void, Void>() {
-                protected Void doInBackground(Void... none) {
-                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                        LogTag.debug("markAsRead");
-                    }
+
+        new AsyncTask<Void, Void, Void>() {
+            protected Void doInBackground(Void... none) {
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    LogTag.debug("markAsRead");
+                }
+                // If we have no Uri to mark (as in the case of a conversation that
+                // has not yet made its way to disk), there's nothing to do.
+                if (threadUri != null) {
                     buildReadContentValues();
 
                     // Check the read flag first. It's much faster to do a query than
@@ -343,10 +344,13 @@ public class Conversation {
                                 UNREAD_SELECTION, null);
                     }
                     setHasUnreadMessages(false);
-                    return null;
                 }
-            }.execute();
-        }
+                // Always update notifications regardless of the read state.
+                MessagingNotification.blockingUpdateAllNotifications(mContext);
+
+                return null;
+            }
+        }.execute();
     }
 
     /**
