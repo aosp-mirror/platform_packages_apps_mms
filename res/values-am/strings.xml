@@ -112,6 +112,8 @@
     <string name="too_many_attachments" msgid="3774037894899750070">"<xliff:g id="MAXLIMIT">%1$s</xliff:g>አባሪዎች ወሰን አለ። የመጀመሪያዎቹ <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> ብቻ ይታከላሉ።"</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"ዓባሪዎች ማከል"</string>
     <string name="adding_attachments" msgid="5871373105122355632">"እባክህ ንጥሎቹ ወደ ስላይድ ትዕይንት እስኪካተቱ ቆይ።"</string>
+    <!-- no translation found for building_slideshow_title (1232338692400726385) -->
+    <skip />
     <string name="cannot_play_audio" msgid="253920977253666735">"ድምጽ ማጫወት አይቻልም።"</string>
     <string name="preview" msgid="5438149136136446756">"ቅድመ-ዕይታ"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"ቅድመ-ዕይታ"</string>

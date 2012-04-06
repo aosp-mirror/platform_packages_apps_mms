@@ -112,6 +112,8 @@
     <string name="too_many_attachments" msgid="3774037894899750070">"Maksimaalne manuste arv on <xliff:g id="MAXLIMIT">%1$s</xliff:g>. Lisatakse vaid <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> esimest."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Manuste lisamine"</string>
     <string name="adding_attachments" msgid="5871373105122355632">"Oodake, kuni üksused lisatakse slaidiseanssi."</string>
+    <!-- no translation found for building_slideshow_title (1232338692400726385) -->
+    <skip />
     <string name="cannot_play_audio" msgid="253920977253666735">"Heli ei saa esitada."</string>
     <string name="preview" msgid="5438149136136446756">"Eelvaade"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Eelvaade"</string>

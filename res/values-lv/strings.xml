@@ -112,6 +112,8 @@
     <string name="too_many_attachments" msgid="3774037894899750070">"Pastāv pielikumu ierobežojums: maksimāli <xliff:g id="MAXLIMIT">%1$s</xliff:g>. Tiks pievienoti tikai pirmie <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> pielikumi."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Notiek pielikumu pievienošana"</string>
     <string name="adding_attachments" msgid="5871373105122355632">"Uzgaidiet, līdz vienumi tiks pievienoti slaidrādei."</string>
+    <!-- no translation found for building_slideshow_title (1232338692400726385) -->
+    <skip />
     <string name="cannot_play_audio" msgid="253920977253666735">"Nevar atskaņot audio."</string>
     <string name="preview" msgid="5438149136136446756">"Priekšskatīt"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Priekšskatīt"</string>

@@ -112,6 +112,8 @@
     <string name="too_many_attachments" msgid="3774037894899750070">"Der er en grænse på <xliff:g id="MAXLIMIT">%1$s</xliff:g> vedhæftede filer. Kun de første <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> tilføjes."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Tilføjer vedhæftede filer"</string>
     <string name="adding_attachments" msgid="5871373105122355632">"Vent, mens elementerne føjes til diasshowet."</string>
+    <!-- no translation found for building_slideshow_title (1232338692400726385) -->
+    <skip />
     <string name="cannot_play_audio" msgid="253920977253666735">"Lyden kan ikke afspilles."</string>
     <string name="preview" msgid="5438149136136446756">"Vis eksempel"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Vis eksempel"</string>
