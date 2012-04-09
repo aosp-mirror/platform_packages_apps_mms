@@ -112,8 +112,7 @@
     <string name="too_many_attachments" msgid="3774037894899750070">"C\'è un limite di <xliff:g id="MAXLIMIT">%1$s</xliff:g> allegati. Verranno aggiunti solo i primi <xliff:g id="CURRENTCOUNT">%2$s</xliff:g>."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Aggiunta di allegati"</string>
     <string name="adding_attachments" msgid="5871373105122355632">"Attendi il termine dell\'aggiunta degli elementi alla slideshow."</string>
-    <!-- no translation found for building_slideshow_title (1232338692400726385) -->
-    <skip />
+    <string name="building_slideshow_title" msgid="1232338692400726385">"Creazione slideshow in corso"</string>
     <string name="cannot_play_audio" msgid="253920977253666735">"Impossibile riprodurre l\'audio."</string>
     <string name="preview" msgid="5438149136136446756">"Anteprima"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Anteprima"</string>

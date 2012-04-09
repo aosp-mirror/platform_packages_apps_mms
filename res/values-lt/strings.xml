@@ -112,8 +112,7 @@
     <string name="too_many_attachments" msgid="3774037894899750070">"Priedų skaičius apribotas iki <xliff:g id="MAXLIMIT">%1$s</xliff:g>. Bus pridėti (-a) tik <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> pirmi (-ų)."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Pridedami priedai"</string>
     <string name="adding_attachments" msgid="5871373105122355632">"Palaukite, kol prie skaidrių demonstracijos bus pridėta elementų."</string>
-    <!-- no translation found for building_slideshow_title (1232338692400726385) -->
-    <skip />
+    <string name="building_slideshow_title" msgid="1232338692400726385">"Kuriama skaidrių demonstracija"</string>
     <string name="cannot_play_audio" msgid="253920977253666735">"Negalima leisti garso įrašo."</string>
     <string name="preview" msgid="5438149136136446756">"Peržiūra"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Peržiūra"</string>
