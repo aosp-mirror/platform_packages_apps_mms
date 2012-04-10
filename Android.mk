@@ -3,7 +3,7 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 # Include res dir from chips
-chips_dir := ../../../../frameworks/ex/chips/res
+chips_dir := ../../../frameworks/ex/chips/res
 res_dirs := $(chips_dir) res
 
 $(shell rm -f $(LOCAL_PATH)/chips)
