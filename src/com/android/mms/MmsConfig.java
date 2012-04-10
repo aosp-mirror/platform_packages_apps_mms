@@ -63,17 +63,11 @@ public class MmsConfig {
     private static boolean mNotifyWapMMSC = false;
     private static boolean mAllowAttachAudio = true;
 
-    // See the comment below for mEnableMultipartSMS.
-    private static int mSmsToMmsTextThreshold = 4;
-
-    // This flag is somewhat confusing. If mEnableMultipartSMS is true, long sms messages are
-    // always sent as multi-part sms messages, with no checked limit on the number of segments.
-    // If mEnableMultipartSMS is false, then mSmsToMmsTextThreshold is used to determine the
-    // limit of the number of sms segments before turning the long sms message into an mms
-    // message. For example, if mSmsToMmsTextThreshold is 4, then a long sms message with three
-    // or fewer segments will be sent as a multi-part sms. When the user types more characters
-    // to cause the message to be 4 segments or more, the send button will show the MMS tag to
-    // indicate the message will be sent as an mms.
+    // If mEnableMultipartSMS is true, long sms messages are always sent as multi-part sms
+    // messages, with no checked limit on the number of segments.
+    // If mEnableMultipartSMS is false, then as soon as the user types a message longer
+    // than a single segment (i.e. 140 chars), then the message will turn into and be sent
+    // as an mms message. This feature exists for carriers that don't support multi-part sms's.
     private static boolean mEnableMultipartSMS = true;
 
     private static boolean mEnableSlideDuration = true;
@@ -104,10 +98,6 @@ public class MmsConfig {
                 android.os.SystemProperties.get(TelephonyProperties.PROPERTY_ICC_OPERATOR_NUMERIC));
 
         loadMmsSettings(context);
-    }
-
-    public static int getSmsToMmsTextThreshold() {
-        return mSmsToMmsTextThreshold;
     }
 
     public static boolean getMmsEnabled() {
@@ -347,8 +337,6 @@ public class MmsConfig {
                             mAliasRuleMinChars = Integer.parseInt(text);
                         } else if ("aliasMaxChars".equalsIgnoreCase(value)) {
                             mAliasRuleMaxChars = Integer.parseInt(text);
-                        } else if ("smsToMmsTextThreshold".equalsIgnoreCase(value)) {
-                            mSmsToMmsTextThreshold = Integer.parseInt(text);
                         } else if ("maxMessageTextSize".equalsIgnoreCase(value)) {
                             mMaxTextLength = Integer.parseInt(text);
                         } else if ("maxSubjectLength".equalsIgnoreCase(value)) {
