@@ -449,7 +449,9 @@ public class WorkingMessage {
                 */
                 int msgCount = params[0];
 
-                if (msgCount >= MmsConfig.getSmsToMmsTextThreshold()) {
+                if (msgCount > 1) {
+                    // The provider doesn't support multi-part sms's so as soon as the user types
+                    // an sms longer than one segment, we have to turn the message into an mms.
                     setLengthRequiresMms(true, false);
                 } else {
                     updateState(HAS_ATTACHMENT, hasAttachment(), true);
