@@ -17,6 +17,7 @@
 
 package com.android.mms.ui;
 
+import com.android.ex.chips.RecipientEditTextView;
 import com.android.mms.MmsConfig;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
@@ -36,7 +37,9 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
 import android.widget.MultiAutoCompleteTextView;
 
 import java.util.ArrayList;
@@ -45,13 +48,14 @@ import java.util.List;
 /**
  * Provide UI for editing the recipients of multi-media messages.
  */
-public class RecipientsEditor extends MultiAutoCompleteTextView {
+public class RecipientsEditor extends RecipientEditTextView {
     private int mLongPressedPosition = -1;
     private final RecipientsEditorTokenizer mTokenizer;
     private char mLastSeparator = ',';
+    private Runnable mOnSelectChipRunnable;
 
     public RecipientsEditor(Context context, AttributeSet attrs) {
-        super(context, attrs, android.R.attr.autoCompleteTextViewStyle);
+        super(context, attrs);
         mTokenizer = new RecipientsEditorTokenizer();
         setTokenizer(mTokenizer);
         // For the focus to move to the message body when soft Next is pressed
@@ -101,6 +105,19 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
                 mAffected = null;
             }
         });
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        super.onItemClick(parent, view, position, id);
+
+        if (mOnSelectChipRunnable != null) {
+            mOnSelectChipRunnable.run();
+        }
+    }
+
+    public void setOnSelectChipRunnable(Runnable onSelectChipRunnable) {
+        mOnSelectChipRunnable = onSelectChipRunnable;
     }
 
     @Override
@@ -291,7 +308,13 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
     }
 
     private static String getNumberAt(Spanned sp, int start, int end, Context context) {
-        return getFieldAt("number", sp, start, end, context);
+        String number = getFieldAt("number", sp, start, end, context);
+        if (!TextUtils.isEmpty(number) &&
+                number.charAt(0) == '<' && number.charAt(number.length() - 1) == '>') {
+            // Number looks like "<abcde>". Remove the < and >
+            return number.substring(1, number.length() - 1);
+        }
+        return number;
     }
 
     private static int getSpanLength(Spanned sp, int start, int end, Context context) {

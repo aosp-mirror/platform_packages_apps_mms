@@ -2,6 +2,11 @@
 
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
+# Include res dir from chips
+chips_dir := ../../../../frameworks/ex/chips/res
+res_dirs := $(chips_dir) res
+
+$(shell rm -f $(LOCAL_PATH)/chips)
 
 LOCAL_MODULE_TAGS := optional
 
@@ -13,6 +18,11 @@ LOCAL_PACKAGE_NAME := Mms
 #LOCAL_SDK_VERSION := current
 
 LOCAL_STATIC_JAVA_LIBRARIES += android-common jsr305
+LOCAL_STATIC_JAVA_LIBRARIES += android-common-chips
+
+LOCAL_RESOURCE_DIR := $(addprefix $(LOCAL_PATH)/, $(res_dirs))
+LOCAL_AAPT_FLAGS := --auto-add-overlay
+LOCAL_AAPT_FLAGS += --extra-packages com.android.ex.chips
 
 LOCAL_REQUIRED_MODULES := SoundRecorder
 
