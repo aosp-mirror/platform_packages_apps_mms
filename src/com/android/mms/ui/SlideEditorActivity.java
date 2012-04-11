@@ -333,7 +333,7 @@ public class SlideEditorActivity extends Activity {
 
     private void previewSlideshow() {
         MessageUtils.viewMmsMessageAttachment(SlideEditorActivity.this, mUri, mSlideshowModel,
-                mAsyncDialog);
+                getAsyncDialog());
     }
 
     private void updateTitle() {
