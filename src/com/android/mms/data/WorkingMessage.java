@@ -611,12 +611,16 @@ public class WorkingMessage {
                 result = UNSUPPORTED_TYPE;
             }
         } catch (MmsException e) {
+            Log.e(TAG, "internalChangeMedia:", e);
             result = UNKNOWN_ERROR;
         } catch (UnsupportContentTypeException e) {
+            Log.e(TAG, "internalChangeMedia:", e);
             result = UNSUPPORTED_TYPE;
         } catch (ExceedMessageSizeException e) {
+            Log.e(TAG, "internalChangeMedia:", e);
             result = MESSAGE_SIZE_EXCEEDED;
         } catch (ResolutionException e) {
+            Log.e(TAG, "internalChangeMedia:", e);
             result = IMAGE_TOO_LARGE;
         }
         return result;

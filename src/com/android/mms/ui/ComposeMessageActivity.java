@@ -2912,6 +2912,7 @@ public class ComposeMessageActivity extends Activity
         if (error == WorkingMessage.OK) {
             return;
         }
+        Log.d(TAG, "handleAddAttachmentError: " + error);
 
         runOnUiThread(new Runnable() {
             @Override
