@@ -2618,10 +2618,7 @@ public class ComposeMessageActivity extends Activity
                 break;
 
             case AttachmentTypeSelectorAdapter.TAKE_PICTURE: {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, TempFileProvider.SCRAP_CONTENT_URI);
-                startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
+                MessageUtils.capturePicture(this, REQUEST_CODE_TAKE_PICTURE);
                 break;
             }
 
@@ -2762,6 +2759,10 @@ public class ComposeMessageActivity extends Activity
                 // which takes up too much memory and could easily lead to OOM.
                 File file = new File(TempFileProvider.getScrapPath(this));
                 Uri uri = Uri.fromFile(file);
+
+                // Remove the old captured picture's thumbnail from the cache
+                MmsApp.getApplication().getThumbnailManager().removeThumbnail(uri);
+
                 addImageAsync(uri, false);
                 break;
             }
@@ -2775,6 +2776,9 @@ public class ComposeMessageActivity extends Activity
 
             case REQUEST_CODE_TAKE_VIDEO:
                 Uri videoUri = TempFileProvider.renameScrapFile(".3gp", null, this);
+                // Remove the old captured video's thumbnail from the cache
+                MmsApp.getApplication().getThumbnailManager().removeThumbnail(videoUri);
+
                 addVideoAsync(videoUri, false);      // can handle null videoUri
                 break;
 

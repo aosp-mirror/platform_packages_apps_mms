@@ -444,41 +444,39 @@ public class MessageUtils {
         return DateUtils.formatDateTime(context, when, format_flags);
     }
 
-    public static void selectAudio(Context context, int requestCode) {
-        if (context instanceof Activity) {
-            Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
-            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
-            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_INCLUDE_DRM, false);
-            intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE,
-                    context.getString(R.string.select_audio));
-            ((Activity) context).startActivityForResult(intent, requestCode);
-        }
+    public static void selectAudio(Activity activity, int requestCode) {
+        Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_INCLUDE_DRM, false);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE,
+                activity.getString(R.string.select_audio));
+        activity.startActivityForResult(intent, requestCode);
     }
 
-    public static void recordSound(Context context, int requestCode, long sizeLimit) {
-        if (context instanceof Activity) {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType(ContentType.AUDIO_AMR);
-            intent.setClassName("com.android.soundrecorder",
-                    "com.android.soundrecorder.SoundRecorder");
-            intent.putExtra(android.provider.MediaStore.Audio.Media.EXTRA_MAX_BYTES, sizeLimit);
-
-            ((Activity) context).startActivityForResult(intent, requestCode);
-        }
+    public static void recordSound(Activity activity, int requestCode, long sizeLimit) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType(ContentType.AUDIO_AMR);
+        intent.setClassName("com.android.soundrecorder",
+                "com.android.soundrecorder.SoundRecorder");
+        intent.putExtra(android.provider.MediaStore.Audio.Media.EXTRA_MAX_BYTES, sizeLimit);
+        activity.startActivityForResult(intent, requestCode);
     }
 
-    public static void recordVideo(Context context, int requestCode, long sizeLimit) {
-        if (context instanceof Activity) {
-            int durationLimit = getVideoCaptureDurationLimit();
-            Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
-            intent.putExtra("android.intent.extra.sizeLimit", sizeLimit);
-            intent.putExtra("android.intent.extra.durationLimit", durationLimit);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, TempFileProvider.SCRAP_CONTENT_URI);
+    public static void recordVideo(Activity activity, int requestCode, long sizeLimit) {
+        int durationLimit = getVideoCaptureDurationLimit();
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+        intent.putExtra("android.intent.extra.sizeLimit", sizeLimit);
+        intent.putExtra("android.intent.extra.durationLimit", durationLimit);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, TempFileProvider.SCRAP_CONTENT_URI);
+        activity.startActivityForResult(intent, requestCode);
+    }
 
-            ((Activity) context).startActivityForResult(intent, requestCode);
-        }
+    public static void capturePicture(Activity activity, int requestCode) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, TempFileProvider.SCRAP_CONTENT_URI);
+        activity.startActivityForResult(intent, requestCode);
     }
 
     private static int getVideoCaptureDurationLimit() {
