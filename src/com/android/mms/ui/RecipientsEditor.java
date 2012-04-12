@@ -34,6 +34,8 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.util.Rfc822Token;
+import android.text.util.Rfc822Tokenizer;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.MotionEvent;
@@ -309,10 +311,12 @@ public class RecipientsEditor extends RecipientEditTextView {
 
     private static String getNumberAt(Spanned sp, int start, int end, Context context) {
         String number = getFieldAt("number", sp, start, end, context);
-        if (!TextUtils.isEmpty(number) &&
-                number.charAt(0) == '<' && number.charAt(number.length() - 1) == '>') {
-            // Number looks like "<abcde>". Remove the < and >
-            return number.substring(1, number.length() - 1);
+        if (!TextUtils.isEmpty(number)) {
+            Rfc822Token[] tokens = Rfc822Tokenizer.tokenize(number);
+            if (tokens.length == 0) {
+                return number;
+            }
+            return tokens[0].getAddress();
         }
         return number;
     }
