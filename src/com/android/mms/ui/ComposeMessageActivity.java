@@ -638,6 +638,10 @@ public class ComposeMessageActivity extends Activity
                     .show();
             }
         } else {
+            // The recipients editor is still open. Make sure we use what's showing there
+            // as the destination.
+            ContactList contacts = mRecipientsEditor.constructContactsFromInput(false);
+            mDebugRecipients = contacts.serialize();
             sendMessage(true);
         }
     }
