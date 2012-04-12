@@ -123,4 +123,16 @@ public class SimpleCache<K, V> {
             mHardReferences.clear();
         }
     }
+
+    /**
+     * See {@link Map#remove(Object)}.
+     */
+    public V remove(K key) {
+        if (mSoftReferences != null) {
+            return unwrap(mSoftReferences.remove(key));
+        } else {
+            return mHardReferences.remove(key);
+        }
+    }
+
 }

@@ -155,4 +155,17 @@ public class TempFileProvider extends ContentProvider {
         }
         return Uri.fromFile(newTempFile);
     }
+
+    /**
+     * Pass in a path to a file and this function will return true if it thinks the path
+     * points to one of its scrap files.
+     * @param path full path of a file
+     * @return true if path is a scrap file path
+     */
+    public static boolean isTempFile(String path) {
+        // An admittedly weak determination of a temp file, but sufficient for current needs.
+        // For now, the penalty of returning true for a file that isn't a temp file is simply
+        // not storing the file's thumbnail in an on-disk thumbnail cache.
+        return path.contains(".temp");
+    }
 }

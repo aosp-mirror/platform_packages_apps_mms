@@ -35,6 +35,7 @@ import android.util.Log;
 
 import com.android.mms.LogTag;
 import com.android.mms.R;
+import com.android.mms.TempFileProvider;
 import com.android.mms.ui.UriImage;
 import com.android.mms.util.ImageCacheService.ImageData;
 
@@ -176,6 +177,10 @@ public class ThumbnailManager extends BackgroundLoaderManager {
         mThumbnailCache.clear();
     }
 
+    public void removeThumbnail(Uri uri) {
+        mThumbnailCache.remove(uri);
+    }
+
     @Override
     public String getTag() {
         return TAG;
@@ -268,7 +273,16 @@ public class ThumbnailManager extends BackgroundLoaderManager {
 
             UriImage uriImage = new UriImage(mContext, mUri);
             String path = uriImage.getPath();
-            ImageData data = cacheService.getImageData(path, TYPE_THUMBNAIL);
+
+            // We never want to store thumbnails of temp files in the thumbnail cache on disk
+            // because those temp filenames are recycled (and reused when capturing images
+            // or videos).
+            boolean isTempFile = TempFileProvider.isTempFile(path);
+
+            ImageData data = null;
+            if (!isTempFile) {
+                data = cacheService.getImageData(path, TYPE_THUMBNAIL);
+            }
 
             if (data != null) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
@@ -293,9 +307,10 @@ public class ThumbnailManager extends BackgroundLoaderManager {
 
                 bitmap = resizeDownBySideLength(bitmap, THUMBNAIL_TARGET_SIZE, true);
 
-                byte[] array = compressBitmap(bitmap);
-
-                cacheService.putImageData(path, TYPE_THUMBNAIL, array);
+                if (!isTempFile) {
+                    byte[] array = compressBitmap(bitmap);
+                    cacheService.putImageData(path, TYPE_THUMBNAIL, array);
+                }
                 return bitmap;
             }
         }
