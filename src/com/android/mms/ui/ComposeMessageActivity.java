@@ -423,6 +423,7 @@ public class ComposeMessageActivity extends Activity
 
                     case MessageListItem.MSG_LIST_PLAY:
                         switch (msgItem.mAttachmentType) {
+                            case WorkingMessage.IMAGE:
                             case WorkingMessage.VIDEO:
                             case WorkingMessage.AUDIO:
                             case WorkingMessage.SLIDESHOW:
