@@ -76,6 +76,7 @@ import java.util.TreeSet;
 public class MessagingNotification {
 
     private static final String TAG = LogTag.APP;
+    private static final boolean DEBUG = true;  // TODO turn off before ship
 
     private static final int NOTIFICATION_ID = 123;
     public static final int MESSAGE_FAILED_NOTIFICATION_ID = 789;
@@ -213,6 +214,11 @@ public class MessagingNotification {
             boolean isStatusMessage) {
         synchronized (sCurrentlyDisplayedThreadLock) {
             if (newMsgThreadId > 0 && newMsgThreadId == sCurrentlyDisplayedThreadId) {
+                if (DEBUG) {
+                    Log.d(TAG, "blockingUpdateNewMessageIndicator: newMsgThreadId == " +
+                            "sCurrentlyDisplayedThreadId so NOT showing notification," +
+                            " but playing soft sound. threadId: " + newMsgThreadId);
+                }
                 playInConversationNotificationSound(context);
                 return;
             }
@@ -231,7 +237,7 @@ public class MessagingNotification {
 
         cancelNotification(context, NOTIFICATION_ID);
         if (!accumulator.isEmpty()) {
-            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            if (DEBUG || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 Log.d(TAG, "blockingUpdateNewMessageIndicator: count=" + count +
                         ", newMsgThreadId=" + newMsgThreadId);
             }
@@ -549,6 +555,9 @@ public class MessagingNotification {
             int messageCount,
             int uniqueThreadCount) {
         if (!MessagingPreferenceActivity.getNotificationEnabled(context)) {
+            if (DEBUG) {
+                Log.d(TAG, "updateNotification: notifications turned off in prefs, bailing");
+            }
             return;
         }
 
@@ -640,6 +649,9 @@ public class MessagingNotification {
             String ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE,
                     null);
             noti.setSound(TextUtils.isEmpty(ringtoneStr) ? null : Uri.parse(ringtoneStr));
+            if (DEBUG) {
+                Log.d(TAG, "updateNotification: new message, adding sound to the notification");
+            }
         }
 
         defaults |= Notification.DEFAULT_LIGHTS;
@@ -658,8 +670,14 @@ public class MessagingNotification {
             notification = new Notification.BigTextStyle(noti)
                 .bigText(description)
                 .build();
+            if (DEBUG) {
+                Log.d(TAG, "updateNotification: one message, showing bigText notification");
+            }
         } else {
             notification = noti.getNotification();
+            if (DEBUG) {
+                Log.d(TAG, "updateNotification: multi-message");
+            }
         }
 
         nm.notify(NOTIFICATION_ID, notification);
