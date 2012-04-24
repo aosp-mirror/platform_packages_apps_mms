@@ -539,6 +539,8 @@ public class TransactionService extends Service implements Observer {
                 return "EVENT_TRANSACTION_REQUEST";
             } else if (msg.what == EVENT_HANDLE_NEXT_PENDING_TRANSACTION) {
                 return "EVENT_HANDLE_NEXT_PENDING_TRANSACTION";
+            } else if (msg.what == EVENT_NEW_INTENT) {
+                return "EVENT_NEW_INTENT";
             }
             return "unknown message.what";
         }
