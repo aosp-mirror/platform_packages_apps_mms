@@ -19,10 +19,12 @@ package com.android.mms.model;
 import java.util.ArrayList;
 
 import android.content.ContentResolver;
+import android.util.Log;
 
 import com.google.android.mms.ContentType;
 import com.android.mms.ContentRestrictionException;
 import com.android.mms.ExceedMessageSizeException;
+import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.ResolutionException;
 import com.android.mms.UnsupportContentTypeException;
@@ -31,6 +33,7 @@ public class CarrierContentRestriction implements ContentRestriction {
     private static final ArrayList<String> sSupportedImageTypes;
     private static final ArrayList<String> sSupportedAudioTypes;
     private static final ArrayList<String> sSupportedVideoTypes;
+    private static final boolean DEBUG = true;
 
     static {
         sSupportedImageTypes = ContentType.getImageTypes();
@@ -43,6 +46,11 @@ public class CarrierContentRestriction implements ContentRestriction {
 
     public void checkMessageSize(int messageSize, int increaseSize, ContentResolver resolver)
             throws ContentRestrictionException {
+        if (DEBUG) {
+            Log.d(LogTag.APP, "CarrierContentRestriction.checkMessageSize messageSize: " +
+                        messageSize + " increaseSize: " + increaseSize +
+                        " MmsConfig.getMaxMessageSize: " + MmsConfig.getMaxMessageSize());
+        }
         if ( (messageSize < 0) || (increaseSize < 0) ) {
             throw new ContentRestrictionException("Negative message size"
                     + " or increase size");
