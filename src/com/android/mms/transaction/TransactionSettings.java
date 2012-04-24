@@ -61,9 +61,12 @@ public class TransactionSettings {
      * @param context The context of the MMS Client
      */
     public TransactionSettings(Context context, String apnName) {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG, "TransactionSettings: apnName: " + apnName);
+        }
         String selection = Telephony.Carriers.CURRENT + " IS NOT NULL";
         String[] selectionArgs = null;
-        if (apnName != null) {
+        if (!TextUtils.isEmpty(apnName)) {
             selection += " AND " + Telephony.Carriers.APN + "=?";
             selectionArgs = new String[]{ apnName.trim() };
         }
