@@ -154,13 +154,13 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Multimediální zprávy (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Textové zprávy (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Ukládání"</string>
-    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Umožňuje spravovat zprávy uložené na kartě SIM"</string>
+    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Umožňuje spravovat zprávy uložené na SIM kartě"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"U každé odeslané zprávy požadovat potvrzení o doručení"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"U každé odeslané zprávy požadovat potvrzení o přečtení"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"U každé odeslané zprávy požadovat potvrzení o doručení"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Při dosažení limitu smazat staré zprávy"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"Počet zpráv v konverzaci: <xliff:g id="COUNT">%1$s</xliff:g>"</string>
-    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Správa zpráv na kartě SIM"</string>
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Správa zpráv na SIM kartě"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Potvrzení o doručení"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Potvrzení o přečtení"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Potvrzení o doručení"</string>
@@ -193,8 +193,8 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Všechny konverzace budou smazány."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Zpráva bude smazána."</string>
     <string name="confirm_delete_locked_message" msgid="7203411948190100955">"Smazat tuto uzamčenou zprávu?"</string>
-    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"Všechny zprávy na kartě SIM budou smazány."</string>
-    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"Tato zpráva na kartě SIM bude smazána."</string>
+    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"Všechny zprávy na SIM kartě budou smazány."</string>
+    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"Tato zpráva na SIM kartě bude smazána."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Smazat uzamčené zprávy"</string>
     <string name="delete" msgid="1409973060081564612">"Smazat"</string>
     <string name="select_conversations" msgid="7816517565640002844">"Zvolit konverzace"</string>
@@ -227,9 +227,9 @@
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Kopírovat do paměti tabletu"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Kopírovat do paměti telefonu"</string>
     <string name="sim_delete" msgid="610790510655316922">"Smazat"</string>
-    <string name="sim_manage_messages_title" msgid="3989147182100584333">"Textové zprávy na kartě SIM"</string>
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"Textové zprávy na SIM kartě"</string>
     <string name="sim_view" msgid="1997173541766393706">"Zobrazit"</string>
-    <string name="sim_empty" msgid="2356766833071636297">"Na kartě SIM nejsou žádné zprávy."</string>
+    <string name="sim_empty" msgid="2356766833071636297">"Na SIM kartě nejsou žádné zprávy."</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"Nahlásit"</string>
     <string name="status_none" msgid="8253075950774894961">"(Není)"</string>
     <string name="status_pending" msgid="2739860824607984892">"Čeká na vyřízení"</string>
@@ -255,7 +255,7 @@
     <string name="notification_multiple_title" msgid="332602028959557541">"Nové zprávy"</string>
     <string name="notification_failed_multiple" msgid="6192531993698497229">"Několik zpráv se nepodařilo odeslat (počet: <xliff:g id="COUNT">%s</xliff:g>)"</string>
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"Zprávy nebyly odeslány"</string>
-    <string name="sim_full_title" msgid="1809829051697702810">"Paměť karty SIM je plná"</string>
+    <string name="sim_full_title" msgid="1809829051697702810">"Paměť SIM karty je plná"</string>
     <string name="sim_full_body" msgid="6241664980790322925">"Smažte některé zprávy a vytvořte tak místo pro nové."</string>
     <string name="sms_full_title" msgid="6041287140125011854">"Paměť pro textové zprávy je plná"</string>
     <string name="sms_full_body" msgid="4885861852397651868">"Příchozí zpráva byla odmítnuta, protože paměť je zaplněna. Smažte prosím staré zprávy."</string>
