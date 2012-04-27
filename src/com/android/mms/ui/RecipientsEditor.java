@@ -43,6 +43,7 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.AutoCompleteTextView.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,11 +56,28 @@ public class RecipientsEditor extends RecipientEditTextView {
     private final RecipientsEditorTokenizer mTokenizer;
     private char mLastSeparator = ',';
     private Runnable mOnSelectChipRunnable;
+    private final AddressValidator mInternalValidator;
+
+    /** A noop validator that does not munge invalid texts and claims any address is valid */
+    private class AddressValidator implements Validator {
+        public CharSequence fixText(CharSequence invalidText) {
+            return invalidText;
+        }
+
+        public boolean isValid(CharSequence text) {
+            return true;
+        }
+    }
 
     public RecipientsEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
+
         mTokenizer = new RecipientsEditorTokenizer();
         setTokenizer(mTokenizer);
+
+        mInternalValidator = new AddressValidator();
+        super.setValidator(mInternalValidator);
+
         // For the focus to move to the message body when soft Next is pressed
         setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
@@ -256,7 +274,7 @@ public class RecipientsEditor extends RecipientEditTextView {
             sb.append(contactToToken(c)).append(", ");
         }
 
-        setText(sb);
+        append(sb);
     }
 
     private int pointToPosition(int x, int y) {
