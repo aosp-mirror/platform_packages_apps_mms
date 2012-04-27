@@ -89,8 +89,9 @@ public class MessageListItem extends LinearLayout implements
     private static final boolean DEBUG = false;
     private static final boolean DEBUG_DONT_LOAD_IMAGES = false;
 
-    static final int MSG_LIST_EDIT   = 1;
-    static final int MSG_LIST_PLAY  = 2;
+    static final int MSG_LIST_EDIT    = 1;
+    static final int MSG_LIST_PLAY    = 2;
+    static final int MSG_LIST_DETAILS = 3;
 
     private View mMmsView;
     private ImageView mImageView;
@@ -594,7 +595,7 @@ public class MessageListItem extends LinearLayout implements
         final URLSpan[] spans = mBodyTextView.getUrls();
 
         if (spans.length == 0) {
-            // Do nothing.
+            sendMessage(mMessageItem, MSG_LIST_DETAILS);    // show the message details dialog
         } else if (spans.length == 1) {
             spans[0].onClick(mBodyTextView);
         } else {
