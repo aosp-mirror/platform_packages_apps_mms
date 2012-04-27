@@ -96,17 +96,6 @@ public class MmsThumbnailPresenter extends Presenter {
         view.setAudio(audio.getUri(), audio.getSrc(), audio.getExtras());
     }
 
-    // Show an icon instead of real content in the thumbnail.
-    private void showDrmIcon(SlideViewInterface view, String name) {
-        try {
-            Bitmap bitmap = BitmapFactory.decodeResource(
-                    mContext.getResources(), R.drawable.ic_mms_drm_protected);
-            view.setImage(name, bitmap);
-        } catch (java.lang.OutOfMemoryError e) {
-            Log.e(TAG, "showDrmIcon: out of memory: ", e);
-        }
-    }
-
     public void onModelChanged(Model model, boolean dataChanged) {
         // TODO Auto-generated method stub
     }

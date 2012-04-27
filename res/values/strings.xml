@@ -736,6 +736,18 @@
          the number of messages in the thread [CHAR LIMIT=5] -->
     <string name="message_count_format">\u00a0<xliff:g id="number" example="1">%1$s</xliff:g></string>
 
+    <!-- When showing a multi-message notification, this is the title [CHAR LIMIT=none] -->
+    <string name="message_count_notification"><xliff:g id="number" example="3">%1$s</xliff:g> new messages</string>
+    <!-- In digest notifications when we show N messages, but there are N+M outstanding messages,
+         this text is displayed at the bottom of the notification. [CHAR LIMIT=50] -->
+    <plurals name="message_count_notification_overflow">
+        <!-- Case of 1 result. -->
+        <item quantity="one">+<xliff:g id="number" example="1">%1$s</xliff:g> other message"</item>
+        <!-- Case of 2 or more results. -->
+        <item quantity="other">+<xliff:g id="number" example="15">%1$s</xliff:g> other messages"</item>
+    </plurals>
+
+
     <!-- For debugging: Dialog box title indicating there's a situation where data has unexpectedly
          changed -->
     <string name="error_state">Inconsistent state</string>
