@@ -45,6 +45,7 @@ import android.database.sqlite.SqliteWrapper;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -637,7 +638,7 @@ public class MessagingNotification {
         if (isNew) {
             noti.setTicker(mostRecentNotification.mTicker); // TODO - where is ticker set?
         }
-        Intent[] intents;
+        TaskStackBuilder taskStackBuilder = TaskStackBuilder.from(context);
 
         // If we have more than one unique thread, change the title (which would
         // normally be the contact who sent the message) to a generic one that
@@ -665,8 +666,7 @@ public class MessagingNotification {
                     | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
             mainActivityIntent.setType("vnd.android-dir/mms-sms");
-            intents = new Intent[1];
-            intents[0] = mainActivityIntent;
+            taskStackBuilder.addNextIntent(mainActivityIntent);
         } else {    // same thread, single or multiple messages
             if (messageCount > 1) {
                 title = context.getString(R.string.message_count_notification, messageCount);
@@ -681,17 +681,8 @@ public class MessagingNotification {
                 .getDrawable(haveMms ? R.drawable.stat_notify_mms
                         : R.drawable.stat_notify_sms)).getBitmap());
 
-
-            // Build a stack of intents so when the user hits back from the ComposeMessageActivity
-            // we're sending them to, they'll up on ConversationList.
-            intents = new Intent[2];
-
-            // First: root activity of the MessagingApp: ConversationList.
-            // This is a convenient way to make the proper Intent to launch and
-            // reset an application's task.
-            intents[0] = Intent.makeRestartActivityTask(new ComponentName(context,
-                    ConversationList.class));
-            intents[1] = mostRecentNotification.mClickIntent;
+            taskStackBuilder.addParentStack(ComposeMessageActivity.class);
+            taskStackBuilder.addNextIntent(mostRecentNotification.mClickIntent);
         }
         if (messageCount > 1) {
             title = context.getString(R.string.message_count_notification, messageCount);
@@ -699,13 +690,10 @@ public class MessagingNotification {
         NotificationManager nm = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Make a startActivity() PendingIntent for the notification.
-        PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, intents,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
         // Update the notification.
         noti.setContentTitle(title)
-            .setContentIntent(pendingIntent)
+            .setContentIntent(
+                    taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT))
             .addKind(Notification.KIND_MESSAGE)
             .setPriority(Notification.PRIORITY_DEFAULT)     // TODO: set based on contact coming
                                                             // from a favorite.
@@ -713,7 +701,6 @@ public class MessagingNotification {
             // See NotificationManagerService.enqueueNotificationInternal()
             .setSmallIcon(haveMms ? R.drawable.stat_notify_mms
                 : R.drawable.stat_notify_sms);
-
 
         int defaults = 0;
 
@@ -903,6 +890,7 @@ public class MessagingNotification {
             description = context.getString(R.string.message_failed_body);
         }
 
+        TaskStackBuilder taskStackBuilder = TaskStackBuilder.from(context);
         if (allFailedInSameThread) {
             failedIntent = new Intent(context, ComposeMessageActivity.class);
             if (isDownload) {
@@ -913,19 +901,18 @@ public class MessagingNotification {
                 failedIntent.putExtra("undelivered_flag", true);
             }
             failedIntent.putExtra("thread_id", threadId);
+            taskStackBuilder.addParentStack(ComposeMessageActivity.class);
         } else {
             failedIntent = new Intent(context, ConversationList.class);
         }
-
-        failedIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                context, 0, failedIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        taskStackBuilder.addNextIntent(failedIntent);
 
         notification.icon = R.drawable.stat_notify_sms_failed;
 
         notification.tickerText = title;
 
-        notification.setLatestEventInfo(context, title, description, pendingIntent);
+        notification.setLatestEventInfo(context, title, description,
+                taskStackBuilder.getPendingIntent(0,  PendingIntent.FLAG_UPDATE_CURRENT));
 
         if (noisy) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
