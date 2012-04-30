@@ -17,6 +17,7 @@
 package com.android.mms.widget;
 
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -105,11 +106,13 @@ public class MmsWidgetProvider extends AppWidgetProvider {
         remoteViews.setOnClickPendingIntent(R.id.widget_compose, clickIntent);
 
         // On click intent for Conversation
-        final Intent conversationIntent = new Intent();
-        conversationIntent.setAction(Intent.ACTION_VIEW);
-        clickIntent = PendingIntent.getActivity(
-                context, 0, conversationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setPendingIntentTemplate(R.id.conversation_list, clickIntent);
+        TaskStackBuilder taskStackBuilder = TaskStackBuilder.from(context);
+        taskStackBuilder.addParentStack(ComposeMessageActivity.class);
+        Intent msgIntent = new Intent(Intent.ACTION_VIEW);
+        msgIntent.setType("vnd.android-dir/mms-sms");
+        taskStackBuilder.addNextIntent(msgIntent);
+        remoteViews.setPendingIntentTemplate(R.id.conversation_list,
+                taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT));
 
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, remoteViews);
     }
