@@ -416,6 +416,10 @@ public class ComposeMessageActivity extends Activity
             MessageItem msgItem = (MessageItem) msg.obj;
             if (msgItem != null) {
                 switch (msg.what) {
+                    case MessageListItem.MSG_LIST_DETAILS:
+                        showMessageDetails(msgItem);
+                        break;
+
                     case MessageListItem.MSG_LIST_EDIT:
                         editMessageItem(msgItem);
                         drawBottomPanel();
@@ -441,6 +445,21 @@ public class ComposeMessageActivity extends Activity
             }
         }
     };
+
+    private boolean showMessageDetails(MessageItem msgItem) {
+        Cursor cursor = mMsgListAdapter.getCursorForItem(msgItem);
+        if (cursor == null) {
+            return false;
+        }
+        String messageDetails = MessageUtils.getMessageDetails(
+                ComposeMessageActivity.this, cursor, msgItem.mMessageSize);
+        new AlertDialog.Builder(ComposeMessageActivity.this)
+                .setTitle(R.string.message_details_title)
+                .setMessage(messageDetails)
+                .setCancelable(true)
+                .show();
+        return true;
+    }
 
     private final OnKeyListener mSubjectKeyListener = new OnKeyListener() {
         @Override
@@ -1229,20 +1248,9 @@ public class ComposeMessageActivity extends Activity
                             getAsyncDialog());
                     return true;
 
-                case MENU_VIEW_MESSAGE_DETAILS: {
-                    Cursor cursor = mMsgListAdapter.getCursorForItem(mMsgItem);
-                    if (cursor == null) {
-                        return false;
-                    }
-                    String messageDetails = MessageUtils.getMessageDetails(
-                            ComposeMessageActivity.this, cursor, mMsgItem.mMessageSize);
-                    new AlertDialog.Builder(ComposeMessageActivity.this)
-                            .setTitle(R.string.message_details_title)
-                            .setMessage(messageDetails)
-                            .setCancelable(true)
-                            .show();
-                    return true;
-                }
+                case MENU_VIEW_MESSAGE_DETAILS:
+                    return showMessageDetails(mMsgItem);
+
                 case MENU_DELETE_MESSAGE: {
                     DeleteMessageListener l = new DeleteMessageListener(
                             mMsgItem.mMessageUri, mMsgItem.mLocked);
