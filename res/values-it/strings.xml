@@ -324,6 +324,11 @@
     <string name="adding_recipients" msgid="2962810172527532357">"Aggiunta destinatari..."</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
+    <string name="message_count_notification" msgid="3629968600032690007">"<xliff:g id="NUMBER">%1$s</xliff:g> nuovi messaggi"</string>
+  <plurals name="message_count_notification_overflow">
+    <item quantity="one" msgid="3340591167508150806">"+ <xliff:g id="NUMBER">%1$s</xliff:g> altro messaggio"</item>
+    <item quantity="other" msgid="1393002799298501480">"+ <xliff:g id="NUMBER">%1$s</xliff:g> altri messaggi"</item>
+  </plurals>
     <string name="error_state" msgid="5177386717626893507">"Stato non coerente"</string>
     <string name="error_state_text" msgid="7918866106335387710">"Lo stato dei thread e dei destinatari non è coerente. Crea un rapporto bug e segnalalo su http://go/droidanizer."</string>
   <plurals name="recipient_count">

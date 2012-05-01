@@ -324,6 +324,10 @@
     <string name="adding_recipients" msgid="2962810172527532357">"수신자 추가 중..."</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
+    <!-- no translation found for message_count_notification (3629968600032690007) -->
+    <skip />
+    <!-- no translation found for message_count_notification_overflow:one (3340591167508150806) -->
+    <!-- no translation found for message_count_notification_overflow:other (1393002799298501480) -->
     <string name="error_state" msgid="5177386717626893507">"변경으로 인한 불일치 상태"</string>
     <string name="error_state_text" msgid="7918866106335387710">"대화목록과 수신자의 상태가 일치하지 않습니다. 버그 보고서를 캡쳐하여 http://go/droidanizer 페이지를 통해 신고해 주세요."</string>
   <plurals name="recipient_count">

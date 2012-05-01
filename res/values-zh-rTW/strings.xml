@@ -324,6 +324,10 @@
     <string name="adding_recipients" msgid="2962810172527532357">"正在新增收件者..."</string>
     <string name="draft_separator" msgid="5402575086540243019">"， "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
+    <!-- no translation found for message_count_notification (3629968600032690007) -->
+    <skip />
+    <!-- no translation found for message_count_notification_overflow:one (3340591167508150806) -->
+    <!-- no translation found for message_count_notification_overflow:other (1393002799298501480) -->
     <string name="error_state" msgid="5177386717626893507">"狀態不一致"</string>
     <string name="error_state_text" msgid="7918866106335387710">"訊息串和收件者的狀態不一致，請擷取錯誤報告並透過 http://go/droidanizer 回報"</string>
   <plurals name="recipient_count">
