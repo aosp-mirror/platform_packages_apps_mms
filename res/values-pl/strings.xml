@@ -324,10 +324,11 @@
     <string name="adding_recipients" msgid="2962810172527532357">"Dodawanie odbiorców…"</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
-    <!-- no translation found for message_count_notification (3629968600032690007) -->
-    <skip />
-    <!-- no translation found for message_count_notification_overflow:one (3340591167508150806) -->
-    <!-- no translation found for message_count_notification_overflow:other (1393002799298501480) -->
+    <string name="message_count_notification" msgid="3629968600032690007">"Liczba nowych wiadomości: <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
+  <plurals name="message_count_notification_overflow">
+    <item quantity="one" msgid="3340591167508150806">"+<xliff:g id="NUMBER">%1$s</xliff:g> inna wiadomość"</item>
+    <item quantity="other" msgid="1393002799298501480">"+<xliff:g id="NUMBER">%1$s</xliff:g> inne(ych) wiadomości"</item>
+  </plurals>
     <string name="error_state" msgid="5177386717626893507">"Niezgodny stan"</string>
     <string name="error_state_text" msgid="7918866106335387710">"Stan wątków i odbiorców jest niespójny. Przechwyć raport o błędzie i zgłoś go za pośrednictwem strony http://go/droidanizer"</string>
   <plurals name="recipient_count">

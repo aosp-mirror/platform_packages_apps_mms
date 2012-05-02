@@ -324,10 +324,11 @@
     <string name="adding_recipients" msgid="2962810172527532357">"Получателите се добавят..."</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
-    <!-- no translation found for message_count_notification (3629968600032690007) -->
-    <skip />
-    <!-- no translation found for message_count_notification_overflow:one (3340591167508150806) -->
-    <!-- no translation found for message_count_notification_overflow:other (1393002799298501480) -->
+    <string name="message_count_notification" msgid="3629968600032690007">"<xliff:g id="NUMBER">%1$s</xliff:g> нови съобщения"</string>
+  <plurals name="message_count_notification_overflow">
+    <item quantity="one" msgid="3340591167508150806">"+ още <xliff:g id="NUMBER">%1$s</xliff:g> съобщение"</item>
+    <item quantity="other" msgid="1393002799298501480">"+ още <xliff:g id="NUMBER">%1$s</xliff:g> съобщения"</item>
+  </plurals>
     <string name="error_state" msgid="5177386717626893507">"Нееднородно състояние"</string>
     <string name="error_state_text" msgid="7918866106335387710">"Състоянието на нишките и получателите не е еднородно. Моля, създайте сигнал за програмна грешка и го подайте чрез http://go/droidanizer"</string>
   <plurals name="recipient_count">
