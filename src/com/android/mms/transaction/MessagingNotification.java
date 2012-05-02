@@ -638,7 +638,7 @@ public class MessagingNotification {
         if (isNew) {
             noti.setTicker(mostRecentNotification.mTicker); // TODO - where is ticker set?
         }
-        TaskStackBuilder taskStackBuilder = TaskStackBuilder.from(context);
+        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
 
         // If we have more than one unique thread, change the title (which would
         // normally be the contact who sent the message) to a generic one that
@@ -890,7 +890,7 @@ public class MessagingNotification {
             description = context.getString(R.string.message_failed_body);
         }
 
-        TaskStackBuilder taskStackBuilder = TaskStackBuilder.from(context);
+        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
         if (allFailedInSameThread) {
             failedIntent = new Intent(context, ComposeMessageActivity.class);
             if (isDownload) {
