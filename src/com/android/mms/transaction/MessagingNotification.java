@@ -423,7 +423,7 @@ public class MessagingNotification {
                 String messageBody = null;
                 try {
                     GenericPdu pdu = sPduPersister.load(msgUri);
-                    if (pdu != null) {
+                    if (pdu != null && pdu instanceof MultimediaMessagePdu) {
                         SlideshowModel slideshow = SlideshowModel.createFromPduBody(context,
                                 ((MultimediaMessagePdu)pdu).getBody());
                         SlideModel firstSlide = slideshow.get(0);
