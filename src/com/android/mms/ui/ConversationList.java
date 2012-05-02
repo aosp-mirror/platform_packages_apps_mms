@@ -26,6 +26,7 @@ import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
+import com.android.mms.data.Conversation.ConversationQueryHandler;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.transaction.SmsRejectedReceiver;
 import com.android.mms.util.DraftCache;
@@ -606,11 +607,11 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
 
     public static class DeleteThreadListener implements OnClickListener {
         private final Collection<Long> mThreadIds;
-        private final AsyncQueryHandler mHandler;
+        private final ConversationQueryHandler mHandler;
         private final Context mContext;
         private boolean mDeleteLockedMessages;
 
-        public DeleteThreadListener(Collection<Long> threadIds, AsyncQueryHandler handler,
+        public DeleteThreadListener(Collection<Long> threadIds, ConversationQueryHandler handler,
                 Context context) {
             mThreadIds = threadIds;
             mHandler = handler;
@@ -662,7 +663,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
         }
     };
 
-    private final class ThreadListQueryHandler extends AsyncQueryHandler {
+    private final class ThreadListQueryHandler extends ConversationQueryHandler {
         public ThreadListQueryHandler(ContentResolver contentResolver) {
             super(contentResolver);
         }
@@ -730,6 +731,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
 
         @Override
         protected void onDeleteComplete(int token, Object cookie, int result) {
+            super.onDeleteComplete(token, cookie, result);
             switch (token) {
             case DELETE_CONVERSATION_TOKEN:
                 long threadId = cookie != null ? (Long)cookie : -1;     // default to all threads

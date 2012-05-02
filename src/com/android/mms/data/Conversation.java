@@ -88,8 +88,10 @@ public class Conversation {
     private boolean mIsChecked;         // True if user has selected the conversation for a
                                         // multi-operation such as delete.
 
-    private static ContentValues mReadContentValues;
-    private static boolean mLoadingThreads;
+    private static ContentValues sReadContentValues;
+    private static boolean sLoadingThreads;
+    private static boolean sDeletingThreads;
+    private static Object sDeletingThreadsLock = new Object();
     private boolean mMarkAsReadBlocked;
     private boolean mMarkAsReadWaiting;
 
@@ -286,10 +288,10 @@ public class Conversation {
     }
 
     private void buildReadContentValues() {
-        if (mReadContentValues == null) {
-            mReadContentValues = new ContentValues(2);
-            mReadContentValues.put("read", 1);
-            mReadContentValues.put("seen", 1);
+        if (sReadContentValues == null) {
+            sReadContentValues = new ContentValues(2);
+            sReadContentValues.put("read", 1);
+            sReadContentValues.put("seen", 1);
         }
     }
 
@@ -341,7 +343,7 @@ public class Conversation {
                     if (needUpdate) {
                         LogTag.debug("markAsRead: update read/seen for thread uri: " +
                                 threadUri);
-                        mContext.getContentResolver().update(threadUri, mReadContentValues,
+                        mContext.getContentResolver().update(threadUri, sReadContentValues,
                                 UNREAD_SELECTION, null);
                     }
                     setHasUnreadMessages(false);
@@ -563,13 +565,55 @@ public class Conversation {
                 recipients.add(c.getNumber());
             }
         }
-        long retVal = Threads.getOrCreateThreadId(context, recipients);
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            LogTag.debug("[Conversation] getOrCreateThreadId for (%s) returned %d",
-                    recipients, retVal);
+        synchronized(sDeletingThreadsLock) {
+            long now = System.currentTimeMillis();
+            while (sDeletingThreads) {
+                try {
+                    sDeletingThreadsLock.wait(30000);
+                } catch (InterruptedException e) {
+                }
+                if (System.currentTimeMillis() - now > 29000) {
+                    // The deleting thread task is stuck or onDeleteComplete wasn't called.
+                    // Unjam ourselves.
+                    Log.e(TAG, "getOrCreateThreadId timed out waiting for delete to complete",
+                            new Exception());
+                    sDeletingThreads = false;
+                    break;
+                }
+            }
+            long retVal = Threads.getOrCreateThreadId(context, recipients);
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                LogTag.debug("[Conversation] getOrCreateThreadId for (%s) returned %d",
+                        recipients, retVal);
+            }
+            return retVal;
         }
+    }
 
-        return retVal;
+    public static long getOrCreateThreadId(Context context, String address) {
+        synchronized(sDeletingThreadsLock) {
+            long now = System.currentTimeMillis();
+            while (sDeletingThreads) {
+                try {
+                    sDeletingThreadsLock.wait(30000);
+                } catch (InterruptedException e) {
+                }
+                if (System.currentTimeMillis() - now > 29000) {
+                    // The deleting thread task is stuck or onDeleteComplete wasn't called.
+                    // Unjam ourselves.
+                    Log.e(TAG, "getOrCreateThreadId timed out waiting for delete to complete",
+                            new Exception());
+                    sDeletingThreads = false;
+                    break;
+                }
+            }
+            long retVal = Threads.getOrCreateThreadId(context, address);
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                LogTag.debug("[Conversation] getOrCreateThreadId for (%s) returned %d",
+                        address, retVal);
+            }
+            return retVal;
+        }
     }
 
     /*
@@ -654,12 +698,19 @@ public class Conversation {
      * @param deleteAll Delete the whole thread including locked messages
      * @param threadId Thread ID of the conversation to be deleted
      */
-    public static void startDelete(AsyncQueryHandler handler, int token, boolean deleteAll,
+    public static void startDelete(ConversationQueryHandler handler, int token, boolean deleteAll,
             long threadId) {
-        Uri uri = ContentUris.withAppendedId(Threads.CONTENT_URI, threadId);
-        String selection = deleteAll ? null : "locked=0";
-        PduCache.getInstance().purge(uri);
-        handler.startDelete(token, new Long(threadId), uri, selection, null);
+        synchronized(sDeletingThreadsLock) {
+            if (sDeletingThreads) {
+                Log.e(TAG, "startDeleteAll already in the middle of a delete", new Exception());
+            }
+            sDeletingThreads = true;
+            Uri uri = ContentUris.withAppendedId(Threads.CONTENT_URI, threadId);
+            String selection = deleteAll ? null : "locked=0";
+            PduCache.getInstance().purge(uri);
+            handler.setDeleteToken(token);
+            handler.startDelete(token, new Long(threadId), uri, selection, null);
+        }
     }
 
     /**
@@ -669,10 +720,50 @@ public class Conversation {
      * @param token   The token that will be passed to onDeleteComplete
      * @param deleteAll Delete the whole thread including locked messages
      */
-    public static void startDeleteAll(AsyncQueryHandler handler, int token, boolean deleteAll) {
-        String selection = deleteAll ? null : "locked=0";
-        PduCache.getInstance().purge(Threads.CONTENT_URI);
-        handler.startDelete(token, new Long(-1), Threads.CONTENT_URI, selection, null);
+    public static void startDeleteAll(ConversationQueryHandler handler, int token,
+            boolean deleteAll) {
+        synchronized(sDeletingThreadsLock) {
+            if (sDeletingThreads) {
+                Log.e(TAG, "startDeleteAll already in the middle of a delete", new Exception());
+            }
+            sDeletingThreads = true;
+            String selection = deleteAll ? null : "locked=0";
+            PduCache.getInstance().purge(Threads.CONTENT_URI);
+            handler.setDeleteToken(token);
+            handler.startDelete(token, new Long(-1), Threads.CONTENT_URI, selection, null);
+        }
+    }
+
+    public static class ConversationQueryHandler extends AsyncQueryHandler {
+        private int mDeleteToken;
+
+        public ConversationQueryHandler(ContentResolver cr) {
+            super(cr);
+        }
+
+        public void setDeleteToken(int token) {
+            mDeleteToken = token;
+        }
+
+        /**
+         * Always call this super method from your overridden onDeleteComplete function.
+         */
+        @Override
+        protected void onDeleteComplete(int token, Object cookie, int result) {
+            if (token == mDeleteToken) {
+                // Test code
+//                try {
+//                    Thread.sleep(10000);
+//                } catch (InterruptedException e) {
+//                }
+
+                // release lock
+                synchronized(sDeletingThreadsLock) {
+                    sDeletingThreads = false;
+                    sDeletingThreadsLock.notifyAll();
+                }
+            }
+        }
     }
 
     /**
@@ -1024,7 +1115,7 @@ public class Conversation {
      */
     public static boolean loadingThreads() {
         synchronized (Cache.getInstance()) {
-            return mLoadingThreads;
+            return sLoadingThreads;
         }
     }
 
@@ -1033,10 +1124,10 @@ public class Conversation {
             LogTag.debug("[Conversation] cacheAllThreads: begin");
         }
         synchronized (Cache.getInstance()) {
-            if (mLoadingThreads) {
+            if (sLoadingThreads) {
                 return;
                 }
-            mLoadingThreads = true;
+            sLoadingThreads = true;
         }
 
         // Keep track of what threads are now on disk so we
@@ -1085,7 +1176,7 @@ public class Conversation {
                 c.close();
             }
             synchronized (Cache.getInstance()) {
-                mLoadingThreads = false;
+                sLoadingThreads = false;
             }
         }
 
