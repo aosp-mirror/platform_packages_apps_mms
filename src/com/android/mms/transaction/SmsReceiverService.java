@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import com.android.mms.data.Contact;
+import com.android.mms.data.Conversation;
 import com.android.mms.ui.ClassZeroActivity;
 import com.android.mms.util.Recycler;
 import com.android.mms.util.SendingProgressTokenManager;
@@ -560,7 +561,7 @@ public class SmsReceiverService extends Service {
         }
 
         if (((threadId == null) || (threadId == 0)) && (address != null)) {
-            threadId = Threads.getOrCreateThreadId(context, address);
+            threadId = Conversation.getOrCreateThreadId(context, address);
             values.put(Sms.THREAD_ID, threadId);
         }
 

@@ -132,6 +132,7 @@ import com.android.mms.TempFileProvider;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
+import com.android.mms.data.Conversation.ConversationQueryHandler;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.data.WorkingMessage.MessageStatusListener;
 import com.android.mms.drm.DrmUtils;
@@ -3689,7 +3690,7 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
-    private final class BackgroundQueryHandler extends AsyncQueryHandler {
+    private final class BackgroundQueryHandler extends ConversationQueryHandler {
         public BackgroundQueryHandler(ContentResolver contentResolver) {
             super(contentResolver);
         }
@@ -3777,6 +3778,7 @@ public class ComposeMessageActivity extends Activity
 
         @Override
         protected void onDeleteComplete(int token, Object cookie, int result) {
+            super.onDeleteComplete(token, cookie, result);
             switch(token) {
                 case ConversationList.DELETE_CONVERSATION_TOKEN:
                     mConversation.setMessageCount(0);
