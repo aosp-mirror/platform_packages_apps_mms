@@ -139,7 +139,7 @@
     <item msgid="2618179407176906471">"10 detik"</item>
     <item msgid="7786079681602275449">"Lainnya"</item>
   </string-array>
-    <string name="menu_view_contact" msgid="1414670584423909451">"Lihat kenalan"</string>
+    <string name="menu_view_contact" msgid="1414670584423909451">"Lihat kontak"</string>
     <string name="menu_add_to_contacts" msgid="1258127580972228970">"Tambahkan ke Orang"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"Alamat pengirim tersembunyi"</string>
     <string name="yes" msgid="3246158147503160811">"Oke"</string>
