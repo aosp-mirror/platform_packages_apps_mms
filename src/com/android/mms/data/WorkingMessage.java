@@ -1476,6 +1476,9 @@ public class WorkingMessage {
 
     private static Uri createDraftMmsMessage(PduPersister persister, SendReq sendReq,
             SlideshowModel slideshow, Uri preUri) {
+        if (slideshow == null) {
+            return null;
+        }
         try {
             PduBody pb = slideshow.toPduBody();
             sendReq.setBody(pb);
