@@ -218,7 +218,13 @@ public class ThumbnailManager extends BackgroundLoaderManager {
                 }
             }
 
-            final Bitmap resultBitmap = getBitmap(mIsVideo);
+            Bitmap bitmap = null;
+            try {
+                bitmap = getBitmap(mIsVideo);
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, "Couldn't load bitmap for " + mUri, e);
+            }
+            final Bitmap resultBitmap = bitmap;
 
             mCallbackHandler.post(new Runnable() {
                 @Override
@@ -436,6 +442,10 @@ public class ThumbnailManager extends BackgroundLoaderManager {
 
             Bitmap result = BitmapFactory.decodeStream(inputStream, null, options);
             closeSilently(inputStream);
+
+            if (result == null) {
+                return null;
+            }
 
             // We need to resize down if the decoder does not support inSampleSize.
             // (For example, GIF images.)
