@@ -362,7 +362,9 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
 
     @Override
     public boolean onSearchRequested() {
-        mSearchItem.expandActionView();
+        if (mSearchItem != null) {
+            mSearchItem.expandActionView();
+        }
         return true;
     }
 
