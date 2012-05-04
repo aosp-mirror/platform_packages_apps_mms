@@ -672,7 +672,6 @@ public class MessagingNotification {
                 title = context.getString(R.string.message_count_notification, messageCount);
             } else {
                 title = mostRecentNotification.mTitle;
-                noti.setContentText(mostRecentNotification.mDescription);
             }
             BitmapDrawable contactDrawable = (BitmapDrawable)mostRecentNotification.mSender
                     .getAvatar(context, null);
