@@ -62,14 +62,10 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SqliteWrapper;
-import android.drm.DrmManagerClient;
 import android.drm.DrmStore;
-import android.drm.mobile1.DrmException;
-import android.drm.mobile1.DrmRawContent;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -79,7 +75,6 @@ import android.os.SystemProperties;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.Contacts;
-import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.ContactsContract.Intents;
 import android.provider.MediaStore.Images;
@@ -118,7 +113,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.CursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -143,7 +137,6 @@ import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendReq;
-import com.google.android.mms.util.DownloadDrmHelper;
 import com.google.android.mms.util.PduCache;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
@@ -294,6 +287,11 @@ public class ComposeMessageActivity extends Activity
     private AsyncDialog mAsyncDialog;   // Used for background tasks.
 
     private String mDebugRecipients;
+
+    /**
+     * Whether this activity is currently running (i.e. not paused)
+     */
+    private boolean mIsRunning;
 
     @SuppressWarnings("unused")
     public static void log(String logMsg) {
@@ -1650,7 +1648,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void updateTitle(ContactList list) {
-        String title = null;;
+        String title = null;
         String subTitle = null;
         int cnt = list.size();
         switch (cnt) {
@@ -1719,6 +1717,7 @@ public class ComposeMessageActivity extends Activity
         //         new InputFilter.LengthFilter(RECIPIENTS_MAX_LENGTH) });
 
         mRecipientsEditor.setOnSelectChipRunnable(new Runnable() {
+            @Override
             public void run() {
                 // After the user selects an item in the pop-up contacts list, move the
                 // focus to the text editor if there is only one recipient.  This helps
@@ -1986,7 +1985,7 @@ public class ComposeMessageActivity extends Activity
             if (mConversation.getThreadId() == 0) {
                 mConversation = conversation;
                 mWorkingMessage.setConversation(mConversation);
-                MessagingNotification.setCurrentlyDisplayedThreadId(mConversation.getThreadId());
+                updateThreadIdIfRunning();
                 invalidateOptionsMenu();
             }
             mConversation.markAsRead();         // dismiss any notifications for this convo
@@ -2133,7 +2132,8 @@ public class ComposeMessageActivity extends Activity
             }
         }, 100);
 
-        MessagingNotification.setCurrentlyDisplayedThreadId(mConversation.getThreadId());
+        mIsRunning = true;
+        updateThreadIdIfRunning();
     }
 
     @Override
@@ -2153,6 +2153,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         MessagingNotification.setCurrentlyDisplayedThreadId(MessagingNotification.THREAD_NONE);
+        mIsRunning = false;
     }
 
     @Override
@@ -2398,20 +2399,27 @@ public class ComposeMessageActivity extends Activity
 
     @Override
     public void onMessageSent() {
-        // If we already have messages in the list adapter, it
-        // will be auto-requerying; don't thrash another query in.
-        // TODO: relying on auto-requerying seems unreliable when priming an MMS into the outbox.
-        // Need to investigate.
-//        if (mMsgListAdapter.getCount() == 0) {
-            if (LogTag.VERBOSE) {
-                log("onMessageSent");
-            }
-            startMsgListQuery();
-//        }
+        // This callback can come in on any thread; put it on the main thread to avoid
+        // concurrency problems
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // If we already have messages in the list adapter, it
+                // will be auto-requerying; don't thrash another query in.
+                // TODO: relying on auto-requerying seems unreliable when priming an MMS into the
+                // outbox. Need to investigate.
+//                if (mMsgListAdapter.getCount() == 0) {
+                    if (LogTag.VERBOSE) {
+                        log("onMessageSent");
+                    }
+                    startMsgListQuery();
+//                }
 
-        // The thread ID could have changed if this is a new message that we just inserted into the
-        // database (and looked up or created a thread for it)
-        MessagingNotification.setCurrentlyDisplayedThreadId(mConversation.getThreadId());
+                // The thread ID could have changed if this is a new message that we just inserted
+                // into the database (and looked up or created a thread for it)
+                updateThreadIdIfRunning();
+            }
+        });
     }
 
     @Override
@@ -2754,8 +2762,7 @@ public class ComposeMessageActivity extends Activity
                     if (newMessage != null) {
                         mWorkingMessage = newMessage;
                         mWorkingMessage.setConversation(mConversation);
-                        MessagingNotification.setCurrentlyDisplayedThreadId(
-                                mConversation.getThreadId());
+                        updateThreadIdIfRunning();
                         drawTopPanel(false);
                         updateSendButtonState();
                         invalidateOptionsMenu();
@@ -3400,6 +3407,7 @@ public class ComposeMessageActivity extends Activity
 
         mWorkingMessage = WorkingMessage.loadDraft(this, mConversation,
                 new Runnable() {
+                    @Override
                     public void run() {
                         drawTopPanel(false);
                         drawBottomPanel();
@@ -3639,7 +3647,7 @@ public class ComposeMessageActivity extends Activity
             }
         }
         addRecipientsListeners();
-        MessagingNotification.setCurrentlyDisplayedThreadId(mConversation.getThreadId());
+        updateThreadIdIfRunning();
 
         mExitOnSent = intent.getBooleanExtra("exit_on_sent", false);
         if (intent.hasExtra("sms_body")) {
@@ -3762,6 +3770,7 @@ public class ComposeMessageActivity extends Activity
                     return;
 
                 case ConversationList.HAVE_LOCKED_MESSAGES_TOKEN:
+                    @SuppressWarnings("unchecked")
                     ArrayList<Long> threadIds = (ArrayList<Long>)cookie;
                     ConversationList.confirmDeleteThreadDialog(
                             new ConversationList.DeleteThreadListener(threadIds,
@@ -3938,7 +3947,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         return intent;
-   }
+    }
 
     private String getBody(Uri uri) {
         if (uri == null) {
@@ -3958,5 +3967,12 @@ public class ComposeMessageActivity extends Activity
             }
         }
         return null;
+    }
+
+    private void updateThreadIdIfRunning() {
+        if (mIsRunning && mConversation != null) {
+            MessagingNotification.setCurrentlyDisplayedThreadId(mConversation.getThreadId());
+        }
+        // If we're not running, but resume later, the current thread ID will be set in onResume()
     }
 }
