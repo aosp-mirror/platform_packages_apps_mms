@@ -299,6 +299,7 @@ public class WorkingMessage {
             // Return a Pair where:
             //    first - non-empty String representing the text of an SMS draft
             //    second - non-null String representing the text of an MMS subject
+            @Override
             protected Pair<String, String> doInBackground(Void... none) {
                 // Look for an SMS draft first.
                 String draftText = msg.readDraftSmsMessage(conv);
@@ -320,6 +321,7 @@ public class WorkingMessage {
                 return result;
             }
 
+            @Override
             protected void onPostExecute(Pair<String, String> result) {
                 if (!TextUtils.isEmpty(result.first)) {
                     msg.mHasSmsDraft = true;
@@ -355,9 +357,8 @@ public class WorkingMessage {
     }
 
     /**
-     * Returns true if the message has any text. A message with just whitespace is not considered
+     * @return True if the message has any text. A message with just whitespace is not considered
      * to have text.
-     * @return
      */
     public boolean hasText() {
         return mText != null && TextUtils.getTrimmedLength(mText) > 0;
