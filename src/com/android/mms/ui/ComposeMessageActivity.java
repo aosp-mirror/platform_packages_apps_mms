@@ -569,6 +569,9 @@ public class ComposeMessageActivity extends Activity
         if (requestCode >= 0) {
             mWaitingForSubActivity = true;
         }
+        if (mIsKeyboardOpen) {
+            hideKeyboard();     // camera and other activities take a long time to hide the keyboard
+        }
 
         super.startActivityForResult(intent, requestCode);
     }
@@ -3549,16 +3552,19 @@ public class ComposeMessageActivity extends Activity
         // Close the soft on-screen keyboard if we're in landscape mode so the user can see the
         // conversation.
         if (mIsLandscape) {
-            InputMethodManager inputMethodManager =
-                (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-
-            inputMethodManager.hideSoftInputFromWindow(mTextEditor.getWindowToken(), 0);
+            hideKeyboard();
         }
 
         mLastRecipientCount = 0;
         mSendingMessage = false;
         invalidateOptionsMenu();
    }
+
+    private void hideKeyboard() {
+        InputMethodManager inputMethodManager =
+            (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(mTextEditor.getWindowToken(), 0);
+    }
 
     private void updateSendButtonState() {
         boolean enable = false;
