@@ -312,6 +312,7 @@ public class UriImage {
                 return null;
             }
 
+            boolean resultTooBig = true;
             attempts = 1;   // reset count for second loop
             // In this loop, we attempt to compress/resize the content to fit the given dimension
             // and file-size limits.
@@ -373,15 +374,15 @@ public class UriImage {
                 }
                 scaleFactor *= .75F;
                 attempts++;
-            } while ((os == null || os.size() > byteLimit) && attempts < NUMBER_OF_RESIZE_ATTEMPTS);
+                resultTooBig = os == null || os.size() > byteLimit;
+            } while (resultTooBig && attempts < NUMBER_OF_RESIZE_ATTEMPTS);
             b.recycle();        // done with the bitmap, release the memory
-            boolean resultTooBig = os.size() > byteLimit;
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE) && resultTooBig) {
                 Log.v(TAG, "getResizedImageData returning NULL because the result is too big: " +
-                        " requested max: " + byteLimit + " actual: " +os.size());
+                        " requested max: " + byteLimit + " actual: " + os.size());
             }
 
-            return (os == null || os.size() > byteLimit) ? null : os.toByteArray();
+            return resultTooBig ? null : os.toByteArray();
         } catch (FileNotFoundException e) {
             Log.e(TAG, e.getMessage(), e);
             return null;
