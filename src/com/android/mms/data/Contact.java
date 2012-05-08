@@ -46,7 +46,7 @@ public class Contact {
     public static final String CONTENT_SCHEME = "content";
     private static final int CONTACT_METHOD_ID_UNKNOWN = -1;
     private static final String TAG = "Contact";
-    private static final boolean V = false;
+    private static final boolean DEBUG = false;
     private static ContactsCache sContactCache;
     private static final String SELF_ITEM_KEY = "Self_Item_Key";
 
@@ -542,7 +542,7 @@ public class Contact {
         }
 
         private Contact get(String number, boolean isMe, boolean canBlock) {
-            if (V) logWithTrace("get(%s, %s, %s)", number, isMe, canBlock);
+            if (DEBUG) logWithTrace("get(%s, %s, %s)", number, isMe, canBlock);
 
             if (TextUtils.isEmpty(number)) {
                 number = "";        // In some places (such as Korea), it's possible to receive
@@ -672,12 +672,12 @@ public class Contact {
             }
 
             if (orig.mPersonId != newContactData.mPersonId) {
-                if (V) Log.d(TAG, "person id changed");
+                if (DEBUG) Log.d(TAG, "person id changed");
                 return true;
             }
 
             if (orig.mPresenceResId != newContactData.mPresenceResId) {
-                if (V) Log.d(TAG, "presence changed");
+                if (DEBUG) Log.d(TAG, "presence changed");
                 return true;
             }
 
@@ -688,19 +688,19 @@ public class Contact {
             String oldName = emptyIfNull(orig.mName);
             String newName = emptyIfNull(newContactData.mName);
             if (!oldName.equals(newName)) {
-                if (V) Log.d(TAG, String.format("name changed: %s -> %s", oldName, newName));
+                if (DEBUG) Log.d(TAG, String.format("name changed: %s -> %s", oldName, newName));
                 return true;
             }
 
             String oldLabel = emptyIfNull(orig.mLabel);
             String newLabel = emptyIfNull(newContactData.mLabel);
             if (!oldLabel.equals(newLabel)) {
-                if (V) Log.d(TAG, String.format("label changed: %s -> %s", oldLabel, newLabel));
+                if (DEBUG) Log.d(TAG, String.format("label changed: %s -> %s", oldLabel, newLabel));
                 return true;
             }
 
             if (!Arrays.equals(orig.mAvatarData, newContactData.mAvatarData)) {
-                if (V) Log.d(TAG, "avatar changed");
+                if (DEBUG) Log.d(TAG, "avatar changed");
                 return true;
             }
 
@@ -749,7 +749,7 @@ public class Contact {
                             iterator = (HashSet<UpdateListener>)Contact.mListeners.clone();
                         }
                         for (UpdateListener l : iterator) {
-                            if (V) Log.d(TAG, "updating " + l);
+                            if (DEBUG) Log.d(TAG, "updating " + l);
                             l.onUpdate(c);
                         }
                     }
@@ -894,7 +894,7 @@ public class Contact {
                 contact.mPresenceText = cursor.getString(CONTACT_STATUS_COLUMN);
                 contact.mNumberE164 = cursor.getString(PHONE_NORMALIZED_NUMBER);
                 contact.mSendToVoicemail = cursor.getInt(SEND_TO_VOICEMAIL) == 1;
-                if (V) {
+                if (DEBUG) {
                     log("fillPhoneTypeContact: name=" + contact.mName + ", number="
                             + contact.mNumber + ", presence=" + contact.mPresenceResId
                             + " SendToVoicemail: " + contact.mSendToVoicemail);
@@ -913,7 +913,7 @@ public class Contact {
                 if (TextUtils.isEmpty(contact.mName)) {
                     contact.mName = mContext.getString(R.string.messagelist_sender_self);
                 }
-                if (V) {
+                if (DEBUG) {
                     log("fillSelfContact: name=" + contact.mName + ", number="
                             + contact.mNumber);
                 }
@@ -938,7 +938,7 @@ public class Contact {
                 return null;
             }
 
-            if (V) {
+            if (DEBUG) {
                 log("loadAvatarData: name=" + entry.mName + ", number=" + entry.mNumber);
             }
 
@@ -997,16 +997,13 @@ public class Contact {
                 try {
                     while (cursor.moveToNext()) {
                         boolean found = false;
-                        entry.mContactMethodId = cursor.getLong(EMAIL_ID_COLUMN);
-                        entry.mPresenceResId = getPresenceIconResourceId(
-                                cursor.getInt(EMAIL_STATUS_COLUMN));
-                        entry.mPersonId = cursor.getLong(EMAIL_CONTACT_ID_COLUMN);
-                        entry.mSendToVoicemail = cursor.getInt(EMAIL_SEND_TO_VOICEMAIL_COLUMN) == 1;
-
                         synchronized (entry) {
+                            entry.mContactMethodId = cursor.getLong(EMAIL_ID_COLUMN);
                             entry.mPresenceResId = getPresenceIconResourceId(
                                     cursor.getInt(EMAIL_STATUS_COLUMN));
-                            entry.mPersonId = cursor.getLong(EMAIL_ID_COLUMN);
+                            entry.mPersonId = cursor.getLong(EMAIL_CONTACT_ID_COLUMN);
+                            entry.mSendToVoicemail =
+                                    cursor.getInt(EMAIL_SEND_TO_VOICEMAIL_COLUMN) == 1;
 
                             String name = cursor.getString(EMAIL_NAME_COLUMN);
                             if (TextUtils.isEmpty(name)) {
@@ -1014,7 +1011,7 @@ public class Contact {
                             }
                             if (!TextUtils.isEmpty(name)) {
                                 entry.mName = name;
-                                if (V) {
+                                if (DEBUG) {
                                     log("getContactInfoForEmailAddress: name=" + entry.mName +
                                             ", email=" + email + ", presence=" +
                                             entry.mPresenceResId);
