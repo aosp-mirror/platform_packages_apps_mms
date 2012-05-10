@@ -274,7 +274,14 @@ public class RecipientsEditor extends RecipientEditTextView {
             sb.append(contactToToken(c)).append(", ");
         }
 
-        append(sb);
+        if (sb.length() == 0) {
+            setText(null);
+        } else {
+            // The base class RecipientEditTextView will ignore empty text. That's why we need
+            // the special case above. At the same time, calling setText to set the recipients
+            // won't create chips, but calling append() will.
+            append(sb);
+        }
     }
 
     private int pointToPosition(int x, int y) {
