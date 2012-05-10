@@ -35,6 +35,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -263,9 +264,23 @@ public class MmsWidgetService extends RemoteViewsService {
                                     SUBJECT_TEXT_COLOR_READ));
 
                 // From
+                int color = conv.hasUnreadMessages() ? SENDERS_TEXT_COLOR_UNREAD :
+                        SENDERS_TEXT_COLOR_READ;
                 SpannableStringBuilder from = addColor(conv.getRecipients().formatNames(", "),
-                        conv.hasUnreadMessages() ? SENDERS_TEXT_COLOR_UNREAD :
-                            SENDERS_TEXT_COLOR_READ);
+                        color);
+
+                if (conv.hasDraft()) {
+                    from.append(mContext.getResources().getString(R.string.draft_separator));
+                    int before = from.length();
+                    from.append(mContext.getResources().getString(R.string.has_draft));
+                    from.setSpan(new TextAppearanceSpan(mContext,
+                            android.R.style.TextAppearance_Small, color), before,
+                            from.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                    from.setSpan(new ForegroundColorSpan(
+                            mContext.getResources().getColor(R.drawable.text_color_red)),
+                            before, from.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                }
+
                 // Unread messages are shown in bold
                 if (conv.hasUnreadMessages()) {
                     from.setSpan(ConversationListItem.STYLE_BOLD, 0, from.length(),
