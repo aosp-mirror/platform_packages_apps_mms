@@ -17,6 +17,7 @@
 
 package com.android.mms.transaction;
 
+import com.android.mms.LogTag;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.InvalidHeaderValueException;
@@ -69,6 +70,9 @@ public class MmsMessageSender implements MessageSender {
 
     public boolean sendMessage(long token) throws MmsException {
         // Load the MMS from the message uri
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("sendMessage uri: " + mMessageUri);
+        }
         PduPersister p = PduPersister.getPduPersister(mContext);
         GenericPdu pdu = p.load(mMessageUri);
 
