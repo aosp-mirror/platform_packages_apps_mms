@@ -795,7 +795,9 @@ public class WorkingMessage {
         try {
             // Make sure we are saving to the correct thread ID.
             DraftCache.getInstance().setSavingDraft(true);
-            mConversation.ensureThreadId();
+            if (!mConversation.getRecipients().isEmpty()) {
+                mConversation.ensureThreadId();
+            }
             mConversation.setDraftState(true);
 
             PduPersister persister = PduPersister.getPduPersister(mActivity);
@@ -1107,10 +1109,11 @@ public class WorkingMessage {
      * in mms_config.xml.
      */
     public void send(final String recipientsInUI) {
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            LogTag.debug("send");
-        }
         long origThreadId = mConversation.getThreadId();
+
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            LogTag.debug("send origThreadId: " + origThreadId);
+        }
 
         removeSubjectIfEmpty(true /* notify */);
 
@@ -1142,6 +1145,10 @@ public class WorkingMessage {
 
             final SlideshowModel slideshow = mSlideshow;
             final CharSequence subject = mSubject;
+
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                LogTag.debug("Send mmsUri: " + mmsUri);
+            }
 
             // Do the dirty work of sending the message off of the main UI thread.
             new Thread(new Runnable() {
@@ -1281,7 +1288,8 @@ public class WorkingMessage {
             threadId = conv.ensureThreadId();
 
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                LogTag.debug("sendMmsWorker: update draft MMS message " + mmsUri);
+                LogTag.debug("sendMmsWorker: update draft MMS message " + mmsUri +
+                        " threadId: " + threadId);
             }
 
             // One last check to verify the address of the recipient.
@@ -1292,10 +1300,18 @@ public class WorkingMessage {
                 String newAddress =
                     Conversation.verifySingleRecipient(mActivity, conv.getThreadId(), dests[0]);
 
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    LogTag.debug("sendMmsWorker: newAddress " + newAddress +
+                            " dests[0]: " + dests[0]);
+                }
+
                 if (!newAddress.equals(dests[0])) {
                     dests[0] = newAddress;
                     EncodedStringValue[] encodedNumbers = EncodedStringValue.encodeStrings(dests);
                     if (encodedNumbers != null) {
+                        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                            LogTag.debug("sendMmsWorker: REPLACING number!!!");
+                        }
                         sendReq.setTo(encodedNumbers);
                     }
                 }
@@ -1501,6 +1517,7 @@ public class WorkingMessage {
             public void run() {
                 try {
                     DraftCache.getInstance().setSavingDraft(true);
+
                     final PduPersister persister = PduPersister.getPduPersister(mActivity);
                     final SendReq sendReq = makeSendReq(conv, mSubject);
 
@@ -1520,7 +1537,9 @@ public class WorkingMessage {
                         // thread.
                         conv.clearThreadId();   // force us to get the updated thread id
                     }
-                    conv.ensureThreadId();
+                    if (!conv.getRecipients().isEmpty()) {
+                        conv.ensureThreadId();
+                    }
                     conv.setDraftState(true);
                     if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                         LogTag.debug("asyncUpdateDraftMmsMessage conv: " + conv +
@@ -1547,6 +1566,7 @@ public class WorkingMessage {
             return;
         }
         persister.updateHeaders(uri, sendReq);
+
         final PduBody pb = slideshow.toPduBody();
 
         try {
@@ -1628,6 +1648,12 @@ public class WorkingMessage {
             public void run() {
                 try {
                     DraftCache.getInstance().setSavingDraft(true);
+                    if (conv.getRecipients().isEmpty()) {
+                        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                            LogTag.debug("asyncUpdateDraftSmsMessage no recipients, not saving");
+                        }
+                        return;
+                    }
                     long threadId = conv.ensureThreadId();
                     conv.setDraftState(true);
                     updateDraftSmsMessage(conv, contents);
