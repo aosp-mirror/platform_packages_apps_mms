@@ -287,6 +287,7 @@ public class ComposeMessageActivity extends Activity
     private AsyncDialog mAsyncDialog;   // Used for background tasks.
 
     private String mDebugRecipients;
+    private int mLastScrollPosition;
 
     /**
      * Whether this activity is currently running (i.e. not paused)
@@ -2231,6 +2232,10 @@ public class ComposeMessageActivity extends Activity
             }
             mTextEditor.setFocusableInTouchMode(true);
             mTextEditor.setHint(R.string.type_to_compose_text_enter_to_send);
+
+            // When the list isn't in transcript mode, we have to manually scroll the list
+            // when the keyboard comes up.
+            smoothScrollToEnd(false);
         } else {
             if (mRecipientsEditor != null) {
                 mRecipientsEditor.setFocusable(false);
@@ -3299,11 +3304,6 @@ public class ComposeMessageActivity extends Activity
         // in with message content
         mMsgListView.setClipToPadding(false);
 
-        // turn off children clipping because we draw the border outside of our own
-        // bounds at the bottom.  The background is also drawn in code to avoid drawing
-        // the top edge.
-        mMsgListView.setClipChildren(false);
-
         mBottomPanel = findViewById(R.id.bottom_panel);
         mTextEditor = (EditText) findViewById(R.id.embedded_text_editor);
         mTextEditor.setOnEditorActionListener(this);
@@ -3517,6 +3517,8 @@ public class ComposeMessageActivity extends Activity
             mSentMessage = true;
             mSendingMessage = true;
             addRecipientsListeners();
+
+            smoothScrollToEnd(true);
         }
         // But bail out if we are supposed to exit after the message is sent.
         if (mExitOnSent) {
@@ -3708,6 +3710,35 @@ public class ComposeMessageActivity extends Activity
         }
     }
 
+    /**
+     * smoothScrollToEnd will scroll the message list to the bottom if the list is already near
+     * the bottom. Typically this is called to smooth scroll a newly received message into view.
+     * It's also called when sending to scroll the list to the bottom, regardless of where it is,
+     * so the user can see the just sent message.
+     *
+     * @param force always scroll to the bottom regardless of current list position
+     */
+    private void smoothScrollToEnd(boolean force) {
+        int newCount = mMsgListAdapter.getCount();
+        int last = mMsgListView.getLastVisiblePosition();
+        View lastChild = mMsgListView.getChildAt(last - mMsgListView.getFirstVisiblePosition());
+        int bottom = lastChild != null ? lastChild.getBottom() : 0;
+        if (LogTag.VERBOSE) {
+            Log.v(TAG, "smoothScrollToEnd newCount: " + newCount +
+                    " mLastScrollPosition: " + mLastScrollPosition +
+                    " last: " + last +
+                    " bottom: " + bottom +
+                    " mMsgListView.getHeight() - mMsgListView.getPaddingBottom(): " +
+                    (mMsgListView.getHeight() - mMsgListView.getPaddingBottom()));
+        }
+        // Only scroll if the list is already scrolled to the end.
+        if (force || (newCount != mLastScrollPosition &&
+                bottom <= mMsgListView.getHeight() - mMsgListView.getPaddingBottom())) {
+            mMsgListView.smoothScrollToPosition(newCount);
+            mLastScrollPosition = newCount;
+        }
+    }
+
     private final class BackgroundQueryHandler extends ConversationQueryHandler {
         public BackgroundQueryHandler(ContentResolver contentResolver) {
             super(contentResolver);
@@ -3755,6 +3786,8 @@ public class ComposeMessageActivity extends Activity
                     mMsgListAdapter.changeCursor(cursor);
                     if (newSelectionPos != -1) {
                         mMsgListView.setSelection(newSelectionPos);
+                    } else {
+                        smoothScrollToEnd(false);
                     }
                     // Adjust the conversation's message count to match reality. The
                     // conversation's message count is eventually used in
