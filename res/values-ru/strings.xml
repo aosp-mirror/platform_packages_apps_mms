@@ -197,15 +197,15 @@
     <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"Сообщение будет удалено с SIM-карты."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Удалить заблокированные сообщения"</string>
     <string name="delete" msgid="1409973060081564612">"Удалить"</string>
-    <string name="select_conversations" msgid="7816517565640002844">"Выбрать цепочки"</string>
+    <string name="select_conversations" msgid="7816517565640002844">"Выберите цепочки"</string>
     <string name="no_conversations" msgid="6773767655149258445">"Пока ничего нет"</string>
     <string name="loading_conversations" msgid="5510430408235967094">"Загрузка сообщений..."</string>
     <string name="cannot_get_details" msgid="850292987983026806">"Не удалось загрузить данные."</string>
     <string name="message_details_title" msgid="9223295113731634528">"Сведения о сообщении"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Тип: "</string>
-    <string name="text_message" msgid="8196464345251877972">"Текстовое сообщение"</string>
-    <string name="multimedia_message" msgid="1512644521083533071">"Мультимедийное сообщение"</string>
-    <string name="multimedia_notification" msgid="4124031788554972308">"Уведомление о MMS"</string>
+    <string name="text_message" msgid="8196464345251877972">"SMS-сообщение"</string>
+    <string name="multimedia_message" msgid="1512644521083533071">"MMS-сообщение"</string>
+    <string name="multimedia_notification" msgid="4124031788554972308">"MMS-уведомление"</string>
     <string name="from_label" msgid="2055117571548171397">"От: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Кому: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Скрытая копия: "</string>
@@ -215,9 +215,9 @@
     <string name="subject_label" msgid="8721241914144101631">"Тема: "</string>
     <string name="message_size_label" msgid="4698016210013319786">"Размер сообщения: "</string>
     <string name="priority_label" msgid="7397600367853359607">"Приоритет: "</string>
-    <string name="priority_high" msgid="5627897207952009214">"Высокий"</string>
-    <string name="priority_normal" msgid="5715227727384683550">"Обычный"</string>
-    <string name="priority_low" msgid="8928782666023373987">"Низкий"</string>
+    <string name="priority_high" msgid="5627897207952009214">"высокий"</string>
+    <string name="priority_normal" msgid="5715227727384683550">"обычный"</string>
+    <string name="priority_low" msgid="8928782666023373987">"низкий"</string>
     <string name="message_class_label" msgid="5115748690481550562">"Класс сообщений: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"Код ошибки: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Изменить"</string>
