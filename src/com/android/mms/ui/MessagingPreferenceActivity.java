@@ -86,6 +86,14 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.preferences);
 
+        bindAllPrefs();
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        setMessagePreferences();
+    }
+
+    private void bindAllPrefs() {
         mManageSimPref = findPreference("pref_key_manage_sim_messages");
         mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
         mSmsDeliveryReportPref = findPreference("pref_key_sms_delivery_reports");
@@ -98,10 +106,6 @@ public class MessagingPreferenceActivity extends PreferenceActivity
 
         mVibrateEntries = getResources().getTextArray(R.array.prefEntries_vibrateWhen);
         mVibrateValues = getResources().getTextArray(R.array.prefValues_vibrateWhen);
-
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        setMessagePreferences();
     }
 
     @Override
@@ -252,6 +256,9 @@ public class MessagingPreferenceActivity extends PreferenceActivity
                 .edit().clear().apply();
         setPreferenceScreen(null);
         addPreferencesFromResource(R.xml.preferences);
+
+        bindAllPrefs();
+
         setMessagePreferences();
     }
 
