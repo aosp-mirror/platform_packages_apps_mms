@@ -17,6 +17,7 @@
 
 package com.android.mms.ui;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
@@ -163,6 +164,9 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
     }
 
     public void onUpdate(Contact updated) {
+        if (Log.isLoggable(LogTag.CONTACT, Log.DEBUG)) {
+            Log.v(TAG, "onUpdate: " + this + " contact: " + updated);
+        }
         mHandler.post(new Runnable() {
             public void run() {
                 updateFromView();
@@ -200,7 +204,9 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
         // Register for updates in changes of any of the contacts in this conversation.
         ContactList contacts = conversation.getRecipients();
 
-        if (DEBUG) Log.v(TAG, "bind: contacts.addListeners " + this);
+        if (Log.isLoggable(LogTag.CONTACT, Log.DEBUG)) {
+            Log.v(TAG, "bind: contacts.addListeners " + this);
+        }
         Contact.addListener(this);
 
         // Subject
@@ -231,7 +237,9 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
     }
 
     public final void unbind() {
-        if (DEBUG) Log.v(TAG, "unbind: contacts.removeListeners " + this);
+        if (Log.isLoggable(LogTag.CONTACT, Log.DEBUG)) {
+            Log.v(TAG, "unbind: contacts.removeListeners " + this);
+        }
         // Unregister contact update callbacks.
         Contact.removeListener(this);
     }

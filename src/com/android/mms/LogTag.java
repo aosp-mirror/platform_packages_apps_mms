@@ -36,6 +36,7 @@ public class LogTag {
     public static final String THUMBNAIL_CACHE = "Mms:thumbnailcache";
     public static final String PDU_CACHE = "Mms:pducache";
     public static final String WIDGET = "Mms:widget";
+    public static final String CONTACT = "Mms:contact";
 
     /**
      * Log tag for enabling/disabling StrictMode violation log.
