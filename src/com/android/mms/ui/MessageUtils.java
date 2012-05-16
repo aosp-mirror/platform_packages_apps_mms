@@ -375,7 +375,7 @@ public class MessageUtils {
 
     public static int getAttachmentType(SlideshowModel model) {
         if (model == null) {
-            return WorkingMessage.TEXT;
+            return MessageItem.ATTACHMENT_TYPE_NOT_LOADED;
         }
 
         int numberOfSlides = model.size();
@@ -405,7 +405,7 @@ public class MessageUtils {
             }
         }
 
-        return WorkingMessage.TEXT;
+        return MessageItem.ATTACHMENT_TYPE_NOT_LOADED;
     }
 
     public static String formatTimeStampString(Context context, long when) {
