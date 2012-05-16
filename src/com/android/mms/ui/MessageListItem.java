@@ -346,7 +346,8 @@ public class MessageListItem extends LinearLayout implements
         } else {
             if (DEBUG) {
                 Log.v(TAG, "bindCommonMessage for item: " + mPosition + " " +
-                        mMessageItem.toString());
+                        mMessageItem.toString() +
+                        " mMessageItem.mAttachmentType: " + mMessageItem.mAttachmentType);
             }
             if (mMessageItem.mAttachmentType != WorkingMessage.TEXT) {
                 setImage(null, null);
