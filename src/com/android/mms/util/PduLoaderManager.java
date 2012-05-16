@@ -123,8 +123,20 @@ public class PduLoaderManager extends BackgroundLoaderManager {
     public void clear() {
         super.clear();
 
-        PduCache.getInstance().purgeAll();
+        synchronized(mPduCache) {
+            mPduCache.purgeAll();
+        }
         mSlideshowCache.clear();
+    }
+
+    public void removePdu(Uri uri) {
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+            Log.d(TAG, "removePdu: " + uri);
+        }
+        synchronized(mPduCache) {
+            mPduCache.purge(uri);
+        }
+        mSlideshowCache.remove(uri);
     }
 
     public String getTag() {

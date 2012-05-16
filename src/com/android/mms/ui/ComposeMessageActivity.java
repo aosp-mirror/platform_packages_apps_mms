@@ -66,6 +66,7 @@ import android.drm.DrmStore;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -582,29 +583,33 @@ public class ComposeMessageActivity extends Activity
     }
 
     private class DeleteMessageListener implements OnClickListener {
-        private final Uri mDeleteUri;
-        private final boolean mDeleteLocked;
+        private final MessageItem mMessageItem;
 
-        public DeleteMessageListener(Uri uri, boolean deleteLocked) {
-            mDeleteUri = uri;
-            mDeleteLocked = deleteLocked;
-        }
-
-        public DeleteMessageListener(long msgId, String type, boolean deleteLocked) {
-            if ("mms".equals(type)) {
-                mDeleteUri = ContentUris.withAppendedId(Mms.CONTENT_URI, msgId);
-            } else {
-                mDeleteUri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgId);
-            }
-            mDeleteLocked = deleteLocked;
+        public DeleteMessageListener(MessageItem messageItem) {
+            mMessageItem = messageItem;
         }
 
         @Override
         public void onClick(DialogInterface dialog, int whichButton) {
-            PduCache.getInstance().purge(mDeleteUri);
-            mBackgroundQueryHandler.startDelete(DELETE_MESSAGE_TOKEN,
-                    null, mDeleteUri, mDeleteLocked ? null : "locked=0", null);
             dialog.dismiss();
+
+            new AsyncTask<Void, Void, Void>() {
+                protected Void doInBackground(Void... none) {
+                    if (mMessageItem.isMms()) {
+                        mMessageItem.removeThumbnailsFromCache();
+
+                        MmsApp.getApplication().getPduLoaderManager()
+                            .removePdu(mMessageItem.mMessageUri);
+
+                        // Delete the message *after* we've removed the thumbnails because we
+                        // need the pdu and slideshow for removeThumbnailsFromCache to work.
+                        mBackgroundQueryHandler.startDelete(DELETE_MESSAGE_TOKEN,
+                                null, mMessageItem.mMessageUri,
+                                mMessageItem.mLocked ? null : "locked=0", null);
+                    }
+                    return null;
+                }
+            }.execute();
         }
     }
 
@@ -1251,8 +1256,7 @@ public class ComposeMessageActivity extends Activity
                     return showMessageDetails(mMsgItem);
 
                 case MENU_DELETE_MESSAGE: {
-                    DeleteMessageListener l = new DeleteMessageListener(
-                            mMsgItem.mMessageUri, mMsgItem.mLocked);
+                    DeleteMessageListener l = new DeleteMessageListener(mMsgItem);
                     confirmDeleteDialog(l, mMsgItem.mLocked);
                     return true;
                 }
@@ -2270,12 +2274,14 @@ public class ComposeMessageActivity extends Activity
                     }
 
                     if (cursor != null) {
-                        boolean locked = cursor.getInt(COLUMN_MMS_LOCKED) != 0;
-                        DeleteMessageListener l = new DeleteMessageListener(
-                                cursor.getLong(COLUMN_ID),
-                                cursor.getString(COLUMN_MSG_TYPE),
-                                locked);
-                        confirmDeleteDialog(l, locked);
+                        String type = cursor.getString(COLUMN_MSG_TYPE);
+                        long msgId = cursor.getLong(COLUMN_ID);
+                        MessageItem msgItem = mMsgListAdapter.getCachedMessageItem(type, msgId,
+                                cursor);
+                        if (msgItem != null) {
+                            DeleteMessageListener l = new DeleteMessageListener(msgItem);
+                            confirmDeleteDialog(l, msgItem.mLocked);
+                        }
                         return true;
                     }
                 }

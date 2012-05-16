@@ -75,9 +75,15 @@ public class CacheManager {
         if (n != 0) return;
         pref.edit().putInt(KEY_CACHE_UP_TO_DATE, 1).commit();
 
-        File cacheDir = context.getExternalCacheDir();
+        clear(context);
+    }
+
+    public static void clear(Context context) {
+        File cacheDir = PUT_CACHE_ON_SDCARD ? context.getExternalCacheDir()
+                : context.getCacheDir();
         String prefix = cacheDir.getAbsolutePath() + "/";
 
-        BlobCache.deleteFiles(prefix + "imgcache");
+        BlobCache.deleteFiles(prefix + ImageCacheService.IMAGE_CACHE_FILE);
+        sCacheMap.remove(ImageCacheService.IMAGE_CACHE_FILE);
     }
 }
