@@ -36,6 +36,7 @@ import android.util.Log;
 import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.TempFileProvider;
+import com.android.mms.ui.MessageItem;
 import com.android.mms.ui.UriImage;
 import com.android.mms.util.ImageCacheService.ImageData;
 
@@ -171,10 +172,17 @@ public class ThumbnailManager extends BackgroundLoaderManager {
     }
 
     @Override
-    public void clear() {
+    public synchronized void clear() {
         super.clear();
 
-        mThumbnailCache.clear();
+        mThumbnailCache.clear();    // clear in-memory cache
+        clearBackingStore();        // clear on-disk cache
+    }
+
+    // Delete the on-disk cache, but leave the in-memory cache intact
+    public synchronized void clearBackingStore() {
+        getImageCacheService().clear();
+        mImageCacheService = null;  // force a re-init the next time getImageCacheService requested
     }
 
     public void removeThumbnail(Uri uri) {

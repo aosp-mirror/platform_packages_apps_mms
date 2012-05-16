@@ -25,7 +25,7 @@ public class ImageCacheService {
     @SuppressWarnings("unused")
     private static final String TAG = "ImageCacheService";
 
-    private static final String IMAGE_CACHE_FILE = "imgcache";
+    public static final String IMAGE_CACHE_FILE = "imgcache";
     private static final int IMAGE_CACHE_MAX_ENTRIES = 500;
     private static final int IMAGE_CACHE_MAX_BYTES = 20 * 1024 * 1024;
     private static final int IMAGE_CACHE_VERSION = 3;
@@ -36,10 +36,13 @@ public class ImageCacheService {
     private static final long POLY64REV = 0x95AC9329AC4BC9B5L;
     private static final long INITIALCRC = 0xFFFFFFFFFFFFFFFFL;
 
+    private Context mContext;
+
     public ImageCacheService(Context context) {
         mCache = CacheManager.getCache(context, IMAGE_CACHE_FILE,
                 IMAGE_CACHE_MAX_ENTRIES, IMAGE_CACHE_MAX_BYTES,
                 IMAGE_CACHE_VERSION);
+        mContext = context;
     }
 
     public static class ImageData {
@@ -83,6 +86,10 @@ public class ImageCacheService {
                 // ignore.
             }
         }
+    }
+
+    public void clear() {
+        CacheManager.clear(mContext);
     }
 
     private static byte[] makeKey(String path, int type) {
