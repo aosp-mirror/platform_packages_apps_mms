@@ -27,6 +27,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.mms.LogTag;
+import com.android.mms.MmsApp;
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageUtils;
@@ -707,7 +708,16 @@ public class Conversation {
             sDeletingThreads = true;
             Uri uri = ContentUris.withAppendedId(Threads.CONTENT_URI, threadId);
             String selection = deleteAll ? null : "locked=0";
-            PduCache.getInstance().purge(uri);
+
+            MmsApp.getApplication().getPduLoaderManager().clear();
+
+            // HACK: the keys to the thumbnail cache are the part uris, such as mms/part/3
+            // Because the part table doesn't have auto-increment ids, the part ids are reused
+            // when a message or thread is deleted. For now, we're clearing the whole thumbnail
+            // cache so we don't retrieve stale images when part ids are reused. This will be
+            // fixed in the next release in the mms provider.
+            MmsApp.getApplication().getThumbnailManager().clear();
+
             handler.setDeleteToken(token);
             handler.startDelete(token, new Long(threadId), uri, selection, null);
         }
@@ -728,7 +738,16 @@ public class Conversation {
             }
             sDeletingThreads = true;
             String selection = deleteAll ? null : "locked=0";
-            PduCache.getInstance().purge(Threads.CONTENT_URI);
+
+            MmsApp.getApplication().getPduLoaderManager().clear();
+
+            // HACK: the keys to the thumbnail cache are the part uris, such as mms/part/3
+            // Because the part table doesn't have auto-increment ids, the part ids are reused
+            // when a message or thread is deleted. For now, we're clearing the whole thumbnail
+            // cache so we don't retrieve stale images when part ids are reused. This will be
+            // fixed in the next release in the mms provider.
+            MmsApp.getApplication().getThumbnailManager().clear();
+
             handler.setDeleteToken(token);
             handler.startDelete(token, new Long(-1), Threads.CONTENT_URI, selection, null);
         }

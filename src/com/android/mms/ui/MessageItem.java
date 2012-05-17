@@ -17,6 +17,7 @@
 
 package com.android.mms.ui;
 
+import java.util.Iterator;
 import java.util.regex.Pattern;
 
 import android.content.ContentUris;
@@ -43,6 +44,7 @@ import com.android.mms.util.DownloadManager;
 import com.android.mms.util.ItemLoadedCallback;
 import com.android.mms.util.ItemLoadedFuture;
 import com.android.mms.util.PduLoaderManager;
+import com.android.mms.util.ThumbnailManager;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.MultimediaMessagePdu;
@@ -400,5 +402,31 @@ public class MessageItem {
          * @param messageItem the MessageItem that finished loading.
          */
         void onPduLoaded(MessageItem messageItem);
+    }
+
+    public void removeThumbnailsFromCache() {
+        if (mSlideshow != null) {
+            ThumbnailManager thumbnailManager = MmsApp.getApplication().getThumbnailManager();
+            boolean removedSomething = false;
+            Iterator<SlideModel> iterator = mSlideshow.iterator();
+            while (iterator.hasNext()) {
+                SlideModel slideModel = iterator.next();
+                if (slideModel.hasImage()) {
+                    thumbnailManager.removeThumbnail(slideModel.getImage().getUri());
+                    removedSomething = true;
+                } else if (slideModel.hasVideo()) {
+                    thumbnailManager.removeThumbnail(slideModel.getVideo().getUri());
+                    removedSomething = true;
+                }
+            }
+            if (removedSomething) {
+                // HACK: the keys to the thumbnail cache are the part uris, such as mms/part/3
+                // Because the part table doesn't have auto-increment ids, the part ids are reused
+                // when a message or thread is deleted. For now, we're clearing the whole thumbnail
+                // cache so we don't retrieve stale images when part ids are reused. This will be
+                // fixed in the next release in the mms provider.
+                MmsApp.getApplication().getThumbnailManager().clearBackingStore();
+            }
+        }
     }
 }
