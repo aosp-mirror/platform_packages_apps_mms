@@ -464,7 +464,17 @@ public class MessageUtils {
     }
 
     public static void recordVideo(Activity activity, int requestCode, long sizeLimit) {
+        // The video recorder can sometimes return a file that's larger than the max we
+        // say we can handle. Try to handle that overshoot by specifying a 90% limit.
+        sizeLimit *= .9F;
+
         int durationLimit = getVideoCaptureDurationLimit();
+
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            log("recordVideo: durationLimit: " + durationLimit +
+                    " sizeLimit: " + sizeLimit);
+        }
+
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
         intent.putExtra("android.intent.extra.sizeLimit", sizeLimit);
