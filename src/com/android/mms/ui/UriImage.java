@@ -138,8 +138,12 @@ public class UriImage {
                         c.getColumnIndexOrThrow(Part.CONTENT_TYPE));
             } else {
                 filePath = uri.getPath();
-                mContentType = c.getString(
-                        c.getColumnIndexOrThrow(Images.Media.MIME_TYPE));
+                try {
+                    mContentType = c.getString(
+                            c.getColumnIndexOrThrow(Images.Media.MIME_TYPE)); // mime_type
+                } catch (IllegalArgumentException e) {
+                    mContentType = c.getString(c.getColumnIndexOrThrow("mimetype"));
+                }
 
                 // use the original filename if possible
                 int nameIndex = c.getColumnIndex(Images.Media.DISPLAY_NAME);
@@ -160,6 +164,8 @@ public class UriImage {
             if (mSrc == null) {
                 buildSrcFromPath();
             }
+        } catch (IllegalArgumentException e) {
+            Log.e(TAG, "initFromContentUri couldn't load image uri: " + uri, e);
         } finally {
             c.close();
         }
