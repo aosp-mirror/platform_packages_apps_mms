@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFoH///94\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2213,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-05-22T16:44:33Z",
+      "side": 1,
+      "message": "Good catch. I think it would be better to put this line in onStop() to handle the general case, instead of this one particular case.",
+      "revId": "38033a4111658eecebd7c177cef9d91c29834ef2",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
