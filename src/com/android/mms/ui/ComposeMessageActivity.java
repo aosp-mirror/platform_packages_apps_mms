@@ -3386,6 +3386,11 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
+        // Reset the recipients of WorkingMessage if user deleted all messages one by one
+        if (mWorkingMessage.getWorkingRecipients() == null && mConversation.getMessageCount() == 0) {
+            mWorkingMessage.setWorkingRecipients(mRecipientsEditor.getNumbers());
+        }
+
         mWorkingMessage.saveDraft(isStopping);
 
         if (mToastForDraftSave) {
