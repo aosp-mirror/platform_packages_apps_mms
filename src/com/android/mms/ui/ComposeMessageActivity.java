@@ -2209,6 +2209,9 @@ public class ComposeMessageActivity extends Activity
                 }
                 break;
             case KeyEvent.KEYCODE_BACK:
+                //No need to do the querying when pressed BACK
+                mBackgroundQueryHandler.cancelOperation(MESSAGE_LIST_QUERY_TOKEN);
+
                 exitComposeMessageActivity(new Runnable() {
                     public void run() {
                         finish();
