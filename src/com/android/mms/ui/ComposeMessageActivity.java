@@ -3698,6 +3698,7 @@ public class ComposeMessageActivity extends Activity
         @Override
         public void onDataSetChanged(MessageListAdapter adapter) {
             mPossiblePendingNotification = true;
+            checkPendingNotification();
         }
 
         @Override
