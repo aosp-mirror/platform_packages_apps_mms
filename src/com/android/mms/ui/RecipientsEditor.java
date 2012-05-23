@@ -128,7 +128,14 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         ContactList list = new ContactList();
         for (String number : numbers) {
             Contact contact = Contact.get(number, blocking);
-            contact.setNumber(number);
+            // No need to reset the number of the contact who exists in
+            // the database, since the NUMBER<number + "*"> user inputed
+            // which ends with the special characters such as '*' can be
+            // searched as a contact, so the number will be reset to an
+            // incorrect one.
+            if (!contact.existsInDatabase()) {
+                contact.setNumber(number);
+            }
             list.add(contact);
         }
         return list;

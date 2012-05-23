@@ -3842,7 +3842,8 @@ public class ComposeMessageActivity extends Activity
         mMessageListItemHandler.post(new Runnable() {
             public void run() {
                 ContactList recipients = isRecipientsEditorVisible() ?
-                        mRecipientsEditor.constructContactsFromInput(false) : getRecipients();
+                /* Blocking the contact and waiting for the quering */
+                mRecipientsEditor.constructContactsFromInput(true) : getRecipients();
                 if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     log("[CMA] onUpdate contact updated: " + updated);
                     log("[CMA] onUpdate recipients: " + recipients);
