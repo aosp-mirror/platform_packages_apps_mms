@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFr3////0\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2012-05-23T14:10:18Z",
+      "side": 1,
+      "message": "Please format TAB to space and the alignment",
+      "revId": "18b0b5ac089983f34dcc18f9121c756be017c1bc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFr3////w\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2012-05-23T14:10:18Z",
+      "side": 1,
+      "message": "Please format TAB to space",
+      "revId": "18b0b5ac089983f34dcc18f9121c756be017c1bc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFr3////s\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2012-05-23T14:10:18Z",
+      "side": 1,
+      "message": "Please format TAB to space",
+      "revId": "18b0b5ac089983f34dcc18f9121c756be017c1bc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFr3////o\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2012-05-23T14:10:18Z",
+      "side": 1,
+      "message": "Please format TAB to space and the alignment",
+      "revId": "18b0b5ac089983f34dcc18f9121c756be017c1bc",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
