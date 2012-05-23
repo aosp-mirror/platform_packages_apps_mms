@@ -128,7 +128,9 @@ public class RecipientsEditor extends MultiAutoCompleteTextView {
         ContactList list = new ContactList();
         for (String number : numbers) {
             Contact contact = Contact.get(number, blocking);
-            contact.setNumber(number);
+            // No need to reset the number which read from the editor,
+            // since user don't want a contact which has the number 
+            // ends with the special characters, such as 12345678901*
             list.add(contact);
         }
         return list;
