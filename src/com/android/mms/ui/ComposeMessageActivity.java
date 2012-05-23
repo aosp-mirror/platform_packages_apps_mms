@@ -881,6 +881,8 @@ public class ComposeMessageActivity extends Activity
             String type = cursor.getString(COLUMN_MSG_TYPE);
             long msgId = cursor.getLong(COLUMN_ID);
 
+            int position = cursor.getPosition();
+
             addPositionBasedMenuItems(menu, v, menuInfo);
 
             MessageItem msgItem = mMsgListAdapter.getCachedMessageItem(type, msgId, cursor);
@@ -892,7 +894,7 @@ public class ComposeMessageActivity extends Activity
 
             menu.setHeaderTitle(R.string.message_options);
 
-            MsgListMenuClickListener l = new MsgListMenuClickListener();
+            MsgListMenuClickListener l = new MsgListMenuClickListener(msgItem, position);
 
             // It is unclear what would make most sense for copying an MMS message
             // to the clipboard, so we currently do SMS only.
@@ -1091,14 +1093,18 @@ public class ComposeMessageActivity extends Activity
      * Context menu handlers for the message list view.
      */
     private final class MsgListMenuClickListener implements MenuItem.OnMenuItemClickListener {
-        public boolean onMenuItemClick(MenuItem item) {
+        private final MessageItem msgItem;
+		private final int position;
+
+		public MsgListMenuClickListener(MessageItem msgItem, int position) {
+			this.msgItem = msgItem;
+			this.position = position;
+		}
+
+        @Override public boolean onMenuItemClick(MenuItem item) {
             if (!isCursorValid()) {
                 return false;
             }
-            Cursor cursor = mMsgListAdapter.getCursor();
-            String type = cursor.getString(COLUMN_MSG_TYPE);
-            long msgId = cursor.getLong(COLUMN_ID);
-            MessageItem msgItem = getMessageItem(type, msgId, true);
 
             if (msgItem == null) {
                 return false;
@@ -1120,12 +1126,17 @@ public class ComposeMessageActivity extends Activity
 
                 case MENU_VIEW_SLIDESHOW:
                     MessageUtils.viewMmsMessageAttachment(ComposeMessageActivity.this,
-                            ContentUris.withAppendedId(Mms.CONTENT_URI, msgId), null);
+                        ContentUris.withAppendedId(Mms.CONTENT_URI, msgItem.mMsgId), null);
                     return true;
 
                 case MENU_VIEW_MESSAGE_DETAILS: {
+                	// Instead of using the unstable cursor, we create a new cursor that positioned into the selected row.
+                    Cursor cursor = mMsgListAdapter.getCursor();
+                    cursor.moveToPosition(position);
+                	
                     String messageDetails = MessageUtils.getMessageDetails(
                             ComposeMessageActivity.this, cursor, msgItem.mMessageSize);
+					cursor.close();
                     new AlertDialog.Builder(ComposeMessageActivity.this)
                             .setTitle(R.string.message_details_title)
                             .setMessage(messageDetails)
@@ -1140,18 +1151,18 @@ public class ComposeMessageActivity extends Activity
                     return true;
                 }
                 case MENU_DELIVERY_REPORT:
-                    showDeliveryReport(msgId, type);
+                    showDeliveryReport(msgItem.mMsgId, msgItem.mType);
                     return true;
 
                 case MENU_COPY_TO_SDCARD: {
-                    int resId = copyMedia(msgId) ? R.string.copy_to_sdcard_success :
+                    int resId = copyMedia(msgItem.mMsgId) ? R.string.copy_to_sdcard_success :
                         R.string.copy_to_sdcard_fail;
                     Toast.makeText(ComposeMessageActivity.this, resId, Toast.LENGTH_SHORT).show();
                     return true;
                 }
 
                 case MENU_COPY_TO_DRM_PROVIDER: {
-                    int resId = getDrmMimeSavedStringRsrc(msgId, copyToDrmProvider(msgId));
+                    int resId = getDrmMimeSavedStringRsrc(msgItem.mMsgId, copyToDrmProvider(msgItem.mMsgId));
                     Toast.makeText(ComposeMessageActivity.this, resId, Toast.LENGTH_SHORT).show();
                     return true;
                 }
