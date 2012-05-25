@@ -81,7 +81,7 @@
     <string name="send" msgid="4589898724889248486">"Enviar"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Todas as conversas"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Digitar mensagem"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Digite a mensagem"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Abra o teclado para digitar a mensagem"</string>
     <string name="compressing" msgid="1961357529661045180">"Imagem muito grande. Comprimindo..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Formato de <xliff:g id="NAME">%1$s</xliff:g> não suportado."</string>

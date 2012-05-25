@@ -97,7 +97,7 @@
     <string name="invalid_destination" msgid="4573835601024786416">"Dirección de destino no válida"</string>
     <string name="service_not_activated" msgid="9178218144019626176">"No se ha activado el servicio en la red."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"El mensaje ha caducado o no está disponible."</string>
-    <string name="service_network_problem" msgid="4583269174855943025">"No se ha podido realizar el envío debido a una incidencia relacionada con la red."</string>
+    <string name="service_network_problem" msgid="4583269174855943025">"No se ha podido realizar el envío debido a un problema con la red."</string>
     <string name="invalid_recipient_message" msgid="6465343105010999068">"Corrige la dirección de los destinatarios para que se pueda enviar el mensaje."</string>
     <string name="cannot_send_message" msgid="3414307479833622644">"No se puede enviar el mensaje"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Los destinatarios del mensaje no son válidos."</string>
@@ -158,13 +158,13 @@
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Solicitar un informe de entrega al enviar un mensaje"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Solicitar un informe de mensaje leído al enviar un mensaje"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Solicitar un informe de entrega cada vez que se envíe un mensaje"</string>
-    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Eliminar mensajes antiguos al superar los límites"</string>
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Eliminar mensajes antiguos al superar el límite de mensajes"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> mensajes por conversación"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Administrar mensajes de SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Informes de entrega"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Informes de leídos"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Informes de entrega"</string>
-    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Eliminar mensajes antiguos"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Borrar mensajes antiguos"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Límite de mensajes de texto"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Límite de mensajes multimedia"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notificaciones"</string>
@@ -172,7 +172,7 @@
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibración"</string>
     <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibrar también al notificar"</string>
     <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"Seleccionar tono"</string>
-    <string name="pref_messages_to_save" msgid="3202539743892934926">"Establece el número de mensajes que quieres guardar"</string>
+    <string name="pref_messages_to_save" msgid="3202539743892934926">"Elige el número de mensajes que quieres guardar"</string>
   <string-array name="prefEntries_vibrateWhen">
     <item msgid="2520871831815631409">"Siempre"</item>
     <item msgid="6069709696037750627">"Solo en modo silencio"</item>
@@ -181,8 +181,8 @@
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibración"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Recuperar automáticamente"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Recuperar mensajes automáticamente"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recuperar autom en itinerancia"</string>
-    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Recuperar automáticamente mensajes en itinerancia"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"En itinerancia"</string>
+    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Recuperar mensajes automáticamente en itinerancia"</string>
     <string name="confirm_dialog_title" msgid="2187213750475782725">"¿Eliminar?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"¿Quieres eliminar el mensaje bloqueado?"</string>
   <plurals name="confirm_delete_conversation">
