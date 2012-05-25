@@ -266,7 +266,7 @@
     <string name="type_video" msgid="8521556159545168441">"film wideo"</string>
     <string name="confirm" msgid="3155110885840591914">"Potwierdź"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Wysłany zostanie raport o odczytaniu wiadomości."</string>
-    <string name="message_queued" msgid="7975945623873194737">"Obecnie nie można wysłać wiadomości. Zostanie ona wysłana, gdy usługa będzie dostępna."</string>
+    <string name="message_queued" msgid="7975945623873194737">"W tej chwili nie można wysłać wiadomości. Wyślemy ją, gdy usługa będzie dostępna."</string>
     <string name="fdn_check_failure" msgid="7880740763778173551">"Wiadomości możesz wysyłać wyłącznie na swoje ustalone numery."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Brak tematu)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Nieznany nadawca"</string>
