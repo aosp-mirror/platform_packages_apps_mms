@@ -281,7 +281,15 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
         // multi-select mode (if we're in it) and remove all the selections.
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
+        Cursor cursor = mListAdapter.getCursor();
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
         mListAdapter.changeCursor(null);
+
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
     }
 
     public void onDraftChanged(final long threadId, final boolean hasDraft) {
