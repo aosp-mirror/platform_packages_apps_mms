@@ -286,6 +286,8 @@ public class ComposeMessageActivity extends Activity
 
     private String mDebugRecipients;
 
+    private Cursor mCursor = null;
+
     @SuppressWarnings("unused")
     public static void log(String logMsg) {
         Thread current = Thread.currentThread();
@@ -2093,6 +2095,10 @@ public class ComposeMessageActivity extends Activity
             mMsgListAdapter.changeCursor(null);
         }
 
+        if (mCursor != null && !mCursor.isClosed()) {
+            mCursor.close();
+        }
+
         if (mRecipientsEditor != null) {
             CursorAdapter recipientsAdapter = (CursorAdapter)mRecipientsEditor.getAdapter();
             if (recipientsAdapter != null) {
@@ -3655,6 +3661,8 @@ public class ComposeMessageActivity extends Activity
 
         @Override
         protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+            mCursor = cursor;
+
             switch(token) {
                 case MESSAGE_LIST_QUERY_TOKEN:
                     // check consistency between the query result and 'mConversation'
@@ -3677,17 +3685,17 @@ public class ComposeMessageActivity extends Activity
                     int newSelectionPos = -1;
                     long targetMsgId = getIntent().getLongExtra("select_id", -1);
                     if (targetMsgId != -1) {
-                        cursor.moveToPosition(-1);
-                        while (cursor.moveToNext()) {
-                            long msgId = cursor.getLong(COLUMN_ID);
+                        mCursor.moveToPosition(-1);
+                        while (mCursor.moveToNext()) {
+                            long msgId = mCursor.getLong(COLUMN_ID);
                             if (msgId == targetMsgId) {
-                                newSelectionPos = cursor.getPosition();
+                                newSelectionPos = mCursor.getPosition();
                                 break;
                             }
                         }
                     }
 
-                    mMsgListAdapter.changeCursor(cursor);
+                    mMsgListAdapter.changeCursor(mCursor);
                     if (newSelectionPos != -1) {
                         mMsgListView.setSelection(newSelectionPos);
                     }
@@ -3703,7 +3711,7 @@ public class ComposeMessageActivity extends Activity
                     // mSentMessage is true).
                     // Show the recipients editor to give the user a chance to add
                     // more people before the conversation begins.
-                    if (cursor.getCount() == 0 && !isRecipientsEditorVisible() && !mSentMessage) {
+                    if (mCursor.getCount() == 0 && !isRecipientsEditorVisible() && !mSentMessage) {
                         initRecipientsEditor();
                     }
 
@@ -3722,7 +3730,7 @@ public class ComposeMessageActivity extends Activity
                             new ConversationList.DeleteThreadListener(threadIds,
                                 mBackgroundQueryHandler, ComposeMessageActivity.this),
                             threadIds,
-                            cursor != null && cursor.getCount() > 0,
+                            mCursor != null && mCursor.getCount() > 0,
                             ComposeMessageActivity.this);
                     break;
             }
