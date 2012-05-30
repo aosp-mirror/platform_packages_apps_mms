@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGA3///6w\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3846,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-05-30T18:41:47Z",
+      "side": 1,
+      "message": "I wasn\u0027t able to repro the bug following your steps, but I tested on the latest tip-of-tree master branch, rather than what you\u0027re running. In any case, this function is running on the UI thread so we can\u0027t pass \"true\" for blocking, otherwise, the thread could ANR. Can you fix this bug in some other way?",
+      "revId": "5e7463d9468f61afc42c17c9c3f24cd03aa9056c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
