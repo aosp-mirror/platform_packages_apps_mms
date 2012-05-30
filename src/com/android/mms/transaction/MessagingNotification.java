@@ -24,6 +24,7 @@ import com.android.mms.R;
 import com.android.mms.LogTag;
 import com.android.mms.data.Contact;
 import com.android.mms.data.Conversation;
+import com.android.mms.data.WorkingMessage;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.ui.ComposeMessageActivity;
@@ -51,6 +52,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -67,9 +69,11 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
+import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -85,7 +89,7 @@ import java.util.TreeSet;
 public class MessagingNotification {
 
     private static final String TAG = LogTag.APP;
-    private static final boolean DEBUG = true;  // TODO turn off before ship
+    private static final boolean DEBUG = false;  // TODO turn off before ship
 
     private static final int NOTIFICATION_ID = 123;
     public static final int MESSAGE_FAILED_NOTIFICATION_ID = 789;
@@ -173,7 +177,7 @@ public class MessagingNotification {
     private static SortedSet<NotificationInfo> sNotificationSet =
             new TreeSet<NotificationInfo>(INFO_COMPARATOR);
 
-    private static final int MAX_MESSAGES_TO_SHOW = 9;  // the maximum number of new messages to
+    private static final int MAX_MESSAGES_TO_SHOW = 8;  // the maximum number of new messages to
                                                         // show in a single notification.
 
 
@@ -323,43 +327,193 @@ public class MessagingNotification {
 
     private static final class NotificationInfo {
         public final Intent mClickIntent;
-        public final String mDescription;
+        public final String mMessage;
         public final CharSequence mTicker;
         public final long mTimeMillis;
         public final String mTitle;
         public final Bitmap mAttachmentBitmap;
         public final Contact mSender;
         public final boolean mIsSms;
+        public final int mAttachmentType;
+        public final String mSubject;
+        public final long mThreadId;
 
         /**
          * @param isSms true if sms, false if mms
          * @param clickIntent where to go when the user taps the notification
-         * @param description for a single message, this is the message text
+         * @param message for a single message, this is the message text
+         * @param subject text of mms subject
          * @param ticker text displayed ticker-style across the notification, typically formatted
          * as sender: message
          * @param timeMillis date the message was received
          * @param title for a single message, this is the sender
          * @param attachmentBitmap a bitmap of an attachment, such as a picture or video
-         * @param contact of the sender
+         * @param sender contact of the sender
+         * @param attachmentType of the mms attachment
+         * @param threadId thread this message belongs to
          */
         public NotificationInfo(boolean isSms,
-                Intent clickIntent, String description,
+                Intent clickIntent, String message, String subject,
                 CharSequence ticker, long timeMillis, String title,
-                Bitmap attachmentBitmap, Contact sender) {
+                Bitmap attachmentBitmap, Contact sender,
+                int attachmentType, long threadId) {
             mIsSms = isSms;
             mClickIntent = clickIntent;
-            mDescription = description;
+            mMessage = message;
+            mSubject = subject;
             mTicker = ticker;
             mTimeMillis = timeMillis;
             mTitle = title;
             mAttachmentBitmap = attachmentBitmap;
             mSender = sender;
+            mAttachmentType = attachmentType;
+            mThreadId = threadId;
         }
 
         public long getTime() {
             return mTimeMillis;
         }
+
+        // This is the message string used in bigText and bigPicture notifications.
+        public CharSequence formatBigMessage(Context context) {
+            final TextAppearanceSpan notificationSubjectSpan = new TextAppearanceSpan(
+                    context, R.style.NotificationPrimaryText);
+
+            // Change multiple newlines (with potential white space between), into a single new line
+            final String message =
+                    !TextUtils.isEmpty(mMessage) ? mMessage.replaceAll("\\n\\s+", "\n") : "";
+
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+            if (!TextUtils.isEmpty(mSubject)) {
+                spannableStringBuilder.append(mSubject);
+                spannableStringBuilder.setSpan(notificationSubjectSpan, 0, mSubject.length(), 0);
+            }
+            if (mAttachmentType > WorkingMessage.TEXT) {
+                if (spannableStringBuilder.length() > 0) {
+                    spannableStringBuilder.append('\n');
+                }
+                spannableStringBuilder.append(getAttachmentTypeString(context, mAttachmentType));
+            }
+            if (mMessage != null) {
+                if (spannableStringBuilder.length() > 0) {
+                    spannableStringBuilder.append('\n');
+                }
+                spannableStringBuilder.append(mMessage);
+            }
+            return spannableStringBuilder;
+        }
+
+        // This is the message string used in each line of an inboxStyle notification.
+        public CharSequence formatInboxMessage(Context context) {
+          final TextAppearanceSpan notificationSenderSpan = new TextAppearanceSpan(
+                  context, R.style.NotificationPrimaryText);
+
+          final TextAppearanceSpan notificationSubjectSpan = new TextAppearanceSpan(
+                  context, R.style.NotificationSubjectText);
+
+          // Change multiple newlines (with potential white space between), into a single new line
+          final String message =
+                  !TextUtils.isEmpty(mMessage) ? mMessage.replaceAll("\\n\\s+", "\n") : "";
+
+          SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+          final String sender = mSender.getName();
+          if (!TextUtils.isEmpty(sender)) {
+              spannableStringBuilder.append(sender);
+              spannableStringBuilder.setSpan(notificationSenderSpan, 0, sender.length(), 0);
+          }
+          String separator = context.getString(R.string.notification_separator);
+          if (!mIsSms) {
+              if (!TextUtils.isEmpty(mSubject)) {
+                  if (spannableStringBuilder.length() > 0) {
+                      spannableStringBuilder.append(separator);
+                  }
+                  int start = spannableStringBuilder.length();
+                  spannableStringBuilder.append(mSubject);
+                  spannableStringBuilder.setSpan(notificationSubjectSpan, start,
+                          start + mSubject.length(), 0);
+              }
+              if (mAttachmentType > WorkingMessage.TEXT) {
+                  if (spannableStringBuilder.length() > 0) {
+                      spannableStringBuilder.append(separator);
+                  }
+                  spannableStringBuilder.append(getAttachmentTypeString(context, mAttachmentType));
+              }
+          }
+          if (message.length() > 0) {
+              if (spannableStringBuilder.length() > 0) {
+                  spannableStringBuilder.append(separator);
+              }
+              int start = spannableStringBuilder.length();
+              spannableStringBuilder.append(message);
+              spannableStringBuilder.setSpan(notificationSubjectSpan, start,
+                      start + message.length(), 0);
+          }
+          return spannableStringBuilder;
+        }
+
+        // This is the summary string used in bigPicture notifications.
+        public CharSequence formatPictureMessage(Context context) {
+            final TextAppearanceSpan notificationSubjectSpan = new TextAppearanceSpan(
+                    context, R.style.NotificationPrimaryText);
+
+            // Change multiple newlines (with potential white space between), into a single new line
+            final String message =
+                    !TextUtils.isEmpty(mMessage) ? mMessage.replaceAll("\\n\\s+", "\n") : "";
+
+            // Show the subject or the message (if no subject)
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+            if (!TextUtils.isEmpty(mSubject)) {
+                spannableStringBuilder.append(mSubject);
+                spannableStringBuilder.setSpan(notificationSubjectSpan, 0, mSubject.length(), 0);
+            }
+            if (message.length() > 0 && spannableStringBuilder.length() == 0) {
+                spannableStringBuilder.append(message);
+                spannableStringBuilder.setSpan(notificationSubjectSpan, 0, message.length(), 0);
+            }
+            return spannableStringBuilder;
+        }
     }
+
+    // Return a formatted string with all the sender names separated by commas.
+    private static CharSequence formatSenders(Context context,
+            ArrayList<NotificationInfo> senders) {
+        final TextAppearanceSpan notificationSenderSpan = new TextAppearanceSpan(
+                context, R.style.NotificationPrimaryText);
+
+        String separator = context.getString(R.string.enumeration_comma);   // ", "
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+        int len = senders.size();
+        for (int i = 0; i < len; i++) {
+            if (i > 0) {
+                spannableStringBuilder.append(separator);
+            }
+            spannableStringBuilder.append(senders.get(i).mSender.getName());
+        }
+        spannableStringBuilder.setSpan(notificationSenderSpan, 0,
+                spannableStringBuilder.length(), 0);
+        return spannableStringBuilder;
+    }
+
+    // Return a formatted string with the attachmentType spelled out as a string. For
+    // no attachment (or just text), return null.
+    private static CharSequence getAttachmentTypeString(Context context, int attachmentType) {
+        final TextAppearanceSpan notificationAttachmentSpan = new TextAppearanceSpan(
+                context, R.style.NotificationSecondaryText);
+        int id = 0;
+        switch (attachmentType) {
+            case WorkingMessage.AUDIO: id = R.string.attachment_audio; break;
+            case WorkingMessage.VIDEO: id = R.string.attachment_video; break;
+            case WorkingMessage.SLIDESHOW: id = R.string.attachment_slideshow; break;
+            case WorkingMessage.IMAGE: id = R.string.attachment_picture; break;
+        }
+        if (id > 0) {
+            final SpannableString spannableString = new SpannableString(context.getString(id));
+            spannableString.setSpan(notificationAttachmentSpan,
+                    0, spannableString.length(), 0);
+            return spannableString;
+        }
+        return null;
+     }
 
     /**
      *
@@ -419,11 +573,13 @@ public class MessagingNotification {
                 // Extract the message and/or an attached picture from the first slide
                 Bitmap attachedPicture = null;
                 String messageBody = null;
+                int attachmentType = WorkingMessage.TEXT;
                 try {
                     GenericPdu pdu = sPduPersister.load(msgUri);
                     if (pdu != null && pdu instanceof MultimediaMessagePdu) {
                         SlideshowModel slideshow = SlideshowModel.createFromPduBody(context,
                                 ((MultimediaMessagePdu)pdu).getBody());
+                        attachmentType = getAttachmentType(slideshow);
                         SlideModel firstSlide = slideshow.get(0);
                         if (firstSlide != null) {
                             if (firstSlide.hasImage()) {
@@ -439,14 +595,15 @@ public class MessagingNotification {
                     Log.e(TAG, "MmsException loading uri: " + msgUri, e);
                 }
 
-                NotificationInfo info = getNewMessageNotificationInfo(false,
+                NotificationInfo info = getNewMessageNotificationInfo(context,
+                        false /* isSms */,
                         address,
-                        TextUtils.isEmpty(subject) ? messageBody : subject,
-                                context,
-                                null, threadId,
-                                timeMillis,
-                                attachedPicture,
-                                contact);
+                        messageBody, subject,
+                        threadId,
+                        timeMillis,
+                        attachedPicture,
+                        contact,
+                        attachmentType);
 
                 sNotificationSet.add(info);
 
@@ -455,6 +612,27 @@ public class MessagingNotification {
         } finally {
             cursor.close();
         }
+    }
+
+    // Look at the passed in slideshow and determine what type of attachment it is.
+    private static int getAttachmentType(SlideshowModel slideshow) {
+        int slideCount = slideshow.size();
+
+        if (slideCount == 0) {
+            return WorkingMessage.TEXT;
+        } else if (slideCount > 1) {
+            return WorkingMessage.SLIDESHOW;
+        } else {
+            SlideModel slide = slideshow.get(0);
+            if (slide.hasImage()) {
+                return WorkingMessage.IMAGE;
+            } else if (slide.hasVideo()) {
+                return WorkingMessage.VIDEO;
+            } else if (slide.hasAudio()) {
+                return WorkingMessage.AUDIO;
+            }
+        }
+        return WorkingMessage.TEXT;
     }
 
     private static final int dp2Pixels(int dip) {
@@ -511,7 +689,7 @@ public class MessagingNotification {
                     continue;
                 }
 
-                String body = cursor.getString(COLUMN_SMS_BODY);
+                String message = cursor.getString(COLUMN_SMS_BODY);
                 long threadId = cursor.getLong(COLUMN_THREAD_ID);
                 long timeMillis = cursor.getLong(COLUMN_DATE);
 
@@ -522,10 +700,10 @@ public class MessagingNotification {
                 }
 
 
-                NotificationInfo info = getNewMessageNotificationInfo(true,
-                        address, body, context,
-                        null, threadId, timeMillis, null,
-                        contact);
+                NotificationInfo info = getNewMessageNotificationInfo(context, true /* isSms */,
+                        address, message, null /* subject */,
+                        threadId, timeMillis, null /* attachmentBitmap */,
+                        contact, WorkingMessage.TEXT);
 
                 sNotificationSet.add(info);
 
@@ -538,15 +716,16 @@ public class MessagingNotification {
     }
 
     private static final NotificationInfo getNewMessageNotificationInfo(
+            Context context,
             boolean isSms,
             String address,
-            String body,
-            Context context,
+            String message,
             String subject,
             long threadId,
             long timeMillis,
             Bitmap attachmentBitmap,
-            Contact contact) {
+            Contact contact,
+            int attachmentType) {
         Intent clickIntent = ComposeMessageActivity.createIntent(context, threadId);
         clickIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -557,11 +736,11 @@ public class MessagingNotification {
         String senderInfoName = senderInfo.substring(
                 0, senderInfo.length() - 2);
         CharSequence ticker = buildTickerMessage(
-                context, address, subject, body);
+                context, address, subject, message);
 
         return new NotificationInfo(isSms,
-                clickIntent, body, ticker, timeMillis,
-                senderInfoName, attachmentBitmap, contact);
+                clickIntent, message, subject, ticker, timeMillis,
+                senderInfoName, attachmentBitmap, contact, attachmentType, threadId);
     }
 
     public static void cancelNotification(Context context, int notificationId) {
@@ -613,28 +792,13 @@ public class MessagingNotification {
 
         // Figure out what we've got -- whether all sms's, mms's, or a mixture of both.
         int messageCount = sNotificationSet.size();
-        boolean haveSms = false;
-        boolean haveMms = false;
-        NotificationInfo mostRecentNotification = null;
-        Iterator<NotificationInfo> notifications = sNotificationSet.iterator();
-        while (notifications.hasNext() && !(haveSms && haveMms)) {
-            NotificationInfo notification = notifications.next();
-            if (notification.mIsSms) {
-                haveSms = true;
-            } else {
-                haveMms = true;
-            }
-            if (mostRecentNotification == null) {
-                // Save the most recent, we'll use it later for dates and stuff
-                mostRecentNotification = notification;
-            }
-        }
+        NotificationInfo mostRecentNotification = sNotificationSet.first();
 
         final Notification.Builder noti = new Notification.Builder(context)
                 .setWhen(mostRecentNotification.mTimeMillis);
 
         if (isNew) {
-            noti.setTicker(mostRecentNotification.mTicker); // TODO - where is ticker set?
+            noti.setTicker(mostRecentNotification.mTicker);
         }
         TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
 
@@ -648,15 +812,9 @@ public class MessagingNotification {
         //   2) multiple messages from single thread - intent goes to ComposeMessageActivity
         //   3) messages from multiple threads - intent goes to ConversationList
 
+        final Resources res = context.getResources();
         String title = null;
         if (uniqueThreadCount > 1) {    // messages from multiple threads
-            // TODO: we need large bitmaps for the SMS and MMS icons
-            BitmapDrawable bigIconDrawable = (BitmapDrawable)context.getResources()
-                    .getDrawable(haveMms ? R.drawable.stat_notify_mms
-                    : R.drawable.stat_notify_sms);
-
-            noti.setLargeIcon(bigIconDrawable.getBitmap());
-
             Intent mainActivityIntent = new Intent(Intent.ACTION_MAIN);
 
             mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -665,25 +823,37 @@ public class MessagingNotification {
 
             mainActivityIntent.setType("vnd.android-dir/mms-sms");
             taskStackBuilder.addNextIntent(mainActivityIntent);
+            title = context.getString(R.string.message_count_notification, messageCount);
         } else {    // same thread, single or multiple messages
-            if (messageCount > 1) {
-                title = context.getString(R.string.message_count_notification, messageCount);
-            } else {
-                title = mostRecentNotification.mTitle;
-            }
+            title = mostRecentNotification.mTitle;
             BitmapDrawable contactDrawable = (BitmapDrawable)mostRecentNotification.mSender
                     .getAvatar(context, null);
-            noti.setLargeIcon(contactDrawable != null ? contactDrawable.getBitmap() :
-                ((BitmapDrawable)context.getResources()
-                .getDrawable(haveMms ? R.drawable.stat_notify_mms
-                        : R.drawable.stat_notify_sms)).getBitmap());
+            if (contactDrawable != null) {
+                // Show the sender's avatar as the big icon. Contact bitmaps are 96x96 so we
+                // have to scale 'em up to 128x128 to fill the whole notification large icon.
+                Bitmap avatar = contactDrawable.getBitmap();
+                if (avatar != null) {
+                    final int idealIconHeight =
+                        res.getDimensionPixelSize(android.R.dimen.notification_large_icon_height);
+                    final int idealIconWidth =
+                         res.getDimensionPixelSize(android.R.dimen.notification_large_icon_width);
+                    if (avatar.getHeight() < idealIconHeight) {
+                        // Scale this image to fit the intended size
+                        avatar = Bitmap.createScaledBitmap(
+                                avatar, idealIconWidth, idealIconHeight, true);
+                    }
+                    if (avatar != null) {
+                        noti.setLargeIcon(avatar);
+                    }
+                }
+            }
 
             taskStackBuilder.addParentStack(ComposeMessageActivity.class);
             taskStackBuilder.addNextIntent(mostRecentNotification.mClickIntent);
         }
-        if (messageCount > 1) {
-            title = context.getString(R.string.message_count_notification, messageCount);
-        }
+        // Always have to set the small icon or the notification is ignored
+        noti.setSmallIcon(R.drawable.stat_notify_sms);
+
         NotificationManager nm = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -692,12 +862,8 @@ public class MessagingNotification {
             .setContentIntent(
                     taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT))
             .addKind(Notification.KIND_MESSAGE)
-            .setPriority(Notification.PRIORITY_DEFAULT)     // TODO: set based on contact coming
-                                                            // from a favorite.
-            // NOTE: you *have* to set an icon. If you don't, the notification will get ignored.
-            // See NotificationManagerService.enqueueNotificationInternal()
-            .setSmallIcon(haveMms ? R.drawable.stat_notify_mms
-                : R.drawable.stat_notify_sms);
+            .setPriority(Notification.PRIORITY_DEFAULT);     // TODO: set based on contact coming
+                                                             // from a favorite.
 
         int defaults = 0;
 
@@ -745,55 +911,91 @@ public class MessagingNotification {
 
         final Notification notification;
 
-        // TODO: this whole section needs clarification. For instance, does a recent picture
-        // trump showing a list of unread conversations?
-        if (mostRecentNotification.mAttachmentBitmap != null) {
-            notification = new Notification.BigPictureStyle(noti)
-                .bigPicture(mostRecentNotification.mAttachmentBitmap)
-                .build();
-        } else if (messageCount > 1) {
-            Notification.InboxStyle inboxStyle = new Notification.InboxStyle(noti);
+        if (messageCount == 1) {
+            // We've got a single message
+            if (mostRecentNotification.mAttachmentBitmap != null) {
+                // The message has a picture, show that
 
-            // TODO: design decision: do we show the latest message from each thread or show the
-            // latest messages? For instance, the last N messages might be from the same sender.
-            // Do we show them separately or only the latest? For now, the code is showing them
-            // separately.
-            int maxMessages = Math.min(MAX_MESSAGES_TO_SHOW, messageCount);
+                // This sets the text for the collapsed form:
+                noti.setContentText(mostRecentNotification.formatBigMessage(context));
 
-            int overflowCount = messageCount - MAX_MESSAGES_TO_SHOW;
-            if (overflowCount > 0) {
-                // Show a message like "+9 more messages" at the bottom of the notification
-                noti.setContentText(context.getResources().getQuantityString(
-                R.plurals.message_count_notification_overflow, overflowCount, overflowCount));
-            }
-            Iterator<NotificationInfo> multiNotifs = sNotificationSet.iterator();
-            while (multiNotifs.hasNext() && maxMessages-- > 0) {
-                NotificationInfo info = multiNotifs.next();
-
-                // Sender's name in bold
-                SpannableStringBuilder buf = new SpannableStringBuilder();
-                buf.append(info.mSender.getName());
-                buf.setSpan(new StyleSpan(Typeface.BOLD), 0, buf.length(), 0);
-
-                // followed by the message if there is one
-                if (info.mDescription != null) {
-                    buf.append(' ');
-                    buf.append(info.mDescription);
-                }
-                inboxStyle.addLine(buf);
-            }
-            // NOTE, there's no title when showing multiple messages so leave null.
-            // TODO: waiting on a new template where we can set each line of text -- one line
-            // of text per unread conversation.
-            notification = inboxStyle.build();
-            if (DEBUG) {
-                Log.d(TAG, "updateNotification: multi messages, showing inboxStyle notification");
+                notification = new Notification.BigPictureStyle(noti)
+                    .bigPicture(mostRecentNotification.mAttachmentBitmap)
+                    // This sets the text for the expanded picture form:
+                    .setSummaryText(mostRecentNotification.formatPictureMessage(context))
+                    .build();
+            } else {
+                // Show a single notification -- big style with the text of the whole message
+                notification = new Notification.BigTextStyle(noti)
+                    .bigText(mostRecentNotification.formatBigMessage(context))
+                    .build();
             }
         } else {
-            // Show a single notification -- big style with the text of the whole message
-            notification = new Notification.BigTextStyle(noti)
-                .bigText(mostRecentNotification.mDescription)
-                .build();
+            // We've got multiple messages
+            if (uniqueThreadCount == 1) {
+                // We've got multiple messages for the same thread.
+                // Starting with the oldest new message, display the full text of each message.
+                // Begin a line for each subsequent message.
+                SpannableStringBuilder buf = new SpannableStringBuilder();
+                NotificationInfo infos[] =
+                        sNotificationSet.toArray(new NotificationInfo[sNotificationSet.size()]);
+                int len = infos.length;
+                for (int i = len - 1; i >= 0; i--) {
+                    NotificationInfo info = infos[i];
+
+                    buf.append(info.formatBigMessage(context));
+
+                    if (i != 0) {
+                        buf.append('\n');
+                    }
+                }
+
+                noti.setContentText(context.getString(R.string.message_count_notification,
+                        messageCount));
+
+                // Show a single notification -- big style with the text of all the messages
+                notification = new Notification.BigTextStyle(noti)
+                    .bigText(buf)
+                    .setSummaryText(" ")
+                    .build();
+            } else {
+                // Build a set of the most recent notification per threadId.
+                HashSet<Long> uniqueThreads = new HashSet<Long>(sNotificationSet.size());
+                ArrayList<NotificationInfo> mostRecentNotifPerThread =
+                        new ArrayList<NotificationInfo>();
+                Iterator<NotificationInfo> notifications = sNotificationSet.iterator();
+                while (notifications.hasNext()) {
+                    NotificationInfo notificationInfo = notifications.next();
+                    if (!uniqueThreads.contains(notificationInfo.mThreadId)) {
+                        uniqueThreads.add(notificationInfo.mThreadId);
+                        mostRecentNotifPerThread.add(notificationInfo);
+                    }
+                }
+                // When collapsed, show all the senders like this:
+                //     Fred Flinstone, Barry Manilow, Pete...
+                noti.setContentText(formatSenders(context, mostRecentNotifPerThread));
+                Notification.InboxStyle inboxStyle = new Notification.InboxStyle(noti);
+
+                // We have to set the summary text to non-empty so the content text doesn't show
+                // up when expanded.
+                inboxStyle.setSummaryText(" ");
+
+                // At this point we've got multiple messages in multiple threads. We only
+                // want to show the most recent message per thread, which are in
+                // mostRecentNotifPerThread.
+                int uniqueThreadMessageCount = mostRecentNotifPerThread.size();
+                int maxMessages = Math.min(MAX_MESSAGES_TO_SHOW, uniqueThreadMessageCount);
+
+                for (int i = 0; i < maxMessages; i++) {
+                    NotificationInfo info = mostRecentNotifPerThread.get(i);
+                    inboxStyle.addLine(info.formatInboxMessage(context));
+                }
+                notification = inboxStyle.build();
+                if (DEBUG) {
+                    Log.d(TAG, "updateNotification: multi messages," +
+                            " showing inboxStyle notification");
+                }
+            }
         }
 
         nm.notify(NOTIFICATION_ID, notification);

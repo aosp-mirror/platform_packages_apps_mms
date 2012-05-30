@@ -747,7 +747,6 @@
         <item quantity="other">+<xliff:g id="number" example="15">%1$s</xliff:g> other messages"</item>
     </plurals>
 
-
     <!-- For debugging: Dialog box title indicating there's a situation where data has unexpectedly
          changed -->
     <string name="error_state">Inconsistent state</string>
@@ -767,6 +766,21 @@
 
     <!-- Displayed at the end of the conversation list in the widget. Tapping on this will open the default conversation list. [CHAR LIMIT=35] -->
     <string name="view_more_conversations">View more conversations</string>
+
+    <!-- Attachment type shown in notification. [CHAR LIMIT=35] -->
+    <string name="attachment_audio">Audio</string>
+    <!-- Attachment type shown in notification. [CHAR LIMIT=35] -->
+    <string name="attachment_slideshow">Slideshow</string>
+    <!-- Attachment type shown in notification. [CHAR LIMIT=35] -->
+    <string name="attachment_video">Video</string>
+    <!-- Attachment type shown in notification. [CHAR LIMIT=35] -->
+    <string name="attachment_picture">Picture</string>
+
+    <!-- Separator between parts of a notification in each line of an inboxStyle notification. [CHAR LIMIT=2] -->
+    <string name="notification_separator">\u0020\u0020</string>
+
+    <!-- An enumeration comma for separating multiple names in notifications. [CHAR LIMIT=2] -->
+    <string name="enumeration_comma">,\u0020</string>
 
 </resources>
 
