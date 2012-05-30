@@ -140,7 +140,7 @@
     <item msgid="7786079681602275449">"其他"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"檢視聯絡人"</string>
-    <string name="menu_add_to_contacts" msgid="1258127580972228970">"新增至「使用者」"</string>
+    <string name="menu_add_to_contacts" msgid="1258127580972228970">"加入聯絡人"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"隱藏寄件者地址"</string>
     <string name="yes" msgid="3246158147503160811">"確定"</string>
     <string name="no" msgid="4289742508556913860">"取消"</string>
@@ -336,4 +336,16 @@
   </plurals>
     <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"要停止預設「簡訊」應用程式發出重複的簡訊通知嗎？"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"查看更多會話群組"</string>
+    <!-- no translation found for attachment_audio (2867960243300539143) -->
+    <skip />
+    <!-- no translation found for attachment_slideshow (5867689101881763318) -->
+    <skip />
+    <!-- no translation found for attachment_video (4252062022156694591) -->
+    <skip />
+    <!-- no translation found for attachment_picture (3709286281567284296) -->
+    <skip />
+    <!-- no translation found for notification_separator (2334673105226536422) -->
+    <skip />
+    <!-- no translation found for enumeration_comma (213598026698964628) -->
+    <skip />
 </resources>
