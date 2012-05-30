@@ -92,7 +92,7 @@
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Velikost fotografie se nepodařilo přizpůsobit."</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"Obrázek je příliš velký a nelze ho odeslat ani po změně velikosti."</string>
     <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
-    <string name="discard_message_reason" msgid="2667664943003796133">"Zpráva bude zrušena, protože neobsahuje žádné platné příjemce."</string>
+    <string name="discard_message_reason" msgid="2667664943003796133">"Zpráva bude zahozena, protože neobsahuje žádné platné příjemce."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Neplatní příjemci: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"Neplatná cílová adresa."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Služba není v síti aktivována."</string>
@@ -168,7 +168,7 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limit textových zpráv"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limit multimediálních zpráv"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Oznámení"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Zobrazit oznámení o zprávě na stavovém řádku"</string>
+    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Zobrazovat oznámení o zprávě na stavovém řádku"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibrace"</string>
     <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Při oznámení také vibrovat"</string>
     <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"Zvolit vyzvánění"</string>
@@ -181,7 +181,7 @@
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibrace"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Automatické načítání"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Automaticky načítat zprávy"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Automatické načítání při roamingu"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Autonačítání za roamingu"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Automaticky načítat zprávy i při roamingu"</string>
     <string name="confirm_dialog_title" msgid="2187213750475782725">"Smazat?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Smazat uzamčenou zprávu?"</string>
@@ -242,7 +242,7 @@
     <string name="status_label" msgid="7283375460919181660">"Stav: "</string>
     <string name="delivered_label" msgid="3514011729156932928">"Doručeno: "</string>
     <string name="attach_image" msgid="6439985727687107742">"Fotografie"</string>
-    <string name="attach_take_photo" msgid="4280601313184373837">"Fotografovat"</string>
+    <string name="attach_take_photo" msgid="4280601313184373837">"Pořídit fotku"</string>
     <string name="attach_video" msgid="4264272693501538294">"Videa"</string>
     <string name="attach_record_video" msgid="3099814114743078615">"Natočit video"</string>
     <string name="attach_sound" msgid="3149325985970669609">"Zvuk"</string>
@@ -336,4 +336,16 @@
   </plurals>
     <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Zastavit duplicitní oznámení o textových zprávách z výchozí aplikace SMS a MMS?"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"Zobrazit další konverzace"</string>
+    <!-- no translation found for attachment_audio (2867960243300539143) -->
+    <skip />
+    <!-- no translation found for attachment_slideshow (5867689101881763318) -->
+    <skip />
+    <!-- no translation found for attachment_video (4252062022156694591) -->
+    <skip />
+    <!-- no translation found for attachment_picture (3709286281567284296) -->
+    <skip />
+    <!-- no translation found for notification_separator (2334673105226536422) -->
+    <skip />
+    <!-- no translation found for enumeration_comma (213598026698964628) -->
+    <skip />
 </resources>
