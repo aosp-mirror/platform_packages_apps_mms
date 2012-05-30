@@ -472,7 +472,8 @@ public class SlideView extends AbsoluteLayout implements
                 protected void onScrollChanged(int l, int t, int oldl, int oldt) {
                     // Shows MediaController when the view is scrolled to the top/bottom of itself.
                     if (t == 0 || t >= mBottomY){
-                        if (mMediaController != null) {
+                        if (mMediaController != null
+                                && !((SlideshowActivity) mContext).isFinishing()) {
                             mMediaController.show();
                         }
                     }
