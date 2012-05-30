@@ -600,13 +600,12 @@ public class ComposeMessageActivity extends Activity
 
                         MmsApp.getApplication().getPduLoaderManager()
                             .removePdu(mMessageItem.mMessageUri);
-
                         // Delete the message *after* we've removed the thumbnails because we
                         // need the pdu and slideshow for removeThumbnailsFromCache to work.
-                        mBackgroundQueryHandler.startDelete(DELETE_MESSAGE_TOKEN,
-                                null, mMessageItem.mMessageUri,
-                                mMessageItem.mLocked ? null : "locked=0", null);
                     }
+                    mBackgroundQueryHandler.startDelete(DELETE_MESSAGE_TOKEN,
+                            null, mMessageItem.mMessageUri,
+                            mMessageItem.mLocked ? null : "locked=0", null);
                     return null;
                 }
             }.execute();
@@ -3799,7 +3798,25 @@ public class ComposeMessageActivity extends Activity
                     // conversation's message count is eventually used in
                     // WorkingMessage.clearConversation to determine whether to delete
                     // the conversation or not.
-                    mConversation.setMessageCount(mMsgListAdapter.getCount());
+                    int cnt = mMsgListAdapter.getCount();
+                    mConversation.setMessageCount(cnt);
+                    if (cnt == 0 && mConversation.getThreadId() > 0) {
+                        // We just deleted the last message and the thread will get deleted
+                        // by a trigger in the database. Clear the threadId so next time we
+                        // need the threadId a new thread will get created.
+                        // (At the instant the user long-presses a message to delete it, we know
+                        // whether it's the last message or not. By the time the user responds
+                        // to the "Do you really want to delete this message?", new messages could
+                        // have arrived. The best place for this clean-up code would be in
+                        // onDeleteComplete, but as mentioned, there's no way to know at that point
+                        // whether the message just deleted was the last one or not. It would be
+                        // possible to create an async task to query the database for the message
+                        // count, but at the same time, the DB changed so our dataset changed
+                        // listener has started a new query. Having two queries running
+                        // simultaneously would thrash each other. As a result, the safest place
+                        // to put this check is here, immediately after doing a query)
+                        mWorkingMessage.clearConversation(mConversation, true);
+                    }
 
                     // Once we have completed the query for the message history, if
                     // there is nothing in the cursor and we are not composing a new
