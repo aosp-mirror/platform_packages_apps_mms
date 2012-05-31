@@ -1802,18 +1802,25 @@ public class ComposeMessageActivity extends Activity
 
         // Load the draft for this thread, if we aren't already handling
         // existing data, such as a shared picture or forwarded message.
-        boolean isForwardedMessage = false;
+        boolean isForwardedMessage = handleForwardedMessage();
         // We don't attempt to handle the Intent.ACTION_SEND when saveInstanceState is non-null.
         // saveInstanceState is non-null when this activity is killed. In that case, we already
         // handled the attachment or the send, so we don't try and parse the intent again.
         boolean intentHandled = savedInstanceState == null &&
-            (handleSendIntent() || handleForwardedMessage());
+            (handleSendIntent() || isForwardedMessage);
         if (!intentHandled) {
             loadDraft();
         }
 
         // Let the working message know what conversation it belongs to
         mWorkingMessage.setConversation(mConversation);
+
+        // Actually, the forwarded Mms is already a draft with the content
+        // Mms.Draft.CONTENT_URI, but the draft state wasn't set. So force
+        // to sync the state after set the conversation.
+        if (isForwardedMessage) {
+            mWorkingMessage.saveAsMms(true);
+        }
 
         // Show the recipients editor if we don't have a valid thread. Hide it otherwise.
         if (mConversation.getThreadId() <= 0) {
