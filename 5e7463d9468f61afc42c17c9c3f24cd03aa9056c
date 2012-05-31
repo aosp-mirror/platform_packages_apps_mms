@@ -16,6 +16,24 @@
       "revId": "5e7463d9468f61afc42c17c9c3f24cd03aa9056c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGIH////Y\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3846,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2012-05-31T05:38:22Z",
+      "side": 1,
+      "message": "It can be reproduced on my Galaxy Nexus flashed the google factory image[4.0.4] and SDK emulator[4.0.3], but I also cannot reproduce it on the master emulator image built with the newest code by mine. I will investigate if it was already fixed or should append some else steps to repro. Anyway please review the changes in RecipientsEditor.java, it can fix the issue that recipients editor will be populated as the contacts with a wrong number(Save contact \"A\" with the number \"1234567890\" and input the number \"1234567890* ,\" in the recipient editor and then TAP message editor. After that please check the contacts populated in the editor.)",
+      "parentUuid": "AAAGA3///6w\u003d",
+      "revId": "5e7463d9468f61afc42c17c9c3f24cd03aa9056c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
