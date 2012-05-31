@@ -1983,11 +1983,6 @@ public class ComposeMessageActivity extends Activity
                 mConversation.getThreadId() == 0) &&
                 conversation.equals(mConversation));
 
-        // Don't let any markAsRead DB updates occur before we've loaded the messages for
-        // the thread. Unblocking occurs when we're done querying for the conversation
-        // items.
-        conversation.blockMarkAsRead(true);
-
         if (sameThread) {
             log("onNewIntent: same conversation");
             if (mConversation.getThreadId() == 0) {
@@ -1996,7 +1991,6 @@ public class ComposeMessageActivity extends Activity
                 updateThreadIdIfRunning();
                 invalidateOptionsMenu();
             }
-            mConversation.markAsRead();         // dismiss any notifications for this convo
         } else {
             if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 log("onNewIntent: different conversation");
@@ -2054,7 +2048,6 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onStart() {
         super.onStart();
-        mConversation.blockMarkAsRead(true);
 
         initFocus();
 
@@ -2079,6 +2072,11 @@ public class ComposeMessageActivity extends Activity
     }
 
     public void loadMessageContent() {
+        // Don't let any markAsRead DB updates occur before we've loaded the messages for
+        // the thread. Unblocking occurs when we're done querying for the conversation
+        // items.
+        mConversation.blockMarkAsRead(true);
+        mConversation.markAsRead();         // dismiss any notifications for this convo
         startMsgListQuery();
         updateSendFailedNotification();
         drawBottomPanel();
@@ -2261,13 +2259,6 @@ public class ComposeMessageActivity extends Activity
     @Override
     public void onUserInteraction() {
         checkPendingNotification();
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        if (hasFocus) {
-            checkPendingNotification();
-        }
     }
 
     @Override
