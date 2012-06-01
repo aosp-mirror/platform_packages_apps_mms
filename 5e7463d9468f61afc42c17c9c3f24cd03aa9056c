@@ -34,6 +34,23 @@
       "revId": "5e7463d9468f61afc42c17c9c3f24cd03aa9056c",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGNX////g\u003d",
+        "filename": "src/com/android/mms/ui/RecipientsEditor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2012-06-01T04:47:31Z",
+      "side": 1,
+      "message": "Will remove this changes in RecipientsEditor since I have already uploaded another patch \"Change I07dcf30b: No need to set the number for the contact in DB\" to fix this issue.",
+      "revId": "5e7463d9468f61afc42c17c9c3f24cd03aa9056c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
