@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGNX///+4\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1136,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2012-06-01T08:04:30Z",
+      "side": 1,
+      "message": "Pls fix the whitespace error",
+      "revId": "b85df981a2c556298dfaa7e2909421c0d1e491b4",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
