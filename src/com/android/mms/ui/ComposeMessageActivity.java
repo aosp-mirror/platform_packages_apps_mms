@@ -220,6 +220,7 @@ public class ComposeMessageActivity extends Activity
     private static final int RECIPIENTS_MAX_LENGTH = 312;
 
     private static final int MESSAGE_LIST_QUERY_TOKEN = 9527;
+    private static final int MESSAGE_LIST_QUERY_AFTER_DELETE_TOKEN = 9528;
 
     private static final int DELETE_MESSAGE_TOKEN  = 9700;
 
@@ -3364,6 +3365,10 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void startMsgListQuery() {
+        startMsgListQuery(MESSAGE_LIST_QUERY_TOKEN);
+    }
+
+    private void startMsgListQuery(int token) {
         Uri conversationUri = mConversation.getUri();
 
         if (conversationUri == null) {
@@ -3373,15 +3378,16 @@ public class ComposeMessageActivity extends Activity
 
         long threadId = mConversation.getThreadId();
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("startMsgListQuery for " + conversationUri + ", threadId=" + threadId);
+            log("startMsgListQuery for " + conversationUri + ", threadId=" + threadId +
+                    " token: " + token + " mConversation: " + mConversation);
         }
 
         // Cancel any pending queries
-        mBackgroundQueryHandler.cancelOperation(MESSAGE_LIST_QUERY_TOKEN);
+        mBackgroundQueryHandler.cancelOperation(token);
         try {
             // Kick off the new query
             mBackgroundQueryHandler.startQuery(
-                    MESSAGE_LIST_QUERY_TOKEN,
+                    token,
                     threadId /* cookie */,
                     conversationUri,
                     PROJECTION,
@@ -3823,25 +3829,7 @@ public class ComposeMessageActivity extends Activity
                     // conversation's message count is eventually used in
                     // WorkingMessage.clearConversation to determine whether to delete
                     // the conversation or not.
-                    int cnt = mMsgListAdapter.getCount();
-                    mConversation.setMessageCount(cnt);
-                    if (cnt == 0 && mConversation.getThreadId() > 0) {
-                        // We just deleted the last message and the thread will get deleted
-                        // by a trigger in the database. Clear the threadId so next time we
-                        // need the threadId a new thread will get created.
-                        // (At the instant the user long-presses a message to delete it, we know
-                        // whether it's the last message or not. By the time the user responds
-                        // to the "Do you really want to delete this message?", new messages could
-                        // have arrived. The best place for this clean-up code would be in
-                        // onDeleteComplete, but as mentioned, there's no way to know at that point
-                        // whether the message just deleted was the last one or not. It would be
-                        // possible to create an async task to query the database for the message
-                        // count, but at the same time, the DB changed so our dataset changed
-                        // listener has started a new query. Having two queries running
-                        // simultaneously would thrash each other. As a result, the safest place
-                        // to put this check is here, immediately after doing a query)
-                        mWorkingMessage.clearConversation(mConversation, true);
-                    }
+                    mConversation.setMessageCount(mMsgListAdapter.getCount());
 
                     // Once we have completed the query for the message history, if
                     // there is nothing in the cursor and we are not composing a new
@@ -3873,6 +3861,32 @@ public class ComposeMessageActivity extends Activity
                         cursor.close();
                     }
                     break;
+
+                case MESSAGE_LIST_QUERY_AFTER_DELETE_TOKEN:
+                    // check consistency between the query result and 'mConversation'
+                    tid = (Long) cookie;
+
+                    if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                        log("##### onQueryComplete (after delete): msg history result for threadId "
+                                + tid);
+                    }
+                    if (cursor == null) {
+                        return;
+                    }
+                    if (tid > 0 && cursor.getCount() == 0) {
+                        // We just deleted the last message and the thread will get deleted
+                        // by a trigger in the database. Clear the threadId so next time we
+                        // need the threadId a new thread will get created.
+                        log("##### MESSAGE_LIST_QUERY_AFTER_DELETE_TOKEN clearing thread id: "
+                                + tid);
+                        Conversation conv = Conversation.get(ComposeMessageActivity.this, tid,
+                                false);
+                        if (conv != null) {
+                            conv.clearThreadId();
+                            conv.setDraftState(false);
+                        }
+                    }
+                    cursor.close();
             }
         }
 
@@ -3912,6 +3926,9 @@ public class ComposeMessageActivity extends Activity
                 // Make sure the conversation cache reflects the threads in the DB.
                 Conversation.init(ComposeMessageActivity.this);
                 finish();
+            } else if (token == DELETE_MESSAGE_TOKEN) {
+                // Check to see if we just deleted the last message
+                startMsgListQuery(MESSAGE_LIST_QUERY_AFTER_DELETE_TOKEN);
             }
         }
     }
