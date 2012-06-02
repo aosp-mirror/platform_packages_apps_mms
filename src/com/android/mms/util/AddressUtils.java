@@ -16,19 +16,18 @@
  */
 package com.android.mms.util;
 
-import com.android.mms.R;
-import com.google.android.mms.pdu.EncodedStringValue;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduPersister;
-import android.database.sqlite.SqliteWrapper;
-
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Addr;
 import android.text.TextUtils;
-import android.telephony.PhoneNumberUtils;
+
+import com.android.mms.R;
+import com.google.android.mms.pdu.EncodedStringValue;
+import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mms.pdu.PduPersister;
 
 public class AddressUtils {
     private static final String TAG = "AddressUtils";

@@ -17,7 +17,6 @@
 package com.android.mms;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import android.app.SearchManager;
 import android.content.ContentResolver;

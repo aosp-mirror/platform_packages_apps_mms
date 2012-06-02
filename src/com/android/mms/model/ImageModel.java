@@ -17,31 +17,6 @@
 
 package com.android.mms.model;
 
-import com.android.mms.ContentRestrictionException;
-import com.android.mms.ExceedMessageSizeException;
-import com.android.mms.LogTag;
-import com.android.mms.MmsConfig;
-import com.android.mms.dom.smil.SmilMediaElementImpl;
-import android.drm.mobile1.DrmException;
-import com.android.mms.drm.DrmWrapper;
-import com.android.mms.ui.UriImage;
-import com.android.mms.ui.MessageUtils;
-
-import com.google.android.mms.ContentType;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.PduPart;
-import com.google.android.mms.pdu.PduPersister;
-
-import org.w3c.dom.events.Event;
-import org.w3c.dom.smil.ElementTime;
-
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.text.TextUtils;
-import android.util.Log;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,6 +24,29 @@ import java.lang.ref.SoftReference;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.w3c.dom.events.Event;
+import org.w3c.dom.smil.ElementTime;
+
+import android.content.Context;
+import android.drm.mobile1.DrmException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.android.mms.ContentRestrictionException;
+import com.android.mms.ExceedMessageSizeException;
+import com.android.mms.LogTag;
+import com.android.mms.MmsConfig;
+import com.android.mms.dom.smil.SmilMediaElementImpl;
+import com.android.mms.drm.DrmWrapper;
+import com.android.mms.ui.MessageUtils;
+import com.android.mms.ui.UriImage;
+import com.google.android.mms.MmsException;
+import com.google.android.mms.pdu.PduPart;
+import com.google.android.mms.pdu.PduPersister;
 
 
 public class ImageModel extends RegionMediaModel {

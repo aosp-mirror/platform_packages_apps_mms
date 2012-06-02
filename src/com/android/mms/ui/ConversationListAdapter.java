@@ -17,10 +17,6 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.R;
-import com.android.mms.LogTag;
-import com.android.mms.data.Conversation;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
@@ -29,6 +25,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.CursorAdapter;
+
+import com.android.mms.R;
+import com.android.mms.data.Conversation;
 
 /**
  * The back-end data adapter for ConversationList.

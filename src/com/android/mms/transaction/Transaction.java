@@ -17,17 +17,16 @@
 
 package com.android.mms.transaction;
 
-import com.android.mms.util.SendingProgressTokenManager;
-import com.google.android.mms.MmsException;
-
-import android.content.Context;
-import android.net.Uri;
-import android.net.ConnectivityManager;
-import android.util.Log;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Uri;
+
+import com.android.mms.util.SendingProgressTokenManager;
+import com.google.android.mms.MmsException;
 
 /**
  * Transaction is an abstract class for notification transaction, send transaction

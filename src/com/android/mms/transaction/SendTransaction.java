@@ -17,31 +17,29 @@
 
 package com.android.mms.transaction;
 
-import com.android.mms.util.RateController;
-import com.android.mms.util.SendingProgressTokenManager;
-import com.android.mms.LogTag;
-import com.android.mms.ui.MessageUtils;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.PduComposer;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduParser;
-import com.google.android.mms.pdu.PduPersister;
-import com.google.android.mms.pdu.SendConf;
-import com.google.android.mms.pdu.SendReq;
-import com.google.android.mms.pdu.EncodedStringValue;
-import android.database.sqlite.SqliteWrapper;
+import java.util.Arrays;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Sent;
 import android.text.TextUtils;
 import android.util.Log;
 
-import java.io.IOException;
-import java.util.Arrays;
+import com.android.mms.LogTag;
+import com.android.mms.ui.MessageUtils;
+import com.android.mms.util.RateController;
+import com.android.mms.util.SendingProgressTokenManager;
+import com.google.android.mms.pdu.EncodedStringValue;
+import com.google.android.mms.pdu.PduComposer;
+import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mms.pdu.PduParser;
+import com.google.android.mms.pdu.PduPersister;
+import com.google.android.mms.pdu.SendConf;
+import com.google.android.mms.pdu.SendReq;
 
 /**
  * The SendTransaction is responsible for sending multimedia messages
