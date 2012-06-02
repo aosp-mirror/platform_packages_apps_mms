@@ -336,16 +336,10 @@
   </plurals>
     <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Не дублювати сповіщення про текстові повідомленнями з програми обміну повідомленнями, яка використовується за умовчанням?"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"Переглянути інші бесіди"</string>
-    <!-- no translation found for attachment_audio (2867960243300539143) -->
-    <skip />
-    <!-- no translation found for attachment_slideshow (5867689101881763318) -->
-    <skip />
-    <!-- no translation found for attachment_video (4252062022156694591) -->
-    <skip />
-    <!-- no translation found for attachment_picture (3709286281567284296) -->
-    <skip />
-    <!-- no translation found for notification_separator (2334673105226536422) -->
-    <skip />
-    <!-- no translation found for enumeration_comma (213598026698964628) -->
-    <skip />
+    <string name="attachment_audio" msgid="2867960243300539143">"Аудіо"</string>
+    <string name="attachment_slideshow" msgid="5867689101881763318">"Слайд-шоу"</string>
+    <string name="attachment_video" msgid="4252062022156694591">"Відео"</string>
+    <string name="attachment_picture" msgid="3709286281567284296">"Зображення"</string>
+    <string name="notification_separator" msgid="2334673105226536422">"  "</string>
+    <string name="enumeration_comma" msgid="213598026698964628">", "</string>
 </resources>
