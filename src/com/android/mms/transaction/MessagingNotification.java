@@ -20,37 +20,28 @@ package com.android.mms.transaction;
 import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
 import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
 
-import com.android.mms.R;
-import com.android.mms.LogTag;
-import com.android.mms.data.Contact;
-import com.android.mms.data.Conversation;
-import com.android.mms.ui.ComposeMessageActivity;
-import com.android.mms.ui.ConversationList;
-import com.android.mms.ui.MessagingPreferenceActivity;
-import com.android.mms.util.AddressUtils;
-import com.android.mms.util.DownloadManager;
-
-import com.google.android.mms.pdu.EncodedStringValue;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduPersister;
-import android.database.sqlite.SqliteWrapper;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.text.Spannable;
@@ -60,11 +51,18 @@ import android.text.style.StyleSpan;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import com.android.mms.LogTag;
+import com.android.mms.R;
+import com.android.mms.data.Contact;
+import com.android.mms.data.Conversation;
+import com.android.mms.ui.ComposeMessageActivity;
+import com.android.mms.ui.ConversationList;
+import com.android.mms.ui.MessagingPreferenceActivity;
+import com.android.mms.util.AddressUtils;
+import com.android.mms.util.DownloadManager;
+import com.google.android.mms.pdu.EncodedStringValue;
+import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mms.pdu.PduPersister;
 
 /**
  * This class is used to update the notification indicator. It will check whether

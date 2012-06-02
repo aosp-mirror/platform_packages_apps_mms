@@ -20,8 +20,6 @@ package com.android.mms.layout;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.Log;
-import android.view.Display;
-import android.view.WindowManager;
 
 /**
  * MMS presentation layout management.

@@ -17,16 +17,7 @@
 
 package com.android.mms.model;
 
-import com.android.mms.UnsupportContentTypeException;
-import com.android.mms.LogTag;
-import com.android.mms.MmsConfig;
-import android.drm.mobile1.DrmException;
-import com.android.mms.drm.DrmWrapper;
-import com.google.android.mms.ContentType;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.CharacterSets;
-import com.google.android.mms.pdu.PduBody;
-import com.google.android.mms.pdu.PduPart;
+import java.io.IOException;
 
 import org.w3c.dom.smil.SMILMediaElement;
 import org.w3c.dom.smil.SMILRegionElement;
@@ -35,9 +26,17 @@ import org.w3c.dom.smil.Time;
 import org.w3c.dom.smil.TimeList;
 
 import android.content.Context;
+import android.drm.mobile1.DrmException;
 import android.util.Log;
 
-import java.io.IOException;
+import com.android.mms.LogTag;
+import com.android.mms.MmsConfig;
+import com.android.mms.drm.DrmWrapper;
+import com.google.android.mms.ContentType;
+import com.google.android.mms.MmsException;
+import com.google.android.mms.pdu.CharacterSets;
+import com.google.android.mms.pdu.PduBody;
+import com.google.android.mms.pdu.PduPart;
 
 public class MediaModelFactory {
     private static final String TAG = "Mms:media";

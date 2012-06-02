@@ -17,20 +17,8 @@
 
 package com.android.mms.transaction;
 
-import com.android.mms.R;
-import com.android.mms.LogTag;
-import com.android.mms.util.RateController;
-import com.google.android.mms.pdu.GenericPdu;
-import com.google.android.mms.pdu.NotificationInd;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduParser;
-import com.google.android.mms.pdu.PduPersister;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.TelephonyIntents;
-
-import android.provider.Telephony.Mms;
-import android.provider.Telephony.MmsSms;
-import android.provider.Telephony.MmsSms.PendingMessages;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -48,12 +36,22 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
+import android.provider.Telephony.Mms;
+import android.provider.Telephony.MmsSms;
+import android.provider.Telephony.MmsSms.PendingMessages;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import com.android.internal.telephony.Phone;
+import com.android.mms.LogTag;
+import com.android.mms.R;
+import com.android.mms.util.RateController;
+import com.google.android.mms.pdu.GenericPdu;
+import com.google.android.mms.pdu.NotificationInd;
+import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mms.pdu.PduParser;
+import com.google.android.mms.pdu.PduPersister;
 
 /**
  * The TransactionService of the MMS Client is responsible for handling requests
