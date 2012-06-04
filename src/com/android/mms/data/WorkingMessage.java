@@ -1716,9 +1716,9 @@ public class WorkingMessage {
         mHasMmsDraft = false;
 
         final long threadId = conv.getThreadId();
-        if (threadId > 0) {
-            final String where = Mms.THREAD_ID + " = " + threadId;
-            asyncDelete(Mms.Draft.CONTENT_URI, where, null);
-        }
+        // If the thread id is < 1, then the thread_id in the pdu will be "" or NULL. We have
+        // to clear those messages as well as ones with a valid thread id.
+        final String where = Mms.THREAD_ID +  (threadId > 0 ? " = " + threadId : " IS NULL");
+        asyncDelete(Mms.Draft.CONTENT_URI, where, null);
     }
 }
