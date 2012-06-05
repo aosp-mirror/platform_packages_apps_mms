@@ -19,7 +19,7 @@
     <!-- NOTE: if you change anything about this array, you must make the corresponding change
          to the array DEFAULT_SMILEY_RES_IDS in MessageListItem.java and to default_smiley_names
          below. -->
-    <string-array name="default_smiley_texts">
+    <string-array name="default_smiley_texts" translatable="false">
       <item>:-)</item>   <!-- 0: Happy -->
       <item>:-(</item>   <!-- 1: Sad -->
       <item>;-)</item>   <!-- 2: Winking -->
