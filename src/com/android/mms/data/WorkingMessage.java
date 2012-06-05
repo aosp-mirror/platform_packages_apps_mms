@@ -18,6 +18,7 @@ package com.android.mms.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
@@ -43,6 +44,7 @@ import com.android.common.contacts.DataUsageStatUpdater;
 import com.android.common.userhappiness.UserHappinessSignals;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.LogTag;
+import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.ResolutionException;
 import com.android.mms.UnsupportContentTypeException;
@@ -58,6 +60,7 @@ import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.SlideshowEditor;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.Recycler;
+import com.android.mms.util.ThumbnailManager;
 import com.android.mms.widget.MmsWidgetProvider;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
@@ -365,6 +368,7 @@ public class WorkingMessage {
     }
 
     public void removeAttachment(boolean notify) {
+        removeThumbnailsFromCache(mSlideshow);
         mAttachmentType = TEXT;
         mSlideshow = null;
         if (mMessageUri != null) {
@@ -378,6 +382,32 @@ public class WorkingMessage {
             // In the case of ComposeMessageActivity, it will remove its attachment panel because
             // this working message no longer has an attachment.
             mStatusListener.onAttachmentChanged();
+        }
+    }
+
+    public static void removeThumbnailsFromCache(SlideshowModel slideshow) {
+        if (slideshow != null) {
+            ThumbnailManager thumbnailManager = MmsApp.getApplication().getThumbnailManager();
+            boolean removedSomething = false;
+            Iterator<SlideModel> iterator = slideshow.iterator();
+            while (iterator.hasNext()) {
+                SlideModel slideModel = iterator.next();
+                if (slideModel.hasImage()) {
+                    thumbnailManager.removeThumbnail(slideModel.getImage().getUri());
+                    removedSomething = true;
+                } else if (slideModel.hasVideo()) {
+                    thumbnailManager.removeThumbnail(slideModel.getVideo().getUri());
+                    removedSomething = true;
+                }
+            }
+            if (removedSomething) {
+                // HACK: the keys to the thumbnail cache are the part uris, such as mms/part/3
+                // Because the part table doesn't have auto-increment ids, the part ids are reused
+                // when a message or thread is deleted. For now, we're clearing the whole thumbnail
+                // cache so we don't retrieve stale images when part ids are reused. This will be
+                // fixed in the next release in the mms provider.
+                MmsApp.getApplication().getThumbnailManager().clearBackingStore();
+            }
         }
     }
 
