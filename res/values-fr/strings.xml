@@ -336,13 +336,10 @@
   </plurals>
     <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Cesser de dupliquer les notifications SMS à partir de l\'application SMS/MMS par défaut ?"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"Afficher plus de conversations"</string>
-    <!-- no translation found for attachment_audio (2867960243300539143) -->
-    <skip />
+    <string name="attachment_audio" msgid="2867960243300539143">"Fichier audio"</string>
     <string name="attachment_slideshow" msgid="5867689101881763318">"Diaporama"</string>
     <string name="attachment_video" msgid="4252062022156694591">"Vidéo"</string>
-    <!-- no translation found for attachment_picture (3709286281567284296) -->
-    <skip />
-    <!-- no translation found for notification_separator (2334673105226536422) -->
-    <skip />
+    <string name="attachment_picture" msgid="3709286281567284296">"Image"</string>
+    <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">", "</string>
 </resources>
