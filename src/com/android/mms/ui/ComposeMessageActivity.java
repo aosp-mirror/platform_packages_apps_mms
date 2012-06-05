@@ -598,7 +598,7 @@ public class ComposeMessageActivity extends Activity
             new AsyncTask<Void, Void, Void>() {
                 protected Void doInBackground(Void... none) {
                     if (mMessageItem.isMms()) {
-                        mMessageItem.removeThumbnailsFromCache();
+                        WorkingMessage.removeThumbnailsFromCache(mMessageItem.getSlideshow());
 
                         MmsApp.getApplication().getPduLoaderManager()
                             .removePdu(mMessageItem.mMessageUri);
@@ -2643,6 +2643,7 @@ public class ComposeMessageActivity extends Activity
         int currentSlideSize = 0;
         SlideshowModel slideShow = mWorkingMessage.getSlideshow();
         if (replace && slideShow != null) {
+            WorkingMessage.removeThumbnailsFromCache(slideShow);
             SlideModel slide = slideShow.get(0);
             currentSlideSize = slide.getSlideSize();
         }
