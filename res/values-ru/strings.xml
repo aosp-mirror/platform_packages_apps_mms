@@ -336,9 +336,9 @@
   </plurals>
     <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Не дублировать уведомления об SMS из приложения обмена сообщениями по умолчанию"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"Другие цепочки писем"</string>
-    <string name="attachment_audio" msgid="2867960243300539143">"Аудиофайл"</string>
+    <string name="attachment_audio" msgid="2867960243300539143">"Аудио"</string>
     <string name="attachment_slideshow" msgid="5867689101881763318">"Слайд-шоу"</string>
-    <string name="attachment_video" msgid="4252062022156694591">"Видеофайл"</string>
+    <string name="attachment_video" msgid="4252062022156694591">"Видео"</string>
     <string name="attachment_picture" msgid="3709286281567284296">"Картинка"</string>
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">", "</string>

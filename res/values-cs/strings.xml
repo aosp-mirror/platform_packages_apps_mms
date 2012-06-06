@@ -33,7 +33,7 @@
     <string name="menu_delete" msgid="1851666911396479006">"Smazat konverzaci"</string>
     <string name="menu_view" msgid="7448852683948080108">"Zobrazit konverzaci"</string>
     <string name="menu_debug_dump" msgid="6855869130206549643">"DEBUG DUMP"</string>
-    <string name="refreshing" msgid="987335057871404222">"Obnovování..."</string>
+    <string name="refreshing" msgid="987335057871404222">"Aktualizace..."</string>
     <string name="has_draft" msgid="2487465595514636160">"Koncept"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Předmět neuveden)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Já"</string>
@@ -198,7 +198,7 @@
     <string name="delete_unlocked" msgid="7545321606698162261">"Smazat uzamčené zprávy"</string>
     <string name="delete" msgid="1409973060081564612">"Smazat"</string>
     <string name="select_conversations" msgid="7816517565640002844">"Zvolit konverzace"</string>
-    <string name="no_conversations" msgid="6773767655149258445">"Žádné konverzace."</string>
+    <string name="no_conversations" msgid="6773767655149258445">"Žádné konverzace"</string>
     <string name="loading_conversations" msgid="5510430408235967094">"Načítání konverzací..."</string>
     <string name="cannot_get_details" msgid="850292987983026806">"Podrobnosti nelze načíst."</string>
     <string name="message_details_title" msgid="9223295113731634528">"Podrobnosti zprávy"</string>
