@@ -1496,9 +1496,12 @@ public class ComposeMessageActivity extends Activity
             type = MmsApp.getApplication().getDrmManagerClient()
                     .getOriginalMimeType(part.getDataUri());
         }
-        if (ContentType.APP_SMIL.equals(type)) {
-            return true;    // we're not going to save the "application/smil" that often can
-                            // be a downloaded part. Pretend it was saved.
+        if (!ContentType.isImageType(type) && !ContentType.isVideoType(type) &&
+                !ContentType.isAudioType(type)) {
+            return true;    // we only save pictures, videos, and sounds. Skip the text parts,
+                            // the app (smil) parts, and other type that we can't handle.
+                            // Return true to pretend that we successfully saved the part so
+                            // the whole save process will be counted a success.
         }
         InputStream input = null;
         FileOutputStream fout = null;
