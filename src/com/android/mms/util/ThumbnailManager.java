@@ -288,6 +288,10 @@ public class ThumbnailManager extends BackgroundLoaderManager {
             UriImage uriImage = new UriImage(mContext, mUri);
             String path = uriImage.getPath();
 
+            if (path == null) {
+                return null;
+            }
+
             // We never want to store thumbnails of temp files in the thumbnail cache on disk
             // because those temp filenames are recycled (and reused when capturing images
             // or videos).
