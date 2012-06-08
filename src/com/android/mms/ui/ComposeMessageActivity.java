@@ -142,7 +142,7 @@ import com.google.android.mms.util.PduCache;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.transaction.MessagingNotification;
-import com.android.mms.ui.MessageListView.OnSizeChangedListener;
+import com.android.mms.ui.EditMessageView.OnSizeChangedListener;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
 import com.android.mms.util.AddressUtils;
@@ -241,7 +241,7 @@ public class ComposeMessageActivity extends Activity
 
     private View mTopPanel;                 // View containing the recipient and subject editors
     private View mBottomPanel;              // View containing the text editor, send button, ec.
-    private EditText mTextEditor;           // Text editor to type your message into
+    private EditMessageView mTextEditor;    // Text editor to type your message into
     private TextView mTextCounter;          // Shows the number of characters used in text editor
     private TextView mSendButtonMms;        // Press to send mms
     private ImageButton mSendButtonSms;     // Press to send sms
@@ -3302,26 +3302,20 @@ public class ComposeMessageActivity extends Activity
         // in with message content
         mMsgListView.setClipToPadding(false);
 
-        mMsgListView.setOnSizeChangedListener(new OnSizeChangedListener() {
-            public void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
-                // We're only interested in small changes, such as those when the compose field
-                // grows as the user types a long message. Ignore big changes such as when the
-                // keyboard comes up or the orientation changes. Those changes are handled in
-                // onKeyboardStateChanged().
-                final int slop = 40;
-                if (Math.abs(height - oldHeight) < slop) {
-                    // Scroll to the end of the list if we're already near the end of the list.
-                    smoothScrollToEnd(false, true);
-                }
-            }
-        });
-
         mBottomPanel = findViewById(R.id.bottom_panel);
-        mTextEditor = (EditText) findViewById(R.id.embedded_text_editor);
+        mTextEditor = (EditMessageView) findViewById(R.id.embedded_text_editor);
         mTextEditor.setOnEditorActionListener(this);
         mTextEditor.addTextChangedListener(mTextEditorWatcher);
         mTextEditor.setFilters(new InputFilter[] {
                 new LengthFilter(MmsConfig.getMaxTextLimit())});
+
+        mTextEditor.setOnSizeChangedListener(new OnSizeChangedListener() {
+            public void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+                // Scroll to the end of the list if we're already near the end of the list.
+                smoothScrollToEnd(false, true);
+            }
+        });
+
         mTextCounter = (TextView) findViewById(R.id.text_counter);
         mSendButtonMms = (TextView) findViewById(R.id.send_button_mms);
         mSendButtonSms = (ImageButton) findViewById(R.id.send_button_sms);
@@ -3735,9 +3729,9 @@ public class ComposeMessageActivity extends Activity
      * message field expands as the user types a long message.
      *
      * @param force always scroll to the bottom regardless of current list position
-     * @param listViewResized true when the list view is resized
+     * @param messageEditorResized true when the message editor view is resized
      */
-    private void smoothScrollToEnd(boolean force, boolean listViewResized) {
+    private void smoothScrollToEnd(boolean force, boolean messageEditorResized) {
         int newCount = mMsgListAdapter.getCount();
         int last = mMsgListView.getLastVisiblePosition();
         View lastChild = mMsgListView.getChildAt(last - mMsgListView.getFirstVisiblePosition());
@@ -3747,11 +3741,15 @@ public class ComposeMessageActivity extends Activity
             bottom = lastChild.getBottom();
             slop = lastChild.getHeight() / 2;
         }
-        if (LogTag.VERBOSE) {
+        if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             Log.d(TAG, "smoothScrollToEnd newCount: " + newCount +
+                    " force: " + force + " messageEditorResized: " + messageEditorResized +
                     " mLastScrollPosition: " + mLastScrollPosition +
                     " last: " + last +
                     " bottom: " + bottom +
+                    " bottom - slop: " + (bottom - slop) +
+                    " mMsgListView.getHeight() : " + mMsgListView.getHeight() +
+                    " mMsgListView.getPaddingBottom() : " + mMsgListView.getPaddingBottom() +
                     " mMsgListView.getHeight() - mMsgListView.getPaddingBottom(): " +
                     (mMsgListView.getHeight() - mMsgListView.getPaddingBottom()));
         }
@@ -3761,8 +3759,11 @@ public class ComposeMessageActivity extends Activity
         // this block will skip scrolling unless the number of messages in the adapter has
         // changed. When listViewResized is true, the code ignores the adapter count and only
         // relies on the position to determine whether to scroll or not.
-        if (force || ((listViewResized || newCount != mLastScrollPosition) &&
+        if (force || ((messageEditorResized || newCount != mLastScrollPosition) &&
                 bottom - slop <= mMsgListView.getHeight() - mMsgListView.getPaddingBottom())) {
+            if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                Log.d(TAG, "SMOOTH SCROLLING");
+            }
             mMsgListView.smoothScrollToPosition(newCount);
             mLastScrollPosition = newCount;
         }
