@@ -913,11 +913,12 @@ public class MessagingNotification {
 
         if (messageCount == 1) {
             // We've got a single message
+
+            // This sets the text for the collapsed form:
+            noti.setContentText(mostRecentNotification.formatBigMessage(context));
+
             if (mostRecentNotification.mAttachmentBitmap != null) {
                 // The message has a picture, show that
-
-                // This sets the text for the collapsed form:
-                noti.setContentText(mostRecentNotification.formatBigMessage(context));
 
                 notification = new Notification.BigPictureStyle(noti)
                     .bigPicture(mostRecentNotification.mAttachmentBitmap)
