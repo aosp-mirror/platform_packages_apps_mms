@@ -142,7 +142,7 @@ import com.google.android.mms.util.PduCache;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.transaction.MessagingNotification;
-import com.android.mms.ui.EditMessageView.OnSizeChangedListener;
+import com.android.mms.ui.MessageListView.OnSizeChangedListener;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
 import com.android.mms.util.AddressUtils;
@@ -230,6 +230,20 @@ public class ComposeMessageActivity extends Activity
 
     private static final String EXIT_ECM_RESULT = "exit_ecm_result";
 
+    // When the conversation has a lot of messages and a new message is sent, the list is scrolled
+    // so the user sees the just sent message. If we have to scroll the list more than 20 items,
+    // then a scroll shortcut is invoked to move the list near the end before scrolling.
+    private static final int MAX_ITEMS_TO_INVOKE_SCROLL_SHORTCUT = 20;
+
+    // When the smooth scroll shortcut is invoked, the list is moved 10 items from the end before
+    // smooth scrolling the rest of the way to the bottom.
+    private static final int SCROLL_SHORTCUT_ITEMS_TO_SCROLL = 8;
+
+    // Any change in height in the message list view greater than this threshold will not
+    // cause a smooth scroll. Instead, we jump the list directly to the desired position.
+    private static final int SMOOTH_SCROLL_THRESHOLD = 200;
+
+
     private ContentResolver mContentResolver;
 
     private BackgroundQueryHandler mBackgroundQueryHandler;
@@ -241,7 +255,7 @@ public class ComposeMessageActivity extends Activity
 
     private View mTopPanel;                 // View containing the recipient and subject editors
     private View mBottomPanel;              // View containing the text editor, send button, ec.
-    private EditMessageView mTextEditor;    // Text editor to type your message into
+    private EditText mTextEditor;           // Text editor to type your message into
     private TextView mTextCounter;          // Shows the number of characters used in text editor
     private TextView mSendButtonMms;        // Press to send mms
     private ImageButton mSendButtonSms;     // Press to send sms
@@ -291,6 +305,8 @@ public class ComposeMessageActivity extends Activity
 
     private String mDebugRecipients;
     private int mLastScrollPosition;
+    private boolean mScrollOnSend;      // Flag that we need to scroll the list to the end.
+    private boolean mScrolledFirstTime;
 
     /**
      * Whether this activity is currently running (i.e. not paused)
@@ -2248,10 +2264,6 @@ public class ComposeMessageActivity extends Activity
             }
             mTextEditor.setFocusableInTouchMode(true);
             mTextEditor.setHint(R.string.type_to_compose_text_enter_to_send);
-
-            // When the list isn't in transcript mode, we have to manually scroll the list
-            // when the keyboard comes up.
-            smoothScrollToEnd(false, true);
         } else {
             if (mRecipientsEditor != null) {
                 mRecipientsEditor.setFocusable(false);
@@ -3316,20 +3328,22 @@ public class ComposeMessageActivity extends Activity
         // in with message content
         mMsgListView.setClipToPadding(false);
 
+        mMsgListView.setOnSizeChangedListener(new OnSizeChangedListener() {
+            public void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+                // The message list view changed size, most likely because the keyboard
+                // appeared or disappeared or the user typed/deleted chars in the message
+                // box causing it to change its height when expanding/collapsing to hold more
+                // lines of text.
+                smoothScrollToEnd(false, height - oldHeight);
+            }
+        });
+
         mBottomPanel = findViewById(R.id.bottom_panel);
-        mTextEditor = (EditMessageView) findViewById(R.id.embedded_text_editor);
+        mTextEditor = (EditText) findViewById(R.id.embedded_text_editor);
         mTextEditor.setOnEditorActionListener(this);
         mTextEditor.addTextChangedListener(mTextEditorWatcher);
         mTextEditor.setFilters(new InputFilter[] {
                 new LengthFilter(MmsConfig.getMaxTextLimit())});
-
-        mTextEditor.setOnSizeChangedListener(new OnSizeChangedListener() {
-            public void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
-                // Scroll to the end of the list if we're already near the end of the list.
-                smoothScrollToEnd(false, true);
-            }
-        });
-
         mTextCounter = (TextView) findViewById(R.id.text_counter);
         mSendButtonMms = (TextView) findViewById(R.id.send_button_mms);
         mSendButtonSms = (ImageButton) findViewById(R.id.send_button_sms);
@@ -3543,7 +3557,7 @@ public class ComposeMessageActivity extends Activity
             mSendingMessage = true;
             addRecipientsListeners();
 
-            smoothScrollToEnd(true, false);
+            mScrollOnSend = true;   // in the next onQueryComplete, scroll the list to the end.
         }
         // But bail out if we are supposed to exit after the message is sent.
         if (mExitOnSent) {
@@ -3722,9 +3736,6 @@ public class ComposeMessageActivity extends Activity
 
         @Override
         public void onContentChanged(MessageListAdapter adapter) {
-            if (LogTag.VERBOSE) {
-                log("MessageListAdapter.OnDataSetChangedListener.onContentChanged");
-            }
             startMsgListQuery();
         }
     };
@@ -3740,47 +3751,66 @@ public class ComposeMessageActivity extends Activity
      * smoothScrollToEnd will scroll the message list to the bottom if the list is already near
      * the bottom. Typically this is called to smooth scroll a newly received message into view.
      * It's also called when sending to scroll the list to the bottom, regardless of where it is,
-     * so the user can see the just sent message. This function is also called when the compose
-     * message field expands as the user types a long message.
+     * so the user can see the just sent message. This function is also called when the message
+     * list view changes size because the keyboard state changed or the compose message field grew.
      *
      * @param force always scroll to the bottom regardless of current list position
-     * @param messageEditorResized true when the message editor view is resized
+     * @param listSizeChange the amount the message list view size has vertically changed
      */
-    private void smoothScrollToEnd(boolean force, boolean messageEditorResized) {
-        int newCount = mMsgListAdapter.getCount();
+    private void smoothScrollToEnd(boolean force, int listSizeChange) {
+        int newPosition = mMsgListAdapter.getCount() - 1;
         int last = mMsgListView.getLastVisiblePosition();
         View lastChild = mMsgListView.getChildAt(last - mMsgListView.getFirstVisiblePosition());
         int bottom = 0;
-        int slop = 0;
         if (lastChild != null) {
             bottom = lastChild.getBottom();
-            slop = lastChild.getHeight() / 2;
         }
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            Log.d(TAG, "smoothScrollToEnd newCount: " + newCount +
-                    " force: " + force + " messageEditorResized: " + messageEditorResized +
+            Log.d(TAG, "smoothScrollToEnd newPosition: " + newPosition +
                     " mLastScrollPosition: " + mLastScrollPosition +
+                    " first: " + mMsgListView.getFirstVisiblePosition() +
                     " last: " + last +
                     " bottom: " + bottom +
-                    " bottom - slop: " + (bottom - slop) +
-                    " mMsgListView.getHeight() : " + mMsgListView.getHeight() +
-                    " mMsgListView.getPaddingBottom() : " + mMsgListView.getPaddingBottom() +
+                    " bottom + listSizeChange: " + (bottom + listSizeChange) +
                     " mMsgListView.getHeight() - mMsgListView.getPaddingBottom(): " +
-                    (mMsgListView.getHeight() - mMsgListView.getPaddingBottom()));
+                    (mMsgListView.getHeight() - mMsgListView.getPaddingBottom()) +
+                    " listSizeChange: " + listSizeChange);
         }
-        // Only scroll if the list is already scrolled to the end or within a half a list item
-        // from the end. This handles the case when the compose view grows as the user types
-        // a long message and we'll scroll to keep the list pinned to the bottom. Normally,
-        // this block will skip scrolling unless the number of messages in the adapter has
-        // changed. When listViewResized is true, the code ignores the adapter count and only
-        // relies on the position to determine whether to scroll or not.
-        if (force || ((messageEditorResized || newCount != mLastScrollPosition) &&
-                bottom - slop <= mMsgListView.getHeight() - mMsgListView.getPaddingBottom())) {
+        // Only scroll if the list if we're responding to a newly sent message (force == true) or
+        // the list is already scrolled to the end. This code also has to handle the case where
+        // the listview has changed size (from the keyboard coming up or down or the message entry
+        // field growing/shrinking) and it uses that grow/shrink factor in listSizeChange to
+        // compute whether the list was at the end before the resize took place.
+        // For example, when the keyboard comes up, listSizeChange will be negative, something
+        // like -524. The lastChild listitem's bottom value will be the old value before the
+        // keyboard became visible but the size of the list will have changed. The test below
+        // add listSizeChange to bottom to figure out if the old position was already scrolled
+        // to the bottom.
+        if (force || ((listSizeChange != 0 || newPosition != mLastScrollPosition) &&
+                bottom + listSizeChange <=
+                    mMsgListView.getHeight() - mMsgListView.getPaddingBottom())) {
             if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                Log.d(TAG, "SMOOTH SCROLLING");
+                Log.d(TAG, "SMOOTH SCROLL");
             }
-            mMsgListView.smoothScrollToPosition(newCount);
-            mLastScrollPosition = newCount;
+            if (!mScrolledFirstTime) {
+                // jump to the bottom of the list when the activity is first opened rather than
+                // scrolling to the bottom.
+                mMsgListView.setSelection(newPosition);
+                mScrolledFirstTime = true;
+            } else if (Math.abs(listSizeChange) > SMOOTH_SCROLL_THRESHOLD) {
+                // When the keyboard comes up, the window manager initiates a cross fade
+                // animation that conflicts with smooth scroll. Handle that case by jumping the
+                // list directly to the end.
+                mMsgListView.setSelection(newPosition);
+            } else {
+                // If we've got a long way to scroll, jump the list forward so we only scroll a page
+                // or so.
+                if (newPosition - last > MAX_ITEMS_TO_INVOKE_SCROLL_SHORTCUT) {
+                    mMsgListView.setSelection(newPosition - SCROLL_SHORTCUT_ITEMS_TO_SCROLL);
+                }
+                mMsgListView.smoothScrollToPosition(newPosition);
+                mLastScrollPosition = newPosition;
+            }
         }
     }
 
@@ -3798,7 +3828,7 @@ public class ComposeMessageActivity extends Activity
                     // check consistency between the query result and 'mConversation'
                     long tid = (Long) cookie;
 
-                    if (LogTag.VERBOSE) {
+                    if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                         log("##### onQueryComplete: msg history result for threadId " + tid);
                     }
                     if (tid != mConversation.getThreadId()) {
@@ -3832,7 +3862,11 @@ public class ComposeMessageActivity extends Activity
                     if (newSelectionPos != -1) {
                         mMsgListView.setSelection(newSelectionPos);
                     } else {
-                        smoothScrollToEnd(false, false);
+                        // mScrollOnSend is set when we send a message. We always want to scroll
+                        // the message list to the end when we send a message, but have to wait
+                        // until the DB has changed.
+                        smoothScrollToEnd(mScrollOnSend, 0);
+                        mScrollOnSend = false;
                     }
                     // Adjust the conversation's message count to match reality. The
                     // conversation's message count is eventually used in
