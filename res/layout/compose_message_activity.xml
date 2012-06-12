@@ -127,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:background="#fff" >
 
-                <view class="com.android.mms.ui.EditMessageView"
+                <EditText
                     android:textColor="@android:color/black"
                     android:id="@+id/embedded_text_editor"
                     android:layout_width="0dip"
