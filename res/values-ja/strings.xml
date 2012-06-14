@@ -26,7 +26,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"<xliff:g id="NAME">%s</xliff:g>さんにメールを送信"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"作成"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"設定"</string>
-    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"<xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g>をユーザーアプリに追加"</string>
+    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"<xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g>をPeopleアプリに追加"</string>
     <string name="menu_call" msgid="5877123227307074690">"発信"</string>
     <string name="menu_search" msgid="2289469305728821360">"検索"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"すべてのスレッドを削除"</string>
@@ -140,7 +140,7 @@
     <item msgid="7786079681602275449">"その他"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"連絡先を表示"</string>
-    <string name="menu_add_to_contacts" msgid="1258127580972228970">"ユーザーアプリに追加"</string>
+    <string name="menu_add_to_contacts" msgid="1258127580972228970">"Peopleアプリに追加"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"差出人アドレス非表示"</string>
     <string name="yes" msgid="3246158147503160811">"OK"</string>
     <string name="no" msgid="4289742508556913860">"キャンセル"</string>
