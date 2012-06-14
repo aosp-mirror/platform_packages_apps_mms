@@ -23,7 +23,6 @@ import static com.android.mms.transaction.ProgressCallbackEntity.PROGRESS_COMPLE
 import static com.android.mms.transaction.ProgressCallbackEntity.PROGRESS_START;
 import static com.android.mms.transaction.ProgressCallbackEntity.PROGRESS_STATUS_ACTION;
 import static com.android.mms.ui.MessageListAdapter.COLUMN_ID;
-import static com.android.mms.ui.MessageListAdapter.COLUMN_MMS_LOCKED;
 import static com.android.mms.ui.MessageListAdapter.COLUMN_MSG_TYPE;
 import static com.android.mms.ui.MessageListAdapter.PROJECTION;
 
@@ -46,7 +45,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ContentResolver;
@@ -138,7 +136,6 @@ import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendReq;
-import com.google.android.mms.util.PduCache;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.transaction.MessagingNotification;
@@ -235,10 +232,6 @@ public class ComposeMessageActivity extends Activity
     // then a scroll shortcut is invoked to move the list near the end before scrolling.
     private static final int MAX_ITEMS_TO_INVOKE_SCROLL_SHORTCUT = 20;
 
-    // When the smooth scroll shortcut is invoked, the list is moved 10 items from the end before
-    // smooth scrolling the rest of the way to the bottom.
-    private static final int SCROLL_SHORTCUT_ITEMS_TO_SCROLL = 8;
-
     // Any change in height in the message list view greater than this threshold will not
     // cause a smooth scroll. Instead, we jump the list directly to the desired position.
     private static final int SMOOTH_SCROLL_THRESHOLD = 200;
@@ -304,9 +297,11 @@ public class ComposeMessageActivity extends Activity
     private AsyncDialog mAsyncDialog;   // Used for background tasks.
 
     private String mDebugRecipients;
-    private int mLastScrollPosition;
+    private int mLastSmoothScrollPosition;
     private boolean mScrollOnSend;      // Flag that we need to scroll the list to the end.
-    private boolean mScrolledFirstTime;
+
+    private int mSavedScrollPosition = -1;  // we save the ListView's scroll position in onPause(),
+                                            // so we can remember it after re-entering the activity.
 
     /**
      * Whether this activity is currently running (i.e. not paused)
@@ -2179,6 +2174,12 @@ public class ComposeMessageActivity extends Activity
         }
 
         MessagingNotification.setCurrentlyDisplayedThreadId(MessagingNotification.THREAD_NONE);
+
+        mSavedScrollPosition = mMsgListView.getFirstVisiblePosition();
+        if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.v(TAG, "onPause: mSavedScrollPosition=" + mSavedScrollPosition);
+        }
+
         mIsRunning = false;
     }
 
@@ -3743,16 +3744,24 @@ public class ComposeMessageActivity extends Activity
      * @param listSizeChange the amount the message list view size has vertically changed
      */
     private void smoothScrollToEnd(boolean force, int listSizeChange) {
-        int newPosition = mMsgListAdapter.getCount() - 1;
         int last = mMsgListView.getLastVisiblePosition();
+        if (last <= 0) {
+            if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                Log.v(TAG, "smoothScrollToEnd: last=" + last + ", mMsgListView not ready");
+            }
+            return;
+        }
+
         View lastChild = mMsgListView.getChildAt(last - mMsgListView.getFirstVisiblePosition());
         int bottom = 0;
         if (lastChild != null) {
             bottom = lastChild.getBottom();
         }
+
+        int newPosition = mMsgListAdapter.getCount() - 1;
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            Log.d(TAG, "smoothScrollToEnd newPosition: " + newPosition +
-                    " mLastScrollPosition: " + mLastScrollPosition +
+            Log.v(TAG, "smoothScrollToEnd newPosition: " + newPosition +
+                    " mLastSmoothScrollPosition: " + mLastSmoothScrollPosition +
                     " first: " + mMsgListView.getFirstVisiblePosition() +
                     " last: " + last +
                     " bottom: " + bottom +
@@ -3771,30 +3780,28 @@ public class ComposeMessageActivity extends Activity
         // keyboard became visible but the size of the list will have changed. The test below
         // add listSizeChange to bottom to figure out if the old position was already scrolled
         // to the bottom.
-        if (force || ((listSizeChange != 0 || newPosition != mLastScrollPosition) &&
+        if (force || ((listSizeChange != 0 || newPosition != mLastSmoothScrollPosition) &&
                 bottom + listSizeChange <=
                     mMsgListView.getHeight() - mMsgListView.getPaddingBottom())) {
-            if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                Log.d(TAG, "SMOOTH SCROLL");
-            }
-            if (!mScrolledFirstTime) {
-                // jump to the bottom of the list when the activity is first opened rather than
-                // scrolling to the bottom.
-                mMsgListView.setSelection(newPosition);
-                mScrolledFirstTime = true;
-            } else if (Math.abs(listSizeChange) > SMOOTH_SCROLL_THRESHOLD) {
+            if (Math.abs(listSizeChange) > SMOOTH_SCROLL_THRESHOLD) {
                 // When the keyboard comes up, the window manager initiates a cross fade
                 // animation that conflicts with smooth scroll. Handle that case by jumping the
                 // list directly to the end.
+                if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    Log.v(TAG, "keyboard state changed. setSelection=" + newPosition);
+                }
+                mMsgListView.setSelection(newPosition);
+            } else if (newPosition - last > MAX_ITEMS_TO_INVOKE_SCROLL_SHORTCUT) {
+                if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    Log.v(TAG, "too many to scroll, setSelection=" + newPosition);
+                }
                 mMsgListView.setSelection(newPosition);
             } else {
-                // If we've got a long way to scroll, jump the list forward so we only scroll a page
-                // or so.
-                if (newPosition - last > MAX_ITEMS_TO_INVOKE_SCROLL_SHORTCUT) {
-                    mMsgListView.setSelection(newPosition - SCROLL_SHORTCUT_ITEMS_TO_SCROLL);
+                if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    Log.v(TAG, "smooth scroll to " + newPosition);
                 }
                 mMsgListView.smoothScrollToPosition(newPosition);
-                mLastScrollPosition = newPosition;
+                mLastSmoothScrollPosition = newPosition;
             }
         }
     }
@@ -3841,6 +3848,11 @@ public class ComposeMessageActivity extends Activity
                                 break;
                             }
                         }
+                    } else if (mSavedScrollPosition != -1) {
+                        // remember the saved scroll position before the activity is paused.
+                        // reset it after the message list query is done
+                        newSelectionPos = mSavedScrollPosition;
+                        mSavedScrollPosition = -1;
                     }
 
                     mMsgListAdapter.changeCursor(cursor);
