@@ -957,7 +957,6 @@ public class MessagingNotification {
                 // Show a single notification -- big style with the text of all the messages
                 notification = new Notification.BigTextStyle(noti)
                     .bigText(buf)
-                    .setSummaryText(" ")
                     .build();
             } else {
                 // Build a set of the most recent notification per threadId.
