@@ -814,6 +814,7 @@ public class MessagingNotification {
 
         final Resources res = context.getResources();
         String title = null;
+        Bitmap avatar = null;
         if (uniqueThreadCount > 1) {    // messages from multiple threads
             Intent mainActivityIntent = new Intent(Intent.ACTION_MAIN);
 
@@ -831,7 +832,7 @@ public class MessagingNotification {
             if (contactDrawable != null) {
                 // Show the sender's avatar as the big icon. Contact bitmaps are 96x96 so we
                 // have to scale 'em up to 128x128 to fill the whole notification large icon.
-                Bitmap avatar = contactDrawable.getBitmap();
+                avatar = contactDrawable.getBitmap();
                 if (avatar != null) {
                     final int idealIconHeight =
                         res.getDimensionPixelSize(android.R.dimen.notification_large_icon_height);
@@ -957,6 +958,9 @@ public class MessagingNotification {
                 // Show a single notification -- big style with the text of all the messages
                 notification = new Notification.BigTextStyle(noti)
                     .bigText(buf)
+                    // Forcibly show the last line, with the app's smallIcon in it, if we 
+                    // kicked the smallIcon out with an avatar bitmap
+                    .setSummaryText((avatar == null) ? null : " ")
                     .build();
             } else {
                 // Build a set of the most recent notification per threadId.
