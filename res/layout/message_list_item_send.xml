@@ -23,7 +23,6 @@
     android:id="@+id/msg_list_item_send"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#00000000"
     android:orientation="horizontal">
 
     <LinearLayout android:id="@+id/mms_layout_view_parent"
@@ -51,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/avatar"
                 android:layout_alignParentLeft="true"
-                android:background="@drawable/listitem_background"
+                android:background="@drawable/hairline_right"
                 android:orientation="vertical" >
 
                 <TextView android:id="@+id/text_view"
