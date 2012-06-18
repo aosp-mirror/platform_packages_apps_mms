@@ -115,10 +115,10 @@
               </view>
             </ScrollView>
 
-            <!-- Divider. (Yes, the .9dp is on purpose.) -->
-            <View android:background="?android:attr/dividerHorizontal"
+            <!-- Divider -->
+            <View android:background="#eeeeee"
                 android:layout_width="match_parent"
-                android:layout_height=".9dp" />
+                android:layout_height="1dp" />
 
             <LinearLayout
                 android:id="@+id/bottom_panel"
