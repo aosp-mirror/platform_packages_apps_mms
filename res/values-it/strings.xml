@@ -92,7 +92,7 @@
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Immagine non ridimensionata."</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"Questa immagine è troppo grande per essere inviata, anche se ridimensionata."</string>
     <string name="forward_prefix" msgid="276280492803486464">"I: "</string>
-    <string name="discard_message_reason" msgid="2667664943003796133">"Il messaggio verrà ignorato. I destinatari non sono validi."</string>
+    <string name="discard_message_reason" msgid="2667664943003796133">"Il messaggio verrà eliminato. I destinatari non sono validi."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Destinatari non validi: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"Indirizzo di destinazione non valido."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Servizio non attivato sulla rete."</string>
@@ -155,9 +155,9 @@
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Messaggi di testo (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Archiviazione"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Gestisci i messaggi memorizzati nella SIM"</string>
-    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Richiedi conferma di consegna per ogni messaggio inviato"</string>
+    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Richiedi conferma di recapito per ogni messaggio inviato"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Richiedi conferma di lettura per ogni messaggio inviato"</string>
-    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Richiedi conferma di consegna per ogni messaggio inviato"</string>
+    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Richiedi conferma di recapito per ogni messaggio inviato"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Elimina vecchi messaggi al raggiungimento dei limiti"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> messaggi per conversazione"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Gestisci messaggi della SIM"</string>
