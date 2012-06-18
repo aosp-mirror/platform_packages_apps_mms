@@ -23,7 +23,6 @@
     android:id="@+id/msg_list_item_recv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#00000000"
     android:orientation="horizontal">
 
     <LinearLayout android:id="@+id/mms_layout_view_parent"
@@ -51,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/avatar"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/listitem_background"
+                android:background="@drawable/hairline_left"
                 android:orientation="vertical" >
 
                 <TextView android:id="@+id/text_view"
@@ -70,11 +69,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dip"
+                    android:paddingLeft="@dimen/message_item_text_padding_left_right"
                     android:orientation="horizontal" >
 
                     <TextView android:id="@+id/date_view"
                         android:background="@drawable/listitem_background"
-                        android:paddingLeft="@dimen/message_item_text_padding_left_right"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="3dip"
