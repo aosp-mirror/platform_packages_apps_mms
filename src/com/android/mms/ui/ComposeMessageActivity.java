@@ -733,7 +733,8 @@ public class ComposeMessageActivity extends Activity
                     continue;
 
                 if (c == ',') {
-                    updateTitle(mConversation.getRecipients());
+                    ContactList contacts = mRecipientsEditor.constructContactsFromInput(false);
+                    updateTitle(contacts);
                 }
 
                 break;
