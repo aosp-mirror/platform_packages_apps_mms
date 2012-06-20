@@ -465,8 +465,8 @@ public class MessageUtils {
 
     public static void recordVideo(Activity activity, int requestCode, long sizeLimit) {
         // The video recorder can sometimes return a file that's larger than the max we
-        // say we can handle. Try to handle that overshoot by specifying a 90% limit.
-        sizeLimit *= .9F;
+        // say we can handle. Try to handle that overshoot by specifying an 85% limit.
+        sizeLimit *= .85F;
 
         int durationLimit = getVideoCaptureDurationLimit();
 
