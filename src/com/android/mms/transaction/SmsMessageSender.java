@@ -30,6 +30,7 @@ import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.Telephony.Sms;
+import android.provider.Telephony.Sms.Inbox;
 import android.util.Log;
 
 public class SmsMessageSender implements MessageSender {
@@ -130,7 +131,7 @@ public class SmsMessageSender implements MessageSender {
 
         try {
             cursor = SqliteWrapper.query(mContext, mContext.getContentResolver(),
-                            Sms.CONTENT_URI, SERVICE_CENTER_PROJECTION,
+                            Inbox.CONTENT_URI, SERVICE_CENTER_PROJECTION,
                             "thread_id = " + threadId, null, "date DESC");
 
             if ((cursor == null) || !cursor.moveToFirst()) {
