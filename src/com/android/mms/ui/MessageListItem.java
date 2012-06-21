@@ -367,6 +367,7 @@ public class MessageListItem extends LinearLayout implements
                         }
                         if (messageItem != null && mMessageItem != null &&
                                 messageItem.getMessageId() == mMessageItem.getMessageId()) {
+                            mMessageItem.setCachedFormattedMessage(null);
                             bindCommonMessage();
                         }
                     }
