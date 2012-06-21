@@ -32,6 +32,9 @@ import com.android.mms.transaction.SmsRejectedReceiver;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.Recycler;
 import com.google.android.mms.pdu.PduHeaders;
+
+import android.content.ActivityNotFoundException;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SqliteWrapper;
 
 import android.app.ActionBar;
@@ -40,6 +43,7 @@ import android.app.ListActivity;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.AsyncQueryHandler;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -342,6 +346,27 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
             mSearchView.setSearchableInfo(info);
         }
 
+        MenuItem cellBroadcastItem = menu.findItem(R.id.action_cell_broadcasts);
+        if (cellBroadcastItem != null) {
+            // Enable link to Cell broadcast activity depending on the value in config.xml.
+            boolean isCellBroadcastAppLinkEnabled = this.getResources().getBoolean(
+                    com.android.internal.R.bool.config_cellBroadcastAppLinks);
+            try {
+                if (isCellBroadcastAppLinkEnabled) {
+                    PackageManager pm = getPackageManager();
+                    if (pm.getApplicationEnabledSetting("com.android.cellbroadcastreceiver")
+                            == PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
+                        isCellBroadcastAppLinkEnabled = false;  // CMAS app disabled
+                    }
+                }
+            } catch (IllegalArgumentException ignored) {
+                isCellBroadcastAppLinkEnabled = false;  // CMAS app not installed
+            }
+            if (!isCellBroadcastAppLinkEnabled) {
+                cellBroadcastItem.setVisible(false);
+            }
+        }
+
         return true;
     }
 
@@ -385,6 +410,18 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
             case R.id.action_debug_dump:
                 LogTag.dumpInternalTables(this);
                 break;
+            case R.id.action_cell_broadcasts:
+                Intent cellBroadcastIntent = new Intent(Intent.ACTION_MAIN);
+                cellBroadcastIntent.setComponent(new ComponentName(
+                        "com.android.cellbroadcastreceiver",
+                        "com.android.cellbroadcastreceiver.CellBroadcastListActivity"));
+                cellBroadcastIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                try {
+                    startActivity(cellBroadcastIntent);
+                } catch (ActivityNotFoundException ignored) {
+                    Log.e(TAG, "ActivityNotFoundException for CellBroadcastListActivity");
+                }
+                return true;
             default:
                 return true;
         }

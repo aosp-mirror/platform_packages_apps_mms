@@ -52,6 +52,9 @@
     <!-- Message that appears on screen while SIM card messages are retrieved -->
     <string name="refreshing">Refreshing\u2026</string>
 
+    <!-- Menu item to show received cell broadcasts. [CHAR LIMIT=30] -->
+    <string name="menu_cell_broadcasts">Cell broadcasts</string>
+
     <!-- Tag appearing on conversations in the conversation list that contain a draft message -->
     <string name="has_draft">Draft</string>
 
