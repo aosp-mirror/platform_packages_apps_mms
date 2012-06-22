@@ -117,12 +117,13 @@ public class SearchActivity extends ListActivity
             float searchStringWidth = tp.measureText(mTargetString);
             float textFieldWidth = getWidth();
 
+            float ellipsisWidth = tp.measureText(sEllipsis);
+            textFieldWidth -= (2F * ellipsisWidth); // assume we'll need one on both ends
+
             String snippetString = null;
             if (searchStringWidth > textFieldWidth) {
                 snippetString = mFullText.substring(startPos, startPos + searchStringLength);
             } else {
-                float ellipsisWidth = tp.measureText(sEllipsis);
-                textFieldWidth -= (2F * ellipsisWidth); // assume we'll need one on both ends
 
                 int offset = -1;
                 int start = -1;
