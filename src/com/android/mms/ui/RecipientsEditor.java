@@ -250,8 +250,6 @@ public class RecipientsEditor extends RecipientEditTextView {
     }
 
     public void populate(ContactList list) {
-        SpannableStringBuilder sb = new SpannableStringBuilder();
-
         // Very tricky bug. In the recipient editor, we always leave a trailing
         // comma to make it easy for users to add additional recipients. When a
         // user types (or chooses from the dropdown) a new contact Mms has never
@@ -270,17 +268,16 @@ public class RecipientsEditor extends RecipientEditTextView {
         // and deletes chars into an address chosen from the suggestions, it'll cause
         // the number annotation to get deleted and the whole address (name + number) will
         // be used as the number.
-        for (Contact c : list) {
-            sb.append(contactToToken(c)).append(", ");
-        }
-
-        if (sb.length() == 0) {
+        if (list.size() == 0) {
+            // The base class RecipientEditTextView will ignore empty text. That's why we need
+            // this special case.
             setText(null);
         } else {
-            // The base class RecipientEditTextView will ignore empty text. That's why we need
-            // the special case above. At the same time, calling setText to set the recipients
-            // won't create chips, but calling append() will.
-            append(sb);
+            for (Contact c : list) {
+                // Calling setText to set the recipients won't create chips,
+                // but calling append() will.
+                append(contactToToken(c) + ", ");
+            }
         }
     }
 
@@ -394,6 +391,11 @@ public class RecipientsEditor extends RecipientEditTextView {
             int i = cursor;
             char c;
 
+            // If we're sitting at a delimiter, back up so we find the previous token
+            if (i > 0 && ((c = text.charAt(i - 1)) == ',' || c == ';')) {
+                --i;
+            }
+            // Now back up until the start or until we find the separator of the previous token
             while (i > 0 && (c = text.charAt(i - 1)) != ',' && c != ';') {
                 i--;
             }
