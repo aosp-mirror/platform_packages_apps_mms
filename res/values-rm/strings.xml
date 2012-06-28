@@ -37,6 +37,8 @@
     <!-- no translation found for menu_debug_dump (6855869130206549643) -->
     <skip />
     <string name="refreshing" msgid="987335057871404222">"Actualisar…"</string>
+    <!-- no translation found for menu_cell_broadcasts (5646161375983084660) -->
+    <skip />
     <string name="has_draft" msgid="2487465595514636160">"Sboz"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Nagin object)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Jau"</string>
