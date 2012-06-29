@@ -34,8 +34,7 @@
     <string name="menu_view" msgid="7448852683948080108">"Žiūrėti giją"</string>
     <string name="menu_debug_dump" msgid="6855869130206549643">"DEBUG DUMP"</string>
     <string name="refreshing" msgid="987335057871404222">"Atnaujinama..."</string>
-    <!-- no translation found for menu_cell_broadcasts (5646161375983084660) -->
-    <skip />
+    <string name="menu_cell_broadcasts" msgid="5646161375983084660">"Tinklo transliacijos"</string>
     <string name="has_draft" msgid="2487465595514636160">"Juodraštis"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(nėra temos)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Aš"</string>
@@ -338,16 +337,10 @@
   </plurals>
     <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Nebekurti numatytosios „Susirašinėjimo žinutėmis“ programos pranešimų apie teksto žinutes kopijų?"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"Peržiūrėti daugiau pokalbių"</string>
-    <!-- no translation found for attachment_audio (2867960243300539143) -->
-    <skip />
-    <!-- no translation found for attachment_slideshow (5867689101881763318) -->
-    <skip />
-    <!-- no translation found for attachment_video (4252062022156694591) -->
-    <skip />
-    <!-- no translation found for attachment_picture (3709286281567284296) -->
-    <skip />
-    <!-- no translation found for notification_separator (2334673105226536422) -->
-    <skip />
-    <!-- no translation found for enumeration_comma (213598026698964628) -->
-    <skip />
+    <string name="attachment_audio" msgid="2867960243300539143">"Garso įrašas"</string>
+    <string name="attachment_slideshow" msgid="5867689101881763318">"Skaidrių demonstracija"</string>
+    <string name="attachment_video" msgid="4252062022156694591">"Vaizdo įrašas"</string>
+    <string name="attachment_picture" msgid="3709286281567284296">"Nuotrauka"</string>
+    <string name="notification_separator" msgid="2334673105226536422">"  "</string>
+    <string name="enumeration_comma" msgid="213598026698964628">", "</string>
 </resources>
