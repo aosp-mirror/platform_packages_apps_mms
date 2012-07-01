@@ -15,7 +15,7 @@
  */
 
 
-package src.com.android.mms;
+package com.android.mms;
 
 import com.android.mms.LogTag;
 import com.android.mms.R;

@@ -26,6 +26,7 @@ import android.provider.Telephony.Mms;
 import android.util.Log;
 
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
@@ -65,7 +66,7 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
             Uri changed = (Uri) intent.getParcelableExtra(Mms.Intents.DELETED_CONTENTS);
             MmsApp.getApplication().getPduLoaderManager().removePdu(changed);
         } else if (action.equals(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED)) {
-            String state = intent.getStringExtra(Phone.STATE_KEY);
+            String state = intent.getStringExtra(PhoneConstants.STATE_KEY);
 
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "ANY_DATA_STATE event received: " + state);
