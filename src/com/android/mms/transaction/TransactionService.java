@@ -26,6 +26,7 @@ import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.android.internal.telephony.Phone;
+import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.TelephonyIntents;
 
 import android.provider.Telephony.Mms;
@@ -498,8 +499,8 @@ public class TransactionService extends Service implements Observer {
         }
 
         switch (result) {
-            case Phone.APN_ALREADY_ACTIVE:
-            case Phone.APN_REQUEST_STARTED:
+            case PhoneConstants.APN_ALREADY_ACTIVE:
+            case PhoneConstants.APN_REQUEST_STARTED:
                 acquireWakeLock();
                 return result;
         }
@@ -593,7 +594,7 @@ public class TransactionService extends Service implements Observer {
 
                     try {
                         int result = beginMmsConnectivity();
-                        if (result != Phone.APN_ALREADY_ACTIVE) {
+                        if (result != PhoneConstants.APN_ALREADY_ACTIVE) {
                             Log.v(TAG, "Extending MMS connectivity returned " + result +
                                     " instead of APN_ALREADY_ACTIVE");
                             // Just wait for connectivity startup without
@@ -822,7 +823,7 @@ public class TransactionService extends Service implements Observer {
                     Log.v(TAG, "processTransaction: call beginMmsConnectivity...");
                 }
                 int connectivityResult = beginMmsConnectivity();
-                if (connectivityResult == Phone.APN_REQUEST_STARTED) {
+                if (connectivityResult == PhoneConstants.APN_REQUEST_STARTED) {
                     mPending.add(transaction);
                     if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                         Log.v(TAG, "processTransaction: connResult=APN_REQUEST_STARTED, " +
