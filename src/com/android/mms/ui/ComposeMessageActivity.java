@@ -302,6 +302,8 @@ public class ComposeMessageActivity extends Activity
 
     private int mSavedScrollPosition = -1;  // we save the ListView's scroll position in onPause(),
                                             // so we can remember it after re-entering the activity.
+                                            // If the value >= 0, then we jump to that line. If the
+                                            // value is maxint, then we jump to the end.
 
     /**
      * Whether this activity is currently running (i.e. not paused)
@@ -2180,7 +2182,14 @@ public class ComposeMessageActivity extends Activity
 
         MessagingNotification.setCurrentlyDisplayedThreadId(MessagingNotification.THREAD_NONE);
 
-        mSavedScrollPosition = mMsgListView.getFirstVisiblePosition();
+        // Remember whether the list is scrolled to the end when we're paused so we can rescroll
+        // to the end when resumed.
+        if (mMsgListAdapter != null &&
+                mMsgListView.getLastVisiblePosition() >= mMsgListAdapter.getCount() - 1) {
+            mSavedScrollPosition = Integer.MAX_VALUE;
+        } else {
+            mSavedScrollPosition = mMsgListView.getFirstVisiblePosition();
+        }
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             Log.v(TAG, "onPause: mSavedScrollPosition=" + mSavedScrollPosition);
         }
@@ -3865,15 +3874,31 @@ public class ComposeMessageActivity extends Activity
                             }
                         }
                     } else if (mSavedScrollPosition != -1) {
-                        // remember the saved scroll position before the activity is paused.
-                        // reset it after the message list query is done
-                        newSelectionPos = mSavedScrollPosition;
-                        mSavedScrollPosition = -1;
+                        // mSavedScrollPosition is set when this activity pauses. If equals maxint,
+                        // it means the message list was scrolled to the end. Meanwhile, messages
+                        // could have been received. When the activity resumes and we were
+                        // previously scrolled to the end, jump the list so any new messages are
+                        // visible.
+                        if (mSavedScrollPosition == Integer.MAX_VALUE) {
+                            int cnt = mMsgListAdapter.getCount();
+                            if (cnt > 0) {
+                                // Have to wait until the adapter is loaded before jumping to
+                                // the end.
+                                newSelectionPos = cnt - 1;
+                                mSavedScrollPosition = -1;
+                            }
+                        } else {
+                            // remember the saved scroll position before the activity is paused.
+                            // reset it after the message list query is done
+                            newSelectionPos = mSavedScrollPosition;
+                            mSavedScrollPosition = -1;
+                        }
                     }
 
                     mMsgListAdapter.changeCursor(cursor);
+
                     if (newSelectionPos != -1) {
-                        mMsgListView.setSelection(newSelectionPos);
+                        mMsgListView.setSelection(newSelectionPos);     // jump the list to the pos
                     } else {
                         // mScrollOnSend is set when we send a message. We always want to scroll
                         // the message list to the end when we send a message, but have to wait
