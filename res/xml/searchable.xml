@@ -27,5 +27,5 @@
     android:searchSuggestIntentAction="android.intent.action.SEARCH"
     android:imeOptions="actionSearch"
 
-    android:includeInGlobalSearch="true"
+    android:includeInGlobalSearch="false"
 />
