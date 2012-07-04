@@ -118,6 +118,7 @@ import android.widget.Toast;
 
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.TelephonyProperties;
+import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
@@ -3553,13 +3554,18 @@ public class ComposeMessageActivity extends Activity
             // them back once the recipient list has settled.
             removeRecipientsListeners();
 
-            mWorkingMessage.send(mDebugRecipients);
+            try {
+                mWorkingMessage.send(mDebugRecipients);
 
-            mSentMessage = true;
-            mSendingMessage = true;
-            addRecipientsListeners();
+                mSentMessage = true;
+                mSendingMessage = true;
+                addRecipientsListeners();
 
-            mScrollOnSend = true;   // in the next onQueryComplete, scroll the list to the end.
+                mScrollOnSend = true;   // in the next onQueryComplete, scroll the list to the end.
+            } catch (ExceedMessageSizeException ex) {
+                handleAddAttachmentError(WorkingMessage.MESSAGE_SIZE_EXCEEDED, R.string.type_picture);
+                return;
+            }
         }
         // But bail out if we are supposed to exit after the message is sent.
         if (mExitOnSent) {
