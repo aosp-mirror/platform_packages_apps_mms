@@ -115,8 +115,8 @@
     <string name="adding_attachments" msgid="5871373105122355632">"لطفاً صبر کنید تا موارد به نمایش اسلاید اضافه شوند."</string>
     <string name="building_slideshow_title" msgid="1232338692400726385">"ایجاد نمایش اسلاید"</string>
     <string name="cannot_play_audio" msgid="253920977253666735">"پخش صدا امکان‌پذیر نیست."</string>
-    <string name="preview" msgid="5438149136136446756">"پیش نمایش"</string>
-    <string name="preview_slideshow" msgid="6824095909448728427">"پیش نمایش"</string>
+    <string name="preview" msgid="5438149136136446756">"پیش‌نمایش"</string>
+    <string name="preview_slideshow" msgid="6824095909448728427">"پیش‌نمایش"</string>
     <string name="replace_image" msgid="3171240952601443619">"جایگزینی تصویر"</string>
     <string name="duration_sec" msgid="6617032324007824096">"طول مدت (<xliff:g id="DURATION">%s</xliff:g> ثانیه)"</string>
     <string name="duration_selector_title" msgid="5981097971537625852">"طول مدت اسلاید "</string>
