@@ -303,6 +303,11 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                 if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     log("onDraftChanged: threadId=" + threadId + ", hasDraft=" + hasDraft);
                 }
+
+                // Delete any obsolete threads.
+                Conversation.asyncDeleteObsoleteThreads(mQueryHandler,
+                        DELETE_OBSOLETE_THREADS_TOKEN);
+
                 mListAdapter.notifyDataSetChanged();
             }
         });
@@ -694,18 +699,8 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     private final Runnable mDeleteObsoleteThreadsRunnable = new Runnable() {
         @Override
         public void run() {
-            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                LogTag.debug("mDeleteObsoleteThreadsRunnable getSavingDraft(): " +
-                        DraftCache.getInstance().getSavingDraft());
-            }
-            if (DraftCache.getInstance().getSavingDraft()) {
-                // We're still saving a draft. Try again in a second. We don't want to delete
-                // any threads out from under the draft.
-                mHandler.postDelayed(mDeleteObsoleteThreadsRunnable, 1000);
-            } else {
-                Conversation.asyncDeleteObsoleteThreads(mQueryHandler,
-                        DELETE_OBSOLETE_THREADS_TOKEN);
-            }
+            Conversation.asyncDeleteObsoleteThreads(mQueryHandler,
+                    DELETE_OBSOLETE_THREADS_TOKEN);
         }
     };
 
