@@ -55,7 +55,7 @@
     <string name="drm_protected_text" msgid="1396394157870730742">"* متن محافظت شده با DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"حقوق DRM ناکافی شناسایی شد."</string>
     <string name="copy_message_text" msgid="4296252229544252834">"کپی متن"</string>
-    <string name="message_options" msgid="6838806653341967550">"گزینه های پیام"</string>
+    <string name="message_options" msgid="6838806653341967550">"گزینه‌های پیام"</string>
     <string name="done" msgid="7479926268660505871">"انجام شد"</string>
     <string name="move_up" msgid="7307578107431739359">"انتقال به بالا"</string>
     <string name="move_down" msgid="6356509518429479053">"انتقال به پایین"</string>
@@ -99,7 +99,7 @@
     <string name="service_not_activated" msgid="9178218144019626176">"سرویس در شبکه فعال نشده است."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"پیام منقضی شده یا در دسترس نیست."</string>
     <string name="service_network_problem" msgid="4583269174855943025">"به علت مشکل شبکه ارسال نشد."</string>
-    <string name="invalid_recipient_message" msgid="6465343105010999068">"گیرنده (گیرندگان) را تصحیح کنید در غیر این صورت آنها پیام را دریافت نمی‌کنند."</string>
+    <string name="invalid_recipient_message" msgid="6465343105010999068">"گیرنده (گیرندگان) را تصحیح کنید در غیر این صورت آن‌ها پیام را دریافت نمی‌کنند."</string>
     <string name="cannot_send_message" msgid="3414307479833622644">"ارسال پیام امکان‌پذیر نیست"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"پیام شما هیچ گیرنده معتبری ندارد."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"شیء DRM موجود در پیام باز ارسال نمی‌شود."</string>
@@ -111,7 +111,7 @@
     <string name="message_saved_as_draft" msgid="2503018972659880692">"پیام به عنوان پیش نویس ذخیره شد."</string>
     <string name="too_many_recipients" msgid="7003415094007176931">"این پیام دارای گیرندگان بسیار زیادی است (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). محدودیت <xliff:g id="MAXLIMIT">%2$s</xliff:g> گیرنده وجود دارد."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"محدودیت <xliff:g id="MAXLIMIT">%1$s</xliff:g> پیوست وجود دارد. فقط اولین <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> اضافه می‌شود."</string>
-    <string name="adding_attachments_title" msgid="2034535554212405529">"افزودن پیوست ها"</string>
+    <string name="adding_attachments_title" msgid="2034535554212405529">"افزودن پیوست‌ها"</string>
     <string name="adding_attachments" msgid="5871373105122355632">"لطفاً صبر کنید تا موارد به نمایش اسلاید اضافه شوند."</string>
     <string name="building_slideshow_title" msgid="1232338692400726385">"ایجاد نمایش اسلاید"</string>
     <string name="cannot_play_audio" msgid="253920977253666735">"پخش صدا امکان‌پذیر نیست."</string>
@@ -152,28 +152,28 @@
     <string name="preferences_title" msgid="6650089610332670157">"تنظیمات"</string>
     <string name="restore_default" msgid="7165341506551155053">"بازیابی تنظیمات پیش‌فرض"</string>
     <string name="pref_notification_settings_title" msgid="6420782563630369776">"اعلان‌ها"</string>
-    <string name="pref_mms_settings_title" msgid="55618772118264355">"پیامهای چند رسانه‌ای (MMS)"</string>
-    <string name="pref_sms_settings_title" msgid="5173078369851066881">"پیامهای نوشتاری (پیامک)"</string>
+    <string name="pref_mms_settings_title" msgid="55618772118264355">"پیام‌های چند رسانه‌ای (MMS)"</string>
+    <string name="pref_sms_settings_title" msgid="5173078369851066881">"پیام‌های نوشتاری (پیامک)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"محل ذخیره"</string>
-    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"مدیریت پیام های ذخیره شده در سیم کارت شما"</string>
+    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"مدیریت پیام‌های ذخیره شده در سیم کارت شما"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"درخواست یک گزارش تحویل برای هر پیامی که ارسال می‌کنید"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"درخواست یک گزارش خواندن برای هر پیامی که ارسال می‌کنید"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"درخواست یک گزارش تحویل برای هر پیامی که ارسال می‌کنید"</string>
-    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"حذف پیام های قدیمی به دلیل بیشتر شدن از حداکثر مجاز"</string>
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"حذف پیام‌های قدیمی به دلیل بیشتر شدن از حداکثر مجاز"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> پیام در هر گفتگو"</string>
-    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"مدیریت پیام های سیم کارت"</string>
-    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"گزارش های تحویل"</string>
-    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"گزارش های خواندن"</string>
-    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"گزارش های تحویل"</string>
-    <string name="pref_title_auto_delete" msgid="7227835692631701134">"حذف پیام های قدیمی"</string>
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"مدیریت پیام‌های سیم کارت"</string>
+    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"گزارش‌های تحویل"</string>
+    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"گزارش‌های خواندن"</string>
+    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"گزارش‌های تحویل"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"حذف پیام‌های قدیمی"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"محدودیت پیام متنی"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"محدودیت پیام چند رسانه ای"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"اعلان‌ها"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"نمایش اعلان های پیام در نوار وضعیت"</string>
+    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"نمایش اعلان‌های پیام در نوار وضعیت"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"لرزش"</string>
     <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"همچنین لرزش هنگام اعلان"</string>
     <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"انتخاب آهنگ زنگ"</string>
-    <string name="pref_messages_to_save" msgid="3202539743892934926">"تنظیم تعداد پیام ها برای ذخیره"</string>
+    <string name="pref_messages_to_save" msgid="3202539743892934926">"تنظیم تعداد پیام‌ها برای ذخیره"</string>
   <string-array name="prefEntries_vibrateWhen">
     <item msgid="2520871831815631409">"همیشه"</item>
     <item msgid="6069709696037750627">"فقط هنگام ساکت بودن"</item>
@@ -181,7 +181,7 @@
   </string-array>
     <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"لرزش"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"بازیابی خودکار"</string>
-    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"بازیابی خودکار پیام ها"</string>
+    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"بازیابی خودکار پیام‌ها"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"بازیابی خودکار در طول رومینگ"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"بازیابی خودکار پیام در حین رومینگ"</string>
     <string name="confirm_dialog_title" msgid="2187213750475782725">"حذف شود؟"</string>
@@ -194,9 +194,9 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"همه رشته ها حذف می‌شوند."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"پیام حذف می‌شود."</string>
     <string name="confirm_delete_locked_message" msgid="7203411948190100955">"این پیام قفل شده حذف شود؟"</string>
-    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"تمامی پیامها در سیم کارت حذف خواهد شد."</string>
+    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"تمامی پیام‌ها در سیم کارت حذف خواهد شد."</string>
     <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"این پیام بر روی سیم کارت حذف خواهد شد."</string>
-    <string name="delete_unlocked" msgid="7545321606698162261">"حذف پیام های قفل شده"</string>
+    <string name="delete_unlocked" msgid="7545321606698162261">"حذف پیام‌های قفل شده"</string>
     <string name="delete" msgid="1409973060081564612">"حذف"</string>
     <string name="select_conversations" msgid="7816517565640002844">"انتخاب مکالمات"</string>
     <string name="no_conversations" msgid="6773767655149258445">"مکالمه‌ای موجود نیست."</string>
@@ -206,7 +206,7 @@
     <string name="message_type_label" msgid="7975373966795945566">"نوع: "</string>
     <string name="text_message" msgid="8196464345251877972">"پیام متنی"</string>
     <string name="multimedia_message" msgid="1512644521083533071">"پیام چند رسانه ای"</string>
-    <string name="multimedia_notification" msgid="4124031788554972308">"اعلان های پیام چند رسانه ای"</string>
+    <string name="multimedia_notification" msgid="4124031788554972308">"اعلان‌های پیام چند رسانه ای"</string>
     <string name="from_label" msgid="2055117571548171397">"فرستنده: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"گیرنده: "</string>
     <string name="bcc_label" msgid="530867161453958774">"گیرنده کپی مخفی: "</string>
@@ -222,13 +222,13 @@
     <string name="message_class_label" msgid="5115748690481550562">"طبقه بندی پیام: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"کد خطا: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"ویرایش"</string>
-    <string name="menu_delete_messages" msgid="2610286783513247420">"حذف پیام ها"</string>
+    <string name="menu_delete_messages" msgid="2610286783513247420">"حذف پیام‌ها"</string>
     <string name="menu_lock" msgid="7603793126077557472">"قفل"</string>
     <string name="menu_unlock" msgid="6662865558677424039">"بازگشایی قفل"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"کپی در حافظه رایانه لوحی"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"کپی در حافظه تلفن"</string>
     <string name="sim_delete" msgid="610790510655316922">"حذف"</string>
-    <string name="sim_manage_messages_title" msgid="3989147182100584333">"پیام های متنی در سیم کارت"</string>
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"پیام‌های متنی در سیم کارت"</string>
     <string name="sim_view" msgid="1997173541766393706">"مشاهده"</string>
     <string name="sim_empty" msgid="2356766833071636297">"پیامی در سیم کارت موجود نیست."</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"گزارش"</string>
@@ -255,13 +255,13 @@
     <!-- no translation found for delivery_toast_body (5960519861835727013) -->
     <skip />
     <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> پیام خوانده نشده."</string>
-    <string name="notification_multiple_title" msgid="332602028959557541">"پیام های جدید"</string>
+    <string name="notification_multiple_title" msgid="332602028959557541">"پیام‌های جدید"</string>
     <string name="notification_failed_multiple" msgid="6192531993698497229">"<xliff:g id="COUNT">%s</xliff:g> پیام ارسال نشد"</string>
-    <string name="notification_failed_multiple_title" msgid="1112032024904397126">"پیام ها ارسال نشدند"</string>
+    <string name="notification_failed_multiple_title" msgid="1112032024904397126">"پیام‌ها ارسال نشدند"</string>
     <string name="sim_full_title" msgid="1809829051697702810">"سیم کارت پر است"</string>
-    <string name="sim_full_body" msgid="6241664980790322925">"برای آزاد کردن حافظه، برخی از پیام ها را حذف کنید."</string>
+    <string name="sim_full_body" msgid="6241664980790322925">"برای آزاد کردن حافظه، برخی از پیام‌ها را حذف کنید."</string>
     <string name="sms_full_title" msgid="6041287140125011854">"حافظه پیام متنی پر است"</string>
-    <string name="sms_full_body" msgid="4885861852397651868">"یک پیام ورودی به دلیل پر بودن حافظه رد شد. لطفاً برخی از پیامهای قدیمی را حذف کنید."</string>
+    <string name="sms_full_body" msgid="4885861852397651868">"یک پیام ورودی به دلیل پر بودن حافظه رد شد. لطفاً برخی از پیام‌های قدیمی را حذف کنید."</string>
     <string name="sms_rejected_title" msgid="8548394922491529811">"پیام متنی رد شد"</string>
     <string name="sms_rejected_body" msgid="7813671133968158562">"یک پیام ورودی به دلیل نامشخص رد شد."</string>
     <string name="type_audio" msgid="3842064092332309756">"صوتی"</string>
@@ -270,12 +270,12 @@
     <string name="confirm" msgid="3155110885840591914">"تأیید"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"یک گزارش خواندن ارسال می‌شود."</string>
     <string name="message_queued" msgid="7975945623873194737">"در حال حاضر ارسال پیام شما امکان‌پذیر نیست. به محض دسترسی به سرویس، پیام شما ارسال می‌شود."</string>
-    <string name="fdn_check_failure" msgid="7880740763778173551">"فقط می‌توانید به شماره های شماره گیری ثابت خود پیام ارسال کنید."</string>
+    <string name="fdn_check_failure" msgid="7880740763778173551">"فقط می‌توانید به شماره‌های شماره گیری ثابت خود پیام ارسال کنید."</string>
     <string name="no_subject" msgid="4168963736134552285">"(بدون موضوع)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"فرستنده ناشناس"</string>
     <string name="dl_failure_notification" msgid="8097699679464396537">"پیام <xliff:g id="SUBJECT">%1$s</xliff:g> از <xliff:g id="FROM">%2$s</xliff:g> دانلود نشد."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"تأیید"</string>
-    <string name="confirm_rate_limit" msgid="234228299751243067">"تعداد زیادی از پیام های چند رسانه ای در حال ارسال هستند. این را تأیید می‌کنید؟"</string>
+    <string name="confirm_rate_limit" msgid="234228299751243067">"تعداد زیادی از پیام‌های چند رسانه ای در حال ارسال هستند. این را تأیید می‌کنید؟"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"پیام دانلود نشد"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"پیام ارسال نشد"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"برای مرور پیام لمس کنید و دوباره سعی کنید."</string>
@@ -296,7 +296,7 @@
     <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g> ثانیه"</item>
   </plurals>
     <string name="delivery_report_activity" msgid="2957463094232916364">"گزارش تحویل"</string>
-    <string name="storage_limits_activity" msgid="8810530813311077716">"محدودیت های ذخیره"</string>
+    <string name="storage_limits_activity" msgid="8810530813311077716">"محدودیت‌های ذخیره"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"تغییر مدت زمان"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"ویرایش نمایش اسلاید"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"ویرایش اسلاید"</string>
@@ -305,7 +305,7 @@
     <string name="search_label" msgid="6042598929386174964">"پیام رسانی"</string>
     <string name="search_hint" msgid="7273727663577472044">"جستجوی پیام‌رسانی"</string>
     <string name="search" msgid="7560238620274735199">"پیام رسانی"</string>
-    <string name="search_setting_description" msgid="4104004595086437572">"ارسال متن در پیام های شما"</string>
+    <string name="search_setting_description" msgid="4104004595086437572">"ارسال متن در پیام‌های شما"</string>
     <string name="search_empty" msgid="2109551478056039278">"مورد منطبقی وجود ندارد."</string>
   <plurals name="search_results_title">
     <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> نتیجه برای \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
@@ -315,13 +315,13 @@
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"پاک کردن"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"سابقه جستجو پاک می‌شود."</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"پاک کردن سابقه جستجو"</string>
-    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"پاک کردن جستجوهای پیام رسانی قبلی و جلوگیری از نمایش آنها در کادر جستجو"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"پاک کردن جستجوهای پیام رسانی قبلی و جلوگیری از نمایش آن‌ها در کادر جستجو"</string>
     <string name="save" msgid="6847069284991531310">"ذخیره"</string>
-    <string name="storage_limits_title" msgid="7074684882530693016">"محدودیت پیام ها"</string>
-    <string name="storage_limits_message" msgid="2010501485394745696">"تعداد پیامهایی را که در هر مکالمه ذخیره می‌کنید، محدود شود؟"</string>
+    <string name="storage_limits_title" msgid="7074684882530693016">"محدودیت پیام‌ها"</string>
+    <string name="storage_limits_message" msgid="2010501485394745696">"تعداد پیام‌هایی را که در هر مکالمه ذخیره می‌کنید، محدود شود؟"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"تنظیم محدودیت ها"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"بدون محدودیت"</string>
-    <string name="too_many_unsent_mms" msgid="4436493698891224126">"اکنون ارسال پیام امکان‌پذیر نیست. تعداد زیادی پیامهای چند رسانه‌ای ارسال نشده وجود دارد."</string>
+    <string name="too_many_unsent_mms" msgid="4436493698891224126">"اکنون ارسال پیام امکان‌پذیر نیست. تعداد زیادی پیام‌های چند رسانه‌ای ارسال نشده وجود دارد."</string>
     <string name="sending_message" msgid="2054406576361149715">"در حال ارسال..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"تعداد زیادی گیرنده وجود دارد"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"افزودن گیرندگان..."</string>
