@@ -304,7 +304,7 @@ public class ComposeMessageActivity extends Activity
                                             // so we can remember it after re-entering the activity.
                                             // If the value >= 0, then we jump to that line. If the
                                             // value is maxint, then we jump to the end.
-
+    private boolean mNeedToInvidateOptionMenu = false;
     /**
      * Whether this activity is currently running (i.e. not paused)
      */
@@ -2067,6 +2067,8 @@ public class ComposeMessageActivity extends Activity
     protected void onStart() {
         super.onStart();
 
+        mNeedToInvidateOptionMenu = true;
+
         initFocus();
 
         // Register a BroadcastReceiver to listen on HTTP I/O process.
@@ -3205,6 +3207,12 @@ public class ComposeMessageActivity extends Activity
         boolean showingAttachment = mAttachmentEditor.update(mWorkingMessage);
         mAttachmentEditorScrollView.setVisibility(showingAttachment ? View.VISIBLE : View.GONE);
         showSubjectEditor(showSubjectEditor || mWorkingMessage.hasSubject());
+
+        if (mNeedToInvidateOptionMenu) {
+            mNeedToInvidateOptionMenu = false;
+
+            invalidateOptionsMenu();
+        }
     }
 
     //==========================================================
