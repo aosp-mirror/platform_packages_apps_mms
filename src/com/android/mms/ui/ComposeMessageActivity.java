@@ -304,7 +304,6 @@ public class ComposeMessageActivity extends Activity
                                             // so we can remember it after re-entering the activity.
                                             // If the value >= 0, then we jump to that line. If the
                                             // value is maxint, then we jump to the end.
-
     /**
      * Whether this activity is currently running (i.e. not paused)
      */
@@ -3205,6 +3204,8 @@ public class ComposeMessageActivity extends Activity
         boolean showingAttachment = mAttachmentEditor.update(mWorkingMessage);
         mAttachmentEditorScrollView.setVisibility(showingAttachment ? View.VISIBLE : View.GONE);
         showSubjectEditor(showSubjectEditor || mWorkingMessage.hasSubject());
+
+        invalidateOptionsMenu();
     }
 
     //==========================================================
