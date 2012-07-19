@@ -92,7 +92,7 @@
     <string name="failed_to_add_media" msgid="7207464170168708485">"No puedes añadir <xliff:g id="NAME">%1$s</xliff:g> al mensaje."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"No se ha podido ajustar el tamaño de la imagen."</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"Esta imagen es demasiado grande para enviarla aunque se ajuste su tamaño."</string>
-    <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
+    <string name="forward_prefix" msgid="276280492803486464">"Rv: "</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"El mensaje se descartará porque los destinatarios no son válidos."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Destinatarios no válidos: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"Dirección de destino no válida"</string>
@@ -209,7 +209,7 @@
     <string name="multimedia_notification" msgid="4124031788554972308">"Notificación de mensaje multimedia"</string>
     <string name="from_label" msgid="2055117571548171397">"De: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Para: "</string>
-    <string name="bcc_label" msgid="530867161453958774">"CCO: "</string>
+    <string name="bcc_label" msgid="530867161453958774">"Cco: "</string>
     <string name="sent_label" msgid="2722190650145251584">"Enviado: "</string>
     <string name="received_label" msgid="8618029024731693906">"Recibido: "</string>
     <string name="saved_label" msgid="4183160415593488207">"Guardado "</string>
