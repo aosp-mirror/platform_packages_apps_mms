@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHs3///Hw\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3211,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-07-23T17:28:38Z",
+      "side": 1,
+      "message": "It looks like in the existing code, we\u0027re already calling invalidateOptionsMenu around the same time we\u0027re calling drawTopPanel. How about if we get rid of your flag and always call invalidateOptionsMenu in drawTopPanel. You\u0027ll want to remove the existing calls to invalidateOptionsMenu where drawTopPanel is called at the same time.",
+      "revId": "7d8fbf74bb0ec3d086d9df8dfac6651b14bf6d42",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
