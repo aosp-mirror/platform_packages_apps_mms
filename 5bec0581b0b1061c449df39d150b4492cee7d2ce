@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHtX//+gs\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3209,
+      "author": {
+        "id": 1002620
+      },
+      "writtenOn": "2012-07-24T16:52:45Z",
+      "side": 1,
+      "message": "Now that invalidateOptionsMenu() is called inside of drawTopPanel(), you should remove the call to invalidOptionsMenu when drawTopPanel is called. Places like this include: editMmsMessageItem(), initialize(), and onActivityResult().\nThanks!",
+      "revId": "5bec0581b0b1061c449df39d150b4492cee7d2ce",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
