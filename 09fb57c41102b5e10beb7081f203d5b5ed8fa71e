@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHwH///3U\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2061,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-07-25T14:55:16Z",
+      "side": 0,
+      "message": "Don\u0027t we still want this one because we\u0027re not calling the showTopPanel function here?",
+      "revId": "09fb57c41102b5e10beb7081f203d5b5ed8fa71e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
