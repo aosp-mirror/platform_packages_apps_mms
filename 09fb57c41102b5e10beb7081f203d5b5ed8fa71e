@@ -16,6 +16,24 @@
       "revId": "09fb57c41102b5e10beb7081f203d5b5ed8fa71e",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHxn///7U\u003d",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2061,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2012-07-25T16:25:12Z",
+      "side": 0,
+      "message": "loadDraft() will invoke drawTopPanel so I remove invalidateOptionsMenu belowed.",
+      "parentUuid": "AAAHwH///3U\u003d",
+      "revId": "09fb57c41102b5e10beb7081f203d5b5ed8fa71e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
