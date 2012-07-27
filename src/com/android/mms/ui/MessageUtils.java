@@ -904,6 +904,7 @@ public class MessageUtils {
         // Launch the slideshow activity to play/view.
         Intent intent = new Intent(context, SlideshowActivity.class);
         intent.setData(msgUri);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         if (requestCode > 0 && context instanceof Activity) {
             ((Activity)context).startActivityForResult(intent, requestCode);
         } else {
