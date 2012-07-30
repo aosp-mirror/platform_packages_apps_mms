@@ -275,6 +275,7 @@
 
         <!-- Search Suggestions Provider -->
         <provider android:name="SuggestionsProvider"
+            android:exported="true"
             android:readPermission="android.permission.READ_SMS"
             android:authorities="com.android.mms.SuggestionsProvider" >
             <path-permission
@@ -297,6 +298,7 @@
         </service>
 
         <provider android:name="TempFileProvider"
+                  android:exported="true"
                   android:authorities="mms_temp_file"
                   android:multiprocess="true" />
 
