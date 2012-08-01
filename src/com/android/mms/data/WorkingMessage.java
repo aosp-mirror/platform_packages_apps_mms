@@ -469,26 +469,23 @@ public class WorkingMessage {
         mStatusListener.onAttachmentChanged();  // have to call whether succeeded or failed,
                                                 // because a replace that fails, removes the slide
 
-        if (!MmsConfig.getMultipartSmsEnabled()) {
-            if (!append && mAttachmentType == TEXT && type == TEXT) {
-                int[] params = SmsMessage.calculateLength(getText(), false);
-                /* SmsMessage.calculateLength returns an int[4] with:
-                *   int[0] being the number of SMS's required,
-                *   int[1] the number of code units used,
-                *   int[2] is the number of code units remaining until the next message.
-                *   int[3] is the encoding type that should be used for the message.
-                */
-                int msgCount = params[0];
+        if (!append && mAttachmentType == TEXT && type == TEXT) {
+            int[] params = SmsMessage.calculateLength(getText(), false);
+            /* SmsMessage.calculateLength returns an int[4] with:
+             *   int[0] being the number of SMS's required,
+             *   int[1] the number of code units used,
+             *   int[2] is the number of code units remaining until the next message.
+             *   int[3] is the encoding type that should be used for the message.
+             */
+            int smsSegmentCount = params[0];
 
-                if (msgCount > 1) {
-                    // The provider doesn't support multi-part sms's so as soon as the user types
-                    // an sms longer than one segment, we have to turn the message into an mms.
-                    setLengthRequiresMms(true, false);
-                } else {
-                    updateState(HAS_ATTACHMENT, hasAttachment(), true);
-                }
+            if (!MmsConfig.getMultipartSmsEnabled()) {
+                // The provider doesn't support multi-part sms's so as soon as the user types
+                // an sms longer than one segment, we have to turn the message into an mms.
+                setLengthRequiresMms(smsSegmentCount > 1, false);
             } else {
-                updateState(HAS_ATTACHMENT, hasAttachment(), true);
+                int threshold = MmsConfig.getSmsToMmsTextThreshold();
+                setLengthRequiresMms(threshold > 0 && smsSegmentCount > threshold, false);
             }
         } else {
             // Set HAS_ATTACHMENT if we need it.
