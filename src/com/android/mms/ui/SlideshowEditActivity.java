@@ -33,11 +33,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -115,6 +119,8 @@ public class SlideshowEditActivity extends ListActivity {
             Log.e(TAG, "Failed to initialize the slide-list.", e);
             finish();
         }
+
+        registerForContextMenu(mList);
     }
 
     private View createAddSlideItem() {
@@ -401,4 +407,66 @@ public class SlideshowEditActivity extends ListActivity {
                 adjustAddSlideVisibility();
             }
         };
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+            ContextMenuInfo menuInfo) {
+        menu.setHeaderTitle(R.string.slideshow_options);
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        int position = info.position;
+
+        if ((position >= 0) && (position != (mList.getCount() - 1))) {
+            // Selected one slide.
+            if (position > 0) {
+                menu.add(0, MENU_MOVE_UP, 0, R.string.move_up).setIcon(R.drawable.ic_menu_move_up);
+            }
+            if (position < (mSlideListAdapter.getCount() - 1)) {
+                menu.add(0, MENU_MOVE_DOWN, 0, R.string.move_down).setIcon(
+                        R.drawable.ic_menu_move_down);
+            }
+
+            menu.add(0, MENU_ADD_SLIDE, 0, R.string.add_slide).setIcon(
+                    R.drawable.ic_menu_add_slide);
+
+            menu.add(0, MENU_REMOVE_SLIDE, 0, R.string.remove_slide).setIcon(
+                    android.R.drawable.ic_menu_delete);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int position = info.position;
+
+        switch(item.getItemId()) {
+            case MENU_MOVE_UP:
+                if ((position > 0) && (position < mSlideshowModel.size())) {
+                    mSlideshowEditor.moveSlideUp(position);
+                    mSlideListAdapter.notifyDataSetChanged();
+                    mList.setSelection(position - 1);
+                }
+                break;
+            case MENU_MOVE_DOWN:
+                if ((position >= 0) && (position < mSlideshowModel.size() - 1)) {
+                    mSlideshowEditor.moveSlideDown(position);
+                    mSlideListAdapter.notifyDataSetChanged();
+                    mList.setSelection(position + 1);
+                }
+                break;
+            case MENU_REMOVE_SLIDE:
+                if ((position >= 0) && (position < mSlideshowModel.size())) {
+                    mSlideshowEditor.removeSlide(position);
+                    mSlideListAdapter.notifyDataSetChanged();
+                }
+                break;
+            case MENU_ADD_SLIDE:
+                addNewSlide();
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
 }
