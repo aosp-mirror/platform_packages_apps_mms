@@ -245,6 +245,8 @@ public class SlideView extends AbsoluteLayout implements
         }
         mTextView.setVisibility(View.VISIBLE);
         mTextView.setText(text);
+        // Let the text in Mms can be selected.
+        mTextView.setTextIsSelectable(true);
     }
 
     public void setTextRegion(int left, int top, int width, int height) {
