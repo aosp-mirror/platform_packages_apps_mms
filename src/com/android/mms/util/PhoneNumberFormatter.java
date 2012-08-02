@@ -16,12 +16,12 @@
 
 package com.android.mms.util;
 
-import com.android.mms.MmsApp;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.widget.TextView;
+
+import com.android.mms.MmsApp;
 
 public final class PhoneNumberFormatter {
     private PhoneNumberFormatter() {}

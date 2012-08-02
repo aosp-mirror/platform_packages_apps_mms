@@ -17,23 +17,23 @@
 
 package com.android.mms.model;
 
-import com.android.mms.ContentRestrictionException;
-import com.android.mms.dom.smil.SmilParElementImpl;
-import com.google.android.mms.ContentType;
-
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
-import org.w3c.dom.smil.ElementTime;
-
-import android.util.Config;
-import android.util.Log;
-import android.text.TextUtils;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.smil.ElementTime;
+
+import android.text.TextUtils;
+import android.util.Config;
+import android.util.Log;
+
+import com.android.mms.ContentRestrictionException;
+import com.android.mms.dom.smil.SmilParElementImpl;
+import com.google.android.mms.ContentType;
 
 public class SlideModel extends Model implements List<MediaModel>, EventListener {
     public static final String TAG = "Mms/slideshow";

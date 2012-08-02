@@ -16,8 +16,6 @@
 
 package com.android.mms.transaction;
 
-import com.android.mms.LogTag;
-
 import android.app.IntentService;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -30,6 +28,8 @@ import android.provider.Telephony.Sms;
 import android.provider.Telephony.Sms.Inbox;
 import android.telephony.SmsMessage;
 import android.util.Log;
+
+import com.android.mms.LogTag;
 
 /**
  * Service that gets started by the MessageStatusReceiver when a message status report is

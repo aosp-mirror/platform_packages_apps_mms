@@ -17,11 +17,11 @@
 
 package com.android.mms.ui;
 
-import android.content.Context;
-import android.util.Log;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+
+import android.content.Context;
+import android.util.Log;
 
 import com.android.mms.model.Model;
 

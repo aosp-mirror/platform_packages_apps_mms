@@ -17,13 +17,13 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.MmsConfig;
-import com.android.mms.R;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.android.mms.MmsConfig;
+import com.android.mms.R;
 
 /**
  * An adapter to store icons and strings for attachment type list.

@@ -8,18 +8,18 @@ import java.util.Map;
 import javax.annotation.concurrent.GuardedBy;
 import javax.annotation.concurrent.ThreadSafe;
 
-import android.content.Context;
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
+import android.provider.Telephony;
 import android.text.TextUtils;
 import android.util.Log;
-import android.provider.Telephony;
 
 import com.android.mms.LogTag;
-import android.database.sqlite.SqliteWrapper;
 
 @ThreadSafe
 public class RecipientIdCache {

@@ -17,13 +17,13 @@
 
 package com.android.mms.model;
 
-import com.android.mms.layout.LayoutManager;
-import com.android.mms.layout.LayoutParameters;
+import java.util.ArrayList;
 
 import android.util.Config;
 import android.util.Log;
 
-import java.util.ArrayList;
+import com.android.mms.layout.LayoutManager;
+import com.android.mms.layout.LayoutParameters;
 
 public class LayoutModel extends Model {
     private static final String TAG = SlideModel.TAG;

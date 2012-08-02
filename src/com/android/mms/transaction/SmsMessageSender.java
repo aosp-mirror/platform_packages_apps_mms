@@ -17,21 +17,21 @@
 
 package com.android.mms.transaction;
 
-import com.android.mms.LogTag;
-import com.android.mms.ui.MessagingPreferenceActivity;
-import com.google.android.mms.MmsException;
-import android.database.sqlite.SqliteWrapper;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Sms.Inbox;
 import android.util.Log;
+
+import com.android.mms.LogTag;
+import com.android.mms.ui.MessagingPreferenceActivity;
+import com.google.android.mms.MmsException;
 
 public class SmsMessageSender implements MessageSender {
     protected final Context mContext;

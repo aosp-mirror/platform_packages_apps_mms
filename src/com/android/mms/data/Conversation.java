@@ -19,8 +19,8 @@ import android.provider.BaseColumns;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.Sms;
-import android.provider.Telephony.Threads;
 import android.provider.Telephony.Sms.Conversations;
+import android.provider.Telephony.Threads;
 import android.provider.Telephony.ThreadsColumns;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -32,7 +32,6 @@ import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.util.DraftCache;
-import com.google.android.mms.util.PduCache;
 
 /**
  * An interface for finding information about conversations and/or creating new ones.

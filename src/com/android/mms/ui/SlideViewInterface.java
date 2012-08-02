@@ -17,10 +17,10 @@
 
 package com.android.mms.ui;
 
+import java.util.Map;
+
 import android.graphics.Bitmap;
 import android.net.Uri;
-
-import java.util.Map;
 
 /**
  * Defines the interfaces of the view to show contents of a slide.
