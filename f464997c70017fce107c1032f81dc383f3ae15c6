@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIH3///uI\u003d",
+        "filename": "src/com/android/mms/ui/SlideshowEditActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-08-07T20:41:40Z",
+      "side": 1,
+      "message": "Line too long.",
+      "revId": "f464997c70017fce107c1032f81dc383f3ae15c6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIH3///uM\u003d",
+        "filename": "src/com/android/mms/ui/SlideshowEditActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-08-07T20:41:40Z",
+      "side": 1,
+      "message": "Adjust spacing to line up with other \"breaks\".",
+      "revId": "f464997c70017fce107c1032f81dc383f3ae15c6",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
