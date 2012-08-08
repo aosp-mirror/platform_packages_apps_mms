@@ -1142,7 +1142,6 @@ public class ComposeMessageActivity extends Activity
 
         mWorkingMessage = newWorkingMessage;
         mWorkingMessage.setConversation(mConversation);
-        invalidateOptionsMenu();
 
         drawTopPanel(false);
 
@@ -1920,10 +1919,6 @@ public class ComposeMessageActivity extends Activity
         } else {
             hideRecipientEditor();
         }
-        invalidateOptionsMenu();    // do after show/hide of recipients editor because the options
-                                    // menu depends on the recipients, which depending upon the
-                                    // visibility of the recipients editor, returns a different
-                                    // value (see getRecipients()).
 
         updateSendButtonState();
 
@@ -2061,7 +2056,6 @@ public class ComposeMessageActivity extends Activity
                 loadDraft();
                 mWorkingMessage.setConversation(mConversation);
                 mAttachmentEditor.update(mWorkingMessage);
-                invalidateOptionsMenu();
             }
         }
     }
@@ -2811,7 +2805,6 @@ public class ComposeMessageActivity extends Activity
                         updateThreadIdIfRunning();
                         drawTopPanel(false);
                         updateSendButtonState();
-                        invalidateOptionsMenu();
                     }
                 }
                 break;
@@ -3208,6 +3201,8 @@ public class ComposeMessageActivity extends Activity
         boolean showingAttachment = mAttachmentEditor.update(mWorkingMessage);
         mAttachmentEditorScrollView.setVisibility(showingAttachment ? View.VISIBLE : View.GONE);
         showSubjectEditor(showSubjectEditor || mWorkingMessage.hasSubject());
+
+        invalidateOptionsMenu();
     }
 
     //==========================================================
