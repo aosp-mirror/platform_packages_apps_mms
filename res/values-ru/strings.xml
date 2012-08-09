@@ -300,7 +300,7 @@
     <string name="edit_slide_activity" msgid="8752829671778696983">"Изменить слайд"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Слайд-шоу"</string>
     <string name="class_0_message_activity" msgid="6631339964159861048">"Сообщение класса 0"</string>
-    <string name="search_label" msgid="6042598929386174964">"Сообщения"</string>
+    <string name="search_label" msgid="6042598929386174964">"SMS/MMS"</string>
     <string name="search_hint" msgid="7273727663577472044">"Поиск сообщений"</string>
     <string name="search" msgid="7560238620274735199">"SMS/MMS"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"Текст в сообщениях"</string>
