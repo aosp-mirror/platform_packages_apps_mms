@@ -17,13 +17,6 @@
 
 package com.android.mms.transaction;
 
-import com.android.mms.R;
-import com.android.mms.LogTag;
-import com.android.mms.util.DownloadManager;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduPersister;
-import android.database.sqlite.SqliteWrapper;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
@@ -32,15 +25,20 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
-import android.provider.Telephony.Sms;
 import android.provider.Telephony.MmsSms.PendingMessages;
-import android.text.format.DateFormat;
 import android.util.Log;
+
+import com.android.mms.LogTag;
+import com.android.mms.R;
+import com.android.mms.util.DownloadManager;
+import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mms.pdu.PduPersister;
 
 public class RetryScheduler implements Observer {
     private static final String TAG = "RetryScheduler";

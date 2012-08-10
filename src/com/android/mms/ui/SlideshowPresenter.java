@@ -17,12 +17,15 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.R;
-import android.drm.mobile1.DrmException;
+import android.content.Context;
+import android.os.Handler;
+import android.util.Log;
+
 import com.android.mms.model.AudioModel;
 import com.android.mms.model.ImageModel;
 import com.android.mms.model.LayoutModel;
 import com.android.mms.model.MediaModel;
+import com.android.mms.model.MediaModel.MediaAction;
 import com.android.mms.model.Model;
 import com.android.mms.model.RegionMediaModel;
 import com.android.mms.model.RegionModel;
@@ -30,14 +33,8 @@ import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.TextModel;
 import com.android.mms.model.VideoModel;
-import com.android.mms.model.MediaModel.MediaAction;
 import com.android.mms.ui.AdaptableSlideViewInterface.OnSizeChangedListener;
 import com.android.mms.util.ItemLoadedCallback;
-
-import android.content.Context;
-import android.os.Handler;
-import android.util.Log;
-import android.widget.Toast;
 
 /**
  * A basic presenter of slides.

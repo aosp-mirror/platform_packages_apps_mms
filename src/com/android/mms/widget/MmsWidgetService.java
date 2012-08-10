@@ -17,46 +17,28 @@
 package com.android.mms.widget;
 
 import android.appwidget.AppWidgetManager;
-import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SqliteWrapper;
-import android.net.Uri;
 import android.provider.Telephony.Threads;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
-import android.text.format.DateUtils;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-import android.widget.TextView;
-import android.widget.RelativeLayout.LayoutParams;
 
 import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
-import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
-import com.android.mms.transaction.MessagingNotification;
-import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.ConversationList;
 import com.android.mms.ui.ConversationListItem;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.util.SmileyParser;
-
-import java.util.Collection;
-import java.util.Map;
 
 public class MmsWidgetService extends RemoteViewsService {
     private static final String TAG = "MmsWidgetService";

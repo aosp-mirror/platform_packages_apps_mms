@@ -17,20 +17,20 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.R;
-import android.media.MediaMetadataRetriever;        // TODO: remove dependency for SDK build
+import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import java.util.Map;
+import com.android.mms.R;
+// TODO: remove dependency for SDK build
 
 /**
  * This class provides an embedded editor/viewer of video attachment.

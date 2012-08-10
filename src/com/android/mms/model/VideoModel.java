@@ -17,6 +17,19 @@
 
 package com.android.mms.model;
 
+import org.w3c.dom.events.Event;
+import org.w3c.dom.smil.ElementTime;
+
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
+import android.net.Uri;
+import android.provider.MediaStore.Images;
+import android.text.TextUtils;
+import android.util.Log;
+import android.webkit.MimeTypeMap;
+
 import com.android.mms.ContentRestrictionException;
 import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
@@ -25,23 +38,8 @@ import com.android.mms.dom.smil.SmilMediaElementImpl;
 import com.android.mms.util.ItemLoadedCallback;
 import com.android.mms.util.ItemLoadedFuture;
 import com.android.mms.util.ThumbnailManager;
-import com.google.android.mms.MmsException;
-import android.database.sqlite.SqliteWrapper;
-
-import org.w3c.dom.events.Event;
-import org.w3c.dom.smil.ElementTime;
-
-import android.content.ContentResolver;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.MediaStore.Images;
-import android.text.TextUtils;
-import android.util.Log;
-import android.webkit.MimeTypeMap;
-
 import com.google.android.mms.ContentType;
-import java.io.IOException;
+import com.google.android.mms.MmsException;
 
 public class VideoModel extends RegionMediaModel {
     private static final String TAG = MediaModel.TAG;

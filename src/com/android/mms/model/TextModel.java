@@ -17,8 +17,7 @@
 
 package com.android.mms.model;
 
-import com.android.mms.dom.smil.SmilMediaElementImpl;
-import com.google.android.mms.pdu.CharacterSets;
+import java.io.UnsupportedEncodingException;
 
 import org.w3c.dom.events.Event;
 import org.w3c.dom.smil.ElementTime;
@@ -26,8 +25,8 @@ import org.w3c.dom.smil.ElementTime;
 import android.content.Context;
 import android.util.Log;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import com.android.mms.dom.smil.SmilMediaElementImpl;
+import com.google.android.mms.pdu.CharacterSets;
 
 public class TextModel extends RegionMediaModel {
     private static final String TAG = "Mms/text";

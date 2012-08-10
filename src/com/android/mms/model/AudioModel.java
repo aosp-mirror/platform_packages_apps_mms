@@ -17,26 +17,25 @@
 
 package com.android.mms.model;
 
-import com.android.mms.ContentRestrictionException;
-import com.android.mms.dom.events.EventImpl;
-import com.android.mms.dom.smil.SmilMediaElementImpl;
-import com.google.android.mms.MmsException;
-import android.database.sqlite.SqliteWrapper;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.w3c.dom.events.Event;
 
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.provider.MediaStore.Audio;
 import android.provider.Telephony.Mms.Part;
 import android.text.TextUtils;
 import android.util.Log;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import com.android.mms.ContentRestrictionException;
+import com.android.mms.dom.events.EventImpl;
+import com.android.mms.dom.smil.SmilMediaElementImpl;
+import com.google.android.mms.MmsException;
 
 public class AudioModel extends MediaModel {
     private static final String TAG = MediaModel.TAG;

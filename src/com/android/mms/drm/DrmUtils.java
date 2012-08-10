@@ -17,15 +17,10 @@
 
 package com.android.mms.drm;
 
-import android.drm.*;
+import android.drm.DrmManagerClient;
+import android.drm.DrmStore;
 import android.net.Uri;
 import android.util.Log;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 
 import com.android.mms.MmsApp;
 

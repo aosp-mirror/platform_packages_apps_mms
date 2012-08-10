@@ -17,10 +17,10 @@
 
 package com.android.mms.ui;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import android.content.Context;
 
 import com.android.mms.R;
 

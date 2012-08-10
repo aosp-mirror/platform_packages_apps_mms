@@ -17,20 +17,10 @@
 
 package com.android.mms.model;
 
-import com.android.mms.ContentRestrictionException;
-import com.android.mms.ExceedMessageSizeException;
-import com.android.mms.LogTag;
-import com.android.mms.MmsApp;
-import com.android.mms.MmsConfig;
-import com.android.mms.dom.smil.SmilMediaElementImpl;
-import com.android.mms.ui.UriImage;
-import com.android.mms.util.ItemLoadedCallback;
-import com.android.mms.util.ItemLoadedFuture;
-import com.android.mms.util.ThumbnailManager;
-
-import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.PduPart;
-import com.google.android.mms.pdu.PduPersister;
+import java.lang.ref.SoftReference;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.w3c.dom.events.Event;
 import org.w3c.dom.smil.ElementTime;
@@ -42,11 +32,19 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import java.io.IOException;
-import java.lang.ref.SoftReference;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import com.android.mms.ContentRestrictionException;
+import com.android.mms.ExceedMessageSizeException;
+import com.android.mms.LogTag;
+import com.android.mms.MmsApp;
+import com.android.mms.MmsConfig;
+import com.android.mms.dom.smil.SmilMediaElementImpl;
+import com.android.mms.ui.UriImage;
+import com.android.mms.util.ItemLoadedCallback;
+import com.android.mms.util.ItemLoadedFuture;
+import com.android.mms.util.ThumbnailManager;
+import com.google.android.mms.MmsException;
+import com.google.android.mms.pdu.PduPart;
+import com.google.android.mms.pdu.PduPersister;
 
 
 public class ImageModel extends RegionMediaModel {
