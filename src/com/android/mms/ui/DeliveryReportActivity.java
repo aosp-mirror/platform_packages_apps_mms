@@ -17,13 +17,17 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.R;
-import com.google.android.mms.pdu.PduHeaders;
-import android.database.sqlite.SqliteWrapper;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Telephony.Mms;
@@ -36,12 +40,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.android.mms.R;
+import com.google.android.mms.pdu.PduHeaders;
 
 /**
  * This is the UI for displaying a delivery report:

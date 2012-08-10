@@ -16,14 +16,14 @@
 
 package com.android.mms.util;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
 
 public class CacheManager {
     private static final String TAG = "CacheManager";

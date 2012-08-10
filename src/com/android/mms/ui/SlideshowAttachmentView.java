@@ -17,7 +17,8 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.R;
+import java.io.IOException;
+import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -31,8 +32,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.util.Map;
+import com.android.mms.R;
 
 /**
  * This class provides an embedded editor/viewer of slide-show attachment.

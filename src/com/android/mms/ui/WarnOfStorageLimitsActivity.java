@@ -17,16 +17,15 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.R;
-
-import com.android.internal.app.AlertController;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+
+import com.android.internal.app.AlertController;
+import com.android.mms.R;
 
 /**
  * This is the UI for telling the user about the storage limit setting.

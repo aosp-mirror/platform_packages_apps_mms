@@ -17,28 +17,6 @@
 
 package com.android.mms.ui;
 
-import java.io.File;
-
-import com.google.android.mms.ContentType;
-import com.android.mms.ExceedMessageSizeException;
-import com.google.android.mms.MmsException;
-import com.android.mms.MmsApp;
-import com.android.mms.MmsConfig;
-import com.android.mms.R;
-import com.android.mms.ResolutionException;
-import com.android.mms.TempFileProvider;
-import com.android.mms.UnsupportContentTypeException;
-import com.android.mms.model.IModelChangedObserver;
-import com.android.mms.model.LayoutModel;
-import com.android.mms.model.Model;
-import com.android.mms.model.SlideModel;
-import com.android.mms.model.SlideshowModel;
-import com.google.android.mms.pdu.PduBody;
-import com.google.android.mms.pdu.PduPart;
-import com.google.android.mms.pdu.PduPersister;
-import com.android.mms.ui.BasicSlideEditorView.OnTextChangedListener;
-import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentUris;
@@ -50,9 +28,9 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.provider.Settings;
-import android.provider.Telephony.Mms;
+import android.text.InputFilter;
+import android.text.InputFilter.LengthFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -61,11 +39,29 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import android.text.InputFilter.LengthFilter;
-import android.widget.EditText;
-import android.text.InputFilter;
+
+import com.android.mms.ExceedMessageSizeException;
+import com.android.mms.MmsApp;
+import com.android.mms.MmsConfig;
+import com.android.mms.R;
+import com.android.mms.ResolutionException;
+import com.android.mms.TempFileProvider;
+import com.android.mms.UnsupportContentTypeException;
+import com.android.mms.model.IModelChangedObserver;
+import com.android.mms.model.LayoutModel;
+import com.android.mms.model.Model;
+import com.android.mms.model.SlideModel;
+import com.android.mms.model.SlideshowModel;
+import com.android.mms.ui.BasicSlideEditorView.OnTextChangedListener;
+import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
+import com.google.android.mms.ContentType;
+import com.google.android.mms.MmsException;
+import com.google.android.mms.pdu.PduBody;
+import com.google.android.mms.pdu.PduPart;
+import com.google.android.mms.pdu.PduPersister;
 
 /**
  * This activity allows user to edit the contents of a slide.

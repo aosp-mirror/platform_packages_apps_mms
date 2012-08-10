@@ -17,8 +17,10 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.R;
-import com.android.mms.layout.LayoutManager;
+import java.io.IOException;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -40,10 +42,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeMap;
+import com.android.mms.R;
+import com.android.mms.layout.LayoutManager;
 
 /**
  * A basic view to show the contents of a slide.

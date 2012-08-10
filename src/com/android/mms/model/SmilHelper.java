@@ -24,15 +24,11 @@ import static com.android.mms.dom.smil.SmilMediaElementImpl.SMIL_MEDIA_START_EVE
 import static com.android.mms.dom.smil.SmilParElementImpl.SMIL_SLIDE_END_EVENT;
 import static com.android.mms.dom.smil.SmilParElementImpl.SMIL_SLIDE_START_EVENT;
 
-import com.android.mms.MmsApp;
-import com.android.mms.dom.smil.SmilDocumentImpl;
-import com.android.mms.dom.smil.parser.SmilXmlParser;
-import com.android.mms.dom.smil.parser.SmilXmlSerializer;
-import com.android.mms.drm.DrmUtils;
-import com.google.android.mms.ContentType;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.PduBody;
-import com.google.android.mms.pdu.PduPart;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.smil.SMILDocument;
@@ -45,22 +41,19 @@ import org.w3c.dom.smil.SMILRegionMediaElement;
 import org.w3c.dom.smil.SMILRootLayoutElement;
 import org.xml.sax.SAXException;
 
-import android.content.ContentResolver;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteException;
 import android.drm.DrmManagerClient;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.android.mms.MmsApp;
+import com.android.mms.dom.smil.SmilDocumentImpl;
+import com.android.mms.dom.smil.parser.SmilXmlParser;
+import com.android.mms.dom.smil.parser.SmilXmlSerializer;
+import com.google.android.mms.ContentType;
+import com.google.android.mms.MmsException;
+import com.google.android.mms.pdu.PduBody;
+import com.google.android.mms.pdu.PduPart;
 
 public class SmilHelper {
     private static final String TAG = "Mms/smil";

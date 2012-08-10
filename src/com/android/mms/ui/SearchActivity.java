@@ -20,9 +20,6 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.android.mms.MmsApp;
-import com.android.mms.R;
-
 import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.SearchManager;
@@ -35,7 +32,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
-
 import android.provider.Telephony;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -49,8 +45,9 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.mms.MmsApp;
+import com.android.mms.R;
 import com.android.mms.data.Contact;
-import com.android.mms.ui.ComposeMessageActivity;
 
 /***
  * Presents a List of search results.  Each item in the list represents a thread which

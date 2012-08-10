@@ -17,10 +17,8 @@
 
 package com.android.mms.ui;
 
-import com.android.ex.chips.RecipientEditTextView;
-import com.android.mms.MmsConfig;
-import com.android.mms.data.Contact;
-import com.android.mms.data.ContactList;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.provider.Telephony.Mms;
@@ -30,23 +28,23 @@ import android.text.Editable;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.util.Rfc822Token;
 import android.text.util.Rfc822Tokenizer;
 import android.util.AttributeSet;
-import android.view.inputmethod.EditorInfo;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.MultiAutoCompleteTextView;
-import android.widget.AutoCompleteTextView.Validator;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.android.ex.chips.RecipientEditTextView;
+import com.android.mms.MmsConfig;
+import com.android.mms.data.Contact;
+import com.android.mms.data.ContactList;
 
 /**
  * Provide UI for editing the recipients of multi-media messages.

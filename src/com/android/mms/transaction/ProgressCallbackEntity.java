@@ -17,13 +17,13 @@
 
 package com.android.mms.transaction;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 import org.apache.http.entity.ByteArrayEntity;
 
 import android.content.Context;
 import android.content.Intent;
-
-import java.io.IOException;
-import java.io.OutputStream;
 
 public class ProgressCallbackEntity extends ByteArrayEntity {
     private static final int DEFAULT_PIECE_SIZE = 4096;

@@ -17,13 +17,13 @@
 
 package com.android.mms.dom.smil.parser;
 
-import android.util.Log;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.helpers.DefaultHandler;
-import org.w3c.dom.smil.SMILDocument;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.smil.SMILDocument;
+import org.xml.sax.Attributes;
+import org.xml.sax.helpers.DefaultHandler;
+
+import android.util.Log;
 
 import com.android.mms.dom.smil.SmilDocumentImpl;
 

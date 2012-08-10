@@ -17,18 +17,16 @@
 
 package com.android.mms.dom.smil.parser;
 
-import com.google.android.mms.MmsException;
-
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.w3c.dom.smil.SMILDocument;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
-import org.w3c.dom.smil.SMILDocument;
 
-import com.android.mms.dom.smil.parser.SmilContentHandler;
+import com.google.android.mms.MmsException;
 
 public class SmilXmlParser {
     private XMLReader mXmlReader;

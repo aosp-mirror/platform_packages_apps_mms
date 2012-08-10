@@ -17,10 +17,44 @@
 
 package com.android.mms.ui;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ContentUris;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
+import android.media.CamcorderProfile;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.Handler;
+import android.provider.MediaStore;
+import android.provider.Telephony.Mms;
+import android.provider.Telephony.Sms;
+import android.telephony.PhoneNumberUtils;
+import android.text.TextUtils;
+import android.text.format.DateUtils;
+import android.text.format.Time;
+import android.text.style.URLSpan;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
-import com.android.mms.LogTag;
 import com.android.mms.TempFileProvider;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.model.MediaModel;
@@ -40,40 +74,6 @@ import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.RetrieveConf;
 import com.google.android.mms.pdu.SendReq;
-import android.database.sqlite.SqliteWrapper;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.ContentUris;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnClickListener;
-import android.content.res.Resources;
-import android.database.Cursor;
-import android.media.CamcorderProfile;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Environment;
-import android.os.Handler;
-import android.provider.MediaStore;
-import android.provider.Telephony.Mms;
-import android.provider.Telephony.Sms;
-import android.telephony.PhoneNumberUtils;
-import android.text.TextUtils;
-import android.text.format.DateUtils;
-import android.text.format.Time;
-import android.text.style.URLSpan;
-import android.util.Log;
-import android.widget.Toast;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * An utility class for managing messages.

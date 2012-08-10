@@ -16,16 +16,12 @@
 
 package com.android.mms.util;
 
-import com.android.mms.MmsConfig;
-import com.android.mms.ui.MessageUtils;
-import com.android.mms.ui.MessagingPreferenceActivity;
-import android.database.sqlite.SqliteWrapper;
-
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
@@ -34,6 +30,10 @@ import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Sms.Conversations;
 import android.util.Log;
+
+import com.android.mms.MmsConfig;
+import com.android.mms.ui.MessageUtils;
+import com.android.mms.ui.MessagingPreferenceActivity;
 
 /**
  * The recycler is responsible for deleting old messages.
