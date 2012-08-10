@@ -16,10 +16,10 @@
 
 package com.android.mms.util;
 
-import android.content.Context;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
+
+import android.content.Context;
 
 public class ImageCacheService {
     @SuppressWarnings("unused")

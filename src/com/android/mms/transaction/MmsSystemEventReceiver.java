@@ -25,12 +25,10 @@ import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.util.Log;
 
-import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
-import com.google.android.mms.util.PduCache;
 
 /**
  * MmsSystemEventReceiver receives the

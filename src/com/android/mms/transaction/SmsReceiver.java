@@ -19,11 +19,10 @@ package com.android.mms.transaction;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.Telephony.Sms.Intents;
 import android.os.PowerManager;
+import android.provider.Telephony.Sms.Intents;
 
 /**
  * Handle incoming SMSes.  Just dispatches the work off to a Service.

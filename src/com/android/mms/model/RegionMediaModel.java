@@ -17,12 +17,10 @@
 
 package com.android.mms.model;
 
-import com.google.android.mms.MmsException;
-
 import android.content.Context;
 import android.net.Uri;
 
-import java.io.IOException;
+import com.google.android.mms.MmsException;
 
 public abstract class RegionMediaModel extends MediaModel {
     protected RegionModel mRegion;

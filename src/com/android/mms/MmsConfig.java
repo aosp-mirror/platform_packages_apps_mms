@@ -21,11 +21,11 @@ import java.io.IOException;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import com.android.internal.telephony.TelephonyProperties;
-
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.util.Log;
+
+import com.android.internal.telephony.TelephonyProperties;
 
 public class MmsConfig {
     private static final String TAG = "MmsConfig";

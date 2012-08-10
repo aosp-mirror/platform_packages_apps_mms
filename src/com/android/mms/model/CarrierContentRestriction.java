@@ -21,13 +21,13 @@ import java.util.ArrayList;
 import android.content.ContentResolver;
 import android.util.Log;
 
-import com.google.android.mms.ContentType;
 import com.android.mms.ContentRestrictionException;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.ResolutionException;
 import com.android.mms.UnsupportContentTypeException;
+import com.google.android.mms.ContentType;
 
 public class CarrierContentRestriction implements ContentRestriction {
     private static final ArrayList<String> sSupportedImageTypes;

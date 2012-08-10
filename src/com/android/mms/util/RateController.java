@@ -17,14 +17,13 @@
 
 package com.android.mms.util;
 
-import android.database.sqlite.SqliteWrapper;
-
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
 import android.provider.Telephony.Mms.Rate;
 import android.util.Log;
 

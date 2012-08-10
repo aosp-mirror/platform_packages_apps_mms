@@ -25,6 +25,17 @@ import static com.google.android.mms.pdu.PduHeaders.STATUS_DEFERRED;
 import static com.google.android.mms.pdu.PduHeaders.STATUS_RETRIEVED;
 import static com.google.android.mms.pdu.PduHeaders.STATUS_UNRECOGNIZED;
 
+import java.io.IOException;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SqliteWrapper;
+import android.net.Uri;
+import android.provider.Telephony.Mms;
+import android.provider.Telephony.Mms.Inbox;
+import android.telephony.TelephonyManager;
+import android.util.Log;
+
 import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.util.DownloadManager;
@@ -38,18 +49,6 @@ import com.google.android.mms.pdu.PduComposer;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
-import android.database.sqlite.SqliteWrapper;
-
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.Telephony.Mms;
-import android.provider.Telephony.Mms.Inbox;
-import android.telephony.TelephonyManager;
-import android.util.Log;
-
-import java.io.IOException;
 
 /**
  * The NotificationTransaction is responsible for handling multimedia

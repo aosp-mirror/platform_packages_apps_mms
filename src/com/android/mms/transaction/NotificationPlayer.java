@@ -21,6 +21,8 @@
 
 package com.android.mms.transaction;
 
+import java.util.LinkedList;
+
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -30,9 +32,6 @@ import android.os.Looper;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.util.Log;
-
-import java.lang.Thread;
-import java.util.LinkedList;
 
 /**
  * @hide

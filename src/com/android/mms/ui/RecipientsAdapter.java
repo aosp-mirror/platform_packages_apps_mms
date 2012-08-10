@@ -17,18 +17,14 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.MmsApp;
-import com.android.mms.R;
-import com.android.mms.data.Contact;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.net.Uri;
-import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.DataUsageFeedback;
 import android.telephony.PhoneNumberUtils;
 import android.text.Annotation;
@@ -38,6 +34,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
+
+import com.android.mms.MmsApp;
+import com.android.mms.R;
+import com.android.mms.data.Contact;
 
 /**
  * This adapter is used to filter contacts on both name and number.

@@ -8,7 +8,6 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.android.mms.data.Contact.UpdateListener;
 import com.android.mms.LogTag;
 import com.android.mms.ui.MessageUtils;
 
