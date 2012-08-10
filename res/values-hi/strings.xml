@@ -169,7 +169,7 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"पाठ संदेश सीमा"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"मल्टीमीडिया संदेश सीमा"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"सूचनाएं"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"स्थिति बार में संदेश सूचनाएं प्रदर्शित करें"</string>
+    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"स्थिति बार में संदेश सूचनाएं दिखाएं"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"कंपन"</string>
     <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"सूचित किए जाने पर भी कंपन करें"</string>
     <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"रिंगटोन चुनें"</string>
