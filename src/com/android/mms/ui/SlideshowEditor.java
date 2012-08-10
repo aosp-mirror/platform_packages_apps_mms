@@ -17,8 +17,10 @@
 
 package com.android.mms.ui;
 
-import com.google.android.mms.ContentType;
-import com.google.android.mms.MmsException;
+import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
+
 import com.android.mms.model.AudioModel;
 import com.android.mms.model.ImageModel;
 import com.android.mms.model.RegionModel;
@@ -26,10 +28,8 @@ import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.TextModel;
 import com.android.mms.model.VideoModel;
-
-import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
+import com.google.android.mms.ContentType;
+import com.google.android.mms.MmsException;
 
 /**
  * An utility to edit contents of a slide.

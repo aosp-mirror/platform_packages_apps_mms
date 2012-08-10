@@ -17,19 +17,16 @@
 
 package com.android.mms.transaction;
 
-import android.database.sqlite.SqliteWrapper;
-
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
-import com.android.internal.telephony.Phone;
-import com.android.internal.telephony.PhoneConstants;
-import com.android.mms.LogTag;
-
+import android.database.sqlite.SqliteWrapper;
 import android.net.NetworkUtils;
 import android.provider.Telephony;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.android.internal.telephony.PhoneConstants;
+import com.android.mms.LogTag;
 
 /**
  * Container of transaction settings. Instances of this class are contained

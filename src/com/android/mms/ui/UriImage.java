@@ -17,18 +17,17 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.model.ImageModel;
-import com.android.mms.LogTag;
-
-import com.google.android.mms.ContentType;
-import com.google.android.mms.pdu.PduPart;
-import android.database.sqlite.SqliteWrapper;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore.Images;
 import android.provider.Telephony.Mms.Part;
@@ -36,11 +35,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import com.android.mms.LogTag;
+import com.android.mms.model.ImageModel;
+import com.google.android.mms.ContentType;
+import com.google.android.mms.pdu.PduPart;
 
 public class UriImage {
     private static final String TAG = "Mms/image";

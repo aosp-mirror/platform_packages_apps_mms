@@ -17,23 +17,21 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.R;
-import com.android.mms.data.WorkingMessage;
-import com.android.mms.model.SlideModel;
-import com.android.mms.model.SlideshowModel;
-import com.android.mms.util.ItemLoadedCallback;
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
+import com.android.mms.R;
+import com.android.mms.data.WorkingMessage;
+import com.android.mms.model.SlideModel;
+import com.android.mms.model.SlideshowModel;
 
 /**
  * This is an embedded editor/view to add photos and sound/video clips

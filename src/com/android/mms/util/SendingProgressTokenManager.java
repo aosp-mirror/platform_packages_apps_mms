@@ -17,9 +17,9 @@
 
 package com.android.mms.util;
 
-import android.util.Log;
-
 import java.util.HashMap;
+
+import android.util.Log;
 
 public class SendingProgressTokenManager {
     private static final String TAG = "SendingProgressTokenManager";

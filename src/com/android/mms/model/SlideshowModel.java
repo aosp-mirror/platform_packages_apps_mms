@@ -18,21 +18,13 @@
 package com.android.mms.model;
 
 
-import com.android.mms.ContentRestrictionException;
-import com.android.mms.ExceedMessageSizeException;
-import com.android.mms.LogTag;
-import com.android.mms.MmsConfig;
-import com.android.mms.R;
-import com.android.mms.dom.smil.parser.SmilXmlSerializer;
-import com.android.mms.layout.LayoutManager;
-import com.google.android.mms.ContentType;
-import com.google.android.mms.MmsException;
-import com.google.android.mms.pdu.GenericPdu;
-import com.google.android.mms.pdu.MultimediaMessagePdu;
-import com.google.android.mms.pdu.PduBody;
-import com.google.android.mms.pdu.PduHeaders;
-import com.google.android.mms.pdu.PduPart;
-import com.google.android.mms.pdu.PduPersister;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import org.w3c.dom.NodeList;
 import org.w3c.dom.events.EventTarget;
@@ -49,15 +41,21 @@ import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import com.android.mms.ContentRestrictionException;
+import com.android.mms.ExceedMessageSizeException;
+import com.android.mms.LogTag;
+import com.android.mms.MmsConfig;
+import com.android.mms.dom.smil.parser.SmilXmlSerializer;
+import com.android.mms.layout.LayoutManager;
+import com.google.android.mms.ContentType;
+import com.google.android.mms.MmsException;
+import com.google.android.mms.pdu.GenericPdu;
+import com.google.android.mms.pdu.MultimediaMessagePdu;
+import com.google.android.mms.pdu.PduBody;
+import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mms.pdu.PduPart;
+import com.google.android.mms.pdu.PduPersister;
 
 public class SlideshowModel extends Model
         implements List<SlideModel>, IModelChangedObserver {

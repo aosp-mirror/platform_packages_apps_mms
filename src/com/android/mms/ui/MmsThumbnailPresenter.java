@@ -18,11 +18,7 @@
 package com.android.mms.ui;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 
-import com.android.mms.R;
 import com.android.mms.model.AudioModel;
 import com.android.mms.model.ImageModel;
 import com.android.mms.model.Model;
@@ -30,7 +26,6 @@ import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.VideoModel;
 import com.android.mms.util.ItemLoadedCallback;
-import com.android.mms.util.ItemLoadedFuture;
 import com.android.mms.util.ThumbnailManager.ImageLoaded;
 
 public class MmsThumbnailPresenter extends Presenter {

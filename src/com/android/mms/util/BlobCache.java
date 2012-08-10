@@ -65,8 +65,6 @@
 //
 package com.android.mms.util;
 
-import android.util.Log;
-
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
@@ -75,6 +73,8 @@ import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.zip.Adler32;
+
+import android.util.Log;
 
 public class BlobCache implements Closeable {
     private static final String TAG = "BlobCache";

@@ -5,15 +5,12 @@
 
 package com.android.mms.ui;
 
-import com.android.mms.R;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.View;
+
+import com.android.mms.R;
 
 /**
  * This activity is used by 3rd party apps to allow the user to turn on/off notifications in

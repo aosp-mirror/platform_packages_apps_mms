@@ -25,6 +25,7 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,8 +40,6 @@ import android.view.Window;
 
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
-
-import android.database.sqlite.SqliteWrapper;
 
 /**
  * Display a class-zero SMS message to the user. Wait for the user to dismiss
