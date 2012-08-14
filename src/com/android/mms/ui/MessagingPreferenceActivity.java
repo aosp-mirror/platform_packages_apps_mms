@@ -300,7 +300,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
                         }
                     })
                     .setNegativeButton(android.R.string.cancel, null)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .create();
         }
         return super.onCreateDialog(id);
