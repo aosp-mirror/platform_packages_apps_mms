@@ -56,6 +56,7 @@
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"检测到 DRM 权限不足。"</string>
     <string name="copy_message_text" msgid="4296252229544252834">"复制文字"</string>
     <string name="message_options" msgid="6838806653341967550">"信息选项"</string>
+    <string name="slideshow_options">"幻灯片选项"</string>
     <string name="done" msgid="7479926268660505871">"完成"</string>
     <string name="move_up" msgid="7307578107431739359">"上移"</string>
     <string name="move_down" msgid="6356509518429479053">"下移"</string>
