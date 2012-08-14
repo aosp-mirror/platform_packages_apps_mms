@@ -102,6 +102,8 @@
     <string name="copy_message_text">Copy text</string>
     <!-- Header for context menu on an individual message -->
     <string name="message_options">Message options</string>
+    <!-- Header for context menu on an individual slideshow -->
+    <string name="slideshow_options">Slideshow options</string>
 
     <!-- Button text on edit slide screen indicating the user wants to finish editing that slide -->
     <string name="done">Done</string>
