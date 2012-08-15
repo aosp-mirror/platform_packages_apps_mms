@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIbn///hI\u003d",
+        "filename": "src/com/android/mms/ui/MessageListItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-08-15T21:33:13Z",
+      "side": 1,
+      "message": "We routinely write this \"} else {\" on a single line",
+      "revId": "e753c800a1533ee7e4f8bc3843991269f1295ec0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
