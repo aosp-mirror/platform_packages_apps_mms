@@ -56,6 +56,8 @@
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"DRM 권한이 충분하지 않습니다."</string>
     <string name="copy_message_text" msgid="4296252229544252834">"텍스트 복사"</string>
     <string name="message_options" msgid="6838806653341967550">"메시지 옵션"</string>
+    <!-- no translation found for slideshow_options (3501759384739796431) -->
+    <skip />
     <string name="done" msgid="7479926268660505871">"완료"</string>
     <string name="move_up" msgid="7307578107431739359">"위로 이동"</string>
     <string name="move_down" msgid="6356509518429479053">"아래로 이동"</string>
