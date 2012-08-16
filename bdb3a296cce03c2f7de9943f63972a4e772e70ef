@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIhn////k\u003d",
+        "filename": "src/com/android/mms/ui/MessageUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2012-08-16T05:53:45Z",
+      "side": 1,
+      "message": "This method will check if the slideshow is simple firstly. If not, it will throw the exception and return. \nThe case mentioned in commit message won\u0027t be occurred in it, so mm won\u0027t be NULL.\nDid you hit the NPE issue before?",
+      "revId": "bdb3a296cce03c2f7de9943f63972a4e772e70ef",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
