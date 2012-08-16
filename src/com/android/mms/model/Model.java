@@ -17,11 +17,11 @@
 
 package com.android.mms.model;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Model {
-    protected ArrayList<IModelChangedObserver> mModelChangedObservers =
-            new ArrayList<IModelChangedObserver>();
+    protected CopyOnWriteArrayList<IModelChangedObserver> mModelChangedObservers =
+            new CopyOnWriteArrayList<IModelChangedObserver>();
 
     public void registerModelChangedObserver(IModelChangedObserver observer) {
         if (!mModelChangedObservers.contains(observer)) {
