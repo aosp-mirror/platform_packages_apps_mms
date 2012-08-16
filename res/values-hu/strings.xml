@@ -56,8 +56,7 @@
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Elégtelen DRM-jogosultság."</string>
     <string name="copy_message_text" msgid="4296252229544252834">"Szöveg másolása"</string>
     <string name="message_options" msgid="6838806653341967550">"Üzenetbeállítások"</string>
-    <!-- no translation found for slideshow_options (3501759384739796431) -->
-    <skip />
+    <string name="slideshow_options" msgid="3501759384739796431">"Diavetítés beállításai"</string>
     <string name="done" msgid="7479926268660505871">"Kész"</string>
     <string name="move_up" msgid="7307578107431739359">"Fel"</string>
     <string name="move_down" msgid="6356509518429479053">"Le"</string>
