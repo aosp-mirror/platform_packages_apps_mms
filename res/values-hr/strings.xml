@@ -56,8 +56,7 @@
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Otkrivena su nedostatna DRM prava."</string>
     <string name="copy_message_text" msgid="4296252229544252834">"Kopiraj tekst"</string>
     <string name="message_options" msgid="6838806653341967550">"Opcije poruke"</string>
-    <!-- no translation found for slideshow_options (3501759384739796431) -->
-    <skip />
+    <string name="slideshow_options" msgid="3501759384739796431">"Opcije prezentacije"</string>
     <string name="done" msgid="7479926268660505871">"Gotovo"</string>
     <string name="move_up" msgid="7307578107431739359">"Pomakni prema gore"</string>
     <string name="move_down" msgid="6356509518429479053">"Pomakni prema dolje"</string>

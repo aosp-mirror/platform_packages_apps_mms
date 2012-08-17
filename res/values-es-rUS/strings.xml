@@ -56,8 +56,7 @@
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Se detectaron derechos de DRM insuficientes."</string>
     <string name="copy_message_text" msgid="4296252229544252834">"Copiar el texto"</string>
     <string name="message_options" msgid="6838806653341967550">"Opciones de mensaje"</string>
-    <!-- no translation found for slideshow_options (3501759384739796431) -->
-    <skip />
+    <string name="slideshow_options" msgid="3501759384739796431">"Opciones de la presentación de diapositivas"</string>
     <string name="done" msgid="7479926268660505871">"Finalizado"</string>
     <string name="move_up" msgid="7307578107431739359">"Mover arriba"</string>
     <string name="move_down" msgid="6356509518429479053">"Mover abajo"</string>
