@@ -41,6 +41,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INSTALL_DRM" />
     <uses-permission android:name="android.permission.SEND_SMS_NO_CONFIRMATION" />
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
 
     <application android:name="MmsApp"
             android:label="@string/app_label"
