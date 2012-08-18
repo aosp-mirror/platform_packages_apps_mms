@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIu3////k\u003d",
+        "filename": "src/com/android/mms/transaction/TransactionSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-08-18T15:14:53Z",
+      "side": 1,
+      "message": "Indentation: 8 spaces",
+      "revId": "ceff68da666ae09085450d77bfe49ded54ce410a",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
