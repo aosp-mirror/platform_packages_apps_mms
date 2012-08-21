@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIwn///44\u003d",
+        "filename": "src/com/android/mms/ui/SearchActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1000660
+      },
+      "writtenOn": "2012-08-21T17:13:23Z",
+      "side": 1,
+      "message": "We normally prefer 8 spaces for the continuation, though in this specific case the shape of the code makes the situation unambiguous as that can\u0027t be mistaken for regular code.",
+      "revId": "895dda6bd5a70673763b3a8714c346429e0598fe",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
