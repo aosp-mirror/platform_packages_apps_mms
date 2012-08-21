@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIxn///zY\u003d",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-08-21T17:13:56Z",
+      "side": 1,
+      "message": "This looks good.",
+      "revId": "9f93785f632b3175217d7e9ff86e907947fc68e9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIxn///zc\u003d",
+        "filename": "src/com/android/mms/ui/SlideEditorActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-08-21T17:13:56Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this change, it doesn\u0027t appear to be doing anything.",
+      "revId": "9f93785f632b3175217d7e9ff86e907947fc68e9",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
