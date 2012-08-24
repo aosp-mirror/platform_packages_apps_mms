@@ -341,6 +341,7 @@ public class SlideshowEditActivity extends ListActivity {
 
                 try {
                     initSlideList();
+                    adjustAddSlideVisibility();
                 } catch (MmsException e) {
                     Log.e(TAG, "Failed to initialize the slide-list.", e);
                     finish();
