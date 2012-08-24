@@ -618,8 +618,13 @@ public class MessageListItem extends LinearLayout implements
                         }
                         final String telPrefix = "tel:";
                         if (url.startsWith(telPrefix)) {
-                            url = PhoneNumberUtils.formatNumber(
-                                            url.substring(telPrefix.length()), mDefaultCountryIso);
+                            if ((mDefaultCountryIso == null) || mDefaultCountryIso.isEmpty()) {
+                                url = url.substring(telPrefix.length());
+                            }
+                            else {
+                                url = PhoneNumberUtils.formatNumber(
+                                        url.substring(telPrefix.length()), mDefaultCountryIso);
+                            }
                         }
                         tv.setText(url);
                     } catch (android.content.pm.PackageManager.NameNotFoundException ex) {
