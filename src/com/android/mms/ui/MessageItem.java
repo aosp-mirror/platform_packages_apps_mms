@@ -178,7 +178,8 @@ public class MessageItem {
             mBody = null;
             mMessageSize = 0;
             mTextContentType = null;
-            mTimestamp = null;
+            // Initialize the time stamp to "" instead of null
+            mTimestamp = "";
             mMmsStatus = cursor.getInt(columnsMap.mColumnMmsStatus);
 
             // Start an async load of the pdu. If the pdu is already loaded, the callback
