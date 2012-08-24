@@ -286,6 +286,11 @@ public class SearchActivity extends ListActivity
         mQueryHandler = new AsyncQueryHandler(cr) {
             protected void onQueryComplete(int token, Object cookie, Cursor c) {
                 if (c == null) {
+                    setTitle(getResources().getQuantityString(
+                        R.plurals.search_results_title,
+                        0,
+                        0,
+                        searchString));
                     return;
                 }
                 final int threadIdPos = c.getColumnIndex("thread_id");
