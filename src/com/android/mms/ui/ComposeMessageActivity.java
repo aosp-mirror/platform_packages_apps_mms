@@ -724,7 +724,11 @@ public class ComposeMessageActivity extends Activity
                 return;
             }
 
-            mWorkingMessage.setWorkingRecipients(mRecipientsEditor.getNumbers());
+            List<String> numbers = mRecipientsEditor.getNumbers();
+            mWorkingMessage.setWorkingRecipients(numbers);
+            boolean multiRecipients = numbers != null && numbers.size() > 1;
+            mMsgListAdapter.setIsGroupConversation(multiRecipients);
+            mWorkingMessage.setHasMultipleRecipients(multiRecipients, true);
             mWorkingMessage.setHasEmail(mRecipientsEditor.containsEmail(), true);
 
             checkForTooManyRecipients();

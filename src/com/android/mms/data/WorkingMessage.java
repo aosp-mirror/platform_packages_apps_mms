@@ -96,6 +96,7 @@ public class WorkingMessage {
     private static final int HAS_ATTACHMENT = (1 << 2);             // 4
     private static final int LENGTH_REQUIRES_MMS = (1 << 3);        // 8
     private static final int FORCE_MMS = (1 << 4);                  // 16
+    private static final int MULTIPLE_RECIPIENTS = (1 << 5);        // 32
 
     // A bitmap of the above indicating different properties of the message;
     // any bit set will require the message to be sent via MMS.
@@ -777,6 +778,7 @@ public class WorkingMessage {
         if (mWorkingRecipients != null) {
             ContactList recipients = ContactList.getByNumbers(mWorkingRecipients, false);
             mConversation.setRecipients(recipients);    // resets the threadId to zero
+            setHasMultipleRecipients(recipients.size() > 1, true);
             mWorkingRecipients = null;
         }
     }
@@ -1028,7 +1030,9 @@ public class WorkingMessage {
         mConversation = conv;
 
         // Convert to MMS if there are any email addresses in the recipient list.
-        setHasEmail(conv.getRecipients().containsEmail(), false);
+        ContactList contactList = conv.getRecipients();
+        setHasEmail(contactList.containsEmail(), false);
+        setHasMultipleRecipients(contactList.size() > 1, false);
     }
 
     public Conversation getConversation() {
@@ -1045,6 +1049,17 @@ public class WorkingMessage {
         } else {
             updateState(RECIPIENTS_REQUIRE_MMS, hasEmail, notify);
         }
+    }
+    /**
+     * Set whether this message will be sent to multiple recipients. This is a hint whether the
+     * message needs to be sent as an mms or not. If MmsConfig.getGroupMmsEnabled is false, then
+     * the fact that the message is sent to multiple recipients is not a factor in determining
+     * whether the message is sent as an mms, but the other factors (such as, "has a picture
+     * attachment") still hold true.
+     */
+    public void setHasMultipleRecipients(boolean hasMultipleRecipients, boolean notify) {
+        updateState(MULTIPLE_RECIPIENTS, MmsConfig.getGroupMmsEnabled() && hasMultipleRecipients,
+                notify);
     }
 
     /**
@@ -1079,6 +1094,8 @@ public class WorkingMessage {
             sb.append("LENGTH_REQUIRES_MMS | ");
         if ((state & FORCE_MMS) > 0)
             sb.append("FORCE_MMS | ");
+        if ((state & MULTIPLE_RECIPIENTS) > 0)
+            sb.append("MULTIPLE_RECIPIENTS | ");
 
         sb.delete(sb.length() - 3, sb.length());
         return sb.toString();

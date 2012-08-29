@@ -220,6 +220,19 @@ public class MessageItem {
         return (mMessageType != PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND);
     }
 
+    public boolean isMe() {
+        // Logic matches MessageListAdapter.getItemViewType which is used to decide which
+        // type of MessageListItem to create: a left or right justified item depending on whether
+        // the message is incoming or outgoing.
+        boolean isIncomingMms = isMms()
+                                    && (mBoxId == Mms.MESSAGE_BOX_INBOX
+                                            || mBoxId == Mms.MESSAGE_BOX_ALL);
+        boolean isIncomingSms = isSms()
+                                    && (mBoxId == Sms.MESSAGE_TYPE_INBOX
+                                            || mBoxId == Sms.MESSAGE_TYPE_ALL);
+        return !(isIncomingMms || isIncomingSms);
+    }
+
     public boolean isOutgoingMessage() {
         boolean isOutgoingMms = isMms() && (mBoxId == Mms.MESSAGE_BOX_OUTBOX);
         boolean isOutgoingSms = isSms()

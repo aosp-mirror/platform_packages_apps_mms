@@ -26,10 +26,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Paint.FontMetricsInt;
-import android.graphics.Path;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -105,15 +102,12 @@ public class MessageListItem extends LinearLayout implements
     private String mDefaultCountryIso;
     private TextView mDateView;
     public View mMessageBlock;
-    private Path mPathRight;
-    private Path mPathLeft;
-    private Paint mPaint;
     private QuickContactDivot mAvatar;
-    private boolean mIsLastItemInList;
     static private Drawable sDefaultContactImage;
     private Presenter mPresenter;
     private int mPosition;      // for debugging
     private ImageLoadedCallback mImageLoadedCallback;
+    private boolean mMultiRecipients;
 
     public MessageListItem(Context context) {
         super(context);
@@ -149,10 +143,10 @@ public class MessageListItem extends LinearLayout implements
         mMessageBlock = findViewById(R.id.message_block);
     }
 
-    public void bind(MessageItem msgItem, boolean isLastItem, int position) {
+    public void bind(MessageItem msgItem, boolean convHasMultiRecipients, int position) {
         mMessageItem = msgItem;
-        mIsLastItemInList = isLastItem;
         mPosition = position;
+        mMultiRecipients = convHasMultiRecipients;
 
         setLongClickable(false);
         setClickable(false);    // let the list view handle clicks on the item normally. When
@@ -204,12 +198,12 @@ public class MessageListItem extends LinearLayout implements
                                 + String.valueOf((mMessageItem.mMessageSize + 1023) / 1024)
                                 + mContext.getString(R.string.kilobyte);
 
-        mBodyTextView.setText(formatMessage(mMessageItem, mMessageItem.mContact, null,
+        mBodyTextView.setText(formatMessage(mMessageItem, null,
                                             mMessageItem.mSubject,
                                             mMessageItem.mHighlight,
                                             mMessageItem.mTextContentType));
 
-        mDateView.setText(msgSizeText + " " + mMessageItem.mTimestamp);
+        mDateView.setText(buildTimestampLine(msgSizeText + " " + mMessageItem.mTimestamp));
 
         switch (mMessageItem.getMmsDownloadStatus()) {
             case DownloadManager.STATE_DOWNLOADING:
@@ -256,6 +250,16 @@ public class MessageListItem extends LinearLayout implements
         mDeliveredIndicator.setVisibility(View.GONE);
         mDetailsIndicator.setVisibility(View.GONE);
         updateAvatarView(mMessageItem.mAddress, false);
+    }
+
+    private String buildTimestampLine(String timestamp) {
+        if (!mMultiRecipients || mMessageItem.isMe()) {
+            // Never show "Me" for messages I sent.
+            return timestamp;
+        }
+        // This is a group conversation, show the sender's name on the same line as the timestamp.
+        return mContext.getString(R.string.message_timestamp_format, mMessageItem.mContact,
+                timestamp);
     }
 
     private void showDownloadingAttachment() {
@@ -305,7 +309,7 @@ public class MessageListItem extends LinearLayout implements
         // expensive formatMessage() call is very high.
         CharSequence formattedMessage = mMessageItem.getCachedFormattedMessage();
         if (formattedMessage == null) {
-            formattedMessage = formatMessage(mMessageItem, mMessageItem.mContact,
+            formattedMessage = formatMessage(mMessageItem,
                                              mMessageItem.mBody,
                                              mMessageItem.mSubject,
                                              mMessageItem.mHighlight,
@@ -334,9 +338,9 @@ public class MessageListItem extends LinearLayout implements
 
         // If we're in the process of sending a message (i.e. pending), then we show a "SENDING..."
         // string in place of the timestamp.
-        mDateView.setText(mMessageItem.isSending() ?
+        mDateView.setText(buildTimestampLine(mMessageItem.isSending() ?
                 mContext.getResources().getString(R.string.sending_message) :
-                    mMessageItem.mTimestamp);
+                    mMessageItem.mTimestamp));
 
         if (mMessageItem.isSms()) {
             showMmsView(false);
@@ -496,7 +500,7 @@ public class MessageListItem extends LinearLayout implements
 
     ForegroundColorSpan mColorSpan = null;  // set in ctor
 
-    private CharSequence formatMessage(MessageItem msgItem, String contact, String body,
+    private CharSequence formatMessage(MessageItem msgItem, String body,
                                        String subject, Pattern highlight,
                                        String contentType) {
         SpannableStringBuilder buf = new SpannableStringBuilder();
@@ -808,62 +812,5 @@ public class MessageListItem extends LinearLayout implements
     public void seekVideo(int seekTo) {
         // TODO Auto-generated method stub
 
-    }
-
-    /**
-     * Override dispatchDraw so that we can put our own background and border in.
-     * This is all complexity to support a shared border from one item to the next.
-     */
-    @Override
-    public void dispatchDraw(Canvas c) {
-        super.dispatchDraw(c);
-
-        // This custom border is causing our scrolling fps to drop from 60+ to the mid 40's.
-        // Commenting out for now until we come up with a new UI design that doesn't require
-        // the border.
-        return;
-
-//        View v = mMessageBlock;
-//        if (v != null) {
-//            Path path = null;
-//            if (mAvatar.getPosition() == Divot.RIGHT_UPPER) {
-//                if (mPathRight == null) {
-//                    float r = v.getWidth() - 1;
-//                    float b = v.getHeight();
-//
-//                    mPathRight = new Path();
-//                    mPathRight.moveTo(0, mAvatar.getCloseOffset());
-//                    mPathRight.lineTo(0, 0);
-//                    mPathRight.lineTo(r, 0);
-//                    mPathRight.lineTo(r, b);
-//                    mPathRight.lineTo(0, b);
-//                    mPathRight.lineTo(0, mAvatar.getFarOffset());
-//                }
-//                path = mPathRight;
-//            } else if (mAvatar.getPosition() == Divot.LEFT_UPPER) {
-//                if (mPathLeft == null) {
-//                    float r = v.getWidth() - 1;
-//                    float b = v.getHeight();
-//
-//                    mPathLeft = new Path();
-//                    mPathLeft.moveTo(r, mAvatar.getCloseOffset());
-//                    mPathLeft.lineTo(r, 0);
-//                    mPathLeft.lineTo(0, 0);
-//                    mPathLeft.lineTo(0, b);
-//                    mPathLeft.lineTo(r, b);
-//                    mPathLeft.lineTo(r, mAvatar.getFarOffset());
-//                }
-//                path = mPathLeft;
-//            }
-//            if (mPaint == null) {
-//                mPaint = new Paint();
-//                mPaint.setColor(0xffcccccc);
-//                mPaint.setStrokeWidth(1F);
-//                mPaint.setStyle(Paint.Style.STROKE);
-//                mPaint.setColor(0xff00ff00);  // turn on for debugging, draws lines in green
-//            }
-//            c.translate(v.getX(), v.getY());
-//            c.drawPath(path, mPaint);
-//        }
     }
 }
