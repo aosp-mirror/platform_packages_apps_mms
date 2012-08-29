@@ -119,6 +119,7 @@ public class MessageListAdapter extends CursorAdapter {
     private Handler mMsgListItemHandler;
     private Pattern mHighlight;
     private Context mContext;
+    private boolean mIsGroupConversation;
 
     public MessageListAdapter(
             Context context, Cursor c, ListView listView,
@@ -159,7 +160,7 @@ public class MessageListAdapter extends CursorAdapter {
             if (msgItem != null) {
                 MessageListItem mli = (MessageListItem) view;
                 int position = cursor.getPosition();
-                mli.bind(msgItem, position == cursor.getCount() - 1, position);
+                mli.bind(msgItem, mIsGroupConversation, position);
                 mli.setMsgListItemHandler(mMsgListItemHandler);
             }
         }
@@ -176,6 +177,10 @@ public class MessageListAdapter extends CursorAdapter {
 
     public void setMsgListItemHandler(Handler handler) {
         mMsgListItemHandler = handler;
+    }
+
+    public void setIsGroupConversation(boolean isGroup) {
+        mIsGroupConversation = isGroup;
     }
 
     public void cancelBackgroundLoading() {
