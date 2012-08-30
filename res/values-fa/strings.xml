@@ -346,4 +346,6 @@
     <string name="attachment_picture" msgid="3709286281567284296">"تصویر"</string>
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">"، "</string>
+    <!-- no translation found for message_timestamp_format (4188999027493614617) -->
+    <skip />
 </resources>
