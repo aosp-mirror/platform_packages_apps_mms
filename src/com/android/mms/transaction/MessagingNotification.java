@@ -169,13 +169,6 @@ public class MessagingNotification {
     private static final int MAX_BITMAP_DIMEN_DP = 360;
     private static float sScreenDensity;
 
-    /**
-     * mNotificationSet is kept sorted by the incoming message delivery time, with the
-     * most recent message first.
-     */
-    private static SortedSet<NotificationInfo> sNotificationSet =
-            new TreeSet<NotificationInfo>(INFO_COMPARATOR);
-
     private static final int MAX_MESSAGES_TO_SHOW = 8;  // the maximum number of new messages to
                                                         // show in a single notification.
 
@@ -254,27 +247,30 @@ public class MessagingNotification {
                 return;
             }
         }
-        sNotificationSet.clear();
+        // notificationSet is kept sorted by the incoming message delivery time, with the
+        // most recent message first.
+        SortedSet<NotificationInfo> notificationSet =
+                new TreeSet<NotificationInfo>(INFO_COMPARATOR);
 
-        MmsSmsDeliveryInfo delivery = null;
         Set<Long> threads = new HashSet<Long>(4);
 
         int count = 0;
-        addMmsNotificationInfos(context, threads);
-        addSmsNotificationInfos(context, threads);
+        addMmsNotificationInfos(context, threads, notificationSet);
+        addSmsNotificationInfos(context, threads, notificationSet);
 
         cancelNotification(context, NOTIFICATION_ID);
-        if (!sNotificationSet.isEmpty()) {
+        if (!notificationSet.isEmpty()) {
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 Log.d(TAG, "blockingUpdateNewMessageIndicator: count=" + count +
                         ", newMsgThreadId=" + newMsgThreadId);
             }
-            updateNotification(context, newMsgThreadId != THREAD_NONE, threads.size());
+            updateNotification(context, newMsgThreadId != THREAD_NONE, threads.size(),
+                    notificationSet);
         }
 
         // And deals with delivery reports (which use Toasts). It's safe to call in a worker
         // thread because the toast will eventually get posted to a handler.
-        delivery = getSmsNewDeliveryInfo(context);
+        MmsSmsDeliveryInfo delivery = getSmsNewDeliveryInfo(context);
         if (delivery != null) {
             delivery.deliver(context, isStatusMessage);
         }
@@ -529,7 +525,7 @@ public class MessagingNotification {
     }
 
     private static final void addMmsNotificationInfos(
-            Context context, Set<Long> threads) {
+            Context context, Set<Long> threads, SortedSet<NotificationInfo> notificationSet) {
         ContentResolver resolver = context.getContentResolver();
 
         // This query looks like this when logged:
@@ -604,7 +600,7 @@ public class MessagingNotification {
                         contact,
                         attachmentType);
 
-                sNotificationSet.add(info);
+                notificationSet.add(info);
 
                 threads.add(threadId);
             }
@@ -668,7 +664,7 @@ public class MessagingNotification {
     }
 
     private static final void addSmsNotificationInfos(
-            Context context, Set<Long> threads) {
+            Context context, Set<Long> threads, SortedSet<NotificationInfo> notificationSet) {
         ContentResolver resolver = context.getContentResolver();
         Cursor cursor = SqliteWrapper.query(context, resolver, Sms.CONTENT_URI,
                             SMS_STATUS_PROJECTION, NEW_INCOMING_SM_CONSTRAINT,
@@ -704,7 +700,7 @@ public class MessagingNotification {
                         threadId, timeMillis, null /* attachmentBitmap */,
                         contact, WorkingMessage.TEXT);
 
-                sNotificationSet.add(info);
+                notificationSet.add(info);
 
                 threads.add(threadId);
                 threads.add(cursor.getLong(COLUMN_THREAD_ID));
@@ -776,11 +772,13 @@ public class MessagingNotification {
      * @param context
      * @param isNew if we've got a new message, show the ticker
      * @param uniqueThreadCount
+     * @param notificationSet the set of notifications to display
      */
     private static void updateNotification(
             Context context,
             boolean isNew,
-            int uniqueThreadCount) {
+            int uniqueThreadCount,
+            SortedSet<NotificationInfo> notificationSet) {
         // If the user has turned off notifications in settings, don't do any notifying.
         if (!MessagingPreferenceActivity.getNotificationEnabled(context)) {
             if (DEBUG) {
@@ -790,8 +788,8 @@ public class MessagingNotification {
         }
 
         // Figure out what we've got -- whether all sms's, mms's, or a mixture of both.
-        int messageCount = sNotificationSet.size();
-        NotificationInfo mostRecentNotification = sNotificationSet.first();
+        final int messageCount = notificationSet.size();
+        NotificationInfo mostRecentNotification = notificationSet.first();
 
         final Notification.Builder noti = new Notification.Builder(context)
                 .setWhen(mostRecentNotification.mTimeMillis);
@@ -939,7 +937,7 @@ public class MessagingNotification {
                 // Begin a line for each subsequent message.
                 SpannableStringBuilder buf = new SpannableStringBuilder();
                 NotificationInfo infos[] =
-                        sNotificationSet.toArray(new NotificationInfo[sNotificationSet.size()]);
+                        notificationSet.toArray(new NotificationInfo[messageCount]);
                 int len = infos.length;
                 for (int i = len - 1; i >= 0; i--) {
                     NotificationInfo info = infos[i];
@@ -957,16 +955,16 @@ public class MessagingNotification {
                 // Show a single notification -- big style with the text of all the messages
                 notification = new Notification.BigTextStyle(noti)
                     .bigText(buf)
-                    // Forcibly show the last line, with the app's smallIcon in it, if we 
+                    // Forcibly show the last line, with the app's smallIcon in it, if we
                     // kicked the smallIcon out with an avatar bitmap
                     .setSummaryText((avatar == null) ? null : " ")
                     .build();
             } else {
                 // Build a set of the most recent notification per threadId.
-                HashSet<Long> uniqueThreads = new HashSet<Long>(sNotificationSet.size());
+                HashSet<Long> uniqueThreads = new HashSet<Long>(messageCount);
                 ArrayList<NotificationInfo> mostRecentNotifPerThread =
                         new ArrayList<NotificationInfo>();
-                Iterator<NotificationInfo> notifications = sNotificationSet.iterator();
+                Iterator<NotificationInfo> notifications = notificationSet.iterator();
                 while (notifications.hasNext()) {
                     NotificationInfo notificationInfo = notifications.next();
                     if (!uniqueThreads.contains(notificationInfo.mThreadId)) {
