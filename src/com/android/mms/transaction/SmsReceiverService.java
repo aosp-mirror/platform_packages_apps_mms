@@ -502,7 +502,7 @@ public class SmsReceiverService extends Service {
 
     public static String replaceFormFeeds(String s) {
         // Some providers send formfeeds in their messages. Convert those formfeeds to newlines.
-        return s.replace('\f', '\n');
+        return s == null ? "" : s.replace('\f', '\n');
     }
 
 //    private static int count = 0;
