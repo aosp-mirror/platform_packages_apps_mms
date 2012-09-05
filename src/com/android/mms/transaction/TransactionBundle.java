@@ -19,7 +19,7 @@ package com.android.mms.transaction;
 
 import android.os.Bundle;
 
-import com.android.internal.telephony.IccUtils;
+import com.android.internal.telephony.uicc.IccUtils;
 
 /**
  * A wrapper around the Bundle instances used to start the TransactionService.
