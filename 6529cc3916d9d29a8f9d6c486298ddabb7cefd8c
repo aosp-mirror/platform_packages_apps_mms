@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI6X//6f4\u003d",
+        "filename": "src/com/android/mms/ui/AttachmentEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-09-05T16:35:40Z",
+      "side": 1,
+      "message": "Is the check for null here necessary? Why would there ever be a case where mEditButton would be null here? Adding the check would mask a bug.",
+      "revId": "6529cc3916d9d29a8f9d6c486298ddabb7cefd8c",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
