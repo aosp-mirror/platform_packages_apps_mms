@@ -344,6 +344,5 @@
     <string name="attachment_picture" msgid="3709286281567284296">"Isithombe"</string>
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">", "</string>
-    <!-- no translation found for message_timestamp_format (4188999027493614617) -->
-    <skip />
+    <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
 </resources>
