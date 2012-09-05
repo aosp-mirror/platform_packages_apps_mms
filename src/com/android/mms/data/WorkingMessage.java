@@ -882,7 +882,7 @@ public class WorkingMessage {
             // and takes that thread id (because it's the next thread id to be assigned), the
             // new message will be merged with the draft message thread, causing confusion!
             if (!TextUtils.isEmpty(content)) {
-                asyncUpdateDraftSmsMessage(mConversation, content);
+                asyncUpdateDraftSmsMessage(mConversation, content, isStopping);
                 mHasSmsDraft = true;
             } else {
                 // When there's no associated text message, we have to handle the case where there
@@ -1554,20 +1554,7 @@ public class WorkingMessage {
                     } else {
                         updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
                     }
-                    if (isStopping && conv.getMessageCount() == 0) {
-                        // createDraftMmsMessage can create the new thread in the threads table (the
-                        // call to createDraftMmsDraftMessage calls PduPersister.persist() which
-                        // can call Threads.getOrCreateThreadId()). Meanwhile, when the user goes
-                        // back to ConversationList while we're saving a draft from CMA's.onStop,
-                        // ConversationList will delete all threads from the thread table that
-                        // don't have associated sms or pdu entries. In case our thread got deleted,
-                        // well call clearThreadId() so ensureThreadId will query the db for the new
-                        // thread.
-                        conv.clearThreadId();   // force us to get the updated thread id
-                    }
-                    if (!conv.getRecipients().isEmpty()) {
-                        conv.ensureThreadId();
-                    }
+                    ensureThreadIdIfNeeded(conv, isStopping);
                     conv.setDraftState(true);
                     if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                         LogTag.debug("asyncUpdateDraftMmsMessage conv: " + conv +
@@ -1670,7 +1657,8 @@ public class WorkingMessage {
         conv.setDraftState(false);
     }
 
-    private void asyncUpdateDraftSmsMessage(final Conversation conv, final String contents) {
+    private void asyncUpdateDraftSmsMessage(final Conversation conv, final String contents,
+            final boolean isStopping) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1682,7 +1670,7 @@ public class WorkingMessage {
                         }
                         return;
                     }
-                    long threadId = conv.ensureThreadId();
+                    ensureThreadIdIfNeeded(conv, isStopping);
                     conv.setDraftState(true);
                     updateDraftSmsMessage(conv, contents);
                 } finally {
@@ -1748,5 +1736,26 @@ public class WorkingMessage {
         // to clear those messages as well as ones with a valid thread id.
         final String where = Mms.THREAD_ID +  (threadId > 0 ? " = " + threadId : " IS NULL");
         asyncDelete(Mms.Draft.CONTENT_URI, where, null);
+    }
+
+    /**
+     * Ensure the thread id in conversation if needed, when we try to save a draft with a orphaned
+     * one.
+     * @param conv The conversation we are in.
+     * @param isStopping Whether we are saving the draft in CMA'a onStop
+     */
+    private void ensureThreadIdIfNeeded(final Conversation conv, final boolean isStopping) {
+        if (isStopping && conv.getMessageCount() == 0) {
+            // We need to save the drafts in an unorphaned thread id. When the user goes
+            // back to ConversationList while we're saving a draft from CMA's.onStop,
+            // ConversationList will delete all threads from the thread table that
+            // don't have associated sms or pdu entries. In case our thread got deleted,
+            // well call clearThreadId() so ensureThreadId will query the db for the new
+            // thread.
+            conv.clearThreadId();   // force us to get the updated thread id
+        }
+        if (!conv.getRecipients().isEmpty()) {
+            conv.ensureThreadId();
+        }
     }
 }
