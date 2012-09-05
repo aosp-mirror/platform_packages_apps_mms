@@ -233,6 +233,9 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
     public void decreaseSlideSize(int decreaseSize) {
         if (decreaseSize > 0) {
             mSlideSize -= decreaseSize;
+            if (mSlideSize < 0) {
+                mSlideSize = 0;
+            }
         }
     }
 
@@ -252,6 +255,9 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
         if ((decreaseSize > 0) && (null != mParent)) {
             int size = mParent.getCurrentMessageSize();
             size -= decreaseSize;
+            if (size < 0) {
+                size = 0;
+            }
             mParent.setCurrentMessageSize(size);
         }
     }
