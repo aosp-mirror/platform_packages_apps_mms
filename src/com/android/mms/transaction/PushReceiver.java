@@ -117,7 +117,12 @@ public class PushReceiver extends BroadcastReceiver {
                         }
 
                         if (!isDuplicateNotification(mContext, nInd)) {
-                            Uri uri = p.persist(pdu, Inbox.CONTENT_URI);
+                            // Save the pdu. If we can start downloading the real pdu immediately,
+                            // don't allow persist() to create a thread for the notificationInd
+                            // because it causes UI jank.
+                            Uri uri = p.persist(pdu, Inbox.CONTENT_URI,
+                                    !NotificationTransaction.allowAutoDownload());
+
                             // Start service to finish the notification transaction.
                             Intent svc = new Intent(mContext, TransactionService.class);
                             svc.putExtra(TransactionBundle.URI, uri.toString());
