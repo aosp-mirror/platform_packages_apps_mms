@@ -98,6 +98,13 @@ public class TransactionService extends Service implements Observer {
     public static final String ACTION_ONALARM = "android.intent.action.ACTION_ONALARM";
 
     /**
+     * Action for the Intent which is sent when the user turns on the auto-retrieve setting.
+     * This service gets started to auto-retrieve any undownloaded messages.
+     */
+    public static final String ACTION_ENABLE_AUTO_RETRIEVE
+            = "android.intent.action.ACTION_ENABLE_AUTO_RETRIEVE";
+
+    /**
      * Used as extra key in notification intents broadcasted by the TransactionService
      * when a Transaction is completed (TRANSACTION_COMPLETED_ACTION intents).
      * Allowed values for this key are: TransactionState.INITIALIZED,
@@ -195,7 +202,9 @@ public class TransactionService extends Service implements Observer {
             Log.v(TAG, "    networkAvailable=" + !noNetwork);
         }
 
-        if (ACTION_ONALARM.equals(intent.getAction()) || (intent.getExtras() == null)) {
+        String action = intent.getAction();
+        if (ACTION_ONALARM.equals(action) || ACTION_ENABLE_AUTO_RETRIEVE.equals(action) ||
+                (intent.getExtras() == null)) {
             // Scan database to find all pending operations.
             Cursor cursor = PduPersister.getPduPersister(this).getPendingMessages(
                     System.currentTimeMillis());
@@ -242,11 +251,14 @@ public class TransactionService extends Service implements Observer {
                             case Transaction.RETRIEVE_TRANSACTION:
                                 // If it's a transiently failed transaction,
                                 // we should retry it in spite of current
-                                // downloading mode.
+                                // downloading mode. If the user just turned on the auto-retrieve
+                                // option, we also retry those messages that don't have any errors.
                                 int failureType = cursor.getInt(
                                         cursor.getColumnIndexOrThrow(
                                                 PendingMessages.ERROR_TYPE));
-                                if (!isTransientFailure(failureType)) {
+                                if ((failureType != MmsSms.NO_ERROR ||
+                                        !ACTION_ENABLE_AUTO_RETRIEVE.equals(action)) &&
+                                        !isTransientFailure(failureType)) {
                                     break;
                                 }
                                 // fall-through
