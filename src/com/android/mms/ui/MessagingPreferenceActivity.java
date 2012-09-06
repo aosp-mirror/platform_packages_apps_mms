@@ -40,6 +40,7 @@ import android.view.MenuItem;
 import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
+import com.android.mms.transaction.TransactionService;
 import com.android.mms.util.Recycler;
 
 /**
@@ -74,6 +75,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     private Preference mClearHistoryPref;
     private ListPreference mVibrateWhenPref;
     private CheckBoxPreference mEnableNotificationsPref;
+    private CheckBoxPreference mMmsAutoRetrievialPref;
     private Recycler mSmsRecycler;
     private Recycler mMmsRecycler;
     private static final int CONFIRM_CLEAR_SEARCH_HISTORY_DIALOG = 3;
@@ -111,6 +113,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         mMmsLimitPref = findPreference("pref_key_mms_delete_limit");
         mClearHistoryPref = findPreference("pref_key_mms_clear_history");
         mEnableNotificationsPref = (CheckBoxPreference) findPreference(NOTIFICATION_ENABLED);
+        mMmsAutoRetrievialPref = (CheckBoxPreference) findPreference(AUTO_RETRIEVAL);
         mVibrateWhenPref = (ListPreference) findPreference(NOTIFICATION_VIBRATE_WHEN);
 
         mVibrateEntries = getResources().getTextArray(R.array.prefEntries_vibrateWhen);
@@ -260,11 +263,22 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         } else if (preference == mEnableNotificationsPref) {
             // Update the actual "enable notifications" value that is stored in secure settings.
             enableNotifications(mEnableNotificationsPref.isChecked(), this);
+        } else if (preference == mMmsAutoRetrievialPref) {
+            if (mMmsAutoRetrievialPref.isChecked()) {
+                startMmsDownload();
+            }
         }
 
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
 
+    /**
+     * Trigger the TransactionService to download any outstanding messages.
+     */
+    private void startMmsDownload() {
+        startService(new Intent(TransactionService.ACTION_ENABLE_AUTO_RETRIEVE, null, this,
+                TransactionService.class));
+    }
 
     NumberPickerDialog.OnNumberSetListener mSmsLimitListener =
         new NumberPickerDialog.OnNumberSetListener() {
