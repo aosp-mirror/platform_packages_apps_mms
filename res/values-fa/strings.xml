@@ -109,7 +109,7 @@
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"افزودن اسلایدهای بیشتر امکان‌پذیر نیست."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"افزودن ویدئو و عکس به یک اسلاید امکان‌پذیر نیست."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"ذخیره پیام امکان‌پذیر نیست."</string>
-    <string name="message_saved_as_draft" msgid="2503018972659880692">"پیام به عنوان پیش نویس ذخیره شد."</string>
+    <string name="message_saved_as_draft" msgid="2503018972659880692">"پیام به‌عنوان پیش نویس ذخیره شد."</string>
     <string name="too_many_recipients" msgid="7003415094007176931">"این پیام دارای گیرندگان بسیار زیادی است (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). محدودیت <xliff:g id="MAXLIMIT">%2$s</xliff:g> گیرنده وجود دارد."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"محدودیت <xliff:g id="MAXLIMIT">%1$s</xliff:g> پیوست وجود دارد. فقط اولین <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> اضافه می‌شود."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"افزودن پیوست‌ها"</string>
@@ -346,6 +346,5 @@
     <string name="attachment_picture" msgid="3709286281567284296">"تصویر"</string>
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">"، "</string>
-    <!-- no translation found for message_timestamp_format (4188999027493614617) -->
-    <skip />
+    <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
 </resources>
