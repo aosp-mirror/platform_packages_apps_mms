@@ -1949,6 +1949,8 @@ public class ComposeMessageActivity extends Activity
             // recipient editor rather than in the message editor.
             mRecipientsEditor.requestFocus();
         }
+
+        mMsgListAdapter.setIsGroupConversation(mConversation.getRecipients().size() > 1);
     }
 
     @Override
