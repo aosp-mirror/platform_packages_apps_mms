@@ -69,6 +69,8 @@ public class ImageCacheService {
             }
         } catch (IOException ex) {
             // ignore.
+        } finally {
+            mCache.close();
         }
         return null;
     }
@@ -84,6 +86,8 @@ public class ImageCacheService {
                 mCache.insert(cacheKey, buffer.array());
             } catch (IOException ex) {
                 // ignore.
+            } finally {
+                mCache.close();
             }
         }
     }
