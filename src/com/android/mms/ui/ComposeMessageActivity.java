@@ -73,6 +73,7 @@ import android.os.Message;
 import android.os.Parcelable;
 import android.os.SystemProperties;
 import android.provider.ContactsContract;
+import android.provider.Telephony;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.Contacts;
@@ -842,7 +843,7 @@ public class ComposeMessageActivity extends Activity
             }
         }
         if (!(Mms.isEmailAddress(name) ||
-                AddressUtils.isPossiblePhoneNumber(name) ||
+                Telephony.Mms.isPhoneNumber(name) ||
                 contact.isMe())) {
             return false;
         }
