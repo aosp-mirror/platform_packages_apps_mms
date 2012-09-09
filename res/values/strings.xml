@@ -214,8 +214,6 @@
 
     <!-- Brief message that appears when converting a message from SMS to MMS. -->
     <string name="converting_to_picture_message">Converting to multimedia message\u2026</string>
-    <!-- Brief message that appears when converting a message from MMS to SMS. -->
-    <string name="converting_to_text_message">Converting to text message\u2026</string>
     <!-- Brief message that appears when the maximum number of slides has been reached -->
     <string name="cannot_add_slide_anymore">Can\'t add more slides.</string>
     <!-- Brief message that appears when user tries to add picture to a slide which already has a video. -->
