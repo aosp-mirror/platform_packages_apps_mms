@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
@@ -110,7 +111,8 @@ public class UriImage {
     }
 
     private void initFromContentUri(Context context, Uri uri) {
-        Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
+        ContentResolver resolver = context.getContentResolver();
+        Cursor c = SqliteWrapper.query(context, resolver,
                             uri, null, null, null, null);
 
         mSrc = null;
@@ -140,7 +142,12 @@ public class UriImage {
                     mContentType = c.getString(
                             c.getColumnIndexOrThrow(Images.Media.MIME_TYPE)); // mime_type
                 } catch (IllegalArgumentException e) {
-                    mContentType = c.getString(c.getColumnIndexOrThrow("mimetype"));
+                    try {
+                        mContentType = c.getString(c.getColumnIndexOrThrow("mimetype"));
+                    } catch (IllegalArgumentException ex) {
+                        mContentType = resolver.getType(uri);
+                        Log.v(TAG, "initFromContentUri: " + uri + ", getType => " + mContentType);
+                    }
                 }
 
                 // use the original filename if possible
