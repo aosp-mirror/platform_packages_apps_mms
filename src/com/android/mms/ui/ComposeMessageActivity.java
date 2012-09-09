@@ -137,7 +137,6 @@ import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageListView.OnSizeChangedListener;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
-import com.android.mms.util.AddressUtils;
 import com.android.mms.util.PhoneNumberFormatter;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
@@ -594,10 +593,8 @@ public class ComposeMessageActivity extends Activity
         super.startActivityForResult(intent, requestCode);
     }
 
-    private void toastConvertInfo(boolean toMms) {
-        final int resId = toMms ? R.string.converting_to_picture_message
-                : R.string.converting_to_text_message;
-        Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
+    private void showConvertToMmsToast() {
+        Toast.makeText(this, R.string.converting_to_picture_message, Toast.LENGTH_SHORT).show();
     }
 
     private class DeleteMessageListener implements OnClickListener {
@@ -2397,20 +2394,21 @@ public class ComposeMessageActivity extends Activity
     }
 
     @Override
-    public void onProtocolChanged(final boolean mms) {
+    public void onProtocolChanged(final boolean convertToMms) {
         // Have to make sure we're on the UI thread. This function can be called off of the UI
         // thread when we're adding multi-attachments
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                toastConvertInfo(mms);
-                showSmsOrMmsSendButton(mms);
+                showSmsOrMmsSendButton(convertToMms);
 
-                if (mms) {
+                if (convertToMms) {
                     // In the case we went from a long sms with a counter to an mms because
                     // the user added an attachment or a subject, hide the counter --
                     // it doesn't apply to mms.
                     mTextCounter.setVisibility(View.GONE);
+
+                    showConvertToMmsToast();
                 }
             }
         });
