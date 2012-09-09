@@ -2570,16 +2570,22 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void buildAddAddressToContactMenuItem(Menu menu) {
-        // Look for the first recipient we don't have a contact for and create a menu item to
-        // add the number to contacts.
-        for (Contact c : getRecipients()) {
-            if (!c.existsInDatabase() && canAddToContacts(c)) {
-                Intent intent = ConversationList.createAddContactIntent(c.getNumber());
-                menu.add(0, MENU_ADD_ADDRESS_TO_CONTACTS, 0, R.string.menu_add_to_contacts)
-                    .setIcon(android.R.drawable.ic_menu_add)
-                    .setIntent(intent);
-                break;
-            }
+        // bug #7087793: for group of recipients, remove "Add to People" action. Rely on
+        // individually creating contacts for unknown phone numbers by touching the individual
+        // sender's avatars, one at a time
+        ContactList contacts = getRecipients();
+        if (contacts.size() > 1) {
+            return;
+        }
+
+        // if we don't have a contact for the recipient, create a menu item to add the number
+        // to contacts.
+        Contact c = contacts.get(0);
+        if (!c.existsInDatabase() && canAddToContacts(c)) {
+            Intent intent = ConversationList.createAddContactIntent(c.getNumber());
+            menu.add(0, MENU_ADD_ADDRESS_TO_CONTACTS, 0, R.string.menu_add_to_contacts)
+                .setIcon(android.R.drawable.ic_menu_add)
+                .setIntent(intent);
         }
     }
 
