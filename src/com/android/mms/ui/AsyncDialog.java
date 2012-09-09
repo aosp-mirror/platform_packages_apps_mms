@@ -148,6 +148,9 @@ public class AsyncDialog {
          */
         @Override
         protected void onPostExecute(Void result) {
+            if (mActivity.isFinishing()) {
+                return;
+            }
             if (mProgressDialog != null && mProgressDialog.isShowing()) {
                 mProgressDialog.dismiss();
             }
