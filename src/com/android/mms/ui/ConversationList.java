@@ -77,6 +77,7 @@ import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.transaction.SmsRejectedReceiver;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.Recycler;
+import com.android.mms.widget.MmsWidgetProvider;
 import com.google.android.mms.pdu.PduHeaders;
 
 /**
@@ -810,6 +811,8 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
 
                 // Make sure the list reflects the delete
                 startAsyncQuery();
+
+                MmsWidgetProvider.notifyDatasetChanged(getApplicationContext());
                 break;
 
             case DELETE_OBSOLETE_THREADS_TOKEN:
