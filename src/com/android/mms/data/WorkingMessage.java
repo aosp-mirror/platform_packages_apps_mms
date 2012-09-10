@@ -1190,6 +1190,7 @@ public class WorkingMessage {
 
             final SlideshowModel slideshow = mSlideshow;
             final CharSequence subject = mSubject;
+            final boolean textOnly = mAttachmentType == TEXT;
 
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 LogTag.debug("Send mmsUri: " + mmsUri);
@@ -1204,7 +1205,7 @@ public class WorkingMessage {
                     // Make sure the text in slide 0 is no longer holding onto a reference to
                     // the text in the message text box.
                     slideshow.prepareForSend();
-                    sendMmsWorker(conv, mmsUri, persister, slideshow, sendReq);
+                    sendMmsWorker(conv, mmsUri, persister, slideshow, sendReq, textOnly);
 
                     updateSendStats(conv);
                 }
@@ -1319,7 +1320,7 @@ public class WorkingMessage {
     }
 
     private void sendMmsWorker(Conversation conv, Uri mmsUri, PduPersister persister,
-            SlideshowModel slideshow, SendReq sendReq) {
+            SlideshowModel slideshow, SendReq sendReq, boolean textOnly) {
         long threadId = 0;
         Cursor cursor = null;
         boolean newMessage = false;
@@ -1368,6 +1369,9 @@ public class WorkingMessage {
                 values.put(Mms.MESSAGE_BOX, Mms.MESSAGE_BOX_OUTBOX);
                 values.put(Mms.THREAD_ID, threadId);
                 values.put(Mms.MESSAGE_TYPE, PduHeaders.MESSAGE_TYPE_SEND_REQ);
+                if (textOnly) {
+                    values.put(Mms.TEXT_ONLY, 1);
+                }
                 mmsUri = SqliteWrapper.insert(mActivity, mContentResolver, Mms.Outbox.CONTENT_URI,
                         values);
             }
