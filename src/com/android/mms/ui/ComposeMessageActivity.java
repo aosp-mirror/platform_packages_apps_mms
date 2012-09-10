@@ -2574,7 +2574,7 @@ public class ComposeMessageActivity extends Activity
         // individually creating contacts for unknown phone numbers by touching the individual
         // sender's avatars, one at a time
         ContactList contacts = getRecipients();
-        if (contacts.size() > 1) {
+        if (contacts.size() != 1) {
             return;
         }
 

@@ -453,9 +453,9 @@ public class WorkingMessage {
         if (result == OK) {
             mAttachmentType = type;
         }
-        correctAttachmentState();
+        correctAttachmentState();   // this can remove the slideshow if there are no attachments
 
-        if (type == IMAGE) {
+        if (mSlideshow != null && type == IMAGE) {
             // Prime the image's cache; helps A LOT when the image is coming from the network
             // (e.g. Picasa album). See b/5445690.
             int numSlides = mSlideshow.size();
