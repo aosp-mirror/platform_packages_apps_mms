@@ -105,7 +105,6 @@
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Umlayezo wakho awunabo abamukeli abalungile."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"Into ye-DRM ehlanganiswe emyalezweni ngeke idluliswe."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"Iguqulela kumyalezo woxhumano oluxubile.,.."</string>
-    <string name="converting_to_text_message" msgid="6374423235426015422">"Iguqulela kumyalezo wombhalo..."</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"Ayikwazi ukwengeza amanye amaslyadi."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"Ayikwazi ukufaka ividiyo nesithombe esilayidini esisodwa."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"Ayikwazi ukulondoloza umlayezo."</string>

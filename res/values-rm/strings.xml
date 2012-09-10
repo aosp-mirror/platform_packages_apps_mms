@@ -129,7 +129,6 @@
     <!-- no translation found for cannot_forward_drm_obj (5047623751430559077) -->
     <skip />
     <string name="converting_to_picture_message" msgid="2980023239017588627">"Conversiun en messadi multimedia…"</string>
-    <string name="converting_to_text_message" msgid="6374423235426015422">"Conversiun en in messadi SMS en process…"</string>
     <!-- no translation found for cannot_add_slide_anymore (4631404749618820994) -->
     <skip />
     <!-- no translation found for cannot_add_picture_and_video (4954353772391381447) -->

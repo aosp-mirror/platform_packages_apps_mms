@@ -105,7 +105,6 @@
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Tu mensaje no tiene destinatarios válidos."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"El objeto DRM incluido en el mensaje no se puede reenviar."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"Convirtiendo a mensaje multimedia…"</string>
-    <string name="converting_to_text_message" msgid="6374423235426015422">"Convirtiendo a mensaje de texto…"</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"No se pueden agregar más diapositivas."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"No se puede agregar el video y la imagen a una diapositiva."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"No se puede guardar el mensaje."</string>

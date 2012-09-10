@@ -105,7 +105,6 @@
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Ziņojumam nav neviena derīga adresāta."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"Ziņojumā ietverto objektu, kas aizsargāts saskaņā ar digitālā satura tiesību pārvaldību, nevar pārsūtīt."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"Notiek pārveidošana par multiziņu…"</string>
-    <string name="converting_to_text_message" msgid="6374423235426015422">"Notiek pārveidošana par īsziņu…"</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"Nevar pievienot vairāk slaidu."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"Vienam slaidam nevar pievienot videoklipu un attēlu."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"Nevar saglabāt ziņojumu."</string>

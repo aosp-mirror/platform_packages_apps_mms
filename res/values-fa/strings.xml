@@ -105,7 +105,6 @@
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"پیام شما هیچ گیرنده معتبری ندارد."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"شیء DRM موجود در پیام باز ارسال نمی‌شود."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"در حال تبدیل به پیام چند رسانه‌ای..."</string>
-    <string name="converting_to_text_message" msgid="6374423235426015422">"در حال تبدیل به پیام متنی..."</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"افزودن اسلایدهای بیشتر امکان‌پذیر نیست."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"افزودن ویدئو و عکس به یک اسلاید امکان‌پذیر نیست."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"ذخیره پیام امکان‌پذیر نیست."</string>

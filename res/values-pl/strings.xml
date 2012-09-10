@@ -105,7 +105,6 @@
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Wiadomość nie zawiera poprawnych odbiorców."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"Nie można przekazać obiektu DRM umieszczonego w wiadomości."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"Trwa konwertowanie na wiadomość multimedialną..."</string>
-    <string name="converting_to_text_message" msgid="6374423235426015422">"Trwa konwertowanie na wiadomość tekstową..."</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"Nie można dodać więcej slajdów."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"Nie można dodać filmu i zdjęcia do jednego slajdu."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"Nie można zapisać wiadomości."</string>
