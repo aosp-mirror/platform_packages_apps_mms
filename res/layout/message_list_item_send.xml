@@ -53,7 +53,21 @@
                 android:background="@drawable/hairline_right"
                 android:orientation="vertical" >
 
-                <TextView android:id="@+id/text_view"
+                <TextView android:id="@+id/sender_view"
+                    android:autoLink="all"
+                    android:paddingLeft="@dimen/message_item_text_padding_left_right"
+                    android:paddingRight="@dimen/message_item_text_padding_left_right"
+                    android:paddingTop="@dimen/message_item_text_padding_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:linksClickable="false"
+                    android:gravity="right"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="#ff000000"
+					android:textStyle="bold"
+                    android:textSize="12sp" />
+
+				<TextView android:id="@+id/text_view"
                     android:autoLink="all"
                     android:paddingLeft="@dimen/message_item_text_padding_left_right"
                     android:paddingRight="@dimen/message_item_text_padding_left_right"

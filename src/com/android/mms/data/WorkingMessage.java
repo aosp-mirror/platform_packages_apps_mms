@@ -42,6 +42,7 @@ import android.util.Pair;
 
 import com.android.common.contacts.DataUsageStatUpdater;
 import com.android.common.userhappiness.UserHappinessSignals;
+import com.android.mms.ContentRestrictionException;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
@@ -56,6 +57,7 @@ import com.android.mms.transaction.MessageSender;
 import com.android.mms.transaction.MmsMessageSender;
 import com.android.mms.transaction.SmsMessageSender;
 import com.android.mms.ui.ComposeMessageActivity;
+import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.SlideshowEditor;
 import com.android.mms.util.DraftCache;
@@ -1029,8 +1031,14 @@ public class WorkingMessage {
 
         mConversation = conv;
 
-        // Convert to MMS if there are any email addresses in the recipient list.
-        setHasEmail(conv.getRecipients().containsEmail(), false);
+		Context context = mActivity;
+
+        // Convert to MMS if there are any email addresses or multiple recipients in the recipient list.
+		if (conv.getRecipients().size() > 1 && MessagingPreferenceActivity.getGroupMMSEnabled(context)){
+			setGroupTextMms(true, false);
+		} else {
+            setHasEmail(conv.getRecipients().containsEmail(), false);
+		}
     }
 
     public Conversation getConversation() {
@@ -1065,6 +1073,11 @@ public class WorkingMessage {
     public void setLengthRequiresMms(boolean mmsRequired, boolean notify) {
         updateState(LENGTH_REQUIRES_MMS, mmsRequired, notify);
     }
+    
+    public void setGroupTextMms(boolean mmsRequired, boolean notify) {
+        updateState(RECIPIENTS_REQUIRE_MMS, mmsRequired, notify);
+    }
+
 
     private static String stateString(int state) {
         if (state == 0)

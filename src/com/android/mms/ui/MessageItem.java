@@ -170,6 +170,7 @@ public class MessageItem {
                         PduPersister.getBytes(subject));
                 mSubject = v.getString();
             }
+			mContact = Contact.get(getMmsSender(mMsgId, mContext), false).getName();
             mLocked = cursor.getInt(columnsMap.mColumnMmsLocked) != 0;
             mSlideshow = null;
             mAttachmentType = ATTACHMENT_TYPE_NOT_LOADED;
@@ -178,7 +179,8 @@ public class MessageItem {
             mBody = null;
             mMessageSize = 0;
             mTextContentType = null;
-            mTimestamp = null;
+            // Initialize the time stamp to "" instead of null
+            mTimestamp = "";
             mMmsStatus = cursor.getInt(columnsMap.mColumnMmsStatus);
 
             // Start an async load of the pdu. If the pdu is already loaded, the callback
@@ -193,6 +195,27 @@ public class MessageItem {
             throw new MmsException("Unknown type of the message: " + type);
         }
     }
+
+	// Function to query the sender's address from db
+	private String getMmsSender(long msgId, Context context) {
+		String sender="";
+		final String[] projection =  new String[] { "address", "contact_id", "charset", "type" };
+		final String selection = "type=137"; // "type="+ PduHeaders.FROM,
+
+		Uri.Builder builder = Uri.parse("content://mms").buildUpon();
+		builder.appendPath(String.valueOf(msgId)).appendPath("addr");
+
+		Cursor cursor = context.getContentResolver().query(
+		    builder.build(),
+		    projection,
+		    selection,
+		    null, null);
+
+		if (cursor.moveToFirst()) {
+			sender =  cursor.getString(0);
+		}
+		return sender;
+	}
 
     private void interpretFrom(EncodedStringValue from, Uri messageUri) {
         if (from != null) {
