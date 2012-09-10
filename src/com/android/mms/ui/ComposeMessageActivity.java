@@ -3477,6 +3477,7 @@ public class ComposeMessageActivity extends Activity
                     public void run() {
                         drawTopPanel(false);
                         drawBottomPanel();
+                        updateSendButtonState();
                     }
                 });
     }
