@@ -140,6 +140,7 @@ import com.android.mms.util.AddressUtils;
 import com.android.mms.util.PhoneNumberFormatter;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
+import com.android.mms.widget.MmsWidgetProvider;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -4004,6 +4005,8 @@ public class ComposeMessageActivity extends Activity
                 // Check to see if we just deleted the last message
                 startMsgListQuery(MESSAGE_LIST_QUERY_AFTER_DELETE_TOKEN);
             }
+
+            MmsWidgetProvider.notifyDatasetChanged(getApplicationContext());
         }
     }
 
