@@ -105,7 +105,6 @@
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Für die Nachricht sind keine gültigen Empfänger vorhanden."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"Das in der Nachricht enthaltene DRM-Objekt kann nicht weitergeleitet werden."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"Konvertierung in Multimedia-Nachricht wird ausgeführt..."</string>
-    <string name="converting_to_text_message" msgid="6374423235426015422">"Umwandlung in SMS wird ausgeführt..."</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"Es können keine weiteren Dias hinzugefügt werden."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"In eine Folie können nicht gleichzeitig ein Bild und ein Video eingefügt werden."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"Nachricht kann nicht gespeichert werden."</string>

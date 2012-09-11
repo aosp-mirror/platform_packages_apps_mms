@@ -105,7 +105,6 @@
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"आपके संदेश में कोई मान्य प्राप्तकर्ता नहीं हैं."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"संदेश में शामिल DRM ऑब्जेक्ट अग्रेषित नहीं किया जा सकता."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"मल्टीमीडिया संदेश में कनवर्ट कर रहा है..."</string>
-    <string name="converting_to_text_message" msgid="6374423235426015422">"पाठ संदेश में कनवर्ट कर रहा है..."</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"अधिक स्लाइड नहीं जोड़ सकता."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"एक स्लाइड में वीडियो और चित्र नहीं जोड़ सकता."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"संदेश नहीं सहेज सकता."</string>

@@ -105,7 +105,6 @@
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Aucun destinataire valide n\'a été spécifié pour votre message."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"Impossible de transférer l\'objet GDN inclus dans le message."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"Conversion en message multimédia..."</string>
-    <string name="converting_to_text_message" msgid="6374423235426015422">"Conversion en message SMS…"</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"Impossible d\'ajouter d\'autres diapositives."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"Impossible d\'ajouter une vidéo et une image sur une même diapositive."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"Impossible d\'enregistrer le message."</string>

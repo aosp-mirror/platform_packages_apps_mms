@@ -105,7 +105,6 @@
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"메시지의 유효한 수신자가 없습니다."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"메시지에 포함된 DRM 개체를 전달할 수 없습니다."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"멀티미디어 메시지로 변환 중..."</string>
-    <string name="converting_to_text_message" msgid="6374423235426015422">"문자 메시지로 변환 중..."</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"슬라이드를 더 이상 추가할 수 없습니다."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"동영상과 사진을 한 슬라이드에 추가할 수 없습니다."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"메시지를 저장할 수 없습니다."</string>
