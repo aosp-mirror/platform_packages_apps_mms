@@ -88,7 +88,7 @@ import com.google.android.mms.pdu.PduPersister;
 public class MessagingNotification {
 
     private static final String TAG = LogTag.APP;
-    private static final boolean DEBUG = false;  // TODO turn off before ship
+    private static final boolean DEBUG = true;  // TODO turn off before ship
 
     private static final int NOTIFICATION_ID = 123;
     public static final int MESSAGE_FAILED_NOTIFICATION_ID = 789;
@@ -254,14 +254,13 @@ public class MessagingNotification {
 
         Set<Long> threads = new HashSet<Long>(4);
 
-        int count = 0;
         addMmsNotificationInfos(context, threads, notificationSet);
         addSmsNotificationInfos(context, threads, notificationSet);
 
         cancelNotification(context, NOTIFICATION_ID);
         if (!notificationSet.isEmpty()) {
-            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                Log.d(TAG, "blockingUpdateNewMessageIndicator: count=" + count +
+            if (DEBUG || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                Log.d(TAG, "blockingUpdateNewMessageIndicator: count=" + notificationSet.size() +
                         ", newMsgThreadId=" + newMsgThreadId);
             }
             updateNotification(context, newMsgThreadId != THREAD_NONE, threads.size(),
@@ -929,6 +928,9 @@ public class MessagingNotification {
                     .bigText(mostRecentNotification.formatBigMessage(context))
                     .build();
             }
+            if (DEBUG) {
+                Log.d(TAG, "updateNotification: single message notification");
+            }
         } else {
             // We've got multiple messages
             if (uniqueThreadCount == 1) {
@@ -959,6 +961,9 @@ public class MessagingNotification {
                     // kicked the smallIcon out with an avatar bitmap
                     .setSummaryText((avatar == null) ? null : " ")
                     .build();
+                if (DEBUG) {
+                    Log.d(TAG, "updateNotification: multi messages for single thread");
+                }
             } else {
                 // Build a set of the most recent notification per threadId.
                 HashSet<Long> uniqueThreads = new HashSet<Long>(messageCount);
