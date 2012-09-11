@@ -180,8 +180,16 @@ public class ThumbnailManager extends BackgroundLoaderManager {
 
     // Delete the on-disk cache, but leave the in-memory cache intact
     public synchronized void clearBackingStore() {
-        getImageCacheService().clear();
-        mImageCacheService = null;  // force a re-init the next time getImageCacheService requested
+        if (mImageCacheService == null) {
+            // No need to call getImageCacheService() to renew the instance if it's null.
+            // It's enough to only delete the image cache files for the sake of safety.
+            CacheManager.clear(mContext);
+        } else {
+            getImageCacheService().clear();
+
+            // force a re-init the next time getImageCacheService requested
+            mImageCacheService = null;
+        }
     }
 
     public void removeThumbnail(Uri uri) {
