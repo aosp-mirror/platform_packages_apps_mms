@@ -33,6 +33,7 @@ import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
+import com.android.mms.data.WorkingMessage;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.TextModel;
@@ -172,7 +173,6 @@ public class MessageItem {
             }
             mLocked = cursor.getInt(columnsMap.mColumnMmsLocked) != 0;
             mSlideshow = null;
-            mAttachmentType = ATTACHMENT_TYPE_NOT_LOADED;
             mDeliveryStatus = DeliveryStatus.NONE;
             mReadReport = false;
             mBody = null;
@@ -181,6 +181,8 @@ public class MessageItem {
             // Initialize the time stamp to "" instead of null
             mTimestamp = "";
             mMmsStatus = cursor.getInt(columnsMap.mColumnMmsStatus);
+            mAttachmentType = cursor.getInt(columnsMap.mColumnMmsTextOnly) != 0 ?
+                    WorkingMessage.TEXT : ATTACHMENT_TYPE_NOT_LOADED;
 
             // Start an async load of the pdu. If the pdu is already loaded, the callback
             // will get called immediately

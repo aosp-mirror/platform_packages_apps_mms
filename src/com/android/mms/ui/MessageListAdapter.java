@@ -75,7 +75,8 @@ public class MessageListAdapter extends CursorAdapter {
         Mms.READ_REPORT,
         PendingMessages.ERROR_TYPE,
         Mms.LOCKED,
-        Mms.STATUS
+        Mms.STATUS,
+        Mms.TEXT_ONLY
     };
 
     // The indexes of the default columns which must be consistent
@@ -104,6 +105,7 @@ public class MessageListAdapter extends CursorAdapter {
     static final int COLUMN_MMS_ERROR_TYPE      = 21;
     static final int COLUMN_MMS_LOCKED          = 22;
     static final int COLUMN_MMS_STATUS          = 23;
+    static final int COLUMN_MMS_TEXT_ONLY       = 24;
 
     private static final int CACHE_SIZE         = 50;
 
@@ -336,6 +338,7 @@ public class MessageListAdapter extends CursorAdapter {
         public int mColumnMmsErrorType;
         public int mColumnMmsLocked;
         public int mColumnMmsStatus;
+        public int mColumnMmsTextOnly;
 
         public ColumnsMap() {
             mColumnMsgType            = COLUMN_MSG_TYPE;
@@ -357,6 +360,7 @@ public class MessageListAdapter extends CursorAdapter {
             mColumnMmsErrorType       = COLUMN_MMS_ERROR_TYPE;
             mColumnMmsLocked          = COLUMN_MMS_LOCKED;
             mColumnMmsStatus          = COLUMN_MMS_STATUS;
+            mColumnMmsTextOnly        = COLUMN_MMS_TEXT_ONLY;
         }
 
         public ColumnsMap(Cursor cursor) {
@@ -473,6 +477,12 @@ public class MessageListAdapter extends CursorAdapter {
 
             try {
                 mColumnMmsStatus = cursor.getColumnIndexOrThrow(Mms.STATUS);
+            } catch (IllegalArgumentException e) {
+                Log.w("colsMap", e.getMessage());
+            }
+
+            try {
+                mColumnMmsTextOnly = cursor.getColumnIndexOrThrow(Mms.TEXT_ONLY);
             } catch (IllegalArgumentException e) {
                 Log.w("colsMap", e.getMessage());
             }
