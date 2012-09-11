@@ -710,13 +710,6 @@ public class Conversation {
 
             MmsApp.getApplication().getPduLoaderManager().clear();
 
-            // HACK: the keys to the thumbnail cache are the part uris, such as mms/part/3
-            // Because the part table doesn't have auto-increment ids, the part ids are reused
-            // when a message or thread is deleted. For now, we're clearing the whole thumbnail
-            // cache so we don't retrieve stale images when part ids are reused. This will be
-            // fixed in the next release in the mms provider.
-            MmsApp.getApplication().getThumbnailManager().clear();
-
             handler.setDeleteToken(token);
             handler.startDelete(token, new Long(threadId), uri, selection, null);
         }
@@ -739,13 +732,6 @@ public class Conversation {
             String selection = deleteAll ? null : "locked=0";
 
             MmsApp.getApplication().getPduLoaderManager().clear();
-
-            // HACK: the keys to the thumbnail cache are the part uris, such as mms/part/3
-            // Because the part table doesn't have auto-increment ids, the part ids are reused
-            // when a message or thread is deleted. For now, we're clearing the whole thumbnail
-            // cache so we don't retrieve stale images when part ids are reused. This will be
-            // fixed in the next release in the mms provider.
-            MmsApp.getApplication().getThumbnailManager().clear();
 
             handler.setDeleteToken(token);
             handler.startDelete(token, new Long(-1), Threads.CONTENT_URI, selection, null);
