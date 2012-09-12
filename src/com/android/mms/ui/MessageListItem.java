@@ -52,6 +52,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Checkable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -77,7 +78,7 @@ import com.google.android.mms.pdu.PduHeaders;
  * This class provides view of a message in the messages list.
  */
 public class MessageListItem extends LinearLayout implements
-        SlideViewInterface, OnClickListener {
+        SlideViewInterface, OnClickListener, Checkable{
     public static final String EXTRA_URLS = "com.android.mms.ExtraUrls";
 
     private static final String TAG = "MessageListItem";
@@ -88,6 +89,7 @@ public class MessageListItem extends LinearLayout implements
     static final int MSG_LIST_PLAY    = 2;
     static final int MSG_LIST_DETAILS = 3;
 
+    private LinearLayout mContentLayout;
     private View mMmsView;
     private ImageView mImageView;
     private ImageView mLockedIndicator;
@@ -134,6 +136,7 @@ public class MessageListItem extends LinearLayout implements
     protected void onFinishInflate() {
         super.onFinishInflate();
 
+        mContentLayout = (LinearLayout) findViewById(R.id.mms_layout_view_parent);
         mBodyTextView = (TextView) findViewById(R.id.text_view);
         mDateView = (TextView) findViewById(R.id.date_view);
         mLockedIndicator = (ImageView) findViewById(R.id.locked_indicator);
@@ -835,5 +838,43 @@ public class MessageListItem extends LinearLayout implements
     public void seekVideo(int seekTo) {
         // TODO Auto-generated method stub
 
+    }
+
+    public void updateBackground() {
+        Log.d("Debug", "updateBackground");
+        int backgroundId = R.drawable.list_selected_holo_light;
+
+        if (mMessageItem.isChecked()) {
+            backgroundId = R.drawable.list_selected_holo_light;
+        } else {
+            if (mMessageItem.mBoxId == Sms.MESSAGE_TYPE_OUTBOX ||
+                    mMessageItem.mBoxId == Sms.MESSAGE_TYPE_FAILED ||
+                    mMessageItem.mBoxId == Sms.MESSAGE_TYPE_QUEUED ||
+                    mMessageItem.mBoxId == Sms.MESSAGE_TYPE_SENT) {
+                backgroundId = R.drawable.hairline_right;
+            } else if (mMessageItem.mBoxId == Sms.MESSAGE_TYPE_INBOX) {
+                backgroundId = R.drawable.hairline_left;
+            }
+        }
+
+        Drawable background = mContext.getResources().getDrawable(backgroundId);
+        mContentLayout.setBackground(background);
+    }
+
+    @Override
+    public void setChecked(boolean checked) {
+        Log.d("Debug", "MessageListItem#setChecked");
+        mMessageItem.setIsChecked(checked);
+        updateBackground();
+    }
+
+    @Override
+    public boolean isChecked() {
+        return mMessageItem.isChecked();
+    }
+
+    @Override
+    public void toggle() {
+        mMessageItem.setIsChecked(!mMessageItem.isChecked());
     }
 }

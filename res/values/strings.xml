@@ -800,5 +800,10 @@
     <!-- In message list items, this string builds the timestamp line when the message is in a group [CHAR LIMIT=NONE] -->
     <string name="message_timestamp_format"><xliff:g id="string" example="Fred Flinstone">%1$s</xliff:g>\u0020-\u0020<xliff:g id="string" example="9:39AM">%2$s</xliff:g></string>
 
+    <string name="menu_combine">Combine Menu</string>
+    <string name="merge_pwd">Multi Forward</string>
+    <string name="select_text_msg_only">Please select text message only</string>
+    <string name="select_sms">Select Sms</string>
+    <string name="phone_number_default">Unknown</string>
 </resources>
 
