@@ -73,6 +73,7 @@ import android.os.Message;
 import android.os.Parcelable;
 import android.os.SystemProperties;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.QuickContact;
 import android.provider.Telephony;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
@@ -587,8 +588,11 @@ public class ComposeMessageActivity extends Activity
         if (requestCode >= 0) {
             mWaitingForSubActivity = true;
         }
-        if (mIsKeyboardOpen) {
-            hideKeyboard();     // camera and other activities take a long time to hide the keyboard
+        // The camera and other activities take a long time to hide the keyboard so we pre-hide
+        // it here. However, if we're opening up the quick contact window while typing, don't
+        // mess with the keyboard.
+        if (mIsKeyboardOpen && !QuickContact.ACTION_QUICK_CONTACT.equals(intent.getAction())) {
+            hideKeyboard();
         }
 
         super.startActivityForResult(intent, requestCode);
