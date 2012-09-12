@@ -107,6 +107,8 @@ public class MessageItem {
     private PduLoadedCallback mPduLoadedCallback;
     private ItemLoadedFuture mItemLoadedFuture;
 
+    private boolean mIsChecked;
+
     MessageItem(Context context, String type, final Cursor cursor,
             final ColumnsMap columnsMap, Pattern highlight) throws MmsException {
         mContext = context;
@@ -404,5 +406,16 @@ public class MessageItem {
 
     public SlideshowModel getSlideshow() {
         return mSlideshow;
+    }
+
+    /**
+     * Returns true if this conversation is selected for a multi-operation.
+     */
+    public synchronized boolean isChecked() {
+        return mIsChecked;
+    }
+
+    public synchronized void setIsChecked(boolean isChecked) {
+        mIsChecked = isChecked;
     }
 }

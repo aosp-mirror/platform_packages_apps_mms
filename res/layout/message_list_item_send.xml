@@ -50,8 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/avatar"
                 android:layout_alignParentLeft="true"
-                android:background="@drawable/hairline_right"
-                android:orientation="vertical" >
+                android:orientation="vertical" ><!-- android:background="@drawable/hairline_right" -->
 
                 <TextView android:id="@+id/text_view"
                     android:autoLink="all"
@@ -99,11 +98,10 @@
                         android:visibility="gone" />
 
                     <TextView android:id="@+id/date_view"
-                        android:background="@drawable/listitem_background"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/text_hairline" />
+                        android:textColor="@color/message_count_color" />
                 </LinearLayout>
 
                 <ViewStub android:id="@+id/mms_layout_view_stub"

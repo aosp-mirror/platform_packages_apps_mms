@@ -243,15 +243,19 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
         Contact.removeListener(this);
     }
 
+    @Override
     public void setChecked(boolean checked) {
+        Log.d("Debug", "ConversationList#setChecked");
         mConversation.setIsChecked(checked);
         updateBackground();
     }
 
+    @Override
     public boolean isChecked() {
         return mConversation.isChecked();
     }
 
+    @Override
     public void toggle() {
         mConversation.setIsChecked(!mConversation.isChecked());
     }

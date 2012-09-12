@@ -786,6 +786,10 @@
 
     <!-- An enumeration comma for separating multiple names in notifications. [CHAR LIMIT=2] -->
     <string name="enumeration_comma">,\u0020</string>
-
+    <string name="menu_combine">Combine Menu</string>
+    <string name="merge_pwd">Multi Forward</string>
+    <string name="select_text_msg_only">Please select text message only</string>
+    <string name="select_sms">Select Sms</string>
+    <string name="phone_number_default">Unknown</string>
 </resources>
 

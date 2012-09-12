@@ -39,6 +39,7 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 
 import com.android.mms.R;
+import com.android.mms.data.Conversation;
 import com.google.android.mms.MmsException;
 
 /**
@@ -47,6 +48,34 @@ import com.google.android.mms.MmsException;
 public class MessageListAdapter extends CursorAdapter {
     private static final String TAG = "MessageListAdapter";
     private static final boolean LOCAL_LOGV = false;
+
+    public static final String[] SMS_PROJECTION = new String[] {
+            BaseColumns._ID,
+            Conversations.THREAD_ID,
+            Sms.ADDRESS,
+            Sms.BODY,
+            Sms.DATE,
+            Sms.DATE_SENT,
+            Sms.READ,
+            Sms.TYPE,
+            Sms.STATUS,
+            Sms.LOCKED,
+            Sms.ERROR_CODE
+        };
+
+    // The indexes of the default columns which must be consistent
+    // with above SMS_PROJECTION
+    static final int SMS_COLUMN_ID = 0;
+    static final int SMS_COLUMN_THREAD_ID = 1;
+    static final int SMS_COLUMN_SMS_ADDRESS = 2;
+    static final int SMS_COLUMN_SMS_BODY = 3;
+    static final int SMS_COLUMN_SMS_DATE = 4;
+    static final int SMS_COLUMN_SMS_DATE_SENT = 5;
+    static final int SMS_COLUMN_SMS_READ = 6;
+    static final int SMS_COLUMN_SMS_TYPE = 7;
+    static final int SMS_COLUMN_SMS_STATUS = 8;
+    static final int SMS_COLUMN_SMS_LOCKED = 9;
+    static final int SMS_COLUMN_SMS_ERROR_CODE = 10;
 
     static final String[] PROJECTION = new String[] {
         // TODO: should move this symbol into com.android.mms.telephony.Telephony.
@@ -161,6 +190,7 @@ public class MessageListAdapter extends CursorAdapter {
                 int position = cursor.getPosition();
                 mli.bind(msgItem, position == cursor.getCount() - 1, position);
                 mli.setMsgListItemHandler(mMsgListItemHandler);
+                mli.updateBackground();
             }
         }
     }
@@ -483,6 +513,17 @@ public class MessageListAdapter extends CursorAdapter {
         protected void entryRemoved(boolean evicted, Long key,
                 MessageItem oldValue, MessageItem newValue) {
             oldValue.cancelPduLoading();
+        }
+    }
+
+    public void uncheckAll() {
+        int count = getCount();
+        for (int i = 0; i < count; i++) {
+            Cursor cursor = (Cursor) getItem(i);
+            String type = cursor.getString(mColumnsMap.mColumnMsgType);
+            long msgId = cursor.getLong(mColumnsMap.mColumnMsgId);
+            MessageItem msgItem = getCachedMessageItem(type, msgId, cursor);
+            msgItem.setIsChecked(false);
         }
     }
 }

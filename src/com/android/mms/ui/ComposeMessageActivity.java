@@ -24,6 +24,7 @@ import static com.android.mms.transaction.ProgressCallbackEntity.PROGRESS_START;
 import static com.android.mms.transaction.ProgressCallbackEntity.PROGRESS_STATUS_ACTION;
 import static com.android.mms.ui.MessageListAdapter.COLUMN_ID;
 import static com.android.mms.ui.MessageListAdapter.COLUMN_MSG_TYPE;
+import static com.android.mms.ui.MessageListAdapter.SMS_PROJECTION;
 import static com.android.mms.ui.MessageListAdapter.PROJECTION;
 
 import java.io.File;
@@ -34,6 +35,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -45,6 +47,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -72,6 +75,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
 import android.os.SystemProperties;
+import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
@@ -84,6 +88,7 @@ import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputFilter.LengthFilter;
@@ -95,12 +100,17 @@ import android.text.method.TextKeyListener;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.Log;
+import android.view.ActionMode.Callback;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.ActionMode;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewStub;
@@ -213,11 +223,13 @@ public class ComposeMessageActivity extends Activity
     private static final int MENU_UNLOCK_MESSAGE        = 29;
     private static final int MENU_SAVE_RINGTONE         = 30;
     private static final int MENU_PREFERENCES           = 31;
+    private static final int MENU_MERGE_FWD             = 32;
 
     private static final int RECIPIENTS_MAX_LENGTH = 312;
 
     private static final int MESSAGE_LIST_QUERY_TOKEN = 9527;
     private static final int MESSAGE_LIST_QUERY_AFTER_DELETE_TOKEN = 9528;
+    private static final int MERGE_FWD_SMS_QUERY_TOKEN = 9529;
 
     private static final int DELETE_MESSAGE_TOKEN  = 9700;
 
@@ -860,6 +872,7 @@ public class ComposeMessageActivity extends Activity
     private Uri getSelectedUriFromMessageList(ListView listView, int position) {
         // If the context menu was opened over a uri, get that uri.
         MessageListItem msglistItem = (MessageListItem) listView.getChildAt(position);
+
         if (msglistItem == null) {
             // FIXME: Should get the correct view. No such interface in ListView currently
             // to get the view by position. The ListView.getChildAt(position) cannot
@@ -1020,6 +1033,8 @@ public class ComposeMessageActivity extends Activity
 
                 menu.add(0, MENU_COPY_MESSAGE_TEXT, 0, R.string.copy_message_text)
                 .setOnMenuItemClickListener(l);
+                menu.add(0, MENU_MERGE_FWD, 0, R.string.merge_pwd)
+                .setOnMenuItemClickListener(l);
             }
 
             addCallAndContactMenuItems(menu, l, msgItem);
@@ -1091,6 +1106,7 @@ public class ComposeMessageActivity extends Activity
                 .setOnMenuItemClickListener(l);
         }
     };
+    private MergeForwardCallback mMergeForwardCallback;
 
     private void editMessageItem(MessageItem msgItem) {
         if ("sms".equals(msgItem.mType)) {
@@ -1301,10 +1317,50 @@ public class ComposeMessageActivity extends Activity
                     lockMessage(mMsgItem, false);
                     return true;
                 }
+                case MENU_MERGE_FWD: {
+                    startMergeFwdActionMode(mMsgItem);
+                    return true;
+                }
 
                 default:
                     return false;
             }
+        }
+
+    }
+
+    private void startMergeFwdActionMode(MessageItem msgItem) {
+        if (mMsgListView != null) {
+            Cursor cursor = mMsgListAdapter.getCursorForItem(msgItem);
+            int position = cursor.getPosition();
+            Log.d("Debug", "performLongClick position = " + position);
+            mMsgListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);//1
+            mMsgListView.setMultiChoiceModeListener(mMergeForwardCallback);//2
+            mMsgListView.setItemsCanFocus(true);//3
+            mMsgListView.setOnCreateContextMenuListener(null);//4
+            mMsgListView.setOnItemClickListener(null);//5
+//            mMsgListView.startActionMode(mMergeForwardCallback); //*
+            
+            // TODO Workround
+            boolean longClick = mMsgListView.performItemClick(mMsgListView.getChildAt(position), 0, mMsgListView.getChildAt(position).getId());
+            mMsgListView.setItemChecked(position, true);
+        }
+    }
+    
+    private void stopMergeFwdActionMode() {
+        if (mMsgListView != null) {
+            mMsgListView.setChoiceMode(ListView.CHOICE_MODE_NONE);//1
+            mMsgListView.setMultiChoiceModeListener(null);//2
+            mMsgListView.setItemsCanFocus(false);//3
+            mMsgListView.setOnCreateContextMenuListener(mMsgListMenuCreateListener);//4
+            mMsgListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (view != null) {
+                        ((MessageListItem) view).onMessageListItemClick();
+                    }
+                }
+            });//5
         }
     }
 
@@ -1817,6 +1873,7 @@ public class ComposeMessageActivity extends Activity
 
         mContentResolver = getContentResolver();
         mBackgroundQueryHandler = new BackgroundQueryHandler(mContentResolver);
+        mMergeForwardCallback = new MergeForwardCallback();
 
         initialize(savedInstanceState, 0);
 
@@ -2554,6 +2611,7 @@ public class ComposeMessageActivity extends Activity
         if (LogTag.DEBUG_DUMP) {
             menu.add(0, MENU_DEBUG_DUMP, 0, R.string.menu_debug_dump);
         }
+        menu.add(0, MENU_MERGE_FWD, 0, R.string.menu_combine);
 
         return true;
     }
@@ -2636,6 +2694,36 @@ public class ComposeMessageActivity extends Activity
                 startActivityIfNeeded(intent, -1);
                 break;
             }
+            case MENU_MERGE_FWD : {
+//                if (mToggle) {
+//                    mMsgListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);//1
+//                    mMsgListView.setMultiChoiceModeListener(new MergeForwardCallback());//2
+//                    mMsgListView.setItemsCanFocus(true);//3
+//                    mMsgListView.setOnCreateContextMenuListener(null);//4
+//                    mMsgListView.setOnItemClickListener(null);//5
+//                    mMsgListView.startActionMode(new MergeForwardCallback()); //*
+//                    boolean longClick = mMsgListView.performItemClick(mMsgListView.getChildAt(0), 0, mMsgListView.getChildAt(0).getId());
+//                    mMsgListView.setItemChecked(0, true);
+//                    Toast.makeText(this, "mToggle = true | longClick = " + longClick, Toast.LENGTH_SHORT).show();
+//                }else {
+//                    Toast.makeText(this, "mToggle = false", Toast.LENGTH_SHORT).show();
+//                    mMsgListView.setChoiceMode(ListView.CHOICE_MODE_NONE);//1
+//                    mMsgListView.setMultiChoiceModeListener(null);//2
+//                    mMsgListView.setItemsCanFocus(false);//3
+//                    mMsgListView.setOnCreateContextMenuListener(mMsgListMenuCreateListener);//4
+//                    mMsgListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                            if (view != null) {
+//                                ((MessageListItem) view).onMessageListItemClick();
+//                            }
+//                        }
+//                    });//5
+//                }
+//
+//                mToggle = !mToggle;
+                break;
+            }
             case MENU_DEBUG_DUMP:
                 mWorkingMessage.dump();
                 Conversation.dump();
@@ -2645,7 +2733,7 @@ public class ComposeMessageActivity extends Activity
 
         return true;
     }
-
+    private boolean mToggle = false;
     private void confirmDeleteThread(long threadId) {
         Conversation.startQueryHaveLockedMessages(mBackgroundQueryHandler,
                 threadId, ConversationList.HAVE_LOCKED_MESSAGES_TOKEN);
@@ -3959,6 +4047,12 @@ public class ComposeMessageActivity extends Activity
                         }
                     }
                     cursor.close();
+                case MERGE_FWD_SMS_QUERY_TOKEN:
+                    if (cursor != null) {
+                        forwardMessages(cursor);
+                        cursor.close();
+                    }
+                    break;
             }
         }
 
@@ -4156,5 +4250,180 @@ public class ComposeMessageActivity extends Activity
             MessagingNotification.setCurrentlyDisplayedThreadId(mConversation.getThreadId());
         }
         // If we're not running, but resume later, the current thread ID will be set in onResume()
+    }
+
+    private class MergeForwardCallback implements ListView.MultiChoiceModeListener {
+        private View mMultiSelectActionBarView;
+        private TextView mSelectedConvCount;
+        private HashSet<Long> mSelectedThreadIds;
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = getMenuInflater();
+            mSelectedThreadIds = new HashSet<Long>();
+            inflater.inflate(R.menu.cma_mergefwd_multi_select_menu, menu);
+
+            if (mMultiSelectActionBarView == null) {
+                mMultiSelectActionBarView = LayoutInflater.from(ComposeMessageActivity.this)
+                        .inflate(R.layout.conversation_list_multi_select_actionbar, null);
+
+                mSelectedConvCount =
+                        (TextView) mMultiSelectActionBarView.findViewById(R.id.selected_conv_count);
+            }
+            mode.setCustomView(mMultiSelectActionBarView);
+            ((TextView) mMultiSelectActionBarView.findViewById(R.id.title))
+                    .setText(R.string.select_sms);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return true;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.merge_pwd:
+                    querySelectedTextMsgs(mSelectedThreadIds, mBackgroundQueryHandler);
+                    mode.finish();
+                    break;
+
+                default:
+                    break;
+            }
+            return true;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            if (mMsgListView.getChoiceMode() == ListView.CHOICE_MODE_MULTIPLE_MODAL) {
+                MessageListAdapter adapter = mMsgListAdapter;
+                adapter.uncheckAll();
+                mSelectedThreadIds = null;
+
+                stopMergeFwdActionMode();
+            }
+        }
+
+        @Override
+        public void onItemCheckedStateChanged(ActionMode mode,
+                int position, long id, boolean checked) {
+            ListView listView = mMsgListView;
+            MessageListAdapter adapter = mMsgListAdapter;
+
+            Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+            String type = cursor.getString(COLUMN_MSG_TYPE);
+            long msgId = cursor.getLong(COLUMN_ID);
+            MessageItem msgItem = adapter.getCachedMessageItem(type, msgId, cursor);
+            if (msgItem != null && msgItem.isSms()) {
+                msgItem.setIsChecked(checked);
+
+                if (checked) {
+                    mSelectedThreadIds.add(msgId);
+                } else {
+                    mSelectedThreadIds.remove(msgId);
+                }
+            } else if (listView.isItemChecked(position)) {
+                listView.setItemChecked(position, false);
+                Toast.makeText(ComposeMessageActivity.this, R.string.select_text_msg_only,
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            final int checkedCount = listView.getCheckedItemCount();
+            mSelectedConvCount.setText(Integer.toString(checkedCount));
+        }
+    }
+
+    private void querySelectedTextMsgs(Collection<Long> msgIds, AsyncQueryHandler handler) {
+        Uri conversationUri = Uri.parse("content://sms");
+
+        long threadId = mConversation.getThreadId();
+
+        // Cancel any pending queries
+        handler.cancelOperation(MERGE_FWD_SMS_QUERY_TOKEN);
+
+        try {
+            StringBuilder selection = new StringBuilder(BaseColumns._ID + " IN (");
+            if (msgIds != null && msgIds.size() != 0) {
+                int i = 1;
+                for (long id : msgIds) {
+                    selection.append(id);
+                    if (i < msgIds.size()) {
+                        selection.append(", ");
+                    }
+                    i++;
+                }
+            }
+            selection.append(")");
+
+            // Kick off the new query
+            handler.startQuery(
+                    MERGE_FWD_SMS_QUERY_TOKEN,
+                    threadId /* cookie */,
+                    conversationUri,
+                    SMS_PROJECTION,
+                    selection.toString(), null, "date ASC");
+        } catch (SQLiteException e) {
+            SqliteWrapper.checkSQLiteException(ComposeMessageActivity.this, e);
+        }
+    }
+
+    /**
+     * Convert several text messages to a long message, then forward it.
+     *
+     * @param cursor The cursor wrapped the all selected text messages
+     */
+    private void forwardMessages(Cursor cursor) {
+        Intent intent = createIntent(this, 0);
+
+        intent.putExtra("exit_on_sent", true);
+        intent.putExtra("forwarded_message", true);
+
+        // TODO: Confirm the long message style
+        StringBuilder body = new StringBuilder();
+        StringBuilder from = new StringBuilder();
+        StringBuilder to = new StringBuilder();
+        StringBuilder date = new StringBuilder();
+        String spilteLine = "-----------------------------\n";
+
+        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String phone_number = tm.getLine1Number();  // may be null or empty
+        if (!TextUtils.isEmpty(phone_number)) {
+            phone_number = PhoneNumberUtils.formatNumber(phone_number);
+        }else {
+            phone_number = getString(R.string.phone_number_default);
+        }
+
+        // From
+        // To
+        // Body
+        // Date
+        // --------------(Splite line)
+        while (cursor.moveToNext()) {
+            from = new StringBuilder();
+            to = new StringBuilder();
+            date = new StringBuilder();
+
+            if (cursor.getInt(MessageListAdapter.SMS_COLUMN_SMS_TYPE) == Sms.MESSAGE_TYPE_INBOX) {
+                from.append(getString(R.string.from_label)).append(
+                        cursor.getString(MessageListAdapter.SMS_COLUMN_SMS_ADDRESS)).append('\n');
+                to.append(getString(R.string.to_address_label)).append(phone_number).append('\n');
+            } else {
+                from.append(getString(R.string.from_label)).append(phone_number).append('\n');
+                to.append(getString(R.string.to_address_label)).append(
+                        cursor.getString(MessageListAdapter.SMS_COLUMN_SMS_ADDRESS)).append('\n');
+            }
+            date.append(MessageUtils.formatTimeStampString(this,
+                    cursor.getLong(MessageListAdapter.SMS_COLUMN_SMS_DATE), true))
+                    .append('\n');
+            body.append(from).append(to).append(
+                    cursor.getString(MessageListAdapter.SMS_COLUMN_SMS_BODY)).append('\n')
+                    .append(date).append(spilteLine);
+        }
+
+        intent.putExtra("sms_body", body.toString());
+        intent.setClassName(this, "com.android.mms.ui.ForwardMessageActivity");
+        startActivity(intent);
     }
 }
