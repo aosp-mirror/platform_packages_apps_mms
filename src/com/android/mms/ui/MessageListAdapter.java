@@ -243,7 +243,7 @@ public class MessageListAdapter extends CursorAdapter {
 
     private boolean isCursorValid(Cursor cursor) {
         // Check whether the cursor is valid or not.
-        if (cursor.isClosed() || cursor.isBeforeFirst() || cursor.isAfterLast()) {
+        if (cursor == null || cursor.isClosed() || cursor.isBeforeFirst() || cursor.isAfterLast()) {
             return false;
         }
         return true;

@@ -214,6 +214,7 @@ public class ComposeMessageActivity extends Activity
     private static final int MENU_UNLOCK_MESSAGE        = 29;
     private static final int MENU_SAVE_RINGTONE         = 30;
     private static final int MENU_PREFERENCES           = 31;
+    private static final int MENU_GROUP_PARTICIPANTS    = 32;
 
     private static final int RECIPIENTS_MAX_LENGTH = 312;
 
@@ -310,6 +311,8 @@ public class ComposeMessageActivity extends Activity
      * Whether this activity is currently running (i.e. not paused)
      */
     private boolean mIsRunning;
+
+    public final static String THREAD_ID = "thread_id";     // key for extras and icicles
 
     @SuppressWarnings("unused")
     public static void log(String logMsg) {
@@ -1216,7 +1219,7 @@ public class ComposeMessageActivity extends Activity
                 intent.putExtra("exit_on_sent", true);
                 intent.putExtra("forwarded_message", true);
                 if (mTempThreadId > 0) {
-                    intent.putExtra("thread_id", mTempThreadId);
+                    intent.putExtra(THREAD_ID, mTempThreadId);
                 }
 
                 if (msgItem.mType.equals("sms")) {
@@ -1971,7 +1974,7 @@ public class ComposeMessageActivity extends Activity
         // draft, ensureThreadId gets called async from WorkingMessage.asyncUpdateDraftSmsMessage
         // the thread will get a threadId behind the UI thread's back.
         long originalThreadId = mConversation.getThreadId();
-        long threadId = intent.getLongExtra("thread_id", 0);
+        long threadId = intent.getLongExtra(THREAD_ID, 0);
         Uri intentUri = intent.getData();
 
         boolean sameThread = false;
@@ -2549,6 +2552,10 @@ public class ComposeMessageActivity extends Activity
                     R.drawable.ic_menu_emoticons);
         }
 
+        if (getRecipients().size() > 1) {
+            menu.add(0, MENU_GROUP_PARTICIPANTS, 0, R.string.menu_group_participants);
+        }
+
         if (mMsgListAdapter.getCount() > 0) {
             // Removed search as part of b/1205708
             //menu.add(0, MENU_SEARCH, 0, R.string.menu_search).setIcon(
@@ -2638,6 +2645,13 @@ public class ComposeMessageActivity extends Activity
             case MENU_INSERT_SMILEY:
                 showSmileyDialog();
                 break;
+            case MENU_GROUP_PARTICIPANTS:
+            {
+                Intent intent = new Intent(this, RecipientListActivity.class);
+                intent.putExtra(THREAD_ID, mConversation.getThreadId());
+                startActivity(intent);
+                break;
+            }
             case MENU_VIEW_CONTACT: {
                 // View the contact for the first (and only) recipient.
                 ContactList list = getRecipients();
@@ -3698,7 +3712,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         // If we have been passed a thread_id, use that to find our conversation.
-        long threadId = intent.getLongExtra("thread_id", 0);
+        long threadId = intent.getLongExtra(THREAD_ID, 0);
         if (threadId > 0) {
             if (LogTag.VERBOSE) log("get mConversation by threadId " + threadId);
             mConversation = Conversation.get(this, threadId, false);
