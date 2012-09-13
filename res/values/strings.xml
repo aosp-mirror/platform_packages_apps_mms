@@ -629,6 +629,8 @@
     <string name="saved_ringtone_fail">Couldn\'t save ringtone.</string>
     <!-- Menu item -->
     <string name="menu_insert_smiley">Insert smiley</string>
+    <!-- Menu item  [CHAR LIMIT=40] -->
+    <string name="menu_group_participants">Group participants</string>
 
     <!-- This is the dialog title for the "Select link" dialog, shown when the user clicks on a
     chat in the chat history view if there are links in the chat message. The dialog displays the
@@ -658,6 +660,9 @@
 
     <!-- Title of the slideshow editor activity. -->
     <string name="edit_slideshow_activity">Edit slideshow</string>
+
+    <!-- Title of the recipient list activity. [CHAR LIMIT=NONE] -->
+    <string name="recipient_list_activity">Group participants</string>
 
     <!-- Title of the slide editor activity. -->
     <string name="edit_slide_activity">Edit slide</string>
