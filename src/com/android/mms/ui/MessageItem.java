@@ -169,7 +169,7 @@ public class MessageItem {
                 EncodedStringValue v = new EncodedStringValue(
                         cursor.getInt(columnsMap.mColumnMmsSubjectCharset),
                         PduPersister.getBytes(subject));
-                mSubject = v.getString();
+                mSubject = MessageUtils.cleanseMmsSubject(context, v.getString());
             }
             mLocked = cursor.getInt(columnsMap.mColumnMmsLocked) != 0;
             mSlideshow = null;
