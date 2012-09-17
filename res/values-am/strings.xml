@@ -286,8 +286,7 @@
     <string name="saved_ringtone" msgid="3847363932276708626">"የደውል ቅላጼ ተቀምጧል"</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"የደውል ቅላጼ ማስቀመጥ አልተቻለም"</string>
     <string name="menu_insert_smiley" msgid="4964504393061025071">"ፈገግታ ጨምር"</string>
-    <!-- no translation found for menu_group_participants (4288356090262299071) -->
-    <skip />
+    <string name="menu_group_participants" msgid="4288356090262299071">"የቡድን ተሳታፊዎች"</string>
     <string name="select_link_title" msgid="3371818607625768447">"እርምጃ ምረጥ"</string>
     <string name="slide_number" msgid="1923958526266726635">"ስላይድ<xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
@@ -299,8 +298,7 @@
     <string name="storage_limits_activity" msgid="8810530813311077716">"የማከማቻ ወሰኖች"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"የጊዜ ርዝመት ለውጥ"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"ስላይድ ትዕይንት አርትዕ"</string>
-    <!-- no translation found for recipient_list_activity (1254938236543727019) -->
-    <skip />
+    <string name="recipient_list_activity" msgid="1254938236543727019">"የቡድን ተሳታፊዎች"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"ስላይድ አርትዕ"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"ስላይድ ትዕይንት"</string>
     <string name="class_0_message_activity" msgid="6631339964159861048">"የክፍል 0 መልዕክት"</string>
