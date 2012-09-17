@@ -6,5 +6,7 @@
     android:minHeight="220dp"
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/widget"
-    android:resizeMode="horizontal|vertical">
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen|keyguard"
+    android:widgetFeatures="none">
 </appwidget-provider>
