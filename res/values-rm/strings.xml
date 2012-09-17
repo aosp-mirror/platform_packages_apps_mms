@@ -339,6 +339,8 @@
     <!-- no translation found for saved_ringtone_fail (4778500070919251116) -->
     <skip />
     <string name="menu_insert_smiley" msgid="4964504393061025071">"Inserir in emoticon"</string>
+    <!-- no translation found for menu_group_participants (4288356090262299071) -->
+    <skip />
     <!-- no translation found for select_link_title (3371818607625768447) -->
     <skip />
     <string name="slide_number" msgid="1923958526266726635">"Dia <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -351,6 +353,8 @@
     <string name="storage_limits_activity" msgid="8810530813311077716">"Limitas da memorisaziun"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"Midar la durada"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"Modifitgar la preschentaziun da dia"</string>
+    <!-- no translation found for recipient_list_activity (1254938236543727019) -->
+    <skip />
     <string name="edit_slide_activity" msgid="8752829671778696983">"Modifitgar il dia"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Preschentaziun da dia"</string>
     <!-- no translation found for class_0_message_activity (6631339964159861048) -->
