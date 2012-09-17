@@ -204,6 +204,9 @@ public class MessagingNotification {
     public static void setCurrentlyDisplayedThreadId(long threadId) {
         synchronized (sCurrentlyDisplayedThreadLock) {
             sCurrentlyDisplayedThreadId = threadId;
+            if (DEBUG) {
+                Log.d(TAG, "setCurrentlyDisplayedThreadId: " + sCurrentlyDisplayedThreadId);
+            }
         }
     }
 
