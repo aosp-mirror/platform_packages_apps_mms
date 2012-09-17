@@ -313,6 +313,7 @@ public class Conversation {
             return;
         }
         final Uri threadUri = getUri();
+        final long threadId = mThreadId > 0 ? mThreadId : MessagingNotification.THREAD_NONE;
 
         new AsyncTask<Void, Void, Void>() {
             protected Void doInBackground(Void... none) {
@@ -349,7 +350,7 @@ public class Conversation {
                     setHasUnreadMessages(false);
                 }
                 // Always update notifications regardless of the read state.
-                MessagingNotification.blockingUpdateAllNotifications(mContext);
+                MessagingNotification.blockingUpdateAllNotifications(mContext, threadId);
 
                 return null;
             }
@@ -1036,7 +1037,8 @@ public class Conversation {
                 blockingMarkAllMmsMessagesAsSeen(context);
 
                 // Always update notifications regardless of the read state.
-                MessagingNotification.blockingUpdateAllNotifications(context);
+                MessagingNotification.blockingUpdateAllNotifications(context,
+                        MessagingNotification.THREAD_NONE);
             }
         }, "Conversation.markAllConversationsAsSeen");
         thread.setPriority(Thread.MIN_PRIORITY);
