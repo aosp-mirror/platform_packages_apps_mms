@@ -217,6 +217,11 @@ public class MessagingNotification {
     public static void nonBlockingUpdateNewMessageIndicator(final Context context,
             final long newMsgThreadId,
             final boolean isStatusMessage) {
+        if (DEBUG) {
+            Log.d(TAG, "nonBlockingUpdateNewMessageIndicator: newMsgThreadId: " +
+                    newMsgThreadId +
+                    " sCurrentlyDisplayedThreadId: " + sCurrentlyDisplayedThreadId);
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -298,8 +303,8 @@ public class MessagingNotification {
      * Updates all pending notifications, clearing or updating them as
      * necessary.
      */
-    public static void blockingUpdateAllNotifications(final Context context) {
-        nonBlockingUpdateNewMessageIndicator(context, THREAD_NONE, false);
+    public static void blockingUpdateAllNotifications(final Context context, long threadId) {
+        nonBlockingUpdateNewMessageIndicator(context, threadId, false);
         nonBlockingUpdateSendFailedNotification(context);
         updateDownloadFailedNotification(context);
         MmsWidgetProvider.notifyDatasetChanged(context);
@@ -590,6 +595,7 @@ public class MessagingNotification {
                     }
                 } catch (final MmsException e) {
                     Log.e(TAG, "MmsException loading uri: " + msgUri, e);
+                    continue;   // skip this bad boy -- don't generate an empty notification
                 }
 
                 NotificationInfo info = getNewMessageNotificationInfo(context,
