@@ -105,7 +105,6 @@
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Uw bericht heeft geen geldige ontvangers."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"Het DRM-object in het bericht kan niet worden doorgestuurd."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"Converteren naar MMS-bericht..."</string>
-    <string name="converting_to_text_message" msgid="6374423235426015422">"Converteren naar sms..."</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"Kan niet meer dia\'s toevoegen."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"Kan video en afbeelding niet toevoegen aan één dia."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"Kan bericht niet opslaan."</string>
@@ -287,6 +286,7 @@
     <string name="saved_ringtone" msgid="3847363932276708626">"Beltoon opgeslagen."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Kan beltoon niet opslaan."</string>
     <string name="menu_insert_smiley" msgid="4964504393061025071">"Smiley invoegen"</string>
+    <string name="menu_group_participants" msgid="4288356090262299071">"Groepsdeelnemers"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Actie selecteren"</string>
     <string name="slide_number" msgid="1923958526266726635">"Dia <xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
@@ -298,6 +298,7 @@
     <string name="storage_limits_activity" msgid="8810530813311077716">"Opslaglimieten"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"Duur wijzigen"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"Diavoorstelling bewerken"</string>
+    <string name="recipient_list_activity" msgid="1254938236543727019">"Groepsdeelnemers"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"Dia bewerken"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Diavoorstelling"</string>
     <string name="class_0_message_activity" msgid="6631339964159861048">"Berichtklasse 0"</string>
@@ -344,6 +345,5 @@
     <string name="attachment_picture" msgid="3709286281567284296">"Afbeelding"</string>
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">", "</string>
-    <!-- no translation found for message_timestamp_format (4188999027493614617) -->
-    <skip />
+    <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
 </resources>

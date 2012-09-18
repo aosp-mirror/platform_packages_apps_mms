@@ -33,7 +33,7 @@
     <string name="menu_delete" msgid="1851666911396479006">"刪除會話串"</string>
     <string name="menu_view" msgid="7448852683948080108">"檢視串連"</string>
     <string name="menu_debug_dump" msgid="6855869130206549643">"DEBUG DUMP"</string>
-    <string name="refreshing" msgid="987335057871404222">"重新整理中..."</string>
+    <string name="refreshing" msgid="987335057871404222">"重新整理中…"</string>
     <string name="menu_cell_broadcasts" msgid="5646161375983084660">"區域廣播"</string>
     <string name="has_draft" msgid="2487465595514636160">"草稿"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(沒有主旨)"</string>
@@ -85,7 +85,7 @@
     <string name="all_threads" msgid="2663426830306307194">"所有會話群組"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"輸入訊息"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"開啟鍵盤即可輸入訊息"</string>
-    <string name="compressing" msgid="1961357529661045180">"相片太大，壓縮中..."</string>
+    <string name="compressing" msgid="1961357529661045180">"相片太大，壓縮中…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"不支援的<xliff:g id="NAME">%1$s</xliff:g>格式。"</string>
     <string name="select_different_media" msgid="6241623357299382183">"請選擇其他<xliff:g id="NAME">%1$s</xliff:g>。"</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"已達最大簡訊長度。"</string>
@@ -105,7 +105,6 @@
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"您的簡訊沒有正確的收件者。"</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"無法轉寄訊息中的 DRM 物件。"</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"正在轉換成多媒體訊息…"</string>
-    <string name="converting_to_text_message" msgid="6374423235426015422">"正在轉換成簡訊…"</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"無法新增更多投影片。"</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"無法在一張投影片中同時加入影片和圖片。"</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"無法儲存訊息。"</string>
@@ -287,6 +286,7 @@
     <string name="saved_ringtone" msgid="3847363932276708626">"已儲存鈴聲。"</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"無法儲存鈴聲。"</string>
     <string name="menu_insert_smiley" msgid="4964504393061025071">"插入表情符號"</string>
+    <string name="menu_group_participants" msgid="4288356090262299071">"群組參與者"</string>
     <string name="select_link_title" msgid="3371818607625768447">"選擇動作"</string>
     <string name="slide_number" msgid="1923958526266726635">"投影片 <xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
@@ -298,6 +298,7 @@
     <string name="storage_limits_activity" msgid="8810530813311077716">"儲存空間上限"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"變更長度"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"編輯投影播放"</string>
+    <string name="recipient_list_activity" msgid="1254938236543727019">"群組參與者"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"編輯投影片"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"投影播放"</string>
     <string name="class_0_message_activity" msgid="6631339964159861048">"等級 0 訊息"</string>
@@ -321,9 +322,9 @@
     <string name="storage_limits_setting" msgid="4952781049308537373">"設定上限"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"不設定上限"</string>
     <string name="too_many_unsent_mms" msgid="4436493698891224126">"尚未傳送的多媒體訊息過多，因此目前無法傳送訊息。"</string>
-    <string name="sending_message" msgid="2054406576361149715">"傳送中..."</string>
+    <string name="sending_message" msgid="2054406576361149715">"傳送中…"</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"收件者過多"</string>
-    <string name="adding_recipients" msgid="2962810172527532357">"正在新增收件者..."</string>
+    <string name="adding_recipients" msgid="2962810172527532357">"正在新增收件者…"</string>
     <string name="draft_separator" msgid="5402575086540243019">"， "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
     <string name="message_count_notification" msgid="3629968600032690007">"<xliff:g id="NUMBER">%1$s</xliff:g> 則新訊息"</string>
@@ -344,6 +345,5 @@
     <string name="attachment_picture" msgid="3709286281567284296">"圖片"</string>
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">"、 "</string>
-    <!-- no translation found for message_timestamp_format (4188999027493614617) -->
-    <skip />
+    <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
 </resources>
