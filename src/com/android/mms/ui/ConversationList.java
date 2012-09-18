@@ -86,6 +86,7 @@ import com.google.android.mms.pdu.PduHeaders;
 public class ConversationList extends ListActivity implements DraftCache.OnDraftChangedListener {
     private static final String TAG = "ConversationList";
     private static final boolean DEBUG = false;
+    private static final boolean DEBUGCLEANUP = true;
     private static final boolean LOCAL_LOGV = DEBUG;
 
     private static final int THREAD_LIST_QUERY_TOKEN       = 1701;
@@ -701,8 +702,15 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
             if (DraftCache.getInstance().getSavingDraft()) {
                 // We're still saving a draft. Try again in a second. We don't want to delete
                 // any threads out from under the draft.
+                if (DEBUGCLEANUP) {
+                    LogTag.debug("mDeleteObsoleteThreadsRunnable saving draft, trying again");
+                }
                 mHandler.postDelayed(mDeleteObsoleteThreadsRunnable, 1000);
             } else {
+                if (DEBUGCLEANUP) {
+                    LogTag.debug("mDeleteObsoleteThreadsRunnable calling " +
+                            "asyncDeleteObsoleteThreads");
+                }
                 Conversation.asyncDeleteObsoleteThreads(mQueryHandler,
                         DELETE_OBSOLETE_THREADS_TOKEN);
             }
@@ -816,7 +824,9 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                 break;
 
             case DELETE_OBSOLETE_THREADS_TOKEN:
-                // Nothing to do here.
+                if (DEBUGCLEANUP) {
+                    LogTag.debug("onQueryComplete finished DELETE_OBSOLETE_THREADS_TOKEN");
+                }
                 break;
             }
         }
