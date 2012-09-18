@@ -105,7 +105,6 @@
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Az üzenetnek nincsenek érvényes címzettjei."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"Az üzenetben található DRM-objektum nem továbbítható."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"Konvertálás multimédiás üzenetté..."</string>
-    <string name="converting_to_text_message" msgid="6374423235426015422">"Konvertálás szöveges üzenetté..."</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"Nem lehet további diákat hozzáadni."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"Nem lehet ugyanahhoz a diához videót és képet is hozzáadni."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"Nem lehet menteni az üzenetet."</string>
@@ -287,6 +286,7 @@
     <string name="saved_ringtone" msgid="3847363932276708626">"A csengőhang mentve."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Nem sikerült menteni a csengőhangot."</string>
     <string name="menu_insert_smiley" msgid="4964504393061025071">"Hangulatjel beszúrása"</string>
+    <string name="menu_group_participants" msgid="4288356090262299071">"Résztvevők csoportosítása"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Művelet kiválasztása"</string>
     <string name="slide_number" msgid="1923958526266726635">"<xliff:g id="NUMBER">%s</xliff:g>. dia"</string>
   <plurals name="slide_duration">
@@ -298,6 +298,7 @@
     <string name="storage_limits_activity" msgid="8810530813311077716">"Tárhelykorlátok"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"Időtartam módosítása"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"Diavetítés szerkesztése"</string>
+    <string name="recipient_list_activity" msgid="1254938236543727019">"Résztvevők csoportosítása"</string>
     <string name="edit_slide_activity" msgid="8752829671778696983">"Dia szerkesztése"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Diavetítés"</string>
     <string name="class_0_message_activity" msgid="6631339964159861048">"0. osztályú üzenet"</string>
@@ -344,6 +345,5 @@
     <string name="attachment_picture" msgid="3709286281567284296">"Kép"</string>
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">", "</string>
-    <!-- no translation found for message_timestamp_format (4188999027493614617) -->
-    <skip />
+    <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> – <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
 </resources>
