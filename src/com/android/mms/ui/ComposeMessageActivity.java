@@ -179,7 +179,7 @@ public class ComposeMessageActivity extends Activity
 
     private static final String TAG = "Mms/compose";
 
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     private static final boolean TRACE = false;
     private static final boolean LOCAL_LOGV = false;
 
@@ -2176,6 +2176,12 @@ public class ComposeMessageActivity extends Activity
     protected void onPause() {
         super.onPause();
 
+        if (DEBUG) {
+            Log.v(TAG, "onPause: setCurrentlyDisplayedThreadId: " +
+                        MessagingNotification.THREAD_NONE);
+        }
+        MessagingNotification.setCurrentlyDisplayedThreadId(MessagingNotification.THREAD_NONE);
+
         // OLD: stop getting notified of presence updates to update the titlebar.
         // NEW: we are using ContactHeaderWidget which displays presence, but updating presence
         //      there is out of our control.
@@ -2187,8 +2193,6 @@ public class ComposeMessageActivity extends Activity
         if (mAsyncDialog != null) {
             mAsyncDialog.clearPendingProgressDialog();
         }
-
-        MessagingNotification.setCurrentlyDisplayedThreadId(MessagingNotification.THREAD_NONE);
 
         // Remember whether the list is scrolled to the end when we're paused so we can rescroll
         // to the end when resumed.
@@ -4190,7 +4194,16 @@ public class ComposeMessageActivity extends Activity
 
     private void updateThreadIdIfRunning() {
         if (mIsRunning && mConversation != null) {
+            if (DEBUG) {
+                Log.v(TAG, "updateThreadIdIfRunning: threadId: " +
+                        mConversation.getThreadId());
+            }
             MessagingNotification.setCurrentlyDisplayedThreadId(mConversation.getThreadId());
+        } else {
+            if (DEBUG) {
+                Log.v(TAG, "updateThreadIdIfRunning: mIsRunning: " + mIsRunning +
+                        " mConversation: " + mConversation);
+            }
         }
         // If we're not running, but resume later, the current thread ID will be set in onResume()
     }
