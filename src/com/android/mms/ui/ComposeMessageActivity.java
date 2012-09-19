@@ -268,9 +268,6 @@ public class ComposeMessageActivity extends Activity
     private boolean mIsKeyboardOpen;             // Whether the hardware keyboard is visible
     private boolean mIsLandscape;                // Whether we're in landscape mode
 
-    private boolean mPossiblePendingNotification;   // If the message list has changed, we may have
-                                                    // a pending notification to deal with.
-
     private boolean mToastForDraftSave;   // Whether to notify the user that a draft is being saved
 
     private boolean mSentMessage;       // true if the user has sent a message while in this
@@ -2170,6 +2167,7 @@ public class ComposeMessageActivity extends Activity
 
         mIsRunning = true;
         updateThreadIdIfRunning();
+        mConversation.markAsRead();
     }
 
     @Override
@@ -2206,6 +2204,7 @@ public class ComposeMessageActivity extends Activity
             Log.v(TAG, "onPause: mSavedScrollPosition=" + mSavedScrollPosition);
         }
 
+        mConversation.markAsRead();
         mIsRunning = false;
     }
 
@@ -2297,11 +2296,6 @@ public class ComposeMessageActivity extends Activity
             mTextEditor.setFocusable(false);
             mTextEditor.setHint(R.string.open_keyboard_to_compose_message);
         }
-    }
-
-    @Override
-    public void onUserInteraction() {
-        checkPendingNotification();
     }
 
     @Override
@@ -3773,8 +3767,6 @@ public class ComposeMessageActivity extends Activity
                     mDataSetChangedListener = new MessageListAdapter.OnDataSetChangedListener() {
         @Override
         public void onDataSetChanged(MessageListAdapter adapter) {
-            mPossiblePendingNotification = true;
-            checkPendingNotification();
         }
 
         @Override
@@ -3782,13 +3774,6 @@ public class ComposeMessageActivity extends Activity
             startMsgListQuery();
         }
     };
-
-    private void checkPendingNotification() {
-        if (mPossiblePendingNotification && hasWindowFocus()) {
-            mConversation.markAsRead();
-            mPossiblePendingNotification = false;
-        }
-    }
 
     /**
      * smoothScrollToEnd will scroll the message list to the bottom if the list is already near

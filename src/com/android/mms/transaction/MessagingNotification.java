@@ -245,17 +245,6 @@ public class MessagingNotification {
      */
     public static void blockingUpdateNewMessageIndicator(Context context, long newMsgThreadId,
             boolean isStatusMessage) {
-        synchronized (sCurrentlyDisplayedThreadLock) {
-            if (newMsgThreadId > 0 && newMsgThreadId == sCurrentlyDisplayedThreadId) {
-                if (DEBUG) {
-                    Log.d(TAG, "blockingUpdateNewMessageIndicator: newMsgThreadId == " +
-                            "sCurrentlyDisplayedThreadId so NOT showing notification," +
-                            " but playing soft sound. threadId: " + newMsgThreadId);
-                }
-                playInConversationNotificationSound(context);
-                return;
-            }
-        }
         // notificationSet is kept sorted by the incoming message delivery time, with the
         // most recent message first.
         SortedSet<NotificationInfo> notificationSet =
@@ -272,8 +261,21 @@ public class MessagingNotification {
                 Log.d(TAG, "blockingUpdateNewMessageIndicator: count=" + notificationSet.size() +
                         ", newMsgThreadId=" + newMsgThreadId);
             }
+            synchronized (sCurrentlyDisplayedThreadLock) {
+                if (newMsgThreadId > 0 && newMsgThreadId == sCurrentlyDisplayedThreadId) {
+                    if (DEBUG) {
+                        Log.d(TAG, "blockingUpdateNewMessageIndicator: newMsgThreadId == " +
+                                "sCurrentlyDisplayedThreadId so NOT showing notification," +
+                                " but playing soft sound. threadId: " + newMsgThreadId);
+                    }
+                    playInConversationNotificationSound(context);
+                    return;
+                }
+            }
             updateNotification(context, newMsgThreadId != THREAD_NONE, threads.size(),
                     notificationSet);
+        } else if (DEBUG) {
+            Log.d(TAG, "blockingUpdateNewMessageIndicator: notificationSet is empty");
         }
 
         // And deals with delivery reports (which use Toasts). It's safe to call in a worker
@@ -753,6 +755,9 @@ public class MessagingNotification {
         NotificationManager nm = (NotificationManager) context.getSystemService(
                 Context.NOTIFICATION_SERVICE);
 
+        if (DEBUG) {
+            Log.d(TAG, "cancelNotification");
+        }
         nm.cancel(notificationId);
     }
 

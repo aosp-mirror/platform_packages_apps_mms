@@ -349,7 +349,8 @@ public class Conversation {
                     }
                     setHasUnreadMessages(false);
                 }
-                // Always update notifications regardless of the read state.
+                // Always update notifications regardless of the read state, which is usually
+                // canceling the notification of the thread that was just marked read.
                 MessagingNotification.blockingUpdateAllNotifications(mContext, threadId);
 
                 return null;
@@ -732,7 +733,9 @@ public class Conversation {
             sDeletingThreads = true;
             String selection = deleteAll ? null : "locked=0";
 
-            MmsApp.getApplication().getPduLoaderManager().clear();
+            MmsApp app = MmsApp.getApplication();
+            app.getPduLoaderManager().clear();
+            app.getThumbnailManager().clear();
 
             handler.setDeleteToken(token);
             handler.startDelete(token, new Long(-1), Threads.CONTENT_URI, selection, null);
