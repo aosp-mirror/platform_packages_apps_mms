@@ -30,6 +30,7 @@ import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
+import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.util.DraftCache;
 
@@ -39,6 +40,7 @@ import com.android.mms.util.DraftCache;
 public class Conversation {
     private static final String TAG = "Mms/conv";
     private static final boolean DEBUG = false;
+    private static final boolean DELETEDEBUG = true;
 
     public static final Uri sAllThreadsUri =
         Threads.CONTENT_URI.buildUpon().appendQueryParameter("simple", "true").build();
@@ -416,13 +418,13 @@ public class Conversation {
      * @return The thread ID of this conversation in the database
      */
     public synchronized long ensureThreadId() {
-        if (DEBUG) {
+        if (DEBUG || DELETEDEBUG) {
             LogTag.debug("ensureThreadId before: " + mThreadId);
         }
         if (mThreadId <= 0) {
             mThreadId = getOrCreateThreadId(mContext, mRecipients);
         }
-        if (DEBUG) {
+        if (DEBUG || DELETEDEBUG) {
             LogTag.debug("ensureThreadId after: " + mThreadId);
         }
 
@@ -457,7 +459,7 @@ public class Conversation {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             Log.d(TAG, "setRecipients after: " + this.toString());
         }
-}
+    }
 
     /**
      * Returns the recipient set of this conversation.
@@ -568,6 +570,10 @@ public class Conversation {
             }
         }
         synchronized(sDeletingThreadsLock) {
+            if (DELETEDEBUG) {
+                ComposeMessageActivity.log("Conversation getOrCreateThreadId for: " +
+                        list.formatNamesAndNumbers(",") + " sDeletingThreads: " + sDeletingThreads);
+            }
             long now = System.currentTimeMillis();
             while (sDeletingThreads) {
                 try {
@@ -584,7 +590,7 @@ public class Conversation {
                 }
             }
             long retVal = Threads.getOrCreateThreadId(context, recipients);
-            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            if (DELETEDEBUG || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 LogTag.debug("[Conversation] getOrCreateThreadId for (%s) returned %d",
                         recipients, retVal);
             }
@@ -594,6 +600,10 @@ public class Conversation {
 
     public static long getOrCreateThreadId(Context context, String address) {
         synchronized(sDeletingThreadsLock) {
+            if (DELETEDEBUG) {
+                ComposeMessageActivity.log("Conversation getOrCreateThreadId for: " +
+                        address + " sDeletingThreads: " + sDeletingThreads);
+            }
             long now = System.currentTimeMillis();
             while (sDeletingThreads) {
                 try {
@@ -610,7 +620,7 @@ public class Conversation {
                 }
             }
             long retVal = Threads.getOrCreateThreadId(context, address);
-            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            if (DELETEDEBUG || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 LogTag.debug("[Conversation] getOrCreateThreadId for (%s) returned %d",
                         address, retVal);
             }
@@ -703,6 +713,10 @@ public class Conversation {
     public static void startDelete(ConversationQueryHandler handler, int token, boolean deleteAll,
             long threadId) {
         synchronized(sDeletingThreadsLock) {
+            if (DELETEDEBUG) {
+                Log.v(TAG, "Conversation startDelete sDeletingThreads: " +
+                                sDeletingThreads);
+            }
             if (sDeletingThreads) {
                 Log.e(TAG, "startDeleteAll already in the middle of a delete", new Exception());
             }
@@ -727,6 +741,10 @@ public class Conversation {
     public static void startDeleteAll(ConversationQueryHandler handler, int token,
             boolean deleteAll) {
         synchronized(sDeletingThreadsLock) {
+            if (DELETEDEBUG) {
+                Log.v(TAG, "Conversation startDeleteAll sDeletingThreads: " +
+                                sDeletingThreads);
+            }
             if (sDeletingThreads) {
                 Log.e(TAG, "startDeleteAll already in the middle of a delete", new Exception());
             }
@@ -768,6 +786,10 @@ public class Conversation {
                 // release lock
                 synchronized(sDeletingThreadsLock) {
                     sDeletingThreads = false;
+                    if (DELETEDEBUG) {
+                        Log.v(TAG, "Conversation onDeleteComplete sDeletingThreads: " +
+                                        sDeletingThreads);
+                    }
                     sDeletingThreadsLock.notifyAll();
                 }
             }
