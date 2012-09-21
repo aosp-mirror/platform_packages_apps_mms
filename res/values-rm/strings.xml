@@ -93,6 +93,8 @@
     <string name="remove" msgid="4625444913256213175">"Allontanar"</string>
     <string name="send" msgid="4589898724889248486">"Trametter"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
+    <!-- no translation found for send_mms (2933162044872550662) -->
+    <skip />
     <string name="all_threads" msgid="2663426830306307194">"Tut ils fils da discussiun"</string>
     <!-- no translation found for type_to_compose_text_enter_to_send (3539985471008581265) -->
     <skip />
