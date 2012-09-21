@@ -41,5 +41,7 @@
     <item msgid="8479809115158836070">"Sorriso forçado"</item>
     <item msgid="638612939305162424">"Indiferente"</item>
   </string-array>
-    <!-- no translation found for empty_subject_strings:0 (7691141505407124426) -->
+  <string-array name="empty_subject_strings">
+    <item msgid="7691141505407124426">"sem assunto"</item>
+  </string-array>
 </resources>
