@@ -82,6 +82,8 @@
     <string name="remove" msgid="4625444913256213175">"移除"</string>
     <string name="send" msgid="4589898724889248486">"傳送"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
+    <!-- no translation found for send_mms (2933162044872550662) -->
+    <skip />
     <string name="all_threads" msgid="2663426830306307194">"所有會話群組"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"輸入訊息"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"開啟鍵盤即可輸入訊息"</string>
