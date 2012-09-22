@@ -181,7 +181,7 @@
                         android:layout_marginLeft="4dip"
                         android:editable="false"
                         android:text="@string/mms"
-                        android:contentDescription="@string/send"
+                        android:contentDescription="@string/send_mms"
                         android:nextFocusLeft="@+id/embedded_text_editor" />
 
                     <ImageButton
