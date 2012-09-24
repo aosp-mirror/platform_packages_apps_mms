@@ -105,7 +105,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     private ConversationListAdapter mListAdapter;
     private SharedPreferences mPrefs;
     private Handler mHandler;
-    private boolean mNeedToRemoveObsoleteThreads;
+    private boolean mDoOnceAfterFirstQuery;
     private TextView mUnreadConvCount;
     private MenuItem mSearchItem;
     private SearchView mSearchView;
@@ -253,7 +253,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
 
         DraftCache.getInstance().addOnDraftChangedListener(this);
 
-        mNeedToRemoveObsoleteThreads = true;
+        mDoOnceAfterFirstQuery = true;
 
         startAsyncQuery();
 
@@ -310,6 +310,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     }
 
     private void startAsyncQuery() {
+        Contact.logWithTrace(TAG, "startAsyncQuery");
         try {
             ((TextView)(getListView().getEmptyView())).setText(R.string.loading_conversations);
 
@@ -746,13 +747,18 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                     ((TextView)(getListView().getEmptyView())).setText(R.string.no_conversations);
                 }
 
-                Conversation.markAllConversationsAsSeen(getApplicationContext());
-                if (mNeedToRemoveObsoleteThreads) {
-                    mNeedToRemoveObsoleteThreads = false;
-                    // Delete any obsolete threads. Obsolete threads are threads that aren't
-                    // referenced by at least one message in the pdu or sms tables. We only call
-                    // this on the first query.
+                if (mDoOnceAfterFirstQuery) {
+                    mDoOnceAfterFirstQuery = false;
+                    // Delay doing a couple of DB operations until we've initially queried the DB
+                    // for the list of conversations to display. We don't want to slow down showing
+                    // the initial UI.
+
+                    // 1. Delete any obsolete threads. Obsolete threads are threads that aren't
+                    // referenced by at least one message in the pdu or sms tables.
                     mHandler.post(mDeleteObsoleteThreadsRunnable);
+
+                    // 2. Mark all the conversations as seen.
+                    Conversation.markAllConversationsAsSeen(getApplicationContext());
                 }
                 break;
 

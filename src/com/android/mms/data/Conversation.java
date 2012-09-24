@@ -304,6 +304,10 @@ public class Conversation {
      * always be called from the UI thread.
      */
     public void markAsRead() {
+        if (DELETEDEBUG) {
+            Contact.logWithTrace(TAG, "markAsRead mMarkAsReadWaiting: " + mMarkAsReadWaiting +
+                    " mMarkAsReadBlocked: " + mMarkAsReadBlocked);
+        }
         if (mMarkAsReadWaiting) {
             // We've already been asked to mark everything as read, but we're blocked.
             return;
@@ -315,12 +319,11 @@ public class Conversation {
             return;
         }
         final Uri threadUri = getUri();
-        final long threadId = mThreadId > 0 ? mThreadId : MessagingNotification.THREAD_NONE;
 
         new AsyncTask<Void, Void, Void>() {
             protected Void doInBackground(Void... none) {
-                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                    LogTag.debug("markAsRead");
+                if (DELETEDEBUG || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    LogTag.debug("markAsRead.doInBackground");
                 }
                 // If we have no Uri to mark (as in the case of a conversation that
                 // has not yet made its way to disk), there's nothing to do.
@@ -353,7 +356,8 @@ public class Conversation {
                 }
                 // Always update notifications regardless of the read state, which is usually
                 // canceling the notification of the thread that was just marked read.
-                MessagingNotification.blockingUpdateAllNotifications(mContext, threadId);
+                MessagingNotification.blockingUpdateAllNotifications(mContext,
+                        MessagingNotification.THREAD_NONE);
 
                 return null;
             }
@@ -367,7 +371,7 @@ public class Conversation {
      * can mark messages as read. Only call this function on the UI thread.
      */
     public void blockMarkAsRead(boolean block) {
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+        if (DELETEDEBUG || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             LogTag.debug("blockMarkAsRead: " + block);
         }
 
@@ -1051,13 +1055,16 @@ public class Conversation {
     }
 
     public static void markAllConversationsAsSeen(final Context context) {
-        if (DEBUG) {
-            LogTag.debug("Conversation.markAllConversationsAsSeen");
+        if (DELETEDEBUG || DEBUG) {
+            Contact.logWithTrace(TAG, "Conversation.markAllConversationsAsSeen");
         }
 
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                if (DELETEDEBUG) {
+                    Log.d(TAG, "Conversation.markAllConversationsAsSeen.run");
+                }
                 blockingMarkAllSmsMessagesAsSeen(context);
                 blockingMarkAllMmsMessagesAsSeen(context);
 
@@ -1092,7 +1099,7 @@ public class Conversation {
             return;
         }
 
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+        if (DELETEDEBUG || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             Log.d(TAG, "mark " + count + " SMS msgs as seen");
         }
 
@@ -1127,7 +1134,7 @@ public class Conversation {
             return;
         }
 
-        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+        if (DELETEDEBUG || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             Log.d(TAG, "mark " + count + " MMS msgs as seen");
         }
 

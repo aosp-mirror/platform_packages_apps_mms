@@ -365,6 +365,7 @@ public class SmsReceiverService extends Service {
         if (messageUri != null) {
             long threadId = MessagingNotification.getSmsThreadId(this, messageUri);
             // Called off of the UI thread so ok to block.
+            Log.d(TAG, "handleSmsReceived messageUri: " + messageUri + " threadId: " + threadId);
             MessagingNotification.blockingUpdateNewMessageIndicator(this, threadId, false);
         }
     }
