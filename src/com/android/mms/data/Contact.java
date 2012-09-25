@@ -134,7 +134,7 @@ public class Contact {
                 mContactMethodId);
     }
 
-    private static void logWithTrace(String msg, Object... format) {
+    public static void logWithTrace(String tag, String msg, Object... format) {
         Thread current = Thread.currentThread();
         StackTraceElement[] stack = current.getStackTrace();
 
@@ -154,7 +154,7 @@ public class Contact {
             }
         }
 
-        Log.d(TAG, sb.toString());
+        Log.d(tag, sb.toString());
     }
 
     public static Contact get(String number, boolean canBlock) {
@@ -542,7 +542,7 @@ public class Contact {
 
         private Contact get(String number, boolean isMe, boolean canBlock) {
             if (Log.isLoggable(LogTag.CONTACT, Log.DEBUG)) {
-                logWithTrace("get(%s, %s, %s)", number, isMe, canBlock);
+                logWithTrace(TAG, "get(%s, %s, %s)", number, isMe, canBlock);
             }
 
             if (TextUtils.isEmpty(number)) {
