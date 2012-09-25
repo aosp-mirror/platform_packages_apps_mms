@@ -245,6 +245,10 @@ public class MessagingNotification {
      */
     public static void blockingUpdateNewMessageIndicator(Context context, long newMsgThreadId,
             boolean isStatusMessage) {
+        if (DEBUG) {
+            Contact.logWithTrace(TAG, "blockingUpdateNewMessageIndicator: newMsgThreadId: " +
+                    newMsgThreadId);
+        }
         // notificationSet is kept sorted by the incoming message delivery time, with the
         // most recent message first.
         SortedSet<NotificationInfo> notificationSet =
@@ -262,7 +266,8 @@ public class MessagingNotification {
                         ", newMsgThreadId=" + newMsgThreadId);
             }
             synchronized (sCurrentlyDisplayedThreadLock) {
-                if (newMsgThreadId > 0 && newMsgThreadId == sCurrentlyDisplayedThreadId) {
+                if (newMsgThreadId > 0 && newMsgThreadId == sCurrentlyDisplayedThreadId &&
+                        threads.contains(newMsgThreadId)) {
                     if (DEBUG) {
                         Log.d(TAG, "blockingUpdateNewMessageIndicator: newMsgThreadId == " +
                                 "sCurrentlyDisplayedThreadId so NOT showing notification," +
@@ -309,6 +314,10 @@ public class MessagingNotification {
      * necessary.
      */
     public static void blockingUpdateAllNotifications(final Context context, long threadId) {
+        if (DEBUG) {
+            Contact.logWithTrace(TAG, "blockingUpdateAllNotifications: newMsgThreadId: " +
+                    threadId);
+        }
         nonBlockingUpdateNewMessageIndicator(context, threadId, false);
         nonBlockingUpdateSendFailedNotification(context);
         updateDownloadFailedNotification(context);
@@ -1277,13 +1286,25 @@ public class MessagingNotification {
             null);
 
         if (cursor == null) {
+            if (DEBUG) {
+                Log.d(TAG, "getSmsThreadId uri: " + uri + " NULL cursor! returning THREAD_NONE");
+            }
             return THREAD_NONE;
         }
 
         try {
             if (cursor.moveToFirst()) {
-                return cursor.getLong(cursor.getColumnIndex(Sms.THREAD_ID));
+                long threadId = cursor.getLong(cursor.getColumnIndex(Sms.THREAD_ID));
+                if (DEBUG) {
+                    Log.d(TAG, "getSmsThreadId uri: " + uri +
+                            " returning threadId: " + threadId);
+                }
+                return threadId;
             } else {
+                if (DEBUG) {
+                    Log.d(TAG, "getSmsThreadId uri: " + uri +
+                            " NULL cursor! returning THREAD_NONE");
+                }
                 return THREAD_NONE;
             }
         } finally {
@@ -1308,13 +1329,25 @@ public class MessagingNotification {
                 null);
 
         if (cursor == null) {
+            if (DEBUG) {
+                Log.d(TAG, "getThreadId uri: " + uri + " NULL cursor! returning THREAD_NONE");
+            }
             return THREAD_NONE;
         }
 
         try {
             if (cursor.moveToFirst()) {
-                return cursor.getLong(cursor.getColumnIndex(Mms.THREAD_ID));
+                long threadId = cursor.getLong(cursor.getColumnIndex(Mms.THREAD_ID));
+                if (DEBUG) {
+                    Log.d(TAG, "getThreadId uri: " + uri +
+                            " returning threadId: " + threadId);
+                }
+                return threadId;
             } else {
+                if (DEBUG) {
+                    Log.d(TAG, "getThreadId uri: " + uri +
+                            " NULL cursor! returning THREAD_NONE");
+                }
                 return THREAD_NONE;
             }
         } finally {
