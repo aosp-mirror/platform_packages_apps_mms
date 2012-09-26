@@ -36,8 +36,8 @@ public class SimFullReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (Settings.Secure.getInt(context.getContentResolver(),
-            Settings.Secure.DEVICE_PROVISIONED, 0) == 1 &&
+        if (Settings.Global.getInt(context.getContentResolver(),
+            Settings.Global.DEVICE_PROVISIONED, 0) == 1 &&
             Telephony.Sms.Intents.SIM_FULL_ACTION.equals(intent.getAction())) {
 
             NotificationManager nm = (NotificationManager)
