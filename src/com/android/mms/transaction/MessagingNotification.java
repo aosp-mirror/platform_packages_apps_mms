@@ -259,8 +259,13 @@ public class MessagingNotification {
         addMmsNotificationInfos(context, threads, notificationSet);
         addSmsNotificationInfos(context, threads, notificationSet);
 
-        cancelNotification(context, NOTIFICATION_ID);
-        if (!notificationSet.isEmpty()) {
+        if (notificationSet.isEmpty()) {
+            if (DEBUG) {
+                Log.d(TAG, "blockingUpdateNewMessageIndicator: notificationSet is empty, " +
+                        "canceling existing notifications");
+            }
+            cancelNotification(context, NOTIFICATION_ID);
+        } else {
             if (DEBUG || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 Log.d(TAG, "blockingUpdateNewMessageIndicator: count=" + notificationSet.size() +
                         ", newMsgThreadId=" + newMsgThreadId);
@@ -279,8 +284,6 @@ public class MessagingNotification {
             }
             updateNotification(context, newMsgThreadId != THREAD_NONE, threads.size(),
                     notificationSet);
-        } else if (DEBUG) {
-            Log.d(TAG, "blockingUpdateNewMessageIndicator: notificationSet is empty");
         }
 
         // And deals with delivery reports (which use Toasts). It's safe to call in a worker
