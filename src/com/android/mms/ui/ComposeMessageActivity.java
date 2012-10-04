@@ -179,7 +179,7 @@ public class ComposeMessageActivity extends Activity
 
     private static final String TAG = "Mms/compose";
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final boolean TRACE = false;
     private static final boolean LOCAL_LOGV = false;
 

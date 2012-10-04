@@ -310,7 +310,6 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     }
 
     private void startAsyncQuery() {
-        Contact.logWithTrace(TAG, "startAsyncQuery");
         try {
             ((TextView)(getListView().getEmptyView())).setText(R.string.loading_conversations);
 
