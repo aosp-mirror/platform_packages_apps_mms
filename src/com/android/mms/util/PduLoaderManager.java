@@ -110,11 +110,20 @@ public class PduLoaderManager extends BackgroundLoaderManager {
             mExecutor.execute(task);
         }
         return new ItemLoadedFuture() {
-            public void cancel() {
+            private boolean mIsDone;
+
+            public void cancel(Uri uri) {
                 cancelCallback(callback);
+                removePdu(uri);     // the pdu and/or slideshow might be half loaded. Make sure
+                                    // we load fresh the next time this uri is requested.
             }
+
+            public void setIsDone(boolean done) {
+                mIsDone = done;
+            }
+
             public boolean isDone() {
-                return false;
+                return mIsDone;
             }
         };
     }
@@ -133,10 +142,12 @@ public class PduLoaderManager extends BackgroundLoaderManager {
         if (Log.isLoggable(TAG, Log.DEBUG)) {
             Log.d(TAG, "removePdu: " + uri);
         }
-        synchronized(mPduCache) {
-            mPduCache.purge(uri);
+        if (uri != null) {
+            synchronized(mPduCache) {
+                mPduCache.purge(uri);
+            }
+            mSlideshowCache.remove(uri);
         }
-        mSlideshowCache.remove(uri);
     }
 
     public String getTag() {
