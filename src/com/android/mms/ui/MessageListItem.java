@@ -253,7 +253,7 @@ public class MessageListItem extends LinearLayout implements
     }
 
     private String buildTimestampLine(String timestamp) {
-        if (!mMultiRecipients || mMessageItem.isMe()) {
+        if (!mMultiRecipients || mMessageItem.isMe() || TextUtils.isEmpty(mMessageItem.mContact)) {
             // Never show "Me" for messages I sent.
             return timestamp;
         }

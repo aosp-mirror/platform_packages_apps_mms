@@ -16,6 +16,8 @@
 
 package com.android.mms.util;
 
+import android.net.Uri;
+
 /**
  * Interface for querying the state of a pending item loading request.
  *
@@ -29,5 +31,7 @@ public interface ItemLoadedFuture {
      */
     boolean isDone();
 
-    void cancel();
+    void setIsDone(boolean done);
+
+    void cancel(Uri uri);
 }

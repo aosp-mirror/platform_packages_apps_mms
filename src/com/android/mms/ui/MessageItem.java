@@ -304,6 +304,11 @@ public class MessageItem {
                 Log.e(TAG, "PduLoadedMessageItemCallback PDU couldn't be loaded: ", exception);
                 return;
             }
+            if (mItemLoadedFuture != null) {
+                synchronized(mItemLoadedFuture) {
+                    mItemLoadedFuture.setIsDone(true);
+                }
+            }
             PduLoaderManager.PduLoaded pduLoaded = (PduLoaderManager.PduLoaded)result;
             long timestamp = 0L;
             if (PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND == mMessageType) {
@@ -399,11 +404,11 @@ public class MessageItem {
     }
 
     public void cancelPduLoading() {
-        if (mItemLoadedFuture != null) {
+        if (mItemLoadedFuture != null && !mItemLoadedFuture.isDone()) {
             if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
                 Log.v(TAG, "cancelPduLoading for: " + this);
             }
-            mItemLoadedFuture.cancel();
+            mItemLoadedFuture.cancel(mMessageUri);
             mItemLoadedFuture = null;
         }
     }
