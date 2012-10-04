@@ -16,6 +16,8 @@
 
 package com.android.mms.util;
 
+import android.net.Uri;
+
 /**
  * {@link PduFuture} for a pdu that is available now.
  *
@@ -23,12 +25,16 @@ package com.android.mms.util;
 public class NullItemLoadedFuture implements ItemLoadedFuture {
 
     /** {@inheritDoc} */
-    public void cancel() {
+    public void cancel(Uri uri) {
         // The callback has already been made, so there's nothing to cancel.
     }
 
     /** {@inheritDoc} */
     public boolean isDone() {
         return true;
+    }
+
+    @Override
+    public void setIsDone(boolean done) {
     }
 }

@@ -202,11 +202,11 @@ public class VideoModel extends RegionMediaModel {
     }
 
     public void cancelThumbnailLoading() {
-        if (mItemLoadedFuture != null) {
+        if (mItemLoadedFuture != null && !mItemLoadedFuture.isDone()) {
             if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
                 Log.v(TAG, "cancelThumbnailLoading for: " + this);
             }
-            mItemLoadedFuture.cancel();
+            mItemLoadedFuture.cancel(getUri());
             mItemLoadedFuture = null;
         }
     }
