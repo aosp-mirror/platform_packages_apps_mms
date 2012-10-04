@@ -159,13 +159,22 @@ public class ThumbnailManager extends BackgroundLoaderManager {
             mExecutor.execute(task);
         }
         return new ItemLoadedFuture() {
+            private boolean mIsDone;
+
             @Override
-            public void cancel() {
+            public void cancel(Uri uri) {
                 cancelCallback(callback);
+                removeThumbnail(uri);   // if the thumbnail is half loaded, force a reload next time
             }
+
+            @Override
+            public void setIsDone(boolean done) {
+                mIsDone = done;
+            }
+
             @Override
             public boolean isDone() {
-                return false;
+                return mIsDone;
             }
         };
     }
@@ -193,7 +202,12 @@ public class ThumbnailManager extends BackgroundLoaderManager {
     }
 
     public void removeThumbnail(Uri uri) {
-        mThumbnailCache.remove(uri);
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+            Log.d(TAG, "removeThumbnail: " + uri);
+        }
+        if (uri != null) {
+            mThumbnailCache.remove(uri);
+        }
     }
 
     @Override
