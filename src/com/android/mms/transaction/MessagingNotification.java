@@ -89,7 +89,7 @@ import com.google.android.mms.pdu.PduPersister;
 public class MessagingNotification {
 
     private static final String TAG = LogTag.APP;
-    private static final boolean DEBUG = true;  // TODO turn off before ship
+    private static final boolean DEBUG = false;
 
     private static final int NOTIFICATION_ID = 123;
     public static final int MESSAGE_FAILED_NOTIFICATION_ID = 789;
@@ -767,9 +767,7 @@ public class MessagingNotification {
         NotificationManager nm = (NotificationManager) context.getSystemService(
                 Context.NOTIFICATION_SERVICE);
 
-        if (DEBUG) {
-            Log.d(TAG, "cancelNotification");
-        }
+        Log.d(TAG, "cancelNotification");
         nm.cancel(notificationId);
     }
 
@@ -922,9 +920,7 @@ public class MessagingNotification {
             String ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE,
                     null);
             noti.setSound(TextUtils.isEmpty(ringtoneStr) ? null : Uri.parse(ringtoneStr));
-            if (DEBUG) {
-                Log.d(TAG, "updateNotification: new message, adding sound to the notification");
-            }
+            Log.d(TAG, "updateNotification: new message, adding sound to the notification");
         }
 
         defaults |= Notification.DEFAULT_LIGHTS;

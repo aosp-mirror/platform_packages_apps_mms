@@ -40,7 +40,7 @@ import com.android.mms.util.DraftCache;
 public class Conversation {
     private static final String TAG = "Mms/conv";
     private static final boolean DEBUG = false;
-    private static final boolean DELETEDEBUG = true;
+    private static final boolean DELETEDEBUG = false;
 
     public static final Uri sAllThreadsUri =
         Threads.CONTENT_URI.buildUpon().appendQueryParameter("simple", "true").build();

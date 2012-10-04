@@ -193,9 +193,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
                     // M-NotifyResp.ind from Inbox.
                     SqliteWrapper.delete(mContext, mContext.getContentResolver(),
                                          mUri, null, null);
-                    if (true) {
-                        Log.v(TAG, "NotificationTransaction deleting obsolete threads");
-                    }
+                    Log.v(TAG, "NotificationTransaction received new mms message: " + uri);
                     // Delete obsolete threads
                     SqliteWrapper.delete(mContext, mContext.getContentResolver(),
                             Threads.OBSOLETE_THREADS_URI, null, null);
