@@ -175,6 +175,7 @@
         </activity>
 
         <activity android:name=".ui.MessagingPreferenceActivity"
+            android:parentActivityName=".ui.ConversationList"
             android:theme="@style/MmsHoloTheme"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/preferences_title" />
