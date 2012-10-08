@@ -225,12 +225,6 @@ public class MessagingPreferenceActivity extends PreferenceActivity
             case MENU_RESTORE_DEFAULTS:
                 restoreDefaultPreferences();
                 return true;
-
-            case android.R.id.home:
-                // The user clicked on the Messaging icon in the action bar. Take them back from
-                // wherever they came from
-                finish();
-                return true;
         }
         return false;
     }
