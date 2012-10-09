@@ -31,6 +31,7 @@ import android.util.Log;
 
 import com.android.mms.MmsConfig;
 import com.android.mms.ui.MessageUtils;
+import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.Recycler;
 import com.android.mms.widget.MmsWidgetProvider;
@@ -149,7 +150,8 @@ public class RetrieveTransaction extends Transaction implements Runnable {
             } else {
                 // Store M-Retrieve.conf into Inbox
                 PduPersister persister = PduPersister.getPduPersister(mContext);
-                msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI);
+                msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI, true,
+                        MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext));
 
                 // Use local time instead of PDU time
                 ContentValues values = new ContentValues(1);
