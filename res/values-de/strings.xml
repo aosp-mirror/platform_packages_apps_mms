@@ -153,7 +153,7 @@
     <string name="preferences_title" msgid="6650089610332670157">"Einstellungen"</string>
     <string name="restore_default" msgid="7165341506551155053">"Zurück auf Standardeinstellungen"</string>
     <string name="pref_notification_settings_title" msgid="6420782563630369776">"Benachrichtigungen"</string>
-    <string name="pref_mms_settings_title" msgid="55618772118264355">"Multimedianachrichten (MMS)"</string>
+    <string name="pref_mms_settings_title" msgid="55618772118264355">"MMS"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"SMS"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Speicher"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Auf der SIM-Karte gespeicherte Nachrichten verwalten"</string>
