@@ -39,6 +39,7 @@ import android.util.Log;
 
 import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
+import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.Recycler;
 import com.android.mms.widget.MmsWidgetProvider;
@@ -110,7 +111,8 @@ public class NotificationTransaction extends Transaction implements Runnable {
             // Save the pdu. If we can start downloading the real pdu immediately, don't allow
             // persist() to create a thread for the notificationInd because it causes UI jank.
             mUri = PduPersister.getPduPersister(context).persist(
-                        ind, Inbox.CONTENT_URI, !allowAutoDownload());
+                        ind, Inbox.CONTENT_URI, !allowAutoDownload(),
+                        MessagingPreferenceActivity.getIsGroupMmsEnabled(context));
         } catch (MmsException e) {
             Log.e(TAG, "Failed to save NotificationInd in constructor.", e);
             throw new IllegalArgumentException();
@@ -181,7 +183,8 @@ public class NotificationTransaction extends Transaction implements Runnable {
                 } else {
                     // Save the received PDU (must be a M-RETRIEVE.CONF).
                     PduPersister p = PduPersister.getPduPersister(mContext);
-                    Uri uri = p.persist(pdu, Inbox.CONTENT_URI);
+                    Uri uri = p.persist(pdu, Inbox.CONTENT_URI, true,
+                            MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext));
 
                     // Use local time instead of PDU time
                     ContentValues values = new ContentValues(1);
