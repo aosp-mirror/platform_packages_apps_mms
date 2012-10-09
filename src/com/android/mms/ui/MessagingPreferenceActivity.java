@@ -62,6 +62,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     public static final String AUTO_RETRIEVAL           = "pref_key_mms_auto_retrieval";
     public static final String RETRIEVAL_DURING_ROAMING = "pref_key_mms_retrieval_during_roaming";
     public static final String AUTO_DELETE              = "pref_key_auto_delete";
+    public static final String GROUP_MMS_MODE           = "pref_key_mms_group_mms";
 
     // Menu entries
     private static final int MENU_RESTORE_DEFAULTS    = 1;
@@ -70,6 +71,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     private Preference mSmsDeliveryReportPref;
     private Preference mMmsLimitPref;
     private Preference mMmsDeliveryReportPref;
+    private Preference mMmsGroupMmsPref;
     private Preference mMmsReadReportPref;
     private Preference mManageSimPref;
     private Preference mClearHistoryPref;
@@ -109,6 +111,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
         mSmsDeliveryReportPref = findPreference("pref_key_sms_delivery_reports");
         mMmsDeliveryReportPref = findPreference("pref_key_mms_delivery_reports");
+        mMmsGroupMmsPref = findPreference("pref_key_mms_group_mms");
         mMmsReadReportPref = findPreference("pref_key_mms_read_reports");
         mMmsLimitPref = findPreference("pref_key_mms_delete_limit");
         mClearHistoryPref = findPreference("pref_key_mms_clear_history");
@@ -163,15 +166,16 @@ public class MessagingPreferenceActivity extends PreferenceActivity
                 (PreferenceCategory)findPreference("pref_key_storage_settings");
             storageOptions.removePreference(findPreference("pref_key_mms_delete_limit"));
         } else {
-            if (!MmsConfig.getMMSDeliveryReportsEnabled()) {
-                PreferenceCategory mmsOptions =
+            PreferenceCategory mmsOptions =
                     (PreferenceCategory)findPreference("pref_key_mms_settings");
+            if (!MmsConfig.getMMSDeliveryReportsEnabled()) {
                 mmsOptions.removePreference(mMmsDeliveryReportPref);
             }
             if (!MmsConfig.getMMSReadReportsEnabled()) {
-                PreferenceCategory mmsOptions =
-                    (PreferenceCategory)findPreference("pref_key_mms_settings");
                 mmsOptions.removePreference(mMmsReadReportPref);
+            }
+            if (!MmsConfig.getGroupMmsEnabled()) {
+                mmsOptions.removePreference(mMmsGroupMmsPref);
             }
         }
 
@@ -359,5 +363,12 @@ public class MessagingPreferenceActivity extends PreferenceActivity
             }
         }
         mVibrateWhenPref.setSummary(null);
+    }
+
+    public static boolean getIsGroupMmsEnabled(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean groupMmsPrefOn = prefs.getBoolean(
+                MessagingPreferenceActivity.GROUP_MMS_MODE, true);
+        return MmsConfig.getGroupMmsEnabled() && groupMmsPrefOn;
     }
 }

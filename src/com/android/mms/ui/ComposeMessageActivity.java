@@ -1195,7 +1195,9 @@ public class ComposeMessageActivity extends Activity
                         PduPersister persister =
                                 PduPersister.getPduPersister(ComposeMessageActivity.this);
                         // Copy the parts of the message here.
-                        mTempMmsUri = persister.persist(sendReq, Mms.Draft.CONTENT_URI);
+                        mTempMmsUri = persister.persist(sendReq, Mms.Draft.CONTENT_URI, true,
+                                MessagingPreferenceActivity
+                                    .getIsGroupMmsEnabled(ComposeMessageActivity.this));
                         mTempThreadId = MessagingNotification.getThreadId(
                                 ComposeMessageActivity.this, mTempMmsUri);
                     } catch (MmsException e) {

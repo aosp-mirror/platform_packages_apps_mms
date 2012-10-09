@@ -97,6 +97,8 @@ public class MmsConfig {
 
     // If mEnableGroupMms is true, a message with multiple recipients, regardless of contents,
     // will be sent as a single MMS message with multiple "TO" fields set for each recipient.
+    // If mEnableGroupMms is false, the group MMS setting/preference will be hidden in the settings
+    // activity.
     private static boolean mEnableGroupMms = true;
 
     public static void init(Context context) {
@@ -323,7 +325,7 @@ public class MmsConfig {
                             mEnableSMSDeliveryReports = "true".equalsIgnoreCase(text);
                         } else if ("enableMMSDeliveryReports".equalsIgnoreCase(value)) {
                             mEnableMMSDeliveryReports = "true".equalsIgnoreCase(text);
-                        } else if ("enableGroupMmms".equalsIgnoreCase(value)) {
+                        } else if ("enableGroupMms".equalsIgnoreCase(value)) {
                             mEnableGroupMms = "true".equalsIgnoreCase(text);
                         }
                     } else if ("int".equals(tag)) {
