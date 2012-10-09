@@ -58,6 +58,7 @@ import com.android.mms.transaction.MmsMessageSender;
 import com.android.mms.transaction.SmsMessageSender;
 import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.MessageUtils;
+import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.ui.SlideshowEditor;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.Recycler;
@@ -836,7 +837,8 @@ public class WorkingMessage {
             // If we don't already have a Uri lying around, make a new one.  If we do
             // have one already, make sure it is synced to disk.
             if (mMessageUri == null) {
-                mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow, null);
+                mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow, null,
+                        mActivity);
             } else {
                 updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
             }
@@ -1058,7 +1060,9 @@ public class WorkingMessage {
      * attachment") still hold true.
      */
     public void setHasMultipleRecipients(boolean hasMultipleRecipients, boolean notify) {
-        updateState(MULTIPLE_RECIPIENTS, MmsConfig.getGroupMmsEnabled() && hasMultipleRecipients,
+        updateState(MULTIPLE_RECIPIENTS,
+                hasMultipleRecipients &&
+                    MessagingPreferenceActivity.getIsGroupMmsEnabled(mActivity),
                 notify);
     }
 
@@ -1407,7 +1411,7 @@ public class WorkingMessage {
         try {
             if (newMessage) {
                 // Create a new MMS message if one hasn't been made yet.
-                mmsUri = createDraftMmsMessage(persister, sendReq, slideshow, mmsUri);
+                mmsUri = createDraftMmsMessage(persister, sendReq, slideshow, mmsUri, mActivity);
             } else {
                 // Otherwise, sync the MMS message in progress to disk.
                 updateDraftMmsMessage(mmsUri, persister, slideshow, sendReq);
@@ -1541,14 +1545,15 @@ public class WorkingMessage {
     }
 
     private static Uri createDraftMmsMessage(PduPersister persister, SendReq sendReq,
-            SlideshowModel slideshow, Uri preUri) {
+            SlideshowModel slideshow, Uri preUri, Context context) {
         if (slideshow == null) {
             return null;
         }
         try {
             PduBody pb = slideshow.toPduBody();
             sendReq.setBody(pb);
-            Uri res = persister.persist(sendReq, preUri == null ? Mms.Draft.CONTENT_URI : preUri);
+            Uri res = persister.persist(sendReq, preUri == null ? Mms.Draft.CONTENT_URI : preUri,
+                    true, MessagingPreferenceActivity.getIsGroupMmsEnabled(context));
             slideshow.sync(pb);
             return res;
         } catch (MmsException e) {
@@ -1571,7 +1576,8 @@ public class WorkingMessage {
                     final SendReq sendReq = makeSendReq(conv, mSubject);
 
                     if (mMessageUri == null) {
-                        mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow, null);
+                        mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow, null,
+                                mActivity);
                     } else {
                         updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
                     }

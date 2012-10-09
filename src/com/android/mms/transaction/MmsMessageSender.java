@@ -30,6 +30,7 @@ import android.provider.Telephony.MmsSms.PendingMessages;
 import android.util.Log;
 
 import com.android.mms.LogTag;
+import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.InvalidHeaderValueException;
@@ -161,7 +162,8 @@ public class MmsMessageSender implements MessageSender {
 
             readRec.setDate(System.currentTimeMillis() / 1000);
 
-            PduPersister.getPduPersister(context).persist(readRec, Mms.Outbox.CONTENT_URI);
+            PduPersister.getPduPersister(context).persist(readRec, Mms.Outbox.CONTENT_URI, true,
+                    MessagingPreferenceActivity.getIsGroupMmsEnabled(context));
             context.startService(new Intent(context, TransactionService.class));
         } catch (InvalidHeaderValueException e) {
             Log.e(TAG, "Invalide header value", e);
