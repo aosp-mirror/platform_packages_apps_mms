@@ -303,6 +303,7 @@ public class ComposeMessageActivity extends Activity
                                             // so we can remember it after re-entering the activity.
                                             // If the value >= 0, then we jump to that line. If the
                                             // value is maxint, then we jump to the end.
+    private long mLastMessageId;
 
     /**
      * Whether this activity is currently running (i.e. not paused)
@@ -623,8 +624,15 @@ public class ComposeMessageActivity extends Activity
                         // Delete the message *after* we've removed the thumbnails because we
                         // need the pdu and slideshow for removeThumbnailsFromCache to work.
                     }
+                    Boolean deletingLastItem = false;
+                    Cursor cursor = mMsgListAdapter != null ? mMsgListAdapter.getCursor() : null;
+                    if (cursor != null) {
+                        cursor.moveToLast();
+                        long msgId = cursor.getLong(COLUMN_ID);
+                        deletingLastItem = msgId == mMessageItem.mMsgId;
+                    }
                     mBackgroundQueryHandler.startDelete(DELETE_MESSAGE_TOKEN,
-                            null, mMessageItem.mMessageUri,
+                            deletingLastItem, mMessageItem.mMessageUri,
                             mMessageItem.mLocked ? null : "locked=0", null);
                     return null;
                 }
@@ -3919,10 +3927,18 @@ public class ComposeMessageActivity extends Activity
                     if (newSelectionPos != -1) {
                         mMsgListView.setSelection(newSelectionPos);     // jump the list to the pos
                     } else {
+                        int count = mMsgListAdapter.getCount();
+                        long lastMsgId = 0;
+                        if (count > 0) {
+                            cursor.moveToLast();
+                            lastMsgId = cursor.getLong(COLUMN_ID);
+                        }
                         // mScrollOnSend is set when we send a message. We always want to scroll
                         // the message list to the end when we send a message, but have to wait
-                        // until the DB has changed.
-                        smoothScrollToEnd(mScrollOnSend, 0);
+                        // until the DB has changed. We also want to scroll the list when a
+                        // new message has arrived.
+                        smoothScrollToEnd(mScrollOnSend || lastMsgId != mLastMessageId, 0);
+                        mLastMessageId = lastMsgId;
                         mScrollOnSend = false;
                     }
                     // Adjust the conversation's message count to match reality. The
@@ -3998,6 +4014,10 @@ public class ComposeMessageActivity extends Activity
                     mConversation.setMessageCount(0);
                     // fall through
                 case DELETE_MESSAGE_TOKEN:
+                    if (cookie instanceof Boolean && ((Boolean)cookie).booleanValue()) {
+                        // If we just deleted the last message, reset the saved id.
+                        mLastMessageId = 0;
+                    }
                     // Update the notification for new messages since they
                     // may be deleted.
                     MessagingNotification.nonBlockingUpdateNewMessageIndicator(
