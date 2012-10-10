@@ -162,8 +162,12 @@
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"ขอรายงานการส่งสำหรับแต่ละข้อความที่ส่ง"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"ลบข้อความเก่าเนื่องจากถึงจำนวนสูงสุดแล้ว"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> ข้อความต่อการสนทนา"</string>
+    <!-- no translation found for pref_summary_mms_group_mms (2266928687440696745) -->
+    <skip />
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"จัดการข้อความบนซิมการ์ด"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"รายงานการส่ง"</string>
+    <!-- no translation found for pref_title_mms_group_mms (1251698526583908432) -->
+    <skip />
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"รายงานการอ่าน"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"รายงานการส่ง"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"ลบข้อความเก่า"</string>
