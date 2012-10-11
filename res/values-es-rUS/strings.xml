@@ -162,8 +162,12 @@
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Solicita un informe de entrega para cada mensaje que envías"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Eliminar los mensajes antiguos al alcanzar la cantidad máxima"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> mensajes por conversación"</string>
+    <!-- no translation found for pref_summary_mms_group_mms (2266928687440696745) -->
+    <skip />
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Admin. mensajes de tarj. SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Informes de entrega"</string>
+    <!-- no translation found for pref_title_mms_group_mms (1251698526583908432) -->
+    <skip />
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Informes leídos"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Informes de entrega"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Eliminar mensajes antiguos"</string>
