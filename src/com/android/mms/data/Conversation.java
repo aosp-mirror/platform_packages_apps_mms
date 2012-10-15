@@ -864,7 +864,8 @@ public class Conversation {
             conv.mMessageCount = c.getInt(MESSAGE_COUNT);
 
             // Replace the snippet with a default value if it's empty.
-            String snippet = MessageUtils.extractEncStrFromCursor(c, SNIPPET, SNIPPET_CS);
+            String snippet = MessageUtils.cleanseMmsSubject(context,
+                    MessageUtils.extractEncStrFromCursor(c, SNIPPET, SNIPPET_CS));
             if (TextUtils.isEmpty(snippet)) {
                 snippet = context.getString(R.string.no_subject_view);
             }
