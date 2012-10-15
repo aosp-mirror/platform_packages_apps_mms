@@ -310,7 +310,10 @@ public class ComposeMessageActivity extends Activity
      */
     private boolean mIsRunning;
 
-    public final static String THREAD_ID = "thread_id";     // key for extras and icicles
+    // keys for extras and icicles
+    public final static String THREAD_ID = "thread_id";
+    private final static String KEYBOARD_OPEN = "keyboardOpen";
+    private final static String RECIPIENTS = "recipients";
 
     @SuppressWarnings("unused")
     public static void log(String logMsg) {
@@ -1832,9 +1835,6 @@ public class ComposeMessageActivity extends Activity
         setContentView(R.layout.compose_message_activity);
         setProgressBarVisibility(false);
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
         // Initialize members for UI elements.
         initResourceRefs();
 
@@ -2139,7 +2139,8 @@ public class ComposeMessageActivity extends Activity
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString("recipients", getRecipients().serialize());
+        outState.putString(RECIPIENTS, getRecipients().serialize());
+        outState.putBoolean(KEYBOARD_OPEN, mIsKeyboardOpen);
 
         mWorkingMessage.writeStateToBundle(outState);
 
@@ -3504,6 +3505,9 @@ public class ComposeMessageActivity extends Activity
                         drawTopPanel(false);
                         drawBottomPanel();
                         updateSendButtonState();
+                        if (!TextUtils.isEmpty(mTextEditor.getText())) {
+                            showKeyboard();
+                        }
                     }
                 });
     }
@@ -3666,6 +3670,28 @@ public class ComposeMessageActivity extends Activity
         inputMethodManager.hideSoftInputFromWindow(mTextEditor.getWindowToken(), 0);
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && !TextUtils.isEmpty(mTextEditor.getText())) {
+            showKeyboard();
+        }
+    }
+
+    private void showKeyboard() {
+        mMessageListItemHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager inputMethodManager =
+                    (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                if (!inputMethodManager.showSoftInput(mTextEditor, 0)) {
+                    log("Keyboard NOT SHOWN!");
+                }
+            }
+        }, 0);
+    }
+
     private void updateSendButtonState() {
         boolean enable = false;
         if (isPreparedForSending()) {
@@ -3708,7 +3734,8 @@ public class ComposeMessageActivity extends Activity
         Intent intent = getIntent();
         if (bundle != null) {
             setIntent(getIntent().setAction(Intent.ACTION_VIEW));
-            String recipients = bundle.getString("recipients");
+            String recipients = bundle.getString(RECIPIENTS);
+            boolean keyboardOpen = bundle.getBoolean(KEYBOARD_OPEN);
             if (LogTag.VERBOSE) log("get mConversation by recipients " + recipients);
             mConversation = Conversation.get(this,
                     ContactList.getByNumbers(recipients,
@@ -3716,6 +3743,10 @@ public class ComposeMessageActivity extends Activity
             addRecipientsListeners();
             mExitOnSent = bundle.getBoolean("exit_on_sent", false);
             mWorkingMessage.readStateFromBundle(bundle);
+
+            if (keyboardOpen) {
+                showKeyboard();
+            }
             return;
         }
 
