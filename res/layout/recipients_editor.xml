@@ -34,7 +34,7 @@
     />
 
     <ImageButton android:id="@+id/recipients_picker"
-        android:src="@drawable/ic_launcher_contacts"
+        android:src="@mipmap/ic_launcher_contacts"
         android:layout_marginLeft="5dip"
         android:layout_width="50dip"
         android:layout_height="fill_parent"
