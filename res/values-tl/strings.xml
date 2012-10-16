@@ -162,12 +162,10 @@
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Humiling ng ulat ng paghahatid para sa bawat mensahe na iyong ipinapadala"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Tanggalin ang mga lumang mensahe dahil naabot na ang mga limitasyon"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> (na) mensahe bawat pag-uusap"</string>
-    <!-- no translation found for pref_summary_mms_group_mms (2266928687440696745) -->
-    <skip />
+    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"Gamitin ang MMS upang magpadala ng iisang mensahe kapag maraming recipient"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Pamahalaan ang mga mensahe sa SIM card"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Mga ulat sa paghahatid"</string>
-    <!-- no translation found for pref_title_mms_group_mms (1251698526583908432) -->
-    <skip />
+    <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"Panggrupong pagpapadala ng mensahe"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Basahin ang mga ulat"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Mga ulat sa paghahatid"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Tanggalin ang mga lumang mensahe"</string>
