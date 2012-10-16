@@ -162,12 +162,10 @@
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"आपके द्वारा भेजे गए प्रत्येक संदेश की वितरण रिपोर्ट का अनुरोध करें"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"पुराने संदेश हटाएं क्योंकि सीमा तक पहुंच चुके हैं"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"प्रति वा्र्तालाप <xliff:g id="COUNT">%1$s</xliff:g> संदेश"</string>
-    <!-- no translation found for pref_summary_mms_group_mms (2266928687440696745) -->
-    <skip />
+    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"एक से अधिक प्राप्तकर्ता होने पर एकल संदेश भेजने के लिए MMS का उपयोग करें"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"सिम कार्ड संदेश प्रबंधित करें"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"वितरण रिपोर्ट"</string>
-    <!-- no translation found for pref_title_mms_group_mms (1251698526583908432) -->
-    <skip />
+    <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"समूह संदेश सेवा"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"पढ़े जाने की रिपोर्ट"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"वितरण रिपोर्ट"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"पुराने संदेश हटाएं"</string>
