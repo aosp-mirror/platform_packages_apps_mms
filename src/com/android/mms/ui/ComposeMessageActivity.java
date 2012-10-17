@@ -138,6 +138,7 @@ import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageListView.OnSizeChangedListener;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
+import com.android.mms.util.DraftCache;
 import com.android.mms.util.PhoneNumberFormatter;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.util.SmileyParser;
@@ -312,7 +313,6 @@ public class ComposeMessageActivity extends Activity
 
     // keys for extras and icicles
     public final static String THREAD_ID = "thread_id";
-    private final static String KEYBOARD_OPEN = "keyboardOpen";
     private final static String RECIPIENTS = "recipients";
 
     @SuppressWarnings("unused")
@@ -1931,11 +1931,6 @@ public class ComposeMessageActivity extends Activity
             // short-circuited.
             hideRecipientEditor();
             initRecipientsEditor();
-
-            // Bring up the softkeyboard so the user can immediately enter recipients. This
-            // call won't do anything on devices with a hard keyboard.
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
-                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         } else {
             hideRecipientEditor();
         }
@@ -2140,7 +2135,6 @@ public class ComposeMessageActivity extends Activity
         super.onSaveInstanceState(outState);
 
         outState.putString(RECIPIENTS, getRecipients().serialize());
-        outState.putBoolean(KEYBOARD_OPEN, mIsKeyboardOpen);
 
         mWorkingMessage.writeStateToBundle(outState);
 
@@ -2179,10 +2173,27 @@ public class ComposeMessageActivity extends Activity
         mIsRunning = true;
         updateThreadIdIfRunning();
         mConversation.markAsRead();
+
+        int mode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
+        if (DraftCache.getInstance().hasDraft(mConversation.getThreadId())) {
+            mode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
+        } else {
+            mode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
+        }
+        getWindow().setSoftInputMode(mode);
     }
 
     @Override
     protected void onPause() {
+        // HACK: fix for getting double callback for onSizeChanged() after re-entering this
+        // activity. Wait 100ms until InputMethodManagerService handles hideSoftInput
+        // This should really be fixed in WindowManagerService
+        hideKeyboard();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+        }
+
         super.onPause();
 
         if (DEBUG) {
@@ -3377,6 +3388,11 @@ public class ComposeMessageActivity extends Activity
 
         mMsgListView.setOnSizeChangedListener(new OnSizeChangedListener() {
             public void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    Log.v(TAG, "##### onSizeChanged: w=" + width + " h=" + height +
+                            " oldw=" + oldWidth + " oldh=" + oldHeight);
+                }
+
                 // The message list view changed size, most likely because the keyboard
                 // appeared or disappeared or the user typed/deleted chars in the message
                 // box causing it to change its height when expanding/collapsing to hold more
@@ -3505,9 +3521,6 @@ public class ComposeMessageActivity extends Activity
                         drawTopPanel(false);
                         drawBottomPanel();
                         updateSendButtonState();
-                        if (!TextUtils.isEmpty(mTextEditor.getText())) {
-                            showKeyboard();
-                        }
                     }
                 });
     }
@@ -3670,28 +3683,6 @@ public class ComposeMessageActivity extends Activity
         inputMethodManager.hideSoftInputFromWindow(mTextEditor.getWindowToken(), 0);
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && !TextUtils.isEmpty(mTextEditor.getText())) {
-            showKeyboard();
-        }
-    }
-
-    private void showKeyboard() {
-        mMessageListItemHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                InputMethodManager inputMethodManager =
-                    (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                if (!inputMethodManager.showSoftInput(mTextEditor, 0)) {
-                    log("Keyboard NOT SHOWN!");
-                }
-            }
-        }, 0);
-    }
-
     private void updateSendButtonState() {
         boolean enable = false;
         if (isPreparedForSending()) {
@@ -3735,7 +3726,6 @@ public class ComposeMessageActivity extends Activity
         if (bundle != null) {
             setIntent(getIntent().setAction(Intent.ACTION_VIEW));
             String recipients = bundle.getString(RECIPIENTS);
-            boolean keyboardOpen = bundle.getBoolean(KEYBOARD_OPEN);
             if (LogTag.VERBOSE) log("get mConversation by recipients " + recipients);
             mConversation = Conversation.get(this,
                     ContactList.getByNumbers(recipients,
@@ -3744,9 +3734,6 @@ public class ComposeMessageActivity extends Activity
             mExitOnSent = bundle.getBoolean("exit_on_sent", false);
             mWorkingMessage.readStateFromBundle(bundle);
 
-            if (keyboardOpen) {
-                showKeyboard();
-            }
             return;
         }
 
