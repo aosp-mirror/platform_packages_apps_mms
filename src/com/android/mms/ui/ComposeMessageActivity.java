@@ -4021,6 +4021,14 @@ public class ComposeMessageActivity extends Activity
                             conv.clearThreadId();
                             conv.setDraftState(false);
                         }
+                        // The last message in this converation was just deleted. Send the user
+                        // to the conversation list.
+                        exitComposeMessageActivity(new Runnable() {
+                            @Override
+                            public void run() {
+                                goToConversationList();
+                            }
+                        });
                     }
                     cursor.close();
             }
