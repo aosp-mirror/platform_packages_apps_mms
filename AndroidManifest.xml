@@ -80,7 +80,7 @@
 
         <activity android:name=".ui.ComposeMessageActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:windowSoftInputMode="stateHidden"
+                  android:windowSoftInputMode="stateHidden|adjustResize"
                   android:theme="@style/MmsHoloTheme"
                   android:parentActivityName=".ui.ConversationList"
                   android:launchMode="singleTop" >
