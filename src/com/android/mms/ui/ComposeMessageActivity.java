@@ -2546,10 +2546,12 @@ public class ComposeMessageActivity extends Activity
                 menu.add(0, MENU_ADD_SUBJECT, 0, R.string.add_subject).setIcon(
                         R.drawable.ic_menu_edit);
             }
-            menu.add(0, MENU_ADD_ATTACHMENT, 0, R.string.add_attachment)
-                .setIcon(R.drawable.ic_menu_attachment)
-                .setTitle(R.string.add_attachment)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);    // add to actionbar
+            if (!mWorkingMessage.hasAttachment()) {
+                menu.add(0, MENU_ADD_ATTACHMENT, 0, R.string.add_attachment)
+                    .setIcon(R.drawable.ic_menu_attachment)
+                    .setTitle(R.string.add_attachment)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);    // add to actionbar
+            }
         }
 
         if (isPreparedForSending()) {
