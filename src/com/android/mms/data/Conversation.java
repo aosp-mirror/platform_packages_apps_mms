@@ -712,26 +712,30 @@ public class Conversation {
      *                upon completion of the conversation being deleted
      * @param token   The token that will be passed to onDeleteComplete
      * @param deleteAll Delete the whole thread including locked messages
-     * @param threadId Thread ID of the conversation to be deleted
+     * @param threadIds Collection of thread IDs of the conversations to be deleted
      */
     public static void startDelete(ConversationQueryHandler handler, int token, boolean deleteAll,
-            long threadId) {
+            Collection<Long> threadIds) {
         synchronized(sDeletingThreadsLock) {
             if (DELETEDEBUG) {
                 Log.v(TAG, "Conversation startDelete sDeletingThreads: " +
-                                sDeletingThreads);
+                        sDeletingThreads);
             }
             if (sDeletingThreads) {
                 Log.e(TAG, "startDeleteAll already in the middle of a delete", new Exception());
             }
-            sDeletingThreads = true;
-            Uri uri = ContentUris.withAppendedId(Threads.CONTENT_URI, threadId);
-            String selection = deleteAll ? null : "locked=0";
-
             MmsApp.getApplication().getPduLoaderManager().clear();
+            sDeletingThreads = true;
 
-            handler.setDeleteToken(token);
-            handler.startDelete(token, new Long(threadId), uri, selection, null);
+            for (long threadId : threadIds) {
+                Uri uri = ContentUris.withAppendedId(Threads.CONTENT_URI, threadId);
+                String selection = deleteAll ? null : "locked=0";
+
+                handler.setDeleteToken(token);
+                handler.startDelete(token, new Long(threadId), uri, selection, null);
+
+                DraftCache.getInstance().setDraftState(threadId, false);
+            }
         }
     }
 

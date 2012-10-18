@@ -766,7 +766,7 @@ public class WorkingMessage {
         // to first-class Contact objects before we save.
         syncWorkingRecipients();
 
-        if (requiresMms()) {
+        if (hasMmsContentToSave()) {
             ensureSlideshow();
             syncTextToSlideshow();
         }
@@ -874,8 +874,10 @@ public class WorkingMessage {
         prepareForSave(false /* notify */);
 
         if (requiresMms()) {
-            asyncUpdateDraftMmsMessage(mConversation, isStopping);
-            mHasMmsDraft = true;
+            if (hasMmsContentToSave()) {
+                asyncUpdateDraftMmsMessage(mConversation, isStopping);
+                mHasMmsDraft = true;
+            }
         } else {
             String content = mText.toString();
 
@@ -897,9 +899,6 @@ public class WorkingMessage {
                 mMessageUri = null;
             }
         }
-
-        // Update state of the draft cache.
-        mConversation.setDraftState(true);
     }
 
     synchronized public void discard() {
@@ -1071,6 +1070,22 @@ public class WorkingMessage {
      */
     public boolean requiresMms() {
         return (mMmsState > 0);
+    }
+
+    /**
+     * Returns true if this message has been turned into an mms because it has a subject or
+     * an attachment, but not just because it has multiple recipients.
+     */
+    private boolean hasMmsContentToSave() {
+        if (mMmsState == 0) {
+            return false;
+        }
+        if (mMmsState == MULTIPLE_RECIPIENTS && !hasText()) {
+            // If this message is only mms because of multiple recipients and there's no text
+            // to save, don't bother saving.
+            return false;
+        }
+        return true;
     }
 
     /**
