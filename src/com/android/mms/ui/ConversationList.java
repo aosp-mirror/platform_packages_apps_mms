@@ -680,11 +680,8 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                         Conversation.startDeleteAll(mHandler, token, mDeleteLockedMessages);
                         DraftCache.getInstance().refresh();
                     } else {
-                        for (long threadId : mThreadIds) {
-                            Conversation.startDelete(mHandler, token, mDeleteLockedMessages,
-                                    threadId);
-                            DraftCache.getInstance().setDraftState(threadId, false);
-                        }
+                        Conversation.startDelete(mHandler, token, mDeleteLockedMessages,
+                                mThreadIds);
                     }
                 }
             });
