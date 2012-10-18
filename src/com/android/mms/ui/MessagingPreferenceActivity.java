@@ -34,6 +34,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.provider.SearchRecentSuggestions;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -174,7 +175,9 @@ public class MessagingPreferenceActivity extends PreferenceActivity
             if (!MmsConfig.getMMSReadReportsEnabled()) {
                 mmsOptions.removePreference(mMmsReadReportPref);
             }
-            if (!MmsConfig.getGroupMmsEnabled()) {
+            // If the phone's SIM doesn't know it's own number, disable group mms.
+            if (!MmsConfig.getGroupMmsEnabled() ||
+                    TextUtils.isEmpty(MessageUtils.getLocalNumber())) {
                 mmsOptions.removePreference(mMmsGroupMmsPref);
             }
         }
@@ -365,10 +368,16 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         mVibrateWhenPref.setSummary(null);
     }
 
+    // For the group mms feature to be enabled, the following must be true:
+    //  1. the feature is enabled in mms_config.xml (currently on by default)
+    //  2. the feature is enabled in the mms settings page
+    //  3. the SIM knows its own phone number
     public static boolean getIsGroupMmsEnabled(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean groupMmsPrefOn = prefs.getBoolean(
                 MessagingPreferenceActivity.GROUP_MMS_MODE, true);
-        return MmsConfig.getGroupMmsEnabled() && groupMmsPrefOn;
+        return MmsConfig.getGroupMmsEnabled() &&
+                groupMmsPrefOn &&
+                !TextUtils.isEmpty(MessageUtils.getLocalNumber());
     }
 }
