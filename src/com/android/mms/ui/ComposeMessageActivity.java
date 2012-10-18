@@ -2175,7 +2175,8 @@ public class ComposeMessageActivity extends Activity
         mConversation.markAsRead();
 
         int mode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
-        if (DraftCache.getInstance().hasDraft(mConversation.getThreadId())) {
+        if (mConversation.getThreadId() <= 0 ||
+                DraftCache.getInstance().hasDraft(mConversation.getThreadId())) {
             mode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
         } else {
             mode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
