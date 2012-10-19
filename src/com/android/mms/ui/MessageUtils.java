@@ -97,6 +97,9 @@ public class MessageUtils {
     private static final Map<String, String> sRecipientAddress =
             new ConcurrentHashMap<String, String>(20 /* initial capacity */);
 
+    // When we pass a video record duration to the video recorder, use one of these values.
+    private static final int[] sVideoDuration =
+            new int[] {0, 5, 10, 15, 20, 30, 40, 50, 60, 90, 120};
 
     /**
      * MMS address parsing data structures
@@ -494,7 +497,7 @@ public class MessageUtils {
         // say we can handle. Try to handle that overshoot by specifying an 85% limit.
         sizeLimit *= .85F;
 
-        int durationLimit = getVideoCaptureDurationLimit();
+        int durationLimit = getVideoCaptureDurationLimit(sizeLimit);
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             log("recordVideo: durationLimit: " + durationLimit +
@@ -515,9 +518,22 @@ public class MessageUtils {
         activity.startActivityForResult(intent, requestCode);
     }
 
-    private static int getVideoCaptureDurationLimit() {
+    // Public for until tests
+    public static int getVideoCaptureDurationLimit(long bytesAvailable) {
         CamcorderProfile camcorder = CamcorderProfile.get(CamcorderProfile.QUALITY_LOW);
-        return camcorder == null ? 0 : camcorder.duration;
+        if (camcorder == null) {
+            return 0;
+        }
+        bytesAvailable *= 8;        // convert to bits
+        long seconds = bytesAvailable / (camcorder.audioBitRate + camcorder.videoBitRate);
+
+        // Find the best match for one of the fixed durations
+        for (int i = sVideoDuration.length - 1; i >= 0; i--) {
+            if (seconds >= sVideoDuration[i]) {
+                return sVideoDuration[i];
+            }
+        }
+        return 0;
     }
 
     public static void selectVideo(Context context, int requestCode) {
