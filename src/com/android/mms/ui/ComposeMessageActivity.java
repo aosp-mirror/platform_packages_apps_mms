@@ -239,6 +239,16 @@ public class ComposeMessageActivity extends Activity
     // cause a smooth scroll. Instead, we jump the list directly to the desired position.
     private static final int SMOOTH_SCROLL_THRESHOLD = 200;
 
+    // To reduce janky interaction when message history + draft loads and keyboard opening
+    // query the messages + draft after the keyboard opens. This controls that behavior.
+    private static final boolean DEFER_LOADING_MESSAGES_AND_DRAFT = true;
+
+    // The max amount of delay before we force load messages and draft.
+    // 500ms is determined empirically. We want keyboard to have a chance to be shown before
+    // we force loading. However, there is at least one use case where the keyboard never shows
+    // even if we tell it to (turning off and on the screen). So we need to force load the
+    // messages+draft after the max delay.
+    private static final int LOADING_MESSAGES_AND_DRAFT_MAX_DELAY_MS = 500;
 
     private ContentResolver mContentResolver;
 
@@ -310,6 +320,24 @@ public class ComposeMessageActivity extends Activity
      * Whether this activity is currently running (i.e. not paused)
      */
     private boolean mIsRunning;
+
+    // used to control whether to show keyboard or not.
+    private int mSoftInputMode;
+
+    // if we decide to show keyboard early in the activity life cycle, we will delay loading
+    // the message history and draft until the keyboard comes up. This helps de-jank the
+    // keyboard showing and window layout transition.
+    private boolean mDelayLoadMessage;
+
+    // whether the activity is started to handle Send or Forward Message intent. This is
+    // used later to see if we need to load the draft.
+    private boolean mHandleSendOrForwardIntent;
+
+    // we may call loadMessageAndDraft() from a few different places. This is used to make
+    // sure we only load message+draft once.
+    private boolean mMessagesAndDraftLoaded;
+
+    private Handler mHandler = new Handler();
 
     // keys for extras and icicles
     public final static String THREAD_ID = "thread_id";
@@ -1916,11 +1944,8 @@ public class ComposeMessageActivity extends Activity
         // We don't attempt to handle the Intent.ACTION_SEND when saveInstanceState is non-null.
         // saveInstanceState is non-null when this activity is killed. In that case, we already
         // handled the attachment or the send, so we don't try and parse the intent again.
-        boolean intentHandled = savedInstanceState == null &&
-            (handleSendIntent() || handleForwardedMessage());
-        if (!intentHandled) {
-            loadDraft();
-        }
+        mHandleSendOrForwardIntent = savedInstanceState == null &&
+                (handleSendIntent() || handleForwardedMessage());
 
         // Let the working message know what conversation it belongs to
         mWorkingMessage.setConversation(mConversation);
@@ -1938,12 +1963,10 @@ public class ComposeMessageActivity extends Activity
         updateSendButtonState();
 
         drawTopPanel(false);
-        if (intentHandled) {
+        if (mHandleSendOrForwardIntent) {
             // We're not loading a draft, so we can draw the bottom panel immediately.
             drawBottomPanel();
         }
-
-        onKeyboardStateChanged(mIsKeyboardOpen);
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             log("update title, mConversation=" + mConversation.toString());
@@ -2032,7 +2055,7 @@ public class ComposeMessageActivity extends Activity
 
             initialize(null, originalThreadId);
         }
-        loadMessageContent();
+        loadMessagesAndDraft(0);
     }
 
     private void sanityCheckConversation() {
@@ -2066,13 +2089,6 @@ public class ComposeMessageActivity extends Activity
                     log("onRestart: goToConversationList");
                 }
                 goToConversationList();
-            } else {
-                if (LogTag.VERBOSE) {
-                    log("onRestart: loadDraft");
-                }
-                loadDraft();
-                mWorkingMessage.setConversation(mConversation);
-                mAttachmentEditor.update(mWorkingMessage);
             }
         }
     }
@@ -2086,7 +2102,47 @@ public class ComposeMessageActivity extends Activity
         // Register a BroadcastReceiver to listen on HTTP I/O process.
         registerReceiver(mHttpProgressReceiver, mHttpProgressFilter);
 
-        loadMessageContent();
+        // figure out whether we need to show the keyboard or not.
+        // if there is draft to be loaded for 'mConversation', we'll show the keyboard;
+        // otherwise we hide the keyboard. If we show the keyboard, delay loading
+        // message history and draft (controlled by DEFER_LOADING_MESSAGES_AND_DRAFT).
+        mSoftInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
+
+        boolean delayLoading = false;
+        if (!mHandleSendOrForwardIntent &&
+                DraftCache.getInstance().hasDraft(mConversation.getThreadId())) {
+            mSoftInputMode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
+            delayLoading = DEFER_LOADING_MESSAGES_AND_DRAFT;
+        } else if (mConversation.getThreadId() <= 0) {
+            // For composing a new message, bring up the softkeyboard so the user can
+            // immediately enter recipients. This call won't do anything on devices with
+            // a hard keyboard.
+            mSoftInputMode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
+        } else {
+            mSoftInputMode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
+        }
+
+        // reset mMessagesAndDraftLoaded
+        mMessagesAndDraftLoaded = false;
+
+        if (!delayLoading) {
+            loadMessagesAndDraft(1);
+        } else {
+            // if we delay loading the message, show the compose view w/o pre-loaded draft
+            // text, etc.
+            drawBottomPanel(false);
+
+            // HACK: force load messages+draft after max delay, if it's not already loaded.
+            // this is to work around when coming out of sleep mode. WindowManager behaves
+            // strangely and hides the keyboard when it should be shown. In that case,
+            // we never get the onSizeChanged() callback w/ keyboard shown, so we wouldn't
+            // know to load the messages+draft.
+            mHandler.postDelayed(new Runnable() {
+                public void run() {
+                    loadMessagesAndDraft(2);
+                }
+            }, LOADING_MESSAGES_AND_DRAFT_MAX_DELAY_MS);
+        }
 
         // Update the fasttrack info in case any of the recipients' contact info changed
         // while we were paused. This can happen, for example, if a user changes or adds
@@ -2111,7 +2167,25 @@ public class ComposeMessageActivity extends Activity
         mConversation.markAsRead();         // dismiss any notifications for this convo
         startMsgListQuery();
         updateSendFailedNotification();
-        drawBottomPanel();
+    }
+
+    /**
+     * Load message history and draft. This method should be called from main thread.
+     * @param debugFlag shows where this is being called from
+     */
+    private void loadMessagesAndDraft(int debugFlag) {
+        if (!mMessagesAndDraftLoaded) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                Log.v(TAG, "### CMA.loadMessagesAndDraft: flag=" + debugFlag);
+            }
+            loadMessageContent();
+            if (!mHandleSendOrForwardIntent) {
+                if (!loadDraft()) {
+                    drawBottomPanel(true);
+                }
+            }
+            mMessagesAndDraftLoaded = true;
+        }
     }
 
     private void updateSendFailedNotification() {
@@ -2147,6 +2221,9 @@ public class ComposeMessageActivity extends Activity
     protected void onResume() {
         super.onResume();
 
+        // set the keyboard mode with mSoftInputMode, which was computed in onStart().
+        getWindow().setSoftInputMode(mSoftInputMode);
+
         // OLD: get notified of presence updates to update the titlebar.
         // NEW: we are using ContactHeaderWidget which displays presence, but updating presence
         //      there is out of our control.
@@ -2173,28 +2250,10 @@ public class ComposeMessageActivity extends Activity
         mIsRunning = true;
         updateThreadIdIfRunning();
         mConversation.markAsRead();
-
-        int mode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
-        if (mConversation.getThreadId() <= 0 ||
-                DraftCache.getInstance().hasDraft(mConversation.getThreadId())) {
-            mode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
-        } else {
-            mode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
-        }
-        getWindow().setSoftInputMode(mode);
     }
 
     @Override
     protected void onPause() {
-        // HACK: fix for getting double callback for onSizeChanged() after re-entering this
-        // activity. Wait 100ms until InputMethodManagerService handles hideSoftInput
-        // This should really be fixed in WindowManagerService
-        hideKeyboard();
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException ex) {
-        }
-
         super.onPause();
 
         if (DEBUG) {
@@ -2228,6 +2287,19 @@ public class ComposeMessageActivity extends Activity
         }
 
         mConversation.markAsRead();
+
+        // HACK: fix for getting two onSizeChanged() calls after re-entering this
+        // activity. If we hide the keyboard on the way out, showing keyboard again on the way
+        // in will produce less window resizing and thus less janks.
+        //
+        // Wait 100ms until InputMethodManagerService handles hideSoftInput
+        // Note: this should really be fixed in WindowManagerService
+        hideKeyboard();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+        }
+
         mIsRunning = false;
     }
 
@@ -2274,14 +2346,15 @@ public class ComposeMessageActivity extends Activity
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "onConfigurationChanged: " + newConfig);
-        }
 
         if (resetConfiguration(newConfig)) {
             // Have to re-layout the attachment editor because we have different layouts
             // depending on whether we're portrait or landscape.
             drawTopPanel(isSubjectEditorVisible());
+        }
+        if (LOCAL_LOGV) {
+            Log.v(TAG, "CMA.onConfigurationChanged: " + newConfig +
+                    ", mIsKeyboardOpen=" + mIsKeyboardOpen);
         }
         onKeyboardStateChanged(mIsKeyboardOpen);
     }
@@ -2560,9 +2633,9 @@ public class ComposeMessageActivity extends Activity
             }
             if (!mWorkingMessage.hasAttachment()) {
                 menu.add(0, MENU_ADD_ATTACHMENT, 0, R.string.add_attachment)
-                    .setIcon(R.drawable.ic_menu_attachment)
+                        .setIcon(R.drawable.ic_menu_attachment)
                     .setTitle(R.string.add_attachment)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);    // add to actionbar
+                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);    // add to actionbar
             }
         }
 
@@ -3232,6 +3305,14 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void drawBottomPanel() {
+        drawBottomPanel(true);
+    }
+
+    /**
+     * draw the compose view at the bottom of the screen.
+     * @param showDraftText whether to show the draft text loaded in memory.
+     */
+    private void drawBottomPanel(boolean showDraftText) {
         // Reset the counter for text editor.
         resetCounter();
 
@@ -3241,9 +3322,16 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
+        if (LOCAL_LOGV) {
+            Log.v(TAG, "CMA.drawBottomPanel: showDraftText=" + showDraftText);
+        }
         mBottomPanel.setVisibility(View.VISIBLE);
 
-        CharSequence text = mWorkingMessage.getText();
+        CharSequence text = null;
+
+        if (showDraftText) {
+            text =  mWorkingMessage.getText();
+        }
 
         // TextView.setTextKeepState() doesn't like null input.
         if (text != null) {
@@ -3392,9 +3480,26 @@ public class ComposeMessageActivity extends Activity
         mMsgListView.setOnSizeChangedListener(new OnSizeChangedListener() {
             public void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
                 if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                    Log.v(TAG, "##### onSizeChanged: w=" + width + " h=" + height +
+                    Log.v(TAG, "onSizeChanged: w=" + width + " h=" + height +
                             " oldw=" + oldWidth + " oldh=" + oldHeight);
                 }
+
+                if (Math.abs(height - oldHeight) > SMOOTH_SCROLL_THRESHOLD) {
+                    boolean keyboardOpen = false;
+                    if (height < oldHeight) {
+                        keyboardOpen = true;
+                    }
+
+                    if (mMessagesAndDraftLoaded) {
+                        // Important: don't mess with things before the first keyboard opens and
+                        // messages+draft loading is called; otherwise it's janky.
+                        onKeyboardStateChanged(keyboardOpen);
+                    } else if (keyboardOpen) {
+                        // perform the delayed loading now, after keyboard opens
+                        loadMessagesAndDraft(3);
+                    }
+                }
+
 
                 // The message list view changed size, most likely because the keyboard
                 // appeared or disappeared or the user typed/deleted chars in the message
@@ -3507,14 +3612,20 @@ public class ComposeMessageActivity extends Activity
         });
     }
 
-    private void loadDraft() {
+    /**
+     * Load the draft
+     *
+     * If mWorkingMessage has content in memory that's worth saving, return false.
+     * Otherwise, call the async operation to load draft and return true.
+     */
+    private boolean loadDraft() {
         if (mWorkingMessage.isWorthSaving()) {
-            Log.w(TAG, "called with non-empty working message");
-            return;
+            Log.w(TAG, "CMA.loadDraft: called with non-empty working message, bail");
+            return false;
         }
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("call WorkingMessage.loadDraft");
+            log("CMA.loadDraft");
         }
 
         mWorkingMessage = WorkingMessage.loadDraft(this, mConversation,
@@ -3526,6 +3637,12 @@ public class ComposeMessageActivity extends Activity
                         updateSendButtonState();
                     }
                 });
+
+        // WorkingMessage.loadDraft() can return a new WorkingMessage object that doesn't
+        // have its conversation set. Make sure it is set.
+        mWorkingMessage.setConversation(mConversation);
+
+        return true;
     }
 
     private void saveDraft(boolean isStopping) {
@@ -3634,7 +3751,7 @@ public class ComposeMessageActivity extends Activity
 
     private void resetMessage() {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("");
+            log("resetMessage");
         }
 
         // Make the attachment editor hide its view.
@@ -3818,9 +3935,11 @@ public class ComposeMessageActivity extends Activity
      */
     private void smoothScrollToEnd(boolean force, int listSizeChange) {
         int last = mMsgListView.getLastVisiblePosition();
-        if (last <= 0) {
+        int newPosition = mMsgListAdapter.getCount() - 1;
+        if (last <= 0 || newPosition < 0) {
             if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                Log.v(TAG, "smoothScrollToEnd: last=" + last + ", mMsgListView not ready");
+                Log.v(TAG, "smoothScrollToEnd: last=" + last + ", newPos=" + newPosition +
+                        ", mMsgListView not ready");
             }
             return;
         }
@@ -3831,7 +3950,6 @@ public class ComposeMessageActivity extends Activity
             bottom = lastChild.getBottom();
         }
 
-        int newPosition = mMsgListAdapter.getCount() - 1;
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             Log.v(TAG, "smoothScrollToEnd newPosition: " + newPosition +
                     " mLastSmoothScrollPosition: " + mLastSmoothScrollPosition +
