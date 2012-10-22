@@ -326,13 +326,15 @@ public class ComposeMessageActivity extends Activity
     // used to control whether to show keyboard or not.
     private int mSoftInputMode;
 
-    // whether the activity is started to handle Send or Forward Message intent. This is
-    // used later to see if we need to load the draft.
-    private boolean mHandleSendOrForwardIntent;
-
     // we may call loadMessageAndDraft() from a few different places. This is used to make
     // sure we only load message+draft once.
     private boolean mMessagesAndDraftLoaded;
+
+    // whether we should load the draft. For example, after attaching a photo and coming back 
+    // in onActivityResult(), we should not load the draft because that will mess up the draft
+    // state of mWorkingMessage. Also, if we are handling a Send or Forward Message Intent,
+    // we should not load the draft.
+    private boolean mShouldLoadDraft;
 
     private Handler mHandler = new Handler();
 
@@ -1935,14 +1937,17 @@ public class ComposeMessageActivity extends Activity
         // Set up the message history ListAdapter
         initMessageList();
 
+        mShouldLoadDraft = true;
+
         // Load the draft for this thread, if we aren't already handling
         // existing data, such as a shared picture or forwarded message.
         boolean isForwardedMessage = false;
         // We don't attempt to handle the Intent.ACTION_SEND when saveInstanceState is non-null.
         // saveInstanceState is non-null when this activity is killed. In that case, we already
         // handled the attachment or the send, so we don't try and parse the intent again.
-        mHandleSendOrForwardIntent = savedInstanceState == null &&
-                (handleSendIntent() || handleForwardedMessage());
+        if (savedInstanceState == null && (handleSendIntent() || handleForwardedMessage())) {
+            mShouldLoadDraft = false;
+        }
 
         // Let the working message know what conversation it belongs to
         mWorkingMessage.setConversation(mConversation);
@@ -1960,7 +1965,7 @@ public class ComposeMessageActivity extends Activity
         updateSendButtonState();
 
         drawTopPanel(false);
-        if (mHandleSendOrForwardIntent) {
+        if (!mShouldLoadDraft) {
             // We're not loading a draft, so we can draw the bottom panel immediately.
             drawBottomPanel();
         }
@@ -2108,8 +2113,7 @@ public class ComposeMessageActivity extends Activity
         mSoftInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
 
         boolean delayLoading = false;
-        if (!mHandleSendOrForwardIntent &&
-                DraftCache.getInstance().hasDraft(mConversation.getThreadId())) {
+        if (DraftCache.getInstance().hasDraft(mConversation.getThreadId())) {
             mSoftInputMode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
             delayLoading = DEFER_LOADING_MESSAGES_AND_DRAFT;
         } else if (mConversation.getThreadId() <= 0) {
@@ -2128,8 +2132,11 @@ public class ComposeMessageActivity extends Activity
             loadMessagesAndDraft(1);
         } else {
             // if we delay loading the message, show the compose view w/o pre-loaded draft
-            // text, etc.
+            // text. Remove the TextChangedListener when doing this. Otherwise, clearing
+            // TextView will also clear the draft text in mWorkingMessage.
+            mTextEditor.removeTextChangedListener(mTextEditorWatcher);
             drawBottomPanel(false);
+            mTextEditor.addTextChangedListener(mTextEditorWatcher);
 
             // HACK: force load messages+draft after max delay, if it's not already loaded.
             // this is to work around when coming out of sleep mode. WindowManager behaves
@@ -2178,10 +2185,14 @@ public class ComposeMessageActivity extends Activity
                 Log.v(TAG, "### CMA.loadMessagesAndDraft: flag=" + debugFlag);
             }
             loadMessageContent();
-            if (!mHandleSendOrForwardIntent) {
-                if (!loadDraft()) {
-                    drawBottomPanel(true);
+            boolean drawBottomPanel = true;
+            if (mShouldLoadDraft) {
+                if (loadDraft()) {
+                    drawBottomPanel = false;
                 }
+            }
+            if (drawBottomPanel) {
+                drawBottomPanel(true);
             }
             mMessagesAndDraftLoaded = true;
         }
@@ -2328,6 +2339,11 @@ public class ComposeMessageActivity extends Activity
             log("save draft");
         }
         saveDraft(true);
+
+        // set 'mShouldLoadDraft' to true, so when coming back to ComposeMessageActivity, we would
+        // load the draft, unless we are coming back to the activity after attaching a photo, etc,
+        // in which case we should set 'mShouldLoadDraft' to false.
+        mShouldLoadDraft = true;
 
         // Cleanup the BroadcastReceiver.
         unregisterReceiver(mHttpProgressReceiver);
@@ -2881,9 +2897,11 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (LogTag.VERBOSE) {
-            log("requestCode=" + requestCode + ", resultCode=" + resultCode + ", data=" + data);
+            log("onActivityResult: requestCode=" + requestCode + ", resultCode=" + resultCode +
+                    ", data=" + data);
         }
         mWaitingForSubActivity = false;          // We're back!
+        mShouldLoadDraft = false;
         if (mWorkingMessage.isFakeMmsForDraft()) {
             // We no longer have to fake the fact we're an Mms. At this point we are or we aren't,
             // based on attachments and other Mms attrs.
@@ -3146,7 +3164,7 @@ public class ComposeMessageActivity extends Activity
 
     private void addImage(Uri uri, boolean append) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("append=" + append + ", uri=" + uri);
+            log("addImage: append=" + append + ", uri=" + uri);
         }
 
         int result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, uri, append);
@@ -3322,7 +3340,9 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (LOCAL_LOGV) {
-            Log.v(TAG, "CMA.drawBottomPanel: showDraftText=" + showDraftText);
+            Log.v(TAG, "CMA.drawBottomPanel: showDraftText=" + showDraftText +
+                    ", mWorkingMessage=" + mWorkingMessage +
+                    ", text=" + mWorkingMessage.getText());
         }
         mBottomPanel.setVisibility(View.VISIBLE);
 
@@ -3335,6 +3355,9 @@ public class ComposeMessageActivity extends Activity
         // TextView.setTextKeepState() doesn't like null input.
         if (text != null) {
             mTextEditor.setTextKeepState(text);
+
+            // Set the edit caret to the end of the text.
+            mTextEditor.setSelection(mTextEditor.length());
         } else {
             mTextEditor.setText("");
         }
@@ -3623,9 +3646,6 @@ public class ComposeMessageActivity extends Activity
                         drawTopPanel(false);
                         drawBottomPanel();
                         updateSendButtonState();
-
-                        // Set the edit caret to the end of the text.
-                        mTextEditor.setSelection(mTextEditor.length());
                     }
                 });
 
