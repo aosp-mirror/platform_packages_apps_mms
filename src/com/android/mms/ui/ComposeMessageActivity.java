@@ -276,7 +276,9 @@ public class ComposeMessageActivity extends Activity
     private RecipientsEditor mRecipientsEditor;  // UI control for editing recipients
     private ImageButton mRecipientsPicker;       // UI control for recipients picker
 
-    private boolean mIsKeyboardOpen;             // Whether the hardware keyboard is visible
+    // For HW keyboard, 'mIsKeyboardOpen' indicates if the HW keyboard is open.
+    // For SW keyboard, 'mIsKeyboardOpen' should always be true.
+    private boolean mIsKeyboardOpen;
     private boolean mIsLandscape;                // Whether we're in landscape mode
 
     private boolean mToastForDraftSave;   // Whether to notify the user that a draft is being saved
@@ -323,11 +325,6 @@ public class ComposeMessageActivity extends Activity
 
     // used to control whether to show keyboard or not.
     private int mSoftInputMode;
-
-    // if we decide to show keyboard early in the activity life cycle, we will delay loading
-    // the message history and draft until the keyboard comes up. This helps de-jank the
-    // keyboard showing and window layout transition.
-    private boolean mDelayLoadMessage;
 
     // whether the activity is started to handle Send or Forward Message intent. This is
     // used later to see if we need to load the draft.
@@ -1968,6 +1965,8 @@ public class ComposeMessageActivity extends Activity
             drawBottomPanel();
         }
 
+        onKeyboardStateChanged(mIsKeyboardOpen);
+
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             log("update title, mConversation=" + mConversation.toString());
         }
@@ -3484,20 +3483,9 @@ public class ComposeMessageActivity extends Activity
                             " oldw=" + oldWidth + " oldh=" + oldHeight);
                 }
 
-                if (Math.abs(height - oldHeight) > SMOOTH_SCROLL_THRESHOLD) {
-                    boolean keyboardOpen = false;
-                    if (height < oldHeight) {
-                        keyboardOpen = true;
-                    }
-
-                    if (mMessagesAndDraftLoaded) {
-                        // Important: don't mess with things before the first keyboard opens and
-                        // messages+draft loading is called; otherwise it's janky.
-                        onKeyboardStateChanged(keyboardOpen);
-                    } else if (keyboardOpen) {
-                        // perform the delayed loading now, after keyboard opens
-                        loadMessagesAndDraft(3);
-                    }
+                if (!mMessagesAndDraftLoaded && (oldHeight-height > SMOOTH_SCROLL_THRESHOLD)) {
+                    // perform the delayed loading now, after keyboard opens
+                    loadMessagesAndDraft(3);
                 }
 
 
