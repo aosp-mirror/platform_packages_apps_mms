@@ -162,12 +162,10 @@
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Zahtevaj poročilo o dostavi za vsako poslano sporočilo"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Izbriši stara sporočila, ko so dosežene omejitve"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> sporočil na pogovor"</string>
-    <!-- no translation found for pref_summary_mms_group_mms (2266928687440696745) -->
-    <skip />
+    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"Če želite eno sporočilo poslati več prejemnikom, uporabite MMS"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Upravljanje sporočil na kartici SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Poročila o dostavi"</string>
-    <!-- no translation found for pref_title_mms_group_mms (1251698526583908432) -->
-    <skip />
+    <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"Skupinsko pošiljanje sporočil"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Preberi poročila"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Poročila o dostavi"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Izbriši stara sporočila"</string>
