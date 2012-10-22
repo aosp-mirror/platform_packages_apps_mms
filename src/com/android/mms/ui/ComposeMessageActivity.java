@@ -3635,6 +3635,9 @@ public class ComposeMessageActivity extends Activity
                         drawTopPanel(false);
                         drawBottomPanel();
                         updateSendButtonState();
+
+                        // Set the edit caret to the end of the text.
+                        mTextEditor.setSelection(mTextEditor.length());
                     }
                 });
 
