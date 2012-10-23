@@ -19,9 +19,12 @@ package com.android.mms.model;
 
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -36,6 +39,7 @@ import org.w3c.dom.smil.SMILParElement;
 import org.w3c.dom.smil.SMILRegionElement;
 import org.w3c.dom.smil.SMILRootLayoutElement;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.net.Uri;
@@ -301,6 +305,32 @@ public class SlideshowModel extends Model
         pb.addPart(0, smilPart);
 
         return pb;
+    }
+
+    public HashMap<Uri, InputStream> openPartFiles(ContentResolver cr) {
+        HashMap<Uri, InputStream> openedFiles = null;     // Don't create unless we have to
+
+        for (SlideModel slide : mSlides) {
+            for (MediaModel media : slide) {
+                if (media.isText()) {
+                    continue;
+                }
+                Uri uri = media.getUri();
+                InputStream is;
+                try {
+                    is = cr.openInputStream(uri);
+                    if (is != null) {
+                        if (openedFiles == null) {
+                            openedFiles = new HashMap<Uri, InputStream>();
+                        }
+                        openedFiles.put(uri, is);
+                    }
+                } catch (FileNotFoundException e) {
+                    Log.e(TAG, "openPartFiles couldn't open: " + uri, e);
+                }
+            }
+        }
+        return openedFiles;
     }
 
     public PduBody makeCopy() {
@@ -686,7 +716,7 @@ public class SlideshowModel extends Model
             // This will write out all the new parts to:
             //      /data/data/com.android.providers.telephony/app_parts
             // and at the same time delete the old parts.
-            PduPersister.getPduPersister(mContext).updateParts(messageUri, pb);
+            PduPersister.getPduPersister(mContext).updateParts(messageUri, pb, null);
         }
     }
 
