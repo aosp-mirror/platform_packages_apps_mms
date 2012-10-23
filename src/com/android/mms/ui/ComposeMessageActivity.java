@@ -330,7 +330,7 @@ public class ComposeMessageActivity extends Activity
     // sure we only load message+draft once.
     private boolean mMessagesAndDraftLoaded;
 
-    // whether we should load the draft. For example, after attaching a photo and coming back 
+    // whether we should load the draft. For example, after attaching a photo and coming back
     // in onActivityResult(), we should not load the draft because that will mess up the draft
     // state of mWorkingMessage. Also, if we are handling a Send or Forward Message Intent,
     // we should not load the draft.
@@ -1235,7 +1235,7 @@ public class ComposeMessageActivity extends Activity
                         // Copy the parts of the message here.
                         mTempMmsUri = persister.persist(sendReq, Mms.Draft.CONTENT_URI, true,
                                 MessagingPreferenceActivity
-                                    .getIsGroupMmsEnabled(ComposeMessageActivity.this));
+                                    .getIsGroupMmsEnabled(ComposeMessageActivity.this), null);
                         mTempThreadId = MessagingNotification.getThreadId(
                                 ComposeMessageActivity.this, mTempMmsUri);
                     } catch (MmsException e) {
@@ -3100,7 +3100,8 @@ public class ComposeMessageActivity extends Activity
                 result = WorkingMessage.UNKNOWN_ERROR;
             } else {
                 try {
-                    Uri dataUri = persister.persistPart(part, ContentUris.parseId(messageUri));
+                    Uri dataUri = persister.persistPart(part,
+                            ContentUris.parseId(messageUri), null);
                     result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, dataUri, append);
                     if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                         log("ResizeImageResultCallback: dataUri=" + dataUri);
