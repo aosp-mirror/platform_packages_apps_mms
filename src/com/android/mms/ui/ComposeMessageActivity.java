@@ -323,9 +323,6 @@ public class ComposeMessageActivity extends Activity
      */
     private boolean mIsRunning;
 
-    // used to control whether to show keyboard or not.
-    private int mSoftInputMode;
-
     // we may call loadMessageAndDraft() from a few different places. This is used to make
     // sure we only load message+draft once.
     private boolean mMessagesAndDraftLoaded;
@@ -2075,6 +2072,11 @@ public class ComposeMessageActivity extends Activity
     protected void onRestart() {
         super.onRestart();
 
+        // hide the compose panel to reduce jank when re-entering this activity.
+        // if we don't hide it here, the compose panel will flash before the keyboard shows
+        // (when keyboard is suppose to be shown).
+        hideBottomPanel();
+
         if (mWorkingMessage.isDiscarded()) {
             // If the message isn't worth saving, don't resurrect it. Doing so can lead to
             // a situation where a new incoming message gets the old thread id of the discarded
@@ -2110,20 +2112,22 @@ public class ComposeMessageActivity extends Activity
         // if there is draft to be loaded for 'mConversation', we'll show the keyboard;
         // otherwise we hide the keyboard. If we show the keyboard, delay loading
         // message history and draft (controlled by DEFER_LOADING_MESSAGES_AND_DRAFT).
-        mSoftInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
+        int mode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
 
         boolean delayLoading = false;
         if (DraftCache.getInstance().hasDraft(mConversation.getThreadId())) {
-            mSoftInputMode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
+            mode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
             delayLoading = DEFER_LOADING_MESSAGES_AND_DRAFT;
         } else if (mConversation.getThreadId() <= 0) {
             // For composing a new message, bring up the softkeyboard so the user can
             // immediately enter recipients. This call won't do anything on devices with
             // a hard keyboard.
-            mSoftInputMode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
+            mode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
         } else {
-            mSoftInputMode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
+            mode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN;
         }
+
+        getWindow().setSoftInputMode(mode);
 
         // reset mMessagesAndDraftLoaded
         mMessagesAndDraftLoaded = false;
@@ -2131,13 +2135,6 @@ public class ComposeMessageActivity extends Activity
         if (!delayLoading) {
             loadMessagesAndDraft(1);
         } else {
-            // if we delay loading the message, show the compose view w/o pre-loaded draft
-            // text. Remove the TextChangedListener when doing this. Otherwise, clearing
-            // TextView will also clear the draft text in mWorkingMessage.
-            mTextEditor.removeTextChangedListener(mTextEditorWatcher);
-            drawBottomPanel(false);
-            mTextEditor.addTextChangedListener(mTextEditorWatcher);
-
             // HACK: force load messages+draft after max delay, if it's not already loaded.
             // this is to work around when coming out of sleep mode. WindowManager behaves
             // strangely and hides the keyboard when it should be shown. In that case,
@@ -2192,7 +2189,7 @@ public class ComposeMessageActivity extends Activity
                 }
             }
             if (drawBottomPanel) {
-                drawBottomPanel(true);
+                drawBottomPanel();
             }
             mMessagesAndDraftLoaded = true;
         }
@@ -2230,9 +2227,6 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onResume() {
         super.onResume();
-
-        // set the keyboard mode with mSoftInputMode, which was computed in onStart().
-        getWindow().setSoftInputMode(mSoftInputMode);
 
         // OLD: get notified of presence updates to update the titlebar.
         // NEW: we are using ContactHeaderWidget which displays presence, but updating presence
@@ -2297,19 +2291,6 @@ public class ComposeMessageActivity extends Activity
         }
 
         mConversation.markAsRead();
-
-        // HACK: fix for getting two onSizeChanged() calls after re-entering this
-        // activity. If we hide the keyboard on the way out, showing keyboard again on the way
-        // in will produce less window resizing and thus less janks.
-        //
-        // Wait 100ms until InputMethodManagerService handles hideSoftInput
-        // Note: this should really be fixed in WindowManagerService
-        hideKeyboard();
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException ex) {
-        }
-
         mIsRunning = false;
     }
 
@@ -3322,15 +3303,10 @@ public class ComposeMessageActivity extends Activity
         return r.getString(id, mediaName);
     }
 
-    private void drawBottomPanel() {
-        drawBottomPanel(true);
-    }
-
     /**
      * draw the compose view at the bottom of the screen.
-     * @param showDraftText whether to show the draft text loaded in memory.
      */
-    private void drawBottomPanel(boolean showDraftText) {
+    private void drawBottomPanel() {
         // Reset the counter for text editor.
         resetCounter();
 
@@ -3341,17 +3317,11 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (LOCAL_LOGV) {
-            Log.v(TAG, "CMA.drawBottomPanel: showDraftText=" + showDraftText +
-                    ", mWorkingMessage=" + mWorkingMessage +
-                    ", text=" + mWorkingMessage.getText());
+            Log.v(TAG, "CMA.drawBottomPanel");
         }
         mBottomPanel.setVisibility(View.VISIBLE);
 
-        CharSequence text = null;
-
-        if (showDraftText) {
-            text =  mWorkingMessage.getText();
-        }
+        CharSequence text = mWorkingMessage.getText();
 
         // TextView.setTextKeepState() doesn't like null input.
         if (text != null) {
@@ -3362,6 +3332,13 @@ public class ComposeMessageActivity extends Activity
         } else {
             mTextEditor.setText("");
         }
+    }
+
+    private void hideBottomPanel() {
+        if (LOCAL_LOGV) {
+            Log.v(TAG, "CMA.hideBottomPanel");
+        }
+        mBottomPanel.setVisibility(View.INVISIBLE);
     }
 
     private void drawTopPanel(boolean showSubjectEditor) {
