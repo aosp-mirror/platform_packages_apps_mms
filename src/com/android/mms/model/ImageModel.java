@@ -248,7 +248,7 @@ public class ImageModel extends RegionMediaModel {
             Log.v(TAG, "resizeMedia mSize: " + mSize);
         }
 
-        Uri newUri = persister.persistPart(part, messageId);
+        Uri newUri = persister.persistPart(part, messageId, null);
         setUri(newUri);
     }
 }
