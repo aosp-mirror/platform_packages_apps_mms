@@ -881,7 +881,7 @@ public class MessageUtils {
                         PduPersister persister = PduPersister.getPduPersister(activity);
                         try {
                             PduBody pb = slideshow.toPduBody();
-                            persister.updateParts(msgUri, pb);
+                            persister.updateParts(msgUri, pb, null);
                             slideshow.sync(pb);
                         } catch (MmsException e) {
                             Log.e(TAG, "Unable to save message for preview");

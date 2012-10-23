@@ -16,10 +16,14 @@
 
 package com.android.mms.data;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -838,9 +842,9 @@ public class WorkingMessage {
             // have one already, make sure it is synced to disk.
             if (mMessageUri == null) {
                 mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow, null,
-                        mActivity);
+                        mActivity, null);
             } else {
-                updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
+                updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq, null);
             }
             mHasMmsDraft = true;
         } finally {
@@ -1426,10 +1430,11 @@ public class WorkingMessage {
         try {
             if (newMessage) {
                 // Create a new MMS message if one hasn't been made yet.
-                mmsUri = createDraftMmsMessage(persister, sendReq, slideshow, mmsUri, mActivity);
+                mmsUri = createDraftMmsMessage(persister, sendReq, slideshow, mmsUri,
+                        mActivity, null);
             } else {
                 // Otherwise, sync the MMS message in progress to disk.
-                updateDraftMmsMessage(mmsUri, persister, slideshow, sendReq);
+                updateDraftMmsMessage(mmsUri, persister, slideshow, sendReq, null);
             }
 
             // Be paranoid and clean any draft SMS up.
@@ -1560,7 +1565,8 @@ public class WorkingMessage {
     }
 
     private static Uri createDraftMmsMessage(PduPersister persister, SendReq sendReq,
-            SlideshowModel slideshow, Uri preUri, Context context) {
+            SlideshowModel slideshow, Uri preUri, Context context,
+            HashMap<Uri, InputStream> preOpenedFiles) {
         if (slideshow == null) {
             return null;
         }
@@ -1568,7 +1574,8 @@ public class WorkingMessage {
             PduBody pb = slideshow.toPduBody();
             sendReq.setBody(pb);
             Uri res = persister.persist(sendReq, preUri == null ? Mms.Draft.CONTENT_URI : preUri,
-                    true, MessagingPreferenceActivity.getIsGroupMmsEnabled(context));
+                    true, MessagingPreferenceActivity.getIsGroupMmsEnabled(context),
+                    preOpenedFiles);
             slideshow.sync(pb);
             return res;
         } catch (MmsException e) {
@@ -1580,6 +1587,8 @@ public class WorkingMessage {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             LogTag.debug("asyncUpdateDraftMmsMessage conv=%s mMessageUri=%s", conv, mMessageUri);
         }
+        final HashMap<Uri, InputStream> preOpenedFiles =
+                mSlideshow.openPartFiles(mContentResolver);
 
         new Thread(new Runnable() {
             @Override
@@ -1592,9 +1601,10 @@ public class WorkingMessage {
 
                     if (mMessageUri == null) {
                         mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow, null,
-                                mActivity);
+                                mActivity, preOpenedFiles);
                     } else {
-                        updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq);
+                        updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq,
+                                preOpenedFiles);
                     }
                     ensureThreadIdIfNeeded(conv, isStopping);
                     conv.setDraftState(true);
@@ -1608,13 +1618,14 @@ public class WorkingMessage {
                     asyncDeleteDraftSmsMessage(conv);
                 } finally {
                     DraftCache.getInstance().setSavingDraft(false);
+                    closePreOpenedFiles(preOpenedFiles);
                 }
             }
         }, "WorkingMessage.asyncUpdateDraftMmsMessage").start();
     }
 
     private static void updateDraftMmsMessage(Uri uri, PduPersister persister,
-            SlideshowModel slideshow, SendReq sendReq) {
+            SlideshowModel slideshow, SendReq sendReq, HashMap<Uri, InputStream> preOpenedFiles) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             LogTag.debug("updateDraftMmsMessage uri=%s", uri);
         }
@@ -1627,12 +1638,28 @@ public class WorkingMessage {
         final PduBody pb = slideshow.toPduBody();
 
         try {
-            persister.updateParts(uri, pb);
+            persister.updateParts(uri, pb, preOpenedFiles);
         } catch (MmsException e) {
             Log.e(TAG, "updateDraftMmsMessage: cannot update message " + uri);
         }
 
         slideshow.sync(pb);
+    }
+
+    private static void closePreOpenedFiles(HashMap<Uri, InputStream> preOpenedFiles) {
+        if (preOpenedFiles == null) {
+            return;
+        }
+        Set<Uri> uris = preOpenedFiles.keySet();
+        for (Uri uri : uris) {
+            InputStream is = preOpenedFiles.get(uri);
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                }
+            }
+        }
     }
 
     private static final String SMS_DRAFT_WHERE = Sms.TYPE + "=" + Sms.MESSAGE_TYPE_DRAFT;
