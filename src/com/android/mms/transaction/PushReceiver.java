@@ -94,7 +94,7 @@ public class PushReceiver extends BroadcastReceiver {
                         }
 
                         Uri uri = p.persist(pdu, Inbox.CONTENT_URI, true,
-                                MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext));
+                                MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null);
                         // Update thread ID for ReadOrigInd & DeliveryInd.
                         ContentValues values = new ContentValues(1);
                         values.put(Mms.THREAD_ID, threadId);
@@ -124,7 +124,8 @@ public class PushReceiver extends BroadcastReceiver {
                             // because it causes UI jank.
                             Uri uri = p.persist(pdu, Inbox.CONTENT_URI,
                                     !NotificationTransaction.allowAutoDownload(),
-                                    MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext));
+                                    MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext),
+                                    null);
 
                             // Start service to finish the notification transaction.
                             Intent svc = new Intent(mContext, TransactionService.class);

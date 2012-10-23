@@ -163,7 +163,7 @@ public class MmsMessageSender implements MessageSender {
             readRec.setDate(System.currentTimeMillis() / 1000);
 
             PduPersister.getPduPersister(context).persist(readRec, Mms.Outbox.CONTENT_URI, true,
-                    MessagingPreferenceActivity.getIsGroupMmsEnabled(context));
+                    MessagingPreferenceActivity.getIsGroupMmsEnabled(context), null);
             context.startService(new Intent(context, TransactionService.class));
         } catch (InvalidHeaderValueException e) {
             Log.e(TAG, "Invalide header value", e);

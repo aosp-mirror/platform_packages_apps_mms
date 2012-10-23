@@ -189,7 +189,7 @@ public class SlideshowEditActivity extends ListActivity {
             if (mDirty) {
                 try {
                     PduBody pb = mSlideshowModel.toPduBody();
-                    PduPersister.getPduPersister(this).updateParts(mUri, pb);
+                    PduPersister.getPduPersister(this).updateParts(mUri, pb, null);
                     mSlideshowModel.sync(pb);
                 }  catch (MmsException e) {
                     Log.e(TAG, "Cannot update the message: " + mUri, e);
