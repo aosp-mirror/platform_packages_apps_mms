@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.android.mms.LogTag;
+import com.android.mms.MmsConfig;
 import com.google.android.mms.MmsException;
 // TODO: remove dependency for SDK build
 
@@ -239,6 +240,11 @@ public abstract class MediaModel extends Model implements EventListener {
                 // sometimes mSize will be zero here. It's tempting to count the bytes as the code
                 // does below, but that turns out to be very slow. We'll deal with a zero size
                 // when we resize the media.
+
+                if (isVideo() && mSize > MmsConfig.getMaxMessageSize()) {
+                    Log.w(TAG, "initMediaSize: Video size: f.getChannel().size(): " + mSize +
+                            " larger than max message size: " + MmsConfig.getMaxMessageSize());
+                }
             } else {
                 while (-1 != input.read()) {
                     mSize++;
