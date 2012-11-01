@@ -55,6 +55,7 @@ public class PushReceiver extends BroadcastReceiver {
     private static final String TAG = "PushReceiver";
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
+    private final String SUBSCRIPTION_KEY = "subscription";
 
     private class ReceivePushTask extends AsyncTask<Intent,Void,Void> {
         private Context mContext;
@@ -117,7 +118,11 @@ public class PushReceiver extends BroadcastReceiver {
                         }
 
                         if (!isDuplicateNotification(mContext, nInd)) {
+                            int subId = intent.getIntExtra(SUBSCRIPTION_KEY, 0);
+                            ContentValues values = new ContentValues(1);
+                            values.put(Mms.SUB_ID, subId);
                             Uri uri = p.persist(pdu, Inbox.CONTENT_URI);
+                            SqliteWrapper.update(mContext, cr, uri, values, null, null);
                             // Start service to finish the notification transaction.
                             Intent svc = new Intent(mContext, TransactionService.class);
                             svc.putExtra(TransactionBundle.URI, uri.toString());

@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2007-2008 Esmertec AG.
  * Copyright (C) 2007-2008 The Android Open Source Project
+ * Copyright (C) 2010-2012, Code Aurora Forum. All rights reserved.
+ * Not a Contribution, Apache license notifications and license are retained
+ * for attribution purposes only
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,6 +47,7 @@ import android.provider.Telephony.Sms;
 import android.provider.Telephony.Sms.Inbox;
 import android.provider.Telephony.Sms.Intents;
 import android.provider.Telephony.Sms.Outbox;
+import android.telephony.MSimSmsManager;
 import android.telephony.ServiceState;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
@@ -69,6 +73,7 @@ import com.google.android.mms.MmsException;
  */
 public class SmsReceiverService extends Service {
     private static final String TAG = "SmsReceiverService";
+    private final String SUBSCRIPTION_KEY = "subscription";
 
     private ServiceHandler mServiceHandler;
     private Looper mServiceLooper;
@@ -220,7 +225,13 @@ public class SmsReceiverService extends Service {
     private void handleServiceStateChanged(Intent intent) {
         // If service just returned, start sending out the queued messages
         ServiceState serviceState = ServiceState.newFromBundle(intent.getExtras());
-        if (serviceState.getState() == ServiceState.STATE_IN_SERVICE) {
+        int subscription = intent.getIntExtra(SUBSCRIPTION_KEY, 0);
+        int prefSubscription = MSimSmsManager.getDefault().getPreferredSmsSubscription();
+        // if service state is IN_SERVICE & current subscription is same as
+        // preferred SMS subscription.i.e.as set under MultiSIM Settings,then
+        // sendFirstQueuedMessage.
+        if (serviceState.getState() == ServiceState.STATE_IN_SERVICE &&
+            subscription == prefSubscription) {
             sendFirstQueuedMessage();
         }
     }
@@ -250,10 +261,11 @@ public class SmsReceiverService extends Service {
 
                     int msgId = c.getInt(SEND_COLUMN_ID);
                     Uri msgUri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgId);
+                    SmsMessageSender sender;
 
-                    SmsMessageSender sender = new SmsSingleRecipientSender(this,
+                    sender = new SmsSingleRecipientSender(this,
                             address, msgText, threadId, status == Sms.STATUS_PENDING,
-                            msgUri);
+                            msgUri, MSimSmsManager.getDefault().getPreferredSmsSubscription());
 
                     if (LogTag.DEBUG_SEND ||
                             LogTag.VERBOSE ||
@@ -472,12 +484,19 @@ public class SmsReceiverService extends Service {
         ContentResolver resolver = context.getContentResolver();
         String originatingAddress = sms.getOriginatingAddress();
         int protocolIdentifier = sms.getProtocolIdentifier();
-        String selection =
-                Sms.ADDRESS + " = ? AND " +
-                Sms.PROTOCOL + " = ?";
-        String[] selectionArgs = new String[] {
-            originatingAddress, Integer.toString(protocolIdentifier)
-        };
+        String selection;
+        String[] selectionArgs;
+
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG, " SmsReceiverService: replaceMessage:");
+        }
+        selection = Sms.ADDRESS + " = ? AND " +
+                    Sms.PROTOCOL + " = ? AND " +
+                    Sms.SUB_ID +  " = ? ";
+        selectionArgs = new String[] {
+                originatingAddress, Integer.toString(protocolIdentifier),
+                Integer.toString(sms.getSubId())
+            };
 
         Cursor cursor = SqliteWrapper.query(context, resolver, Inbox.CONTENT_URI,
                             REPLACE_PROJECTION, selection, selectionArgs, null);
@@ -513,6 +532,8 @@ public class SmsReceiverService extends Service {
         // Store the message in the content provider.
         ContentValues values = extractContentValues(sms);
         values.put(Sms.ERROR_CODE, error);
+        values.put(Sms.SUB_ID, sms.getSubId());
+
         int pduCount = msgs.length;
 
         if (pduCount == 1) {

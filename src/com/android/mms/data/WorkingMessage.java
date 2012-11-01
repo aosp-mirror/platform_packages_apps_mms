@@ -35,6 +35,8 @@ import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.MmsSms.PendingMessages;
 import android.provider.Telephony.Sms;
+import android.telephony.MSimSmsManager;
+import android.telephony.MSimTelephonyManager;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.util.Log;
@@ -1287,7 +1289,11 @@ public class WorkingMessage {
             Log.d(LogTag.TRANSACTION, "sendSmsWorker sending message: recipients=" +
                     semiSepRecipients + ", threadId=" + threadId);
         }
-        MessageSender sender = new SmsMessageSender(mActivity, dests, msgText, threadId);
+        MessageSender sender;
+
+        sender = new SmsMessageSender(mActivity, dests, msgText, threadId,
+               MSimSmsManager.getDefault().getPreferredSmsSubscription());
+
         try {
             sender.sendMessage(threadId);
 
@@ -1413,6 +1419,11 @@ public class WorkingMessage {
             mStatusListener.onAttachmentError(error);
             return;
         }
+
+        ContentValues values = new ContentValues(1);
+        values.put(Mms.SUB_ID, MSimTelephonyManager.getDefault().getPreferredDataSubscription());
+        SqliteWrapper.update(mActivity, mContentResolver, mmsUri, values, null, null);
+
         MessageSender sender = new MmsMessageSender(mActivity, mmsUri,
                 slideshow.getCurrentMessageSize());
         try {

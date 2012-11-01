@@ -227,6 +227,9 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEND_MESSAGE" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="com.android.mms.transaction.SEND_MESSAGE" />
+            </intent-filter>
         </receiver>
 
         <receiver android:name=".transaction.MessageStatusReceiver">
