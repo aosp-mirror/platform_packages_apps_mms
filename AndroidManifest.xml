@@ -206,6 +206,10 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".ui.SelectMmsSubscription"
+            android:exported="true">
+        </service>
+
         <!-- Require sender permissions to prevent SMS spoofing -->
         <receiver android:name=".transaction.PrivilegedSmsReceiver"
             android:permission="android.permission.BROADCAST_SMS">

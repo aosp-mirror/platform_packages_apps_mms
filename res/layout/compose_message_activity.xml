@@ -184,6 +184,22 @@
                         android:contentDescription="@string/send"
                         android:nextFocusLeft="@+id/embedded_text_editor" />
 
+                    <TextView
+                        android:id="@+id/send_button_mms2"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:drawableBottom="@drawable/ic_send_holo_light"
+                        android:drawablePadding="0dip"
+                        android:layout_width="wrap_content"
+                        android:textSize="11sp"
+                        android:layout_height="0dip"
+                        android:layout_weight="1.0"
+                        android:layout_marginTop="0dip"
+                        android:layout_marginLeft="4dip"
+                        android:editable="false"
+                        android:text="@string/mms2"
+                        android:contentDescription="@string/send"
+                        android:nextFocusLeft="@+id/embedded_text_editor" />
+
                     <ImageButton
                         android:id="@+id/send_button_sms"
                         style="?android:attr/borderlessButtonStyle"

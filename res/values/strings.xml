@@ -162,6 +162,9 @@
     <string name="send">Send</string>
     <!-- Text to appear directly below the "Send" text on the SMS/MMS send button. The "MMS" text is on a second line in a smaller font. This is similar to saying "Send (mms)". -->
     <string name="mms">MMS</string>
+    <!-- Text to appear directly below the "Send" text on the MMS send button in case of DSDS. -->
+    <string name="mms1">MMS1</string>
+    <string name="mms2">MMS2</string>
 
     <!-- Menu item in conversation screen for returning to the conversation list -->
     <string name="all_threads">All threads</string>
@@ -786,6 +789,22 @@
 
     <!-- An enumeration comma for separating multiple names in notifications. [CHAR LIMIT=2] -->
     <string name="enumeration_comma">,\u0020</string>
+
+    <!-- Subscription selection strings -->
+    <string name="select_subscription_title">Select Subscription</string>
+    <string name="subscription1_title">Subscription 1</string>
+    <string name="subscription2_title">Subscription 2</string>
+
+    <string name="pending_mms_title">Pending MMS on other subscription.</string>
+    <string name="pending_mms">Messaging: One or more MMS are pending.</string>
+    <string name="pending_mms_text">Touch to switch the subscription.</string>
+
+    <string name="abort_mms">Messaging: Abort MMS</string>
+    <string name="abort_mms_text ">Touch to abort and switch back.</string>
+
+    <string name="progress_mms_title">MMS transaction on other sub in progress</string>
+    <string name="progress_mms">Messaging: MMS in progress...</string>
+    <string name="progress_mms_text ">Touch to retry again</string>
 
 </resources>
 
