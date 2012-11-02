@@ -7,6 +7,5 @@
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/widget"
     android:resizeMode="horizontal|vertical"
-    android:widgetCategory="home_screen|keyguard"
-    android:widgetFeatures="none">
+    android:widgetCategory="home_screen|keyguard">
 </appwidget-provider>
