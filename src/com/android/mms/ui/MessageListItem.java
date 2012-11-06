@@ -144,6 +144,13 @@ public class MessageListItem extends LinearLayout implements
     }
 
     public void bind(MessageItem msgItem, boolean convHasMultiRecipients, int position) {
+        if (DEBUG) {
+            Log.v(TAG, "bind for item: " + position + " old: " +
+                   (mMessageItem != null ? mMessageItem.toString() : "NULL" ) +
+                    " new " + msgItem.toString());
+        }
+        boolean sameItem = mMessageItem != null && mMessageItem.mMsgId == msgItem.mMsgId;
+
         mMessageItem = msgItem;
         mPosition = position;
         mMultiRecipients = convHasMultiRecipients;
@@ -159,7 +166,7 @@ public class MessageListItem extends LinearLayout implements
                 bindNotifInd();
                 break;
             default:
-                bindCommonMessage();
+                bindCommonMessage(sameItem);
                 break;
         }
     }
@@ -167,7 +174,6 @@ public class MessageListItem extends LinearLayout implements
     public void unbind() {
         // Clear all references to the message item, which can contain attachments and other
         // memory-intensive objects
-        mMessageItem = null;
         if (mImageView != null) {
             // Because #setOnClickListener may have set the listener to an object that has the
             // message item in its closure.
@@ -289,7 +295,7 @@ public class MessageListItem extends LinearLayout implements
         mAvatar.setImageDrawable(avatarDrawable);
     }
 
-    private void bindCommonMessage() {
+    private void bindCommonMessage(final boolean sameItem) {
         if (mDownloadButton != null) {
             mDownloadButton.setVisibility(View.GONE);
             mDownloadingLabel.setVisibility(View.GONE);
@@ -299,9 +305,11 @@ public class MessageListItem extends LinearLayout implements
         // displaying it by the Presenter.
         mBodyTextView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
-        boolean isSelf = Sms.isOutgoingFolder(mMessageItem.mBoxId);
-        String addr = isSelf ? null : mMessageItem.mAddress;
-        updateAvatarView(addr, isSelf);
+        if (!sameItem) {
+            boolean isSelf = Sms.isOutgoingFolder(mMessageItem.mBoxId);
+            String addr = isSelf ? null : mMessageItem.mAddress;
+            updateAvatarView(addr, isSelf);
+        }
 
         // Get and/or lazily set the formatted message from/on the
         // MessageItem.  Because the MessageItem instances come from a
@@ -349,10 +357,13 @@ public class MessageListItem extends LinearLayout implements
             if (DEBUG) {
                 Log.v(TAG, "bindCommonMessage for item: " + mPosition + " " +
                         mMessageItem.toString() +
-                        " mMessageItem.mAttachmentType: " + mMessageItem.mAttachmentType);
+                        " mMessageItem.mAttachmentType: " + mMessageItem.mAttachmentType +
+                        " sameItem: " + sameItem);
             }
             if (mMessageItem.mAttachmentType != WorkingMessage.TEXT) {
-                setImage(null, null);
+                if (!sameItem) {
+                    setImage(null, null);
+                }
                 setOnClickListener(mMessageItem);
                 drawPlaybackButton(mMessageItem);
             } else {
@@ -370,7 +381,7 @@ public class MessageListItem extends LinearLayout implements
                         if (messageItem != null && mMessageItem != null &&
                                 messageItem.getMessageId() == mMessageItem.getMessageId()) {
                             mMessageItem.setCachedFormattedMessage(null);
-                            bindCommonMessage();
+                            bindCommonMessage(true);
                         }
                     }
                 });
