@@ -3935,8 +3935,10 @@ public class ComposeMessageActivity extends Activity
 
         View lastChild = mMsgListView.getChildAt(last - mMsgListView.getFirstVisiblePosition());
         int bottom = 0;
+        int height = 0;
         if (lastChild != null) {
             bottom = lastChild.getBottom();
+            height = lastChild.getHeight();
         }
 
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
@@ -3960,9 +3962,10 @@ public class ComposeMessageActivity extends Activity
         // keyboard became visible but the size of the list will have changed. The test below
         // add listSizeChange to bottom to figure out if the old position was already scrolled
         // to the bottom.
+        int listHeight = mMsgListView.getHeight();
         if (force || ((listSizeChange != 0 || newPosition != mLastSmoothScrollPosition) &&
                 bottom + listSizeChange <=
-                    mMsgListView.getHeight() - mMsgListView.getPaddingBottom())) {
+                        listHeight - mMsgListView.getPaddingBottom())) {
             if (Math.abs(listSizeChange) > SMOOTH_SCROLL_THRESHOLD) {
                 // When the keyboard comes up, the window manager initiates a cross fade
                 // animation that conflicts with smooth scroll. Handle that case by jumping the
@@ -3970,7 +3973,15 @@ public class ComposeMessageActivity extends Activity
                 if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     Log.v(TAG, "keyboard state changed. setSelection=" + newPosition);
                 }
-                mMsgListView.setSelection(newPosition);
+                if (height > listHeight) {
+                    // If the height of the last item is taller than the whole height of the list,
+                    // we need to scroll that item so that its top is negative or above the top of
+                    // the list. That way, the bottom of the last item will be exposed above the
+                    // keyboard.
+                    mMsgListView.setSelectionFromTop(newPosition, listHeight - height);
+                } else {
+                    mMsgListView.setSelection(newPosition);
+                }
             } else if (newPosition - last > MAX_ITEMS_TO_INVOKE_SCROLL_SHORTCUT) {
                 if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     Log.v(TAG, "too many to scroll, setSelection=" + newPosition);
