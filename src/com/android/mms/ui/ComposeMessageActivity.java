@@ -2110,14 +2110,12 @@ public class ComposeMessageActivity extends Activity
 
         // figure out whether we need to show the keyboard or not.
         // if there is draft to be loaded for 'mConversation', we'll show the keyboard;
-        // otherwise we hide the keyboard. If we show the keyboard, delay loading
+        // otherwise we hide the keyboard. In any event, delay loading
         // message history and draft (controlled by DEFER_LOADING_MESSAGES_AND_DRAFT).
         int mode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
 
-        boolean delayLoading = false;
         if (DraftCache.getInstance().hasDraft(mConversation.getThreadId())) {
             mode |= WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE;
-            delayLoading = DEFER_LOADING_MESSAGES_AND_DRAFT;
         } else if (mConversation.getThreadId() <= 0) {
             // For composing a new message, bring up the softkeyboard so the user can
             // immediately enter recipients. This call won't do anything on devices with
@@ -2132,14 +2130,14 @@ public class ComposeMessageActivity extends Activity
         // reset mMessagesAndDraftLoaded
         mMessagesAndDraftLoaded = false;
 
-        if (!delayLoading) {
+        if (!DEFER_LOADING_MESSAGES_AND_DRAFT) {
             loadMessagesAndDraft(1);
         } else {
             // HACK: force load messages+draft after max delay, if it's not already loaded.
             // this is to work around when coming out of sleep mode. WindowManager behaves
-            // strangely and hides the keyboard when it should be shown. In that case,
-            // we never get the onSizeChanged() callback w/ keyboard shown, so we wouldn't
-            // know to load the messages+draft.
+            // strangely and hides the keyboard when it should be shown, or sometimes initially
+            // shows it when we want to hide it. In that case, we never get the onSizeChanged()
+            // callback w/ keyboard shown, so we wouldn't know to load the messages+draft.
             mHandler.postDelayed(new Runnable() {
                 public void run() {
                     loadMessagesAndDraft(2);
