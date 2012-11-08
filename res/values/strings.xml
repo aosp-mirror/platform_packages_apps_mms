@@ -22,7 +22,8 @@
     <!-- The name of the SMS/MMS app as it appears to the user in the Home screen, task switcher, etc. -->
     <string name="app_label">Messaging</string>
 
-    <!-- Command name to open a Compose screen; displays in conversation list -->
+    <!-- Command name to open a Compose screen; displays in conversation list.
+         Also used as accessibility text for widget's new message button -->
     <string name="new_message">New message</string>
     <!-- Context menu item on an individual message for dialing the sender's phone number -->
     <string name="menu_call_back">Call <xliff:g id="name">%s</xliff:g></string>
