@@ -150,8 +150,8 @@ public class MessageListItem extends LinearLayout implements
                     " new " + msgItem.toString());
         }
         boolean sameItem = mMessageItem != null && mMessageItem.mMsgId == msgItem.mMsgId;
-
         mMessageItem = msgItem;
+
         mPosition = position;
         mMultiRecipients = convHasMultiRecipients;
 
@@ -305,7 +305,16 @@ public class MessageListItem extends LinearLayout implements
         // displaying it by the Presenter.
         mBodyTextView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
-        if (!sameItem) {
+        boolean haveLoadedPdu = mMessageItem.isSms() || mMessageItem.mSlideshow != null;
+        // Here we're avoiding reseting the avatar to the empty avatar when we're rebinding
+        // to the same item. This happens when there's a DB change which causes the message item
+        // cache in the MessageListAdapter to get cleared. When an mms MessageItem is newly
+        // created, it has no info in it except the message id. The info is eventually loaded
+        // and bindCommonMessage is called again (see onPduLoaded below). When we haven't loaded
+        // the pdu, we don't want to call updateAvatarView because it
+        // will set the avatar to the generic avatar then when this method is called again
+        // from onPduLoaded, it will reset to the real avatar. This test is to avoid that flash.
+        if (!sameItem || haveLoadedPdu) {
             boolean isSelf = Sms.isOutgoingFolder(mMessageItem.mBoxId);
             String addr = isSelf ? null : mMessageItem.mAddress;
             updateAvatarView(addr, isSelf);
@@ -324,7 +333,9 @@ public class MessageListItem extends LinearLayout implements
                                              mMessageItem.mTextContentType);
             mMessageItem.setCachedFormattedMessage(formattedMessage);
         }
-        mBodyTextView.setText(formattedMessage);
+        if (!sameItem || haveLoadedPdu) {
+            mBodyTextView.setText(formattedMessage);
+        }
 
         // Debugging code to put the URI of the image attachment in the body of the list item.
         if (DEBUG) {
@@ -346,10 +357,11 @@ public class MessageListItem extends LinearLayout implements
 
         // If we're in the process of sending a message (i.e. pending), then we show a "SENDING..."
         // string in place of the timestamp.
-        mDateView.setText(buildTimestampLine(mMessageItem.isSending() ?
-                mContext.getResources().getString(R.string.sending_message) :
-                    mMessageItem.mTimestamp));
-
+        if (!sameItem || haveLoadedPdu) {
+            mDateView.setText(buildTimestampLine(mMessageItem.isSending() ?
+                    mContext.getResources().getString(R.string.sending_message) :
+                        mMessageItem.mTimestamp));
+        }
         if (mMessageItem.isSms()) {
             showMmsView(false);
             mMessageItem.setOnPduLoaded(null);
