@@ -3923,7 +3923,7 @@ public class ComposeMessageActivity extends Activity
     private void smoothScrollToEnd(boolean force, int listSizeChange) {
         int last = mMsgListView.getLastVisiblePosition();
         int newPosition = mMsgListAdapter.getCount() - 1;
-        if (last <= 0 || newPosition < 0) {
+        if (last < 0 || newPosition < 0) {
             if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 Log.v(TAG, "smoothScrollToEnd: last=" + last + ", newPos=" + newPosition +
                         ", mMsgListView not ready");
@@ -3959,11 +3959,15 @@ public class ComposeMessageActivity extends Activity
         // like -524. The lastChild listitem's bottom value will be the old value before the
         // keyboard became visible but the size of the list will have changed. The test below
         // add listSizeChange to bottom to figure out if the old position was already scrolled
-        // to the bottom.
+        // to the bottom. We also scroll the list if the last item is taller than the size of the
+        // list. This happens when the keyboard is up and the last item is an mms with an
+        // attachment thumbnail, such as picture. In this situation, we want to scroll the list so
+        // the bottom of the thumbnail is visible and the top of the item is scroll off the screen.
         int listHeight = mMsgListView.getHeight();
         if (force || ((listSizeChange != 0 || newPosition != mLastSmoothScrollPosition) &&
                 bottom + listSizeChange <=
-                        listHeight - mMsgListView.getPaddingBottom())) {
+                        listHeight - mMsgListView.getPaddingBottom()) ||
+                        height > listHeight) {
             if (Math.abs(listSizeChange) > SMOOTH_SCROLL_THRESHOLD) {
                 // When the keyboard comes up, the window manager initiates a cross fade
                 // animation that conflicts with smooth scroll. Handle that case by jumping the
@@ -3989,7 +3993,15 @@ public class ComposeMessageActivity extends Activity
                 if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     Log.v(TAG, "smooth scroll to " + newPosition);
                 }
-                mMsgListView.smoothScrollToPosition(newPosition);
+                if (height > listHeight) {
+                    // If the height of the last item is taller than the whole height of the list,
+                    // we need to scroll that item so that its top is negative or above the top of
+                    // the list. That way, the bottom of the last item will be exposed above the
+                    // keyboard.
+                    mMsgListView.setSelectionFromTop(newPosition, listHeight - height);
+                } else {
+                    mMsgListView.smoothScrollToPosition(newPosition);
+                }
                 mLastSmoothScrollPosition = newPosition;
             }
         }
