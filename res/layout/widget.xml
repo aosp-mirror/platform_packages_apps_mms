@@ -64,6 +64,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_menu_msg_compose_holo_dark"
             android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/new_message"
             android:paddingLeft="4dip"
             android:paddingBottom="4dip" />
     </LinearLayout>
