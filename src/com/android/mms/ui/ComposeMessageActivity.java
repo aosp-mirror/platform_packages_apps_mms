@@ -3921,31 +3921,34 @@ public class ComposeMessageActivity extends Activity
      * @param listSizeChange the amount the message list view size has vertically changed
      */
     private void smoothScrollToEnd(boolean force, int listSizeChange) {
-        int last = mMsgListView.getLastVisiblePosition();
-        int newPosition = mMsgListAdapter.getCount() - 1;
-        if (last < 0 || newPosition < 0) {
+        int lastItemVisible = mMsgListView.getLastVisiblePosition();
+        int lastItemInList = mMsgListAdapter.getCount() - 1;
+        if (lastItemVisible < 0 || lastItemInList < 0) {
             if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                Log.v(TAG, "smoothScrollToEnd: last=" + last + ", newPos=" + newPosition +
+                Log.v(TAG, "smoothScrollToEnd: lastItemVisible=" + lastItemVisible +
+                        ", lastItemInList=" + lastItemInList +
                         ", mMsgListView not ready");
             }
             return;
         }
 
-        View lastChild = mMsgListView.getChildAt(last - mMsgListView.getFirstVisiblePosition());
-        int bottom = 0;
-        int height = 0;
-        if (lastChild != null) {
-            bottom = lastChild.getBottom();
-            height = lastChild.getHeight();
+        View lastChildVisible =
+                mMsgListView.getChildAt(lastItemVisible - mMsgListView.getFirstVisiblePosition());
+        int lastVisibleItemBottom = 0;
+        int lastVisibleItemHeight = 0;
+        if (lastChildVisible != null) {
+            lastVisibleItemBottom = lastChildVisible.getBottom();
+            lastVisibleItemHeight = lastChildVisible.getHeight();
         }
 
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            Log.v(TAG, "smoothScrollToEnd newPosition: " + newPosition +
+            Log.v(TAG, "smoothScrollToEnd newPosition: " + lastItemInList +
                     " mLastSmoothScrollPosition: " + mLastSmoothScrollPosition +
                     " first: " + mMsgListView.getFirstVisiblePosition() +
-                    " last: " + last +
-                    " bottom: " + bottom +
-                    " bottom + listSizeChange: " + (bottom + listSizeChange) +
+                    " lastItemVisible: " + lastItemVisible +
+                    " lastVisibleItemBottom: " + lastVisibleItemBottom +
+                    " lastVisibleItemBottom + listSizeChange: " +
+                    (lastVisibleItemBottom + listSizeChange) +
                     " mMsgListView.getHeight() - mMsgListView.getPaddingBottom(): " +
                     (mMsgListView.getHeight() - mMsgListView.getPaddingBottom()) +
                     " listSizeChange: " + listSizeChange);
@@ -3964,45 +3967,50 @@ public class ComposeMessageActivity extends Activity
         // attachment thumbnail, such as picture. In this situation, we want to scroll the list so
         // the bottom of the thumbnail is visible and the top of the item is scroll off the screen.
         int listHeight = mMsgListView.getHeight();
-        if (force || ((listSizeChange != 0 || newPosition != mLastSmoothScrollPosition) &&
-                bottom + listSizeChange <=
-                        listHeight - mMsgListView.getPaddingBottom()) ||
-                        height > listHeight) {
+        boolean lastItemTooTall = lastVisibleItemHeight > listHeight;
+        boolean willScroll = force ||
+                ((listSizeChange != 0 || lastItemInList != mLastSmoothScrollPosition) &&
+                lastVisibleItemBottom + listSizeChange <=
+                    listHeight - mMsgListView.getPaddingBottom());
+        if (willScroll || (lastItemTooTall && lastItemInList == lastItemVisible)) {
             if (Math.abs(listSizeChange) > SMOOTH_SCROLL_THRESHOLD) {
                 // When the keyboard comes up, the window manager initiates a cross fade
                 // animation that conflicts with smooth scroll. Handle that case by jumping the
                 // list directly to the end.
                 if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                    Log.v(TAG, "keyboard state changed. setSelection=" + newPosition);
+                    Log.v(TAG, "keyboard state changed. setSelection=" + lastItemInList);
                 }
-                if (height > listHeight) {
+                if (lastItemTooTall) {
                     // If the height of the last item is taller than the whole height of the list,
                     // we need to scroll that item so that its top is negative or above the top of
                     // the list. That way, the bottom of the last item will be exposed above the
                     // keyboard.
-                    mMsgListView.setSelectionFromTop(newPosition, listHeight - height);
+                    mMsgListView.setSelectionFromTop(lastItemInList,
+                            listHeight - lastVisibleItemHeight);
                 } else {
-                    mMsgListView.setSelection(newPosition);
+                    mMsgListView.setSelection(lastItemInList);
                 }
-            } else if (newPosition - last > MAX_ITEMS_TO_INVOKE_SCROLL_SHORTCUT) {
+            } else if (lastItemInList - lastItemVisible > MAX_ITEMS_TO_INVOKE_SCROLL_SHORTCUT) {
                 if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                    Log.v(TAG, "too many to scroll, setSelection=" + newPosition);
+                    Log.v(TAG, "too many to scroll, setSelection=" + lastItemInList);
                 }
-                mMsgListView.setSelection(newPosition);
+                mMsgListView.setSelection(lastItemInList);
             } else {
                 if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                    Log.v(TAG, "smooth scroll to " + newPosition);
+                    Log.v(TAG, "smooth scroll to " + lastItemInList);
                 }
-                if (height > listHeight) {
+                if (lastItemTooTall) {
                     // If the height of the last item is taller than the whole height of the list,
                     // we need to scroll that item so that its top is negative or above the top of
                     // the list. That way, the bottom of the last item will be exposed above the
-                    // keyboard.
-                    mMsgListView.setSelectionFromTop(newPosition, listHeight - height);
+                    // keyboard. We should use smoothScrollToPositionFromTop here, but it doesn't
+                    // seem to work -- the list ends up scrolling to a random position.
+                    mMsgListView.setSelectionFromTop(lastItemInList,
+                            listHeight - lastVisibleItemHeight);
                 } else {
-                    mMsgListView.smoothScrollToPosition(newPosition);
+                    mMsgListView.smoothScrollToPosition(lastItemInList);
                 }
-                mLastSmoothScrollPosition = newPosition;
+                mLastSmoothScrollPosition = lastItemInList;
             }
         }
     }
