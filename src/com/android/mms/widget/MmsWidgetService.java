@@ -16,6 +16,7 @@
 
 package com.android.mms.widget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -183,9 +184,8 @@ public class MmsWidgetService extends RemoteViewsService {
             if (Log.isLoggable(LogTag.WIDGET, Log.VERBOSE)) {
                 Log.v(TAG, "getConversationCount");
             }
-            synchronized (sWidgetLock) {
-                return Math.min(mConversationCursor.getCount(), MAX_CONVERSATIONS_COUNT);
-            }
+
+            return Math.min(mConversationCursor.getCount(), MAX_CONVERSATIONS_COUNT);
         }
 
         /*
@@ -301,8 +301,11 @@ public class MmsWidgetService extends RemoteViewsService {
             RemoteViews view = new RemoteViews(mContext.getPackageName(), R.layout.widget_loading);
             view.setTextViewText(
                     R.id.loading_text, mContext.getText(R.string.view_more_conversations));
-            view.setOnClickFillInIntent(R.id.widget_loading,
-                   new Intent(mContext, ConversationList.class));
+            PendingIntent pendingIntent =
+                    PendingIntent.getActivity(mContext, 0, new Intent(mContext,
+                            ConversationList.class),
+                            PendingIntent.FLAG_UPDATE_CURRENT);
+            view.setOnClickPendingIntent(R.id.widget_loading, pendingIntent);
             return view;
         }
 
