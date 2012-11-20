@@ -60,6 +60,7 @@ import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
+import com.android.mms.UnsupportContentTypeException;
 
 public class SlideshowModel extends Model
         implements List<SlideModel>, IModelChangedObserver {
@@ -213,6 +214,8 @@ public class SlideshowModel extends Model
                 } catch (IOException e) {
                     Log.e(TAG, e.getMessage(), e);
                 } catch (IllegalArgumentException e) {
+                    Log.e(TAG, e.getMessage(), e);
+                } catch (UnsupportContentTypeException e) {
                     Log.e(TAG, e.getMessage(), e);
                 }
             }
