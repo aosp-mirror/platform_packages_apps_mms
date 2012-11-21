@@ -21,8 +21,11 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.AsyncQueryHandler;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.IntentFilter;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.database.ContentObserver;
@@ -46,6 +49,9 @@ import android.widget.TextView;
 
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
+
+import com.android.internal.telephony.TelephonyIntents;
+import com.android.internal.telephony.IccCardConstants;
 
 /**
  * Displays a list of the SMS messages stored on the ICC.
@@ -73,6 +79,18 @@ public class ManageSimMessages extends Activity
     private AsyncQueryHandler mQueryHandler = null;
 
     public static final int SIM_FULL_NOTIFICATION_ID = 234;
+
+    protected BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            if (TelephonyIntents.ACTION_SIM_STATE_CHANGED.equals(intent.getAction())) {
+                String stateExtra = intent.getStringExtra(IccCardConstants.INTENT_KEY_ICC_STATE);
+                if (stateExtra != null
+                        && IccCardConstants.INTENT_VALUE_ICC_ABSENT.equals(stateExtra)) {
+                    updateState(SHOW_EMPTY);
+                }
+            }
+        }
+    };
 
     private final ContentObserver simChangeObserver =
             new ContentObserver(new Handler()) {
@@ -224,11 +242,15 @@ public class ManageSimMessages extends Activity
     public void onPause() {
         super.onPause();
         mContentResolver.unregisterContentObserver(simChangeObserver);
+        unregisterReceiver(mBroadcastReceiver);
     }
 
     private void registerSimChangeObserver() {
         mContentResolver.registerContentObserver(
                 ICC_URI, true, simChangeObserver);
+        final IntentFilter intentFilter =
+                new IntentFilter(TelephonyIntents.ACTION_SIM_STATE_CHANGED);
+        registerReceiver(mBroadcastReceiver, intentFilter);
     }
 
     private void copyToPhoneMemory(Cursor cursor) {
