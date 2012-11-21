@@ -815,6 +815,12 @@ public class MessagingNotification {
 
         // Figure out what we've got -- whether all sms's, mms's, or a mixture of both.
         final int messageCount = notificationSet.size();
+        if (messageCount == 0) {
+            if (DEBUG) {
+                Log.d(TAG, "updateNotification: there is no element in sNotificationSet");
+            }
+            return;
+        }
         NotificationInfo mostRecentNotification = notificationSet.first();
 
         final Notification.Builder noti = new Notification.Builder(context)
