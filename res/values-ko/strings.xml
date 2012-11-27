@@ -26,7 +26,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"<xliff:g id="NAME">%s</xliff:g>에게 이메일 보내기"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"새 메시지"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"설정"</string>
-    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"피플에 <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> 추가"</string>
+    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"주소록에 <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> 추가"</string>
     <string name="menu_call" msgid="5877123227307074690">"전화걸기"</string>
     <string name="menu_search" msgid="2289469305728821360">"검색"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"전체 대화목록 삭제"</string>
@@ -142,7 +142,7 @@
     <item msgid="7786079681602275449">"기타"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"연락처 보기"</string>
-    <string name="menu_add_to_contacts" msgid="1258127580972228970">"피플에 추가"</string>
+    <string name="menu_add_to_contacts" msgid="1258127580972228970">"주소록에 추가"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"숨은 발신자 주소"</string>
     <string name="yes" msgid="3246158147503160811">"확인"</string>
     <string name="no" msgid="4289742508556913860">"취소"</string>
