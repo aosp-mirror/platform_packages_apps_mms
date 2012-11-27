@@ -274,7 +274,7 @@ public class RecipientsEditor extends RecipientEditTextView {
             for (Contact c : list) {
                 // Calling setText to set the recipients won't create chips,
                 // but calling append() will.
-                append(contactToToken(c) + ", ");
+                append(contactToToken(c) + ",");
             }
         }
     }
