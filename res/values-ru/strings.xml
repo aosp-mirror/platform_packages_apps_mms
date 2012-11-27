@@ -231,7 +231,7 @@
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Копировать в память планшетного ПК"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Копировать в память телефона"</string>
     <string name="sim_delete" msgid="610790510655316922">"Удалить"</string>
-    <string name="sim_manage_messages_title" msgid="3989147182100584333">"Текстовые сообщения на SIM-карте"</string>
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"SMS на SIM-карте"</string>
     <string name="sim_view" msgid="1997173541766393706">"Просмотр"</string>
     <string name="sim_empty" msgid="2356766833071636297">"На SIM-карте нет сообщений."</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"Отчет"</string>
