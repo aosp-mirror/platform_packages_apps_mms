@@ -893,27 +893,24 @@ public class MessagingNotification {
 
         if (isNew) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-            String vibrateWhen;
-            if (sp.contains(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN)) {
-                vibrateWhen =
-                    sp.getString(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN, null);
-            } else if (sp.contains(MessagingPreferenceActivity.NOTIFICATION_VIBRATE)) {
-                vibrateWhen =
-                        sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE, false) ?
-                    context.getString(R.string.prefDefault_vibrate_true) :
-                    context.getString(R.string.prefDefault_vibrate_false);
-            } else {
-                vibrateWhen = context.getString(R.string.prefDefault_vibrateWhen);
+
+            boolean vibrate = false;
+            if (sp.contains(MessagingPreferenceActivity.NOTIFICATION_VIBRATE)) {
+                // The most recent change to the vibrate preference is to store a boolean
+                // value in NOTIFICATION_VIBRATE. If prefs contain that preference, use that
+                // first.
+                vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE,
+                        false);
+            } else if (sp.contains(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN)) {
+                // This is to support the pre-JellyBean MR1.1 version of vibrate preferences
+                // when vibrate was a tri-state setting. As soon as the user opens the Messaging
+                // app's settings, it will migrate this setting from NOTIFICATION_VIBRATE_WHEN
+                // to the boolean value stored in NOTIFICATION_VIBRATE.
+                String vibrateWhen =
+                        sp.getString(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN, null);
+                vibrate = "always".equals(vibrateWhen);
             }
-
-            boolean vibrateAlways = vibrateWhen.equals("always");
-            boolean vibrateSilent = vibrateWhen.equals("silent");
-            AudioManager audioManager =
-                (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
-            boolean nowSilent =
-                audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
-
-            if (vibrateAlways || vibrateSilent && nowSilent) {
+            if (vibrate) {
                 defaults |= Notification.DEFAULT_VIBRATE;
             }
 
