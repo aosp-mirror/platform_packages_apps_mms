@@ -2090,7 +2090,7 @@ public class ComposeMessageActivity extends Activity
                 mWorkingMessage.unDiscard();    // it was discarded in onStop().
 
                 sanityCheckConversation();
-            } else if (isRecipientsEditorVisible()) {
+            } else if (isRecipientsEditorVisible() && recipientCount() > 0) {
                 if (LogTag.VERBOSE) {
                     log("onRestart: goToConversationList");
                 }
