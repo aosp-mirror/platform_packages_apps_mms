@@ -349,43 +349,19 @@
     <string name="pref_title_mms_delete">Multimedia message limit</string>
     <!-- Settings item for boolean option to display message notifications -->
     <string name="pref_title_notification_enabled">Notifications</string>
-    <!-- Settings item description for boolean message notification option -->
-    <string name="pref_summary_notification_enabled">Display message notifications in status bar</string>
     <!-- Settings item for boolean option to vibrate during message notification -->
     <string name="pref_title_notification_vibrateWhen">Vibrate</string>
-    <!-- Settings item description for boolean vibrate option -->
-    <string name="pref_summary_notification_vibrateWhen">Also vibrate when notified</string>
     <!-- Settings item for entering ringtone selection screen -->
-    <string name="pref_title_notification_ringtone">Choose ringtone</string>
+    <string name="pref_title_notification_ringtone">Sound</string>
     <!-- Settings item for setting the number of message to save for each conversation -->
     <string name="pref_messages_to_save">Set number of messages to save</string>
+    <!-- Settings screen, what to display for Ringtone when the user chooses "silent" [CHAR LIMIT=100]-->
+    <string name="silent_ringtone">Silent</string>
 
-    <!-- The vibrate notification modes -->
-    <string-array name="prefEntries_vibrateWhen">
-        <!-- Always -->
-        <item>Always</item>
-        <!-- Only when the phone is in Silent mode -->
-        <item>Only when silent</item>
-        <!-- Never -->
-        <item>Never</item>
-    </string-array>
-
-    <!-- The default vibrateWhen value, when none is set -->
-    <string translatable="false" name="prefDefault_vibrateWhen">never</string>
     <!-- The value to use when migrating from old versions for a true vibrate setting -->
     <string translatable="false" name="prefDefault_vibrate_true">always</string>
     <!-- The value to use when migrating from old versions for a false vibrate setting -->
     <string translatable="false" name="prefDefault_vibrate_false">never</string>
-
-    <!-- The vibrateWhen values -->
-    <string-array translatable="false" name="prefValues_vibrateWhen">
-        <item>always</item>
-        <item>silent</item>
-        <item>never</item>
-    </string-array>
-
-    <!-- Dialog title for the Vibrate dialog -->
-    <string name="prefDialogTitle_vibrateWhen">Vibrate</string>
 
     <!-- Settings item for boolean option to auto-retrieve incoming MMS messages -->
     <string name="pref_title_mms_auto_retrieval">Auto-retrieve</string>
