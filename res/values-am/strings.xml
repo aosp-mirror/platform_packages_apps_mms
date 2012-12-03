@@ -172,17 +172,10 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"የፅሁፍ መልዕክትወሰን"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"ማህደረ ብዙ መረጃ መልዕክት ወሰን"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"ማሳወቂያዎች"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"በሁኔታ አሞሌ ላይ የመልዕክት ማሳወቂያዎችን አሳይ"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"ንዘር"</string>
-    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"ስታሳውቅ ንዘር"</string>
-    <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"የደወል ቅላጼ ምረጥ"</string>
+    <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"ድምፅ"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"ለማስቀመጥ የመልዕክቶች ቁጥር አዘጋጅ"</string>
-  <string-array name="prefEntries_vibrateWhen">
-    <item msgid="2520871831815631409">"ዘወትር"</item>
-    <item msgid="6069709696037750627">"ፀጥታ ሲሆን ብቻ"</item>
-    <item msgid="7486145357487111435">"በፍፁም"</item>
-  </string-array>
-    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"ንዘር"</string>
+    <string name="silent_ringtone" msgid="7981237991326592780">"ፀጥታ"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"በራስ- ሰርስረህ አውጣ"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"በራስ ሰር መልዕክቶች ሰርስረህ አውጣ"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"በእንቅስቃሴ ላይ በራስ- ሰርስረህ አውጣ"</string>

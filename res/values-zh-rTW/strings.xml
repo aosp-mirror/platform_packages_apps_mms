@@ -172,17 +172,10 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"簡訊限制"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"多媒體訊息限制"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"通知"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"在狀態列顯示簡訊通知"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"震動"</string>
-    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"收到通知時震動提醒"</string>
-    <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"選擇鈴聲"</string>
+    <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"音效"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"設定儲存的訊息數量"</string>
-  <string-array name="prefEntries_vibrateWhen">
-    <item msgid="2520871831815631409">"一律"</item>
-    <item msgid="6069709696037750627">"靜音時才啟用"</item>
-    <item msgid="7486145357487111435">"永遠不要"</item>
-  </string-array>
-    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"震動"</string>
+    <string name="silent_ringtone" msgid="7981237991326592780">"靜音"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"自動擷取"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"自動擷取簡訊"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"漫遊時自動擷取"</string>
