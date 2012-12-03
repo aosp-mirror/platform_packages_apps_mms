@@ -172,17 +172,10 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limite de mensagens de texto"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limite de mens. multimídia"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notificações"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Exibe notificações de mensagem na barra de status"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibrar"</string>
-    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Também vibra quando notificado"</string>
-    <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"Escolher toque"</string>
+    <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Som"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Definir número de mensagens a serem salvas"</string>
-  <string-array name="prefEntries_vibrateWhen">
-    <item msgid="2520871831815631409">"Sempre"</item>
-    <item msgid="6069709696037750627">"Apenas quando estiver no silencioso"</item>
-    <item msgid="7486145357487111435">"Nunca"</item>
-  </string-array>
-    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibrar"</string>
+    <string name="silent_ringtone" msgid="7981237991326592780">"Silencioso"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Recuperação automática"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Recupera mensagens automaticamente"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recuper. em roaming"</string>

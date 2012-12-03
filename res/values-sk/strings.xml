@@ -172,17 +172,12 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limit textových správ"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limit multimediálnych správ"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Upozornenia"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Zobraziť oznámenia o správe v stavovom riadku"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibrovať"</string>
-    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Pri oznámení tiež vibrovať"</string>
-    <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"Zvoliť tón zvonenia"</string>
+    <!-- no translation found for pref_title_notification_ringtone (8667533917574559659) -->
+    <skip />
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Nastaviť počet ukladaných správ"</string>
-  <string-array name="prefEntries_vibrateWhen">
-    <item msgid="2520871831815631409">"Vždy"</item>
-    <item msgid="6069709696037750627">"Iba v tichom režime"</item>
-    <item msgid="7486145357487111435">"Nikdy"</item>
-  </string-array>
-    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibrovať"</string>
+    <!-- no translation found for silent_ringtone (7981237991326592780) -->
+    <skip />
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Automatické načítanie"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Automaticky načítať správy"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Automatické načítanie pri roamingu"</string>

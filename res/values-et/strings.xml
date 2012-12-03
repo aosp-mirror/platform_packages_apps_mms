@@ -172,17 +172,10 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Tekstsõnumi piirang"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Multimeediumsõnumi limiit"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Teadistused"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Kuva sõnumiteatisi olekuribal."</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibreering"</string>
-    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibreeri ka teavitamise ajal"</string>
-    <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"Helina valimine"</string>
+    <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Heli"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Määrake sõnumite arv salvestamiseks"</string>
-  <string-array name="prefEntries_vibrateWhen">
-    <item msgid="2520871831815631409">"Alati"</item>
-    <item msgid="6069709696037750627">"Ainult hääletus režiimis"</item>
-    <item msgid="7486145357487111435">"Mitte kunagi"</item>
-  </string-array>
-    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibreering"</string>
+    <string name="silent_ringtone" msgid="7981237991326592780">"Hääletu"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Võta automaatselt vastu"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Võta sõnumid automaatselt vastu"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Automaatne vastuvõtmine rändlusel"</string>
