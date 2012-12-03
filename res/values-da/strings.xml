@@ -172,17 +172,10 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Sms-begrænsning"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Mms-begrænsning"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Underretninger"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Vis underretninger vedr. beskeder på statusbjælken"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibration"</string>
-    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibration ved meddelelse"</string>
-    <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"Vælg ringetone"</string>
+    <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Lyd"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Angiv det antal beskeder, der skal gemmes"</string>
-  <string-array name="prefEntries_vibrateWhen">
-    <item msgid="2520871831815631409">"Altid"</item>
-    <item msgid="6069709696037750627">"Kun ved lydløs"</item>
-    <item msgid="7486145357487111435">"Aldrig"</item>
-  </string-array>
-    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibration"</string>
+    <string name="silent_ringtone" msgid="7981237991326592780">"Lydløs"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Automatisk hentning"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Hent automatisk beskeder"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Aut. hent. under roaming"</string>

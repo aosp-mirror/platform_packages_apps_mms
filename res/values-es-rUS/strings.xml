@@ -172,17 +172,12 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Límite de mensajes de texto"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Límite de mensaje multimedia"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notificaciones"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Mostrar notificaciones de mensaje en la barra de estado"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibrar"</string>
-    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibrar cuando se reciba una notificación"</string>
-    <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"Elegir un tono"</string>
+    <!-- no translation found for pref_title_notification_ringtone (8667533917574559659) -->
+    <skip />
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Establecer el número de mensajes que se deben guardar"</string>
-  <string-array name="prefEntries_vibrateWhen">
-    <item msgid="2520871831815631409">"Siempre"</item>
-    <item msgid="6069709696037750627">"Sólo cuando esté en silencio"</item>
-    <item msgid="7486145357487111435">"Nunca"</item>
-  </string-array>
-    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibrar"</string>
+    <!-- no translation found for silent_ringtone (7981237991326592780) -->
+    <skip />
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Recuperación automática"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Recuperar mensajes automáticamente"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recuperación automática en roaming"</string>

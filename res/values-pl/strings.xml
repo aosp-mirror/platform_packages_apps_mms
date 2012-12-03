@@ -172,17 +172,10 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limit wiadomości tekstowych"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limit wiadomości MMS"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Powiadomienia"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Wyświetlaj powiadomienie o wiadomości na pasku stanu"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Wibracje"</string>
-    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Wibracje również przy powiadomieniu"</string>
-    <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"Wybierz dzwonek"</string>
+    <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Dźwięk"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Ustaw liczbę zapisywanych wiadomości"</string>
-  <string-array name="prefEntries_vibrateWhen">
-    <item msgid="2520871831815631409">"Zawsze"</item>
-    <item msgid="6069709696037750627">"Tylko po wyciszeniu"</item>
-    <item msgid="7486145357487111435">"Nigdy"</item>
-  </string-array>
-    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Wibracje"</string>
+    <string name="silent_ringtone" msgid="7981237991326592780">"Wyciszony"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Autoodbieranie"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Odbierz wiadomości automatycznie"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"W roamingu"</string>
