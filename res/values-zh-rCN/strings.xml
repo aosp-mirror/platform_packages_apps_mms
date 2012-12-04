@@ -173,11 +173,9 @@
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"彩信限制"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"通知"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"振动"</string>
-    <!-- no translation found for pref_title_notification_ringtone (8667533917574559659) -->
-    <skip />
+    <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"提示音"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"设置要保存的信息数量"</string>
-    <!-- no translation found for silent_ringtone (7981237991326592780) -->
-    <skip />
+    <string name="silent_ringtone" msgid="7981237991326592780">"静音"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"自动检索"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"自动检索信息"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"漫游时自动检索"</string>
