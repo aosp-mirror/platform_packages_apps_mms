@@ -173,11 +173,9 @@
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"マルチメディアメッセージの制限件数"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"通知"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"バイブレーション"</string>
-    <!-- no translation found for pref_title_notification_ringtone (8667533917574559659) -->
-    <skip />
+    <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"着信音"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"保存するメッセージ件数を設定"</string>
-    <!-- no translation found for silent_ringtone (7981237991326592780) -->
-    <skip />
+    <string name="silent_ringtone" msgid="7981237991326592780">"マナーモード"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"自動で取得"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"メッセージを自動的に取得する"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"ローミング時に自動取得"</string>
