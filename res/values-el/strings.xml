@@ -172,17 +172,10 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Όριο μηνύματος κειμένου"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Όριο μηνύματος πολυμέσων"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Ειδοποιήσεις"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Προβολή ειδοποιήσεων μηνύματος στη γραμμή κατάστασης"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Δόνηση"</string>
-    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Δόνηση κατά την ειδοποίηση"</string>
-    <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"Επιλέξτε ήχο κλήσης"</string>
+    <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Ήχος"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Ορισμός αριθμού μηνυμάτων για αποθήκευση"</string>
-  <string-array name="prefEntries_vibrateWhen">
-    <item msgid="2520871831815631409">"Πάντα"</item>
-    <item msgid="6069709696037750627">"Μόνο στο αθόρυβο"</item>
-    <item msgid="7486145357487111435">"Ποτέ"</item>
-  </string-array>
-    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Δόνηση"</string>
+    <string name="silent_ringtone" msgid="7981237991326592780">"Σίγαση"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Αυτόματη ανάκτηση"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Αυτόματη ανάκτηση μηνυμάτων"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Αυτόματη ανάκτηση περιαγωγής"</string>

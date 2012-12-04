@@ -172,17 +172,10 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limiet voor sms"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limiet voor MMS"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Meldingen"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Berichtmeldingen in statusbalk weergeven"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Trillen"</string>
-    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Ook trillen bij melding"</string>
-    <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"Beltoon kiezen"</string>
+    <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Geluid"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Aantal berichten instellen voor opslaan"</string>
-  <string-array name="prefEntries_vibrateWhen">
-    <item msgid="2520871831815631409">"Altijd"</item>
-    <item msgid="6069709696037750627">"Alleen indien stil"</item>
-    <item msgid="7486145357487111435">"Nooit"</item>
-  </string-array>
-    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Trillen"</string>
+    <string name="silent_ringtone" msgid="7981237991326592780">"Stil"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Automatisch ophalen"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Berichten automatisch ophalen"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Ophalen tijdens roaming"</string>

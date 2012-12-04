@@ -172,17 +172,12 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limita mesajului text"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limita pentru mesajele multimedia"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notificări"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"Afişaţi notificări de mesaje în bara de stare"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibrare"</string>
-    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"Vibrare şi la notificări"</string>
-    <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"Alegeţi un ton de sonerie"</string>
+    <!-- no translation found for pref_title_notification_ringtone (8667533917574559659) -->
+    <skip />
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Setaţi numărul de mesaje pentru salvare"</string>
-  <string-array name="prefEntries_vibrateWhen">
-    <item msgid="2520871831815631409">"Întotdeauna"</item>
-    <item msgid="6069709696037750627">"Numai când profilul este Silenţios"</item>
-    <item msgid="7486145357487111435">"Niciodată"</item>
-  </string-array>
-    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"Vibrare"</string>
+    <!-- no translation found for silent_ringtone (7981237991326592780) -->
+    <skip />
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Preluare automată"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Primiţi automat mesajele"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Preluare automată a mesajelor când este activat serviciul de roaming"</string>

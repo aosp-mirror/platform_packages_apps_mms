@@ -172,17 +172,10 @@
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"حد الرسالة النصية"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"حد رسالة الوسائط المتعددة"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"التنبيهات"</string>
-    <string name="pref_summary_notification_enabled" msgid="619729096820999905">"عرض تنبيهات الرسائل في شريط الحالة"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"اهتزاز"</string>
-    <string name="pref_summary_notification_vibrateWhen" msgid="669655090822561447">"الاهتزاز عند إعلامي أيضًا"</string>
-    <string name="pref_title_notification_ringtone" msgid="5467265237106229952">"اختيار نغمة الرنين"</string>
+    <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"الصوت"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"تعيين عدد الرسائل التي سيتم حفظها"</string>
-  <string-array name="prefEntries_vibrateWhen">
-    <item msgid="2520871831815631409">"دومًا"</item>
-    <item msgid="6069709696037750627">"فقط عندما يكون صامتًا"</item>
-    <item msgid="7486145357487111435">"مطلقًا"</item>
-  </string-array>
-    <string name="prefDialogTitle_vibrateWhen" msgid="6419655771690242118">"اهتزاز"</string>
+    <string name="silent_ringtone" msgid="7981237991326592780">"صامت"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"استرداد تلقائي"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"استرداد الرسائل تلقائيًا"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"استرداد تلقائي للتجوال"</string>
