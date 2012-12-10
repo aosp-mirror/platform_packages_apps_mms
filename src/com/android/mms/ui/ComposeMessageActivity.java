@@ -2542,6 +2542,12 @@ public class ComposeMessageActivity extends Activity
 
     @Override
     public void onMessageSent() {
+        // Block the forwarded thread until sending message has been moved to OUTBOX
+        // So we can make sure that the previous thread can load drafts correctly when returned.
+        if (mExitOnSent) {
+            finish();
+        }
+
         // This callback can come in on any thread; put it on the main thread to avoid
         // concurrency problems
         runOnUiThread(new Runnable() {
@@ -3729,10 +3735,6 @@ public class ComposeMessageActivity extends Activity
             addRecipientsListeners();
 
             mScrollOnSend = true;   // in the next onQueryComplete, scroll the list to the end.
-        }
-        // But bail out if we are supposed to exit after the message is sent.
-        if (mExitOnSent) {
-            finish();
         }
     }
 

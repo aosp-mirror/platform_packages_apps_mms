@@ -1398,7 +1398,6 @@ public class WorkingMessage {
                 mmsUri = SqliteWrapper.insert(mActivity, mContentResolver, Mms.Outbox.CONTENT_URI,
                         values);
             }
-            mStatusListener.onMessageSent();
 
             // If user tries to send the message, it's a signal the inputted text is
             // what they wanted.
@@ -1472,6 +1471,8 @@ public class WorkingMessage {
         } catch (Exception e) {
             Log.e(TAG, "Failed to send message: " + mmsUri + ", threadId=" + threadId, e);
         }
+
+        mStatusListener.onMessageSent();
         MmsWidgetProvider.notifyDatasetChanged(mActivity);
     }
 
