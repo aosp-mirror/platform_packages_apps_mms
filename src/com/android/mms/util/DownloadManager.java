@@ -57,6 +57,7 @@ public class DownloadManager {
     public static final int STATE_DOWNLOADING       = 0x81;
     public static final int STATE_TRANSIENT_FAILURE = 0x82;
     public static final int STATE_PERMANENT_FAILURE = 0x87;
+    public static final int STATE_PRE_DOWNLOADING   = 0x88;
 
     private final Context mContext;
     private final Handler mHandler;
