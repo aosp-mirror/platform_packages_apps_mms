@@ -246,6 +246,18 @@ public class MessageListItem extends LinearLayout implements
                         intent.putExtra(TransactionBundle.TRANSACTION_TYPE,
                                 Transaction.RETRIEVE_TRANSACTION);
                         mContext.startService(intent);
+
+                        DownloadManager downloadManager = DownloadManager.getInstance();
+                        boolean autoDownload = downloadManager.isAuto();
+                        boolean dataSuspended = (MmsApp.getApplication().getTelephonyManager()
+                                .getDataState() == TelephonyManager.DATA_SUSPENDED);
+
+                        // Set download state to be downloading in advance avoid
+                        // to jank in binding view
+                        if (!autoDownload || dataSuspended) {
+                            DownloadManager.getInstance().markState(
+                                    mMessageItem.mMessageUri, DownloadManager.STATE_DOWNLOADING);
+                        }
                     }
                 });
                 break;

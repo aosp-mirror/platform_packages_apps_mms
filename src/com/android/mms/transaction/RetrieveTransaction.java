@@ -26,9 +26,11 @@ import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Inbox;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.MessagingPreferenceActivity;
@@ -128,9 +130,17 @@ public class RetrieveTransaction extends Transaction implements Runnable {
 
     public void run() {
         try {
-            // Change the downloading state of the M-Notification.ind.
-            DownloadManager.getInstance().markState(
-                    mUri, DownloadManager.STATE_DOWNLOADING);
+            DownloadManager downloadManager = DownloadManager.getInstance();
+            boolean autoDownload = downloadManager.isAuto();
+            boolean dataSuspended = (MmsApp.getApplication().getTelephonyManager()
+                    .getDataState() == TelephonyManager.DATA_SUSPENDED);
+
+            if (autoDownload && !dataSuspended) {
+                // Download state was already set in advance if user downloaded manually
+                // Change the downloading state of the M-Notification.ind.
+                DownloadManager.getInstance().markState(
+                        mUri, DownloadManager.STATE_DOWNLOADING);
+            }
 
             // Send GET request to MMSC and retrieve the response data.
             byte[] resp = getPdu(mContentLocation);
