@@ -299,7 +299,7 @@
     <string name="slideshow_activity" msgid="5658249461317434432">"播放幻灯片"</string>
     <string name="class_0_message_activity" msgid="6631339964159861048">"0 类短信"</string>
     <string name="search_label" msgid="6042598929386174964">"短信"</string>
-    <string name="search_hint" msgid="7273727663577472044">"搜索“短信”"</string>
+    <string name="search_hint" msgid="7273727663577472044">"搜索短信"</string>
     <string name="search" msgid="7560238620274735199">"短信"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"消息中的文字"</string>
     <string name="search_empty" msgid="2109551478056039278">"没有匹配项。"</string>
