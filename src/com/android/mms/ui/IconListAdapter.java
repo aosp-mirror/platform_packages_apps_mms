@@ -35,7 +35,33 @@ import com.android.mms.R;
 public class IconListAdapter extends ArrayAdapter<IconListAdapter.IconListItem> {
     protected LayoutInflater mInflater;
     private static final int mResource = R.layout.icon_list_item;
+    private ViewHolder mViewHolder;
 
+    static class ViewHolder {
+        private View mView;
+        private TextView mTextView;
+        private ImageView mImageView;
+
+        public ViewHolder(View view) {
+            mView = view;
+        }
+
+        public TextView getTextView() {
+            if (mTextView == null) {
+                mTextView = (TextView) mView.findViewById(R.id.text1);
+            }
+
+            return mTextView;
+        }
+
+        public ImageView getImageView() {
+            if (mImageView == null) {
+                mImageView = (ImageView) mView.findViewById(R.id.icon);
+            }
+
+            return mImageView;
+        }
+    }
     public IconListAdapter(Context context,
             List<IconListItem> items) {
         super(context, mResource, items);
@@ -44,22 +70,22 @@ public class IconListAdapter extends ArrayAdapter<IconListAdapter.IconListItem> 
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView text;
-        ImageView image;
-
         View view;
         if (convertView == null) {
             view = mInflater.inflate(mResource, parent, false);
+            mViewHolder = new ViewHolder(view);
+            view.setTag(mViewHolder);
         } else {
             view = convertView;
+            mViewHolder = (ViewHolder) view.getTag();
         }
 
         // Set text field
-        text = (TextView) view.findViewById(R.id.text1);
+        TextView text = mViewHolder.getTextView();
         text.setText(getItem(position).getTitle());
 
         // Set resource icon
-        image = (ImageView) view.findViewById(R.id.icon);
+        ImageView image = mViewHolder.getImageView();
         image.setImageResource(getItem(position).getResource());
 
         return view;
