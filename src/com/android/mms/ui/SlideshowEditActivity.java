@@ -356,6 +356,28 @@ public class SlideshowEditActivity extends ListActivity {
         private final int mResource;
         private final LayoutInflater mInflater;
         private final SlideshowModel mSlideshow;
+        private ViewHolder holder;
+        static class ViewHolder {
+            private TextView slide_number_text;
+            private TextView duration_text;
+            private View v;
+
+            public ViewHolder(View view) {
+                v = view;
+            }
+            public TextView getSlide_number_text() {
+                if (slide_number_text == null) {
+                    slide_number_text = (TextView) v.findViewById(R.id.slide_number_text);
+                }
+                return slide_number_text;
+            }
+            public TextView getDuration_text() {
+                if (duration_text == null) {
+                    duration_text = (TextView) v.findViewById(R.id.duration_text);
+                }
+                return duration_text;
+            }
+        }
 
         public SlideListAdapter(Context context, int resource,
                 SlideshowModel slideshow) {
@@ -374,17 +396,23 @@ public class SlideshowEditActivity extends ListActivity {
 
         private View createViewFromResource(int position, View convertView, int resource) {
             SlideListItemView slideListItemView;
-            slideListItemView = (SlideListItemView) mInflater.inflate(
-                    resource, null);
+            if (convertView == null) {
+                slideListItemView = (SlideListItemView) mInflater.inflate(
+                        resource, null);
+                holder = new ViewHolder(slideListItemView);
+                slideListItemView.setTag(holder);
+            } else {
+                slideListItemView = (SlideListItemView) convertView;
+                holder = (ViewHolder) convertView.getTag();
+            }
 
             // Show slide number.
-            TextView text;
-            text = (TextView) slideListItemView.findViewById(R.id.slide_number_text);
+            TextView text = holder.getSlide_number_text();
             text.setText(mContext.getString(R.string.slide_number, position + 1));
 
             SlideModel slide = getItem(position);
             int dur = slide.getDuration() / 1000;
-            text = (TextView) slideListItemView.findViewById(R.id.duration_text);
+            text = holder.getDuration_text();
             text.setText(mContext.getResources().
                          getQuantityString(R.plurals.slide_duration, dur, dur));
 

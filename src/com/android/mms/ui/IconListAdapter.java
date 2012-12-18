@@ -35,7 +35,32 @@ import com.android.mms.R;
 public class IconListAdapter extends ArrayAdapter<IconListAdapter.IconListItem> {
     protected LayoutInflater mInflater;
     private static final int mResource = R.layout.icon_list_item;
+    private ViewHolder holder;
 
+    static class ViewHolder {
+        private View v;
+        private TextView tv;
+        private ImageView image;
+        public ViewHolder(View view) {
+            v = view;
+        }
+
+        public TextView getTextView() {
+            if (tv == null) {
+                tv = (TextView) v.findViewById(R.id.text1);
+            }
+
+            return tv;
+        }
+
+        public ImageView getImageView() {
+            if (image == null) {
+                image = (ImageView) v.findViewById(R.id.icon);
+            }
+
+            return image;
+        }
+    }
     public IconListAdapter(Context context,
             List<IconListItem> items) {
         super(context, mResource, items);
@@ -44,22 +69,22 @@ public class IconListAdapter extends ArrayAdapter<IconListAdapter.IconListItem> 
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView text;
-        ImageView image;
-
         View view;
         if (convertView == null) {
             view = mInflater.inflate(mResource, parent, false);
+            holder = new ViewHolder(view);
+            view.setTag(holder);
         } else {
             view = convertView;
+            holder = (ViewHolder) view.getTag();
         }
 
         // Set text field
-        text = (TextView) view.findViewById(R.id.text1);
+        TextView text = holder.getTextView();
         text.setText(getItem(position).getTitle());
 
         // Set resource icon
-        image = (ImageView) view.findViewById(R.id.icon);
+        ImageView image = holder.getImageView();
         image.setImageResource(getItem(position).getResource());
 
         return view;
