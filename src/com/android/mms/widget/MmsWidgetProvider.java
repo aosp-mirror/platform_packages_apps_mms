@@ -67,10 +67,8 @@ public class MmsWidgetProvider extends AppWidgetProvider {
                     MmsWidgetProvider.class));
 
             // We need to update all Mms appwidgets on the home screen.
-            for (int appWidgetId : appWidgetIds) {
-                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId,
-                        R.id.conversation_list);
-            }
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds,
+                    R.id.conversation_list);
         } else {
             super.onReceive(context, intent);
         }
