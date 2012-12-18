@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M9azkdjY",
+        "filename": "src/com/android/mms/ui/IconListAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-12-18T15:38:40Z",
+      "side": 1,
+      "message": "How about v -\u003e mView?",
+      "revId": "b466e9d81049ce9d024c52b028b64cd615ded724",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M9czpwg8",
+        "filename": "src/com/android/mms/ui/IconListAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-12-18T15:38:40Z",
+      "side": 1,
+      "message": "tv -\u003e mTextView",
+      "revId": "b466e9d81049ce9d024c52b028b64cd615ded724",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M9ezufhQ",
+        "filename": "src/com/android/mms/ui/IconListAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-12-18T15:38:40Z",
+      "side": 1,
+      "message": "Insert a blank line between the member vars and the function declaration",
+      "revId": "b466e9d81049ce9d024c52b028b64cd615ded724",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M9UzWslA",
+        "filename": "src/com/android/mms/ui/SlideshowEditActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-12-18T15:38:40Z",
+      "side": 1,
+      "message": "holder -\u003e mViewHolder\nAdd a blank line below this one.",
+      "revId": "b466e9d81049ce9d024c52b028b64cd615ded724",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M9Wzjbik",
+        "filename": "src/com/android/mms/ui/SlideshowEditActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-12-18T15:38:40Z",
+      "side": 1,
+      "message": "slide_number_text -\u003e mSlideNumberText",
+      "revId": "b466e9d81049ce9d024c52b028b64cd615ded724",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M9Yzgmhw",
+        "filename": "src/com/android/mms/ui/SlideshowEditActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-12-18T15:38:40Z",
+      "side": 1,
+      "message": "duration_text -\u003e mDurationText",
+      "revId": "b466e9d81049ce9d024c52b028b64cd615ded724",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M9azLlqI",
+        "filename": "src/com/android/mms/ui/SlideshowEditActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-12-18T15:38:40Z",
+      "side": 1,
+      "message": "v -\u003e mView",
+      "revId": "b466e9d81049ce9d024c52b028b64cd615ded724",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
