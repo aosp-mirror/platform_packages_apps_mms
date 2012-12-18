@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M9YxHup4",
+        "filename": "src/com/android/mms/ui/IconListAdapter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-12-18T17:23:37Z",
+      "side": 1,
+      "message": "I missed this one the first time. holder -\u003e mViewHolder",
+      "revId": "12bbe5a870d559881d62cc591df65ef89654d252",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M9azKthU",
+        "filename": "src/com/android/mms/ui/SlideshowEditActivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-12-18T17:23:37Z",
+      "side": 1,
+      "message": "Same here. holder -\u003e mViewHolder",
+      "revId": "12bbe5a870d559881d62cc591df65ef89654d252",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M9czPAiU",
+        "filename": "src/com/android/mms/ui/SlideshowEditActivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2012-12-18T17:23:37Z",
+      "side": 1,
+      "message": "mSlideNumnerText -\u003e mSlideNumberText",
+      "revId": "12bbe5a870d559881d62cc591df65ef89654d252",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
