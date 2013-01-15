@@ -79,6 +79,10 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
             // Called on the UI thread so don't block.
             MessagingNotification.nonBlockingUpdateNewMessageIndicator(
                     context, MessagingNotification.THREAD_NONE, false);
+
+            // Scan and send pending Mms once after boot completed since
+            // ACTION_ANY_DATA_CONNECTION_STATE_CHANGED wasn't registered in a whole life cycle
+            wakeUpService(context);
         }
     }
 
