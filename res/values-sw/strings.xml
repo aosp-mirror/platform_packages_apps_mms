@@ -56,7 +56,7 @@
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Haki za DRM zizizotosha zimegunduliwa."</string>
     <string name="copy_message_text" msgid="4296252229544252834">"Nakili maandishi"</string>
     <string name="message_options" msgid="6838806653341967550">"Chaguo za ujumbe"</string>
-    <string name="slideshow_options" msgid="3501759384739796431">"Chaguo za Onyeshoslaidi"</string>
+    <string name="slideshow_options" msgid="3501759384739796431">"Chaguo za onyesho la slaidi"</string>
     <string name="done" msgid="7479926268660505871">"Kwisha"</string>
     <string name="move_up" msgid="7307578107431739359">"Sogea juu"</string>
     <string name="move_down" msgid="6356509518429479053">"Sogeza chini"</string>
@@ -345,7 +345,7 @@
     <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Komesha arifa  zilizorudufishwa za ujumbe wa maandishi kutoka kwa programu msingi ya Ujumbe?"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"Ona mazungumzo zaidi"</string>
     <string name="attachment_audio" msgid="2867960243300539143">"Sauti"</string>
-    <string name="attachment_slideshow" msgid="5867689101881763318">"Onyeshoslaidi"</string>
+    <string name="attachment_slideshow" msgid="5867689101881763318">"Onyesho la slaidi"</string>
     <string name="attachment_video" msgid="4252062022156694591">"Video"</string>
     <string name="attachment_picture" msgid="3709286281567284296">"Picha"</string>
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>

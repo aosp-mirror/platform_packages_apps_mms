@@ -60,9 +60,9 @@
     <string name="done" msgid="7479926268660505871">"סיום"</string>
     <string name="move_up" msgid="7307578107431739359">"העבר למעלה"</string>
     <string name="move_down" msgid="6356509518429479053">"העבר למטה"</string>
-    <string name="remove_slide" msgid="2225604354024914900">"הסר שקופית"</string>
-    <string name="add_slide" msgid="9140721399423564187">"הוסף שקופית"</string>
-    <string name="add_slide_hint" msgid="7351356961076244584">"גע כדי ליצור שקופית חדשה."</string>
+    <string name="remove_slide" msgid="2225604354024914900">"הסר שקף"</string>
+    <string name="add_slide" msgid="9140721399423564187">"הוסף שקף"</string>
+    <string name="add_slide_hint" msgid="7351356961076244584">"גע כדי ליצור שקף חדש."</string>
     <string name="discard_slideshow" msgid="5054239124146413609">"מחק מצגת"</string>
     <string name="slide_show_part" msgid="5077675385448696846">"חלק <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text" msgid="2164068850029476539">"הסר טקסט"</string>
@@ -120,7 +120,7 @@
     <string name="preview_slideshow" msgid="6824095909448728427">"תצוגה מקדימה"</string>
     <string name="replace_image" msgid="3171240952601443619">"החלף תמונה"</string>
     <string name="duration_sec" msgid="6617032324007824096">"תדירות (<xliff:g id="DURATION">%s</xliff:g> שניות)"</string>
-    <string name="duration_selector_title" msgid="5981097971537625852">"משך זמן של שקופית "</string>
+    <string name="duration_selector_title" msgid="5981097971537625852">"משך זמן של שקף "</string>
     <string name="layout_selector_title" msgid="7344600117972450771">"פריסת מצגת "</string>
     <string name="layout_top" msgid="6811021650398972346">"פריסה (למעלה)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"פריסה (בתחתית)"</string>
@@ -291,7 +291,7 @@
     <string name="menu_insert_smiley" msgid="4964504393061025071">"הוסף סמיילי"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"משתתפי קבוצה"</string>
     <string name="select_link_title" msgid="3371818607625768447">"בחר פעולה"</string>
-    <string name="slide_number" msgid="1923958526266726635">"שקופית <xliff:g id="NUMBER">%s</xliff:g>"</string>
+    <string name="slide_number" msgid="1923958526266726635">"שקף <xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
     <item quantity="one" msgid="1654101988340583935">"שנייה <xliff:g id="NUMBER">%s</xliff:g>"</item>
     <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g> שניות"</item>
@@ -302,7 +302,7 @@
     <string name="change_duration_activity" msgid="7048606979485031693">"שנה את משך הזמן"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"ערוך מצגת"</string>
     <string name="recipient_list_activity" msgid="1254938236543727019">"משתתפי קבוצה"</string>
-    <string name="edit_slide_activity" msgid="8752829671778696983">"ערוך שקופית"</string>
+    <string name="edit_slide_activity" msgid="8752829671778696983">"ערוך שקף"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"מצגת"</string>
     <string name="class_0_message_activity" msgid="6631339964159861048">"הודעה ברמה 0"</string>
     <string name="search_label" msgid="6042598929386174964">"סמס"</string>
