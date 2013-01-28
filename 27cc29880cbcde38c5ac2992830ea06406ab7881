@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "O2PapBTc",
+        "filename": "src/com/android/mms/transaction/MmsSystemEventReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-01-28T17:23:15Z",
+      "side": 1,
+      "message": "This line is too long, you\u0027ll have to add a newline inside. I would make it \"boolean available\" so that in your test below, you simply have \"!available\" instead of \"!unavailable\". It\u0027s briefly confusing have two negatives (!un) in a row :-)",
+      "revId": "27cc29880cbcde38c5ac2992830ea06406ab7881",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
