@@ -1,0 +1,9 @@
+Code-Review+2: Tom Taylor <tomtaylor@google.com>
+Verified+1: Tom Taylor <tomtaylor@google.com>
+Code-Review+1: Ajay Nambi <anambi@codeaurora.org>
+Verified+1: Deckard Autoverifier <deckard@android.com>
+Submitted-by: Tom Taylor <tomtaylor@google.com>
+Submitted-at: Mon, 28 Jan 2013 17:24:35 +0000
+Reviewed-on: https://android-review.googlesource.com/50526
+Project: platform/packages/apps/Mms
+Branch: refs/heads/master
