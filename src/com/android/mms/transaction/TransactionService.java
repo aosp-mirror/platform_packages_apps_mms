@@ -236,6 +236,10 @@ public class TransactionService extends Service implements Observer {
                         }
                         MmsSystemEventReceiver.registerForConnectionStateChanges(
                                 getApplicationContext());
+                    } else {
+                        // MMS data is available now, do not need listen to state change.
+                        MmsSystemEventReceiver.unRegisterForConnectionStateChanges(
+                                getApplicationContext());
                     }
 
                     while (cursor.moveToNext()) {
