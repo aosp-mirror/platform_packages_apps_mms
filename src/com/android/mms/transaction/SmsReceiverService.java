@@ -272,6 +272,12 @@ public class SmsReceiverService extends Service {
                         mSending = false;
                         messageFailedToSend(msgUri, SmsManager.RESULT_ERROR_GENERIC_FAILURE);
                         success = false;
+                        // Sending current message fails. Try to send more pending messages
+                        // if there is any.
+                        sendBroadcast(new Intent(SmsReceiverService.ACTION_SEND_MESSAGE,
+                                null,
+                                this,
+                                SmsReceiver.class));
                     }
                 }
             } finally {
