@@ -16,6 +16,24 @@
       "revId": "27cc29880cbcde38c5ac2992830ea06406ab7881",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O.uj-U.4",
+        "filename": "src/com/android/mms/transaction/MmsSystemEventReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1018290
+      },
+      "writtenOn": "2013-01-29T02:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "O2PapBTc",
+      "revId": "27cc29880cbcde38c5ac2992830ea06406ab7881",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
