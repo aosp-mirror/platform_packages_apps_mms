@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PDwj.86I",
+        "filename": "src/com/android/mms/data/Conversation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-01-30T17:10:46Z",
+      "side": 1,
+      "message": "Can you put this debug statement inside an \"if\" with Log.isLoggable(LogTag.APP, Log.VERBOSE) ?",
+      "revId": "b189d716301fa8cc9fbbde576b19c39749c64d60",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
