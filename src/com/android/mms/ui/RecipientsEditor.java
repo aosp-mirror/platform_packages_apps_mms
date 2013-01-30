@@ -280,17 +280,19 @@ public class RecipientsEditor extends RecipientEditTextView {
     }
 
     private int pointToPosition(int x, int y) {
+        // Check layout before getExtendedPaddingTop().
+        // mLayout is used in getExtendedPaddingTop().
+        Layout layout = getLayout();
+        if (layout == null) {
+            return -1;
+        }
+
         x -= getCompoundPaddingLeft();
         y -= getExtendedPaddingTop();
 
 
         x += getScrollX();
         y += getScrollY();
-
-        Layout layout = getLayout();
-        if (layout == null) {
-            return -1;
-        }
 
         int line = layout.getLineForVertical(y);
         int off = layout.getOffsetForHorizontal(line, x);
