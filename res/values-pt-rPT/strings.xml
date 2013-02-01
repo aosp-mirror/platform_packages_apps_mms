@@ -206,7 +206,7 @@
     <string name="from_label" msgid="2055117571548171397">"De: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Para: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Bcc: "</string>
-    <string name="sent_label" msgid="2722190650145251584">"Enviada: "</string>
+    <string name="sent_label" msgid="2722190650145251584">"Enviadas: "</string>
     <string name="received_label" msgid="8618029024731693906">"Recebida: "</string>
     <string name="saved_label" msgid="4183160415593488207">"Guardada: "</string>
     <string name="subject_label" msgid="8721241914144101631">"Assunto: "</string>
