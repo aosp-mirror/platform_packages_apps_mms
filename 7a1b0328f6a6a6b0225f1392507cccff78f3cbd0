@@ -16,6 +16,24 @@
       "revId": "7a1b0328f6a6a6b0225f1392507cccff78f3cbd0",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PTFmoh3g",
+        "filename": "src/com/android/mms/transaction/TransactionService.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1018290
+      },
+      "writtenOn": "2013-02-04T08:43:30Z",
+      "side": 1,
+      "message": "Receiver is monitoring MMS data available event, this event will send multiple times during MMS data connection setup. Since data is availabe and it\u0027s trying to setup data, we do not need to monitor network status any more.",
+      "parentUuid": "PSjgZSYI",
+      "revId": "7a1b0328f6a6a6b0225f1392507cccff78f3cbd0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
