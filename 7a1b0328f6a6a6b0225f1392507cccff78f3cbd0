@@ -34,6 +34,24 @@
       "revId": "7a1b0328f6a6a6b0225f1392507cccff78f3cbd0",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PSngTwWE",
+        "filename": "src/com/android/mms/transaction/TransactionService.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2013-02-04T09:29:50Z",
+      "side": 1,
+      "message": "Where\u0027s the code registered MmsSystemEventReceiver when Mms is available?\nWe just register it if noNetwork is true.",
+      "parentUuid": "PTFmoh3g",
+      "revId": "7a1b0328f6a6a6b0225f1392507cccff78f3cbd0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
