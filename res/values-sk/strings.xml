@@ -278,7 +278,7 @@
     <string name="copy_to_sdcard" msgid="757028609638184856">"Uložiť prílohu"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"Príloha bola uložená."</string>
     <string name="copy_to_sdcard_fail" msgid="4944606369631916737">"Prílohu sa nepodarilo uložiť."</string>
-    <string name="save_ringtone" msgid="2310157075045201051">"Uložiť ako vyzváňací tón"</string>
+    <string name="save_ringtone" msgid="2310157075045201051">"Uložiť ako tón zvonenia"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Tón zvonenia bol uložený."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Tón zvonenia sa nepodarilo uložiť."</string>
     <string name="menu_insert_smiley" msgid="4964504393061025071">"Vložiť smajlík"</string>

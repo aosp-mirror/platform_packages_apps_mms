@@ -153,8 +153,8 @@
     <string name="preferences_title" msgid="6650089610332670157">"Mipangilio"</string>
     <string name="restore_default" msgid="7165341506551155053">"Rejesha mipangilio ya chaguo-msingi"</string>
     <string name="pref_notification_settings_title" msgid="6420782563630369776">"Arifa"</string>
-    <string name="pref_mms_settings_title" msgid="55618772118264355">"Jumbe za midia-anuai (MMS)"</string>
-    <string name="pref_sms_settings_title" msgid="5173078369851066881">"Jumbe fupi (SMS)"</string>
+    <string name="pref_mms_settings_title" msgid="55618772118264355">"MMS"</string>
+    <string name="pref_sms_settings_title" msgid="5173078369851066881">"SMS"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Hifadhi"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Dhibiti ujumbe uliohifadhiwa kwenye kadi yako ya SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Omba ripoti ya kutuma kwa kila ujumbe unaotuma"</string>
@@ -190,7 +190,7 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Tungo zote zitafutwa."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Video itafutwa."</string>
     <string name="confirm_delete_locked_message" msgid="7203411948190100955">"Futa ujumbe huu uliofungwa?"</string>
-    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"Jumbe zote kwenye sim kadi zitafutwa."</string>
+    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"Ujumbe wowote ulio kwenye SIM kadi utafutwa."</string>
     <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"Ujumbe ulio kwenye SIM kadi utafutwa."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"Futa ujumbe uliofungwa"</string>
     <string name="delete" msgid="1409973060081564612">"Futa"</string>
@@ -226,7 +226,7 @@
     <string name="sim_delete" msgid="610790510655316922">"Futa"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Ujumbe wa maandishi kwenye SIM kadi"</string>
     <string name="sim_view" msgid="1997173541766393706">"Ona"</string>
-    <string name="sim_empty" msgid="2356766833071636297">"Hakuna  jumbe kwenye \'SIM kadi\'."</string>
+    <string name="sim_empty" msgid="2356766833071636297">"Hakuna ujumbe wowote kwenye SIM kadi."</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"Ripoti"</string>
     <string name="status_none" msgid="8253075950774894961">"(Hamna)"</string>
     <string name="status_pending" msgid="2739860824607984892">"Inasubiri"</string>
@@ -252,7 +252,7 @@
     <skip />
     <string name="notification_multiple" msgid="7684007285202109490">"Ujumbe <xliff:g id="COUNT">%s</xliff:g>usiosomwa"</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"Ujumbe mpya wa"</string>
-    <string name="notification_failed_multiple" msgid="6192531993698497229">"Jumbe <xliff:g id="COUNT">%s</xliff:g>  hazikutumwa"</string>
+    <string name="notification_failed_multiple" msgid="6192531993698497229">"MMS <xliff:g id="COUNT">%s</xliff:g> hazikutumwa"</string>
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"Ujumbe haujatumwa"</string>
     <string name="sim_full_title" msgid="1809829051697702810">"Kadi ya SIM imejaa"</string>
     <string name="sim_full_body" msgid="6241664980790322925">"Futa ujumbe mwingine ili kuweka nafasi ya zaidi."</string>
@@ -316,19 +316,19 @@
     <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Futa utafutaji wa awali wa ujumbe ili usionekane katika kisanduku cha Kutafuta"</string>
     <string name="save" msgid="6847069284991531310">"Hifadhi"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"Dhibiti ujumbe"</string>
-    <string name="storage_limits_message" msgid="2010501485394745696">"Weka kikomo kwa idadi ya jumbe unazohifadhi kwa kila mazungumzo?"</string>
+    <string name="storage_limits_message" msgid="2010501485394745696">"Weka kikomo cha idadi ya mazungumzo unayohifadhi kwa kila mazungumzo?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"Weka vikomo"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Hakuna vikomo"</string>
-    <string name="too_many_unsent_mms" msgid="4436493698891224126">"Haiwezi kutuma ujumbe sasa hivi. Jumbe nyingi za midia-anuai hazijatumwa."</string>
+    <string name="too_many_unsent_mms" msgid="4436493698891224126">"Haiwezi kutuma ujumbe sasa hivi. MMS nyingi ambazo hazijatumwa."</string>
     <string name="sending_message" msgid="2054406576361149715">"INATUMA..."</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Wapokeaji wengi mno"</string>
     <string name="adding_recipients" msgid="2962810172527532357">"Inaongeza wapokeaji..."</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
     <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
-    <string name="message_count_notification" msgid="3629968600032690007">"Jumbe <xliff:g id="NUMBER">%1$s</xliff:g> mpya"</string>
+    <string name="message_count_notification" msgid="3629968600032690007">"Mawasiliano <xliff:g id="NUMBER">%1$s</xliff:g> mapya"</string>
   <plurals name="message_count_notification_overflow">
     <item quantity="one" msgid="3340591167508150806">"+<xliff:g id="NUMBER">%1$s</xliff:g> ujumbe mwingine"</item>
-    <item quantity="other" msgid="1393002799298501480">"+<xliff:g id="NUMBER">%1$s</xliff:g> jumbe zingine"</item>
+    <item quantity="other" msgid="1393002799298501480">"+ mawasiliano mengine <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
   </plurals>
     <string name="error_state" msgid="5177386717626893507">"Hali isiyofanana"</string>
     <string name="error_state_text" msgid="7918866106335387710">"Hali ya nyuzi na wapokeaji haiendani. Tafadhali chukua ripoti kuondoa hitilfu na iripoti kupitia http://go/droidanizer"</string>

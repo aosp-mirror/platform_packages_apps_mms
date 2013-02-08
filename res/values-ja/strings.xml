@@ -34,7 +34,7 @@
     <string name="menu_view" msgid="7448852683948080108">"スレッド一覧表示"</string>
     <string name="menu_debug_dump" msgid="6855869130206549643">"ダンプをデバッグ"</string>
     <string name="refreshing" msgid="987335057871404222">"更新中..."</string>
-    <string name="menu_cell_broadcasts" msgid="5646161375983084660">"エリアメール"</string>
+    <string name="menu_cell_broadcasts" msgid="5646161375983084660">"緊急警報"</string>
     <string name="has_draft" msgid="2487465595514636160">"下書き"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(件名なし)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"自分"</string>
