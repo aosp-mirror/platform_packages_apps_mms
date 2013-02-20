@@ -252,6 +252,8 @@ public class ThumbnailManager extends BackgroundLoaderManager {
                 bitmap = getBitmap(mIsVideo);
             } catch (IllegalArgumentException e) {
                 Log.e(TAG, "Couldn't load bitmap for " + mUri, e);
+            } catch (OutOfMemoryError e) {
+                Log.e(TAG, "Couldn't load bitmap for " + mUri, e);
             }
             final Bitmap resultBitmap = bitmap;
 
