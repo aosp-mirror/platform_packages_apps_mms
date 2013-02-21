@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QD7OOWCA",
+        "filename": "src/com/android/mms/transaction/MmsSystemEventReceiver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-02-21T21:52:12Z",
+      "side": 1,
+      "message": "Line a couple of chars too long. Need to wrap.",
+      "revId": "b3d9b0b6c02c5f9ae676c2d8b86511d9cbb91753",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QD9OB1PE",
+        "filename": "src/com/android/mms/transaction/TransactionService.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-02-21T21:52:12Z",
+      "side": 1,
+      "message": "Line a couple of chars too long. Need to wrap.",
+      "revId": "b3d9b0b6c02c5f9ae676c2d8b86511d9cbb91753",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
