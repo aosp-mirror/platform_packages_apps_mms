@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QOFEhIw0",
+        "filename": "src/com/android/mms/transaction/TransactionService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-02-25T17:32:18Z",
+      "side": 1,
+      "message": "Twice while rebooting my device, the messaging app has NPE\u0027d here. It looks like mConnMgr can be null here.",
+      "revId": "e7f1d845c1067a7f9a82dd057c950fda063a4898",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
