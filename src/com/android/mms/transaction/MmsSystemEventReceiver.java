@@ -20,13 +20,12 @@ package com.android.mms.transaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.util.Log;
 
-import com.android.internal.telephony.PhoneConstants;
-import com.android.internal.telephony.TelephonyIntents;
 import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 
@@ -43,7 +42,7 @@ import com.android.mms.MmsApp;
  */
 public class MmsSystemEventReceiver extends BroadcastReceiver {
     private static final String TAG = "MmsSystemEventReceiver";
-    private static MmsSystemEventReceiver sMmsSystemEventReceiver;
+    private static ConnectivityManager mConnMgr = null;
 
     private static void wakeUpService(Context context) {
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
@@ -63,18 +62,23 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
         if (action.equals(Mms.Intents.CONTENT_CHANGED_ACTION)) {
             Uri changed = (Uri) intent.getParcelableExtra(Mms.Intents.DELETED_CONTENTS);
             MmsApp.getApplication().getPduLoaderManager().removePdu(changed);
-        } else if (action.equals(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED)) {
-            String apnType = intent.getStringExtra(PhoneConstants.DATA_APN_TYPE_KEY);
-            boolean available = !(intent.getBooleanExtra(
-                                      PhoneConstants.NETWORK_UNAVAILABLE_KEY, false));
+        } else if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+            if (mConnMgr == null) {
+                mConnMgr = (ConnectivityManager) context
+                        .getSystemService(Context.CONNECTIVITY_SERVICE);
+            }
+            NetworkInfo mmsNetworkInfo = mConnMgr
+                    .getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS);
+            boolean available = mmsNetworkInfo.isAvailable();
+            boolean isConnected = mmsNetworkInfo.isConnected();
 
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                Log.v(TAG, "ANY_DATA_STATE event received: apnType = " + apnType +
-                           ", available = " + available);
+                Log.v(TAG, "TYPE_MOBILE_MMS available = " + available +
+                           ", isConnected = " + isConnected);
             }
 
-            // Wake up transact service when MMS data is available.
-            if (apnType.equals(PhoneConstants.APN_TYPE_MMS) && available) {
+            // Wake up transact service when MMS data is available and isn't connected.
+            if (available && !isConnected) {
                 wakeUpService(context);
             }
         } else if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
@@ -87,34 +91,6 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
             // Scan and send pending Mms once after boot completed since
             // ACTION_ANY_DATA_CONNECTION_STATE_CHANGED wasn't registered in a whole life cycle
             wakeUpService(context);
-        }
-    }
-
-    public static void registerForConnectionStateChanges(Context context) {
-        unRegisterForConnectionStateChanges(context);
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(TelephonyIntents.ACTION_ANY_DATA_CONNECTION_STATE_CHANGED);
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            Log.v(TAG, "registerForConnectionStateChanges");
-        }
-        if (sMmsSystemEventReceiver == null) {
-            sMmsSystemEventReceiver = new MmsSystemEventReceiver();
-        }
-
-        context.registerReceiver(sMmsSystemEventReceiver, intentFilter);
-    }
-
-    public static void unRegisterForConnectionStateChanges(Context context) {
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            Log.v(TAG, "unRegisterForConnectionStateChanges");
-        }
-        if (sMmsSystemEventReceiver != null) {
-            try {
-                context.unregisterReceiver(sMmsSystemEventReceiver);
-            } catch (IllegalArgumentException e) {
-                // Allow un-matched register-unregister calls
-            }
         }
     }
 }
