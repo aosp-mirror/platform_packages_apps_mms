@@ -33,7 +33,7 @@
     <string name="menu_delete" msgid="1851666911396479006">"Eliminar cadena"</string>
     <string name="menu_view" msgid="7448852683948080108">"Ver conversación"</string>
     <string name="menu_debug_dump" msgid="6855869130206549643">"VOLCADO DE DEPURACIÓN"</string>
-    <string name="refreshing" msgid="987335057871404222">"Actualizando..."</string>
+    <string name="refreshing" msgid="987335057871404222">"Actualizando\u2026"</string>
     <string name="menu_cell_broadcasts" msgid="5646161375983084660">"Difusiones móviles"</string>
     <string name="has_draft" msgid="2487465595514636160">"Borrador"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Sin asunto)"</string>
@@ -50,7 +50,7 @@
     <string name="delete_thread" msgid="757258847736632791">"Eliminar cadena"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Reenviar"</string>
     <string name="download" msgid="4488877642230207631">"Descargar"</string>
-    <string name="downloading" msgid="1779557575565350637">"Descargando..."</string>
+    <string name="downloading" msgid="1779557575565350637">"Descargando\u2026"</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Asunto: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* texto protegido por DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Derechos DRM insuficientes"</string>
@@ -86,7 +86,7 @@
     <string name="all_threads" msgid="2663426830306307194">"Todas las conversaciones"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Escribir mensaje"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Abrir teclado para escribir mensaje"</string>
-    <string name="compressing" msgid="1961357529661045180">"La imagen es demasiado grande. Comprimiendo…"</string>
+    <string name="compressing" msgid="1961357529661045180">"La imagen es demasiado grande. Comprimiendo\u2026"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Formato de <xliff:g id="NAME">%1$s</xliff:g> no admitido"</string>
     <string name="select_different_media" msgid="6241623357299382183">"Seleccionar otro <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Se ha alcanzado el límite de tamaño del mensaje."</string>
@@ -105,7 +105,7 @@
     <string name="cannot_send_message" msgid="3414307479833622644">"No se puede enviar el mensaje"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"Los destinatarios del mensaje no son válidos."</string>
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"No se puede reenviar el objeto DRM incluido en el mensaje."</string>
-    <string name="converting_to_picture_message" msgid="2980023239017588627">"Convirtiendo en mensaje multimedia..."</string>
+    <string name="converting_to_picture_message" msgid="2980023239017588627">"Convirtiendo en mensaje multimedia\u2026"</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"No puedes añadir más diapositivas."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"No puedes añadir vídeos a una diapositiva que ya tenga imágenes o viceversa."</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"No se puede guardar el mensaje."</string>
@@ -114,7 +114,7 @@
     <string name="too_many_attachments" msgid="3774037894899750070">"Existe un límite de <xliff:g id="MAXLIMIT">%1$s</xliff:g> archivos adjuntos. Solo se añadirán los <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> primeros."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Añadiendo archivos adjuntos"</string>
     <string name="adding_attachments" msgid="5871373105122355632">"Espera mientras se añaden los elementos a la presentación."</string>
-    <string name="building_slideshow_title" msgid="1232338692400726385">"Creando presentación..."</string>
+    <string name="building_slideshow_title" msgid="1232338692400726385">"Creando presentación\u2026"</string>
     <string name="cannot_play_audio" msgid="253920977253666735">"No se puede reproducir el audio."</string>
     <string name="preview" msgid="5438149136136446756">"Vista previa"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Vista previa"</string>
@@ -196,7 +196,7 @@
     <string name="delete" msgid="1409973060081564612">"Eliminar"</string>
     <string name="select_conversations" msgid="7816517565640002844">"Seleccionar conversaciones"</string>
     <string name="no_conversations" msgid="6773767655149258445">"No hay conversaciones."</string>
-    <string name="loading_conversations" msgid="5510430408235967094">"Cargando conversaciones..."</string>
+    <string name="loading_conversations" msgid="5510430408235967094">"Cargando conversaciones\u2026"</string>
     <string name="cannot_get_details" msgid="850292987983026806">"No se puede obtener información detallada."</string>
     <string name="message_details_title" msgid="9223295113731634528">"Detalles del mensaje"</string>
     <string name="message_type_label" msgid="7975373966795945566">"Tipo: "</string>
@@ -318,11 +318,11 @@
     <string name="storage_limits_setting" msgid="4952781049308537373">"Establecer límites"</string>
     <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Sin límites"</string>
     <string name="too_many_unsent_mms" msgid="4436493698891224126">"En este momento no se puede enviar el mensaje porque hay demasiados mensajes multimedia sin enviar."</string>
-    <string name="sending_message" msgid="2054406576361149715">"ENVIANDO…"</string>
+    <string name="sending_message" msgid="2054406576361149715">"ENVIANDO\u2026"</string>
     <string name="pick_too_many_recipients" msgid="650087588867628044">"Demasiados destinatarios"</string>
-    <string name="adding_recipients" msgid="2962810172527532357">"Añadiendo destinatarios…"</string>
+    <string name="adding_recipients" msgid="2962810172527532357">"Añadiendo destinatarios\u2026"</string>
     <string name="draft_separator" msgid="5402575086540243019">", "</string>
-    <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
+    <string name="message_count_format" msgid="4434763220590778012">"\u00a0<xliff:g id="NUMBER">%1$s</xliff:g>"</string>
     <string name="message_count_notification" msgid="3629968600032690007">"<xliff:g id="NUMBER">%1$s</xliff:g> mensajes nuevos"</string>
   <plurals name="message_count_notification_overflow">
     <item quantity="one" msgid="3340591167508150806">"Otro mensaje (<xliff:g id="NUMBER">%1$s</xliff:g>)"</item>
@@ -339,7 +339,7 @@
     <string name="attachment_slideshow" msgid="5867689101881763318">"Presentación"</string>
     <string name="attachment_video" msgid="4252062022156694591">"Vídeo"</string>
     <string name="attachment_picture" msgid="3709286281567284296">"Imagen"</string>
-    <string name="notification_separator" msgid="2334673105226536422">"  "</string>
-    <string name="enumeration_comma" msgid="213598026698964628">", "</string>
+    <string name="notification_separator" msgid="2334673105226536422">"\u0020\u0020"</string>
+    <string name="enumeration_comma" msgid="213598026698964628">",\u0020"</string>
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
 </resources>
