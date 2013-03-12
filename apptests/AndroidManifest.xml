@@ -22,6 +22,7 @@
         that the new SendIntent works because the app will crash because no service
         to handle the intent (without SEND_SMS permission) can be found. -->
     <uses-permission android:name="android.permission.SEND_SMS_NO_CONFIRMATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <!-- We add an application tag here just so that we can indicate that
          this package needs to link against the android.test library,

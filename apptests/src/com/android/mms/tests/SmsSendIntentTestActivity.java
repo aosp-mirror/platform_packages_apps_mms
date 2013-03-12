@@ -17,9 +17,11 @@
 package com.android.mms.apptests;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,7 +58,9 @@ public class SmsSendIntentTestActivity extends Activity {
         mRecipient = (EditText)findViewById(R.id.sms_recipient);
         mMessage = (EditText)findViewById(R.id.sms_content);
 
-        mRecipient.setText("650-933-0884"); // use this to prime a number
+        String line1Number = ((TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE))
+                .getLine1Number();
+        mRecipient.setText(line1Number); // use this to prime a number
 
         Button sendButton = (Button) findViewById(R.id.sms_send_message);
         sendButton.setOnClickListener(new OnClickListener() {
