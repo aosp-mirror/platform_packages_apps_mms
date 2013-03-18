@@ -29,8 +29,8 @@
     <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"Adăugaţi <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> la Persoane"</string>
     <string name="menu_call" msgid="5877123227307074690">"Apelaţi"</string>
     <string name="menu_search" msgid="2289469305728821360">"Căutaţi"</string>
-    <string name="menu_delete_all" msgid="808729454898114735">"Ştergeţi toate conversaţiile"</string>
-    <string name="menu_delete" msgid="1851666911396479006">"Ştergeţi conversaţia"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"Ștergeţi toate conversaţiile"</string>
+    <string name="menu_delete" msgid="1851666911396479006">"Ștergeţi conversaţia"</string>
     <string name="menu_view" msgid="7448852683948080108">"Vizualizaţi firele de conversaţie"</string>
     <string name="menu_debug_dump" msgid="6855869130206549643">"DEBUG DUMP"</string>
     <string name="refreshing" msgid="987335057871404222">"Se actualizează..."</string>
@@ -41,13 +41,13 @@
     <string name="view_slideshow" msgid="4990460971211388453">"Vizualizaţi prezentarea"</string>
     <string name="view_message_details" msgid="7613457646645796831">"Afişaţi detaliile"</string>
     <string name="view_delivery_report" msgid="8219095994071575215">"Vizualizaţi raportul"</string>
-    <string name="delete_message" msgid="6442394955910357234">"Ştergeţi"</string>
+    <string name="delete_message" msgid="6442394955910357234">"Ștergeţi"</string>
     <string name="expire_on" msgid="4436268382742593921">"Expiră la: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KO"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Mesaje neexpediate"</string>
     <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Acest mesaj nu s-a putut trimite."\n"Încercare efectuată: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Acest mesaj nu s-a putut trimite."</string>
-    <string name="delete_thread" msgid="757258847736632791">"Ştergeţi conversaţia"</string>
+    <string name="delete_thread" msgid="757258847736632791">"Ștergeţi conversaţia"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Redirecţionaţi"</string>
     <string name="download" msgid="4488877642230207631">"Descărcaţi"</string>
     <string name="downloading" msgid="1779557575565350637">"Se descarcă"</string>
@@ -160,7 +160,7 @@
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Solicitaţi un raport de expediere pentru fiecare mesaj trimis"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Solicitaţi un raport de citire pentru fiecare mesaj trimis"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Solicitaţi un raport de expediere pentru fiecare mesaj trimis"</string>
-    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Ştergeţi mesajele vechi când se atinge limita"</string>
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Ștergeţi mesajele vechi când se atinge limita"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> (de) mesaje pe conversaţie"</string>
     <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"Utilizaţi serviciul MMS pentru a trimite un singur mesaj, atunci când există mai mulţi destinatari"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Gestionaţi mesajele de pe cardul SIM"</string>
@@ -168,7 +168,7 @@
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"Mesagerie de grup"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Citiţi rapoartele"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Rapoarte de expediere"</string>
-    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Ştergeţi mesajele vechi"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Ștergeţi mesajele vechi"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limita mesajului text"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limita pentru mesajele multimedia"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Notificări"</string>
@@ -180,8 +180,8 @@
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Primiţi automat mesajele"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Preluare automată a mesajelor când este activat serviciul de roaming"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Preluarea automată a mesajelor în roaming"</string>
-    <string name="confirm_dialog_title" msgid="2187213750475782725">"Ştergeţi?"</string>
-    <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Ştergeţi mesajul blocat?"</string>
+    <string name="confirm_dialog_title" msgid="2187213750475782725">"Ștergeţi?"</string>
+    <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Ștergeţi mesajul blocat?"</string>
   <plurals name="confirm_delete_conversation">
     <item quantity="one" msgid="7509396981963472833">"O conversaţie va fi ştearsă."</item>
     <item quantity="other" msgid="4076915774012081811">"<xliff:g id="NUMBER">%1$s</xliff:g> (de) conversaţii vor fi şterse."</item>
@@ -189,11 +189,11 @@
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Firul de conversaţie va fi şters în întregime."</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Toate firele de conversaţie vor fi şterse."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Mesajul va fi şters."</string>
-    <string name="confirm_delete_locked_message" msgid="7203411948190100955">"Ştergeţi acest mesaj blocat?"</string>
+    <string name="confirm_delete_locked_message" msgid="7203411948190100955">"Ștergeţi acest mesaj blocat?"</string>
     <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"Toate mesajele de pe cardul SIM vor fi şterse."</string>
     <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"Acest mesaj de pe cardul SIM va fi şters."</string>
-    <string name="delete_unlocked" msgid="7545321606698162261">"Ştergeţi mesajele blocate"</string>
-    <string name="delete" msgid="1409973060081564612">"Ştergeţi"</string>
+    <string name="delete_unlocked" msgid="7545321606698162261">"Ștergeţi mesajele blocate"</string>
+    <string name="delete" msgid="1409973060081564612">"Ștergeţi"</string>
     <string name="select_conversations" msgid="7816517565640002844">"Alegeţi conversaţii"</string>
     <string name="no_conversations" msgid="6773767655149258445">"Nicio conversaţie."</string>
     <string name="loading_conversations" msgid="5510430408235967094">"Conversaţiile se încarcă."</string>
@@ -218,12 +218,12 @@
     <string name="message_class_label" msgid="5115748690481550562">"Clasa de mesaj: "</string>
     <string name="error_code_label" msgid="5810068247647058769">"Cod de eroare: "</string>
     <string name="menu_edit" msgid="3056513240155967777">"Modificaţi"</string>
-    <string name="menu_delete_messages" msgid="2610286783513247420">"Ştergeţi mesajele"</string>
+    <string name="menu_delete_messages" msgid="2610286783513247420">"Ștergeţi mesajele"</string>
     <string name="menu_lock" msgid="7603793126077557472">"Blocaţi"</string>
     <string name="menu_unlock" msgid="6662865558677424039">"Deblocaţi"</string>
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Copiaţi în memoria computerului tablet PC"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Copiaţi în memoria telefonului"</string>
-    <string name="sim_delete" msgid="610790510655316922">"Ştergeţi"</string>
+    <string name="sim_delete" msgid="610790510655316922">"Ștergeţi"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Mesaje text pe cardul SIM"</string>
     <string name="sim_view" msgid="1997173541766393706">"Vizualizaţi"</string>
     <string name="sim_empty" msgid="2356766833071636297">"Niciun mesaj pe acest card SIM."</string>
@@ -253,9 +253,9 @@
     <string name="notification_failed_multiple" msgid="6192531993698497229">"<xliff:g id="COUNT">%s</xliff:g> (de) mesaje nu au putut fi trimise"</string>
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"Mesajele nu au fost trimise"</string>
     <string name="sim_full_title" msgid="1809829051697702810">"Card SIM plin"</string>
-    <string name="sim_full_body" msgid="6241664980790322925">"Ştergeţi câteva mesaje pentru a crea spaţiu pentru mai multe."</string>
+    <string name="sim_full_body" msgid="6241664980790322925">"Ștergeţi câteva mesaje pentru a crea spaţiu pentru mai multe."</string>
     <string name="sms_full_title" msgid="6041287140125011854">"Memoria pentru mesajul text este plină"</string>
-    <string name="sms_full_body" msgid="4885861852397651868">"Un mesaj primit a fost respins din lipsă de memorie. Ştergeţi unele dintre mesajele vechi."</string>
+    <string name="sms_full_body" msgid="4885861852397651868">"Un mesaj primit a fost respins din lipsă de memorie. Ștergeţi unele dintre mesajele vechi."</string>
     <string name="sms_rejected_title" msgid="8548394922491529811">"Mesaj text respins"</string>
     <string name="sms_rejected_body" msgid="7813671133968158562">"Un mesaj primit a fost respins dintr-un motiv necunoscut."</string>
     <string name="type_audio" msgid="3842064092332309756">"audio"</string>
@@ -308,10 +308,10 @@
     <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> (de) rezultate pentru „<xliff:g id="SEARCH">%2$s</xliff:g>”"</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> (de) rezultate pentru „<xliff:g id="SEARCH">%2$s</xliff:g>”"</string>
-    <string name="confirm_clear_search_title" msgid="8510295993632032904">"Ştergeţi"</string>
+    <string name="confirm_clear_search_title" msgid="8510295993632032904">"Ștergeţi"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"Istoricul căutărilor va fi şters."</string>
-    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Ştergeţi istoricul căutărilor"</string>
-    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Ştergeţi căutarea anterioară de mesaje, pentru a evita afişarea acesteia în caseta de căutare."</string>
+    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Ștergeţi istoricul căutărilor"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Ștergeţi căutarea anterioară de mesaje, pentru a evita afişarea acesteia în caseta de căutare."</string>
     <string name="save" msgid="6847069284991531310">"Salvaţi"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"Limita de mesaje"</string>
     <string name="storage_limits_message" msgid="2010501485394745696">"Doriţi să limitaţi numărul de mesaje salvate pe conversaţie?"</string>
