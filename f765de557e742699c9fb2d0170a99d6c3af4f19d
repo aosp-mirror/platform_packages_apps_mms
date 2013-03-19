@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "R-aUtfrY",
+        "filename": "src/com/android/mms/MmsApp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-03-19T18:29:55Z",
+      "side": 1,
+      "message": "What happens with the sms path if the they same thing happens? Does sending of those automatically restart or does it wait until the user tries to send another message?",
+      "revId": "f765de557e742699c9fb2d0170a99d6c3af4f19d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
