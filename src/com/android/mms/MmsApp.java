@@ -34,6 +34,7 @@ import com.android.mms.data.Contact;
 import com.android.mms.data.Conversation;
 import com.android.mms.layout.LayoutManager;
 import com.android.mms.transaction.MessagingNotification;
+import com.android.mms.transaction.MmsSystemEventReceiver;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.PduLoaderManager;
@@ -94,6 +95,9 @@ public class MmsApp extends Application {
         LayoutManager.init(this);
         SmileyParser.init(this);
         MessagingNotification.init(this);
+
+        // Try to process pending transaction which were killed before
+        MmsSystemEventReceiver.wakeUpService(this);
     }
 
     synchronized public static MmsApp getApplication() {
