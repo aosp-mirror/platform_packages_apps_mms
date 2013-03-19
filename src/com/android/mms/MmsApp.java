@@ -19,6 +19,7 @@ package com.android.mms;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.drm.DrmManagerClient;
 import android.location.Country;
@@ -34,6 +35,9 @@ import com.android.mms.data.Contact;
 import com.android.mms.data.Conversation;
 import com.android.mms.layout.LayoutManager;
 import com.android.mms.transaction.MessagingNotification;
+import com.android.mms.transaction.MmsSystemEventReceiver;
+import com.android.mms.transaction.SmsReceiver;
+import com.android.mms.transaction.SmsReceiverService;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.PduLoaderManager;
@@ -94,6 +98,23 @@ public class MmsApp extends Application {
         LayoutManager.init(this);
         SmileyParser.init(this);
         MessagingNotification.init(this);
+
+        activePendingMessages();
+    }
+
+    /**
+     * Try to process all pending messages(which were interrupted by user, OOM, Mms crashing,
+     * etc...) when Mms app is (re)launched.
+     */
+    private void activePendingMessages() {
+        // For Mms: try to process all pending transactions if possible
+        MmsSystemEventReceiver.wakeUpService(this);
+
+        // For Sms: retry to send smses in outbox and queued box
+        sendBroadcast(new Intent(SmsReceiverService.ACTION_SEND_INACTIVE_MESSAGE,
+                null,
+                this,
+                SmsReceiver.class));
     }
 
     synchronized public static MmsApp getApplication() {
