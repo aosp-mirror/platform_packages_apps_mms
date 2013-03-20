@@ -76,4 +76,14 @@
     <string-array name="empty_subject_strings">
         <item>no subject</item>
     </string-array>
+    <string-array name="prefEntries_creationMode">
+        <item>Restricted</item>
+        <item>Warning</item>
+        <item>Free</item>
+    </string-array>
+    <string-array name="prefValues_creationMode">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 </resources>

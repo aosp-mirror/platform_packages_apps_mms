@@ -342,4 +342,14 @@
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">"、 "</string>
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
+    <string name="pref_title_notification_creationMode">编辑模式</string>
+    <string name="prefDialogTitle_creationMode">请选择编辑模式</string>
+    <string name="pref_summary_creation_mode">创建彩信时的编辑模式</string>
+    <string name="unsupported_media_format_warning">"不支持<xliff:g id="NAME">%1$s</xliff:g>格式,仍然添加？"</string>
+    <string name="please_wait">请稍等...</string>
+    <string name="mms_creation_mode_too_big_image_title">过大的图片。</string>
+    <string name="mms_creation_mode_too_big_image_error">由于彩信的创建模式的限制，该图片的宽高过大。</string>
+    <string name="mms_creation_mode_too_big_image_warning">由于彩信的创建模式的限制，该图片的宽高过大，仍然添加？</string>
+    <string name="forward_mms_exceed_size">该彩信附件过大，不能转发</string>
+    <string translatable="false" name="prefDefault_creation_mode">3</string>
 </resources>

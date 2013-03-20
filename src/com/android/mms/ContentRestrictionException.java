@@ -17,21 +17,30 @@
 
 package com.android.mms;
 
+import com.google.android.mms.MmsCreationMode;
 /**
  * A generic exception that is thrown by checking content restriction.
  */
 public class ContentRestrictionException extends RuntimeException {
     private static final long serialVersionUID = 516136015813043499L;
+    private int mCreationMode = MmsCreationMode.CREATION_MODE_FREE;
 
-    public ContentRestrictionException() {
+    public ContentRestrictionException(int creationMode) {
         super();
+        mCreationMode = creationMode;
     }
 
-    public ContentRestrictionException(String msg) {
+    public ContentRestrictionException(String msg, int creationMode) {
         super(msg);
+        mCreationMode = creationMode;
     }
 
-    public ContentRestrictionException(Exception cause) {
+    public ContentRestrictionException(Exception cause, int creationMode) {
         super(cause);
+        mCreationMode = creationMode;
+    }
+
+    public int getCreationMode() {
+        return mCreationMode ;
     }
 }

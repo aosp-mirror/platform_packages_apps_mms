@@ -31,4 +31,6 @@ public interface ContentRestriction {
     void checkVideoContentType(String contentType) throws ContentRestrictionException;
 
     void checkResolution(int width, int height) throws ContentRestrictionException;
+
+    int getCreationMode();
 }

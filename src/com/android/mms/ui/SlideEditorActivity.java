@@ -23,6 +23,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -43,6 +44,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.mms.data.WorkingMessage;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
@@ -58,6 +60,7 @@ import com.android.mms.model.SlideshowModel;
 import com.android.mms.ui.BasicSlideEditorView.OnTextChangedListener;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 import com.google.android.mms.ContentType;
+import com.google.android.mms.MmsCreationMode;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPart;
@@ -598,19 +601,18 @@ public class SlideEditorActivity extends Activity {
                         // Remove the old captured picture's thumbnail from the cache
                         MmsApp.getApplication().getThumbnailManager().removeThumbnail(pictureUri);
 
-                        mSlideshowEditor.changeImage(mPosition, pictureUri);
+                        mSlideshowEditor.changeImage(mPosition, pictureUri, true);
                         setReplaceButtonText(R.string.replace_image);
                     }
                 } catch (MmsException e) {
                     Log.e(TAG, "add image failed", e);
                     showError = true;
                 } catch (UnsupportContentTypeException e) {
-                    MessageUtils.showErrorDialog(SlideEditorActivity.this,
-                            getResourcesString(R.string.unsupported_media_format, getPictureString()),
-                            getResourcesString(R.string.select_different_media, getPictureString()));
+                    handleException(pictureUri, getPictureString(),
+                            WorkingMessage.UNSUPPORTED_TYPE, e.getCreationMode());
                 } catch (ResolutionException e) {
-                    MessageUtils.resizeImageAsync(this, pictureUri, new Handler(),
-                            mResizeImageCallback, false);
+                    handleException(pictureUri, getPictureString(),
+                            WorkingMessage.IMAGE_TOO_LARGE, e.getCreationMode());
                 } catch (ExceedMessageSizeException e) {
                     MessageUtils.resizeImageAsync(this, pictureUri, new Handler(),
                             mResizeImageCallback, false);
@@ -625,7 +627,7 @@ public class SlideEditorActivity extends Activity {
 
             case REQUEST_CODE_CHANGE_PICTURE:
                 try {
-                    mSlideshowEditor.changeImage(mPosition, data.getData());
+                    mSlideshowEditor.changeImage(mPosition, data.getData(), true);
                     setReplaceButtonText(R.string.replace_image);
                 } catch (MmsException e) {
                     Log.e(TAG, "add image failed", e);
@@ -634,12 +636,11 @@ public class SlideEditorActivity extends Activity {
                             getResourcesString(R.string.failed_to_add_media, getPictureString()),
                             Toast.LENGTH_SHORT).show();
                 } catch (UnsupportContentTypeException e) {
-                    MessageUtils.showErrorDialog(SlideEditorActivity.this,
-                            getResourcesString(R.string.unsupported_media_format, getPictureString()),
-                            getResourcesString(R.string.select_different_media, getPictureString()));
+                    handleException(data.getData(), getPictureString(),
+                            WorkingMessage.UNSUPPORTED_TYPE, e.getCreationMode());
                 } catch (ResolutionException e) {
-                    MessageUtils.resizeImageAsync(this, data.getData(), new Handler(),
-                            mResizeImageCallback, false);
+                    handleException(data.getData(), getPictureString(),
+                            WorkingMessage.IMAGE_TOO_LARGE, e.getCreationMode());
                 } catch (ExceedMessageSizeException e) {
                     MessageUtils.resizeImageAsync(this, data.getData(), new Handler(),
                             mResizeImageCallback, false);
@@ -659,7 +660,7 @@ public class SlideEditorActivity extends Activity {
                 }
 
                 try {
-                    mSlideshowEditor.changeAudio(mPosition, uri);
+                    mSlideshowEditor.changeAudio(mPosition, uri, true);
                 } catch (MmsException e) {
                     Log.e(TAG, "add audio failed", e);
                     notifyUser("add music failed");
@@ -667,9 +668,8 @@ public class SlideEditorActivity extends Activity {
                             getResourcesString(R.string.failed_to_add_media, getAudioString()),
                             Toast.LENGTH_SHORT).show();
                 } catch (UnsupportContentTypeException e) {
-                    MessageUtils.showErrorDialog(SlideEditorActivity.this,
-                            getResourcesString(R.string.unsupported_media_format, getAudioString()),
-                            getResourcesString(R.string.select_different_media, getAudioString()));
+                    handleException(uri, getAudioString(),
+                            WorkingMessage.UNSUPPORTED_TYPE, e.getCreationMode());
                 } catch (ExceedMessageSizeException e) {
                     MessageUtils.showErrorDialog(SlideEditorActivity.this,
                             getResourcesString(R.string.exceed_message_size_limitation),
@@ -678,20 +678,20 @@ public class SlideEditorActivity extends Activity {
                 break;
 
             case REQUEST_CODE_TAKE_VIDEO:
+                Uri videoUri = null;
                 try {
-                    Uri videoUri = TempFileProvider.renameScrapFile(".3gp",
+                    videoUri = TempFileProvider.renameScrapFile(".3gp",
                             Integer.toString(mPosition), this);
 
-                    mSlideshowEditor.changeVideo(mPosition, videoUri);
+                    mSlideshowEditor.changeVideo(mPosition, videoUri, true);
                 } catch (MmsException e) {
                     notifyUser("add video failed");
                     Toast.makeText(SlideEditorActivity.this,
                             getResourcesString(R.string.failed_to_add_media, getVideoString()),
                             Toast.LENGTH_SHORT).show();
                 } catch (UnsupportContentTypeException e) {
-                    MessageUtils.showErrorDialog(SlideEditorActivity.this,
-                            getResourcesString(R.string.unsupported_media_format, getVideoString()),
-                            getResourcesString(R.string.select_different_media, getVideoString()));
+                    handleException(videoUri, getVideoString(),
+                            WorkingMessage.UNSUPPORTED_TYPE, e.getCreationMode());
                 } catch (ExceedMessageSizeException e) {
                     MessageUtils.showErrorDialog(SlideEditorActivity.this,
                             getResourcesString(R.string.exceed_message_size_limitation),
@@ -701,7 +701,7 @@ public class SlideEditorActivity extends Activity {
 
             case REQUEST_CODE_CHANGE_VIDEO:
                 try {
-                    mSlideshowEditor.changeVideo(mPosition, data.getData());
+                    mSlideshowEditor.changeVideo(mPosition, data.getData(), true);
                 } catch (MmsException e) {
                     Log.e(TAG, "add video failed", e);
                     notifyUser("add video failed");
@@ -709,9 +709,8 @@ public class SlideEditorActivity extends Activity {
                             getResourcesString(R.string.failed_to_add_media, getVideoString()),
                             Toast.LENGTH_SHORT).show();
                 } catch (UnsupportContentTypeException e) {
-                    MessageUtils.showErrorDialog(SlideEditorActivity.this,
-                            getResourcesString(R.string.unsupported_media_format, getVideoString()),
-                            getResourcesString(R.string.select_different_media, getVideoString()));
+                    handleException(data.getData(), getVideoString(),
+                            WorkingMessage.UNSUPPORTED_TYPE, e.getCreationMode());
                 } catch (ExceedMessageSizeException e) {
                     MessageUtils.showErrorDialog(SlideEditorActivity.this,
                             getResourcesString(R.string.exceed_message_size_limitation),
@@ -740,7 +739,7 @@ public class SlideEditorActivity extends Activity {
                 long messageId = ContentUris.parseId(mUri);
                 PduPersister persister = PduPersister.getPduPersister(context);
                 Uri newUri = persister.persistPart(part, messageId, null);
-                mSlideshowEditor.changeImage(mPosition, newUri);
+                mSlideshowEditor.changeImage(mPosition, newUri, true);
 
                 setReplaceButtonText(R.string.replace_image);
             } catch (MmsException e) {
@@ -803,4 +802,107 @@ public class SlideEditorActivity extends Activity {
             setReplaceButtonText(R.string.add_picture);
         }
     }
+
+    private void handleException(final Uri uri, final String mediaType,
+            final int error, int creationMode) {
+
+        String title;
+        String message;
+        if (creationMode == MmsCreationMode.CREATION_MODE_WARNING) {
+            DialogInterface.OnClickListener okListener = new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (mediaType.equals(getPictureString())) {
+                        addImage(uri);
+                    } else if (mediaType.equals(getAudioString())) {
+                        addAudio(uri);
+                    } else if (mediaType.equals(getVideoString())) {
+                        addVideo(uri);
+                    }
+
+                }
+            };
+
+            if (error == WorkingMessage.IMAGE_TOO_LARGE) {
+                title = getResourcesString(R.string.mms_creation_mode_too_big_image_title);
+                message = getResourcesString(R.string.mms_creation_mode_too_big_image_warning);
+            } else {
+                title = getResourcesString(R.string.unsupported_media_format,
+                        mediaType);
+                message = getResourcesString(
+                        R.string.unsupported_media_format_warning, mediaType);
+            }
+            MessageUtils.showWarningDialog(SlideEditorActivity.this, title,
+                    message, okListener);
+        } else {
+            if (error == WorkingMessage.IMAGE_TOO_LARGE) {
+                title = getResourcesString(R.string.mms_creation_mode_too_big_image_title);
+                message = getResourcesString(R.string.mms_creation_mode_too_big_image_error);
+            } else {
+                title = getResourcesString(R.string.unsupported_media_format,
+                        mediaType);
+                message = getResourcesString(R.string.select_different_media,
+                        mediaType);
+            }
+            MessageUtils.showErrorDialog(SlideEditorActivity.this, title,
+                    message);
+        }
+    }
+
+    private void addImage(Uri uri) {
+        try {
+            mSlideshowEditor.changeImage(mPosition, uri, false);
+            setReplaceButtonText(R.string.replace_image);
+        } catch (MmsException e) {
+            Log.e(TAG, "add image failed", e);
+            notifyUser("add picture failed");
+            Toast.makeText(SlideEditorActivity.this,
+                    getResourcesString(R.string.failed_to_add_media, getPictureString()),
+                    Toast.LENGTH_SHORT).show();
+        } catch (ResolutionException e) {
+            MessageUtils.resizeImageAsync(this, uri, new Handler(),
+                    mResizeImageCallback, false);
+        } catch (ExceedMessageSizeException e) {
+            MessageUtils.resizeImageAsync(this, uri, new Handler(),
+                    mResizeImageCallback, false);
+        }
+    }
+
+    private void addAudio(Uri uri) {
+        try {
+            mSlideshowEditor.changeAudio(mPosition, uri, false);
+        } catch (MmsException e) {
+            Log.e(TAG, "add audio failed", e);
+            notifyUser("add music failed");
+            Toast.makeText(SlideEditorActivity.this,
+                    getResourcesString(R.string.failed_to_add_media, getAudioString()),
+                    Toast.LENGTH_SHORT).show();
+        } catch (ExceedMessageSizeException e) {
+            MessageUtils.showErrorDialog(SlideEditorActivity.this,
+                    getResourcesString(R.string.exceed_message_size_limitation),
+                    getResourcesString(R.string.failed_to_add_media, getAudioString()));
+        }
+    }
+
+    private void addVideo(Uri uri) {
+        try {
+            mSlideshowEditor.changeVideo(mPosition, uri, false);
+        } catch (MmsException e) {
+            Log.e(TAG, "add video failed", e);
+            notifyUser("add video failed");
+            Toast.makeText(SlideEditorActivity.this,
+                    getResourcesString(R.string.failed_to_add_media, getVideoString()),
+                    Toast.LENGTH_SHORT).show();
+        } catch (ExceedMessageSizeException e) {
+            MessageUtils.showErrorDialog(SlideEditorActivity.this,
+                    getResourcesString(R.string.exceed_message_size_limitation),
+                    getResourcesString(R.string.failed_to_add_media, getVideoString()));
+        }
+    }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
 }

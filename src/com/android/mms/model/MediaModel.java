@@ -32,6 +32,7 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.util.Log;
 
+import com.android.mms.ContentRestrictionException;
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.google.android.mms.MmsException;
@@ -309,5 +310,12 @@ public abstract class MediaModel extends Model implements EventListener {
      * @throws MmsException
      */
     protected void resizeMedia(int byteLimit, long messageId) throws MmsException {
+    }
+
+    /**
+     * check the content restriction
+     * @throws ContentRestrictionException
+     */
+    public void checkContentRestriction() throws ContentRestrictionException {
     }
 }

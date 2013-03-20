@@ -179,6 +179,8 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_PICK             = 109;
 
     private static final String TAG = "Mms/compose";
+    private static final String FORWARD_ACTIVITY_NAME = "com.android.mms.ui.ForwardMessageActivity";
+    private ProgressDialog mForwardProgressDialog;
 
     private static final boolean DEBUG = false;
     private static final boolean TRACE = false;
@@ -322,6 +324,8 @@ public class ComposeMessageActivity extends Activity
      * Whether this activity is currently running (i.e. not paused)
      */
     private boolean mIsRunning;
+
+    public static final int SHOW_FORWARD_EXCEPTION_DIALOGS = 2012;
 
     // we may call loadMessageAndDraft() from a few different places. This is used to make
     // sure we only load message+draft once.
@@ -1206,13 +1210,34 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void forwardMessage(final MessageItem msgItem) {
+        if (msgItem.mType.equals("sms")) {
+            Intent intent = createIntent(ComposeMessageActivity.this, 0);
+            intent.putExtra("exit_on_sent", true);
+            intent.putExtra("forwarded_message", true);
+            intent.putExtra("sms_body", msgItem.mBody);
+            intent.putExtra("thread_id", 0);
+            intent.setClassName(ComposeMessageActivity.this, FORWARD_ACTIVITY_NAME);
+            startActivity(intent);
+        } else {
+            if (msgItem.mType.equals("mms") && msgItem.mSlideshow != null) {
+               if (msgItem.mSlideshow.getCurrentMessageSize()
+                       > MmsConfig.getMaxMessageSize()) {
+                  handleForwardMmsError();
+                  return ;
+               }
+            }
+            forwardMms(msgItem, mForwardExceptionHandler);
+        }
+    }
+
+    private void forwardMms(final MessageItem msgItem, final Handler handler) {
         mTempThreadId = 0;
         // The user wants to forward the message. If the message is an mms message, we need to
         // persist the pdu to disk. This is done in a background task.
         // If the task takes longer than a half second, a progress dialog is displayed.
         // Once the PDU persisting is done, another runnable on the UI thread get executed to start
         // the ForwardMessageActivity.
-        getAsyncDialog().runAsync(new Runnable() {
+        getAsyncDialog().runAsyncNoWait(new Runnable() {
             @Override
             public void run() {
                 // This runnable gets run in a background thread.
@@ -1223,7 +1248,8 @@ public class ComposeMessageActivity extends Activity
                         subject += msgItem.mSubject;
                     }
                     sendReq.setSubject(new EncodedStringValue(subject));
-                    sendReq.setBody(msgItem.mSlideshow.makeCopy());
+                    sendReq.setBody(msgItem.mSlideshow.makeCopy(
+                            ComposeMessageActivity.this, handler));
 
                     mTempMmsUri = null;
                     try {
@@ -1256,16 +1282,12 @@ public class ComposeMessageActivity extends Activity
                     intent.putExtra(THREAD_ID, mTempThreadId);
                 }
 
-                if (msgItem.mType.equals("sms")) {
-                    intent.putExtra("sms_body", msgItem.mBody);
-                } else {
-                    intent.putExtra("msg_uri", mTempMmsUri);
-                    String subject = getString(R.string.forward_prefix);
-                    if (msgItem.mSubject != null) {
-                        subject += msgItem.mSubject;
-                    }
-                    intent.putExtra("subject", subject);
+                intent.putExtra("msg_uri", mTempMmsUri);
+                String subject = getString(R.string.forward_prefix);
+                if (msgItem.mSubject != null) {
+                    subject += msgItem.mSubject;
                 }
+                intent.putExtra("subject", subject);
                 // ForwardMessageActivity is simply an alias in the manifest for
                 // ComposeMessageActivity. We have to make an alias because ComposeMessageActivity
                 // launch flags specify singleTop. When we forward a message, we want to start a
@@ -2974,13 +2996,13 @@ public class ComposeMessageActivity extends Activity
                 if (Settings.System.DEFAULT_RINGTONE_URI.equals(uri)) {
                     break;
                 }
-                addAudio(uri);
+                addAudio(uri, false, true);
                 break;
             }
 
             case REQUEST_CODE_RECORD_SOUND:
                 if (data != null) {
-                    addAudio(data.getData());
+                    addAudio(data.getData(), false, true);
                 }
                 break;
 
@@ -3081,7 +3103,8 @@ public class ComposeMessageActivity extends Activity
                 try {
                     Uri dataUri = persister.persistPart(part,
                             ContentUris.parseId(messageUri), null);
-                    result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, dataUri, append);
+                    result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE,
+                            dataUri, append, false);
                     if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                         log("ResizeImageResultCallback: dataUri=" + dataUri);
                     }
@@ -3121,8 +3144,8 @@ public class ComposeMessageActivity extends Activity
                     message = res.getString(R.string.failed_to_add_media, mediaType);
                     break;
                 case WorkingMessage.IMAGE_TOO_LARGE:
-                    title = res.getString(R.string.failed_to_resize_image);
-                    message = res.getString(R.string.resize_image_error_information);
+                    title = res.getString(R.string.mms_creation_mode_too_big_image_title);
+                    message = res.getString(R.string.mms_creation_mode_too_big_image_error);
                     break;
                 default:
                     throw new IllegalArgumentException("unknown error " + error);
@@ -3133,53 +3156,141 @@ public class ComposeMessageActivity extends Activity
         });
     }
 
+    private final Handler mForwardExceptionHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SHOW_FORWARD_EXCEPTION_DIALOGS:
+                    AlertDialog.Builder builder = (AlertDialog.Builder)msg.obj;
+                    builder.show();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    private void handleAddAttachmentWaning(final Uri uri,final boolean append, final int error,
+            final int mediaTypeStringId){
+        if (error == WorkingMessage.OK) {
+            return;
+        }
+        runOnUiThread(new Runnable() {
+            public void run() {
+                Resources res = getResources();
+                String mediaType = res.getString(mediaTypeStringId);
+                String title, message;
+
+                switch(error) {
+                case WorkingMessage.UNSUPPORTED_TYPE:
+                case WorkingMessage.UNSUPPORTED_TYPE_CREATION_MODE_WARNING:
+                    title = res.getString(R.string.unsupported_media_format, mediaType);
+                    message = res.getString(R.string.unsupported_media_format_warning, mediaType);
+                    break;
+                case WorkingMessage.MESSAGE_SIZE_EXCEEDED:
+                    title = res.getString(R.string.exceed_message_size_limitation, mediaType);
+                    message = res.getString(R.string.failed_to_add_media, mediaType);
+                    break;
+                case WorkingMessage.IMAGE_TOO_LARGE:
+                case WorkingMessage.IMAGE_TOO_LARGE_CREATION_MODE_WARNING:
+                    title = res.getString(R.string.mms_creation_mode_too_big_image_title);
+                    message = res.getString(R.string.mms_creation_mode_too_big_image_warning);
+                    break;
+                case WorkingMessage.UNKNOWN_ERROR:
+                default:
+                    message = res.getString(R.string.failed_to_add_media, mediaType);
+                    Toast.makeText(ComposeMessageActivity.this, message, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                OnClickListener okListener = new OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (mediaTypeStringId) {
+                            case R.string.type_picture:
+                                addImage(uri, append, false);
+                                break;
+                            case R.string.type_video:
+                                addVideo(uri, append, false);
+                                break;
+                            case R.string.type_audio:
+                                addAudio(uri,append, false);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                };
+                MessageUtils.showWarningDialog(ComposeMessageActivity.this, title, message,
+                        okListener);
+            }
+        });
+    }
+
+    private void handleForwardMmsError() {
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                String title, message;
+                Resources res = getResources();
+                title = res.getString(R.string.exceed_message_size_limitation);
+                message = res.getString(R.string.forward_mms_exceed_size);
+                MessageUtils.showErrorDialog(ComposeMessageActivity.this, title, message);
+            }
+        });
+    }
     private void addImageAsync(final Uri uri, final boolean append) {
         getAsyncDialog().runAsync(new Runnable() {
             @Override
             public void run() {
-                addImage(uri, append);
+                addImage(uri, append ,true);
             }
         }, null, R.string.adding_attachments_title);
     }
 
-    private void addImage(Uri uri, boolean append) {
+    private void addImage(Uri uri, boolean append, boolean isCreationModeCheck) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-            log("addImage: append=" + append + ", uri=" + uri);
+            log("append=" + append + ", uri=" + uri);
         }
 
-        int result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, uri, append);
-
-        if (result == WorkingMessage.IMAGE_TOO_LARGE ||
-            result == WorkingMessage.MESSAGE_SIZE_EXCEEDED) {
-            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                log("resize image " + uri);
-            }
-            MessageUtils.resizeImageAsync(ComposeMessageActivity.this,
-                    uri, mAttachmentEditorHandler, mResizeImageCallback, append);
-            return;
+        int result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, uri, append,
+                isCreationModeCheck);
+        if ((result == WorkingMessage.UNSUPPORTED_TYPE_CREATION_MODE_WARNING
+                || result == WorkingMessage.IMAGE_TOO_LARGE_CREATION_MODE_WARNING)) {
+            handleAddAttachmentWaning(uri, append, result, R.string.type_picture);
+        } else {
+            handleAddAttachmentError(result, R.string.type_picture);
         }
-        handleAddAttachmentError(result, R.string.type_picture);
     }
 
     private void addVideoAsync(final Uri uri, final boolean append) {
         getAsyncDialog().runAsync(new Runnable() {
             @Override
             public void run() {
-                addVideo(uri, append);
+                addVideo(uri, append ,true);
             }
         }, null, R.string.adding_attachments_title);
     }
 
-    private void addVideo(Uri uri, boolean append) {
+    private void addVideo(Uri uri, boolean append, boolean isCreationModeCheck) {
         if (uri != null) {
-            int result = mWorkingMessage.setAttachment(WorkingMessage.VIDEO, uri, append);
-            handleAddAttachmentError(result, R.string.type_video);
+            int result = mWorkingMessage.setAttachment(WorkingMessage.VIDEO, uri, append,
+                    isCreationModeCheck);
+            if (result == WorkingMessage.UNSUPPORTED_TYPE_CREATION_MODE_WARNING) {
+                handleAddAttachmentWaning(uri, append, result, R.string.type_video);
+            } else {
+                handleAddAttachmentError(result, R.string.type_video);
+            }
         }
     }
 
-    private void addAudio(Uri uri) {
-        int result = mWorkingMessage.setAttachment(WorkingMessage.AUDIO, uri, false);
-        handleAddAttachmentError(result, R.string.type_audio);
+    private void addAudio(Uri uri, boolean append, boolean isCreationModeCheck) {
+            int result = mWorkingMessage.setAttachment(WorkingMessage.AUDIO, uri, append,
+                    isCreationModeCheck);
+            if (result == WorkingMessage.UNSUPPORTED_TYPE_CREATION_MODE_WARNING) {
+                handleAddAttachmentWaning(uri, append, result, R.string.type_audio);
+            } else {
+                handleAddAttachmentError(result, R.string.type_audio);
+            }
     }
 
     AsyncDialog getAsyncDialog() {
@@ -3288,10 +3399,10 @@ public class ComposeMessageActivity extends Activity
             // to look at the uri to figure out if it is an image or video.
             boolean wildcard = "*/*".equals(type);
             if (type.startsWith("image/") || (wildcard && uri.toString().startsWith(mImageUri))) {
-                addImage(uri, append);
+                addImage(uri, append, true);
             } else if (type.startsWith("video/") ||
                     (wildcard && uri.toString().startsWith(mVideoUri))) {
-                addVideo(uri, append);
+                addVideo(uri, append, true);
             }
         }
     }

@@ -69,6 +69,7 @@ import com.android.mms.util.Recycler;
 import com.android.mms.util.ThumbnailManager;
 import com.android.mms.widget.MmsWidgetProvider;
 import com.google.android.mms.ContentType;
+import com.google.android.mms.MmsCreationMode;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.PduBody;
@@ -113,6 +114,8 @@ public class WorkingMessage {
     public static final int MESSAGE_SIZE_EXCEEDED = -2;
     public static final int UNSUPPORTED_TYPE = -3;
     public static final int IMAGE_TOO_LARGE = -4;
+    public static final int UNSUPPORTED_TYPE_CREATION_MODE_WARNING = -5;
+    public static final int IMAGE_TOO_LARGE_CREATION_MODE_WARNING = -6;
 
     // Attachment types
     public static final int TEXT = 0;
@@ -425,7 +428,7 @@ public class WorkingMessage {
      * @param append true if we should add the attachment to a new slide
      * @return An error code such as {@link UNKNOWN_ERROR} or {@link OK} if successful
      */
-    public int setAttachment(int type, Uri dataUri, boolean append) {
+    public int setAttachment(int type, Uri dataUri, boolean append, boolean isCreationModeCheck) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             LogTag.debug("setAttachment type=%d uri %s", type, dataUri);
         }
@@ -450,8 +453,8 @@ public class WorkingMessage {
         slideShowEditor.setSlideshow(mSlideshow);
 
         // Change the attachment
-        result = append ? appendMedia(type, dataUri, slideShowEditor)
-                : changeMedia(type, dataUri, slideShowEditor);
+        result = append ? appendMedia(type, dataUri, slideShowEditor, isCreationModeCheck)
+                : changeMedia(type, dataUri, slideShowEditor, isCreationModeCheck);
 
         // If we were successful, update mAttachmentType and notify
         // the listener than there was a change.
@@ -560,7 +563,8 @@ public class WorkingMessage {
      * Used only for single-slide ("attachment mode") messages. If the attachment fails to
      * attach, restore the slide to its original state.
      */
-    private int changeMedia(int type, Uri uri, SlideshowEditor slideShowEditor) {
+    private int changeMedia(int type, Uri uri, SlideshowEditor slideShowEditor,
+            boolean isCreationModeCheck) {
         SlideModel originalSlide = mSlideshow.get(0);
         if (originalSlide != null) {
             slideShowEditor.removeSlide(0);     // remove the original slide
@@ -585,7 +589,7 @@ public class WorkingMessage {
             return result;
         }
 
-        result = internalChangeMedia(type, uri, 0, slideShowEditor);
+        result = internalChangeMedia(type, uri, 0, slideShowEditor, isCreationModeCheck);
         if (result != OK) {
             slideShowEditor.removeSlide(0);             // remove the failed slide
             if (originalSlide != null) {
@@ -598,7 +602,8 @@ public class WorkingMessage {
     /**
      * Add the message's attachment to the data in the specified Uri to a new slide.
      */
-    private int appendMedia(int type, Uri uri, SlideshowEditor slideShowEditor) {
+    private int appendMedia(int type, Uri uri, SlideshowEditor slideShowEditor,
+            boolean isCreationModeCheck) {
         int result = OK;
 
         // If we're changing to text, just bail out.
@@ -621,7 +626,7 @@ public class WorkingMessage {
             }
         }
         int slideNum = mSlideshow.size() - 1;
-        result = internalChangeMedia(type, uri, slideNum, slideShowEditor);
+        result = internalChangeMedia(type, uri, slideNum, slideShowEditor, isCreationModeCheck);
         if (result != OK) {
             // We added a new slide and what we attempted to insert on the slide failed.
             // Delete that slide, otherwise we could end up with a bunch of blank slides.
@@ -633,15 +638,15 @@ public class WorkingMessage {
     }
 
     private int internalChangeMedia(int type, Uri uri, int slideNum,
-            SlideshowEditor slideShowEditor) {
+            SlideshowEditor slideShowEditor, boolean isCreationModeCheck) {
         int result = OK;
         try {
             if (type == IMAGE) {
-                slideShowEditor.changeImage(slideNum, uri);
+                slideShowEditor.changeImage(slideNum, uri, isCreationModeCheck);
             } else if (type == VIDEO) {
-                slideShowEditor.changeVideo(slideNum, uri);
+                slideShowEditor.changeVideo(slideNum, uri, isCreationModeCheck);
             } else if (type == AUDIO) {
-                slideShowEditor.changeAudio(slideNum, uri);
+                slideShowEditor.changeAudio(slideNum, uri, isCreationModeCheck);
             } else {
                 result = UNSUPPORTED_TYPE;
             }
@@ -649,14 +654,22 @@ public class WorkingMessage {
             Log.e(TAG, "internalChangeMedia:", e);
             result = UNKNOWN_ERROR;
         } catch (UnsupportContentTypeException e) {
+            if (e.getCreationMode() == MmsCreationMode.CREATION_MODE_WARNING) {
+                result = UNSUPPORTED_TYPE_CREATION_MODE_WARNING;
+            } else {
+                result = UNSUPPORTED_TYPE;
+            }
             Log.e(TAG, "internalChangeMedia:", e);
-            result = UNSUPPORTED_TYPE;
         } catch (ExceedMessageSizeException e) {
             Log.e(TAG, "internalChangeMedia:", e);
             result = MESSAGE_SIZE_EXCEEDED;
         } catch (ResolutionException e) {
+            if (e.getCreationMode() == MmsCreationMode.CREATION_MODE_WARNING) {
+                result = IMAGE_TOO_LARGE_CREATION_MODE_WARNING;
+            } else {
+                result = IMAGE_TOO_LARGE;
+            }
             Log.e(TAG, "internalChangeMedia:", e);
-            result = IMAGE_TOO_LARGE;
         }
         return result;
     }

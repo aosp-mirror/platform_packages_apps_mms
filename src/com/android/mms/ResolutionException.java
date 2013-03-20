@@ -23,11 +23,11 @@ package com.android.mms;
 public final class ResolutionException extends ContentRestrictionException {
     private static final long serialVersionUID = 5509925632215500520L;
 
-    public ResolutionException() {
-        super();
+    public ResolutionException(int creationMode) {
+        super(creationMode);
     }
 
-    public ResolutionException(String msg) {
-        super(msg);
+    public ResolutionException(String msg, int creationMode) {
+        super(msg, creationMode);
     }
 }

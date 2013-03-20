@@ -33,6 +33,7 @@ public class AsyncDialog {
     private final Activity mActivity;
     private final Handler mHandler;
 
+    private int mWaitTime;
     public AsyncDialog(Activity activity) {
         mActivity = activity;
         mHandler = new Handler();
@@ -50,6 +51,14 @@ public class AsyncDialog {
      */
     public void runAsync(final Runnable backgroundTask,
             final Runnable postExecuteTask, final int dialogStringId) {
+        mWaitTime = 500;
+        new ModalDialogAsyncTask(dialogStringId, postExecuteTask)
+            .execute(new Runnable[] {backgroundTask});
+    }
+
+    public void runAsyncNoWait(final Runnable backgroundTask,
+            final Runnable postExecuteTask, final int dialogStringId) {
+        mWaitTime = 0;
         new ModalDialogAsyncTask(dialogStringId, postExecuteTask)
             .execute(new Runnable[] {backgroundTask});
     }
@@ -115,7 +124,7 @@ public class AsyncDialog {
         @Override
         protected void onPreExecute() {
             // activate spinner after half a second
-            mHandler.postDelayed(mShowProgressDialogRunnable, 500);
+            mHandler.postDelayed(mShowProgressDialogRunnable, mWaitTime);
         }
 
         /**

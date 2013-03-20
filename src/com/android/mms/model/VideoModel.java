@@ -51,7 +51,6 @@ public class VideoModel extends RegionMediaModel {
             throws MmsException {
         this(context, null, null, uri, region);
         initModelFromUri(uri);
-        checkContentRestriction();
     }
 
     public VideoModel(Context context, String contentType, String src,
@@ -186,8 +185,8 @@ public class VideoModel extends RegionMediaModel {
         notifyModelChanged(false);
     }
 
-    protected void checkContentRestriction() throws ContentRestrictionException {
-        ContentRestriction cr = ContentRestrictionFactory.getContentRestriction();
+    public void checkContentRestriction() throws ContentRestrictionException {
+        ContentRestriction cr = ContentRestrictionFactory.getContentRestriction(mContext);
         cr.checkVideoContentType(mContentType);
     }
 

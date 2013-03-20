@@ -17,17 +17,23 @@
 
 package com.android.mms;
 
+import com.google.android.mms.MmsCreationMode;
+
 /**
  * An exception that is thrown when message size exceeds limitation.
  */
 public final class ExceedMessageSizeException extends ContentRestrictionException {
     private static final long serialVersionUID = 6647713416796190850L;
 
-    public ExceedMessageSizeException() {
-        super();
+    public ExceedMessageSizeException(int creationMode) {
+        super(creationMode);
+    }
+
+    public ExceedMessageSizeException(String msg, int creationMode) {
+        super(msg, creationMode);
     }
 
     public ExceedMessageSizeException(String msg) {
-        super(msg);
+        super(msg, MmsCreationMode.CREATION_MODE_FREE);
     }
 }

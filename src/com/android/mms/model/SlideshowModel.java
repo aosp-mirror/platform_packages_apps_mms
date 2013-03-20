@@ -39,10 +39,16 @@ import org.w3c.dom.smil.SMILParElement;
 import org.w3c.dom.smil.SMILRegionElement;
 import org.w3c.dom.smil.SMILRootLayoutElement;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -50,9 +56,16 @@ import com.android.mms.ContentRestrictionException;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
+import com.android.mms.data.WorkingMessage;
 import com.android.mms.dom.smil.parser.SmilXmlSerializer;
 import com.android.mms.layout.LayoutManager;
+import com.android.mms.R;
+import com.android.mms.ResolutionException;
+import com.android.mms.ui.ComposeMessageActivity;
+import com.android.mms.UnsupportContentTypeException;
+
 import com.google.android.mms.ContentType;
+import com.google.android.mms.MmsCreationMode;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.GenericPdu;
 import com.google.android.mms.pdu.MultimediaMessagePdu;
@@ -73,6 +86,8 @@ public class SlideshowModel extends Model
                                         // attachments that can be resized (such as photos)
     private int mTotalMessageSize;      // This is the computed total message size
     private Context mContext;
+
+    private Object mLock = new Object();
 
     // amount of space to leave in a slideshow for text and overhead.
     public static final int SLIDESHOW_SLOP = 1024;
@@ -238,6 +253,11 @@ public class SlideshowModel extends Model
     }
 
     private PduBody makePduBody(SMILDocument document) {
+        return makePduBody(null, document, false, null);
+    }
+
+    private PduBody makePduBody(Context context, SMILDocument document, boolean isMakingCopy,
+            Handler handler) {
         PduBody pb = new PduBody();
 
         boolean hasForwardLock = false;
@@ -290,7 +310,33 @@ public class SlideshowModel extends Model
                     Log.w(TAG, "Unsupport media: " + media);
                 }
 
-                pb.addPart(part);
+                try {
+                    if (isMakingCopy) {
+                        media.checkContentRestriction();
+                    }
+                    pb.addPart(part);
+                } catch (UnsupportContentTypeException e) {
+                    synchronized (mLock) {
+                        handleException(context, pb, part, media, handler,
+                                WorkingMessage.UNSUPPORTED_TYPE, e.getCreationMode());
+                        try {
+                            mLock.wait();
+                        } catch (Exception exception) {
+                            // TODO: handle exception
+                        }
+                    }
+                } catch (ResolutionException e) {
+                    synchronized (mLock) {
+
+                        handleException(context, pb, part, media, handler,
+                                WorkingMessage.IMAGE_TOO_LARGE, e.getCreationMode());
+                        try {
+                            mLock.wait();
+                        } catch (Exception exception) {
+                            // TODO: handle exception
+                        }
+                    }
+                }
             }
         }
 
@@ -333,9 +379,10 @@ public class SlideshowModel extends Model
         return openedFiles;
     }
 
-    public PduBody makeCopy() {
-        return makePduBody(SmilHelper.getDocument(this));
+    public PduBody makeCopy(Context context, Handler handler) {
+        return makePduBody(context, SmilHelper.getDocument(this), true, handler);
     }
+
 
     public SMILDocument toSmilDocument() {
         if (mDocumentCache == null) {
@@ -613,7 +660,7 @@ public class SlideshowModel extends Model
     }
 
     public void checkMessageSize(int increaseSize) throws ContentRestrictionException {
-        ContentRestriction cr = ContentRestrictionFactory.getContentRestriction();
+        ContentRestriction cr = ContentRestrictionFactory.getContentRestriction(mContext);
         cr.checkMessageSize(mCurrentMessageSize, increaseSize, mContext.getContentResolver());
     }
 
@@ -720,4 +767,90 @@ public class SlideshowModel extends Model
         }
     }
 
+    private void handleException(Context context, final PduBody pb, final PduPart part,
+            MediaModel media,Handler handler, int error, int creationMode) {
+
+        String mediaType;
+        if (media.isAudio()) {
+            mediaType = context.getString(R.string.type_audio);
+        } else if (media.isVideo()) {
+            mediaType = context.getString(R.string.type_video);
+        } else {
+            mediaType = context.getString(R.string.type_picture);
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        if (error == WorkingMessage.IMAGE_TOO_LARGE) {
+            builder.setTitle(context.getString(R.string.mms_creation_mode_too_big_image_title));
+        } else {
+            builder.setTitle(context.getString(R.string.unsupported_media_format, mediaType));
+        }
+
+        DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                synchronized (mLock) {
+                    mLock.notify();
+                }
+                dialog.dismiss();
+            }
+        };
+
+        DialogInterface.OnCancelListener onCancelListener =
+                new DialogInterface.OnCancelListener() {
+
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                synchronized (mLock) {
+                    mLock.notify();
+                }
+                dialog.dismiss();
+
+            }
+        };
+
+        if (creationMode == MmsCreationMode.CREATION_MODE_WARNING) {
+            DialogInterface.OnClickListener okListener = new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    synchronized (mLock) {
+                        pb.addPart(part);
+                        mLock.notify();
+                    }
+                    dialog.dismiss();
+                }
+            };
+
+            builder.setIcon(R.drawable.dialog_question);
+            if (error == WorkingMessage.IMAGE_TOO_LARGE) {
+                builder.setMessage(
+                        context.getString(R.string.mms_creation_mode_too_big_image_warning));
+            } else {
+                builder.setMessage(
+                        context.getString(R.string.unsupported_media_format_warning, mediaType));
+            }
+            builder.setPositiveButton(android.R.string.ok, okListener);
+            builder.setNegativeButton(android.R.string.cancel, cancelListener);
+
+
+        } else {
+            builder.setIcon(android.R.attr.alertDialogIcon);
+            if (error == WorkingMessage.IMAGE_TOO_LARGE) {
+                builder.setMessage(
+                        context.getString(R.string.mms_creation_mode_too_big_image_error));
+            } else {
+                builder.setMessage(
+                        context.getString(R.string.select_different_media, mediaType));
+            }
+            builder.setPositiveButton(android.R.string.ok, cancelListener);
+        }
+
+        builder.setOnCancelListener(onCancelListener);
+        Message message =
+                handler.obtainMessage(ComposeMessageActivity.SHOW_FORWARD_EXCEPTION_DIALOGS,
+                builder);
+        handler.sendMessage(message);
+    }
 }
