@@ -28,20 +28,41 @@ import com.android.mms.MmsConfig;
 import com.android.mms.ResolutionException;
 import com.android.mms.UnsupportContentTypeException;
 import com.google.android.mms.ContentType;
+import com.google.android.mms.MmsCreationMode;
 
 public class CarrierContentRestriction implements ContentRestriction {
-    private static final ArrayList<String> sSupportedImageTypes;
-    private static final ArrayList<String> sSupportedAudioTypes;
-    private static final ArrayList<String> sSupportedVideoTypes;
+
+    private ArrayList<String> mSupportedImageTypes;
+    private ArrayList<String> mSupportedAudioTypes;
+    private ArrayList<String> mSupportedVideoTypes;
+    private int mMsgSizeLimit;
+    private int mImageWidthLimit;
+    private int mImageHeightLimit;
+    private int mCreationMode;
+
     private static final boolean DEBUG = true;
 
-    static {
-        sSupportedImageTypes = ContentType.getImageTypes();
-        sSupportedAudioTypes = ContentType.getAudioTypes();
-        sSupportedVideoTypes = ContentType.getVideoTypes();
-    }
+    public CarrierContentRestriction(int creationMode) {
+        mCreationMode = creationMode;
+        mSupportedImageTypes = ContentType.getImageTypes(mCreationMode);
+        mSupportedAudioTypes = ContentType.getAudioTypes(mCreationMode);
+        mSupportedVideoTypes = ContentType.getVideoTypes(mCreationMode);
+        Log.d(LogTag.APP, "CarrierContentRestriction creationMode: " + creationMode);
 
-    public CarrierContentRestriction() {
+        switch (creationMode) {
+            case MmsCreationMode.CREATION_MODE_RESTRICTED:
+            case MmsCreationMode.CREATION_MODE_WARNING:
+                mMsgSizeLimit = MmsConfig.getMaxMessageSize();
+                mImageWidthLimit = MmsConfig.getMaxImageWidth();
+                mImageHeightLimit = MmsConfig.getMaxImageHeight();
+                break;
+            case MmsCreationMode.CREATION_MODE_FREE:
+            default:
+                mMsgSizeLimit = MmsConfig.getMaxMessageSize();
+                mImageWidthLimit = MmsConfig.getMaxImageWidth();
+                mImageHeightLimit = MmsConfig.getMaxImageHeight();
+                break;
+        }
     }
 
     public void checkMessageSize(int messageSize, int increaseSize, ContentResolver resolver)
@@ -51,56 +72,61 @@ public class CarrierContentRestriction implements ContentRestriction {
                         messageSize + " increaseSize: " + increaseSize +
                         " MmsConfig.getMaxMessageSize: " + MmsConfig.getMaxMessageSize());
         }
-        if ( (messageSize < 0) || (increaseSize < 0) ) {
+        if ((messageSize < 0) || (increaseSize < 0)) {
             throw new ContentRestrictionException("Negative message size"
-                    + " or increase size");
+                    + " or increase size", mCreationMode);
         }
         int newSize = messageSize + increaseSize;
 
-        if ( (newSize < 0) || (newSize > MmsConfig.getMaxMessageSize()) ) {
-            throw new ExceedMessageSizeException("Exceed message size limitation");
+        if ((newSize < 0) || (newSize > mMsgSizeLimit)) {
+            throw new ExceedMessageSizeException("Exceed message size limitation", mCreationMode);
         }
     }
 
     public void checkResolution(int width, int height) throws ContentRestrictionException {
-        if ( (width > MmsConfig.getMaxImageWidth()) || (height > MmsConfig.getMaxImageHeight()) ) {
-            throw new ResolutionException("content resolution exceeds restriction.");
+        if ((mCreationMode != MmsCreationMode.CREATION_MODE_FREE)
+                && ((width > mImageWidthLimit) || (height > mImageHeightLimit))) {
+            throw new ResolutionException("content resolution exceeds restriction.", mCreationMode);
         }
     }
 
     public void checkImageContentType(String contentType)
             throws ContentRestrictionException {
         if (null == contentType) {
-            throw new ContentRestrictionException("Null content type to be check");
+            throw new UnsupportContentTypeException("Null content type to be check", mCreationMode);
         }
 
-        if (!sSupportedImageTypes.contains(contentType)) {
+        if (!mSupportedImageTypes.contains(contentType)) {
             throw new UnsupportContentTypeException("Unsupported image content type : "
-                    + contentType);
+                    + contentType, mCreationMode);
         }
     }
 
     public void checkAudioContentType(String contentType)
             throws ContentRestrictionException {
         if (null == contentType) {
-            throw new ContentRestrictionException("Null content type to be check");
+            throw new UnsupportContentTypeException("Null content type to be check", mCreationMode);
         }
 
-        if (!sSupportedAudioTypes.contains(contentType)) {
+        if (!mSupportedAudioTypes.contains(contentType)) {
             throw new UnsupportContentTypeException("Unsupported audio content type : "
-                    + contentType);
+                    + contentType, mCreationMode);
         }
     }
 
     public void checkVideoContentType(String contentType)
             throws ContentRestrictionException {
         if (null == contentType) {
-            throw new ContentRestrictionException("Null content type to be check");
+            throw new UnsupportContentTypeException("Null content type to be check", mCreationMode);
         }
 
-        if (!sSupportedVideoTypes.contains(contentType)) {
+        if (!mSupportedVideoTypes.contains(contentType)) {
             throw new UnsupportContentTypeException("Unsupported video content type : "
-                    + contentType);
+                    + contentType, mCreationMode);
         }
+    }
+
+    public int getCreationMode() {
+        return mCreationMode;
     }
 }

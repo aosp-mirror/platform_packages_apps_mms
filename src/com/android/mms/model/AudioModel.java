@@ -47,10 +47,10 @@ public class AudioModel extends MediaModel {
     public AudioModel(Context context, Uri uri) throws MmsException {
         this(context, null, null, uri);
         initModelFromUri(uri);
-        checkContentRestriction();
     }
 
-    public AudioModel(Context context, String contentType, String src, Uri uri) throws MmsException {
+    public AudioModel(Context context, String contentType, String src, Uri uri)
+            throws MmsException {
         super(context, SmilHelper.ELEMENT_TAG_AUDIO, contentType, src, uri);
         mExtras = new HashMap<String, String>();
     }
@@ -147,8 +147,8 @@ public class AudioModel extends MediaModel {
         return mExtras;
     }
 
-    protected void checkContentRestriction() throws ContentRestrictionException {
-        ContentRestriction cr = ContentRestrictionFactory.getContentRestriction();
+    public void checkContentRestriction() throws ContentRestrictionException {
+        ContentRestriction cr = ContentRestrictionFactory.getContentRestriction(mContext);
         cr.checkAudioContentType(mContentType);
     }
 

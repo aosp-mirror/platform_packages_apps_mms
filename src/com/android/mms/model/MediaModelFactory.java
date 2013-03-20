@@ -26,6 +26,7 @@ import org.w3c.dom.smil.Time;
 import org.w3c.dom.smil.TimeList;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.mms.LogTag;
@@ -74,6 +75,34 @@ public class MediaModelFactory {
 
         if (part != null) {
             return part;
+        }
+
+        if (src != null && !TextUtils.isEmpty(src)) {
+            for (int i = 0; i < pb.getPartsNum(); i++) {
+                PduPart pduPart = pb.getPart(i);
+                String cl = null;
+                String name = null;
+                String cid = null;
+                if (pduPart.getContentLocation() != null) {
+                    cl = new String(pduPart.getContentLocation());
+                }
+                if (pduPart.getName() != null) {
+                    name = new String(pduPart.getName());
+                }
+                if (pduPart.getContentId() != null) {
+                    cid = new String(pduPart.getContentId());
+                }
+                if (cl != null && src.equalsIgnoreCase(cl)) {
+                    return pduPart;
+                }
+                if (name != null && src.equalsIgnoreCase(name)) {
+                    return pduPart;
+                }
+                if (src.startsWith("cid:") && (src.substring("cid:".length())).
+                    equalsIgnoreCase(cid)) {
+                    return pduPart;
+                }
+            }
         }
 
         throw new IllegalArgumentException("No part found for the model.");

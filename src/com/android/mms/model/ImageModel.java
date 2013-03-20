@@ -72,7 +72,6 @@ public class ImageModel extends RegionMediaModel {
             throws MmsException {
         super(context, SmilHelper.ELEMENT_TAG_IMAGE, uri, region);
         initModelFromUri(uri);
-        checkContentRestriction();
     }
 
     public ImageModel(Context context, String contentType, String src,
@@ -131,9 +130,10 @@ public class ImageModel extends RegionMediaModel {
         return mHeight;
     }
 
-    protected void checkContentRestriction() throws ContentRestrictionException {
-        ContentRestriction cr = ContentRestrictionFactory.getContentRestriction();
+    public void checkContentRestriction() throws ContentRestrictionException {
+        ContentRestriction cr = ContentRestrictionFactory.getContentRestriction(mContext);
         cr.checkImageContentType(mContentType);
+        cr.checkResolution(mWidth, mHeight);
     }
 
     public ItemLoadedFuture loadThumbnailBitmap(ItemLoadedCallback callback) {

@@ -159,21 +159,34 @@ public class SlideshowEditor {
         }
     }
 
-    public void changeImage(int position, Uri newImage) throws MmsException {
-        mModel.get(position).add(new ImageModel(
-                mContext, newImage, mModel.getLayout().getImageRegion()));
+    public void changeImage(int position, Uri newImage, boolean isCreationModeCheck)
+            throws MmsException {
+        ImageModel image =
+                new ImageModel(mContext, newImage, mModel.getLayout().getImageRegion());
+        if (isCreationModeCheck) {
+            image.checkContentRestriction();
+        }
+        mModel.get(position).add(image);
     }
 
-    public void changeAudio(int position, Uri newAudio) throws MmsException {
+    public void changeAudio(int position, Uri newAudio, boolean isCreationModeCheck)
+            throws MmsException {
         AudioModel audio = new AudioModel(mContext, newAudio);
+        if (isCreationModeCheck) {
+            audio.checkContentRestriction();
+        }
         SlideModel slide = mModel.get(position);
         slide.add(audio);
         slide.updateDuration(audio.getDuration());
     }
 
-    public void changeVideo(int position, Uri newVideo) throws MmsException {
+    public void changeVideo(int position, Uri newVideo, boolean isCreationModeCheck)
+            throws MmsException {
         VideoModel video = new VideoModel(mContext, newVideo,
                 mModel.getLayout().getImageRegion());
+        if (isCreationModeCheck) {
+            video.checkContentRestriction();
+        }
         SlideModel slide = mModel.get(position);
         slide.add(video);
         slide.updateDuration(video.getDuration());

@@ -776,5 +776,15 @@
     <!-- In message list items, this string builds the timestamp line when the message is in a group [CHAR LIMIT=NONE] -->
     <string name="message_timestamp_format"><xliff:g id="string" example="Fred Flinstone">%1$s</xliff:g>\u0020-\u0020<xliff:g id="string" example="9:39AM">%2$s</xliff:g></string>
 
+    <string name="pref_title_notification_creationMode">Creation mode</string>
+    <string name="prefDialogTitle_creationMode">Select creation mode</string>
+    <string name="pref_summary_creation_mode">MMS creation mode for compose message</string>
+    <string name="unsupported_media_format_warning">Unsupported <xliff:g id="name">%1$s</xliff:g> format,attach anyway?</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="mms_creation_mode_too_big_image_title">Picture too large</string>
+    <string name="mms_creation_mode_too_big_image_error">Because of MMS creation mode limit, the picture\'s width or height is too large.</string>
+    <string name="mms_creation_mode_too_big_image_warning">Because of MMS creation mode limit, the picture\'s width or height is too large. Attach anyway?</string>
+    <string name="forward_mms_exceed_size">Cannot forward the MMS because of exceed size.</string>
+    <string translatable="false" name="prefDefault_creation_mode">3</string>
 </resources>
 

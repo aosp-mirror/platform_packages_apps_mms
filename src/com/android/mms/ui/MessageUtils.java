@@ -591,7 +591,7 @@ public class MessageUtils {
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
-        builder.setIcon(R.drawable.ic_sms_mms_not_delivered);
+        builder.setIcon(android.R.attr.alertDialogIcon);
         builder.setTitle(title);
         builder.setMessage(message);
         builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
@@ -602,6 +602,25 @@ public class MessageUtils {
                 }
             }
         });
+        builder.show();
+    }
+
+    public static void showWarningDialog(Context context,
+            String title, String message, OnClickListener okListener) {
+        final OnClickListener cancelListener = new OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setIcon(R.drawable.dialog_question);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton(android.R.string.ok, okListener);
+        builder.setNegativeButton(android.R.string.cancel, cancelListener);
         builder.show();
     }
 

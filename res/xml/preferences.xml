@@ -74,6 +74,13 @@
                         android:key="pref_key_mms_retrieval_during_roaming"
                         android:title="@string/pref_title_mms_retrieval_during_roaming"
                         android:summary="@string/pref_summary_mms_retrieval_during_roaming" />
+    <ListPreference     android:key="pref_key_creation_mode"
+                        android:title="@string/pref_title_notification_creationMode"
+                        android:entries="@array/prefEntries_creationMode"
+                        android:entryValues="@array/prefValues_creationMode"
+                        android:dialogTitle="@string/prefDialogTitle_creationMode"
+                        android:defaultValue="@string/prefDefault_creation_mode"
+                        android:summary="@string/pref_summary_creation_mode" />
   </PreferenceCategory>
   <PreferenceCategory android:title="@string/pref_notification_settings_title">
     <CheckBoxPreference android:key="pref_key_enable_notifications"

@@ -342,4 +342,14 @@
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">", "</string>
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
+    <string name="pref_title_notification_creationMode">Modo de creación</string>
+    <string name="prefDialogTitle_creationMode">Seleccione el modo de creación</string>
+    <string name="pref_summary_creation_mode">Modo de creación de MMS para redactar mensaje</string>
+    <string name="unsupported_media_format_warning">"Formato <xliff:g id="NAME">%1$s</xliff:g> no compatible. ¿Adjuntar de todos modos?"</string>
+    <string name="please_wait">Espere...</string>
+    <string name="mms_creation_mode_too_big_image_title">"Imagen demasiado grande"</string>
+    <string name="mms_creation_mode_too_big_image_error">"Debido al límite del modo de creación de MMS, el alto o el ancho de la imagen es demasiado grande."</string>
+    <string name="mms_creation_mode_too_big_image_warning">"Debido al límite del modo de creación de MMS, el alto o el ancho de la imagen es demasiado grande. ¿Adjuntar de todos modos?"</string>
+    <string name="forward_mms_exceed_size">"No se puede reenviar el MMS porque excede el tamaño permitido."</string>
+    <string translatable="false" name="prefDefault_creation_mode">3</string>
 </resources>
