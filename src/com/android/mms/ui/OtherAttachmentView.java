@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2008 Esmertec AG.
  * Copyright (C) 2008 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,139 +20,163 @@ import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.android.mms.model.ImageModel;
 import com.android.mms.model.OtherModel;
+import com.android.mms.model.VCardModel;
 import com.android.mms.R;
+import com.google.android.mms.ContentType;
 
-/**
- * This class provides an embedded editor/viewer of picture attachment.
- */
-public class ImageAttachmentView extends LinearLayout implements SlideViewInterface {
+public class OtherAttachmentView extends LinearLayout implements SlideViewInterface {
+
     private ImageView mImageView;
-    private static final String TAG = "ImageAttachmentView";
+    private TextView mTextView;
+    private static final String TAG = "OtherAttachmentView";
 
-    public ImageAttachmentView(Context context) {
+    public OtherAttachmentView(Context context) {
         super(context);
     }
 
-    public ImageAttachmentView(Context context, AttributeSet attrs) {
+    public OtherAttachmentView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
     protected void onFinishInflate() {
         mImageView = (ImageView) findViewById(R.id.image_content);
+        mTextView = (TextView) findViewById(R.id.text_content);
     }
 
-    public void startAudio() {
-        // TODO Auto-generated method stub
-
+    @Override
+    public void reset() {
+        mImageView.setImageDrawable(null);
     }
 
-    public void startVideo() {
-        // TODO Auto-generated method stub
-
-    }
-
-    public void setAudio(Uri audio, String name, Map<String, ?> extras) {
-        // TODO Auto-generated method stub
+    @Override
+    public void setVisibility(boolean visible) {
+        setVisibility(visible ? View.VISIBLE : View.GONE);
 
     }
 
+    @Override
     public void setImage(String name, Bitmap bitmap) {
-        try {
-            if (null == bitmap) {
-                bitmap = BitmapFactory.decodeResource(getResources(),
-                        R.drawable.ic_missing_thumbnail_picture);
-            }
-            mImageView.setImageBitmap(bitmap);
-        } catch (java.lang.OutOfMemoryError e) {
-            Log.e(TAG, "setImage: out of memory: ", e);
-        }
+        // TODO Auto-generated method stub
+
     }
 
+    @Override
     public void setImageRegionFit(String fit) {
         // TODO Auto-generated method stub
 
     }
 
+    @Override
     public void setImageVisibility(boolean visible) {
         // TODO Auto-generated method stub
 
     }
 
-    public void setText(String name, String text) {
-        // TODO Auto-generated method stub
-
-    }
-
-    public void setTextVisibility(boolean visible) {
-        // TODO Auto-generated method stub
-
-    }
-
+    @Override
     public void setVideo(String name, Uri video) {
         // TODO Auto-generated method stub
 
     }
 
+    @Override
     public void setVideoThumbnail(String name, Bitmap bitmap) {
+        // TODO Auto-generated method stub
+
     }
 
+    @Override
     public void setVideoVisibility(boolean visible) {
         // TODO Auto-generated method stub
 
     }
 
-    public void stopAudio() {
+    @Override
+    public void startVideo() {
         // TODO Auto-generated method stub
 
     }
 
+    @Override
     public void stopVideo() {
         // TODO Auto-generated method stub
 
     }
 
-    public void reset() {
-        mImageView.setImageDrawable(null);
-    }
-
-    public void setVisibility(boolean visible) {
-        setVisibility(visible ? View.VISIBLE : View.GONE);
-    }
-
-    public void pauseAudio() {
-        // TODO Auto-generated method stub
-
-    }
-
+    @Override
     public void pauseVideo() {
         // TODO Auto-generated method stub
 
     }
 
-    public void seekAudio(int seekTo) {
-        // TODO Auto-generated method stub
-
-    }
-
+    @Override
     public void seekVideo(int seekTo) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void setOther(OtherModel otherModel) {
+    public void setAudio(Uri audio, String name, Map<String, ?> extras) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void startAudio() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void stopAudio() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void pauseAudio() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void seekAudio(int seekTo) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setText(String name, String text) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setTextVisibility(boolean visible) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setOther(OtherModel otherModel) {
+        try {
+            if (otherModel != null && otherModel instanceof VCardModel) {
+                mImageView.setImageResource(R.drawable.vcard_icon);
+            }
+            mTextView.setText(otherModel.getSrc());
+        } catch (java.lang.OutOfMemoryError e) {
+            Log.e(TAG, "setImage: out of memory: ", e);
+        }
     }
 
     @Override

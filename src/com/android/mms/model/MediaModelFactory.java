@@ -145,7 +145,10 @@ public class MediaModelFactory {
             media = new AudioModel(context, contentType, src,
                     part.getDataUri());
         } else if (tag.equals(SmilHelper.ELEMENT_TAG_REF)) {
-            if (ContentType.isTextType(contentType)) {
+            if (contentType.equalsIgnoreCase(ContentType.TEXT_VCARD)) {
+                media = OtherModel.OtherModelFactory(context, contentType, src,
+                        part.getDataUri());
+            } else if (ContentType.isTextType(contentType)) {
                 media = new TextModel(context, contentType, src,
                         part.getCharset(), part.getData(), regionModel);
             } else if (ContentType.isImageType(contentType)) {

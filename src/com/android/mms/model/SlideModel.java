@@ -47,10 +47,12 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
     private MediaModel mImage;
     private MediaModel mAudio;
     private MediaModel mVideo;
+    private MediaModel mOther;
 
     private boolean mCanAddImage = true;
     private boolean mCanAddAudio = true;
     private boolean mCanAddVideo = true;
+    private boolean mCanAddOther = true;
 
     private int mDuration;
     private boolean mVisible = true;
@@ -114,6 +116,7 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
                 internalAddOrReplace(mImage, media);
                 mImage = media;
                 mCanAddVideo = false;
+                mCanAddOther = false;
             } else {
                 Log.w(TAG, "[SlideModel] content type " + media.getContentType() +
                     " - can't add image in this state");
@@ -123,6 +126,7 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
                 internalAddOrReplace(mAudio, media);
                 mAudio = media;
                 mCanAddVideo = false;
+                mCanAddOther = false;
             } else {
                 Log.w(TAG, "[SlideModel] content type " + media.getContentType() +
                     " - can't add audio in this state");
@@ -133,9 +137,21 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
                 mVideo = media;
                 mCanAddImage = false;
                 mCanAddAudio = false;
+                mCanAddOther = false;
             } else {
                 Log.w(TAG, "[SlideModel] content type " + media.getContentType() +
                     " - can't add video in this state");
+            }
+        } else if (media.isOther()) {
+            if (mCanAddOther) {
+                internalAddOrReplace(mOther, media);
+                mOther = media;
+                mCanAddImage = false;
+                mCanAddAudio = false;
+                mCanAddVideo = false;
+            } else {
+                Log.w(TAG, "[SlideModel] content type " + media.getContentType() +
+                    " - can't add other media in this state");
             }
         }
     }
@@ -181,13 +197,21 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
             } else if (object instanceof ImageModel) {
                 mImage = null;
                 mCanAddVideo = true;
+                mCanAddOther = true;
             } else if (object instanceof AudioModel) {
                 mAudio = null;
                 mCanAddVideo = true;
+                mCanAddOther = true;
             } else if (object instanceof VideoModel) {
                 mVideo = null;
                 mCanAddImage = true;
                 mCanAddAudio = true;
+                mCanAddOther = true;
+            } else if (object instanceof OtherModel) {
+                mOther = null;
+                mCanAddImage = true;
+                mCanAddAudio = true;
+                mCanAddVideo = true;
             }
             // If the media is resizable, at this point consider it to be zero length.
             // Just before we send the slideshow, we take the remaining space in the
@@ -303,10 +327,12 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
             mImage = null;
             mAudio = null;
             mVideo = null;
+            mOther = null;
 
             mCanAddImage = true;
             mCanAddAudio = true;
             mCanAddVideo = true;
+            mCanAddOther = true;
 
             notifyModelChanged(true);
         }
@@ -492,6 +518,10 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
         return mVideo != null;
     }
 
+    public boolean hasOther() {
+        return mOther != null;
+    }
+
     public boolean removeText() {
         return remove(mText);
     }
@@ -512,6 +542,10 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
         return result;
     }
 
+    public boolean removeOther() {
+        return remove(mOther);
+    }
+
     public TextModel getText() {
         return (TextModel) mText;
     }
@@ -526,6 +560,10 @@ public class SlideModel extends Model implements List<MediaModel>, EventListener
 
     public VideoModel getVideo() {
         return (VideoModel) mVideo;
+    }
+
+    public OtherModel getOther() {
+        return (OtherModel) mOther;
     }
 
     public void resetDuration() {

@@ -177,6 +177,7 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_ECM_EXIT_DIALOG  = 107;
     public static final int REQUEST_CODE_ADD_CONTACT      = 108;
     public static final int REQUEST_CODE_PICK             = 109;
+    public static final int REQUEST_CODE_ATTACH_VCARD     = 110;
 
     private static final String TAG = "Mms/compose";
 
@@ -406,6 +407,7 @@ public class ComposeMessageActivity extends Activity
                 case AttachmentEditor.MSG_REPLACE_IMAGE:
                 case AttachmentEditor.MSG_REPLACE_VIDEO:
                 case AttachmentEditor.MSG_REPLACE_AUDIO:
+                case AttachmentEditor.MSG_REPLACE_OTHER:
                     showAddAttachmentDialog(true);
                     break;
 
@@ -475,6 +477,7 @@ public class ComposeMessageActivity extends Activity
                             case WorkingMessage.IMAGE:
                             case WorkingMessage.VIDEO:
                             case WorkingMessage.AUDIO:
+                            case WorkingMessage.OTHER:
                             case WorkingMessage.SLIDESHOW:
                                 MessageUtils.viewMmsMessageAttachment(ComposeMessageActivity.this,
                                         msgItem.mMessageUri, msgItem.mSlideshow,
@@ -1097,6 +1100,7 @@ public class ComposeMessageActivity extends Activity
                         break;
                     case WorkingMessage.VIDEO:
                     case WorkingMessage.IMAGE:
+                    case WorkingMessage.OTHER:
                         if (haveSomethingToCopyToSDCard(msgItem.mMsgId)) {
                             menu.add(0, MENU_COPY_TO_SDCARD, 0, R.string.copy_to_sdcard)
                             .setOnMenuItemClickListener(l);
@@ -1406,7 +1410,8 @@ public class ComposeMessageActivity extends Activity
             }
 
             if (ContentType.isImageType(type) || ContentType.isVideoType(type) ||
-                    ContentType.isAudioType(type) || DrmUtils.isDrmType(type)) {
+                    ContentType.isAudioType(type) || DrmUtils.isDrmType(type)
+                    || ContentType.TEXT_VCARD.equalsIgnoreCase(type)) {
                 result = true;
                 break;
             }
@@ -1560,7 +1565,8 @@ public class ComposeMessageActivity extends Activity
                     .getOriginalMimeType(part.getDataUri());
         }
         if (!ContentType.isImageType(type) && !ContentType.isVideoType(type) &&
-                !ContentType.isAudioType(type)) {
+                !ContentType.isAudioType(type)
+                && !ContentType.TEXT_VCARD.equalsIgnoreCase(type)) {
             return true;    // we only save pictures, videos, and sounds. Skip the text parts,
                             // the app (smil) parts, and other type that we can't handle.
                             // Return true to pretend that we successfully saved the part so
@@ -2828,6 +2834,10 @@ public class ComposeMessageActivity extends Activity
                 MessageUtils.recordSound(this, REQUEST_CODE_RECORD_SOUND, sizeLimit);
                 break;
 
+            case AttachmentTypeSelectorAdapter.ADD_VCARD:
+                selectVCardFromContact();
+                break;
+
             case AttachmentTypeSelectorAdapter.ADD_SLIDESHOW:
                 editSlideshow();
                 break;
@@ -2836,6 +2846,27 @@ public class ComposeMessageActivity extends Activity
                 break;
         }
     }
+
+    private void selectVCardFromContact() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_PICK,
+                    android.provider.Contacts.People.CONTENT_URI);
+            intent.setType("vnd.android.cursor.dir/contact");
+            intent.putExtra(android.provider.Contacts.Intents.UI.TITLE_EXTRA_KEY,
+                    R.string.select_vcard_phone);
+            startActivityForResult(intent, REQUEST_CODE_ATTACH_VCARD);
+        } catch (android.content.ActivityNotFoundException e) {
+            Log.w(LogTag.TAG, "[selectVCardFromContact] " + e);
+            String exist = this.getResources()
+                    .getString(R.string.app_not_exists);
+            String replacement = this.getResources()
+                    .getString(R.string.contact_pkg_name);
+            Toast.makeText(this, exist.replace("%s", replacement), Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
+
 
     public static long computeAttachmentSizeLimit(SlideshowModel slideShow, int currentSlideSize) {
         // Computer attachment size limit. Subtract 1K for some text.
@@ -2996,6 +3027,9 @@ public class ComposeMessageActivity extends Activity
                     processPickResult(data);
                 }
                 break;
+            case REQUEST_CODE_ATTACH_VCARD:
+                addOther(data.getData(), false, R.string.type_vcard);
+                break;
 
             default:
                 if (LogTag.VERBOSE) log("bail due to unknown requestCode=" + requestCode);
@@ -3133,6 +3167,15 @@ public class ComposeMessageActivity extends Activity
         });
     }
 
+    private void handleShareAttachmentError() {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(ComposeMessageActivity.this, R.string.has_no_right,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void addImageAsync(final Uri uri, final boolean append) {
         getAsyncDialog().runAsync(new Runnable() {
             @Override
@@ -3182,6 +3225,15 @@ public class ComposeMessageActivity extends Activity
         handleAddAttachmentError(result, R.string.type_audio);
     }
 
+    private void addOther(Uri uri, boolean append, int typeString) {
+        if (uri != null) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                log("addOther append=" + append + ", uri=" + uri);
+            }
+            int result = mWorkingMessage.setAttachment(WorkingMessage.OTHER, uri, append);
+            handleAddAttachmentError(result, typeString);
+        }
+    }
     AsyncDialog getAsyncDialog() {
         if (mAsyncDialog == null) {
             mAsyncDialog = new AsyncDialog(this);
@@ -3292,6 +3344,14 @@ public class ComposeMessageActivity extends Activity
             } else if (type.startsWith("video/") ||
                     (wildcard && uri.toString().startsWith(mVideoUri))) {
                 addVideo(uri, append);
+            } else if (type.startsWith("text/")) {
+                if (ContentType.TEXT_VCARD.equalsIgnoreCase(type)) {
+                    addOther(uri, append, R.string.type_vcard);
+                } else {
+                    handleShareAttachmentError();
+                }
+            } else {
+                handleShareAttachmentError();
             }
         }
     }

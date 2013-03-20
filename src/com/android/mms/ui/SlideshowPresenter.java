@@ -27,6 +27,7 @@ import com.android.mms.model.LayoutModel;
 import com.android.mms.model.MediaModel;
 import com.android.mms.model.MediaModel.MediaAction;
 import com.android.mms.model.Model;
+import com.android.mms.model.OtherModel;
 import com.android.mms.model.RegionMediaModel;
 import com.android.mms.model.RegionModel;
 import com.android.mms.model.SlideModel;
@@ -128,6 +129,8 @@ public class SlideshowPresenter extends Presenter {
                 presentRegionMedia(view, (RegionMediaModel) media, true);
             } else if (media.isAudio()) {
                 presentAudio(view, (AudioModel) media, true);
+            } else if (media.isOther()) {
+                presentOther(view, (OtherModel) media, true);
             }
         }
     }
@@ -163,6 +166,13 @@ public class SlideshowPresenter extends Presenter {
             view.stopAudio();
         } else if (action == MediaAction.SEEK) {
             view.seekAudio(audio.getSeekTo());
+        }
+    }
+
+    protected void presentOther(SlideViewInterface view, OtherModel other,
+            boolean dataChanged) {
+        if (dataChanged) {
+            view.setOther(other);
         }
     }
 
@@ -297,6 +307,12 @@ public class SlideshowPresenter extends Presenter {
                 mHandler.post(new Runnable() {
                     public void run() {
                         presentAudio(view, (AudioModel) model, dataChanged);
+                    }
+                });
+            } else if (((MediaModel) model).isOther()) {
+                mHandler.post(new Runnable() {
+                    public void run() {
+                        presentOther(view, (OtherModel) model, dataChanged);
                     }
                 });
             }

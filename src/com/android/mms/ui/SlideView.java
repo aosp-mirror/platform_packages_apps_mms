@@ -42,6 +42,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.android.mms.model.OtherModel;
 import com.android.mms.R;
 import com.android.mms.layout.LayoutManager;
 
@@ -545,5 +546,16 @@ public class SlideView extends AbsoluteLayout implements
     }
 
     public void setVideoThumbnail(String name, Bitmap bitmap) {
+    }
+    @Override
+    public void setOther(OtherModel otherModel) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setOtherVisibility(boolean visible) {
+        // TODO Auto-generated method stub
+
     }
 }

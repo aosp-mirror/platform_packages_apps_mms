@@ -29,6 +29,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.android.mms.model.OtherModel;
 import com.android.mms.R;
 // TODO: remove dependency for SDK build
 
@@ -157,6 +158,18 @@ public class VideoAttachmentView extends LinearLayout implements
     }
 
     public void seekVideo(int seekTo) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setOther(OtherModel otherModel) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setOtherVisibility(boolean visible) {
         // TODO Auto-generated method stub
 
     }

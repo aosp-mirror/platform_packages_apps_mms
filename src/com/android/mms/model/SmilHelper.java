@@ -239,6 +239,12 @@ public class SmilHelper {
                         ELEMENT_TAG_AUDIO, document, part.generateLocation());
                 par.appendChild(audioElement);
                 hasMedia = true;
+            } else if (contentType.equalsIgnoreCase(ContentType.TEXT_VCALENDAR)
+                    || contentType.equalsIgnoreCase(ContentType.TEXT_VCARD)) {
+                SMILMediaElement otherElement = createMediaElement(
+                        ELEMENT_TAG_REF, document, part.generateLocation());
+                par.appendChild(otherElement);
+                hasMedia = true;
             } else {
                 // TODO: handle other media types.
                 Log.w(TAG, "unsupport media type");
@@ -342,6 +348,8 @@ public class SmilHelper {
                                                          imgRegionPresentInLayout);
                 } else if (media instanceof AudioModel) {
                     sme = SmilHelper.createMediaElement(SmilHelper.ELEMENT_TAG_AUDIO, document, src);
+                } else if (media instanceof OtherModel) {
+                    sme = SmilHelper.createMediaElement(SmilHelper.ELEMENT_TAG_REF, document, src);
                 } else {
                     Log.w(TAG, "Unsupport media: " + media);
                     continue;
@@ -412,4 +420,5 @@ public class SmilHelper {
         target.addEventListener(SMIL_SLIDE_START_EVENT, slide, false);
         target.addEventListener(SMIL_SLIDE_END_EVENT, slide, false);
     }
+
 }

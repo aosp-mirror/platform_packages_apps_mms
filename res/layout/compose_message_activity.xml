@@ -108,6 +108,11 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"/>
 
+                  <ViewStub android:id="@+id/other_attachment_view_stub"
+                      android:layout="@layout/other_attachment_view"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
+
                   <ViewStub android:id="@+id/slideshow_attachment_view_stub"
                       android:layout="@layout/slideshow_attachment_view"
                       android:layout_width="match_parent"

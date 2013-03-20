@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.mms.model.OtherModel;
 import com.android.mms.R;
 
 /**
@@ -154,5 +155,17 @@ public class SlideshowAttachmentView extends LinearLayout implements
     }
 
     public void setVideoThumbnail(String name, Bitmap bitmap) {
+    }
+
+    @Override
+    public void setOther(OtherModel otherModel) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setOtherVisibility(boolean visible) {
+        // TODO Auto-generated method stub
+
     }
 }

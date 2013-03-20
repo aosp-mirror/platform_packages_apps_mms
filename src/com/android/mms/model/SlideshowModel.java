@@ -284,7 +284,7 @@ public class SlideshowModel extends Model
 
                 if (media.isText()) {
                     part.setData(((TextModel) media).getText().getBytes());
-                } else if (media.isImage() || media.isVideo() || media.isAudio()) {
+                } else if (media.isImage() || media.isVideo() || media.isAudio() || media.isOther()) {
                     part.setDataUri(media.getUri());
                 } else {
                     Log.w(TAG, "Unsupport media: " + media);
@@ -630,6 +630,11 @@ public class SlideshowModel extends Model
             return false;
 
         SlideModel slide = get(0);
+
+        if (slide.hasOther()) {
+            return true;
+        }
+
         // The slide must have either an image or video, but not both.
         if (!(slide.hasImage() ^ slide.hasVideo()))
             return false;

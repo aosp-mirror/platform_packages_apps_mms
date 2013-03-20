@@ -342,4 +342,11 @@
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">", "</string>
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
+    <string name="attach_vcard">"VCard"</string>
+    <string name="type_vcard">"vcard"</string>
+    <string name="contact_pkg_name">"Contactos"</string>
+    <string name="select_vcard_phone">"Seleccionar VCard de un contacto"</string>
+    <string name="unnamed_vcard_name">"Sin nombre"</string>
+    <string name="failed_to_add_text">"No se puede añadir este texto al mensaje."</string>
+    <string name="has_no_right">"No se puede compartir el archivo."</string>
 </resources>

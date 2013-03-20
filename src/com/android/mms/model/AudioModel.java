@@ -50,7 +50,8 @@ public class AudioModel extends MediaModel {
         checkContentRestriction();
     }
 
-    public AudioModel(Context context, String contentType, String src, Uri uri) throws MmsException {
+    public AudioModel(Context context, String contentType, String src, Uri uri)
+            throws MmsException {
         super(context, SmilHelper.ELEMENT_TAG_AUDIO, contentType, src, uri);
         mExtras = new HashMap<String, String>();
     }

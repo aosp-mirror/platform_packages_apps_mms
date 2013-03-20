@@ -775,6 +775,13 @@
 
     <!-- In message list items, this string builds the timestamp line when the message is in a group [CHAR LIMIT=NONE] -->
     <string name="message_timestamp_format"><xliff:g id="string" example="Fred Flinstone">%1$s</xliff:g>\u0020-\u0020<xliff:g id="string" example="9:39AM">%2$s</xliff:g></string>
+    <string name="app_not_exists">Without this operation the receiver</string>
+    <string name="attach_vcard">VCard</string>
+    <string name="type_vcard">vcard</string>
+    <string name="select_vcard_phone">Select VCard from contact</string>
+    <string name="unnamed_vcard_name">Unnamed</string>
+    <string name="has_no_right">Sorry, can not share this file.</string>
+    <string name="attch_size">1K/300K</string>
 
 </resources>
 

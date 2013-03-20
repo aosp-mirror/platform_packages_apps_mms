@@ -22,6 +22,7 @@ import android.content.Context;
 import com.android.mms.model.AudioModel;
 import com.android.mms.model.ImageModel;
 import com.android.mms.model.Model;
+import com.android.mms.model.OtherModel;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.VideoModel;
@@ -56,6 +57,8 @@ public class MmsThumbnailPresenter extends Presenter {
             presentVideoThumbnail(view, slide.getVideo());
         } else if (slide.hasAudio()) {
             presentAudioThumbnail(view, slide.getAudio());
+        } else if (slide.hasOther()) {
+            presentOtherThumbnail(view, slide.getOther());
         }
     }
 
@@ -96,6 +99,10 @@ public class MmsThumbnailPresenter extends Presenter {
 
     protected void presentAudioThumbnail(SlideViewInterface view, AudioModel audio) {
         view.setAudio(audio.getUri(), audio.getSrc(), audio.getExtras());
+    }
+
+    protected void presentOtherThumbnail(SlideViewInterface view, OtherModel other) {
+        view.setOther(other);
     }
 
     public void onModelChanged(Model model, boolean dataChanged) {

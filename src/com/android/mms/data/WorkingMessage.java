@@ -119,7 +119,8 @@ public class WorkingMessage {
     public static final int IMAGE = 1;
     public static final int VIDEO = 2;
     public static final int AUDIO = 3;
-    public static final int SLIDESHOW = 4;
+    public static final int OTHER = 4;
+    public static final int SLIDESHOW = 5;
 
     // Current attachment type of the message; one of the above values.
     private int mAttachmentType;
@@ -263,6 +264,8 @@ public class WorkingMessage {
                 mAttachmentType = VIDEO;
             } else if (slide.hasAudio()) {
                 mAttachmentType = AUDIO;
+            } else if (slide.hasOther()) {
+                mAttachmentType = OTHER;
             }
         }
 
@@ -642,6 +645,16 @@ public class WorkingMessage {
                 slideShowEditor.changeVideo(slideNum, uri);
             } else if (type == AUDIO) {
                 slideShowEditor.changeAudio(slideNum, uri);
+            } else if (type == OTHER) {
+                if ((uri.toString().contains("com.android.contacts/contacts"))
+                        && !(uri.toString()
+                        .startsWith("content://com.android.contacts/contacts/as_multi_vcard/"))) {
+                    final String lookupKey = Uri.encode(uri.getPathSegments().get(2));
+                    uri = Uri.withAppendedPath(
+                            Uri.parse("content://com.android.contacts/contacts/as_vcard"),
+                            lookupKey);
+                }
+                slideShowEditor.changeOther(slideNum, uri);
             } else {
                 result = UNSUPPORTED_TYPE;
             }

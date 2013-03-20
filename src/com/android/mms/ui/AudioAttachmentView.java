@@ -32,6 +32,7 @@ import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.mms.model.OtherModel;
 import com.android.mms.R;
 
 /**
@@ -209,6 +210,18 @@ public class AudioAttachmentView extends LinearLayout implements
     }
 
     public void seekVideo(int seekTo) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setOther(OtherModel otherModel) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setOtherVisibility(boolean visible) {
         // TODO Auto-generated method stub
 
     }

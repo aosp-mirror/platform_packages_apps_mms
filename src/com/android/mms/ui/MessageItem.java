@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.Sms;
+import android.provider.Telephony.Mms.Part;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -36,6 +37,7 @@ import com.android.mms.data.Contact;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
+import com.android.mms.model.SmilHelper;
 import com.android.mms.model.TextModel;
 import com.android.mms.ui.MessageListAdapter.ColumnsMap;
 import com.android.mms.util.AddressUtils;
@@ -43,14 +45,17 @@ import com.android.mms.util.DownloadManager;
 import com.android.mms.util.ItemLoadedCallback;
 import com.android.mms.util.ItemLoadedFuture;
 import com.android.mms.util.PduLoaderManager;
+import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.MultimediaMessagePdu;
 import com.google.android.mms.pdu.NotificationInd;
 import com.google.android.mms.pdu.PduHeaders;
+import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.RetrieveConf;
 import com.google.android.mms.pdu.SendReq;
+import com.google.android.mms.util.SqliteWrapper;
 
 /**
  * Mostly immutable model for an SMS/MMS message.
@@ -325,6 +330,8 @@ public class MessageItem {
                 }
                 MultimediaMessagePdu msg = (MultimediaMessagePdu)pduLoaded.mPdu;
                 mSlideshow = pduLoaded.mSlideshow;
+                SlideModel slide = mSlideshow == null ? null : mSlideshow.get(0);
+
                 mAttachmentType = MessageUtils.getAttachmentType(mSlideshow);
 
                 if (mMessageType == PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF) {
@@ -342,7 +349,7 @@ public class MessageItem {
                     timestamp = msg == null ? 0 : ((SendReq) msg).getDate() * 1000L;
                 }
 
-                SlideModel slide = mSlideshow == null ? null : mSlideshow.get(0);
+
                 if ((slide != null) && slide.hasText()) {
                     TextModel tm = slide.getText();
                     mBody = tm.getText();

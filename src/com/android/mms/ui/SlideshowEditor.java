@@ -23,6 +23,7 @@ import android.util.Log;
 
 import com.android.mms.model.AudioModel;
 import com.android.mms.model.ImageModel;
+import com.android.mms.model.OtherModel;
 import com.android.mms.model.RegionModel;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
@@ -177,6 +178,12 @@ public class SlideshowEditor {
         SlideModel slide = mModel.get(position);
         slide.add(video);
         slide.updateDuration(video.getDuration());
+    }
+
+    public void changeOther(int position, Uri newOther) throws MmsException {
+        OtherModel other = OtherModel.OtherModelFactory(mContext, newOther);
+        SlideModel slide = mModel.get(position);
+        slide.add(other);
     }
 
     public void moveSlideUp(int position) {

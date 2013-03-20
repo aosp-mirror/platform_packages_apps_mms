@@ -342,4 +342,10 @@
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">"、 "</string>
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
+    <string name="app_not_exists">”没有接收此操作的应用“</string>
+    <string name="attach_vcard">"电子名片"</string>
+    <string name="type_vcard">"电子名片"</string>
+    <string name="unnamed_vcard_name">"未命名"</string>
+    <string name="failed_to_add_text">"超出大小限制，无法添加"</string>
+    <string name="has_no_right">"抱歉，无法分享该文件"</string>
 </resources>

@@ -48,7 +48,7 @@ public abstract class MediaModel extends Model implements EventListener {
     protected String mTag;
     protected String mSrc;
     protected String mContentType;
-    private Uri mUri;
+    protected Uri mUri;
     private byte[] mData;
     protected short mFill;
     protected int mSize;
@@ -204,6 +204,10 @@ public abstract class MediaModel extends Model implements EventListener {
 
     public boolean isAudio() {
         return mTag.equals(SmilHelper.ELEMENT_TAG_AUDIO);
+    }
+
+    public boolean isOther() {
+        return false;
     }
 
     protected void initMediaDuration() throws MmsException {

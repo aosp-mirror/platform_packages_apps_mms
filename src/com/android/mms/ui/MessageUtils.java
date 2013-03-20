@@ -429,6 +429,10 @@ public class MessageUtils {
                 return WorkingMessage.IMAGE;
             }
 
+            if (slide.hasOther()) {
+                return WorkingMessage.OTHER;
+            }
+
             if (slide.hasText()) {
                 return WorkingMessage.TEXT;
             }
@@ -572,6 +576,8 @@ public class MessageUtils {
             mm = slide.getImage();
         } else if (slide.hasVideo()) {
             mm = slide.getVideo();
+        } else if (slide.hasOther()) {
+            mm = slide.getOther();
         }
 
         Intent intent = new Intent(Intent.ACTION_VIEW);

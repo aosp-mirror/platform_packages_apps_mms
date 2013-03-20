@@ -21,6 +21,7 @@ import java.util.Map;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import com.android.mms.model.OtherModel;
 
 /**
  * Defines the interfaces of the view to show contents of a slide.
@@ -46,4 +47,7 @@ public interface SlideViewInterface extends ViewInterface {
 
     void setText(String name, String text);
     void setTextVisibility(boolean visible);
+
+    void setOther(OtherModel otherModel);
+    void setOtherVisibility(boolean visible);
 }

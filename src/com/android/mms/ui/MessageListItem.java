@@ -61,8 +61,10 @@ import com.android.mms.MmsApp;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.WorkingMessage;
+import com.android.mms.model.OtherModel;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
+import com.android.mms.model.VCardModel;
 import com.android.mms.transaction.Transaction;
 import com.android.mms.transaction.TransactionBundle;
 import com.android.mms.transaction.TransactionService;
@@ -697,6 +699,7 @@ public class MessageListItem extends LinearLayout implements
         switch(msgItem.mAttachmentType) {
             case WorkingMessage.IMAGE:
             case WorkingMessage.VIDEO:
+            case WorkingMessage.OTHER:
                 mImageView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -837,6 +840,24 @@ public class MessageListItem extends LinearLayout implements
 
     @Override
     public void seekVideo(int seekTo) {
+        // TODO Auto-generated method stub
+
+    }
+    @Override
+    public void setOther(OtherModel otherModel) {
+        showMmsView(true);
+        try {
+            if (otherModel != null && otherModel instanceof VCardModel) {
+                mImageView.setImageResource(R.drawable.vcard_icon);
+            }
+            mImageView.setVisibility(VISIBLE);
+        } catch (java.lang.OutOfMemoryError e) {
+            Log.e(TAG, "setImage: out of memory: ", e);
+        }
+    }
+
+    @Override
+    public void setOtherVisibility(boolean visible) {
         // TODO Auto-generated method stub
 
     }
