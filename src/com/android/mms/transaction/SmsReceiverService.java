@@ -81,7 +81,9 @@ public class SmsReceiverService extends Service {
     public static final String EXTRA_MESSAGE_SENT_SEND_NEXT ="SendNextMsg";
 
     public static final String ACTION_SEND_MESSAGE =
-        "com.android.mms.transaction.SEND_MESSAGE";
+            "com.android.mms.transaction.SEND_MESSAGE";
+    public static final String ACTION_SEND_INACTIVE_MESSAGE =
+            "com.android.mms.transaction.SEND_INACTIVE_MESSAGE";
 
     // This must match the column IDs below.
     private static final String[] SEND_PROJECTION = new String[] {
@@ -209,6 +211,8 @@ public class SmsReceiverService extends Service {
                     handleServiceStateChanged(intent);
                 } else if (ACTION_SEND_MESSAGE.endsWith(action)) {
                     handleSendMessage();
+                } else if (ACTION_SEND_INACTIVE_MESSAGE.equals(action)) {
+                    handleSendInactiveMessage();
                 }
             }
             // NOTE: We MUST not call stopSelf() directly, since we need to
@@ -229,6 +233,12 @@ public class SmsReceiverService extends Service {
         if (!mSending) {
             sendFirstQueuedMessage();
         }
+    }
+
+    private void handleSendInactiveMessage() {
+        // Inactive messages includes all messages in outbox and queued box.
+        moveOutboxMessagesToQueuedBox();
+        sendFirstQueuedMessage();
     }
 
     public synchronized void sendFirstQueuedMessage() {
@@ -391,6 +401,24 @@ public class SmsReceiverService extends Service {
         // Called off of the UI thread so ok to block.
         MessagingNotification.blockingUpdateNewMessageIndicator(
                 this, MessagingNotification.THREAD_ALL, false);
+    }
+
+    /**
+     * Move all messages that are in the outbox to the queued state
+     * @return The number of messages that were actually moved
+     */
+    private int moveOutboxMessagesToQueuedBox() {
+        ContentValues values = new ContentValues(1);
+
+        values.put(Sms.TYPE, Sms.MESSAGE_TYPE_QUEUED);
+
+        int messageCount = SqliteWrapper.update(
+                getApplicationContext(), getContentResolver(), Outbox.CONTENT_URI,
+                values, "type = " + Sms.MESSAGE_TYPE_OUTBOX, null);
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
+            Log.v(TAG, "moveOutboxMessagesToQueuedBox messageCount: " + messageCount);
+        }
+        return messageCount;
     }
 
     /**
