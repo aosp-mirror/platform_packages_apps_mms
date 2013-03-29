@@ -211,55 +211,29 @@ public abstract class Transaction extends Observable {
         ConnectivityManager connMgr =
                 (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        int inetAddr;
+        InetAddress inetAddr;
         if (settings.isProxySet()) {
             String proxyAddr = settings.getProxyAddress();
-            inetAddr = lookupHost(proxyAddr);
-            if (inetAddr == -1) {
-                throw new IOException("Cannot establish route for " + url + ": Unknown host");
-            } else {
-                if (!connMgr.requestRouteToHost(
-                        ConnectivityManager.TYPE_MOBILE_MMS, inetAddr)) {
-                    throw new IOException("Cannot establish route to proxy " + inetAddr);
-                }
+            try {
+              inetAddr = InetAddress.getByName(proxyAddr);
+            } catch (UnknownHostException e) {
+                throw new IOException("Cannot establish route for " + url +
+                                      ": Unknown proxy " + proxyAddr);
+            }
+            if (!connMgr.requestRouteToHostAddress(ConnectivityManager.TYPE_MOBILE_MMS, inetAddr)) {
+                throw new IOException("Cannot establish route to proxy " + inetAddr);
             }
         } else {
             Uri uri = Uri.parse(url);
-            inetAddr = lookupHost(uri.getHost());
-            if (inetAddr == -1) {
+            try {
+                inetAddr = InetAddress.getByName(uri.getHost());
+            } catch (UnknownHostException e) {
                 throw new IOException("Cannot establish route for " + url + ": Unknown host");
-            } else {
-                if (!connMgr.requestRouteToHost(
-                        ConnectivityManager.TYPE_MOBILE_MMS, inetAddr)) {
-                    throw new IOException("Cannot establish route to " + inetAddr + " for " + url);
-                }
+            }
+            if (!connMgr.requestRouteToHostAddress(ConnectivityManager.TYPE_MOBILE_MMS, inetAddr)) {
+                throw new IOException("Cannot establish route to " + inetAddr + " for " + url);
             }
         }
-    }
-
-    /**
-     * Look up a host name and return the result as an int. Works if the argument
-     * is an IP address in dot notation. Obviously, this can only be used for IPv4
-     * addresses.
-     * @param hostname the name of the host (or the IP address)
-     * @return the IP address as an {@code int} in network byte order
-     */
-    // TODO: move this to android-common
-    public static int lookupHost(String hostname) {
-        InetAddress inetAddress;
-        try {
-            inetAddress = InetAddress.getByName(hostname);
-        } catch (UnknownHostException e) {
-            return -1;
-        }
-        byte[] addrBytes;
-        int addr;
-        addrBytes = inetAddress.getAddress();
-        addr = ((addrBytes[3] & 0xff) << 24)
-                | ((addrBytes[2] & 0xff) << 16)
-                | ((addrBytes[1] & 0xff) << 8)
-                |  (addrBytes[0] & 0xff);
-        return addr;
     }
 
     @Override
