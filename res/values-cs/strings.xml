@@ -202,7 +202,7 @@
     <string name="message_type_label" msgid="7975373966795945566">"Typ: "</string>
     <string name="text_message" msgid="8196464345251877972">"Textová zpráva"</string>
     <string name="multimedia_message" msgid="1512644521083533071">"Multimediální zpráva"</string>
-    <string name="multimedia_notification" msgid="4124031788554972308">"Upozornění na multimediální zprávu"</string>
+    <string name="multimedia_notification" msgid="4124031788554972308">"Oznámení o multimediální zprávě"</string>
     <string name="from_label" msgid="2055117571548171397">"Od: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Komu: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Skrytá kopie: "</string>
