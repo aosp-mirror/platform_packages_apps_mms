@@ -329,7 +329,7 @@
     <item quantity="other" msgid="1393002799298501480">"อีก <xliff:g id="NUMBER">%1$s</xliff:g> ข้อความ"</item>
   </plurals>
     <string name="error_state" msgid="5177386717626893507">"สถานะไม่คงที่"</string>
-    <string name="error_state_text" msgid="7918866106335387710">"สถานะของชุดอีเมลที่เกี่ยวข้องกันและผู้รับไม่สอดคล้องกัน โปรดสร้างรายงานข้อผิดพลาดและรายงานผ่านทาง http://go/droidanizer"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"สถานะของชุดอีเมลที่เกี่ยวข้องกันและผู้รับไม่สอดคล้องกัน โปรดสร้างรายงานบั๊กและรายงานผ่านทาง http://go/droidanizer"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> คน"</item>
   </plurals>
