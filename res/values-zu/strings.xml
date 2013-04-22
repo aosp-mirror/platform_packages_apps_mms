@@ -119,7 +119,7 @@
     <string name="preview" msgid="5438149136136446756">"Buka kuqala"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Buka kuqala"</string>
     <string name="replace_image" msgid="3171240952601443619">"Buyisela isithombe"</string>
-    <string name="duration_sec" msgid="6617032324007824096">"Ubude (<xliff:g id="DURATION">%s</xliff:g> imizuzwana)"</string>
+    <string name="duration_sec" msgid="6617032324007824096">"Ubude (<xliff:g id="DURATION">%s</xliff:g> amasekhondi)"</string>
     <string name="duration_selector_title" msgid="5981097971537625852">"Ubude beslayidi "</string>
     <string name="layout_selector_title" msgid="7344600117972450771">"Ukwakheka kombukiso weslayidi "</string>
     <string name="layout_top" msgid="6811021650398972346">"Ukwakheka (ngenhla)"</string>
@@ -129,16 +129,16 @@
     <string name="duration_zero" msgid="3549377790195185977">"Ubude kumele bube bukhulu kunamasekhondi ayize"</string>
     <string name="secs" msgid="6886003523109967972">"amasekhondi"</string>
   <string-array name="select_dialog_items">
-    <item msgid="4840183714016984112">"isekhondi elingu-1"</item>
-    <item msgid="3734955613666864447">"amasekhondi angu-2"</item>
-    <item msgid="6032232473048379828">"amasekhondi angu-3"</item>
-    <item msgid="5978471781525927827">"amasekhondi angu-4"</item>
-    <item msgid="4888440297621208402">"amasekhondi angu-5"</item>
-    <item msgid="6047246213264166841">"amasekhondi angu-6"</item>
-    <item msgid="2327501250056533797">"amasekhondi angu-7"</item>
-    <item msgid="3400770414689795703">"amasekhondi angu-8"</item>
-    <item msgid="4358760614161107970">"amasekhondi angu-9"</item>
-    <item msgid="2618179407176906471">"amasekhondi angu-10"</item>
+    <item msgid="4840183714016984112">"1 isekhondi"</item>
+    <item msgid="3734955613666864447">"2 amasekhondi"</item>
+    <item msgid="6032232473048379828">"3 amasekhondi"</item>
+    <item msgid="5978471781525927827">"4 amasekhondi"</item>
+    <item msgid="4888440297621208402">"5 amasekhondi"</item>
+    <item msgid="6047246213264166841">"6 amasekhondi"</item>
+    <item msgid="2327501250056533797">"7 amasekhondi"</item>
+    <item msgid="3400770414689795703">"8 amasekhondi"</item>
+    <item msgid="4358760614161107970">"9 amasekhondi"</item>
+    <item msgid="2618179407176906471">"10 amasekhondi"</item>
     <item msgid="7786079681602275449">"Okunye"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"Buka othintana naye"</string>
@@ -203,7 +203,7 @@
     <string name="text_message" msgid="8196464345251877972">"Umyalezo wombhalo"</string>
     <string name="multimedia_message" msgid="1512644521083533071">"Umyalezo wezokuxhumana okuxubile"</string>
     <string name="multimedia_notification" msgid="4124031788554972308">"Isaziso somyalezo wokuxhumano okuxubile"</string>
-    <string name="from_label" msgid="2055117571548171397">"Ivela ku: "</string>
+    <string name="from_label" msgid="2055117571548171397">"Ibuya: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Kuya ku: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Bcc: "</string>
     <string name="sent_label" msgid="2722190650145251584">"Thunyelwe: "</string>
