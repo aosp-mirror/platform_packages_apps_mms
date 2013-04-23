@@ -1060,7 +1060,9 @@ public class Conversation {
             synchronized (sInstance) {
                 LogTag.debug("Conversation dumpCache: ");
                 for (Conversation c : sInstance.mCache) {
+//modified by huaqin_gongpeicai_004 M:enter special characters as a contact number,the program crashes --start
                     LogTag.debug("   conv: " + c.toString() + " hash: " + c.hashCode());
+//modified by huaqin_gongpeicai_004 M:enter special characters as a contact number,the program crashes --end
                 }
             }
         }
