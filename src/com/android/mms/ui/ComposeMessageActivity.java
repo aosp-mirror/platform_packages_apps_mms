@@ -779,8 +779,8 @@ public class ComposeMessageActivity extends Activity
                     continue;
 
                 if (c == ',') {
-                    ContactList contacts = mRecipientsEditor.constructContactsFromInput(false);
-                    updateTitle(contacts);
+		    /*After we add many of contacts in the recipient editor, inputing character will be very slowly.*/
+		    updateTitle(mConversation.getRecipients());
                 }
 
                 break;
