@@ -325,7 +325,7 @@ public class MessageItem {
                 }
                 MultimediaMessagePdu msg = (MultimediaMessagePdu)pduLoaded.mPdu;
                 mSlideshow = pduLoaded.mSlideshow;
-                mAttachmentType = MessageUtils.getAttachmentType(mSlideshow);
+                mAttachmentType = MessageUtils.getAttachmentType(mSlideshow, msg);
 
                 if (mMessageType == PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF) {
                     if (msg == null) {
