@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UR9uuU7g",
+        "filename": "src/com/android/mms/ui/MessageUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2013-05-02T07:51:47Z",
+      "side": 1,
+      "message": "This is a NPE issue reported by CMer during they were testing their ROM after merged my previous patch.\nI am not sure how to repro and can we set TEXT to attachment type if mmp is null here?",
+      "revId": "52c8e77aaa9eb89090850fee8b3998804e5a5e37",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
