@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UQIJ7rzU",
+        "filename": "src/com/android/mms/ui/MessageUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-05-03T17:50:36Z",
+      "side": 1,
+      "message": "Do you need to check for mmp !\u003d null, like in the original fix?",
+      "revId": "5eaa3eeef82604fd3b9d621ed93db1480109fa4d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
