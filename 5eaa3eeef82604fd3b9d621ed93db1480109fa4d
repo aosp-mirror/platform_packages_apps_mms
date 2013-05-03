@@ -16,6 +16,24 @@
       "revId": "5eaa3eeef82604fd3b9d621ed93db1480109fa4d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UR0Hrdi8",
+        "filename": "src/com/android/mms/ui/MessageUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2013-05-03T17:58:17Z",
+      "side": 1,
+      "message": "I check it in line 406 instead of here. The method will return the default value (NOT LOADED) if mmp is null.",
+      "parentUuid": "UQIJ7rzU",
+      "revId": "5eaa3eeef82604fd3b9d621ed93db1480109fa4d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
