@@ -434,7 +434,8 @@ public class MessageUtils {
             }
 
             // Handle the multimedia message only has subject
-            if (mmp != null && !TextUtils.isEmpty(mmp.getSubject().getString())) {
+            if (!TextUtils.isEmpty((mmp != null && mmp.getSubject() != null) ? mmp.getSubject()
+                    .getString() : null)) {
                 return WorkingMessage.TEXT;
             }
         }
