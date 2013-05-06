@@ -228,6 +228,9 @@ public class ComposeMessageActivity extends Activity
 
     private static final long NO_DATE_FOR_DIALOG = -1L;
 
+    private static final String KEY_EXIT_ON_SENT = "exit_on_sent";
+    private static final String KEY_FORWARDED_MESSAGE = "forwarded_message";
+
     private static final String EXIT_ECM_RESULT = "exit_ecm_result";
 
     // When the conversation has a lot of messages and a new message is sent, the list is scrolled
@@ -259,6 +262,7 @@ public class ComposeMessageActivity extends Activity
     // When mSendDiscreetMode is true, this activity only allows a user to type in and send
     // a single sms, send the message, and then exits. The message history and menus are hidden.
     private boolean mSendDiscreetMode;
+    private boolean mForwardMessageMode;
 
     private View mTopPanel;                 // View containing the recipient and subject editors
     private View mBottomPanel;              // View containing the text editor, send button, ec.
@@ -1251,8 +1255,8 @@ public class ComposeMessageActivity extends Activity
                 // on the UI thread.
                 Intent intent = createIntent(ComposeMessageActivity.this, 0);
 
-                intent.putExtra("exit_on_sent", true);
-                intent.putExtra("forwarded_message", true);
+                intent.putExtra(KEY_EXIT_ON_SENT, true);
+                intent.putExtra(KEY_FORWARDED_MESSAGE, true);
                 if (mTempThreadId > 0) {
                     intent.putExtra(THREAD_ID, mTempThreadId);
                 }
@@ -2219,7 +2223,10 @@ public class ComposeMessageActivity extends Activity
         mWorkingMessage.writeStateToBundle(outState);
 
         if (mSendDiscreetMode) {
-            outState.putBoolean("exit_on_sent", mSendDiscreetMode);
+            outState.putBoolean(KEY_EXIT_ON_SENT, mSendDiscreetMode);
+        }
+        if (mForwardMessageMode) {
+            outState.putBoolean(KEY_FORWARDED_MESSAGE, mForwardMessageMode);
         }
     }
 
@@ -2611,7 +2618,7 @@ public class ComposeMessageActivity extends Activity
 
         menu.clear();
 
-        if (mSendDiscreetMode) {
+        if (mSendDiscreetMode && !mForwardMessageMode) {
             // When we're in send-a-single-message mode from the lock screen, don't show
             // any menus.
             return true;
@@ -3201,7 +3208,7 @@ public class ComposeMessageActivity extends Activity
 
         // If this is a forwarded message, it will have an Intent extra
         // indicating so.  If not, bail out.
-        if (intent.getBooleanExtra("forwarded_message", false) == false) {
+        if (!mForwardMessageMode) {
             return false;
         }
 
@@ -3848,7 +3855,9 @@ public class ComposeMessageActivity extends Activity
                     ContactList.getByNumbers(recipients,
                             false /* don't block */, true /* replace number */), false);
             addRecipientsListeners();
-            mSendDiscreetMode = bundle.getBoolean("exit_on_sent", false);
+            mSendDiscreetMode = bundle.getBoolean(KEY_EXIT_ON_SENT, false);
+            mForwardMessageMode = bundle.getBoolean(KEY_FORWARDED_MESSAGE, false);
+
             if (mSendDiscreetMode) {
                 mMsgListView.setVisibility(View.INVISIBLE);
             }
@@ -3885,7 +3894,8 @@ public class ComposeMessageActivity extends Activity
         addRecipientsListeners();
         updateThreadIdIfRunning();
 
-        mSendDiscreetMode = intent.getBooleanExtra("exit_on_sent", false);
+        mSendDiscreetMode = intent.getBooleanExtra(KEY_EXIT_ON_SENT, false);
+        mForwardMessageMode = intent.getBooleanExtra(KEY_FORWARDED_MESSAGE, false);
         if (mSendDiscreetMode) {
             mMsgListView.setVisibility(View.INVISIBLE);
         }
