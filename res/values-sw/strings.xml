@@ -180,10 +180,10 @@
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Epua kiotomatiki ujumbe"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Kurejesha kiotomatiki urandaji"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Epua kiotomatiki ujumbe wakati wa urandaji"</string>
-    <string name="confirm_dialog_title" msgid="2187213750475782725">"Futa?"</string>
+    <string name="confirm_dialog_title" msgid="2187213750475782725">"Yafutwe?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Futa ujumbe uliofungwa?"</string>
   <plurals name="confirm_delete_conversation">
-    <item quantity="one" msgid="7509396981963472833">"Zungumzo moja litafutwa."</item>
+    <item quantity="one" msgid="7509396981963472833">"Mazungumzo 1 yatafutwa."</item>
     <item quantity="other" msgid="4076915774012081811">"Mazungumzo <xliff:g id="NUMBER">%1$s</xliff:g> yatafutwa"</item>
   </plurals>
     <string name="confirm_delete_conversation" msgid="6115966687389279855">"Utungo wote utafutwa"</string>
