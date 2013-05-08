@@ -47,6 +47,7 @@ import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.LogTag;
 import com.android.mms.R;
+import com.android.mms.util.DownloadManager;
 import com.android.mms.util.RateController;
 import com.google.android.mms.pdu.GenericPdu;
 import com.google.android.mms.pdu.NotificationInd;
@@ -213,7 +214,7 @@ public class TransactionService extends Service implements Observer {
                     int count = cursor.getCount();
 
                     if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                        Log.v(TAG, "onNewIntent: cursor.count=" + count);
+                        Log.v(TAG, "onNewIntent: cursor.count=" + count + " action=" + action);
                     }
 
                     if (count == 0) {
@@ -232,6 +233,10 @@ public class TransactionService extends Service implements Observer {
                     while (cursor.moveToNext()) {
                         int msgType = cursor.getInt(columnIndexOfMsgType);
                         int transactionType = getTransactionType(msgType);
+                        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                            Log.v(TAG, "onNewIntent: msgType=" + msgType + " transactionType=" +
+                                    transactionType);
+                        }
                         if (noNetwork) {
                             onNetworkUnavailable(serviceId, transactionType);
                             return;
@@ -247,12 +252,36 @@ public class TransactionService extends Service implements Observer {
                                 int failureType = cursor.getInt(
                                         cursor.getColumnIndexOrThrow(
                                                 PendingMessages.ERROR_TYPE));
-                                if ((failureType != MmsSms.NO_ERROR ||
-                                        !ACTION_ENABLE_AUTO_RETRIEVE.equals(action)) &&
-                                        !isTransientFailure(failureType)) {
+                                DownloadManager downloadManager = DownloadManager.getInstance();
+                                boolean autoDownload = downloadManager.isAuto();
+                                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                                    Log.v(TAG, "onNewIntent: failureType=" + failureType +
+                                            " action=" + action + " isTransientFailure:" +
+                                            isTransientFailure(failureType) + " autoDownload=" +
+                                            autoDownload);
+                                }
+                                if (!autoDownload) {
+                                    // If autodownload is turned off, don't process the
+                                    // transaction.
+                                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                                        Log.v(TAG, "onNewIntent: skipping - autodownload off");
+                                    }
                                     break;
                                 }
-                                // fall-through
+                                // Logic is twisty. If there's no failure or the failure
+                                // is a non-permanent failure, we want to process the transaction.
+                                // Otherwise, break out and skip processing this transaction.
+                                if (!(failureType == MmsSms.NO_ERROR ||
+                                        isTransientFailure(failureType))) {
+                                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                                        Log.v(TAG, "onNewIntent: skipping - permanent error");
+                                    }
+                                    break;
+                                }
+                                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                                    Log.v(TAG, "onNewIntent: falling through and processing");
+                                }
+                               // fall-through
                             default:
                                 Uri uri = ContentUris.withAppendedId(
                                         Mms.CONTENT_URI,
@@ -260,6 +289,9 @@ public class TransactionService extends Service implements Observer {
                                 TransactionBundle args = new TransactionBundle(
                                         transactionType, uri.toString());
                                 // FIXME: We use the same startId for all MMs.
+                                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                                    Log.v(TAG, "onNewIntent: launchTransaction uri=" + uri);
+                                }
                                 launchTransaction(serviceId, args, false);
                                 break;
                         }
@@ -297,7 +329,7 @@ public class TransactionService extends Service implements Observer {
     }
 
     private static boolean isTransientFailure(int type) {
-        return (type < MmsSms.ERR_TYPE_GENERIC_PERMANENT) && (type > MmsSms.NO_ERROR);
+        return type > MmsSms.NO_ERROR && type < MmsSms.ERR_TYPE_GENERIC_PERMANENT;
     }
 
     private boolean isNetworkAvailable() {
