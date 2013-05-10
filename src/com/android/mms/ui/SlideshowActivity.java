@@ -377,6 +377,11 @@ public class SlideshowActivity extends Activity implements EventListener {
         public boolean canSeekForward() {
             return true;
         }
+
+        @Override
+        public int getAudioSessionId() {
+            return 0;
+        }
     }
 
     public void handleEvent(Event evt) {
