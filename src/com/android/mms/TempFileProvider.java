@@ -77,7 +77,8 @@ public class TempFileProvider extends ContentProvider {
 
             pfd = ParcelFileDescriptor.open(file,
                     ParcelFileDescriptor.MODE_READ_WRITE
-                            | android.os.ParcelFileDescriptor.MODE_CREATE);
+                            | android.os.ParcelFileDescriptor.MODE_CREATE |
+                              ParcelFileDescriptor.MODE_TRUNCATE);
         } catch (Exception ex) {
             Log.e(TAG, "getTempStoreFd: error creating pfd for " + fileName, ex);
         }
