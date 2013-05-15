@@ -416,6 +416,10 @@ public class SuggestionsProvider extends android.content.ContentProvider {
             mDatabaseCursor.setNotificationUri(cr, uri);
         }
 
+        public Uri getNotificationUri() {
+            return mDatabaseCursor.getNotificationUri();
+        }
+
         public void unregisterContentObserver(ContentObserver observer) {
             mDatabaseCursor.unregisterContentObserver(observer);
         }
