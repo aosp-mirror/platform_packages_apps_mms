@@ -432,11 +432,16 @@ public class TransactionService extends Service implements Observer {
                             transaction.getConnectionSettings());
                     mServiceHandler.sendMessage(msg);
                 }
-                else {
+                else if (mProcessing.isEmpty()) {
                     if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                         Log.v(TAG, "update: endMmsConnectivity");
                     }
                     endMmsConnectivity();
+                }
+                else {
+                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                        Log.v(TAG, "update: mProcessing is not empty");
+                    }
                 }
             }
 
@@ -491,7 +496,7 @@ public class TransactionService extends Service implements Observer {
             sendBroadcast(intent);
         } finally {
             transaction.detach(this);
-            stopSelf(serviceId);
+            stopSelfIfIdle(serviceId);
         }
     }
 
