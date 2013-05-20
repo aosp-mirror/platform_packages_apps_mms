@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UyeL5XAc",
+        "filename": "src/com/android/mms/transaction/TransactionSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-05-20T23:46:50Z",
+      "side": 1,
+      "message": "Please use \"mmsc\" instead of MMSC.",
+      "revId": "100d543a64d1d599af2a2efa32ab081c5eaec0a7",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
