@@ -145,7 +145,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean checkedMessageLimits = mPrefs.getBoolean(CHECKED_MESSAGE_LIMITS, false);
         if (DEBUG) Log.v(TAG, "checkedMessageLimits: " + checkedMessageLimits);
-        if (!checkedMessageLimits || DEBUG) {
+        if (!checkedMessageLimits) {
             runOneTimeStorageLimitCheckForLegacyMessages();
         }
 
