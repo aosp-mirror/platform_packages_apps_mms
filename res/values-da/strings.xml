@@ -227,7 +227,7 @@
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"Sms-beskeder på SIM-kort"</string>
     <string name="sim_view" msgid="1997173541766393706">"Vis"</string>
     <string name="sim_empty" msgid="2356766833071636297">"Der er ingen beskeder på SIM-kortet."</string>
-    <string name="delivery_header_title" msgid="5361719578869045764">"Rapporter"</string>
+    <string name="delivery_header_title" msgid="5361719578869045764">"Rapportér"</string>
     <string name="status_none" msgid="8253075950774894961">"(Ingen)"</string>
     <string name="status_pending" msgid="2739860824607984892">"Afventer"</string>
     <string name="status_read" msgid="7576195253780627332">"Læs"</string>
