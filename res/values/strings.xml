@@ -542,6 +542,8 @@
     <string name="sms_full_title">Text message memory full</string>
     <!-- Device Full Notification dialog text. -->
     <string name="sms_full_body">An incoming message was rejected due to full memory. Delete some old messages.</string>
+    <!-- Disk Storage Full Error Notification dialog text. -->
+    <string name="disk_storage_full_error">Error: Storage is full.</string>
 
     <!-- Sms's Being Rejected Notification dialog title. -->
     <string name="sms_rejected_title">Text message rejected</string>
