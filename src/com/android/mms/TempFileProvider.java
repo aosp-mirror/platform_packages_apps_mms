@@ -60,7 +60,7 @@ public class TempFileProvider extends ContentProvider {
         return 0;
     }
 
-    private ParcelFileDescriptor getTempStoreFd() {
+    private ParcelFileDescriptor getTempStoreFd(String mode) {
         String fileName = getScrapPath(getContext());
         ParcelFileDescriptor pfd = null;
 
@@ -75,10 +75,15 @@ public class TempFileProvider extends ContentProvider {
                 return null;
             }
 
-            pfd = ParcelFileDescriptor.open(file,
-                    ParcelFileDescriptor.MODE_READ_WRITE
-                            | android.os.ParcelFileDescriptor.MODE_CREATE |
-                              ParcelFileDescriptor.MODE_TRUNCATE);
+            int modeFlags;
+            if (mode.equals("r")) {
+                modeFlags = ParcelFileDescriptor.MODE_READ_ONLY;
+            } else {
+                modeFlags = ParcelFileDescriptor.MODE_READ_WRITE
+                            | ParcelFileDescriptor.MODE_CREATE
+                            | ParcelFileDescriptor.MODE_TRUNCATE;
+            }
+            pfd = ParcelFileDescriptor.open(file, modeFlags);
         } catch (Exception ex) {
             Log.e(TAG, "getTempStoreFd: error creating pfd for " + fileName, ex);
         }
@@ -105,7 +110,7 @@ public class TempFileProvider extends ContentProvider {
 
         switch (match) {
             case MMS_SCRAP_SPACE:
-                fd = getTempStoreFd();
+                fd = getTempStoreFd(mode);
                 break;
         }
 
