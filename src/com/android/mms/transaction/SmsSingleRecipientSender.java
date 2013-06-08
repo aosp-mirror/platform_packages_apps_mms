@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
+import android.telephony.SmsManager;
+import android.telephony.TelephonyManager;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -26,8 +28,8 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
     private static final String TAG = "SmsSingleRecipientSender";
 
     public SmsSingleRecipientSender(Context context, String dest, String msgText, long threadId,
-            boolean requestDeliveryReport, Uri uri) {
-        super(context, null, msgText, threadId);
+            boolean requestDeliveryReport, Uri uri, int subscription) {
+        super(context, null, msgText, threadId, subscription);
         mRequestDeliveryReport = requestDeliveryReport;
         mDest = dest;
         mUri = uri;
@@ -113,7 +115,14 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
             sentIntents.add(PendingIntent.getBroadcast(mContext, requestCode, intent, 0));
         }
         try {
-            smsManager.sendMultipartTextMessage(mDest, mServiceCenter, messages, sentIntents, deliveryIntents);
+            if (TelephonyManager.getDefault().isMultiSimEnabled()) {
+                SmsManager smsManagerMSim = SmsManager.getDefault();
+                smsManagerMSim.sendMultipartTextMessage(mDest, mServiceCenter, messages,
+                           sentIntents, deliveryIntents, mSubscription);
+            } else {
+                smsManager.sendMultipartTextMessage(mDest, mServiceCenter, messages, sentIntents,
+                           deliveryIntents);
+            }
         } catch (Exception ex) {
             Log.e(TAG, "SmsMessageSender.sendMessage: caught", ex);
             throw new MmsException("SmsMessageSender.sendMessage: caught " + ex +
