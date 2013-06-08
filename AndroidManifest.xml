@@ -225,6 +225,10 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".ui.SelectMmsSubscription"
+            android:exported="true">
+        </service>
+
         <!-- Require sender permissions to prevent SMS spoofing -->
         <receiver android:name=".transaction.PrivilegedSmsReceiver"
             android:permission="android.permission.BROADCAST_SMS">
@@ -245,6 +249,9 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND_MESSAGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.android.mms.transaction.SEND_MESSAGE" />
             </intent-filter>
         </receiver>
 

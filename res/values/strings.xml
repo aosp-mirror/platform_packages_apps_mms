@@ -165,7 +165,16 @@
     <string name="mms">MMS</string>
     <!-- Content description for the send button when sending an mms (imperative verb) -->
     <string name="send_mms">Send MMS</string>
-
+    <!-- Text to appear directly below the "Send" text on the MMS send button in case of DSDS. -->
+    <string name="mms1">MMS1</string>
+    <string name="mms2">MMS2</string>
+    <string name="mms3">MMS3</string>
+    <!-- Set Subscription screen: label sub 1 -->
+    <string name="sub1">SUB 1</string>
+    <!-- Set Subscription screen: label sub 2 -->
+    <string name="sub2">SUB 2</string>
+    <!-- Set Subscription screen: label sub 3 -->
+    <string name="sub3">SUB 3</string>
     <!-- Menu item in conversation screen for returning to the conversation list -->
     <string name="all_threads">All threads</string>
 
@@ -789,6 +798,22 @@
 
     <!-- In message list items, this string builds the timestamp line when the message is in a group [CHAR LIMIT=NONE] -->
     <string name="message_timestamp_format"><xliff:g id="string" example="Fred Flinstone">%1$s</xliff:g>\u0020-\u0020<xliff:g id="string" example="9:39AM">%2$s</xliff:g></string>
+    <!-- Subscription selection strings -->
+    <string name="select_subscription_title">Select Subscription</string>
+    <string name="subscription1_title">Subscription 1</string>
+    <string name="subscription2_title">Subscription 2</string>
+    <string name="subscription3_title">Subscription 3</string>
+
+    <string name="pending_mms_title">Pending MMS on other subscription.</string>
+    <string name="pending_mms">Messaging: One or more MMS are pending.</string>
+    <string name="pending_mms_text">Touch to switch the subscription.</string>
+
+    <string name="abort_mms">Messaging: Abort MMS</string>
+    <string name="abort_mms_text ">Touch to abort and switch back.</string>
+
+    <string name="progress_mms_title">MMS transaction on other sub in progress</string>
+    <string name="progress_mms">Messaging: MMS in progress...</string>
+    <string name="progress_mms_text ">Touch to retry again</string>
 
     <string name="storage_warning_title">"Your phone's storage is full"</string>
     <string name="storage_warning_content">"You won't receive new SMS/MMS messages"</string>
