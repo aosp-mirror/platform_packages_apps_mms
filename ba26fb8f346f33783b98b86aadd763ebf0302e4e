@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d6e75b1_96c28a2e",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4115,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-06-13T16:07:29Z",
+      "side": 1,
+      "message": "Can you break the line? It\u0027s too long for the Android style guidelines.",
+      "revId": "ba26fb8f346f33783b98b86aadd763ebf0302e4e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
