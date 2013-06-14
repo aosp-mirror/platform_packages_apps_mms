@@ -120,15 +120,8 @@ public class SlideListItemView extends LinearLayout implements SlideViewInterfac
             mAttachmentIcon.setImageDrawable(null);
         }
 
-        MediaPlayer mp = new MediaPlayer();
-        try {
-            mp.setDataSource(mContext, video);
-            mImagePreview.setImageBitmap(mp.getFrameAt(1000));
-        } catch (IOException e) {
-            Log.e(TAG, "Unexpected IOException.", e);
-        } finally {
-            mp.release();
-        }
+        // TODO: get a thumbnail from the video
+        mImagePreview.setImageBitmap(null);
     }
 
     public void setVideoThumbnail(String name, Bitmap thumbnail) {
