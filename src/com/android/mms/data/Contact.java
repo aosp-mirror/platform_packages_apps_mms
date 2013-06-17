@@ -780,10 +780,20 @@ public class Contact {
         private Contact getContactInfo(Contact c) {
             if (c.mIsMe) {
                 return getContactInfoForSelf();
-            } else if (Mms.isEmailAddress(c.mNumber) || isAlphaNumber(c.mNumber)) {
+            } else if (Mms.isEmailAddress(c.mNumber)) {
                 return getContactInfoForEmailAddress(c.mNumber);
-            } else {
+            } else if (isAlphaNumber(c.mNumber)) {
+                // first try to look it up in the email field
+                Contact contact = getContactInfoForEmailAddress(c.mNumber);
+                if (contact.existsInDatabase()) {
+                    return contact;
+                }
+                // then look it up in the phone field
                 return getContactInfoForPhoneNumber(c.mNumber);
+            } else {
+                // it's a real phone number, so strip out non-digits and look it up
+                final String strippedNumber = PhoneNumberUtils.stripSeparators(c.mNumber);
+                return getContactInfoForPhoneNumber(strippedNumber);
             }
         }
 
@@ -827,7 +837,6 @@ public class Contact {
          * @return a Contact containing the caller id info corresponding to the number.
          */
         private Contact getContactInfoForPhoneNumber(String number) {
-            number = PhoneNumberUtils.stripSeparators(number);
             Contact entry = new Contact(number);
             entry.mContactMethodType = CONTACT_METHOD_TYPE_PHONE;
 
