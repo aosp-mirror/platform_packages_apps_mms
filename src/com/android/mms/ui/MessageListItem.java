@@ -99,6 +99,7 @@ public class MessageListItem extends LinearLayout implements
     private ImageView mDeliveredIndicator;
     private ImageView mDetailsIndicator;
     private ImageButton mSlideShowButton;
+	private TextView mBodySenderView;
     private TextView mBodyTextView;
     private Button mDownloadButton;
     private TextView mDownloadingLabel;
@@ -143,6 +144,7 @@ public class MessageListItem extends LinearLayout implements
         super.onFinishInflate();
 
         mBodyTextView = (TextView) findViewById(R.id.text_view);
+		mBodySenderView = (TextView) findViewById(R.id.sender_view);
         mDateView = (TextView) findViewById(R.id.date_view);
         mLockedIndicator = (ImageView) findViewById(R.id.locked_indicator);
         mDeliveredIndicator = (ImageView) findViewById(R.id.delivered_indicator);
@@ -206,7 +208,14 @@ public class MessageListItem extends LinearLayout implements
                                 + String.valueOf((mMessageItem.mMessageSize + 1023) / 1024)
                                 + mContext.getString(R.string.kilobyte);
 
-        mBodyTextView.setText(formatMessage(mMessageItem, mMessageItem.mContact, null,
+        if (mMessageItem.mType.equals("mms")) {
+			mBodySenderView.setText(mMessageItem.mContact + ":");
+			mBodySenderView.setVisibility(View.VISIBLE);
+		} else {
+			mBodySenderView.setVisibility(View.GONE);
+		}
+
+		mBodyTextView.setText(formatMessage(mMessageItem, mMessageItem.mContact, null,
                                             mMessageItem.mSubject,
                                             mMessageItem.mHighlight,
                                             mMessageItem.mTextContentType));
@@ -315,6 +324,12 @@ public class MessageListItem extends LinearLayout implements
             mMessageItem.setCachedFormattedMessage(formattedMessage);
         }
         mBodyTextView.setText(formattedMessage);
+		if (mMessageItem.mType.equals("mms")) {
+			mBodySenderView.setText(mMessageItem.mContact + ":");
+			mBodySenderView.setVisibility(View.VISIBLE);
+		} else {
+			mBodySenderView.setVisibility(View.GONE);
+		}
 
         // Debugging code to put the URI of the image attachment in the body of the list item.
         if (DEBUG) {
@@ -620,8 +635,8 @@ public class MessageListItem extends LinearLayout implements
                         }
                         final String telPrefix = "tel:";
                         if (url.startsWith(telPrefix)) {
-                            url = PhoneNumberUtils.formatNumber(
-                                            url.substring(telPrefix.length()), mDefaultCountryIso);
+                        	url = PhoneNumberUtils.formatNumber(
+											url.substring(telPrefix.length()), mDefaultCountryIso);
                         }
                         tv.setText(url);
                     } catch (android.content.pm.PackageManager.NameNotFoundException ex) {
