@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8afc21ee_dcf9ad75",
+        "filename": "src/com/android/mms/ui/SmsStorageMonitor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-06-25T00:03:56Z",
+      "side": 1,
+      "message": "How about just using Notification.Builder instead of the one from the compat library? Since the Messaging app always ships with the latest release, it can use the latest APIs.",
+      "revId": "b13190554bb8066c7030ad2adb6cc12ecc285a37",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
