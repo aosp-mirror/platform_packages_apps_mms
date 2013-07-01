@@ -340,8 +340,6 @@
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">", "</string>
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> – <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
-    <!-- no translation found for storage_warning_title (7124740686325942375) -->
-    <skip />
-    <!-- no translation found for storage_warning_content (1100367816649962354) -->
-    <skip />
+    <string name="storage_warning_title" msgid="7124740686325942375">"Lagringsplassen på telefonen din er full"</string>
+    <string name="storage_warning_content" msgid="1100367816649962354">"Du kommer ikke til å motta nye SMS- og MMS-meldinger"</string>
 </resources>
