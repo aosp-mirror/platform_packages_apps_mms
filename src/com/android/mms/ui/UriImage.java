@@ -17,19 +17,18 @@
 
 package com.android.mms.ui;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SqliteWrapper;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 import android.provider.Telephony.Mms.Part;
 import android.text.TextUtils;
@@ -37,14 +36,25 @@ import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import com.android.mms.LogTag;
+import com.android.mms.exif.ExifInterface;
 import com.android.mms.model.ImageModel;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.pdu.PduPart;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class UriImage {
     private static final String TAG = "Mms/image";
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
+    private static final int MMS_PART_ID = 12;
+    private static final UriMatcher sURLMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    static {
+        sURLMatcher.addURI("mms", "part/#", MMS_PART_ID);
+    }
 
     private final Context mContext;
     private final Uri mUri;
@@ -269,12 +279,15 @@ public class UriImage {
             scaleFactor *= .75F;
         }
 
+        int orientation = getOrientation(context, uri);
+
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             Log.v(TAG, "getResizedBitmap: wlimit=" + widthLimit +
                     ", hlimit=" + heightLimit + ", sizeLimit=" + byteLimit +
                     ", width=" + width + ", height=" + height +
                     ", initialScaleFactor=" + scaleFactor +
-                    ", uri=" + uri);
+                    ", uri=" + uri +
+                    ", orientation=" + orientation);
         }
 
         InputStream input = null;
@@ -387,6 +400,21 @@ public class UriImage {
                 attempts++;
                 resultTooBig = os == null || os.size() > byteLimit;
             } while (resultTooBig && attempts < NUMBER_OF_RESIZE_ATTEMPTS);
+            if (!resultTooBig && orientation != 0) {
+                // Rotate the final bitmap if we need to.
+                try {
+                    b = UriImage.rotateBitmap(b, orientation);
+                    os = new ByteArrayOutputStream();
+                    b.compress(CompressFormat.JPEG, quality, os);
+                    resultTooBig = os == null || os.size() > byteLimit;
+                } catch (java.lang.OutOfMemoryError e) {
+                    Log.w(TAG, "getResizedImageData - image too big (OutOfMemoryError)");
+                    if (os == null) {
+                        return null;
+                    }
+                }
+            }
+
             b.recycle();        // done with the bitmap, release the memory
             if (Log.isLoggable(LogTag.APP, Log.VERBOSE) && resultTooBig) {
                 Log.v(TAG, "getResizedImageData returning NULL because the result is too big: " +
@@ -401,5 +429,106 @@ public class UriImage {
             Log.e(TAG, e.getMessage(), e);
             return null;
         }
+    }
+
+    /**
+     * Bitmap rotation method
+     *
+     * @param bitmap The input bitmap
+     * @param degrees The rotation angle
+     */
+    public static Bitmap rotateBitmap(Bitmap bitmap, int degrees) {
+        if (degrees != 0 && bitmap != null) {
+            final Matrix m = new Matrix();
+            final int w = bitmap.getWidth();
+            final int h = bitmap.getHeight();
+            m.setRotate(degrees, (float) w / 2, (float) h / 2);
+
+            try {
+                final Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, w, h, m, true);
+                if (bitmap != rotatedBitmap && rotatedBitmap != null) {
+                    bitmap.recycle();
+                    bitmap = rotatedBitmap;
+                }
+            } catch (OutOfMemoryError ex) {
+                Log.e(TAG, "OOM in rotateBitmap", ex);
+                // We have no memory to rotate. Return the original bitmap.
+            }
+        }
+
+        return bitmap;
+    }
+
+    /**
+     * Returns the number of degrees to rotate the picture, based on the orientation tag in
+     * the exif data or the orientation column in the database. If there's no tag or column,
+     * 0 degrees is returned.
+     *
+     * @param context Used to get the ContentResolver
+     * @param uri Path to the image
+     */
+    public static int getOrientation(Context context, Uri uri) {
+        long dur = System.currentTimeMillis();
+        if (ContentResolver.SCHEME_FILE.equals(uri.getScheme()) ||
+                sURLMatcher.match(uri) == MMS_PART_ID) {
+            // If the uri is a file or an mms part, we have to look at the exif data in the
+            // file for the orientation because there is no column in the db for the orientation.
+            try {
+                InputStream inputStream = context.getContentResolver().openInputStream(uri);
+                ExifInterface exif = new ExifInterface();
+                try {
+                    exif.readExif(inputStream);
+                    Integer val = exif.getTagIntValue(ExifInterface.TAG_ORIENTATION);
+                    if (val == null){
+                        return 0;
+                    }
+                    int orientation =
+                            ExifInterface.getRotationForOrientationValue(val.shortValue());
+                    return orientation;
+                } catch (IOException e) {
+                    Log.w(TAG, "Failed to read EXIF orientation", e);
+                } finally {
+                    if (inputStream != null) {
+                        try {
+                            inputStream.close();
+                        } catch (IOException e) {
+                        }
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                Log.e(TAG, "Can't open uri: " + uri, e);
+            } finally {
+                dur = System.currentTimeMillis() - dur;
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    Log.v(TAG, "UriImage.getOrientation (exif path) took: " + dur + " ms");
+                }
+            }
+        } else {
+            // Try to get the orientation from the ORIENTATION column in the database. This is much
+            // faster than reading all the exif tags from the file.
+            Cursor cursor = null;
+            try {
+                cursor = context.getContentResolver().query(uri,
+                        new String[] {
+                            MediaStore.Images.ImageColumns.ORIENTATION
+                        },
+                        null, null, null);
+                if (cursor.moveToNext()) {
+                    int ori = cursor.getInt(0);
+                    return ori;
+                }
+            } catch (SQLiteException e) {
+            } catch (IllegalArgumentException e) {
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+                dur = System.currentTimeMillis() - dur;
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    Log.v(TAG, "UriImage.getOrientation (db column path) took: " + dur + " ms");
+                }
+            }
+        }
+        return 0;
     }
 }
