@@ -49,7 +49,19 @@
     <Preference android:key="pref_key_manage_sim_messages"
                       android:summary="@string/pref_summary_manage_sim_messages"
                       android:title="@string/pref_title_manage_sim_messages" />
-  </PreferenceCategory>
+    <CheckBoxPreference
+            android:key="pref_key_convert_sms_to_mms"
+            android:summary="@string/pref_summary_auto_convert_smses_to_mms"
+            android:title="@string/pref_title_auto_convert_smses_to_mms" />
+
+        <Preference
+            android:dependency="pref_key_convert_sms_to_mms"
+            android:key="pref_sms_to_mms_text_threshold"
+            android:persistent="false"
+            android:summary="@string/pref_summary_multipart_sms_threshold"
+            android:title="@string/pref_title_multipart_sms_threshold" />
+</PreferenceCategory>
+
   <PreferenceCategory android:title="@string/pref_mms_settings_title"
                       android:key="pref_key_mms_settings">
     <CheckBoxPreference android:defaultValue="true"
