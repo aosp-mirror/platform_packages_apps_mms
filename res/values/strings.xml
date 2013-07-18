@@ -319,6 +319,10 @@
 
     <!-- Settings item description for entering SIM card message screen -->
     <string name="pref_summary_manage_sim_messages">Manage messages stored on your SIM card</string>
+    <!-- Settings item description for boolean auto-convert smses to mms threshold -->
+    <string name="pref_summary_auto_convert_smses_to_mms">Auto-convert multi sms segments to mms</string>
+    <!-- Settings item description for integer auto-convert smses to mms threshold -->
+    <string name="pref_summary_multipart_sms_threshold">Smses will convert to mms over <xliff:g id="count">%1$s</xliff:g> segments</string>
     <!-- Settings item description for boolean MMS delivery report setting -->
     <string name="pref_summary_mms_delivery_reports">Request a delivery report for each message you send</string>
     <!-- Settings item description for boolean MMS read report setting -->
@@ -333,6 +337,10 @@
     <string name="pref_summary_mms_group_mms">Use MMS to send a single message when there are multiple recipients</string>
     <!-- Settings item for entering SIM card message screen -->
     <string name="pref_title_manage_sim_messages">Manage SIM card messages</string>
+    <!-- Settings item for integer option to set auto-convert multi part smses to mms threshold -->
+    <string name="pref_title_multipart_sms_threshold">Sms segments threshold</string>
+    <!-- Settings item for boolean option to enable/disable auto-convert smses to mms -->
+    <string name="pref_title_auto_convert_smses_to_mms">Convert smses to mms</string>
     <!-- Settings item for boolean option to enable/disable MMS delivery reports -->
     <string name="pref_title_mms_delivery_reports">Delivery reports</string>
     <!-- Settings item for boolean option to enable/disable MMS group messages -->
@@ -347,6 +355,10 @@
     <string name="pref_title_sms_delete">Text message limit</string>
     <!-- Settings item for integer option to set MMS delete limit -->
     <string name="pref_title_mms_delete">Multimedia message limit</string>
+    <!-- Settings item for integer option to set Sms2Mms text threshold -->
+    <string name="pref_title_sms2mms_text_threshold">Sms segments threshold</string>
+    <!-- Settings item for boolean option to enable/disable allow return MMS delivery reports -->
+    <string name="pref_title_allow_return_mms_delivery_reports">Allow to return Delivery reports</string>
     <!-- Settings item for boolean option to display message notifications -->
     <string name="pref_title_notification_enabled">Notifications</string>
     <!-- Settings item for boolean option to vibrate during message notification -->
@@ -357,6 +369,8 @@
     <string name="pref_messages_to_save">Set number of messages to save</string>
     <!-- Settings screen, what to display for Ringtone when the user chooses "silent" [CHAR LIMIT=100]-->
     <string name="silent_ringtone">Silent</string>
+    <!-- Settings item for setting the threshold of converting sms segments to mms -->
+    <string name="pref_sms_convert_to_mms">Set number of sms segments to convert to mms</string>
 
     <!-- The value to use when migrating from old versions for a true vibrate setting -->
     <string translatable="false" name="prefDefault_vibrate_true">always</string>

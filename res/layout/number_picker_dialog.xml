@@ -29,6 +29,7 @@ This layout file is used by the AlertDialog when displaying a list of items.
     android:layout_height="match_parent" >
 
     <TextView
+        android:id="@+id/number_picker_text"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
