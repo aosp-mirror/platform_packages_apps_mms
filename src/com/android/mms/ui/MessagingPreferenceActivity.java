@@ -18,7 +18,6 @@
 package com.android.mms.ui;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -39,6 +38,7 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import android.provider.SearchRecentSuggestions;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,6 +55,8 @@ import com.android.mms.util.Recycler;
  */
 public class MessagingPreferenceActivity extends PreferenceActivity
             implements OnPreferenceChangeListener {
+    public static final String SMS2MMS_THRESHOLD = "auto_convert_sms_threshold";
+
     // Symbolic names for the keys used for preference lookup
     public static final String MMS_DELIVERY_REPORT_MODE = "pref_key_mms_delivery_reports";
     public static final String EXPIRY_TIME              = "pref_key_mms_expiry";
@@ -69,6 +71,9 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     public static final String RETRIEVAL_DURING_ROAMING = "pref_key_mms_retrieval_during_roaming";
     public static final String AUTO_DELETE              = "pref_key_auto_delete";
     public static final String GROUP_MMS_MODE           = "pref_key_mms_group_mms";
+    public static final String ALLOW_RETURN_MMS_DELIVERY_REPORT = "pref_key_allow_return_mms_delivery_reports";
+    public static final String SMS2MMSSWITCHER          = "pref_key_convert_sms_to_mms";
+    public static final String SMS2MMSTHRESHOLD         = "pref_sms_to_mms_text_threshold";
 
     // Menu entries
     private static final int MENU_RESTORE_DEFAULTS    = 1;
@@ -82,9 +87,12 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     private Preference mManageSimPref;
     private Preference mClearHistoryPref;
     private CheckBoxPreference mVibratePref;
+    private RingtonePreference mRingtonePref;
+    private Preference mSms2MmsTextThresholdPref;
+    private ListPreference mVibrateWhenPref;
     private CheckBoxPreference mEnableNotificationsPref;
     private CheckBoxPreference mMmsAutoRetrievialPref;
-    private RingtonePreference mRingtonePref;
+    private CheckBoxPreference mSms2MmsPref;
     private Recycler mSmsRecycler;
     private Recycler mMmsRecycler;
     private static final int CONFIRM_CLEAR_SEARCH_HISTORY_DIALOG = 3;
@@ -125,6 +133,8 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         mVibratePref = (CheckBoxPreference) findPreference(NOTIFICATION_VIBRATE);
         mRingtonePref = (RingtonePreference) findPreference(NOTIFICATION_RINGTONE);
 
+        mSms2MmsPref = (CheckBoxPreference) findPreference(SMS2MMSSWITCHER);
+        mSms2MmsTextThresholdPref = findPreference(SMS2MMSTHRESHOLD);
         setMessagePreferences();
     }
 
@@ -236,6 +246,16 @@ public class MessagingPreferenceActivity extends PreferenceActivity
                         mMmsRecycler.getMessageLimit(this)));
     }
 
+    private void setSms2MmsTextThresholdSummary() {
+        mSms2MmsTextThresholdPref.setSummary(getString(
+                R.string.pref_summary_multipart_sms_threshold, getSms2MmsTextThreshold()));
+    }
+
+    private int getSms2MmsTextThreshold() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        return prefs.getInt(SMS2MMS_THRESHOLD, MmsConfig.getSmsToMmsTextThreshold());
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         menu.clear();
@@ -276,6 +296,15 @@ public class MessagingPreferenceActivity extends PreferenceActivity
                     mMmsRecycler.getMessageMinLimit(),
                     mMmsRecycler.getMessageMaxLimit(),
                     R.string.pref_title_mms_delete).show();
+        } else if (preference == mSms2MmsTextThresholdPref) {
+            NumberPickerDialog dialog = new NumberPickerDialog(this,
+                    mSms2MmsThresholdListener,
+                    getSms2MmsTextThreshold(),
+                    MmsConfig.getMinSmsTextThreshold(),
+                    MmsConfig.getMaxSmsTextThreshold(),
+                    R.string.pref_title_sms2mms_text_threshold);
+            dialog.setText(R.string.pref_sms_convert_to_mms);
+            dialog.show();
         } else if (preference == mManageSimPref) {
             startActivity(new Intent(this, ManageSimMessages.class));
         } else if (preference == mClearHistoryPref) {
@@ -316,6 +345,22 @@ public class MessagingPreferenceActivity extends PreferenceActivity
                 setMmsDisplayLimit();
             }
     };
+
+    NumberPickerDialog.OnNumberSetListener mSms2MmsThresholdListener =
+            new NumberPickerDialog.OnNumberSetListener() {
+                public void onNumberSet(int limit) {
+                    setSms2MmsTextThreshold(MessagingPreferenceActivity.this, limit);
+                    setSms2MmsTextThresholdSummary();
+                }
+
+                private void setSms2MmsTextThreshold(Context context, int threshold) {
+                    SharedPreferences.Editor editPrefs =
+                            PreferenceManager.getDefaultSharedPreferences(context).edit();
+                        editPrefs.putInt(SMS2MMS_THRESHOLD, threshold);
+                        editPrefs.apply();
+                    MmsConfig.setSmsToMmsTextThreshold(threshold);
+                }
+        };
 
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -360,12 +405,17 @@ public class MessagingPreferenceActivity extends PreferenceActivity
 
     private void registerListeners() {
         mRingtonePref.setOnPreferenceChangeListener(this);
+        mSms2MmsPref.setOnPreferenceChangeListener(this);
     }
 
+    @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         boolean result = false;
         if (preference == mRingtonePref) {
             setRingtoneSummary((String)newValue);
+            result = true;
+        } else if (preference == mSms2MmsPref) {
+            MmsConfig.setMultipartSmsEnabled((Boolean) newValue);
             result = true;
         }
         return result;
