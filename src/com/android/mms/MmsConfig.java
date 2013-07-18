@@ -22,10 +22,13 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.XmlResourceParser;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.internal.telephony.TelephonyProperties;
+import com.android.mms.ui.MessagingPreferenceActivity;
 
 public class MmsConfig {
     private static final String TAG = "MmsConfig";
@@ -58,6 +61,8 @@ public class MmsConfig {
     private static int mDefaultMMSMessagesPerThread = 50;       // default value
     private static int mMinMessageCountPerThread = 2;           // default value
     private static int mMaxMessageCountPerThread = 5000;        // default value
+    private static int mMinSmsTextThreshold = 2;                // default value
+    private static int mMaxSmsTextThreshold = 10;               // default value
     private static int mHttpSocketTimeout = 60*1000;            // default to 1 min
     private static int mMinimumSlideElementDuration = 7;        // default to 7 sec
     private static boolean mNotifyWapMMSC = false;
@@ -74,6 +79,7 @@ public class MmsConfig {
     // will be converted into a single mms message. For example, if the mms_config.xml file
     // specifies <int name="smsToMmsTextThreshold">4</int>, then on the 5th sms segment, the
     // message will be converted to an mms.
+    private static int mDefaultSmsToMmsTextThreshold = -1;
     private static int mSmsToMmsTextThreshold = -1;
 
     private static boolean mEnableSlideDuration = true;
@@ -114,6 +120,10 @@ public class MmsConfig {
 
     public static int getSmsToMmsTextThreshold() {
         return mSmsToMmsTextThreshold;
+    }
+
+    public static void setSmsToMmsTextThreshold(int threshold) {
+        mSmsToMmsTextThreshold = threshold;
     }
 
     public static boolean getMmsEnabled() {
@@ -192,6 +202,14 @@ public class MmsConfig {
         return mMaxMessageCountPerThread;
     }
 
+    public static int getMinSmsTextThreshold() {
+        return mMinSmsTextThreshold;
+    }
+
+    public static int getMaxSmsTextThreshold() {
+        return mMaxSmsTextThreshold;
+    }
+
     public static int getHttpSocketTimeout() {
         return mHttpSocketTimeout;
     }
@@ -202,6 +220,10 @@ public class MmsConfig {
 
     public static boolean getMultipartSmsEnabled() {
         return mEnableMultipartSMS;
+    }
+
+    public static void setMultipartSmsEnabled(boolean enabled) {
+        mEnableMultipartSMS = enabled;
     }
 
     public static boolean getSlideDurationEnabled() {
@@ -315,8 +337,6 @@ public class MmsConfig {
                             mAliasEnabled = "true".equalsIgnoreCase(text);
                         } else if ("allowAttachAudio".equalsIgnoreCase(value)) {
                             mAllowAttachAudio = "true".equalsIgnoreCase(text);
-                        } else if ("enableMultipartSMS".equalsIgnoreCase(value)) {
-                            mEnableMultipartSMS = "true".equalsIgnoreCase(text);
                         } else if ("enableSlideDuration".equalsIgnoreCase(value)) {
                             mEnableSlideDuration = "true".equalsIgnoreCase(text);
                         } else if ("enableMMSReadReports".equalsIgnoreCase(value)) {
@@ -344,6 +364,12 @@ public class MmsConfig {
                             mMinMessageCountPerThread = Integer.parseInt(text);
                         } else if ("maxMessageCountPerThread".equalsIgnoreCase(value)) {
                             mMaxMessageCountPerThread = Integer.parseInt(text);
+                        } else if ("minSms2MmsTextThreshold".equalsIgnoreCase(value)) {
+                            mMinSmsTextThreshold = Integer.parseInt(text);
+                        } else if ("maxSms2MmsTextThreshold".equalsIgnoreCase(value)) {
+                            mMaxSmsTextThreshold = Integer.parseInt(text);
+                        } else if("default_smsToMmsTextThreshold".equalsIgnoreCase(value)) {
+                            mDefaultSmsToMmsTextThreshold = Integer.parseInt(text);
                         } else if ("recipientLimit".equalsIgnoreCase(value)) {
                             mRecipientLimit = Integer.parseInt(text);
                             if (mRecipientLimit < 0) {
@@ -359,8 +385,6 @@ public class MmsConfig {
                             mAliasRuleMinChars = Integer.parseInt(text);
                         } else if ("aliasMaxChars".equalsIgnoreCase(value)) {
                             mAliasRuleMaxChars = Integer.parseInt(text);
-                        } else if ("smsToMmsTextThreshold".equalsIgnoreCase(value)) {
-                            mSmsToMmsTextThreshold = Integer.parseInt(text);
                         } else if ("maxMessageTextSize".equalsIgnoreCase(value)) {
                             mMaxTextLength = Integer.parseInt(text);
                         } else if ("maxSubjectLength".equalsIgnoreCase(value)) {
@@ -406,6 +430,12 @@ public class MmsConfig {
                         errorStr);
             Log.e(TAG, err);
         }
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        mEnableMultipartSMS = sharedPrefs.getBoolean(
+                MessagingPreferenceActivity.SMS2MMSSWITCHER, true);
+        mSmsToMmsTextThreshold = sharedPrefs.getInt(MessagingPreferenceActivity.SMS2MMS_THRESHOLD,
+                mDefaultSmsToMmsTextThreshold);
     }
 
 }

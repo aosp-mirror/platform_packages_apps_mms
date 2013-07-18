@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.android.mms.R;
 
@@ -46,6 +47,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
     }
 
     private final NumberPicker mNumberPicker;
+    private final TextView mNumberPickerText;
     private final OnNumberSetListener mCallback;
 
     /**
@@ -88,6 +90,7 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.number_picker_dialog, null);
         setView(view);
+        mNumberPickerText = (TextView) view.findViewById(R.id.number_picker_text);
         mNumberPicker = (NumberPicker) view.findViewById(R.id.number_picker);
 
         // initialize state
@@ -97,6 +100,10 @@ public class NumberPickerDialog extends AlertDialog implements OnClickListener {
         mNumberPicker.setOnLongPressUpdateInterval(100); // make the repeat rate three times as fast
                                                          // as normal since the range is so large.
         mNumberPicker.setWrapSelectorWheel(false);       // don't wrap from min->max
+    }
+
+    public void setText(int resid){
+        mNumberPickerText.setText(resid);
     }
 
     public void onClick(DialogInterface dialog, int which) {
