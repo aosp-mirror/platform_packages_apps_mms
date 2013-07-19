@@ -41,7 +41,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INSTALL_DRM" />
     <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
-
+    <!-- System apps can access the  receiver through intent-->
+    <permission android:name="android.permission.MMS_SEND_OUTBOX_MSG"
+                android:protectionLevel="signatureOrSystem"
+                android:label="@string/label_mms_send_outbox_msg"
+                android:description="@string/desc_mms_send_outbox_msg"/>
+    <uses-permission android:name="android.permission.MMS_SEND_OUTBOX_MSG"/>
     <application android:name="MmsApp"
             android:label="@string/app_label"
             android:icon="@mipmap/ic_launcher_smsmms"
@@ -191,7 +196,12 @@
                 <data android:mimeType="application/vnd.wap.mms-message" />
             </intent-filter>
         </receiver>
-
+     <receiver android:name=".transaction.MmsPushOutboxMessages"
+            android:permission="android.permission.MMS_SEND_OUTBOX_MSG">
+            <intent-filter>
+                <action android:name="android.intent.action.MMS_SEND_OUTBOX_MSG" />
+            </intent-filter>
+        </receiver>
         <receiver android:name=".transaction.MmsSystemEventReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.CONTENT_CHANGED" />

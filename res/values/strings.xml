@@ -780,5 +780,8 @@
 
     <string name="storage_warning_title">"Your phone's storage is full"</string>
     <string name="storage_warning_content">"You won't receive new SMS/MMS messages"</string>
+    <!--  Strings used forh MMS push of messages in outbox -->
+    <string name="label_mms_send_outbox_msg">MMS Wakeup</string>
+    <string name="desc_mms_send_outbox_msg">Sends out all MMSs from the outbox to the network</string>
 </resources>
 
