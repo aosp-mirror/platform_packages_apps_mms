@@ -23,10 +23,12 @@ import java.util.ArrayList;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -38,6 +40,7 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
+import android.provider.Telephony.Mms.Sent;
 import android.provider.Telephony.MmsSms.PendingMessages;
 import android.text.TextUtils;
 import android.util.Log;
@@ -128,6 +131,7 @@ public class TransactionService extends Service implements Observer {
 
     private static final int TOAST_MSG_QUEUED = 1;
     private static final int TOAST_DOWNLOAD_LATER = 2;
+    private static final int TOAST_NO_APN = 3;
     private static final int TOAST_NONE = -1;
 
     // How often to extend the use of the MMS APN while a transaction
@@ -152,6 +156,8 @@ public class TransactionService extends Service implements Observer {
                 str = getString(R.string.message_queued);
             } else if (msg.what == TOAST_DOWNLOAD_LATER) {
                 str = getString(R.string.download_later);
+            } else if (msg.what == TOAST_NO_APN) {
+                str = getString(R.string.no_apn);
             }
 
             if (str != null) {
@@ -507,12 +513,14 @@ public class TransactionService extends Service implements Observer {
     private void acquireWakeLock() {
         // It's okay to double-acquire this because we are not using it
         // in reference-counted mode.
+        Log.v(TAG, "mms acquireWakeLock");
         mWakeLock.acquire();
     }
 
     private void releaseWakeLock() {
         // Don't release the wake lock if it hasn't been created and acquired.
         if (mWakeLock != null && mWakeLock.isHeld()) {
+            Log.v(TAG, "mms releaseWakeLock");
             mWakeLock.release();
         }
     }
@@ -762,6 +770,27 @@ public class TransactionService extends Service implements Observer {
             }
         }
 
+        public void markAllPendingTransactionsAsFailed() {
+            synchronized (mProcessing) {
+                while (mPending.size() != 0) {
+                    Transaction transaction = mPending.remove(0);
+                    transaction.mTransactionState.setState(TransactionState.FAILED);
+                    if (transaction instanceof SendTransaction) {
+                        Uri uri = ((SendTransaction)transaction).mSendReqURI;
+                        transaction.mTransactionState.setContentUri(uri);
+                        int respStatus = PduHeaders.RESPONSE_STATUS_ERROR_NETWORK_PROBLEM;
+                        ContentValues values = new ContentValues(1);
+                        values.put(Mms.RESPONSE_STATUS, respStatus);
+
+                        SqliteWrapper.update(TransactionService.this,
+                                TransactionService.this.getContentResolver(),
+                                uri, values, null, null);
+                    }
+                    transaction.notifyObservers();
+                }
+            }
+        }
+
         public void processPendingTransaction(Transaction transaction,
                                                TransactionSettings settings) {
 
@@ -943,9 +972,12 @@ public class TransactionService extends Service implements Observer {
                 if (mmsNetworkInfo.isConnected()) {
                     TransactionSettings settings = new TransactionSettings(
                             TransactionService.this, mmsNetworkInfo.getExtraInfo());
-                    // If this APN doesn't have an MMSC, wait for one that does.
+                    // If this APN doesn't have an MMSC, mark everything as failed and bail.
                     if (TextUtils.isEmpty(settings.getMmscUrl())) {
                         Log.v(TAG, "   empty MMSC url, bail");
+                        mToastHandler.sendEmptyMessage(TOAST_NO_APN);
+                        mServiceHandler.markAllPendingTransactionsAsFailed();
+                        endMmsConnectivity();
                         return;
                     }
                     mServiceHandler.processPendingTransaction(null, settings);

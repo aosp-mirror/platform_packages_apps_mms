@@ -58,7 +58,7 @@ public class SendTransaction extends Transaction implements Runnable {
     private static final String TAG = "SendTransaction";
 
     private Thread mThread;
-    private final Uri mSendReqURI;
+    public final Uri mSendReqURI;
 
     public SendTransaction(Context context,
             int transId, TransactionSettings connectionSettings, String uri) {
