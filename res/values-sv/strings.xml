@@ -274,6 +274,7 @@
     <string name="message_send_failed_title" msgid="3469894907399046372">"Meddelandet har inte skickats"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"Tryck om du vill granska meddelandet och försöka igen."</string>
     <string name="download_later" msgid="5531365714424360903">"Det går inte att hämta just nu. Försök igen senare."</string>
+    <string name="no_apn" msgid="505932916503312015">"Inget APN har angetts på enheten."</string>
     <string name="select_audio" msgid="3528161449756771832">"Välj ljud"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Spara bilagan"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"Bilagan har sparats."</string>

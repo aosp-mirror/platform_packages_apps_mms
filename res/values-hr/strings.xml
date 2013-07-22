@@ -274,6 +274,7 @@
     <string name="message_send_failed_title" msgid="3469894907399046372">"Poruka nije poslana"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"Dodirnite za pregled poruke i pokušajte ponovo."</string>
     <string name="download_later" msgid="5531365714424360903">"Preuzimanje u ovom trenutku nije moguće.  Pokušajte ponovo kasnije."</string>
+    <string name="no_apn" msgid="505932916503312015">"Na uređaju nije naveden APN."</string>
     <string name="select_audio" msgid="3528161449756771832">"Odaberi audio"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Spremi privitak"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"Privitak je spremljen"</string>

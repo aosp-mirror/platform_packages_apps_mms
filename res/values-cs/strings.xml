@@ -274,6 +274,7 @@
     <string name="message_send_failed_title" msgid="3469894907399046372">"Zprávu se nepodařilo odeslat"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"Dotkněte se obrazovky, zkontrolujte zprávu a zkuste to znovu."</string>
     <string name="download_later" msgid="5531365714424360903">"Nyní zprávy nelze načíst. Zkuste to znovu později."</string>
+    <string name="no_apn" msgid="505932916503312015">"V zařízení není zadáno žádné APN."</string>
     <string name="select_audio" msgid="3528161449756771832">"Zvolit zvuk"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Uložit přílohu"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"Příloha byla uložena."</string>

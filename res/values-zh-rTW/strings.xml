@@ -274,6 +274,7 @@
     <string name="message_send_failed_title" msgid="3469894907399046372">"簡訊未送出"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"請輕觸以重新檢視訊息，然後再試一次。"</string>
     <string name="download_later" msgid="5531365714424360903">"目前無法下載，請稍後再試。"</string>
+    <string name="no_apn" msgid="505932916503312015">"尚未在裝置上指定 APN。"</string>
     <string name="select_audio" msgid="3528161449756771832">"選擇音訊"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"儲存附件"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"已儲存附件。"</string>

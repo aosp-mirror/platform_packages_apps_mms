@@ -274,6 +274,7 @@
     <string name="message_send_failed_title" msgid="3469894907399046372">"Sõnumit ei saadetud"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"Puudutage sõnumi ülevaatamiseks ja proovige uuesti."</string>
     <string name="download_later" msgid="5531365714424360903">"Praegu ei saa alla laadida. Proovige hiljem uuesti."</string>
+    <string name="no_apn" msgid="505932916503312015">"Seadmes pole APN-i täpsustatud."</string>
     <string name="select_audio" msgid="3528161449756771832">"Heli valimine"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Manuse salvestamine"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"Manus on salvestatud."</string>

@@ -274,6 +274,7 @@
     <string name="message_send_failed_title" msgid="3469894907399046372">"Wiadomość nie została wysłana"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"Dotknij, aby sprawdzić wiadomość i spróbować ponownie."</string>
     <string name="download_later" msgid="5531365714424360903">"Nie można teraz pobrać. Spróbuj ponownie później."</string>
+    <string name="no_apn" msgid="505932916503312015">"Na urządzeniu nie określono żadnego APN."</string>
     <string name="select_audio" msgid="3528161449756771832">"Wybierz dźwięk"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Zapisz załącznik"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"Załącznik został zapisany."</string>

@@ -274,6 +274,7 @@
     <string name="message_send_failed_title" msgid="3469894907399046372">"ไม่ได้ส่งข้อความ"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"แตะเพื่อตรวจสอบข้อความและลองอีกครั้ง"</string>
     <string name="download_later" msgid="5531365714424360903">"ไม่สามารถดาวน์โหลดได้ในขณะนี้ ลองอีกครั้งในภายหลัง"</string>
+    <string name="no_apn" msgid="505932916503312015">"ไม่มี APN ที่ระบุไว้ในอุปกรณ์"</string>
     <string name="select_audio" msgid="3528161449756771832">"เลือกเสียง"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"บันทึกเอกสารแนบ"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"บันทึกไฟล์แนบแล้ว"</string>
