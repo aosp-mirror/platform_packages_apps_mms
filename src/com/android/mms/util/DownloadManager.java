@@ -189,8 +189,8 @@ public class DownloadManager {
         try {
             NotificationInd nInd = (NotificationInd) PduPersister.getPduPersister(mContext)
                     .load(uri);
-            if ((nInd.getExpiry() < System.currentTimeMillis()/1000L)
-                && (state == STATE_DOWNLOADING)) {
+            if ((nInd.getExpiry() < System.currentTimeMillis() / 1000L)
+                    && (state == STATE_DOWNLOADING || state == STATE_PRE_DOWNLOADING)) {
                 mHandler.post(new Runnable() {
                     public void run() {
                         Toast.makeText(mContext, R.string.service_message_not_found,
