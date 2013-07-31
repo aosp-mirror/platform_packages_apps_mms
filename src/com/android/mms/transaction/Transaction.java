@@ -89,8 +89,7 @@ public abstract class Transaction extends Observable {
      * @return true if transaction is equivalent to this instance, false otherwise.
      */
     public boolean isEquivalent(Transaction transaction) {
-        return getClass().equals(transaction.getClass())
-                && mId.equals(transaction.mId);
+        return mId.equals(transaction.mId);
     }
 
     /**
