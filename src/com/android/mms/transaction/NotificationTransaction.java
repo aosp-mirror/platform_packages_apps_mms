@@ -37,6 +37,7 @@ import android.provider.Telephony.Mms.Inbox;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.ui.MessagingPreferenceActivity;
@@ -92,8 +93,11 @@ public class NotificationTransaction extends Transaction implements Runnable {
             throw new IllegalArgumentException();
         }
 
-        mId = new String(mNotificationInd.getTransactionId());
         mContentLocation = new String(mNotificationInd.getContentLocation());
+        mId = mContentLocation;
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG, "mId=" + mId);
+        }
 
         // Attach the transaction to the instance of RetryScheduler.
         attach(RetryScheduler.getInstance(context));
@@ -119,7 +123,10 @@ public class NotificationTransaction extends Transaction implements Runnable {
         }
 
         mNotificationInd = ind;
-        mId = new String(ind.getTransactionId());
+        mId = new String(mNotificationInd.getContentLocation());
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG, "mId=" + mId);
+        }
     }
 
     /*
