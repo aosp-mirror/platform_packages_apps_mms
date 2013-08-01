@@ -45,7 +45,7 @@
     <string name="expire_on" msgid="4436268382742593921">"过期时间：<xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"信息未传送出去"</string>
-    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"无法发送此短信。"\n"尝试发送时间：<xliff:g id="MESSAGE">%s</xliff:g>。"</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"无法发送此短信。\n尝试发送时间：<xliff:g id="MESSAGE">%s</xliff:g>。"</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"无法发送此短信。"</string>
     <string name="delete_thread" msgid="757258847736632791">"删除会话"</string>
     <string name="menu_forward" msgid="9026858380050046756">"转发"</string>

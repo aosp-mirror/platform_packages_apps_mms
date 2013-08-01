@@ -45,7 +45,7 @@
     <string name="expire_on" msgid="4436268382742593921">"تاريخ انتهاء الصلاحية: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"كيلوبايت"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"رسالة لم يتم تسليمها"</string>
-    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"يتعذر إرسال هذه الرسالة."\n"المحاولة التي تمت: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"يتعذر إرسال هذه الرسالة.\nالمحاولة التي تمت: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"تعذر إرسال هذه الرسالة."</string>
     <string name="delete_thread" msgid="757258847736632791">"حذف السلسلة"</string>
     <string name="menu_forward" msgid="9026858380050046756">"إعادة توجيه"</string>

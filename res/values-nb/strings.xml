@@ -45,7 +45,7 @@
     <string name="expire_on" msgid="4436268382742593921">"Utgår: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"kB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Melding ikke levert"</string>
-    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Kunne ikke sende denne meldingen."\n"Antall forsøk: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Kunne ikke sende denne meldingen.\nAntall forsøk: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Kunne ikke sende denne meldingen."</string>
     <string name="delete_thread" msgid="757258847736632791">"Slett tråd"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Videresend"</string>

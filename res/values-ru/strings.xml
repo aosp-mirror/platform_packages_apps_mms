@@ -45,7 +45,7 @@
     <string name="expire_on" msgid="4436268382742593921">"Срок истекает: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"КБ"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Недоставленное сообщение"</string>
-    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Не удалось отправить сообщение."\n"Попыток: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Не удалось отправить сообщение.\nПопыток: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Не удалось отправить сообщение."</string>
     <string name="delete_thread" msgid="757258847736632791">"Удалить цепочку"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Переслать"</string>

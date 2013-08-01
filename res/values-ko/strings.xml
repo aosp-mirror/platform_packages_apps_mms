@@ -45,7 +45,7 @@
     <string name="expire_on" msgid="4436268382742593921">"만료 날짜: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"전송되지 않은 메시지"</string>
-    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"메시지를 보내지 못했습니다."\n"마지막으로 시도한 시각: <xliff:g id="MESSAGE">%s</xliff:g>"</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"메시지를 보내지 못했습니다.\n마지막으로 시도한 시각: <xliff:g id="MESSAGE">%s</xliff:g>"</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"메시지를 보내지 못했습니다."</string>
     <string name="delete_thread" msgid="757258847736632791">"대화목록 삭제"</string>
     <string name="menu_forward" msgid="9026858380050046756">"전달"</string>

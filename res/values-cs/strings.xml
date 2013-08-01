@@ -45,7 +45,7 @@
     <string name="expire_on" msgid="4436268382742593921">"Platnost vyprší: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"kB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Nedoručená zpráva"</string>
-    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Zprávu se nepodařilo odeslat."\n"Poslední pokus: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Zprávu se nepodařilo odeslat.\nPoslední pokus: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Zprávu se nepodařilo odeslat."</string>
     <string name="delete_thread" msgid="757258847736632791">"Smazat konverzaci"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Předat dál"</string>

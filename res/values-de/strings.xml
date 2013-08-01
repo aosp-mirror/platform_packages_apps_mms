@@ -45,7 +45,7 @@
     <string name="expire_on" msgid="4436268382742593921">"Ablaufdatum: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Nicht gelieferte Nachricht"</string>
-    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Senden der Nachricht nicht möglich"\n"Letzter Versuch: <xliff:g id="MESSAGE">%s</xliff:g>"</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Senden der Nachricht nicht möglich\nLetzter Versuch: <xliff:g id="MESSAGE">%s</xliff:g>"</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Nachricht konnte nicht gesendet werden."</string>
     <string name="delete_thread" msgid="757258847736632791">"Konversation löschen"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Weiterleiten"</string>
@@ -178,7 +178,7 @@
     <string name="silent_ringtone" msgid="7981237991326592780">"Lautlos"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Automatisch abrufen"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Nachrichten automatisch empfangen"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Autom. Roaming-Abruf"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Automatischer Roaming-Abruf"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Bei Roaming Nachrichten automatisch abrufen"</string>
     <string name="confirm_dialog_title" msgid="2187213750475782725">"Löschen?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Gesperrte Nachricht entfernen?"</string>

@@ -45,7 +45,7 @@
     <string name="expire_on" msgid="4436268382742593921">"תאריך תפוגה: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"הודעה שלא נמסרה"</string>
-    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"לא ניתן היה לשלוח הודעה זו."\n"נעשה ניסיון: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"לא ניתן היה לשלוח הודעה זו.\nנעשה ניסיון: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"לא ניתן לשלוח את ההודעה."</string>
     <string name="delete_thread" msgid="757258847736632791">"מחק שרשור"</string>
     <string name="menu_forward" msgid="9026858380050046756">"העבר"</string>

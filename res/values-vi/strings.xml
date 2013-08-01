@@ -45,7 +45,7 @@
     <string name="expire_on" msgid="4436268382742593921">"Hết hạn: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Tin nhắn chưa được gửi"</string>
-    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Không thể gửi tin nhắn này."\n"Đã cố gắng thực hiện: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Không thể gửi tin nhắn này.\nĐã cố gắng thực hiện: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Không thể gửi tin nhắn này."</string>
     <string name="delete_thread" msgid="757258847736632791">"Xóa chuỗi thư"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Chuyển tiếp"</string>

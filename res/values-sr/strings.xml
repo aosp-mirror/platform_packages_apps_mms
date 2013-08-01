@@ -45,7 +45,7 @@
     <string name="expire_on" msgid="4436268382742593921">"Истиче: <xliff:g id="DATE">%s</xliff:g>"</string>
     <string name="kilobyte" msgid="534782148965716631">"KB"</string>
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Неиспоручена порука"</string>
-    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Није могуће послати ову поруку."\n"Време последњег покушаја: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Није могуће послати ову поруку.\nВреме последњег покушаја: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Није могуће послати ову поруку."</string>
     <string name="delete_thread" msgid="757258847736632791">"Избриши преписку"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Проследи"</string>
