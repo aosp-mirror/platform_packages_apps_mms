@@ -343,6 +343,7 @@ public class SmsReceiverService extends Service {
                 }
             });
         } else if (mResultCode == SmsManager.RESULT_ERROR_FDN_CHECK_FAILURE) {
+            messageFailedToSend(uri, mResultCode);
             mToastHandler.post(new Runnable() {
                 public void run() {
                     Toast.makeText(SmsReceiverService.this, getString(R.string.fdn_check_failure),
