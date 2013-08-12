@@ -345,4 +345,6 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> – <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"Shramba v telefonu je polna"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"Novih sporočil SMS/MMS ne boste prejemali"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Pošiljanje MMS-ov"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Pošlje vse MMS-e v mapi za pošiljanje v omrežje"</string>
 </resources>
