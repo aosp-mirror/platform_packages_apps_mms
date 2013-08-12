@@ -345,4 +345,6 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"พื้นที่จัดเก็บของโทรศัพท์ของคุณเต็ม"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"คุณจะไม่ได้รับข้อความ SMS/MMS ใหม่"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"การพุช MMS"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"ส่ง MMS ทั้งหมดจากกล่องจดหมายออกไปยังเครือข่าย"</string>
 </resources>
