@@ -345,4 +345,6 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> — <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"Jūsu tālruņa atmiņa ir pilna."</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"Jūs nesaņemsiet jaunas īsziņas/multiziņas."</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Multiziņu aktivizēšana"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Izsūta tīklā visas izsūtnē esošās multiziņas"</string>
 </resources>
