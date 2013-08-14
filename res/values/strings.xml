@@ -372,6 +372,15 @@
     <!-- Settings item description for boolean MMS auto-retrieve while roaming option -->
     <string name="pref_summary_mms_retrieval_during_roaming">Automatically retrieve messages while roaming</string>
 
+    <!-- Item description for adding contact name to contact sharing message -->
+    <string name="name_key">Name</string>
+    <!-- Item description for adding contact phone to contact sharing message -->
+    <string name="phone_key">Phone</string>
+    <!-- Item description for adding contact email to contact sharing message -->
+    <string name="email_key">Email</string>
+    <!-- Item description for adding contact address to contact sharing message -->
+    <string name="address_key">Address</string>
+
     <!-- Confirm Delete -->
     <!-- Delete confirmation dialog title -->
     <string name="confirm_dialog_title">Delete?</string>
@@ -604,6 +613,8 @@
     <string name="copy_to_sdcard_success">Attachment saved.</string>
     <!-- Toast message on failed copy to shared storage [CHAR LIMIT=30] -->
     <string name="copy_to_sdcard_fail">Couldn\'t save attachment.</string>
+    <!-- Toast message on missing a certain contact detail -->
+    <string name="not_found">Contact does not have <xliff:g>%s</xliff:g> !</string>
     <!-- Menu title to save a sound as a ringtone -->
     <string name="save_ringtone">Save as ringtone</string>
     <!-- Toast message on successful copying ringtone to drm provider -->
@@ -775,8 +786,10 @@
 
     <!-- In message list items, this string builds the timestamp line when the message is in a group [CHAR LIMIT=NONE] -->
     <string name="message_timestamp_format"><xliff:g id="string" example="Fred Flinstone">%1$s</xliff:g>\u0020-\u0020<xliff:g id="string" example="9:39AM">%2$s</xliff:g></string>
-
     <string name="storage_warning_title">"Your phone's storage is full"</string>
     <string name="storage_warning_content">"You won't receive new SMS/MMS messages"</string>
+
+    <!-- Message of the dialog used to ask the user if he wants to save a contact received by sms -->
+    <string name="ask">You have received a new contact! Do you want to save it?</string>
 </resources>
 

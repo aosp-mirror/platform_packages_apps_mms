@@ -48,6 +48,16 @@
             android:taskAffinity="android.task.mms"
             android:allowTaskReparenting="true">
 
+        <activity
+            android:name="com.android.mms.ui.Dialog"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+
+        <activity
+            android:name=".ui.OptionsList"
+            android:label="@string/app_label" >
+        </activity>
+
         <service android:name=".transaction.TransactionService"
                  android:exported="false" />
 
@@ -115,6 +125,14 @@
                <category android:name="android.intent.category.DEFAULT" />
                <data android:mimeType="text/plain" />
            </intent-filter>
+           <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/x-vCard" />
+                <data android:mimeType="text/x-vcard" />
+            </intent-filter>
            <intent-filter>
                <action android:name="android.intent.action.SEND_MULTIPLE" />
                <category android:name="android.intent.category.DEFAULT" />

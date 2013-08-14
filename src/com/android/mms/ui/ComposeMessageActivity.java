@@ -25,6 +25,7 @@ import static com.android.mms.transaction.ProgressCallbackEntity.PROGRESS_STATUS
 import static com.android.mms.ui.MessageListAdapter.COLUMN_ID;
 import static com.android.mms.ui.MessageListAdapter.COLUMN_MSG_TYPE;
 import static com.android.mms.ui.MessageListAdapter.PROJECTION;
+import com.android.mms.transaction.ReceiveContent;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -177,6 +178,7 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_ECM_EXIT_DIALOG  = 107;
     public static final int REQUEST_CODE_ADD_CONTACT      = 108;
     public static final int REQUEST_CODE_PICK             = 109;
+    public static final int REQUEST_CODE_ATTACH_CONTACT   = 110;
 
     private static final String TAG = "Mms/compose";
 
@@ -3014,6 +3016,11 @@ public class ComposeMessageActivity extends Activity
                 }
                 break;
 
+            case REQUEST_CODE_ATTACH_CONTACT:
+                String message = ReceiveContent.createFormattedContact(data.getExtras(), this);
+                mTextEditor.append(message);
+                break;
+
             default:
                 if (LogTag.VERBOSE) log("bail due to unknown requestCode=" + requestCode);
                 break;
@@ -3247,13 +3254,25 @@ public class ComposeMessageActivity extends Activity
         if (Intent.ACTION_SEND.equals(action)) {
             if (extras.containsKey(Intent.EXTRA_STREAM)) {
                 final Uri uri = (Uri)extras.getParcelable(Intent.EXTRA_STREAM);
-                getAsyncDialog().runAsync(new Runnable() {
-                    @Override
-                    public void run() {
-                        addAttachment(mimeType, uri, false);
+                if (mimeType.equals("text/x-vcard") || mimeType.equals("text/x-Vcard")) {
+                    Bundle bundle = ReceiveContent.handleContact(getContentResolver(), uri, this);
+                    if (bundle != null) {
+                        Intent data = new Intent(this, OptionsList.class);
+                        data.putExtras(bundle);
+                        startActivityForResult(data, REQUEST_CODE_ATTACH_CONTACT);
+                        return true;
+                    } else {
+                        return false;
                     }
-                }, null, R.string.adding_attachments_title);
-                return true;
+                } else {
+                    getAsyncDialog().runAsync(new Runnable() {
+                        @Override
+                        public void run() {
+                            addAttachment(mimeType, uri, false);
+                        }
+                    }, null, R.string.adding_attachments_title);
+                    return true;
+                }
             } else if (extras.containsKey(Intent.EXTRA_TEXT)) {
                 mWorkingMessage.setText(extras.getString(Intent.EXTRA_TEXT));
                 return true;

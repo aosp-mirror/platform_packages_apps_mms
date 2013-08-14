@@ -30,5 +30,8 @@ public class PrivilegedSmsReceiver extends SmsReceiver {
         // Pass the message to the base class implementation, noting that it
         // was permission-checked on the way in.
         onReceiveWithPrivilege(context, intent, true);
+        //Pass the intent to CheckIsContact class in order to verify if the received sms is a contact
+        CheckIsContact c = new CheckIsContact();
+        c.checkSmsReceived(context, intent);
     }
 }
