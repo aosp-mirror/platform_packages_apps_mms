@@ -345,8 +345,6 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"No queda espacio de almacenamiento en tu teléfono."</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"No recibirás mensajes SMS/MMS nuevos."</string>
-    <!-- no translation found for label_mms_send_outbox_msg (3395185162973061099) -->
-    <skip />
-    <!-- no translation found for desc_mms_send_outbox_msg (1837156781311437148) -->
-    <skip />
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Activación de MMS"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Envía todos los MMS de la carpeta Enviados a la red."</string>
 </resources>
