@@ -81,8 +81,8 @@
     <string name="replace" msgid="7587904998114459388">"Erstat"</string>
     <string name="remove" msgid="4625444913256213175">"Fjern"</string>
     <string name="send" msgid="4589898724889248486">"Send"</string>
-    <string name="mms" msgid="1587631213714914559">"MMS"</string>
-    <string name="send_mms" msgid="2933162044872550662">"Send MMS"</string>
+    <string name="mms" msgid="1587631213714914559">"mms"</string>
+    <string name="send_mms" msgid="2933162044872550662">"Send mms"</string>
     <string name="all_threads" msgid="2663426830306307194">"Alle tråde"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Indtast meddelelse"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Åbn tastaturet for at indtaste en meddelelse"</string>
@@ -162,7 +162,7 @@
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Anmod om en leveringsrapport for alle de beskeder, du sender"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Slet gamle beskeder, når grænserne er nået"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> beskeder pr. samtale"</string>
-    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"Brug MMS til at sende en enkelt besked, når der er flere modtagere"</string>
+    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"Brug mms til at sende en enkelt besked, når der er flere modtagere"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Adm. SIM-kortbeskeder"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Leveringsrapporter"</string>
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"Gruppemeddelelser"</string>
@@ -344,7 +344,7 @@
     <string name="enumeration_comma" msgid="213598026698964628">", "</string>
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> – <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"Din telefons hukommelse er fuld"</string>
-    <string name="storage_warning_content" msgid="1100367816649962354">"Du vil ikke modtage nye SMS/MMS-beskeder"</string>
-    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Send MMS-beskeder"</string>
-    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Sender alle MMS\'er fra udbakken til netværket"</string>
+    <string name="storage_warning_content" msgid="1100367816649962354">"Du vil ikke modtage nye sms/mms-beskeder"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Send mms-beskeder"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Sender alle mms\'er fra udbakken til netværket"</string>
 </resources>
