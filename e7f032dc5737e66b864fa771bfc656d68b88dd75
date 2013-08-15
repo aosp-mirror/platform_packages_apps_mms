@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8773c7c_5646347a",
+        "filename": "src/com/android/mms/transaction/MmsSystemEventReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-08-15T16:51:54Z",
+      "side": 1,
+      "message": "To follow Android coding style guidelines, can you add braces to your change? i.e. if () {\n   do something;\n}\nThanks!",
+      "revId": "e7f032dc5737e66b864fa771bfc656d68b88dd75",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
