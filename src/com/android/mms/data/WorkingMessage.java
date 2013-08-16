@@ -1584,6 +1584,9 @@ public class WorkingMessage {
             return res;
         } catch (MmsException e) {
             return null;
+        } catch (IllegalStateException e) {
+            Log.e(TAG,"failed to create draft mms "+ e);
+            return null;
         }
     }
 
