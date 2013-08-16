@@ -346,5 +346,5 @@
     <string name="storage_warning_title" msgid="7124740686325942375">"Jou foon se berging is vol"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"Jy sal nie nuwe SMS/MMS-boodskappe kry nie"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS-wekroep"</string>
-    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Stuur al die MMS\'e van die uitkassie na die netwerk"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Stuur al die MMS\'e van die uitkassie af uit na die netwerk"</string>
 </resources>
