@@ -16,6 +16,24 @@
       "revId": "e7f032dc5737e66b864fa771bfc656d68b88dd75",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d874387d_bb368f6a",
+        "filename": "src/com/android/mms/transaction/MmsSystemEventReceiver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1014499
+      },
+      "writtenOn": "2013-08-16T02:08:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8773c7c_5646347a",
+      "revId": "e7f032dc5737e66b864fa771bfc656d68b88dd75",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
