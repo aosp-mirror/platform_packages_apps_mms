@@ -347,6 +347,6 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"فضای ذخیره‌سازی تلفن شما پر است"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"‫شما پیامک/پیام MMS جدیدی دریافت نمی‌کنید"</string>
-    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"بیدارباش پیام چند رسانه‌ای"</string>
-    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"همه پیام‌های چند رسانه‌ای را از صندوق ارسال به شبکه ارسال می‌کند"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"بیدارباش MMS"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"همه MMSها را از صندوق ارسال به شبکه ارسال می‌کند"</string>
 </resources>
