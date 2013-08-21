@@ -1015,7 +1015,7 @@ public class MessageUtils {
 
         // if we are able to parse the address to a MMS compliant phone number, take that.
         String retVal = parsePhoneNumberForMms(address);
-        if (retVal != null) {
+        if (retVal != null && retVal.length() != 0) {
             return retVal;
         }
 
