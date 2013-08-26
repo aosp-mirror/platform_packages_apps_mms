@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+ * Copyright (C) 2008 Esmertec AG.
+ * Copyright (C) 2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+  -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string-array name="default_smiley_names">
+    <item msgid="1831934949361041701">"සතුටු"</item>
+    <item msgid="1601611480575517120">"දුක්"</item>
+    <item msgid="1531181614218625881">"ඇස් ගැසීම"</item>
+    <item msgid="3858808057949077894">"දිව එලියට ඇඳ ගෙන"</item>
+    <item msgid="7835238297967185651">"පුදුම"</item>
+    <item msgid="1756223535005296033">"හාදුදෙන"</item>
+    <item msgid="1093906245140165107">"කෑගසන"</item>
+    <item msgid="888834839864150170">"නිවුණු"</item>
+    <item msgid="6320683740534773967">"කෑදර"</item>
+    <item msgid="6610111212478853990">"අකමැති දේ කීම"</item>
+    <item msgid="1706035208563940251">"ලජ්ජා"</item>
+    <item msgid="9079275787422313427">"සුරංගනා"</item>
+    <item msgid="4630490399784004880">"තීරණයක් නොගත්"</item>
+    <item msgid="7002574538342357456">"අඬන"</item>
+    <item msgid="850324578089267455">"කෙළ පොදක් බිම හලන්නේ නෑ"</item>
+    <item msgid="6334637439528489607">"සිනාසෙන"</item>
+    <item msgid="7602915122893958066">"ව්‍යාකූල"</item>
+    <item msgid="3939233701582771068">"හදවත"</item>
+    <item msgid="1414759480575851587">"පිස්සු"</item>
+    <item msgid="8479809115158836070">"නියවීම"</item>
+    <item msgid="638612939305162424">"හිස් බැල්ම"</item>
+  </string-array>
+  <string-array name="empty_subject_strings">
+    <item msgid="7691141505407124426">"කාරණාවක් නොමැත"</item>
+  </string-array>
+</resources>
