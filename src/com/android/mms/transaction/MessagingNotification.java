@@ -89,7 +89,7 @@ import com.google.android.mms.pdu.PduPersister;
 public class MessagingNotification {
 
     private static final String TAG = LogTag.APP;
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;  // STOPSHIP: fix this before final KLP
 
     private static final int NOTIFICATION_ID = 123;
     public static final int MESSAGE_FAILED_NOTIFICATION_ID = 789;
