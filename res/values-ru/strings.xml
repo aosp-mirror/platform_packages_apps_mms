@@ -117,7 +117,7 @@
     <string name="building_slideshow_title" msgid="1232338692400726385">"Создание слайд-шоу"</string>
     <string name="cannot_play_audio" msgid="253920977253666735">"Не удалось воспроизвести аудио."</string>
     <string name="preview" msgid="5438149136136446756">"Просмотреть"</string>
-    <string name="preview_slideshow" msgid="6824095909448728427">"Предварительный просмотр"</string>
+    <string name="preview_slideshow" msgid="6824095909448728427">"Предпросмотр"</string>
     <string name="replace_image" msgid="3171240952601443619">"Заменить картинку"</string>
     <string name="duration_sec" msgid="6617032324007824096">"Продолжительность: (<xliff:g id="DURATION">%s</xliff:g> с.)"</string>
     <string name="duration_selector_title" msgid="5981097971537625852">"Продолжительность показа слайда "</string>
