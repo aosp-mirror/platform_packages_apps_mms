@@ -1187,9 +1187,10 @@ public class WorkingMessage {
 
         // We need the recipient list for both SMS and MMS.
         final Conversation conv = mConversation;
-        String msgTxt = mText.toString();
+        final String msgText = mText.toString();
+        final SplitToMmsAndSmsConversation spliter = new SplitToMmsAndSmsConversation(conv);
 
-        if (requiresMms() || addressContainsEmailToMms(conv, msgTxt)) {
+        if (spliter.getMMSConversation() != null){
             // uaProfUrl setting in mms_config.xml must be present to send an MMS.
             // However, SMS service will still work in the absence of a uaProfUrl address.
             if (MmsConfig.getUaProfUrl() == null) {
@@ -1220,34 +1221,126 @@ public class WorkingMessage {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    final SendReq sendReq = makeSendReq(conv, subject);
+                    final SendReq sendReq = makeSendReq(spliter.getMMSConversation(), subject);
 
                     // Make sure the text in slide 0 is no longer holding onto a reference to
                     // the text in the message text box.
                     slideshow.prepareForSend();
-                    sendMmsWorker(conv, mmsUri, persister, slideshow, sendReq, textOnly);
+                    sendMmsWorker(spliter.getMMSConversation(), mmsUri, persister, slideshow, sendReq, textOnly);
 
-                    updateSendStats(conv);
+                    updateSendStats(spliter.getMMSConversation());
                 }
             }, "WorkingMessage.send MMS").start();
-        } else {
-            // Same rules apply as above.
-            final String msgText = mText.toString();
+
+            // update the Recipient cache with the new to address, if it's different
+            RecipientIdCache.updateNumbers(spliter.getMMSConversation().getThreadId(), spliter.getMMSConversation().getRecipients());
+
+        }
+
+        if (spliter.getSMSConversation() != null){
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    preSendSmsWorker(conv, msgText, recipientsInUI);
+                    preSendSmsWorker(spliter.getSMSConversation(), msgText, recipientsInUI, (spliter.getMMSConversation() != null) ? true : false);
 
-                    updateSendStats(conv);
+                    updateSendStats(spliter.getSMSConversation());
                 }
             }, "WorkingMessage.send SMS").start();
-        }
 
-        // update the Recipient cache with the new to address, if it's different
-        RecipientIdCache.updateNumbers(conv.getThreadId(), conv.getRecipients());
+            // update the Recipient cache with the new to address, if it's different
+            RecipientIdCache.updateNumbers(spliter.getSMSConversation().getThreadId(), spliter.getSMSConversation().getRecipients());
+        }
 
         // Mark the message as discarded because it is "off the market" after being sent.
         mDiscarded = true;
+    }
+
+    private boolean isPartiallySMSCompliant() {
+        boolean result = false;
+        if (   ((mMmsState & FORCE_MMS)== 0)           //NO attachment using slideshow that will convert the whole message for the whole recipients in MMS
+            && ((mMmsState & LENGTH_REQUIRES_MMS)== 0) //DO NOT exceed a particular threshold of SMS truncation that will convert the whole message for the whole recipients in MMS
+            && ((mMmsState & HAS_ATTACHMENT)== 0)      //NO attachment that will convert the whole message for the whole recipients in MMS
+            && ((mMmsState & HAS_SUBJECT)== 0)) {       //NO subject that will convert the whole message for the whole recipients in MMS
+                                                       //DO NOT check RECIPIENTS_REQUIRE_MMS to allow email & alias as recipients
+               result = true;//Conversation with multiple recipients where MMS could be not mandatory for some of the recipients : aka phone numbers.
+        }
+        return result;
+    }
+
+    private class SplitToMmsAndSmsConversation
+    {   private Conversation mSmsConv;
+        private Conversation mMmsConv;
+        private ContactList listSms;
+        private ContactList listMms;
+
+        //Split if necessary the initial conversation in one MMS conversation or/and one SMS conversation
+        //Allow to send SMS with phone numbers recipients when the conversation is still SMS compliant.
+        public   SplitToMmsAndSmsConversation(Conversation conv){
+            ContactList list = null;
+            Contact contact = null;
+            String number = null;
+
+            mSmsConv = null;
+            mMmsConv = null;
+            listSms = null;
+            listMms = null;
+
+            if (conv != null){
+               list = conv.getRecipients();
+
+               if (list != null){
+                     if (requiresMms()) {
+                        if (isPartiallySMSCompliant())
+                        {
+                            for (int i=0; i<list.size();i++) {
+                                contact = list.get(i);
+                                if (contact != null) {
+                                   number = contact.getNumber();
+                                   if (!TextUtils.isEmpty(number)) {
+                                       if (Mms.isPhoneNumber(number))  { addContactAsSms(contact);}
+                                       else                            { addContactAsMms(contact);}
+                                   }
+                                   else { addContactAsMms(contact);}
+                                }
+                            }
+                        }
+                        else
+                        { listMms = list;}
+                     }
+                     else{ listSms = list;}
+
+                     if (listMms != null) {
+                        mMmsConv = conv;
+                        mMmsConv.setRecipients(listMms);
+
+                        if (listSms != null) {
+                           mSmsConv = Conversation.createNew(mActivity.getApplicationContext());
+                           mSmsConv.setRecipients(listSms);
+                        }
+                     }
+                     else if (listSms != null){
+                           mSmsConv = conv;
+                           mSmsConv.setRecipients(listSms);
+                     }
+               }
+           }
+        }
+
+        private void addContactAsMms(Contact contact)
+        {    if (listMms == null) { listMms = new  ContactList();}
+             if (!listMms.contains(contact)) { listMms.add(contact);}
+        }
+
+        private void addContactAsSms(Contact contact)
+        {    if (listSms == null) { listSms = new  ContactList();}
+             if (!listSms.contains(contact)) { listSms.add(contact);}
+        }
+
+        protected Conversation getSMSConversation()
+        {    return mSmsConv;}
+
+        protected Conversation getMMSConversation()
+        {    return mMmsConv;}
     }
 
     // Be sure to only call this on a background thread.
@@ -1281,7 +1374,7 @@ public class WorkingMessage {
 
     // Message sending stuff
 
-    private void preSendSmsWorker(Conversation conv, String msgText, String recipientsInUI) {
+    private void preSendSmsWorker(Conversation conv, String msgText, String recipientsInUI, boolean hasBeenSplit) {
         // If user tries to send the message, it's a signal the inputted text is what they wanted.
         UserHappinessSignals.userAcceptedImeText(mActivity);
 
@@ -1296,7 +1389,7 @@ public class WorkingMessage {
 
         // recipientsInUI can be empty when the user types in a number and hits send
         if (LogTag.SEVERE_WARNING && ((origThreadId != 0 && origThreadId != threadId) ||
-               (!semiSepRecipients.equals(recipientsInUI) && !TextUtils.isEmpty(recipientsInUI)))) {
+               ((!hasBeenSplit) && (!semiSepRecipients.equals(recipientsInUI)) && !TextUtils.isEmpty(recipientsInUI)))) {
             String msg = origThreadId != 0 && origThreadId != threadId ?
                     "WorkingMessage.preSendSmsWorker threadId changed or " +
                     "recipients changed. origThreadId: " +
