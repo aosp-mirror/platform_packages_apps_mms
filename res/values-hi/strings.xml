@@ -144,7 +144,7 @@
     <string name="menu_view_contact" msgid="1414670584423909451">"संपर्क देखें"</string>
     <string name="menu_add_to_contacts" msgid="1258127580972228970">"लोग में जोड़ें"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"छुपा हुआ प्रेषक पता"</string>
-    <string name="yes" msgid="3246158147503160811">"ठीक"</string>
+    <string name="yes" msgid="3246158147503160811">"ठीक है"</string>
     <string name="no" msgid="4289742508556913860">"रद्द करें"</string>
     <string name="set" msgid="4642365398263275979">"सेट करें"</string>
     <string name="play" msgid="1888432400937785115">"चलाएं"</string>
