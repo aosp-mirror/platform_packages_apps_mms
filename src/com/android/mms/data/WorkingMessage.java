@@ -895,6 +895,34 @@ public class WorkingMessage {
             LogTag.debug("saveDraft for mConversation " + mConversation);
         }
 
+		final long draftTheradId = mConversation.getThreadId();
+                
+        if (!hasText() && draftTheradId > 0) {
+            if (requiresMms()) {
+                //if subject field is exist
+                if (!isWorthSaving()) {
+                    asyncDeleteDraftMmsMessage(mConversation);
+                }
+            } else {       
+                //if subject field is not exist
+                String subject = null;
+                StringBuilder sb = new StringBuilder();
+                Uri uri = readDraftMmsMessage(mActivity, mConversation, sb);
+                if (uri != null) {
+                    if (loadFromUri(uri)) {
+                        // If there was an MMS message, readDraftMmsMessage
+                        // will put the subject in our supplied StringBuilder.
+                        subject = sb.toString();
+                    }
+                } 
+                if(!hasSubject() && !TextUtils.isEmpty(subject)) {
+                    asyncDeleteDraftMmsMessage(mConversation);
+                } else {      
+                    deleteDraftSmsMessage(draftTheradId);
+                }
+            }
+        }
+		
         // Get ready to write to disk. But don't notify message status when saving draft
         prepareForSave(false /* notify */);
 
