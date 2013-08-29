@@ -1029,7 +1029,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     private Uri getContactUriForPhoneNumber(String phoneNumber) {
-        Contact contact = Contact.get(phoneNumber, false);
+        Contact contact = Contact.get(phoneNumber, true);
         if (contact.existsInDatabase()) {
             return contact.getUri();
         }
