@@ -239,11 +239,32 @@ public class WorkingMessage {
 
         WorkingMessage msg = new WorkingMessage(activity);
         if (msg.loadFromUri(uri)) {
+        	String subject = loadSubject(activity, uri);
+        	if ((subject != null) && subject.length() > 0) {
+        		msg.setSubject(subject, false);
+        	}
             msg.mHasMmsDraft = true;
             return msg;
         }
 
         return null;
+    }
+    
+    private static String loadSubject(ComposeMessageActivity activity, Uri uri) {
+		String lastPathSegment = uri.getLastPathSegment();
+		final String selection = "_id" + " = " + lastPathSegment;
+        Cursor cursor = SqliteWrapper.query(activity, activity.getContentResolver(),
+                uri, MMS_DRAFT_PROJECTION, selection, null, null);
+        String subject = null;
+       	try {
+            if (cursor.moveToFirst()) {
+                subject = MessageUtils.extractEncStrFromCursor(cursor, MMS_SUBJECT_INDEX,
+                        MMS_SUBJECT_CS_INDEX);
+            }
+        } finally {
+            cursor.close();
+            return subject;
+        }
     }
 
     private void correctAttachmentState() {
