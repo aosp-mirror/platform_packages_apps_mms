@@ -152,7 +152,7 @@
     <string name="try_to_send" msgid="1996751738286080976">"გაგზავნის მცდელობა"</string>
     <string name="preferences_title" msgid="6650089610332670157">"პარამეტრები"</string>
     <string name="restore_default" msgid="7165341506551155053">"ნაგულისხმევი პარამეტრების აღდგენა"</string>
-    <string name="pref_notification_settings_title" msgid="6420782563630369776">"შეტყობინებები"</string>
+    <string name="pref_notification_settings_title" msgid="6420782563630369776">"სტატუსის ზოლი"</string>
     <string name="pref_mms_settings_title" msgid="55618772118264355">"მულტიმედია (MMS) შეტყობინებები"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"ტექსტური (SMS) შეტყობინებები"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"საცავი"</string>
@@ -164,22 +164,22 @@
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> შეტყობინება თითოეულ მიმოწერაში"</string>
     <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"მრავალი მიმღების შემთხვევაში ერთიანი შეტყობინების გასაგზავნად MMS-ის გამოყენება"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"SIM ბარათის შეტყობინებების მართვა"</string>
-    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"მიწოდების შეტყობინებები"</string>
+    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"მიწოდების დადასტურება"</string>
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"ჯგუფური შეტყობინება"</string>
-    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"წაკითხვის ანგარიშები"</string>
-    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"მიწოდების შეტყობინებები"</string>
+    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"წაკითხვის დადასტურება"</string>
+    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"მიწოდების დადასტურება"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"ძველი შეტყობინებების წაშლა"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"ტექსტური შეტყობინების ლიმიტი"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"მულტიმედია შეტყობინებათა ლიმიტი"</string>
-    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"შეტყობინებები"</string>
+    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"შეტყობინება სტატ. ზოლში"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"ვიბრაცია"</string>
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"ხმა"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"შესანახად დააწესეთ შეტყობინებების რაოდენობა"</string>
     <string name="silent_ringtone" msgid="7981237991326592780">"ჩუმი"</string>
-    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"ავტომოძიება"</string>
-    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"შეტყობინებების ავტომატურად მოძიება"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"როუმინგში ავტომოძიება"</string>
-    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"როუმინგის დროს შეტყობინებების ავტომატურად მოძიება"</string>
+    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"ავტო ჩამოტვირთვა"</string>
+    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"შეტყობინებების ავტომატურად ჩამოტვირთვა"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"ავტო ჩამოტვირთვა როუმინგში"</string>
+    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"როუმინგის დროს შეტყობინებების ავტომატურად ჩამოტვირთვა"</string>
     <string name="confirm_dialog_title" msgid="2187213750475782725">"წაიშალოს?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"წაიშალოს ჩაკეტილი შეტყობინება?"</string>
   <plurals name="confirm_delete_conversation">
