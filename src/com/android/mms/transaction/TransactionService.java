@@ -201,7 +201,13 @@ public class TransactionService extends Service implements Observer {
 
     public void onNewIntent(Intent intent, int serviceId) {
         mConnMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        boolean noNetwork = !isNetworkAvailable();
+        if (mConnMgr == null || !mConnMgr.getMobileDataEnabled()) {
+            endMmsConnectivity();
+            stopSelf(serviceId);
+            return;
+        }
+        NetworkInfo ni = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS);
+        boolean noNetwork = ni == null || !ni.isAvailable();
 
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "onNewIntent: serviceId: " + serviceId + ": " + intent.getExtras() +
@@ -336,15 +342,6 @@ public class TransactionService extends Service implements Observer {
 
     private static boolean isTransientFailure(int type) {
         return type > MmsSms.NO_ERROR && type < MmsSms.ERR_TYPE_GENERIC_PERMANENT;
-    }
-
-    private boolean isNetworkAvailable() {
-        if (mConnMgr == null) {
-            return false;
-        } else {
-            NetworkInfo ni = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS);
-            return (ni == null ? false : ni.isAvailable());
-        }
     }
 
     private int getTransactionType(int msgType) {
@@ -526,6 +523,9 @@ public class TransactionService extends Service implements Observer {
     }
 
     protected int beginMmsConnectivity() throws IOException {
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG, "beginMmsConnectivity");
+        }
         // Take a wake lock so we don't fall asleep before the message is downloaded.
         createWakeLock();
 
@@ -933,7 +933,7 @@ public class TransactionService extends Service implements Observer {
 
             NetworkInfo mmsNetworkInfo = null;
 
-            if (mConnMgr != null) {
+            if (mConnMgr != null && mConnMgr.getMobileDataEnabled()) {
                 mmsNetworkInfo = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS);
             } else {
                 if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
@@ -952,9 +952,9 @@ public class TransactionService extends Service implements Observer {
             }
 
             // Check availability of the mobile network.
-            if ((mmsNetworkInfo == null)) {
+            if (mmsNetworkInfo == null) {
                 if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                    Log.v(TAG, "mms type is null, bail");
+                    Log.v(TAG, "mms type is null or mobile data is turned off, bail");
                 }
             } else {
                 // This is a very specific fix to handle the case where the phone receives an
