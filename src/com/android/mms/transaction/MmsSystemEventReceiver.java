@@ -67,6 +67,12 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
                 mConnMgr = (ConnectivityManager) context
                         .getSystemService(Context.CONNECTIVITY_SERVICE);
             }
+            if (!mConnMgr.getMobileDataEnabled()) {
+                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                    Log.v(TAG, "mobile data turned off, bailing");
+                }
+                return;
+            }
             NetworkInfo mmsNetworkInfo = mConnMgr
                     .getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS);
             boolean available = mmsNetworkInfo.isAvailable();
