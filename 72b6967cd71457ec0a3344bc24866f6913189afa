@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32b7354e_104144b4",
+        "filename": "src/com/android/mms/ui/ComposeMessageActivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-09-05T17:01:44Z",
+      "side": 1,
+      "message": "We\u0027re trying to avoid making any blocking calls on the UI thread (though getContactUriForEmail does it with a query) that could cause an ANR. Can you think of another way to fix it without potentially blocking the UI thread?",
+      "revId": "72b6967cd71457ec0a3344bc24866f6913189afa",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
