@@ -119,7 +119,7 @@
     <string name="preview" msgid="5438149136136446756">"ቅድመ-ዕይታ"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"ቅድመ-ዕይታ"</string>
     <string name="replace_image" msgid="3171240952601443619">"ፎቶ ተካ"</string>
-    <string name="duration_sec" msgid="6617032324007824096">"ቆይታ(<xliff:g id="DURATION">%s</xliff:g>ሰከንድ)"</string>
+    <string name="duration_sec" msgid="6617032324007824096">"ቆይታ(<xliff:g id="DURATION">%s</xliff:g>ሴኮንድ)"</string>
     <string name="duration_selector_title" msgid="5981097971537625852">"የስላይድ ጊዜ ርዝመት "</string>
     <string name="layout_selector_title" msgid="7344600117972450771">"ስላይድ ትዕይንት አቀማመጥ "</string>
     <string name="layout_top" msgid="6811021650398972346">"አቀማመጥ (ከላይ)"</string>
@@ -129,7 +129,7 @@
     <string name="duration_zero" msgid="3549377790195185977">"የጊዜ ርዝመት ከዜሮ ሰከንዶች በላይ መሆን አለበት።"</string>
     <string name="secs" msgid="6886003523109967972">"ሰከንዶች"</string>
   <string-array name="select_dialog_items">
-    <item msgid="4840183714016984112">"1 ሰከንድ"</item>
+    <item msgid="4840183714016984112">"1 ሴኮንድ"</item>
     <item msgid="3734955613666864447">"2 ሰከንዶች"</item>
     <item msgid="6032232473048379828">"3 ሰከንዶች"</item>
     <item msgid="5978471781525927827">"4 ሰከንዶች"</item>
@@ -287,7 +287,7 @@
     <string name="select_link_title" msgid="3371818607625768447">"እርምጃ ምረጥ"</string>
     <string name="slide_number" msgid="1923958526266726635">"ስላይድ<xliff:g id="NUMBER">%s</xliff:g>"</string>
   <plurals name="slide_duration">
-    <item quantity="one" msgid="1654101988340583935">"<xliff:g id="NUMBER">%s</xliff:g> ሰከንድ"</item>
+    <item quantity="one" msgid="1654101988340583935">"<xliff:g id="NUMBER">%s</xliff:g> ሴኮንድ"</item>
     <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g>ሰከንዶች"</item>
     <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g>ሰከንዶች"</item>
   </plurals>
