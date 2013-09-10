@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "475dc95e_f90fd77f",
+        "filename": "src/com/android/mms/transaction/NotificationTransaction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1024998
+      },
+      "writtenOn": "2013-09-10T16:47:46Z",
+      "side": 1,
+      "message": "Use Log.v and add check Log.isLoggable on VERBOSE to the log line.",
+      "revId": "d738e3f3280320ff48219498f3dda773651d4395",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "475dc95e_39a94f27",
+        "filename": "src/com/android/mms/transaction/NotificationTransaction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1024998
+      },
+      "writtenOn": "2013-09-10T16:47:46Z",
+      "side": 1,
+      "message": "Use Log.v and add check Log.isLoggable on VERBOSE to the log line.",
+      "revId": "d738e3f3280320ff48219498f3dda773651d4395",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
