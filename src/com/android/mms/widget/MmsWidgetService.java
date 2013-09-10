@@ -133,7 +133,7 @@ public class MmsWidgetService extends RemoteViewsService {
         private Cursor queryAllConversations() {
             return mContext.getContentResolver().query(
                     Conversation.sAllThreadsUri, Conversation.ALL_THREADS_PROJECTION,
-                    null, null, null);
+                    Threads._ID + ">0" /* ignore obsolete threads */, null, null);
         }
 
         private int queryUnreadCount() {
@@ -141,8 +141,8 @@ public class MmsWidgetService extends RemoteViewsService {
             int unreadCount = 0;
             try {
                 cursor = mContext.getContentResolver().query(
-                    Conversation.sAllThreadsUri, Conversation.ALL_THREADS_PROJECTION,
-                    Threads.READ + "=0", null, null);
+                        Conversation.sAllThreadsUri, Conversation.ALL_THREADS_PROJECTION,
+                        Threads.READ + "=0 AND " + Threads._ID + ">0", null, null);
                 if (cursor != null) {
                     unreadCount = cursor.getCount();
                 }
