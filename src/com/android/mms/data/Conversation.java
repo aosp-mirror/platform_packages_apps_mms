@@ -36,7 +36,6 @@ import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.util.AddressUtils;
 import com.android.mms.util.DraftCache;
-
 import com.google.android.mms.pdu.PduHeaders;
 
 /**
@@ -723,7 +722,7 @@ public class Conversation {
         // mmssms.db|2.253 ms|SELECT _id, date, message_count, recipient_ids, snippet, snippet_cs,
         // read, error, has_attachment FROM threads ORDER BY  date DESC
 
-        startQuery(handler, token, null);
+        startQuery(handler, token, Threads._ID + ">0" /* ignore obsolete threads */);
     }
 
     /**
