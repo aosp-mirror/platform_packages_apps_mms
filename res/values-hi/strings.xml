@@ -90,7 +90,7 @@
     <string name="unsupported_media_format" msgid="1350489690977363764">"असमर्थित <xliff:g id="NAME">%1$s</xliff:g> प्रारूप."</string>
     <string name="select_different_media" msgid="6241623357299382183">"कोई भिन्‍न <xliff:g id="NAME">%1$s</xliff:g> चुनें."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"संदेश आकार सीमा तक पहुंच गया है."</string>
-    <string name="message_too_big_for_video" msgid="2639367545165352543">"वीडियो अनुलग्न करने के लिए संदेश बहुत बड़ा है."</string>
+    <string name="message_too_big_for_video" msgid="2639367545165352543">"वीडियो जोड़ने के लिए संदेश बहुत बड़ा है."</string>
     <string name="failed_to_add_media" msgid="7207464170168708485">"आप अपने संदेश में यह <xliff:g id="NAME">%1$s</xliff:g> नहीं जोड़ सकते."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"चित्र का आकार नहीं बदला गया."</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"आकार बदलने पर भी यह चित्र भेजे जाने के लिए बहुत बड़ा है."</string>
