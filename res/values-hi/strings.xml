@@ -48,7 +48,7 @@
     <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"यह संदेश नहीं भेजा जा सका.\nप्रयास किया गया: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"यह संदेश नहीं भेजा जा सका."</string>
     <string name="delete_thread" msgid="757258847736632791">"थ्रेड हटाएं"</string>
-    <string name="menu_forward" msgid="9026858380050046756">"अग्रेषित करें"</string>
+    <string name="menu_forward" msgid="9026858380050046756">"इसको भेजें"</string>
     <string name="download" msgid="4488877642230207631">"डाउनलोड करें"</string>
     <string name="downloading" msgid="1779557575565350637">"डाउनलोड कर रहा है"</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;विषय: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
@@ -74,7 +74,7 @@
     <string name="remove_video" msgid="5258603891528497799">"वीडियो निकालें"</string>
     <string name="to_hint" msgid="224029549150332986">"प्रति"</string>
     <string name="subject_hint" msgid="4296714962311604126">"विषय"</string>
-    <string name="add_attachment" msgid="7103751293360532684">"अनुलग्न करें"</string>
+    <string name="add_attachment" msgid="7103751293360532684">"जोड़ें"</string>
     <string name="add_subject" msgid="7616134948428265870">"विषय जोड़ें"</string>
     <string name="discard" msgid="1624800293064498479">"छोड़ें"</string>
     <string name="view" msgid="7929667761715467136">"देखें"</string>
@@ -90,14 +90,14 @@
     <string name="unsupported_media_format" msgid="1350489690977363764">"असमर्थित <xliff:g id="NAME">%1$s</xliff:g> प्रारूप."</string>
     <string name="select_different_media" msgid="6241623357299382183">"कोई भिन्‍न <xliff:g id="NAME">%1$s</xliff:g> चुनें."</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"संदेश आकार सीमा तक पहुंच गया है."</string>
-    <string name="message_too_big_for_video" msgid="2639367545165352543">"वीडियो अनुलग्न करने के लिए संदेश बहुत बड़ा है."</string>
+    <string name="message_too_big_for_video" msgid="2639367545165352543">"वीडियो जोड़ने के लिए संदेश बहुत बड़ा है."</string>
     <string name="failed_to_add_media" msgid="7207464170168708485">"आप अपने संदेश में यह <xliff:g id="NAME">%1$s</xliff:g> नहीं जोड़ सकते."</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"चित्र का आकार नहीं बदला गया."</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"आकार बदलने पर भी यह चित्र भेजे जाने के लिए बहुत बड़ा है."</string>
     <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"आपका संदेश छोड़ दिया जाएगा क्योंकि इसमें कोई भी मान्य प्राप्तकर्ता नहीं है."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"अमान्य प्राप्तकर्ता: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <string name="invalid_destination" msgid="4573835601024786416">"अमान्य गंतव्य पता."</string>
+    <string name="invalid_destination" msgid="4573835601024786416">"अमान्य जाने का स्थान का पता."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"नेटवर्क पर सेवा सक्रिय नहीं है."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"संदेश की समय सीमा समाप्त हो गई है या उपलब्‍ध नहीं है."</string>
     <string name="service_network_problem" msgid="4583269174855943025">"नेटवर्क समस्‍या के कारण नहीं भेजा जा सका."</string>
@@ -334,8 +334,8 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> लोग"</item>
   </plurals>
-    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"डिफ़ॉल्ट संदेश सेवा एप्लिकेशन से डुप्लिकेट पाठ संदेश सूचनाएं रोकें?"</string>
-    <string name="view_more_conversations" msgid="7275920132410734671">"अधिक बातचीत देखें"</string>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"डिफ़ॉल्ट संदेश सेवा एप्स से डुप्लिकेट पाठ संदेश सूचनाएं रोकें?"</string>
+    <string name="view_more_conversations" msgid="7275920132410734671">"और बातचीत देखें"</string>
     <string name="attachment_audio" msgid="2867960243300539143">"ऑडियो"</string>
     <string name="attachment_slideshow" msgid="5867689101881763318">"स्लाइड शो"</string>
     <string name="attachment_video" msgid="4252062022156694591">"वीडियो"</string>

@@ -272,7 +272,7 @@
     <string name="confirm_rate_limit" msgid="234228299751243067">"Der sendes et stort antal multimediebeskeder. Er det OK?"</string>
     <string name="message_download_failed_title" msgid="5722226064394767921">"Beskeden blev ikke downloadet"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"Beskeden er ikke sendt"</string>
-    <string name="message_failed_body" msgid="3421296112073915245">"Tryk for at få vist beskeden, og prøv igen."</string>
+    <string name="message_failed_body" msgid="3421296112073915245">"Tryk for at se beskeden, og prøv igen."</string>
     <string name="download_later" msgid="5531365714424360903">"Der kan ikke downloades lige nu. Prøv igen senere."</string>
     <string name="no_apn" msgid="505932916503312015">"Der er ikke angivet en APN på enheden."</string>
     <string name="select_audio" msgid="3528161449756771832">"Vælg lyd"</string>
@@ -335,7 +335,7 @@
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> personer"</item>
   </plurals>
     <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Vil du stoppe dobbelte underretninger via sms fra standardappen Meddelelser?"</string>
-    <string name="view_more_conversations" msgid="7275920132410734671">"Få vist flere samtaler"</string>
+    <string name="view_more_conversations" msgid="7275920132410734671">"Se flere samtaler"</string>
     <string name="attachment_audio" msgid="2867960243300539143">"Lyd"</string>
     <string name="attachment_slideshow" msgid="5867689101881763318">"Diasshow"</string>
     <string name="attachment_video" msgid="4252062022156694591">"Video"</string>
