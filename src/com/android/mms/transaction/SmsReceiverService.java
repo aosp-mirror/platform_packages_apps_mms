@@ -18,7 +18,7 @@
 package com.android.mms.transaction;
 
 import static android.content.Intent.ACTION_BOOT_COMPLETED;
-import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
+import static android.provider.Telephony.Sms.Intents.SMS_DELIVER_ACTION;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -203,7 +203,7 @@ public class SmsReceiverService extends Service {
 
                 if (MESSAGE_SENT_ACTION.equals(intent.getAction())) {
                     handleSmsSent(intent, error);
-                } else if (SMS_RECEIVED_ACTION.equals(action)) {
+                } else if (SMS_DELIVER_ACTION.equals(action)) {
                     handleSmsReceived(intent, error);
                 } else if (ACTION_BOOT_COMPLETED.equals(action)) {
                     handleBootCompleted();
