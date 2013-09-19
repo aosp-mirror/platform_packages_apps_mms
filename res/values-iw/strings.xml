@@ -221,7 +221,7 @@
     <string name="menu_delete_messages" msgid="2610286783513247420">"מחק הודעות"</string>
     <string name="menu_lock" msgid="7603793126077557472">"נעל"</string>
     <string name="menu_unlock" msgid="6662865558677424039">"בטל נעילה"</string>
-    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"העתק לזיכרון של הטבלט"</string>
+    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"העתק לזיכרון של הטאבלט"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"העתק לזיכרון הטלפון"</string>
     <string name="sim_delete" msgid="610790510655316922">"מחק"</string>
     <string name="sim_manage_messages_title" msgid="3989147182100584333">"הודעות טקסט בכרטיס SIM"</string>
@@ -334,7 +334,7 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> אנשים"</item>
   </plurals>
-    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"האם להפסיק התראות כפולות על הודעות טקסט ביישום העברת ההודעות המוגדר כברירת מחדל?"</string>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"האם להפסיק התראות כפולות על הודעות טקסט באפליקציית העברת ההודעות המוגדרת כברירת מחדל?"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"הצג שיחות נוספות"</string>
     <string name="attachment_audio" msgid="2867960243300539143">"אודיו"</string>
     <string name="attachment_slideshow" msgid="5867689101881763318">"מצגת"</string>
