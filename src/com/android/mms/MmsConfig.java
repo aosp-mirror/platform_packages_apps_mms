@@ -22,10 +22,17 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.XmlResourceParser;
+import android.preference.PreferenceManager;
+import android.provider.Telephony;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.internal.telephony.TelephonyProperties;
+import com.android.mms.ui.MessageUtils;
+import com.android.mms.ui.MessagingPreferenceActivity;
 
 public class MmsConfig {
     private static final String TAG = "MmsConfig";
@@ -34,6 +41,10 @@ public class MmsConfig {
 
     private static final String DEFAULT_HTTP_KEY_X_WAP_PROFILE = "x-wap-profile";
     private static final String DEFAULT_USER_AGENT = "Android-Mms/2.0";
+
+    private static final String MMS_APP_PACKAGE = "com.android.mms";
+
+    private static final String SMS_PROMO_DISMISSED_KEY = "sms_promo_dismissed_key";
 
     private static final int MAX_IMAGE_HEIGHT = 480;
     private static final int MAX_IMAGE_WIDTH = 640;
@@ -110,6 +121,28 @@ public class MmsConfig {
                 android.os.SystemProperties.get(TelephonyProperties.PROPERTY_ICC_OPERATOR_NUMERIC));
 
         loadMmsSettings(context);
+    }
+
+    public static boolean isSmsEnabled(Context context) {
+        return Telephony.Sms.Intents.isDefaultSmsPackage(context, MMS_APP_PACKAGE);
+    }
+
+    public static boolean isSmsPromoDismissed(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getBoolean(SMS_PROMO_DISMISSED_KEY, false);
+    }
+
+    public static void setSmsPromoDismissed(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(SMS_PROMO_DISMISSED_KEY, true);
+        editor.apply();
+    }
+
+    public static Intent getRequestDefaultSmsAppActivity() {
+        final Intent intent = new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
+        intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, MMS_APP_PACKAGE);
+        return intent;
     }
 
     public static int getSmsToMmsTextThreshold() {
