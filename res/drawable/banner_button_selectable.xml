@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2012 Google Inc.
+-->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_pressed="true"
+        android:drawable="@color/banner_item_pressed" />
+    <item
+        android:state_activated="true"
+        android:drawable="@color/banner_item_activated" />
+    <item
+        android:state_selected="true"
+        android:drawable="@color/banner_item_selected" />
+    <item
+        android:drawable="@color/banner_item_transparent" />
+</selector>

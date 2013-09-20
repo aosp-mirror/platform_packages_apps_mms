@@ -317,6 +317,15 @@
     <!-- Settings screen, section heading for storage-specific settings -->
     <string name="pref_sms_storage_title">Storage</string>
 
+    <!-- Title for SMS Disabled -->
+    <string name="pref_title_sms_disabled">SMS Disabled</string>
+    <!-- Summary for SMS Disabled -->
+    <string name="pref_summary_sms_disabled">Touch to make Messaging your default SMS app</string>
+    <!-- Title for SMS Enabled -->
+    <string name="pref_title_sms_enabled">SMS Enabled</string>
+    <!-- Summary for SMS Enabled -->
+    <string name="pref_summary_sms_enabled">Touch to change your default SMS app</string>
+
     <!-- Settings item description for entering SIM card message screen -->
     <string name="pref_summary_manage_sim_messages">Manage messages stored on your SIM card</string>
     <!-- Settings item description for boolean MMS delivery report setting -->
@@ -783,5 +792,10 @@
     <!--  Strings used forh MMS push of messages in outbox -->
     <string name="label_mms_send_outbox_msg">MMS Wakeup</string>
     <string name="desc_mms_send_outbox_msg">Sends out all MMSs from the outbox to the network</string>
-</resources>
 
+    <!-- Banner in conversation list for making Messaging the default SMS app -->
+    <string name="banner_sms_promo_message">Would you like to use Messaging as your default SMS app?</string>
+    <string name="banner_sms_promo_decline">No, thanks</string>
+    <string name="banner_sms_promo_accept">Yes!</string>
+
+</resources>
