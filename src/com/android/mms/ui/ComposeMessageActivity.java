@@ -338,6 +338,10 @@ public class ComposeMessageActivity extends Activity
     // we should not load the draft.
     private boolean mShouldLoadDraft;
 
+    // Whether or not we are currently enabled for SMS. This field is updated in onStart to make
+    // sure we notice if the user has changed the default SMS app.
+    private boolean mIsSmsEnabled;
+
     private Handler mHandler = new Handler();
 
     // keys for extras and icicles
@@ -1078,7 +1082,8 @@ public class ComposeMessageActivity extends Activity
             addCallAndContactMenuItems(menu, l, msgItem);
 
             // Forward is not available for undownloaded messages.
-            if (msgItem.isDownloaded() && (msgItem.isSms() || isForwardable(msgId))) {
+            if (msgItem.isDownloaded() && (msgItem.isSms() || isForwardable(msgId))
+                    && mIsSmsEnabled) {
                 menu.add(0, MENU_FORWARD_MESSAGE, 0, R.string.menu_forward)
                         .setOnMenuItemClickListener(l);
             }
@@ -1124,10 +1129,10 @@ public class ComposeMessageActivity extends Activity
                 }
             }
 
-            if (msgItem.mLocked) {
+            if (msgItem.mLocked && mIsSmsEnabled) {
                 menu.add(0, MENU_UNLOCK_MESSAGE, 0, R.string.menu_unlock)
                     .setOnMenuItemClickListener(l);
-            } else {
+            } else if (mIsSmsEnabled) {
                 menu.add(0, MENU_LOCK_MESSAGE, 0, R.string.menu_lock)
                     .setOnMenuItemClickListener(l);
             }
@@ -1140,8 +1145,10 @@ public class ComposeMessageActivity extends Activity
                         .setOnMenuItemClickListener(l);
             }
 
-            menu.add(0, MENU_DELETE_MESSAGE, 0, R.string.delete_message)
-                .setOnMenuItemClickListener(l);
+            if (mIsSmsEnabled) {
+                menu.add(0, MENU_DELETE_MESSAGE, 0, R.string.delete_message)
+                    .setOnMenuItemClickListener(l);
+            }
         }
     };
 
@@ -2110,6 +2117,11 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onStart() {
         super.onStart();
+        boolean isSmsEnabled = MmsConfig.isSmsEnabled(this);
+        if (isSmsEnabled != mIsSmsEnabled) {
+            mIsSmsEnabled = isSmsEnabled;
+            invalidateOptionsMenu();
+        }
 
         initFocus();
 
@@ -2637,7 +2649,7 @@ public class ComposeMessageActivity extends Activity
             }
         }
 
-        if (MmsConfig.getMmsEnabled()) {
+        if (MmsConfig.getMmsEnabled() && mIsSmsEnabled) {
             if (!isSubjectEditorVisible()) {
                 menu.add(0, MENU_ADD_SUBJECT, 0, R.string.add_subject).setIcon(
                         R.drawable.ic_menu_edit);
@@ -2650,11 +2662,11 @@ public class ComposeMessageActivity extends Activity
             }
         }
 
-        if (isPreparedForSending()) {
+        if (isPreparedForSending() && mIsSmsEnabled) {
             menu.add(0, MENU_SEND, 0, R.string.send).setIcon(android.R.drawable.ic_menu_send);
         }
 
-        if (!mWorkingMessage.hasSlideshow()) {
+        if (!mWorkingMessage.hasSlideshow() && mIsSmsEnabled) {
             menu.add(0, MENU_INSERT_SMILEY, 0, R.string.menu_insert_smiley).setIcon(
                     R.drawable.ic_menu_emoticons);
         }
@@ -2663,7 +2675,7 @@ public class ComposeMessageActivity extends Activity
             menu.add(0, MENU_GROUP_PARTICIPANTS, 0, R.string.menu_group_participants);
         }
 
-        if (mMsgListAdapter.getCount() > 0) {
+        if (mMsgListAdapter.getCount() > 0 && mIsSmsEnabled) {
             // Removed search as part of b/1205708
             //menu.add(0, MENU_SEARCH, 0, R.string.menu_search).setIcon(
             //        R.drawable.ic_menu_search);
@@ -2672,7 +2684,7 @@ public class ComposeMessageActivity extends Activity
                 menu.add(0, MENU_DELETE_THREAD, 0, R.string.delete_thread).setIcon(
                     android.R.drawable.ic_menu_delete);
             }
-        } else {
+        } else if (mIsSmsEnabled) {
             menu.add(0, MENU_DISCARD, 0, R.string.discard).setIcon(android.R.drawable.ic_menu_delete);
         }
 
@@ -3322,6 +3334,12 @@ public class ComposeMessageActivity extends Activity
      * draw the compose view at the bottom of the screen.
      */
     private void drawBottomPanel() {
+        // If we are not the default SMS app, the bottom panel is always gone.
+        if (!mIsSmsEnabled) {
+            mBottomPanel.setVisibility(View.GONE);
+            return;
+        }
+
         // Reset the counter for text editor.
         resetCounter();
 
@@ -3350,6 +3368,12 @@ public class ComposeMessageActivity extends Activity
     }
 
     private void hideBottomPanel() {
+        // If we are not the default SMS app, the bottom panel is always gone.
+        if (!mIsSmsEnabled) {
+            mBottomPanel.setVisibility(View.GONE);
+            return;
+        }
+
         if (LOCAL_LOGV) {
             Log.v(TAG, "CMA.hideBottomPanel");
         }

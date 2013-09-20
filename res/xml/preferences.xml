@@ -17,8 +17,30 @@
  * limitations under the License.
  */
 -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-  <PreferenceCategory android:title="@string/pref_sms_storage_title"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="pref_key_root">
+    <Preference
+        android:key="pref_key_sms_disabled"
+        android:title="@string/pref_title_sms_disabled"
+        android:summary="@string/pref_summary_sms_disabled"
+        android:persistent="false">
+        <intent
+            android:action="android.provider.Telephony.ACTION_CHANGE_DEFAULT"
+            android:targetPackage="com.android.settings">
+            <extra android:name="package" android:value="com.android.mms"/>
+        </intent>
+    </Preference>
+    <Preference
+        android:key="pref_key_sms_enabled"
+        android:title="@string/pref_title_sms_enabled"
+        android:summary="@string/pref_summary_sms_enabled"
+        android:persistent="false">
+        <intent
+            android:action="android.settings.WIRELESS_SETTINGS"
+            android:targetPackage="com.android.settings">
+        </intent>
+    </Preference>
+    <PreferenceCategory android:title="@string/pref_sms_storage_title"
                       android:key="pref_key_storage_settings">
 <!--
     <Preference android:key="pref_key_mms_clear_history"

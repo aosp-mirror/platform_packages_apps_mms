@@ -44,6 +44,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.provider.Telephony;
 import android.provider.ContactsContract.Contacts;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Threads;
@@ -62,12 +63,14 @@ import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.android.mms.LogTag;
+import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
@@ -109,6 +112,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     private TextView mUnreadConvCount;
     private MenuItem mSearchItem;
     private SearchView mSearchView;
+    private View mSmsPromoBannerView;
     private int mSavedFirstVisiblePosition = AdapterView.INVALID_POSITION;
     private int mSavedFirstItemOffset;
 
@@ -118,11 +122,18 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
 
     static private final String CHECKED_MESSAGE_LIMITS = "checked_message_limits";
 
+    // Whether or not we are currently enabled for SMS. This field is updated in onResume to make
+    // sure we notice if the user has changed the default SMS app.
+    private boolean mIsSmsEnabled;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.conversation_list_screen);
+
+        mSmsPromoBannerView = findViewById(R.id.banner_sms_promo);
+        initSmsPromoBanner();
 
         mQueryHandler = new ThreadListQueryHandler(getContentResolver());
 
@@ -186,6 +197,26 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     @Override
     protected void onResume() {
         super.onResume();
+        boolean isSmsEnabled = MmsConfig.isSmsEnabled(this);
+        if (isSmsEnabled != mIsSmsEnabled) {
+            mIsSmsEnabled = isSmsEnabled;
+            invalidateOptionsMenu();
+        }
+
+        // Multi-select is used to delete conversations. It is disabled if we are not the sms app.
+        ListView listView = getListView();
+        if (mIsSmsEnabled) {
+            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        } else {
+            listView.setChoiceMode(ListView.CHOICE_MODE_NONE);
+        }
+
+        // Show or hide the SMS promo banner
+        if (mIsSmsEnabled || MmsConfig.isSmsPromoDismissed(this)) {
+            mSmsPromoBannerView.setVisibility(View.GONE);
+        } else {
+            mSmsPromoBannerView.setVisibility(View.VISIBLE);
+        }
 
         mListAdapter.setOnContentChangedListener(mContentChangedListener);
     }
@@ -218,6 +249,29 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
         mListAdapter.setOnContentChangedListener(mContentChangedListener);
         setListAdapter(mListAdapter);
         getListView().setRecyclerListener(mListAdapter);
+    }
+
+    private void initSmsPromoBanner() {
+        Button declineButton = (Button) mSmsPromoBannerView.findViewById(
+                R.id.dismiss_banner_sms_promo);
+        declineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MmsConfig.setSmsPromoDismissed(ConversationList.this);
+                mSmsPromoBannerView.setVisibility(View.GONE);
+            }
+        });
+
+        Button acceptButton = (Button) mSmsPromoBannerView.findViewById(
+                R.id.accept_banner_sms_promo);
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Request being the default SMS app using a system settings intent
+                final Intent intent = MmsConfig.getRequestDefaultSmsAppActivity();
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -428,7 +482,11 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.action_delete_all);
         if (item != null) {
-            item.setVisible(mListAdapter.getCount() > 0);
+            item.setVisible((mListAdapter.getCount() > 0) && mIsSmsEnabled);
+        }
+        item = menu.findItem(R.id.action_compose_new);
+        if (item != null ){
+            item.setVisible(mIsSmsEnabled);
         }
         if (!LogTag.DEBUG_DUMP) {
             item = menu.findItem(R.id.action_debug_dump);
@@ -552,7 +610,9 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                     menu.add(0, MENU_ADD_TO_CONTACTS, 0, R.string.menu_add_to_contacts);
                 }
             }
-            menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
+            if (mIsSmsEnabled) {
+                menu.add(0, MENU_DELETE, 0, R.string.menu_delete);
+            }
         }
     };
 
