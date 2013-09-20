@@ -17,4 +17,8 @@ All Rights Reserved. -->
     <dimen name="widget_margin_left">0dip</dimen>
     <dimen name="widget_margin_right">0dip</dimen>
     <dimen name="widget_margin_bottom">0dip</dimen>
+
+    <!-- Bammer item spacing -->
+    <dimen name="banner_s_space">4dip</dimen>
+    <dimen name="banner_m_space">8dip</dimen>
 </resources>

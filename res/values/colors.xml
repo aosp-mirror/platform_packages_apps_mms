@@ -39,4 +39,13 @@
     <color name="widget_subject_text_color_read">#777777</color>
     <color name="widget_subject_text_color_unread">#555555</color>
 
+    <color name="translucent_white">#ccffffff</color>
+
+    <color name="banner_item_transparent">#00000000</color>
+    <color name="banner_item_activated">#670099cc</color>
+    <color name="banner_item_selected">#cc0099cc</color>
+    <color name="banner_item_pressed">#6733b5e5</color>
+
+    <color name="text_shadow_color_light">#33000000</color>
+    <color name="solid_white">#ffffffff</color>
 </resources>

@@ -39,6 +39,7 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import android.provider.SearchRecentSuggestions;
+import android.provider.Telephony;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -73,6 +74,10 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     // Menu entries
     private static final int MENU_RESTORE_DEFAULTS    = 1;
 
+    // Preferences for enabling and disabling SMS
+    private Preference mSmsDisabledPref;
+    private Preference mSmsEnabledPref;
+
     private Preference mSmsLimitPref;
     private Preference mSmsDeliveryReportPref;
     private Preference mMmsLimitPref;
@@ -89,6 +94,10 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     private Recycler mMmsRecycler;
     private static final int CONFIRM_CLEAR_SEARCH_HISTORY_DIALOG = 3;
 
+    // Whether or not we are currently enabled for SMS. This field is updated in onResume to make
+    // sure we notice if the user has changed the default SMS app.
+    private boolean mIsSmsEnabled;
+
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -102,15 +111,46 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     @Override
     protected void onResume() {
         super.onResume();
+        boolean isSmsEnabled = MmsConfig.isSmsEnabled(this);
+        if (isSmsEnabled != mIsSmsEnabled) {
+            mIsSmsEnabled = isSmsEnabled;
+            invalidateOptionsMenu();
+        }
 
         // Since the enabled notifications pref can be changed outside of this activity,
         // we have to reload it whenever we resume.
         setEnabledNotificationsPref();
         registerListeners();
+        updateSmsEnabledState();
+    }
+
+    private void updateSmsEnabledState() {
+        // Show the right pref (SMS Disabled or SMS Enabled)
+        PreferenceScreen prefRoot = (PreferenceScreen)findPreference("pref_key_root");
+        if (!mIsSmsEnabled) {
+            prefRoot.addPreference(mSmsDisabledPref);
+            prefRoot.removePreference(mSmsEnabledPref);
+        } else {
+            prefRoot.removePreference(mSmsDisabledPref);
+            prefRoot.addPreference(mSmsEnabledPref);
+        }
+
+        // Enable or Disable the settings as appropriate
+        findPreference("pref_key_auto_delete").setEnabled(mIsSmsEnabled);
+        findPreference("pref_key_sms_settings").setEnabled(mIsSmsEnabled);
+        findPreference("pref_key_mms_group_mms").setEnabled(mIsSmsEnabled);
+        findPreference("pref_key_mms_delivery_reports").setEnabled(mIsSmsEnabled);
+        findPreference("pref_key_mms_read_reports").setEnabled(mIsSmsEnabled);
+        findPreference("pref_key_mms_auto_retrieval").setEnabled(mIsSmsEnabled);
+        findPreference("pref_key_mms_settings").setEnabled(mIsSmsEnabled);
+        findPreference("pref_key_enable_notifications").setEnabled(mIsSmsEnabled);
     }
 
     private void loadPrefs() {
         addPreferencesFromResource(R.xml.preferences);
+
+        mSmsDisabledPref = findPreference("pref_key_sms_disabled");
+        mSmsEnabledPref = findPreference("pref_key_sms_enabled");
 
         mManageSimPref = findPreference("pref_key_manage_sim_messages");
         mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
@@ -132,6 +172,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         PreferenceManager.getDefaultSharedPreferences(this).edit().clear().apply();
         setPreferenceScreen(null);
         loadPrefs();
+        updateSmsEnabledState();
 
         // NOTE: After restoring preferences, the auto delete function (i.e. message recycler)
         // will be turned off by default. However, we really want the default to be turned on.
@@ -239,7 +280,9 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         menu.clear();
-        menu.add(0, MENU_RESTORE_DEFAULTS, 0, R.string.restore_default);
+        if (mIsSmsEnabled) {
+            menu.add(0, MENU_RESTORE_DEFAULTS, 0, R.string.restore_default);
+        }
         return true;
     }
 

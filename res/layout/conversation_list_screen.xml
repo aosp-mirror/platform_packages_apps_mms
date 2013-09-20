@@ -26,6 +26,7 @@
         style="?android:attr/listViewWhiteStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/banner_sms_promo"
         android:drawSelectorOnTop="false"
         android:scrollbarStyle="insideOverlay"
         android:background="@android:color/white"
@@ -38,4 +39,6 @@
         android:gravity="center"
         android:text="@string/loading_conversations"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+     <include layout="@layout/banner_sms_promo" />
 </RelativeLayout>
