@@ -156,6 +156,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Мултимедијалне (MMS) поруке"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Текстуалне (SMS) поруке"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Складишни простор"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS је онемогућен"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Додирните да бисте учинили Размену порука подразумеваном апликацијом за SMS"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS је омогућен"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Додирните да бисте променили подразумевану апликацију за SMS"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Управљање порукама ускладиштеним на SIM картици"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Захтевај извештај о испоруци за сваку послату поруку"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Захтевај извештај за читање за сваку послату поруку"</string>
@@ -347,4 +351,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Нећете добијати нове SMS/MMS поруке"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Активирање MMS порука"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Шаље све MMS поруке из директоријума за слање на мрежу"</string>
+    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Желите ли да користите Размену порука као подразумевану апликацију за SMS?"</string>
+    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Не, хвала"</string>
+    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Да!"</string>
 </resources>

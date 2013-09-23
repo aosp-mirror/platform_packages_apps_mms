@@ -156,6 +156,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"मल्‍टीमीडिया (MMS) संदेश"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"पाठ (SMS) संदेश"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"संग्रहण"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS अक्षम"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"संदेश सेवा को अपना डिफ़ॉल्ट SMS एप्लिकेशन बनाने के लिए स्पर्श करें"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS सक्षम"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"अपना डिफ़ॉल्ट SMS एप्लिकेशन बदलने के लिए स्पर्श करें"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"अपने सिम कार्ड पर संग्रहीत संदेश प्रबंधित करें"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"आपके द्वारा भेजे गए प्रत्येक संदेश की वितरण रिपोर्ट का अनुरोध करें"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"आपके द्वारा भेजे जाने वाले प्रत्येक संदेश के लिए पठन रिपोर्ट का अनुरोध करें"</string>
@@ -347,4 +351,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"आपको नए SMS/MMS संदेश प्राप्त नहीं होंगे"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS सक्रिय"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"आउट बॉक्स से सभी MMS को नेटवर्क पर भेजता है"</string>
+    <string name="banner_sms_promo_message" msgid="8192023089601130407">"क्या आप संदेश सेवा का उपयोग अपने डिफ़ॉल्ट SMS एप्लिकेशन के रूप में करना चाहते हैं?"</string>
+    <string name="banner_sms_promo_decline" msgid="113810998029698558">"नहीं, धन्यवाद"</string>
+    <string name="banner_sms_promo_accept" msgid="713438608462912462">"हां!"</string>
 </resources>
