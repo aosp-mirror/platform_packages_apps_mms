@@ -124,7 +124,12 @@ public class MmsConfig {
     }
 
     public static boolean isSmsEnabled(Context context) {
-        return Telephony.Sms.Intents.isDefaultSmsPackage(context, MMS_APP_PACKAGE);
+        String defaultSmsApplication = Telephony.Sms.getDefaultSmsPackage(context);
+
+        if (defaultSmsApplication != null && defaultSmsApplication.equals(MMS_APP_PACKAGE)) {
+            return true;
+        }
+        return false;
     }
 
     public static boolean isSmsPromoDismissed(Context context) {
