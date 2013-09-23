@@ -156,6 +156,14 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Multimediální zprávy (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Textové zprávy (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Ukládání"</string>
+    <!-- no translation found for pref_title_sms_disabled (1441894740130104326) -->
+    <skip />
+    <!-- no translation found for pref_summary_sms_disabled (8975773722051230744) -->
+    <skip />
+    <!-- no translation found for pref_title_sms_enabled (1857849790200375277) -->
+    <skip />
+    <!-- no translation found for pref_summary_sms_enabled (2106125420361911250) -->
+    <skip />
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Umožňuje spravovat zprávy uložené na SIM kartě"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"U každé odeslané zprávy požadovat potvrzení o doručení"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"U každé odeslané zprávy požadovat potvrzení o přečtení"</string>
@@ -347,4 +355,10 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Neobdržíte žádné nové zprávy SMS/MMS"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS Wakeup"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Odešle všechny zprávy MMS z pošty k odeslání do sítě."</string>
+    <!-- no translation found for banner_sms_promo_message (8192023089601130407) -->
+    <skip />
+    <!-- no translation found for banner_sms_promo_decline (113810998029698558) -->
+    <skip />
+    <!-- no translation found for banner_sms_promo_accept (713438608462912462) -->
+    <skip />
 </resources>

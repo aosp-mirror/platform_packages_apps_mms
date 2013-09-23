@@ -156,6 +156,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Mms-beskeder"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Sms-beskeder"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Lagerplads"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"Sms-funktione er deaktiveret"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Tryk for at gøre Beskeder til din standardapp til sms\'er"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"Sms-funktionen er aktiveret"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Tryk for at ændre din standardapp til sms\'er"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Administrer beskeder, der er gemt på dit SIM-kort"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Anmod om en leveringsrapport for alle de beskeder, du sender"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Anmod om en læsningsrapport for alle de beskeder, du sender"</string>
@@ -347,4 +351,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Du vil ikke modtage nye sms/mms-beskeder"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Send mms-beskeder"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Sender alle mms\'er fra udbakken til netværket"</string>
+    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Vil du bruge Beskeder som din standardapp til sms\'er?"</string>
+    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Nej tak"</string>
+    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Ja!"</string>
 </resources>

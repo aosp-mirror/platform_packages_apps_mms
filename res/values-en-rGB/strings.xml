@@ -156,6 +156,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Multimedia (MMS) messages"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Text (SMS) messages"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Storage"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS Disabled"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Touch to make Messaging your default SMS app"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS Enabled"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Touch to change your default SMS app"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Manage messages stored on your SIM card"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Request a delivery report for each message that you send"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Request a read report for each message that you send"</string>
@@ -347,4 +351,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"You won\'t receive new SMS/MMS messages"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS Wakeup"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Sends out all MMSs from the outbox to the network"</string>
+    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Would you like to use Messaging as your default SMS app?"</string>
+    <string name="banner_sms_promo_decline" msgid="113810998029698558">"No, thanks"</string>
+    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Yes!"</string>
 </resources>

@@ -156,6 +156,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"ข้อความมัลติมีเดีย (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"ข้อความตัวอักษร (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"พื้นที่จัดเก็บ"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"ปิดใช้งาน SMS อยู่"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"แตะเพื่อทำให้การรับส่งข้อความเป็นแอป SMS เริ่มต้น"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"เปิดใช้งาน SMS อยู่"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"แตะเพื่อเปลี่ยนแอป SMS เริ่มต้น"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"จัดการข้อความที่จัดเก็บบนซิมการ์ด"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"ขอรายงานการส่งสำหรับแต่ละข้อความที่ส่ง"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"ขอรายงานการอ่านสำหรับแต่ละข้อความที่ส่ง"</string>
@@ -347,4 +351,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"คุณจะไม่ได้รับข้อความ SMS/MMS ใหม่"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"การพุช MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"ส่ง MMS ทั้งหมดจากกล่องจดหมายออกไปยังเครือข่าย"</string>
+    <string name="banner_sms_promo_message" msgid="8192023089601130407">"คุณต้องการใช้การรับส่งข้อความเป็นแอป SMS เริ่มต้นไหม"</string>
+    <string name="banner_sms_promo_decline" msgid="113810998029698558">"ไม่ ขอบคุณ"</string>
+    <string name="banner_sms_promo_accept" msgid="713438608462912462">"แน่นอน!"</string>
 </resources>
