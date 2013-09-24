@@ -97,7 +97,8 @@
                         android:title="@string/pref_title_mms_retrieval_during_roaming"
                         android:summary="@string/pref_summary_mms_retrieval_during_roaming" />
   </PreferenceCategory>
-  <PreferenceCategory android:title="@string/pref_notification_settings_title">
+  <PreferenceCategory android:title="@string/pref_notification_settings_title"
+                      android:key="pref_key_notification_settings">
     <CheckBoxPreference android:key="pref_key_enable_notifications"
                         android:title="@string/pref_title_notification_enabled"
                         android:defaultValue="true" />
