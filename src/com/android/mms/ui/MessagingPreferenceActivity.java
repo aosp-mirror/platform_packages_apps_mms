@@ -18,7 +18,6 @@
 package com.android.mms.ui;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -30,7 +29,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
@@ -39,7 +37,6 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import android.provider.SearchRecentSuggestions;
-import android.provider.Telephony;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -77,6 +74,11 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     // Preferences for enabling and disabling SMS
     private Preference mSmsDisabledPref;
     private Preference mSmsEnabledPref;
+
+    private PreferenceCategory mStoragePrefCategory;
+    private PreferenceCategory mSmsPrefCategory;
+    private PreferenceCategory mMmsPrefCategory;
+    private PreferenceCategory mNotificationPrefCategory;
 
     private Preference mSmsLimitPref;
     private Preference mSmsDeliveryReportPref;
@@ -136,14 +138,10 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         }
 
         // Enable or Disable the settings as appropriate
-        findPreference("pref_key_auto_delete").setEnabled(mIsSmsEnabled);
-        findPreference("pref_key_sms_settings").setEnabled(mIsSmsEnabled);
-        findPreference("pref_key_mms_group_mms").setEnabled(mIsSmsEnabled);
-        findPreference("pref_key_mms_delivery_reports").setEnabled(mIsSmsEnabled);
-        findPreference("pref_key_mms_read_reports").setEnabled(mIsSmsEnabled);
-        findPreference("pref_key_mms_auto_retrieval").setEnabled(mIsSmsEnabled);
-        findPreference("pref_key_mms_settings").setEnabled(mIsSmsEnabled);
-        findPreference("pref_key_enable_notifications").setEnabled(mIsSmsEnabled);
+        mStoragePrefCategory.setEnabled(mIsSmsEnabled);
+        mSmsPrefCategory.setEnabled(mIsSmsEnabled);
+        mMmsPrefCategory.setEnabled(mIsSmsEnabled);
+        mNotificationPrefCategory.setEnabled(mIsSmsEnabled);
     }
 
     private void loadPrefs() {
@@ -151,6 +149,12 @@ public class MessagingPreferenceActivity extends PreferenceActivity
 
         mSmsDisabledPref = findPreference("pref_key_sms_disabled");
         mSmsEnabledPref = findPreference("pref_key_sms_enabled");
+
+        mStoragePrefCategory = (PreferenceCategory)findPreference("pref_key_storage_settings");
+        mSmsPrefCategory = (PreferenceCategory)findPreference("pref_key_sms_settings");
+        mMmsPrefCategory = (PreferenceCategory)findPreference("pref_key_mms_settings");
+        mNotificationPrefCategory =
+                (PreferenceCategory)findPreference("pref_key_notification_settings");
 
         mManageSimPref = findPreference("pref_key_manage_sim_messages");
         mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
@@ -186,42 +190,32 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     private void setMessagePreferences() {
         if (!MmsApp.getApplication().getTelephonyManager().hasIccCard()) {
             // No SIM card, remove the SIM-related prefs
-            PreferenceCategory smsCategory =
-                (PreferenceCategory)findPreference("pref_key_sms_settings");
-            smsCategory.removePreference(mManageSimPref);
+            mSmsPrefCategory.removePreference(mManageSimPref);
         }
 
         if (!MmsConfig.getSMSDeliveryReportsEnabled()) {
-            PreferenceCategory smsCategory =
-                (PreferenceCategory)findPreference("pref_key_sms_settings");
-            smsCategory.removePreference(mSmsDeliveryReportPref);
+            mSmsPrefCategory.removePreference(mSmsDeliveryReportPref);
             if (!MmsApp.getApplication().getTelephonyManager().hasIccCard()) {
-                getPreferenceScreen().removePreference(smsCategory);
+                getPreferenceScreen().removePreference(mSmsPrefCategory);
             }
         }
 
         if (!MmsConfig.getMmsEnabled()) {
             // No Mms, remove all the mms-related preferences
-            PreferenceCategory mmsOptions =
-                (PreferenceCategory)findPreference("pref_key_mms_settings");
-            getPreferenceScreen().removePreference(mmsOptions);
+            getPreferenceScreen().removePreference(mMmsPrefCategory);
 
-            PreferenceCategory storageOptions =
-                (PreferenceCategory)findPreference("pref_key_storage_settings");
-            storageOptions.removePreference(findPreference("pref_key_mms_delete_limit"));
+            mStoragePrefCategory.removePreference(findPreference("pref_key_mms_delete_limit"));
         } else {
-            PreferenceCategory mmsOptions =
-                    (PreferenceCategory)findPreference("pref_key_mms_settings");
             if (!MmsConfig.getMMSDeliveryReportsEnabled()) {
-                mmsOptions.removePreference(mMmsDeliveryReportPref);
+                mMmsPrefCategory.removePreference(mMmsDeliveryReportPref);
             }
             if (!MmsConfig.getMMSReadReportsEnabled()) {
-                mmsOptions.removePreference(mMmsReadReportPref);
+                mMmsPrefCategory.removePreference(mMmsReadReportPref);
             }
             // If the phone's SIM doesn't know it's own number, disable group mms.
             if (!MmsConfig.getGroupMmsEnabled() ||
                     TextUtils.isEmpty(MessageUtils.getLocalNumber())) {
-                mmsOptions.removePreference(mMmsGroupMmsPref);
+                mMmsPrefCategory.removePreference(mMmsGroupMmsPref);
             }
         }
 
