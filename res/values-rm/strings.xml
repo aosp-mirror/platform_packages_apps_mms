@@ -184,6 +184,14 @@
     <skip />
     <!-- no translation found for pref_sms_storage_title (9001233319190616445) -->
     <skip />
+    <!-- no translation found for pref_title_sms_disabled (1441894740130104326) -->
+    <skip />
+    <!-- no translation found for pref_summary_sms_disabled (8975773722051230744) -->
+    <skip />
+    <!-- no translation found for pref_title_sms_enabled (1857849790200375277) -->
+    <skip />
+    <!-- no translation found for pref_summary_sms_enabled (2106125420361911250) -->
+    <skip />
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Administrar ils messadis memorisads sin Vossa carta SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Dumandar ina conferma da retschavida per mintga messadi tramess"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Dumandar ina conferma da lectura per mintga messadi tramess"</string>
@@ -427,5 +435,11 @@
     <!-- no translation found for label_mms_send_outbox_msg (3395185162973061099) -->
     <skip />
     <!-- no translation found for desc_mms_send_outbox_msg (1837156781311437148) -->
+    <skip />
+    <!-- no translation found for banner_sms_promo_message (8192023089601130407) -->
+    <skip />
+    <!-- no translation found for banner_sms_promo_decline (113810998029698558) -->
+    <skip />
+    <!-- no translation found for banner_sms_promo_accept (713438608462912462) -->
     <skip />
 </resources>

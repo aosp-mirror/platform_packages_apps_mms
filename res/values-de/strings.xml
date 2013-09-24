@@ -156,6 +156,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"MMS"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"SMS"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Speicher"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS deaktiviert"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Tippen, um SMS/MMS als Standard-SMS-App festzulegen"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS aktiviert"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Tippen, um die Standard-SMS-App zu ändern"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Auf der SIM-Karte gespeicherte Nachrichten verwalten"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Zustellbestätigung für jede gesendete Nachricht anfordern"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Lesebestätigung für jede gesendete Nachricht anfordern"</string>
@@ -347,4 +351,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Sie erhalten keine neuen SMS/MMS."</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS-Aktivierung"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Alle MMS aus dem Postausgang an das Netzwerk senden"</string>
+    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Möchten Sie SMS/MMS als Standard-SMS-App verwenden?"</string>
+    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Nein danke"</string>
+    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Ja!"</string>
 </resources>

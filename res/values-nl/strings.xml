@@ -156,6 +156,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Multimediaberichten (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Tekstberichten (sms)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Opslag"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"Sms uitgeschakeld"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Raak aan om Berichten in te stellen als standaard-app voor sms\'en"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"Sms ingeschakeld"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Raak aan om uw standaard-app voor sms\'en te wijzigen"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Berichten op uw SIM-kaart beheren"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Ontvangstbevestiging voor elk verzonden bericht aanvragen"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Leesbevestiging voor elk verzonden bericht aanvragen"</string>
@@ -347,4 +351,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"U ontvangt geen nieuwe sms\'jes/mms\'jes"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS-activering"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Alle MMS-berichten uit de outbox verzenden naar het netwerk"</string>
+    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Wilt u Berichten gebruiken als standaard-app voor sms\'en?"</string>
+    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Nee, bedankt"</string>
+    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Ja"</string>
 </resources>

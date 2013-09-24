@@ -156,6 +156,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Sporočila MMS"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Sporočila SMS"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Pomnilnik"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS-i so onemogočeni"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Dotaknite se, če želite nastaviti, da je »Sporočila« privzeta aplikacija za SMS-e"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS-i so omogočeni"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Dotaknite se, če želite zamenjati privzeto aplikacijo za SMS-e"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Urejanje sporočil, ki so shranjena na kartici SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Zahtevaj poročilo o dostavi za vsako poslano sporočilo"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Zahtevaj poročilo o branju za vsako poslano sporočilo"</string>
@@ -347,4 +351,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Novih sporočil SMS/MMS ne boste prejemali"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Pošiljanje MMS-ov"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Pošlje vse MMS-e v mapi za pošiljanje v omrežje"</string>
+    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Ali želite uporabljati »Sporočila« kot privzeto aplikacijo za SMS-e?"</string>
+    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Ne, hvala"</string>
+    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Da"</string>
 </resources>

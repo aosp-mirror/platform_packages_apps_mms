@@ -156,6 +156,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"សារ​ពហុ​មេឌៀ (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"សារ​អត្ថបទ (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"ឧបករណ៍​ផ្ទុក"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"បាន​បិទ​សារ SMS"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"ប៉ះ ដើម្បី​ធ្វើ​ឲ្យ​ការ​ផ្ញើ​សារ​ជា​កម្មវិធី​សារ SMS លំនាំដើម​របស់​អ្នក"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"បាន​បើក​សារ​ SMS"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"ប៉ះ ដើម្បី​ប្ដូរ​កម្មវិធី​សារ SMS លំនាំដើម​របស់​អ្នក"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"គ្រប់គ្រង​សារ​ដែល​ត្រូវ​បាន​រក្សា​ទុក​នៅ​លើ​ស៊ី​ម​កាត​របស់​អ្នក"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"ស្នើ​​របាយ​ការណ៍​​បញ្ជូន​សម្រាប់​សារ​នីមួយៗ​ដែល​អ្នក​ផ្ញើ"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"ស្នើ​​របាយ​ការណ៍​អាន​​សម្រាប់​សារ​នីមួយៗ​ដែល​អ្នក​ផ្ញើ"</string>
@@ -347,4 +351,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"អ្នក​នឹង​មិន​ទទួល​សារ SMS/MMS ថ្មីទេ"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS Wakeup"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"ផ្ញើ MMSs ចេញ​ទាំងអស់​ពី​ប្រអប់​ចេញ​ទៅ​​បណ្ដាញ"</string>
+    <string name="banner_sms_promo_message" msgid="8192023089601130407">"តើ​អ្នក​ចង់​ប្រើ​ការ​ផ្ញើ​សារ​ជា​កម្មវិធី​សារ SMS លំនាំដើម​របស់​អ្នក?"</string>
+    <string name="banner_sms_promo_decline" msgid="113810998029698558">"ទេ អរគុណ"</string>
+    <string name="banner_sms_promo_accept" msgid="713438608462912462">"បាទ/ចាស!"</string>
 </resources>
