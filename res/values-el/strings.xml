@@ -156,6 +156,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Μηνύματα πολυμέσων (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Μηνύματα κειμένου (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Χώρος αποθήκευσης"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"Η λειτουργία SMS απενεργοποιήθηκε"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Αγγίξτε για να κάνετε την \"Ανταλλαγή μηνυμάτων\" την προεπιλεγμένη εφαρμογή SMS"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"Η λειτουργία SMS ενεργοποιήθηκε"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Αγγίξτε για να αλλάξετε την προεπιλεγμένη εφαρμογή SMS"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Διαχείριση μηνυμάτων που είναι αποθηκευμένα στην κάρτα SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Αίτηση αναφοράς παράδοσης για κάθε μήνυμα που στέλνετε"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Αίτηση αναφοράς ανάγνωσης για κάθε μήνυμα που στέλνετε"</string>
@@ -347,4 +351,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Δεν θα λαμβάνετε νέα μηνύματα SMS/MMS"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Αφύπνιση MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Αποστέλλει όλα τα MMS από τα εξερχόμενα στο δίκτυο"</string>
+    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Θα θέλατε να χρησιμοποιήσετε την \"Ανταλλαγή μηνυμάτων\" ως την προεπιλεγμένη εφαρμογή SMS;"</string>
+    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Όχι, ευχαριστώ"</string>
+    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Ναι!"</string>
 </resources>

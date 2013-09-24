@@ -156,6 +156,14 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Missatges multimèdia (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Missatges de text (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Emmagatzematge"</string>
+    <!-- no translation found for pref_title_sms_disabled (1441894740130104326) -->
+    <skip />
+    <!-- no translation found for pref_summary_sms_disabled (8975773722051230744) -->
+    <skip />
+    <!-- no translation found for pref_title_sms_enabled (1857849790200375277) -->
+    <skip />
+    <!-- no translation found for pref_summary_sms_enabled (2106125420361911250) -->
+    <skip />
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Gestiona els missatges emmagatzemats a la targeta SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Sol·licita un informe de lliurament per a cada missatge que envieu"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Sol·licita un informe de lectura per a cada missatge que envieu"</string>
@@ -347,4 +355,10 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"No rebràs cap missatge SMS o MMS nou."</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Activació de MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Envia tots els MMS de la bústia de sortida a la xarxa"</string>
+    <!-- no translation found for banner_sms_promo_message (8192023089601130407) -->
+    <skip />
+    <!-- no translation found for banner_sms_promo_decline (113810998029698558) -->
+    <skip />
+    <!-- no translation found for banner_sms_promo_accept (713438608462912462) -->
+    <skip />
 </resources>

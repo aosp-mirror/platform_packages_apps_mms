@@ -26,7 +26,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"发送电子邮件至<xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"撰写"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"设置"</string>
-    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"将 <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> 添加到联系人"</string>
+    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"将 <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> 添加到通讯录"</string>
     <string name="menu_call" msgid="5877123227307074690">"呼叫"</string>
     <string name="menu_search" msgid="2289469305728821360">"搜索"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"删除所有会话"</string>
@@ -94,7 +94,7 @@
     <string name="failed_to_add_media" msgid="7207464170168708485">"您无法将此<xliff:g id="NAME">%1$s</xliff:g>添加到短信中。"</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"未调整图片大小。"</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"重新调整大小后，此照片仍然过大，因此无法发送。"</string>
-    <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
+    <string name="forward_prefix" msgid="276280492803486464">"转发： "</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"您的信息没有有效的接收者，将被舍弃。"</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"无效接收者：&lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"目标地址无效。"</string>
@@ -142,7 +142,7 @@
     <item msgid="7786079681602275449">"其他"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"查看联系人"</string>
-    <string name="menu_add_to_contacts" msgid="1258127580972228970">"添加到联系人"</string>
+    <string name="menu_add_to_contacts" msgid="1258127580972228970">"添加到通讯录"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"隐藏的发送者地址"</string>
     <string name="yes" msgid="3246158147503160811">"确定"</string>
     <string name="no" msgid="4289742508556913860">"取消"</string>
@@ -156,6 +156,14 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"彩信 (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"短信 (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"存储"</string>
+    <!-- no translation found for pref_title_sms_disabled (1441894740130104326) -->
+    <skip />
+    <!-- no translation found for pref_summary_sms_disabled (8975773722051230744) -->
+    <skip />
+    <!-- no translation found for pref_title_sms_enabled (1857849790200375277) -->
+    <skip />
+    <!-- no translation found for pref_summary_sms_enabled (2106125420361911250) -->
+    <skip />
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"管理 SIM 卡中存储的信息"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"要求每次发送信息后都返回发送报告"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"要求每次发送信息后都返回已读回执"</string>
@@ -347,4 +355,10 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"您将无法收到新的短信/彩信"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"彩信激活"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"将发件箱内的所有彩信发送至网络"</string>
+    <!-- no translation found for banner_sms_promo_message (8192023089601130407) -->
+    <skip />
+    <!-- no translation found for banner_sms_promo_decline (113810998029698558) -->
+    <skip />
+    <!-- no translation found for banner_sms_promo_accept (713438608462912462) -->
+    <skip />
 </resources>

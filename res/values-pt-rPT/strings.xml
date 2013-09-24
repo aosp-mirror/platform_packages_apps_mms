@@ -156,6 +156,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Mensagens de multimédia (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Mensagens de texto (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Armazenamento"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS desativados"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Toque para tornar as Mensagens a aplicação de SMS predefinida"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS ativados"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Toque para alterar a aplicação de SMS predefinida"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Gerir as mensagens armazenadas no cartão SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Pedir um relatório de entrega para cada mensagem enviada"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Pedir um relatório de leitura para cada mensagem enviada"</string>
@@ -349,4 +353,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Não vai receber mensagens SMS/MMS novas"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Ativação de MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Envia todas as MMSs da caixa de saída para a rede"</string>
+    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Pretende utilizar as Mensagens como a aplicação de SMS predefinida?"</string>
+    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Não, obrigado"</string>
+    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Sim!"</string>
 </resources>
