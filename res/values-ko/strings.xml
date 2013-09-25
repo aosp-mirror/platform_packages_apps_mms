@@ -156,14 +156,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"멀티미디어(MMS) 메시지"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"문자(SMS) 메시지"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"저장용량"</string>
-    <!-- no translation found for pref_title_sms_disabled (1441894740130104326) -->
-    <skip />
-    <!-- no translation found for pref_summary_sms_disabled (8975773722051230744) -->
-    <skip />
-    <!-- no translation found for pref_title_sms_enabled (1857849790200375277) -->
-    <skip />
-    <!-- no translation found for pref_summary_sms_enabled (2106125420361911250) -->
-    <skip />
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS 사용 중지됨"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"메시지를 기본 SMS 앱으로 설정하려면 터치합니다."</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS 사용"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"기본 SMS 앱을 변경하려면 터치합니다."</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"SIM 카드에 저장된 메시지 관리"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"메시지 전송 시 발신 알림 받기"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"보내는 메시지마다 읽음 여부 보고"</string>
@@ -355,10 +351,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"새 SMS/MMS 메시지를 받지 않게 됩니다."</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS Wakeup"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"보낼편지함에서 네트워크로 모든 MMS 전송"</string>
-    <!-- no translation found for banner_sms_promo_message (8192023089601130407) -->
-    <skip />
-    <!-- no translation found for banner_sms_promo_decline (113810998029698558) -->
-    <skip />
-    <!-- no translation found for banner_sms_promo_accept (713438608462912462) -->
-    <skip />
+    <string name="banner_sms_promo_message" msgid="8192023089601130407">"메시지를 기본 SMS 앱으로 사용하시겠습니까?"</string>
+    <string name="banner_sms_promo_decline" msgid="113810998029698558">"아니요"</string>
+    <string name="banner_sms_promo_accept" msgid="713438608462912462">"예"</string>
 </resources>

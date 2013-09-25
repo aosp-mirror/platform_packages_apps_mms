@@ -156,14 +156,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"彩信 (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"短信 (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"存储"</string>
-    <!-- no translation found for pref_title_sms_disabled (1441894740130104326) -->
-    <skip />
-    <!-- no translation found for pref_summary_sms_disabled (8975773722051230744) -->
-    <skip />
-    <!-- no translation found for pref_title_sms_enabled (1857849790200375277) -->
-    <skip />
-    <!-- no translation found for pref_summary_sms_enabled (2106125420361911250) -->
-    <skip />
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"短信功能已关闭"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"触摸即可将“短信”设为您的默认短信应用"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"短信功能已开启"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"触摸即可更改您的默认短信应用"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"管理 SIM 卡中存储的信息"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"要求每次发送信息后都返回发送报告"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"要求每次发送信息后都返回已读回执"</string>
@@ -355,10 +351,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"您将无法收到新的短信/彩信"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"彩信激活"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"将发件箱内的所有彩信发送至网络"</string>
-    <!-- no translation found for banner_sms_promo_message (8192023089601130407) -->
-    <skip />
-    <!-- no translation found for banner_sms_promo_decline (113810998029698558) -->
-    <skip />
-    <!-- no translation found for banner_sms_promo_accept (713438608462912462) -->
-    <skip />
+    <string name="banner_sms_promo_message" msgid="8192023089601130407">"您要使用“短信”作为您的默认短信应用吗？"</string>
+    <string name="banner_sms_promo_decline" msgid="113810998029698558">"不用了"</string>
+    <string name="banner_sms_promo_accept" msgid="713438608462912462">"好！"</string>
 </resources>
