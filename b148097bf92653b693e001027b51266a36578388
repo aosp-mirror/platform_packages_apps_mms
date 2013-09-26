@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04a82f8f_bb4c3277",
+        "filename": "src/com/android/mms/transaction/PushReceiver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001401
+      },
+      "writtenOn": "2013-09-26T15:50:27Z",
+      "side": 1,
+      "message": "According to the comment not setting it to true unless allowAutoDownload() is true was done to fix \"UI jank\".",
+      "revId": "b148097bf92653b693e001027b51266a36578388",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
