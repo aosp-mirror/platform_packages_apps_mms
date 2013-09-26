@@ -95,7 +95,7 @@
     <string name="failed_to_resize_image" msgid="5608354151631833669">"Bildgröße nicht angepasst."</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"Dieses Bild ist selbst nach der Größenanpassung noch zu groß zum Senden."</string>
     <string name="forward_prefix" msgid="276280492803486464">"WG: "</string>
-    <string name="discard_message_reason" msgid="2667664943003796133">"Die Nachricht wird verworfen, weil keine gültigen Empfänger vorhanden sind."</string>
+    <string name="discard_message_reason" msgid="2667664943003796133">"Die Nachricht wird gelöscht, weil keine gültigen Empfänger vorhanden sind."</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"Ungültige(r) Empfänger: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"Ungültige Zieladresse"</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Dieser Dienst ist nicht im Netzwerk aktiviert."</string>
@@ -353,5 +353,5 @@
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Alle MMS aus dem Postausgang an das Netzwerk senden"</string>
     <string name="banner_sms_promo_message" msgid="8192023089601130407">"Möchten Sie SMS/MMS als Standard-SMS-App verwenden?"</string>
     <string name="banner_sms_promo_decline" msgid="113810998029698558">"Nein danke"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Ja!"</string>
+    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Ja"</string>
 </resources>
