@@ -246,7 +246,7 @@ public class WorkingMessage {
         return null;
     }
 
-    private void correctAttachmentState() {
+    private void correctAttachmentState(boolean showToast) {
         int slideCount = mSlideshow.size();
 
         // If we get an empty slideshow, tear down all MMS
@@ -266,7 +266,7 @@ public class WorkingMessage {
             }
         }
 
-        updateState(HAS_ATTACHMENT, hasAttachment(), false);
+        updateState(HAS_ATTACHMENT, hasAttachment(), showToast);
     }
 
     private boolean loadFromUri(Uri uri) {
@@ -282,7 +282,7 @@ public class WorkingMessage {
 
         // Make sure all our state is as expected.
         syncTextFromSlideshow();
-        correctAttachmentState();
+        correctAttachmentState(false);
 
         return true;
     }
@@ -458,7 +458,7 @@ public class WorkingMessage {
         if (result == OK) {
             mAttachmentType = type;
         }
-        correctAttachmentState();   // this can remove the slideshow if there are no attachments
+        correctAttachmentState(true);   // this can remove the slideshow if there are no attachments
 
         if (mSlideshow != null && type == IMAGE) {
             // Prime the image's cache; helps A LOT when the image is coming from the network
@@ -494,9 +494,6 @@ public class WorkingMessage {
                 int threshold = MmsConfig.getSmsToMmsTextThreshold();
                 setLengthRequiresMms(threshold > 0 && smsSegmentCount > threshold, false);
             }
-        } else {
-            // Set HAS_ATTACHMENT if we need it.
-            updateState(HAS_ATTACHMENT, hasAttachment(), true);
         }
         return result;
     }
