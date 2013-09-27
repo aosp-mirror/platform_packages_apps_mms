@@ -114,7 +114,7 @@
     <!-- Menu item in slideshow edit screen for moving the selected slide down in the order -->
     <string name="move_down">Move down</string>
     <!-- Menu item in slideshow edit screen for removing the selected slide from the slideshow -->
-    <string name="remove_slide">Remove slide</string>
+    <string name="remove_slide">Remove slide</string> 
     <!-- Menu item in slideshow edit screen for adding a new slide to the slideshow -->
     <string name="add_slide">Add slide</string>
     <!-- Text displayed below "Add slide" item in slideshow edit screen -->
@@ -622,7 +622,6 @@
     <!-- Toast message on failed copying ringtone to drm provider -->
     <string name="saved_ringtone_fail">Couldn\'t save ringtone.</string>
     <!-- Menu item -->
-    <string name="menu_insert_smiley">Insert smiley</string>
     <!-- Menu item  [CHAR LIMIT=40] -->
     <string name="menu_group_participants">Group participants</string>
 

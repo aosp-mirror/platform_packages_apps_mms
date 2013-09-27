@@ -68,7 +68,6 @@ import com.android.mms.transaction.TransactionBundle;
 import com.android.mms.transaction.TransactionService;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.ItemLoadedCallback;
-import com.android.mms.util.SmileyParser;
 import com.android.mms.util.ThumbnailManager.ImageLoaded;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.pdu.PduHeaders;
@@ -347,7 +346,7 @@ public class MessageListItem extends LinearLayout implements
             if (mMessageItem.mSlideshow == null) {
                 debugText = "NULL slideshow";
             } else {
-                SlideModel slide = ((SlideshowModel) mMessageItem.mSlideshow).get(0);
+                SlideModel slide = mMessageItem.mSlideshow.get(0);
                 if (slide == null) {
                     debugText = "NULL first slide";
                 } else if (!slide.hasImage()) {
@@ -533,14 +532,8 @@ public class MessageListItem extends LinearLayout implements
         SpannableStringBuilder buf = new SpannableStringBuilder();
 
         boolean hasSubject = !TextUtils.isEmpty(subject);
-        SmileyParser parser = SmileyParser.getInstance();
         if (hasSubject) {
-            CharSequence smilizedSubject = parser.addSmileySpans(subject);
-            // Can't use the normal getString() with extra arguments for string replacement
-            // because it doesn't preserve the SpannableText returned by addSmileySpans.
-            // We have to manually replace the %s with our text.
-            buf.append(TextUtils.replace(mContext.getResources().getString(R.string.inline_subject),
-                    new String[] { "%s" }, new CharSequence[] { smilizedSubject }));
+            buf.append(mContext.getResources().getString(R.string.inline_subject, subject));
         }
 
         if (!TextUtils.isEmpty(body)) {
@@ -552,7 +545,7 @@ public class MessageListItem extends LinearLayout implements
                 if (hasSubject) {
                     buf.append(" - ");
                 }
-                buf.append(parser.addSmileySpans(body));
+                buf.append(body);
             }
         }
 

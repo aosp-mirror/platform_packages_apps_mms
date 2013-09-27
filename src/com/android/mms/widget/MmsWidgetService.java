@@ -39,7 +39,6 @@ import com.android.mms.data.Conversation;
 import com.android.mms.ui.ConversationList;
 import com.android.mms.ui.ConversationListItem;
 import com.android.mms.ui.MessageUtils;
-import com.android.mms.util.SmileyParser;
 
 public class MmsWidgetService extends RemoteViewsService {
     private static final String TAG = "MmsWidgetService";
@@ -271,11 +270,8 @@ public class MmsWidgetService extends RemoteViewsService {
                 remoteViews.setTextViewText(R.id.from, from);
 
                 // Subject
-                // TODO: the SmileyParser inserts image spans but they don't seem to make it
-                // into the remote view.
-                SmileyParser parser = SmileyParser.getInstance();
                 remoteViews.setTextViewText(R.id.subject,
-                        addColor(parser.addSmileySpans(conv.getSnippet()),
+                        addColor(conv.getSnippet(),
                                 conv.hasUnreadMessages() ? SUBJECT_TEXT_COLOR_UNREAD :
                                     SUBJECT_TEXT_COLOR_READ));
 
