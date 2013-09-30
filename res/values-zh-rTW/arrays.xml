@@ -18,29 +18,6 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string-array name="default_smiley_names">
-    <item msgid="1831934949361041701">"開心"</item>
-    <item msgid="1601611480575517120">"傷心"</item>
-    <item msgid="1531181614218625881">"眨眼"</item>
-    <item msgid="3858808057949077894">"吐舌頭"</item>
-    <item msgid="7835238297967185651">"驚訝"</item>
-    <item msgid="1756223535005296033">"紅唇"</item>
-    <item msgid="1093906245140165107">"大喊"</item>
-    <item msgid="888834839864150170">"酷"</item>
-    <item msgid="6320683740534773967">"滿嘴錢"</item>
-    <item msgid="6610111212478853990">"說錯話"</item>
-    <item msgid="1706035208563940251">"害羞"</item>
-    <item msgid="9079275787422313427">"天使"</item>
-    <item msgid="4630490399784004880">"還沒決定"</item>
-    <item msgid="7002574538342357456">"嚎啕大哭"</item>
-    <item msgid="850324578089267455">"不要告訴別人"</item>
-    <item msgid="6334637439528489607">"開懷大笑"</item>
-    <item msgid="7602915122893958066">"疑惑"</item>
-    <item msgid="3939233701582771068">"愛心"</item>
-    <item msgid="1414759480575851587">"生氣"</item>
-    <item msgid="8479809115158836070">"傻笑"</item>
-    <item msgid="638612939305162424">"撲克臉"</item>
-  </string-array>
   <string-array name="empty_subject_strings">
     <item msgid="7691141505407124426">"無主旨"</item>
   </string-array>
