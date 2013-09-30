@@ -39,7 +39,6 @@ import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
-import com.android.mms.util.SmileyParser;
 
 /**
  * This class manages the view for given conversation.
@@ -209,8 +208,7 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
         Contact.addListener(this);
 
         // Subject
-        SmileyParser parser = SmileyParser.getInstance();
-        mSubjectView.setText(parser.addSmileySpans(conversation.getSnippet()));
+        mSubjectView.setText(conversation.getSnippet());
         LayoutParams subjectLayout = (LayoutParams)mSubjectView.getLayoutParams();
         // We have to make the subject left of whatever optional items are shown on the right.
         subjectLayout.addRule(RelativeLayout.LEFT_OF, hasAttachment ? R.id.attachment :
