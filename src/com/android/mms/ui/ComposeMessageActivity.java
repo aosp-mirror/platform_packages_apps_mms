@@ -1863,6 +1863,7 @@ public class ComposeMessageActivity extends Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mIsSmsEnabled = MmsConfig.isSmsEnabled(this);
         super.onCreate(savedInstanceState);
 
         resetConfiguration(getResources().getConfiguration());
@@ -1978,7 +1979,7 @@ public class ComposeMessageActivity extends Activity
             drawBottomPanel();
         }
 
-        onKeyboardStateChanged(mIsKeyboardOpen);
+        onKeyboardStateChanged();
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             log("update title, mConversation=" + mConversation.toString());
@@ -2369,7 +2370,7 @@ public class ComposeMessageActivity extends Activity
             Log.v(TAG, "CMA.onConfigurationChanged: " + newConfig +
                     ", mIsKeyboardOpen=" + mIsKeyboardOpen);
         }
-        onKeyboardStateChanged(mIsKeyboardOpen);
+        onKeyboardStateChanged();
     }
 
     // returns true if landscape/portrait configuration has changed
@@ -2383,10 +2384,20 @@ public class ComposeMessageActivity extends Activity
         return false;
     }
 
-    private void onKeyboardStateChanged(boolean isKeyboardOpen) {
+    private void onKeyboardStateChanged() {
         // If the keyboard is hidden, don't show focus highlights for
         // things that cannot receive input.
-        if (isKeyboardOpen) {
+        mTextEditor.setEnabled(mIsSmsEnabled);
+        if (!mIsSmsEnabled) {
+            if (mRecipientsEditor != null) {
+                mRecipientsEditor.setFocusableInTouchMode(false);
+            }
+            if (mSubjectTextEditor != null) {
+                mSubjectTextEditor.setFocusableInTouchMode(false);
+            }
+            mTextEditor.setFocusableInTouchMode(false);
+            mTextEditor.setHint(R.string.sending_disabled_not_default_app);
+        } else if (mIsKeyboardOpen) {
             if (mRecipientsEditor != null) {
                 mRecipientsEditor.setFocusableInTouchMode(true);
             }
@@ -3322,12 +3333,6 @@ public class ComposeMessageActivity extends Activity
      * draw the compose view at the bottom of the screen.
      */
     private void drawBottomPanel() {
-        // If we are not the default SMS app, the bottom panel is always gone.
-        if (!mIsSmsEnabled) {
-            mBottomPanel.setVisibility(View.GONE);
-            return;
-        }
-
         // Reset the counter for text editor.
         resetCounter();
 
@@ -3345,7 +3350,7 @@ public class ComposeMessageActivity extends Activity
         CharSequence text = mWorkingMessage.getText();
 
         // TextView.setTextKeepState() doesn't like null input.
-        if (text != null) {
+        if (text != null && mIsSmsEnabled) {
             mTextEditor.setTextKeepState(text);
 
             // Set the edit caret to the end of the text.
@@ -3353,15 +3358,10 @@ public class ComposeMessageActivity extends Activity
         } else {
             mTextEditor.setText("");
         }
+        onKeyboardStateChanged();
     }
 
     private void hideBottomPanel() {
-        // If we are not the default SMS app, the bottom panel is always gone.
-        if (!mIsSmsEnabled) {
-            mBottomPanel.setVisibility(View.GONE);
-            return;
-        }
-
         if (LOCAL_LOGV) {
             Log.v(TAG, "CMA.hideBottomPanel");
         }
@@ -3374,6 +3374,7 @@ public class ComposeMessageActivity extends Activity
         showSubjectEditor(showSubjectEditor || mWorkingMessage.hasSubject());
 
         invalidateOptionsMenu();
+        onKeyboardStateChanged();
     }
 
     //==========================================================
@@ -3696,9 +3697,10 @@ public class ComposeMessageActivity extends Activity
     private boolean isPreparedForSending() {
         int recipientCount = recipientCount();
 
-        return recipientCount > 0 && recipientCount <= MmsConfig.getRecipientLimit() &&
-            (mWorkingMessage.hasAttachment() ||
-                    mWorkingMessage.hasText() ||
+        return recipientCount > 0 &&
+                recipientCount <= MmsConfig.getRecipientLimit() &&
+                mIsSmsEnabled &&
+                (mWorkingMessage.hasAttachment() || mWorkingMessage.hasText() ||
                     mWorkingMessage.hasSubject());
     }
 
