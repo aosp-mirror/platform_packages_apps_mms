@@ -173,6 +173,10 @@
     <string name="type_to_compose_text_enter_to_send">Type message</string>
     <!-- Hint text in message body field when keyboard is hidden -->
     <string name="open_keyboard_to_compose_message">Open keyboard to type message</string>
+    <!-- Hint text when we are not the default SMS app -->
+    <string name="sending_disabled_not_default_app">Sending disabled</string>
+    <!-- Toast text when user tries to compose while we are not the default SMS app -->
+    <string name="compose_disabled_toast">Can\'t compose. Not default SMS app.</string>
 
     <!-- Toast message while an image is being resized -->
     <string name="compressing">Picture too large. Compressing\u2026</string>
@@ -793,8 +797,8 @@
     <string name="desc_mms_send_outbox_msg">Sends out all MMSs from the outbox to the network</string>
 
     <!-- Banner in conversation list for making Messaging the default SMS app -->
-    <string name="banner_sms_promo_message">Would you like to use Messaging as your default SMS app?</string>
-    <string name="banner_sms_promo_decline">No, thanks</string>
-    <string name="banner_sms_promo_accept">Yes!</string>
+    <string name="banner_sms_promo_title_initial">Messaging is not your SMS app</string>
+    <string name="banner_sms_promo_title_application"><xliff:g id="appName">%s</xliff:g> is your SMS app</string>
+    <string name="banner_sms_promo_message">You can change this in Settings</string>
 
 </resources>
