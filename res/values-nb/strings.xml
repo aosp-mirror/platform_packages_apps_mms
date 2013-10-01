@@ -84,7 +84,7 @@
     <string name="mms" msgid="1587631213714914559">"bildemelding"</string>
     <string name="send_mms" msgid="2933162044872550662">"Send MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"Alle tråder"</string>
-    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Tast inn melding"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Skriv inn meldingen"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Åpne tastaturet for å taste inn melding"</string>
     <string name="compressing" msgid="1961357529661045180">"Komprimerer…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Formatet <xliff:g id="NAME">%1$s</xliff:g> støttes ikke."</string>
@@ -124,7 +124,7 @@
     <string name="layout_selector_title" msgid="7344600117972450771">"Lysbilde-layout "</string>
     <string name="layout_top" msgid="6811021650398972346">"Layout (topp)"</string>
     <string name="layout_bottom" msgid="5822765871095491843">"Layout (bunn)"</string>
-    <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Tast inn melding, eller la stå tomt"</string>
+    <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Skriv inn en melding, eller la stå tomt"</string>
     <string name="duration_not_a_number" msgid="2856636898040421237">"Varigheten må være et tall."</string>
     <string name="duration_zero" msgid="3549377790195185977">"Varigheten må være over null sekunder."</string>
     <string name="secs" msgid="6886003523109967972">"sek"</string>
