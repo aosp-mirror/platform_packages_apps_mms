@@ -286,7 +286,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Zil sesi olarak kaydet"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Zil sesi kaydedildi."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Zil sesi kaydedilemedi."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"İfade ekle"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Grup katılımcıları"</string>
     <string name="select_link_title" msgid="3371818607625768447">"İşlem seçin"</string>
     <string name="slide_number" msgid="1923958526266726635">"Slayt <xliff:g id="NUMBER">%s</xliff:g>"</string>
