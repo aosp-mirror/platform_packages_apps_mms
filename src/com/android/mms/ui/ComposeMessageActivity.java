@@ -141,7 +141,6 @@ import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.PhoneNumberFormatter;
 import com.android.mms.util.SendingProgressTokenManager;
-import com.android.mms.util.SmileyParser;
 import com.android.mms.widget.MmsWidgetProvider;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
@@ -209,7 +208,6 @@ public class ComposeMessageActivity extends Activity
     private static final int MENU_SEND_EMAIL            = 23;
     private static final int MENU_COPY_MESSAGE_TEXT     = 24;
     private static final int MENU_COPY_TO_SDCARD        = 25;
-    private static final int MENU_INSERT_SMILEY         = 26;
     private static final int MENU_ADD_ADDRESS_TO_CONTACTS = 27;
     private static final int MENU_LOCK_MESSAGE          = 28;
     private static final int MENU_UNLOCK_MESSAGE        = 29;
@@ -297,8 +295,6 @@ public class ComposeMessageActivity extends Activity
                                         // help clarify the situation.
 
     private WorkingMessage mWorkingMessage;         // The message currently being composed.
-
-    private AlertDialog mSmileyDialog;
 
     private boolean mWaitingForSubActivity;
     private int mLastRecipientCount;            // Used for warning the user on too many recipients.
@@ -2666,11 +2662,6 @@ public class ComposeMessageActivity extends Activity
             menu.add(0, MENU_SEND, 0, R.string.send).setIcon(android.R.drawable.ic_menu_send);
         }
 
-        if (!mWorkingMessage.hasSlideshow() && mIsSmsEnabled) {
-            menu.add(0, MENU_INSERT_SMILEY, 0, R.string.menu_insert_smiley).setIcon(
-                    R.drawable.ic_menu_emoticons);
-        }
-
         if (getRecipients().size() > 1) {
             menu.add(0, MENU_GROUP_PARTICIPANTS, 0, R.string.menu_group_participants);
         }
@@ -2760,9 +2751,6 @@ public class ComposeMessageActivity extends Activity
                 break;
             case MENU_CALL_RECIPIENT:
                 dialRecipient();
-                break;
-            case MENU_INSERT_SMILEY:
-                showSmileyDialog();
                 break;
             case MENU_GROUP_PARTICIPANTS:
             {
@@ -4274,85 +4262,6 @@ public class ComposeMessageActivity extends Activity
 
             MmsWidgetProvider.notifyDatasetChanged(getApplicationContext());
         }
-    }
-
-    private void showSmileyDialog() {
-        if (mSmileyDialog == null) {
-            int[] icons = SmileyParser.DEFAULT_SMILEY_RES_IDS;
-            String[] names = getResources().getStringArray(
-                    SmileyParser.DEFAULT_SMILEY_NAMES);
-            final String[] texts = getResources().getStringArray(
-                    SmileyParser.DEFAULT_SMILEY_TEXTS);
-
-            final int N = names.length;
-
-            List<Map<String, ?>> entries = new ArrayList<Map<String, ?>>();
-            for (int i = 0; i < N; i++) {
-                // We might have different ASCII for the same icon, skip it if
-                // the icon is already added.
-                boolean added = false;
-                for (int j = 0; j < i; j++) {
-                    if (icons[i] == icons[j]) {
-                        added = true;
-                        break;
-                    }
-                }
-                if (!added) {
-                    HashMap<String, Object> entry = new HashMap<String, Object>();
-
-                    entry. put("icon", icons[i]);
-                    entry. put("name", names[i]);
-                    entry.put("text", texts[i]);
-
-                    entries.add(entry);
-                }
-            }
-
-            final SimpleAdapter a = new SimpleAdapter(
-                    this,
-                    entries,
-                    R.layout.smiley_menu_item,
-                    new String[] {"icon", "name", "text"},
-                    new int[] {R.id.smiley_icon, R.id.smiley_name, R.id.smiley_text});
-            SimpleAdapter.ViewBinder viewBinder = new SimpleAdapter.ViewBinder() {
-                @Override
-                public boolean setViewValue(View view, Object data, String textRepresentation) {
-                    if (view instanceof ImageView) {
-                        Drawable img = getResources().getDrawable((Integer)data);
-                        ((ImageView)view).setImageDrawable(img);
-                        return true;
-                    }
-                    return false;
-                }
-            };
-            a.setViewBinder(viewBinder);
-
-            AlertDialog.Builder b = new AlertDialog.Builder(this);
-
-            b.setTitle(getString(R.string.menu_insert_smiley));
-
-            b.setCancelable(true);
-            b.setAdapter(a, new DialogInterface.OnClickListener() {
-                @Override
-                @SuppressWarnings("unchecked")
-                public final void onClick(DialogInterface dialog, int which) {
-                    HashMap<String, Object> item = (HashMap<String, Object>) a.getItem(which);
-
-                    String smiley = (String)item.get("text");
-                    if (mSubjectTextEditor != null && mSubjectTextEditor.hasFocus()) {
-                        mSubjectTextEditor.append(smiley);
-                    } else {
-                        mTextEditor.append(smiley);
-                    }
-
-                    dialog.dismiss();
-                }
-            });
-
-            mSmileyDialog = b.create();
-        }
-
-        mSmileyDialog.show();
     }
 
     @Override
