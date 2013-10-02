@@ -18,29 +18,6 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string-array name="default_smiley_names">
-    <item msgid="1831934949361041701">"Gembira"</item>
-    <item msgid="1601611480575517120">"Sedih"</item>
-    <item msgid="1531181614218625881">"Mengenyit"</item>
-    <item msgid="3858808057949077894">"Lidah terjelir"</item>
-    <item msgid="7835238297967185651">"Terkejut"</item>
-    <item msgid="1756223535005296033">"Bercium"</item>
-    <item msgid="1093906245140165107">"Menjerit"</item>
-    <item msgid="888834839864150170">"Segak"</item>
-    <item msgid="6320683740534773967">"Mulut duit"</item>
-    <item msgid="6610111212478853990">"Kaki dalam mulut"</item>
-    <item msgid="1706035208563940251">"Malu"</item>
-    <item msgid="9079275787422313427">"Bidadari"</item>
-    <item msgid="4630490399784004880">"Tidak pasti"</item>
-    <item msgid="7002574538342357456">"Menangis"</item>
-    <item msgid="850324578089267455">"Bibir terkunci"</item>
-    <item msgid="6334637439528489607">"Tertawa"</item>
-    <item msgid="7602915122893958066">"Keliru"</item>
-    <item msgid="3939233701582771068">"Hati"</item>
-    <item msgid="1414759480575851587">"Gila"</item>
-    <item msgid="8479809115158836070">"Senyuman sinis"</item>
-    <item msgid="638612939305162424">"Muka selamba"</item>
-  </string-array>
   <string-array name="empty_subject_strings">
     <item msgid="7691141505407124426">"tiada subjek"</item>
   </string-array>

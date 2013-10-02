@@ -286,7 +286,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"रिंगटोन के रूप में सहेजें"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"रिंगटोन सहेजी गई."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"रिंगटोन नहीं सहेज सका."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"स्‍माइली सम्मिलित करें"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"समूह के प्रतिभागी"</string>
     <string name="select_link_title" msgid="3371818607625768447">"कार्यवाही चुनें"</string>
     <string name="slide_number" msgid="1923958526266726635">"स्लाइड <xliff:g id="NUMBER">%s</xliff:g>"</string>

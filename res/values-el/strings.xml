@@ -286,7 +286,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Αποθήκευση ως ήχος κλήσης"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Ο ήχος κλήσης αποθηκεύτηκε."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Δεν ήταν δυνατή η αποθήκευση του ήχου κλήσης."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Εισαγ.εικον.smiley"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Συμμετέχοντες ομάδας"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Επιλογή ενέργειας"</string>
     <string name="slide_number" msgid="1923958526266726635">"Διαφάνεια <xliff:g id="NUMBER">%s</xliff:g>"</string>
