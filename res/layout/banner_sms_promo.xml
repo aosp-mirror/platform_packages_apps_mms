@@ -2,80 +2,47 @@
 <!--
     Copyright (C) 2013 Google Inc.
 -->
-<!--
-    The outer FrameLayout required so we can set a background image with a drop shadow. If
-    we set that background image on the LinearLayout, the drop shadow is incorrectly displayed as
-    part of the LinearLayout itself.
--->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/banner_sms_promo"
-    android:orientation="vertical"
-    android:paddingLeft="16dip"
-    android:paddingRight="16dip"
-    android:paddingTop="@dimen/banner_s_space"
-    android:paddingBottom="@dimen/banner_s_space"
+    android:orientation="horizontal"
+    android:paddingLeft="8dip"
+    android:paddingRight="8dip"
+    android:paddingTop="16dip"
+    android:paddingBottom="16dip"
     android:layout_width="match_parent"
     android:layout_gravity="center_vertical"
     android:layout_height="wrap_content"
     android:background="@drawable/class_zero_background" >
-
-    <TextView
+    <ImageView
+        android:id="@+id/banner_sms_default_app_icon"
         android:layout_width="wrap_content"
-        android:layout_height="0dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_launcher_smsmms"
         android:gravity="center_vertical"
-        android:paddingLeft="16dip"
-        android:paddingTop="@dimen/banner_s_space"
-        android:paddingBottom="@dimen/banner_s_space"
-        android:singleLine="false"
-        android:text="@string/banner_sms_promo_message"
-        android:layout_weight="1"
-        android:textStyle="normal"
-        style="@style/BannerWindowText"
-        />
-
-    <View
-        android:background="@color/translucent_white"
-        android:layout_marginTop="@dimen/banner_s_space"
-        android:layout_marginBottom="@dimen/banner_s_space"
-        android:layout_width="match_parent"
-        android:layout_height="1dip" />
-
+        android:importantForAccessibility="no" />
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="8dip"
         android:gravity="center_vertical" >
-
-        <Button
-            android:id="@+id/dismiss_banner_sms_promo"
-            android:paddingLeft="@dimen/banner_m_space"
-            android:paddingRight="@dimen/banner_m_space"
-            android:layout_marginRight="@dimen/banner_s_space"
-            android:text="@string/banner_sms_promo_decline"
-            android:background="@drawable/banner_button_selectable"
-            android:layout_width="wrap_content"
-            android:layout_height="36dip"
-            android:textStyle="normal"
-            android:layout_weight=".5"
-            style="@style/BannerWindowText" />
-
-        <View
-            android:background="@color/translucent_white"
-            android:layout_width="1dip"
-            android:layout_height="16dip" />
-
-        <Button
-            android:id="@+id/accept_banner_sms_promo"
-            android:paddingLeft="@dimen/banner_m_space"
-            android:paddingRight="@dimen/banner_m_space"
-            android:layout_marginLeft="@dimen/banner_s_space"
-            android:text="@string/banner_sms_promo_accept"
-            android:background="@drawable/banner_button_selectable"
-            android:layout_width="wrap_content"
-            android:layout_height="36dip"
-            android:textStyle="normal"
-            android:layout_weight=".5"
-            style="@style/BannerWindowText" />
+        <TextView
+            android:id="@+id/banner_sms_promo_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/banner_s_space"
+            android:singleLine="true"
+            android:text="@string/banner_sms_promo_title_initial"
+            style="@style/BannerTitleText" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:singleLine="false"
+            android:text="@string/banner_sms_promo_message"
+            style="@style/BannerContentText" />
     </LinearLayout>
 </LinearLayout>
