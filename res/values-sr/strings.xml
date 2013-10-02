@@ -86,6 +86,10 @@
     <string name="all_threads" msgid="2663426830306307194">"Све преписке"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Откуцајте поруку"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Активирајте тастатуру да бисте откуцали поруку"</string>
+    <!-- no translation found for sending_disabled_not_default_app (6685337318181265136) -->
+    <skip />
+    <!-- no translation found for compose_disabled_toast (1838175321052707875) -->
+    <skip />
     <string name="compressing" msgid="1961357529661045180">"Слика је превелика. Компримовање..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Неподржани формат за <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Изаберите другу  ставку <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -350,7 +354,10 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Нећете добијати нове SMS/MMS поруке"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Активирање MMS порука"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Шаље све MMS поруке из директоријума за слање на мрежу"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Желите ли да користите Размену порука као подразумевану апликацију за SMS?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Не, хвала"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Да!"</string>
+    <!-- no translation found for banner_sms_promo_title_initial (510014388581481569) -->
+    <skip />
+    <!-- no translation found for banner_sms_promo_title_application (8123569785369713254) -->
+    <skip />
+    <!-- no translation found for banner_sms_promo_message (3536714414252763826) -->
+    <skip />
 </resources>

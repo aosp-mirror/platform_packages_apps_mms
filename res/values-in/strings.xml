@@ -86,6 +86,10 @@
     <string name="all_threads" msgid="2663426830306307194">"Semua utas"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Ketik pesan"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Buka keyboard untuk mengetik pesan"</string>
+    <!-- no translation found for sending_disabled_not_default_app (6685337318181265136) -->
+    <skip />
+    <!-- no translation found for compose_disabled_toast (1838175321052707875) -->
+    <skip />
     <string name="compressing" msgid="1961357529661045180">"Gambar terlalu besar. Memampatkan…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Format <xliff:g id="NAME">%1$s</xliff:g> tidak didukung"</string>
     <string name="select_different_media" msgid="6241623357299382183">"Pilih <xliff:g id="NAME">%1$s</xliff:g> yang berbeda."</string>
@@ -350,7 +354,10 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Anda tidak akan menerima pesan SMS/MMS baru"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Bangunkan saat MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Mengirimkan semua MMS dari kotak keluar ke jaringan"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Ingin menggunakan Perpesanan sebagai aplikasi SMS default Anda?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Tidak, terima kasih"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Ya!"</string>
+    <!-- no translation found for banner_sms_promo_title_initial (510014388581481569) -->
+    <skip />
+    <!-- no translation found for banner_sms_promo_title_application (8123569785369713254) -->
+    <skip />
+    <!-- no translation found for banner_sms_promo_message (3536714414252763826) -->
+    <skip />
 </resources>

@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"كل السلاسل"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"اكتب رسالة"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"فتح لوحة المفاتيح لكتابة رسالة"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"تم تعطيل الإرسال"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"يتعذر إنشاء الرسالة. التطبيق ليس التطبيق الافتراضي للرسائل القصيرة SMS."</string>
     <string name="compressing" msgid="1961357529661045180">"حجم الصورة أكبر من اللازم. جارٍ الضغط..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"تنسيق <xliff:g id="NAME">%1$s</xliff:g> غير متوافق."</string>
     <string name="select_different_media" msgid="6241623357299382183">"اختر <xliff:g id="NAME">%1$s</xliff:g> مختلفًا."</string>
@@ -350,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"لن تتلقى أية رسائل قصيرة SMS/رسائل وسائط متعددة جديدة"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"تنبيه رسائل الوسائط المتعددة"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"إرسال جميع رسائل الوسائط المتعددة من البريد الصادر إلى الشبكة"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"هل تريد استخدام تطبيق المراسلة باعتباره تطبيق الرسائل القصيرة SMS الافتراضي؟"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"لا، شكرًا"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"نعم."</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"المراسلة ليس تطبيقك للرسائل القصيرة SMS"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> هو تطبيق الرسائل القصيرة SMS"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"يمكنك تغيير ذلك من الإعدادات"</string>
 </resources>

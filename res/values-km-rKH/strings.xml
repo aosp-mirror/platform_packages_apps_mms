@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"សែស្រឡាយ​ទាំងអស់"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"វាយ​​សារ"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"បើក​ក្ដារ​ចុច​ដើម្បី​​វាយ​​សារ"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"បាន​បិទ​ការ​ផ្ញើ"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"មិន​អាច​តែង។ គ្មាន​កម្មវិធី​សារ SMS លំនាំដើម។"</string>
     <string name="compressing" msgid="1961357529661045180">"រូបភាព​មាន​ទំហំ​ធំ​ពេក។ បង្ហាប់ ..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"ទ្រង់ទ្រាយ <xliff:g id="NAME">%1$s</xliff:g> ដែល​មិន​បាន​គាំទ្រ។"</string>
     <string name="select_different_media" msgid="6241623357299382183">"ជ្រើស <xliff:g id="NAME">%1$s</xliff:g> ផ្សេង​គ្នា។"</string>
@@ -350,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"អ្នក​នឹង​មិន​ទទួល​សារ SMS/MMS ថ្មីទេ"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS Wakeup"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"ផ្ញើ MMSs ចេញ​ទាំងអស់​ពី​ប្រអប់​ចេញ​ទៅ​​បណ្ដាញ"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"តើ​អ្នក​ចង់​ប្រើ​ការ​ផ្ញើ​សារ​ជា​កម្មវិធី​សារ SMS លំនាំដើម​របស់​អ្នក?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"ទេ អរគុណ"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"បាទ/ចាស!"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"ការ​ផ្ញើ​សារ​មិនមែន​ជា​កម្មវិធី​សារ SMS របស់​អ្នក​ទេ"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> ជា​កម្មវិធី​សារ SMS"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"អ្នក​អាច​ប្ដូរ​វា​ក្នុង​ការ​កំណត់"</string>
 </resources>

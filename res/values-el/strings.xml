@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Όλα τα νήματα"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Πληκτρολογήστε το μήνυμά σας"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Ανοίξτε το πληκτρολόγιο για να πληκτρολογήσετε το μήνυμα"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Η αποστολή απενεργοποιήθηκε"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Δεν είναι δυνατή η σύνταξη. Δεν υπάρχει προεπιλεγμένη εφαρμογή SMS."</string>
     <string name="compressing" msgid="1961357529661045180">"Υπερβολικά μεγάλη εικόνα. Συμπίεση..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Μη υποστηριζόμενη μορφή <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Επιλέξτε ένα διαφορετικό <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -350,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Δεν θα λαμβάνετε νέα μηνύματα SMS/MMS"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Αφύπνιση MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Αποστέλλει όλα τα MMS από τα εξερχόμενα στο δίκτυο"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Θα θέλατε να χρησιμοποιήσετε την \"Ανταλλαγή μηνυμάτων\" ως την προεπιλεγμένη εφαρμογή SMS;"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Όχι, ευχαριστώ"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Ναι!"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Η Ανταλλαγή μηνυμάτων δεν αποτελεί την προεπιλεγμένη εφαρμογή SMS"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> αποτελεί την εφαρμογή SMS"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Αυτό μπορείτε να το αλλάξετε στην περιοχή \"Ρυθμίσεις\"."</string>
 </resources>
