@@ -286,7 +286,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Save as ringtone"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Ringtone saved."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Couldn\'t save ringtone."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Insert smiley"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Group participants"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Choose action"</string>
     <string name="slide_number" msgid="1923958526266726635">"Slide <xliff:g id="NUMBER">%s</xliff:g>"</string>

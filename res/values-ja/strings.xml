@@ -286,7 +286,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"着信音として保存"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"着信音を保存しました。"</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"着信音を保存できませんでした。"</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"絵文字を挿入"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"参加者をグループ化"</string>
     <string name="select_link_title" msgid="3371818607625768447">"操作の選択"</string>
     <string name="slide_number" msgid="1923958526266726635">"スライド<xliff:g id="NUMBER">%s</xliff:g>"</string>
