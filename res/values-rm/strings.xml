@@ -100,6 +100,10 @@
     <skip />
     <!-- no translation found for open_keyboard_to_compose_message (7860109685511253191) -->
     <skip />
+    <!-- no translation found for sending_disabled_not_default_app (6685337318181265136) -->
+    <skip />
+    <!-- no translation found for compose_disabled_toast (1838175321052707875) -->
+    <skip />
     <string name="compressing" msgid="1961357529661045180">"Il maletg è memia grond. Cumpressiun en process…"</string>
     <!-- no translation found for unsupported_media_format (1350489690977363764) -->
     <skip />
@@ -348,7 +352,6 @@
     <skip />
     <!-- no translation found for saved_ringtone_fail (4778500070919251116) -->
     <skip />
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Inserir in emoticon"</string>
     <!-- no translation found for menu_group_participants (4288356090262299071) -->
     <skip />
     <!-- no translation found for select_link_title (3371818607625768447) -->
@@ -436,10 +439,10 @@
     <skip />
     <!-- no translation found for desc_mms_send_outbox_msg (1837156781311437148) -->
     <skip />
-    <!-- no translation found for banner_sms_promo_message (8192023089601130407) -->
+    <!-- no translation found for banner_sms_promo_title_initial (510014388581481569) -->
     <skip />
-    <!-- no translation found for banner_sms_promo_decline (113810998029698558) -->
+    <!-- no translation found for banner_sms_promo_title_application (8123569785369713254) -->
     <skip />
-    <!-- no translation found for banner_sms_promo_accept (713438608462912462) -->
+    <!-- no translation found for banner_sms_promo_message (3536714414252763826) -->
     <skip />
 </resources>

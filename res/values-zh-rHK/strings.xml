@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"所有會話串"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"輸入訊息"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"開啟鍵盤即可輸入訊息"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"傳送功能已停用"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"這不是預設的短訊應用程式，無法用來撰寫訊息。"</string>
     <string name="compressing" msgid="1961357529661045180">"相片太大，壓縮中…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"不支援的 <xliff:g id="NAME">%1$s</xliff:g> 格式。"</string>
     <string name="select_different_media" msgid="6241623357299382183">"請選擇另一種 <xliff:g id="NAME">%1$s</xliff:g>。"</string>
@@ -286,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"儲存為鈴聲"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"已儲存鈴聲。"</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"無法儲存鈴聲。"</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"插入表情符號"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"群組參與者"</string>
     <string name="select_link_title" msgid="3371818607625768447">"選擇操作"</string>
     <string name="slide_number" msgid="1923958526266726635">"幻燈片 <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -351,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"您將無法收到新的 SMS/MMS 訊息"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS 喚醒"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"將寄件匣內的所有 MMS 傳送到網絡"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"您要使用「短訊」作為預設短訊應用程式嗎？"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"不需要，謝謝"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"好！"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"「短訊」不是您的短訊應用程式"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"「<xliff:g id="APPNAME">%s</xliff:g>」是您的短訊應用程式"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"您可以在 [設定] 中變更這項設定"</string>
 </resources>

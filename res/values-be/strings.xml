@@ -86,6 +86,10 @@
     <string name="all_threads" msgid="2663426830306307194">"Усе галіны"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Увесці паведамленне"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Адкрыць клавіятуру, каб увесці паведамленне"</string>
+    <!-- no translation found for sending_disabled_not_default_app (6685337318181265136) -->
+    <skip />
+    <!-- no translation found for compose_disabled_toast (1838175321052707875) -->
+    <skip />
     <string name="compressing" msgid="1961357529661045180">"Малюнак занадта вялікі. Сцісканне..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Фармат <xliff:g id="NAME">%1$s</xliff:g> не падтрымліваецца."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Выберыце iншы варыянт: <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -291,7 +295,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Захаваць як рынгтон"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Рынгтон захаваны."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Немагчыма захаваць мелодыю."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Уставіць смайлік"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Удзельнікi групы"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Выберыце дзеянне"</string>
     <string name="slide_number" msgid="1923958526266726635">"Слайд <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -360,10 +363,10 @@
     <skip />
     <!-- no translation found for desc_mms_send_outbox_msg (1837156781311437148) -->
     <skip />
-    <!-- no translation found for banner_sms_promo_message (8192023089601130407) -->
+    <!-- no translation found for banner_sms_promo_title_initial (510014388581481569) -->
     <skip />
-    <!-- no translation found for banner_sms_promo_decline (113810998029698558) -->
+    <!-- no translation found for banner_sms_promo_title_application (8123569785369713254) -->
     <skip />
-    <!-- no translation found for banner_sms_promo_accept (713438608462912462) -->
+    <!-- no translation found for banner_sms_promo_message (3536714414252763826) -->
     <skip />
 </resources>

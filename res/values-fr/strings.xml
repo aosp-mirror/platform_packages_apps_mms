@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Tous les fils"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Saisissez un message"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Ouvrez le clavier pour saisir un message"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Envoi désactivé"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Impossible de rédiger le message, car SMS/MMS n\'est pas votre application par défaut."</string>
     <string name="compressing" msgid="1961357529661045180">"Image trop grande. Compression en cours..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Format <xliff:g id="NAME">%1$s</xliff:g> non compatible."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Sélectionnez autre <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -286,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Enregistrer comme sonnerie"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Sonnerie enregistrée."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Impossible d\'enregistrer la sonnerie."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Insérer une émoticône"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Membres du groupe"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Sélectionner une action"</string>
     <string name="slide_number" msgid="1923958526266726635">"Diapositive <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -351,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Vous ne recevrez pas les nouveaux SMS/MMS."</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Activation des MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Envoyer tous les MMS de la boîte d\'envoi sur le réseau"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Voulez-vous définir SMS/MMS comme application de SMS par défaut ?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Non merci"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Oui"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"SMS/MMS n\'est pas votre application pour les SMS"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> est votre application pour les SMS"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Vous pouvez modifier cette configuration dans \"Paramètres\"."</string>
 </resources>

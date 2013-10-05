@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Tất cả chuỗi thư"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Nhập tin nhắn"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Mở bàn phím để nhập tin nhắn"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Đã tắt tính năng gửi"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Không thể soạn tin. Không phải ứng dụng SMS mặc định."</string>
     <string name="compressing" msgid="1961357529661045180">"Ảnh quá lớn. Đang nén…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Định dạng <xliff:g id="NAME">%1$s</xliff:g> không được hỗ trợ."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Chọn một <xliff:g id="NAME">%1$s</xliff:g> khác."</string>
@@ -286,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Lưu làm nhạc chuông"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Đã lưu nhạc chuông."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Không thể lưu nhạc chuông."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Chèn mặt cười"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Nhóm người tham gia"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Chọn tác vụ"</string>
     <string name="slide_number" msgid="1923958526266726635">"Trang trình bày <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -351,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Bạn sẽ không nhận được tin nhắn SMS/MMS mới"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Gửi MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Gửi tất cả MMS từ hộp thư đi đến mạng"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Bạn có muốn sử dụng Nhắn tin làm ứng dụng SMS mặc định không?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Không, xin cảm ơn"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Có!"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Nhắn tin không phải là ứng dụng SMS của bạn"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> là ứng dụng SMS của bạn"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Bạn có thể thay đổi mục này trong Cài đặt"</string>
 </resources>

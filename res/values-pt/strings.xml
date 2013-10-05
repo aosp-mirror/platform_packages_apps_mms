@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Todas as conversas"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Digite a mensagem"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Abra o teclado para digitar a mensagem"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Envio desativado"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Não é possível escrever. Não é o aplicativo de SMS padrão."</string>
     <string name="compressing" msgid="1961357529661045180">"Imagem muito grande. Comprimindo..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Formato de <xliff:g id="NAME">%1$s</xliff:g> não suportado."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Selecionar um <xliff:g id="NAME">%1$s</xliff:g> diferente."</string>
@@ -286,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Salvar como toque"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Toque salvo"</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Não foi possível salvar o toque."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Inserir smiley"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Participantes do grupo"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Selecionar ação"</string>
     <string name="slide_number" msgid="1923958526266726635">"Slide <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -351,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Você não receberá novas mensagens SMS/MMS"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Ativação de MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Envia todas as mensagens MMS da caixa de saída para a rede"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Deseja usar as Mensagens como o aplicativo de SMS padrão?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Não, obrigado"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Sim."</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"O Mensagens não é seu aplicativo de SMS"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"O <xliff:g id="APPNAME">%s</xliff:g> é seu aplicativo de SMS"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Você pode alterar isto em \"Configurações\""</string>
 </resources>

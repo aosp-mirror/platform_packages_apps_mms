@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"ሁሉም ክሮች"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"መልዕክት ተይብ"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"መልዕክት ለመተየብ የሰሌዳ ቁልፍ ክፈት"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"መላክ ተሰናክሏል"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"መጻፍ አልተቻለም። ነባሪ የኤስ ኤም ኤስ መተግበሪያ አይደለም።"</string>
     <string name="compressing" msgid="1961357529661045180">"ምስል በጣም ትልቅ ነው። በማመቅ ላይ...."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"የማይደገፍ  የ<xliff:g id="NAME">%1$s</xliff:g> ቅርፀት"</string>
     <string name="select_different_media" msgid="6241623357299382183">"የተለየ<xliff:g id="NAME">%1$s</xliff:g>ምረጥ።"</string>
@@ -145,7 +147,7 @@
     <string name="menu_add_to_contacts" msgid="1258127580972228970">"ወደ ሰዎች አክል"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"የተደበቀ የላኪ አድራሻ"</string>
     <string name="yes" msgid="3246158147503160811">"እሺ"</string>
-    <string name="no" msgid="4289742508556913860">"ይቅር"</string>
+    <string name="no" msgid="4289742508556913860">"ሰርዝ"</string>
     <string name="set" msgid="4642365398263275979">"አዘጋጅ"</string>
     <string name="play" msgid="1888432400937785115">"ተጫወት"</string>
     <string name="edit" msgid="5912118407791492696">"አርትዕ"</string>
@@ -286,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"እንደጥሪ ድምፅ አስቀምጥ"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"የደውል ቅላጼ ተቀምጧል"</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"የደውል ቅላጼ ማስቀመጥ አልተቻለም"</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"ፈገግታ ጨምር"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"የቡድን ተሳታፊዎች"</string>
     <string name="select_link_title" msgid="3371818607625768447">"እርምጃ ምረጥ"</string>
     <string name="slide_number" msgid="1923958526266726635">"ስላይድ<xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -351,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"አዲስ የኤስ ኤም ኤስ/ኤም ኤም ኤስ መልዕክቶች አይደርሱዎትም"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"የኤም ኤም ኤስ ማስነሻ"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"ሁሉንም ኤም ኤም ኤሶች ከወጪ መልዕክት ወደ አውታረ መረቡ ይልካቸዋል"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Messagingን እንደ ነባሪ የኤስ ኤም ኤስ መተግበሪያዎ መጠቀም ይፈልጋሉ?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"አይ፣ አመሰግናለሁ"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"አዎ!"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Messaging የእርስዎ ኤስ ኤም ኤስ መተግበሪያ አይደለም"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> የእርስዎ ኤስ ኤም ኤስ መተግበሪያ ነው"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"ይህን በቅንብሮች ውስጥ መቀየር ይችላሉ"</string>
 </resources>

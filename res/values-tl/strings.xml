@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Lahat ng mga thread"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"I-type ang mensahe"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Buksan ang keyboard upang mag-type ng mensahe"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Naka-disable ang pagpapadala"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Hindi makapagsulat. Hindi ang default na SMS app."</string>
     <string name="compressing" msgid="1961357529661045180">"Masyadong malaki ang larawan. Nagsisiksik..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Hindi sinusuportahang <xliff:g id="NAME">%1$s</xliff:g> na format."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Pumili ng ibang <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -286,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"I-save bilang ringtone"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Na-save ang ringtone."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Hindi ma-save ang ringtone."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Magpasok ng smiley"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Mga kalahok ng pangkat"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Pumili ng pagkilos"</string>
     <string name="slide_number" msgid="1923958526266726635">"Slide <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -351,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Hindi ka makakatanggap ng mga mensaheng SMS/MMS"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS Wakeup"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Ipinapadala ang lahat ng MMS mula sa outbox papunta sa network"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Gusto mo bang gamitin ang Pagmemensahe bilang ang iyong default na SMS app?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Hindi, salamat"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Oo!"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Ang Pagmemensahe ay hindi ang iyong SMS app"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"Ang <xliff:g id="APPNAME">%s</xliff:g> ay ang iyong SMS app"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Mababago mo ito sa Mga Setting"</string>
 </resources>

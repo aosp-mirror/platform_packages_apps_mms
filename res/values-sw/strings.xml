@@ -30,8 +30,8 @@
     <string name="menu_call" msgid="5877123227307074690">"Piga simu"</string>
     <string name="menu_search" msgid="2289469305728821360">"Tafuta"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Futa minyororo yote"</string>
-    <string name="menu_delete" msgid="1851666911396479006">"Futa utungo"</string>
-    <string name="menu_view" msgid="7448852683948080108">"Angalia utungo"</string>
+    <string name="menu_delete" msgid="1851666911396479006">"Futa mazungumzo"</string>
+    <string name="menu_view" msgid="7448852683948080108">"Angalia mazungumzo"</string>
     <string name="menu_debug_dump" msgid="6855869130206549643">"ONDOA HITILAFU DAMPO"</string>
     <string name="refreshing" msgid="987335057871404222">"Inasasisha…"</string>
     <string name="menu_cell_broadcasts" msgid="5646161375983084660">"Matangazo ya simu"</string>
@@ -47,7 +47,7 @@
     <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Ujumbe ambao haujatumwa"</string>
     <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Haiwezi kutuma ujumbe huu.\nJaribio lilifanywa:<xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Haiwezi kutuma ujumbe huu"</string>
-    <string name="delete_thread" msgid="757258847736632791">"Futa utungo"</string>
+    <string name="delete_thread" msgid="757258847736632791">"Futa mazungumzo"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Sambaza"</string>
     <string name="download" msgid="4488877642230207631">"Pakua"</string>
     <string name="downloading" msgid="1779557575565350637">"Inapakua "</string>
@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Hesi zote za parafujo"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Andika ujumbe"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Fungua kibodi ili kucharaza ujumbe"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Utumaji umezimwa"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Haiwezi kutunga. Si programu chaguo-msingi ya SMS."</string>
     <string name="compressing" msgid="1961357529661045180">"Picha ni kubwa sana. Inafinyaza..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Fomati ya <xliff:g id="NAME">%1$s</xliff:g> ambayo haiauniwi."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Chagua <xliff:g id="NAME">%1$s</xliff:g> tofauti."</string>
@@ -190,7 +192,7 @@
     <item quantity="one" msgid="7509396981963472833">"Mazungumzo 1 yatafutwa."</item>
     <item quantity="other" msgid="4076915774012081811">"Mazungumzo <xliff:g id="NUMBER">%1$s</xliff:g> yatafutwa"</item>
   </plurals>
-    <string name="confirm_delete_conversation" msgid="6115966687389279855">"Utungo wote utafutwa"</string>
+    <string name="confirm_delete_conversation" msgid="6115966687389279855">"Mazungumzo yote yatafutwa"</string>
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Tungo zote zitafutwa."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"Video itafutwa."</string>
     <string name="confirm_delete_locked_message" msgid="7203411948190100955">"Futa ujumbe huu uliofungwa?"</string>
@@ -288,7 +290,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Hifadhi toni ya mlio"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Mlio wa simu umehifadhiwa."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Haikuweza kuhifadhi mlio wa simu."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Ingiza kicheshi"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Washiriki wa kikundi"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Chagua kitendo"</string>
     <string name="slide_number" msgid="1923958526266726635">"Slaidi <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -353,7 +354,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Hutapokea ujumbe mpya wa SMS/MMS"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Kuamsha MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Hutuma MMS zote kutoka kwenye kikasha toezi kwenda kwa mtandao"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Ungependa kutumia Hangouts kama programu yako chaguo-msingi ya SMS?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"La, asante"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Ndiyo!"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Ujumbe si programu yako ya SMS"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> ndiyo programu yako ya SMS"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Unaweza kubadilisha hili katika Mipangilio"</string>
 </resources>

@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"सभी थ्रेड"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"संदेश लि‍खें"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"संदेश लि‍खने के लि‍ए कीबोर्ड खोलें"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"भेजा जाना अक्षम हो गया"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"लिख नहीं सकते. डिफ़ॉल्ट SMS एप्लिकेशन नहीं."</string>
     <string name="compressing" msgid="1961357529661045180">"चित्र बहुत बड़ा है. संपीड़ित कर रहा है..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"असमर्थित <xliff:g id="NAME">%1$s</xliff:g> प्रारूप."</string>
     <string name="select_different_media" msgid="6241623357299382183">"कोई भिन्‍न <xliff:g id="NAME">%1$s</xliff:g> चुनें."</string>
@@ -286,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"रिंगटोन के रूप में सहेजें"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"रिंगटोन सहेजी गई."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"रिंगटोन नहीं सहेज सका."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"स्‍माइली सम्मिलित करें"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"समूह के प्रतिभागी"</string>
     <string name="select_link_title" msgid="3371818607625768447">"कार्यवाही चुनें"</string>
     <string name="slide_number" msgid="1923958526266726635">"स्लाइड <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -351,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"आपको नए SMS/MMS संदेश प्राप्त नहीं होंगे"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS सक्रिय"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"आउट बॉक्स से सभी MMS को नेटवर्क पर भेजता है"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"क्या आप संदेश सेवा का उपयोग अपने डिफ़ॉल्ट SMS एप्लिकेशन के रूप में करना चाहते हैं?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"नहीं, धन्यवाद"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"हां!"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"संदेश सेवा आपका SMS एप्लिकेशन नहीं है"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> आपका SMS एप्लिकेशन है"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"आप इसे सेटिंग में बदल सकते हैं"</string>
 </resources>
