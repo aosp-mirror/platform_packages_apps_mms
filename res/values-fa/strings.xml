@@ -354,7 +354,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"‫شما پیامک/پیام MMS جدیدی دریافت نمی‌کنید"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"بیدارباش MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"همه MMSها را از صندوق ارسال به شبکه ارسال می‌کند"</string>
-    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"پیام‌رسانی برنامه پیامک شما نیست"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Messaging برنامه پیامک شما نیست"</string>
     <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> برنامه پیامک شما است"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"می‌توانید این مورد را در تنظیمات تغییر دهید"</string>
 </resources>

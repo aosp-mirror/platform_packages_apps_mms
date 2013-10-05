@@ -354,5 +354,5 @@
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"שולח את כל הודעות ה-MMS מתיבת הדואר היוצא לרשת"</string>
     <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"\'העברת הודעות\' אינה אפליקציית ה-SMS שלך"</string>
     <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> היא אפליקציית ה-SMS שלך"</string>
-    <string name="banner_sms_promo_message" msgid="3536714414252763826">"ניתן לשנות זאת ב\'הגדרות\'"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"ניתן לשנות זאת בהגדרות"</string>
 </resources>

@@ -86,7 +86,7 @@
     <string name="all_threads" msgid="2663426830306307194">"Todas las conversaciones"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Escribir mensaje"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Abrir teclado para escribir mensaje"</string>
-    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Enviando sin habilitar"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Envío deshabilitado"</string>
     <string name="compose_disabled_toast" msgid="1838175321052707875">"No se puede escribir, porque esta no es la aplicación de SMS predeterminada."</string>
     <string name="compressing" msgid="1961357529661045180">"La imagen es demasiado grande. Comprimiendo…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Formato de <xliff:g id="NAME">%1$s</xliff:g> no admitido"</string>

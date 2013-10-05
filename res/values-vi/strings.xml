@@ -86,10 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Tất cả chuỗi thư"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Nhập tin nhắn"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Mở bàn phím để nhập tin nhắn"</string>
-    <!-- no translation found for sending_disabled_not_default_app (6685337318181265136) -->
-    <skip />
-    <!-- no translation found for compose_disabled_toast (1838175321052707875) -->
-    <skip />
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Đã tắt tính năng gửi"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Không thể soạn tin. Không phải ứng dụng SMS mặc định."</string>
     <string name="compressing" msgid="1961357529661045180">"Ảnh quá lớn. Đang nén…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Định dạng <xliff:g id="NAME">%1$s</xliff:g> không được hỗ trợ."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Chọn một <xliff:g id="NAME">%1$s</xliff:g> khác."</string>
@@ -354,10 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Bạn sẽ không nhận được tin nhắn SMS/MMS mới"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Gửi MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Gửi tất cả MMS từ hộp thư đi đến mạng"</string>
-    <!-- no translation found for banner_sms_promo_title_initial (510014388581481569) -->
-    <skip />
-    <!-- no translation found for banner_sms_promo_title_application (8123569785369713254) -->
-    <skip />
-    <!-- no translation found for banner_sms_promo_message (3536714414252763826) -->
-    <skip />
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Nhắn tin không phải là ứng dụng SMS của bạn"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> là ứng dụng SMS của bạn"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Bạn có thể thay đổi mục này trong Cài đặt"</string>
 </resources>

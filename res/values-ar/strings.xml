@@ -154,7 +154,7 @@
     <string name="try_to_send" msgid="1996751738286080976">"جرب الإرسال"</string>
     <string name="preferences_title" msgid="6650089610332670157">"الإعدادات"</string>
     <string name="restore_default" msgid="7165341506551155053">"استعادة الإعدادات الافتراضية"</string>
-    <string name="pref_notification_settings_title" msgid="6420782563630369776">"تنبيهات"</string>
+    <string name="pref_notification_settings_title" msgid="6420782563630369776">"اشعارات"</string>
     <string name="pref_mms_settings_title" msgid="55618772118264355">"رسائل الوسائط المتعددة (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"الرسائل النصية (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"وحدة التخزين"</string>
@@ -177,7 +177,7 @@
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"حذف الرسائل القديمة"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"حد الرسالة النصية"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"حد رسالة الوسائط المتعددة"</string>
-    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"التنبيهات"</string>
+    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"الإشعارات"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"اهتزاز"</string>
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"الصوت"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"تعيين عدد الرسائل التي سيتم حفظها"</string>

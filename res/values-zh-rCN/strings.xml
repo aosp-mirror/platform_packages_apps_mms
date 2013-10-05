@@ -86,10 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"所有会话"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"键入信息"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"打开键盘键入信息"</string>
-    <!-- no translation found for sending_disabled_not_default_app (6685337318181265136) -->
-    <skip />
-    <!-- no translation found for compose_disabled_toast (1838175321052707875) -->
-    <skip />
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"发送功能已停用"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"无法撰写短信，因为此应用不是默认的短信应用。"</string>
     <string name="compressing" msgid="1961357529661045180">"图片过大。正在压缩…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"不支持<xliff:g id="NAME">%1$s</xliff:g>格式。"</string>
     <string name="select_different_media" msgid="6241623357299382183">"选择其他<xliff:g id="NAME">%1$s</xliff:g>。"</string>
@@ -354,10 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"您将无法收到新的短信/彩信"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"彩信激活"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"将发件箱内的所有彩信发送至网络"</string>
-    <!-- no translation found for banner_sms_promo_title_initial (510014388581481569) -->
-    <skip />
-    <!-- no translation found for banner_sms_promo_title_application (8123569785369713254) -->
-    <skip />
-    <!-- no translation found for banner_sms_promo_message (3536714414252763826) -->
-    <skip />
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"“短信”不是您的短信应用"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"“<xliff:g id="APPNAME">%s</xliff:g>”是您的短信应用"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"您可以在“设置”中更改此设置。"</string>
 </resources>
