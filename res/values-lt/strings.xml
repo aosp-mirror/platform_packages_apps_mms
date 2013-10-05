@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Visos gijos"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Įveskite pranešimą"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Jei norite įvesti pranešimą, atidarykite klaviatūrą"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Siuntimas išjungtas"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Negalima sukurti. Tai nėra numatytoji SMS programa."</string>
     <string name="compressing" msgid="1961357529661045180">"Paveikslėlis per didelis. Glaudinama..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Nepalaikomas <xliff:g id="NAME">%1$s</xliff:g> formatas."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Pasirinkite kitą <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -350,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Negausite naujų SMS ar MMS žinučių"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS žadinimas"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Visi MMS iš išsiųstųjų siunčiami į tinklą"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Ar norėtumėte susirašinėjimo pranešimais programą naudoti kaip numatytąją SMS programą?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Ne, ačiū"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Taip"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"„Messaging“ nėra jūsų SMS programa"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"„<xliff:g id="APPNAME">%s</xliff:g>“ yra jūsų SMS programa"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Tai galite keisti skiltyje „Nustatymai“."</string>
 </resources>

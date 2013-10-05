@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Visi pavedieni"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Rakstiet ziņojumu."</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Atveriet tastatūru, lai rakstītu ziņojumu."</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Sūtīšana atspējota"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Nevar rakstīt. Šī lietotne nav iestatīta kā noklusējuma lietotne īsziņām."</string>
     <string name="compressing" msgid="1961357529661045180">"Attēls ir pārāk liels. Notiek saspiešana..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Vienuma <xliff:g id="NAME">%1$s</xliff:g> formāts netiek atbalstīts."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Izvēlieties citu vienumu: <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -350,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Jūs nesaņemsiet jaunas īsziņas/multiziņas."</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Multiziņu aktivizēšana"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Izsūta tīklā visas izsūtnē esošās multiziņas"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Vai vēlaties izmantot lietotni Ziņojumapmaiņa kā noklusējuma lietotni īsziņām?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Nē, paldies"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Jā!"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Ziņojumapmaiņa nav jūsu izvēlētā lietotne īsziņām."</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> ir jūsu izvēlētā lietotne īsziņām"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Varat to mainīt iestatījumos."</string>
 </resources>

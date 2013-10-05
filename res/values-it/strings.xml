@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Tutti i thread"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Scrivi messaggio"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Apri la tastiera per digitare il messaggio"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Invio disattivato"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Impossibile scrivere. Questa non è l\'app predefinita per gli SMS."</string>
     <string name="compressing" msgid="1961357529661045180">"Immagine troppo grande. Compressione in corso…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Formato <xliff:g id="NAME">%1$s</xliff:g> non supportato."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Scegli un <xliff:g id="NAME">%1$s</xliff:g> diverso."</string>
@@ -350,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Non riceverai nuovi SMS/MMS"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Riattivazione MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Invia tutti MMS dalla posta in uscita alla rete"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Vuoi utilizzare Messaggi come app predefinita per gli SMS?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"No, grazie"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Sì."</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Messaggi non è la tua app per gli SMS"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> è la tua app per gli SMS"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Puoi apportare modifiche in Impostazioni"</string>
 </resources>

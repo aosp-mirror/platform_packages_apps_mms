@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Zonke izindikimba"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Thayipha umlayezo"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Vula i-keyboard ukuze uthayiphe umlayezo"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Ukuthumela kukhutshaziwe"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Ayikwazi ukubhala. Akulona uhlelo lokusebenza oluzenzakalelayo lwe-SMS."</string>
     <string name="compressing" msgid="1961357529661045180">"Isithombe sikhulu kakhulu. Iyanciphisa..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Ifomethi <xliff:g id="NAME">%1$s</xliff:g> engasekelwe"</string>
     <string name="select_different_media" msgid="6241623357299382183">"Khetha i-<xliff:g id="NAME">%1$s</xliff:g> ehlukile."</string>
@@ -350,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Ngeke uthole imilayezo emisha ye-SMS/MMS"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Ukuvuka kwe-MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Ithumela wonke ama-SMS kusukela kokuphumayo kuya kunethiwekhi"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Ingabe ungathanda ukusebenzisa Imilayezo njengohlelo lwakho lokusebenza oluzenzakalelayo le-SMS?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Cha, ngiyabonga"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Yebo!"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Imilayezo akulona uhlelo lwakho lokusebenza lwe-SMS"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"I-<xliff:g id="APPNAME">%s</xliff:g> inguhlelo lwakho lokusebenza lwe-SMS"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Ungashintsha lokhu kokuthi Izilungiselelo"</string>
 </resources>

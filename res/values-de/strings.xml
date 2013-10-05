@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Alle Threads"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Nachricht schreiben"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Tastatur öffnen, um Nachricht einzugeben"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Funktion \"Senden\" deaktiviert"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Schreiben ist nicht möglich, da dies nicht Ihre Standard-SMS-App ist."</string>
     <string name="compressing" msgid="1961357529661045180">"Bild ist zu groß. Komprimierung wird durchgeführt..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Format von <xliff:g id="NAME">%1$s</xliff:g> wird nicht unterstützt."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Anderes <xliff:g id="NAME">%1$s</xliff:g> wählen"</string>
@@ -350,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Sie erhalten keine neuen SMS/MMS."</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS-Aktivierung"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Alle MMS aus dem Postausgang an das Netzwerk senden"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Möchten Sie SMS/MMS als Standard-SMS-App verwenden?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Nein danke"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Ja"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"SMS/MMS ist nicht Ihre SMS-App."</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> ist Ihre SMS-App."</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Sie können dies unter \"Einstellungen\" ändern."</string>
 </resources>

@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Alle tråde"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Indtast meddelelse"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Åbn tastaturet for at indtaste en meddelelse"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Afsendelse er deaktiveret"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Det er ikke muligt at skrive sms\'er. Dette er ikke standardappen til sms\'er."</string>
     <string name="compressing" msgid="1961357529661045180">"Billedet er for stort. Komprimerer ..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Formatet <xliff:g id="NAME">%1$s</xliff:g> understøttes ikke"</string>
     <string name="select_different_media" msgid="6241623357299382183">"Vælg et andet <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -350,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Du vil ikke modtage nye sms/mms-beskeder"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Send mms-beskeder"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Sender alle mms\'er fra udbakken til netværket"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Vil du bruge Beskeder som din standardapp til sms\'er?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Nej tak"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Ja!"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Beskeder er ikke din app til sms\'er"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> er din app til sms\'er"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Du kan ændre dette i Indstillinger"</string>
 </resources>

@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Kaikki viestiketjut"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Kirjoita viesti"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Avaa näppäimistö ja kirjoita viesti"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Lähetys ei käytössä"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Tekstiviestiä ei voi kirjoittaa. Ei oletussovellus."</string>
     <string name="compressing" msgid="1961357529661045180">"Liian suuri kuva. Pakataan..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Ei-tuettu <xliff:g id="NAME">%1$s</xliff:g>muoto."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Valitse muu <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -350,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Et saa enää teksti- tai multimediaviestejä"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS-heräte"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Lähettää kaikki lähtevät multimediaviestit verkkoon"</string>
-    <string name="banner_sms_promo_message" msgid="8192023089601130407">"Haluatko, että Messaging on oletustekstiviestisovelluksesi?"</string>
-    <string name="banner_sms_promo_decline" msgid="113810998029698558">"Ei kiitos"</string>
-    <string name="banner_sms_promo_accept" msgid="713438608462912462">"Kyllä vain"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Messaging ei ole tekstiviestisovelluksesi"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> on tekstiviestisovelluksesi"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Voit muuttaa tätä valitsemalla Asetukset"</string>
 </resources>
