@@ -87,7 +87,7 @@
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Ketik pesan"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Buka keyboard untuk mengetik pesan"</string>
     <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Pengiriman dinonaktifkan"</string>
-    <string name="compose_disabled_toast" msgid="1838175321052707875">"Tidak dapat menyusun pesan. Bukan aplikasi SMS default."</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Tidak dapat menulis pesan. Bukan aplikasi SMS default."</string>
     <string name="compressing" msgid="1961357529661045180">"Gambar terlalu besar. Memampatkan…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Format <xliff:g id="NAME">%1$s</xliff:g> tidak didukung"</string>
     <string name="select_different_media" msgid="6241623357299382183">"Pilih <xliff:g id="NAME">%1$s</xliff:g> yang berbeda."</string>
