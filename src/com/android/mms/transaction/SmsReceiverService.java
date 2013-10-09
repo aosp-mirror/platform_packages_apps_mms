@@ -53,6 +53,7 @@ import android.widget.Toast;
 
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.mms.LogTag;
+import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.Conversation;
@@ -192,7 +193,7 @@ public class SmsReceiverService extends Service {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleMessage serviceId: " + serviceId + " intent: " + intent);
             }
-            if (intent != null) {
+            if (intent != null && MmsConfig.isSmsEnabled(getApplicationContext())) {
                 String action = intent.getAction();
 
                 int error = intent.getIntExtra("errorCode", 0);
