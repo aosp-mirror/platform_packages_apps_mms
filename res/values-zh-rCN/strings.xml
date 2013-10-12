@@ -87,7 +87,7 @@
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"键入信息"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"打开键盘键入信息"</string>
     <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"发送功能已停用"</string>
-    <string name="compose_disabled_toast" msgid="1838175321052707875">"无法撰写短信，因为此应用不是默认的短信应用。"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"无法写短信，因为此应用不是默认的短信应用。"</string>
     <string name="compressing" msgid="1961357529661045180">"图片过大。正在压缩…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"不支持<xliff:g id="NAME">%1$s</xliff:g>格式。"</string>
     <string name="select_different_media" msgid="6241623357299382183">"选择其他<xliff:g id="NAME">%1$s</xliff:g>。"</string>
