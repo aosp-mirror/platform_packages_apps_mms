@@ -161,7 +161,7 @@
     <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS desactivats"</string>
     <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Toca per fer que Missatgeria sigui l\'aplicació per a SMS predeterminada"</string>
     <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS activats"</string>
-    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Toca per canviar l\'aplicació per a SMS predeterminada"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Toca per canviar l\'aplicació de SMS predeterminada"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Gestiona els missatges emmagatzemats a la targeta SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Sol·licita un informe de lliurament per a cada missatge que envieu"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Sol·licita un informe de lectura per a cada missatge que envieu"</string>
@@ -184,7 +184,7 @@
     <string name="silent_ringtone" msgid="7981237991326592780">"Silenci"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Recuperació automàtica"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Recupera automàticament els missatges"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Recuperació automàtica en itinerància"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"En itinerància"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Recupera automàticament els missatges en itinerància"</string>
     <string name="confirm_dialog_title" msgid="2187213750475782725">"Vols suprimir?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Voleu suprimir el missatge bloquejat?"</string>
