@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 import org.apache.http.HttpEntity;
@@ -38,6 +39,7 @@ import org.apache.http.params.HttpProtocolParams;
 
 import android.content.Context;
 import android.net.http.AndroidHttpClient;
+import android.os.SystemProperties;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Config;
@@ -45,6 +47,9 @@ import android.util.Log;
 
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
+import com.android.mms.R;
+
+import org.apache.commons.codec.binary.Base64;
 
 public class HttpUtils {
     private static final String TAG = LogTag.TRANSACTION;
@@ -171,14 +176,28 @@ public class HttpUtils {
             // Separate each pair by the first occurrence of ':' to obtain a name and
             // value. Replace the occurrence of the string returned by
             // MmsConfig.getHttpParamsLine1Key() with the users telephone number inside
-            // the value.
+            // the value. And replace the occurrence of the string returned by
+            // MmsConfig.getHttpParamsNaiKey() with the users NAI(Network Access Identifier)
+            // inside the value.
             String extraHttpParams = MmsConfig.getHttpParams();
 
             if (extraHttpParams != null) {
                 String line1Number = ((TelephonyManager)context
                         .getSystemService(Context.TELEPHONY_SERVICE))
                         .getLine1Number();
+                String nai = SystemProperties.get("persist.radio.cdma.nai", null);
+                if (!TextUtils.isEmpty(nai)) {
+                    // default config_addendum is empty("").
+                    // Some operators use "nai + additional info".
+                    // This value could set as mcc/mnc.
+                    String addendum = context.getResources().getString(R.string.config_addendum);
+                    nai = nai + addendum;
+                    byte[] encoded = Base64.encodeBase64(nai.getBytes(StandardCharsets.UTF_8));
+                    nai = new String(encoded, StandardCharsets.UTF_8);
+                }
+
                 String line1Key = MmsConfig.getHttpParamsLine1Key();
+                String naiKey = MmsConfig.getHttpParamsNaiKey();
                 String paramList[] = extraHttpParams.split("\\|");
 
                 for (String paramPair : paramList) {
@@ -188,8 +207,11 @@ public class HttpUtils {
                         String name = splitPair[0].trim();
                         String value = splitPair[1].trim();
 
-                        if (line1Key != null) {
+                        if (line1Key != null && line1Number != null) {
                             value = value.replace(line1Key, line1Number);
+                        }
+                        if (naiKey != null && nai != null) {
+                            value = value.replace(naiKey, nai);
                         }
                         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(value)) {
                             req.addHeader(name, value);
