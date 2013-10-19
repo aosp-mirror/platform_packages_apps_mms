@@ -105,5 +105,10 @@
     <string name="httpParamsLine1Key">##LINE1##</string>
     -->
 
+    <!-- Reference for the substitution key to be used when adding the users NAI
+         (Network Access Identifier) to the httpPrams at runtime. Optional. -->
+    <!--
+    <string name="httpParamsNaiKey">##NAI##</string>
+    -->
 
 </mms_config>
