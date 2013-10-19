@@ -50,6 +50,8 @@ public class MmsConfig {
     private static String mUaProfUrl = null;
     private static String mHttpParams = null;
     private static String mHttpParamsLine1Key = null;
+    private static String mHttpParamsNaiKey = null;
+    private static String mHttpParamsNaiAddendum = null;
     private static String mEmailGateway = null;
     private static int mMaxImageHeight = MAX_IMAGE_HEIGHT;      // default value
     private static int mMaxImageWidth = MAX_IMAGE_WIDTH;        // default value
@@ -154,6 +156,14 @@ public class MmsConfig {
 
     public static String getHttpParamsLine1Key() {
         return mHttpParamsLine1Key;
+    }
+
+    public static String getHttpParamsNaiKey() {
+        return mHttpParamsNaiKey;
+    }
+
+    public static String getHttpParamsNaiAddendum() {
+        return mHttpParamsNaiAddendum;
     }
 
     public static String getEmailGateway() {
@@ -380,6 +390,10 @@ public class MmsConfig {
                             mHttpParamsLine1Key = text;
                         } else if ("emailGatewayNumber".equalsIgnoreCase(value)) {
                             mEmailGateway = text;
+                        } else if ("httpParamsNaiKey".equalsIgnoreCase(value)) {
+                            mHttpParamsNaiKey = text;
+                        } else if ("httpParamsNaiAddendum".equalsIgnoreCase(value)) {
+                            mHttpParamsNaiAddendum = text;
                         }
                     }
                 }
