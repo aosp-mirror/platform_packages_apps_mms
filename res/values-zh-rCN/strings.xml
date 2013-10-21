@@ -335,7 +335,7 @@
     <item quantity="other" msgid="1393002799298501480">"+<xliff:g id="NUMBER">%1$s</xliff:g> 条其他短信"</item>
   </plurals>
     <string name="error_state" msgid="5177386717626893507">"状态不一致"</string>
-    <string name="error_state_text" msgid="7918866106335387710">"会话邮件集和收件人的状态不一致。请为错误截图，并通过 http://go/droidanizer 向我们报告这一问题"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"会话和收件人的状态不一致。请为错误截图，并通过 http://go/droidanizer 向我们报告这一问题"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> 个人"</item>
   </plurals>
