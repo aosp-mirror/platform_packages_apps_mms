@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe62ccbe_372e1804",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1024998
+      },
+      "writtenOn": "2013-10-25T17:41:25Z",
+      "side": 1,
+      "message": "Use a constant for this property key string.\n\nWhy default is \"0\"?",
+      "revId": "3c25a71eb134bb9cfde6dd2552469c6747a58e84",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e5ec0fd_787081d4",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1024998
+      },
+      "writtenOn": "2013-10-25T17:41:25Z",
+      "side": 1,
+      "message": "nai will never be null given you provided a default value above. Either use null in the above or remove the default value parameter and use !TextUtils.isEmpty here.",
+      "revId": "3c25a71eb134bb9cfde6dd2552469c6747a58e84",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e69c4a2_f98ad7ac",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1024998
+      },
+      "writtenOn": "2013-10-25T17:41:25Z",
+      "side": 1,
+      "message": "Add character set paramenter for getBytes. UTF-8?",
+      "revId": "3c25a71eb134bb9cfde6dd2552469c6747a58e84",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e5ec0fd_fb59eb37",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1024998
+      },
+      "writtenOn": "2013-10-25T17:41:25Z",
+      "side": 1,
+      "message": "Add character set parameter for new String. UTF-8?",
+      "revId": "3c25a71eb134bb9cfde6dd2552469c6747a58e84",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
