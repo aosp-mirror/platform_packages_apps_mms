@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1e85e089_808156c0",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1016953
+      },
+      "writtenOn": "2013-10-25T19:51:24Z",
+      "side": 1,
+      "message": "I\u0027ll change to \"null\"",
+      "parentUuid": "fe62ccbe_372e1804",
+      "revId": "3c25a71eb134bb9cfde6dd2552469c6747a58e84",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e5ec0fd_787081d4",
         "filename": "src/com/android/mms/transaction/HttpUtils.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-25T17:41:25Z",
       "side": 1,
       "message": "nai will never be null given you provided a default value above. Either use null in the above or remove the default value parameter and use !TextUtils.isEmpty here.",
+      "revId": "3c25a71eb134bb9cfde6dd2552469c6747a58e84",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e80e478_c1a282a4",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1016953
+      },
+      "writtenOn": "2013-10-25T19:51:24Z",
+      "side": 1,
+      "message": "I\u0027ll change TextUtils.isEmpty",
+      "parentUuid": "1e5ec0fd_787081d4",
       "revId": "3c25a71eb134bb9cfde6dd2552469c6747a58e84",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3e80e478_e1a786b1",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1016953
+      },
+      "writtenOn": "2013-10-25T19:51:24Z",
+      "side": 1,
+      "message": "OK I\u0027ll do",
+      "parentUuid": "3e69c4a2_f98ad7ac",
+      "revId": "3c25a71eb134bb9cfde6dd2552469c6747a58e84",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e5ec0fd_fb59eb37",
         "filename": "src/com/android/mms/transaction/HttpUtils.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-10-25T17:41:25Z",
       "side": 1,
       "message": "Add character set parameter for new String. UTF-8?",
+      "revId": "3c25a71eb134bb9cfde6dd2552469c6747a58e84",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe89eca8_ffdabf32",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1016953
+      },
+      "writtenOn": "2013-10-25T19:51:24Z",
+      "side": 1,
+      "message": "ditto. it needs to verify. so after verifying, i\u0027ll update",
+      "parentUuid": "1e5ec0fd_fb59eb37",
       "revId": "3c25a71eb134bb9cfde6dd2552469c6747a58e84",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
