@@ -34,6 +34,24 @@
       "revId": "401ccea958a3daeff3f621e33dc9774e23718277",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ed08087_ebebed94",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1016953
+      },
+      "writtenOn": "2013-10-27T05:23:49Z",
+      "side": 1,
+      "message": "How about patchset #3?\nI added config value which is decided by mcc/mnc.",
+      "parentUuid": "7ea7bc23_aea9f729",
+      "revId": "401ccea958a3daeff3f621e33dc9774e23718277",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
