@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe62ccbe_518f142b",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-10-27T03:18:21Z",
+      "side": 1,
+      "message": "What is the \":pcs\" part? Can you make it a constant and add a comment? Is this provider-specific code or general? It looks general except for the + pcs part.",
+      "revId": "401ccea958a3daeff3f621e33dc9774e23718277",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
