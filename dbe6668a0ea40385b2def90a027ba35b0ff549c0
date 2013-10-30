@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fed48c7e_50146253",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1024998
+      },
+      "writtenOn": "2013-10-30T00:37:20Z",
+      "side": 1,
+      "message": "Can you do the same check for line1Number too here? Since you are already here.",
+      "revId": "dbe6668a0ea40385b2def90a027ba35b0ff549c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
