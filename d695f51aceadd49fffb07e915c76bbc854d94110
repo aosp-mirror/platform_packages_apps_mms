@@ -70,6 +70,24 @@
       "revId": "d695f51aceadd49fffb07e915c76bbc854d94110",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e85e089_46a1268b",
+        "filename": "res/values/config.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1016953
+      },
+      "writtenOn": "2013-10-30T01:50:25Z",
+      "side": 1,
+      "message": "done. I verified in my local build.",
+      "parentUuid": "1ed08087_b7083241",
+      "revId": "d695f51aceadd49fffb07e915c76bbc854d94110",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
