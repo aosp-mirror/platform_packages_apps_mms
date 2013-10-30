@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bec694d7_2e798bc2",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1024998
+      },
+      "writtenOn": "2013-10-30T00:16:32Z",
+      "side": 1,
+      "message": "Check if addendum is empty?",
+      "revId": "651e9702ffe5f83c9faefbb148844c0217955d32",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
