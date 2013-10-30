@@ -16,6 +16,23 @@
       "revId": "651e9702ffe5f83c9faefbb148844c0217955d32",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fed48c7e_b0083e41",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1024998
+      },
+      "writtenOn": "2013-10-30T00:21:29Z",
+      "side": 1,
+      "message": "this will throw npe if nai is null.",
+      "revId": "651e9702ffe5f83c9faefbb148844c0217955d32",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
