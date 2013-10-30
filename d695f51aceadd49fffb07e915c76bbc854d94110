@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e5ec0fd_74b873b7",
+        "filename": "res/values/config.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002473
+      },
+      "writtenOn": "2013-10-30T00:53:57Z",
+      "side": 1,
+      "message": "can we just move this config key/value to mms_config.xml? I don\u0027t think we need to create a new config.xml file.",
+      "revId": "d695f51aceadd49fffb07e915c76bbc854d94110",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
