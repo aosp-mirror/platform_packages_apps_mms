@@ -16,6 +16,24 @@
       "revId": "d695f51aceadd49fffb07e915c76bbc854d94110",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ed08087_1c3fa5e6",
+        "filename": "res/values/config.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1016953
+      },
+      "writtenOn": "2013-10-30T00:59:01Z",
+      "side": 1,
+      "message": "If we use this config in mms_config.xml, we should make another api. But if use in values/config.xml, just use getResources() api. that is reason",
+      "parentUuid": "1e5ec0fd_74b873b7",
+      "revId": "d695f51aceadd49fffb07e915c76bbc854d94110",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
