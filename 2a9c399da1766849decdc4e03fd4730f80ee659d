@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e49184c_be001e5a",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1002473
+      },
+      "writtenOn": "2013-10-30T03:26:39Z",
+      "side": 1,
+      "message": "if \u0027naiKey\u0027 is null, you don\u0027t need to bother computing \u0027nai\u0027.",
+      "revId": "2a9c399da1766849decdc4e03fd4730f80ee659d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e49184c_feb38693",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1002473
+      },
+      "writtenOn": "2013-10-30T03:26:39Z",
+      "side": 1,
+      "message": "this isn\u0027t very optimized, as you are always running multiple\n\n  value.replace()\n\non each param value. If we ever add more params, this will get very expensive. How about something like\n\n  boolean foundLine1 \u003d false;\n  boolean foundNai \u003d false;\n\n  for (String paramPair : paramList) {\n      ...\n\n      if (!foundLine1 \u0026\u0026 value.indexOf(line1Key) \u003e\u003d 0) {\n        value \u003d value.replace(line1Key, line1Number);\n        foundLine1 \u003d true;\n        continue;\n      }  \n\n      if (!foundNai \u0026\u0026 value.indexOf(naiKey) \u003e\u003d 0) {\n        value \u003d value.replace(naiKey, nai);\n        foundNai \u003d true;\n        continue;\n      }\n  }",
+      "revId": "2a9c399da1766849decdc4e03fd4730f80ee659d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
