@@ -52,6 +52,24 @@
       "revId": "d695f51aceadd49fffb07e915c76bbc854d94110",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ed08087_b7083241",
+        "filename": "res/values/config.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1016953
+      },
+      "writtenOn": "2013-10-30T01:06:20Z",
+      "side": 1,
+      "message": "OK. I\u0027ll change.",
+      "parentUuid": "5e49184c_6328dda7",
+      "revId": "d695f51aceadd49fffb07e915c76bbc854d94110",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
