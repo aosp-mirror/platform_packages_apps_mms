@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1e85e089_e63dda40",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1016953
+      },
+      "writtenOn": "2013-10-30T05:54:26Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "1e5ec0fd_27396f55",
+      "revId": "b776bf16dd542f126f02c43910dfc70525194aa0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe62ccbe_325534fd",
         "filename": "src/com/android/mms/transaction/HttpUtils.java",
         "patchSetId": 7
