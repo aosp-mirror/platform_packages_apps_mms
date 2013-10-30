@@ -16,6 +16,24 @@
       "revId": "dbe6668a0ea40385b2def90a027ba35b0ff549c0",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ea7bc23_fa85759f",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1016953
+      },
+      "writtenOn": "2013-10-30T00:42:41Z",
+      "side": 1,
+      "message": "Sure, done",
+      "parentUuid": "fed48c7e_50146253",
+      "revId": "dbe6668a0ea40385b2def90a027ba35b0ff549c0",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
