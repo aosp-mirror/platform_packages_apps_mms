@@ -69,6 +69,24 @@
       "revId": "2a9c399da1766849decdc4e03fd4730f80ee659d",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e5ec0fd_473e633d",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1002473
+      },
+      "writtenOn": "2013-10-30T05:40:42Z",
+      "side": 1,
+      "message": "value.indexOf() isn\u0027t cheap either. If you used boolean, you wouldn\u0027t need to perform the same string search for the params already found in previous iterations.",
+      "parentUuid": "7ea7bc23_4565ceb7",
+      "revId": "2a9c399da1766849decdc4e03fd4730f80ee659d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
