@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7ea7bc23_7aa8651e",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1016953
+      },
+      "writtenOn": "2013-10-30T00:30:57Z",
+      "side": 1,
+      "message": "addendum is default empty(\"\"), not null. It doesn\u0027t matter.",
+      "parentUuid": "bec694d7_2e798bc2",
+      "revId": "651e9702ffe5f83c9faefbb148844c0217955d32",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fed48c7e_b0083e41",
         "filename": "src/com/android/mms/transaction/HttpUtils.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-10-30T00:21:29Z",
       "side": 1,
       "message": "this will throw npe if nai is null.",
+      "revId": "651e9702ffe5f83c9faefbb148844c0217955d32",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ea7bc23_9ad71196",
+        "filename": "src/com/android/mms/transaction/HttpUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1016953
+      },
+      "writtenOn": "2013-10-30T00:30:57Z",
+      "side": 1,
+      "message": "I\u0027ll update",
+      "parentUuid": "fed48c7e_b0083e41",
       "revId": "651e9702ffe5f83c9faefbb148844c0217955d32",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
