@@ -34,6 +34,24 @@
       "revId": "d695f51aceadd49fffb07e915c76bbc854d94110",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e49184c_6328dda7",
+        "filename": "res/values/config.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002473
+      },
+      "writtenOn": "2013-10-30T01:02:22Z",
+      "side": 1,
+      "message": "If by \"make another api\" means adding an API to MmsConfig.java, go for it. We have many examples of getting some value out of mms_config.xml, thru. MmsConfig.java, so we should just be consistent and do that. \n\nI\u0027d rather not introduce another config file for MMS.",
+      "parentUuid": "1ed08087_1c3fa5e6",
+      "revId": "d695f51aceadd49fffb07e915c76bbc854d94110",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
     }
   ]
 }
