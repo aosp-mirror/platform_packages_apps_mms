@@ -51,9 +51,9 @@
     <string name="menu_forward" msgid="9026858380050046756">"إعادة توجيه"</string>
     <string name="download" msgid="4488877642230207631">"تنزيل"</string>
     <string name="downloading" msgid="1779557575565350637">"تنزيل"</string>
-    <string name="inline_subject" msgid="4057621785274119260">"&lt;الموضوع: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
-    <string name="drm_protected_text" msgid="1396394157870730742">"* نص خاضع لحماية * DRM"</string>
-    <string name="insufficient_drm_rights" msgid="6989074725969164383">"تم اكتشاف حقوق DRM غير كافية."</string>
+    <string name="inline_subject" msgid="4057621785274119260">"‏&lt;الموضوع: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="drm_protected_text" msgid="1396394157870730742">"‏* نص خاضع لحماية * DRM"</string>
+    <string name="insufficient_drm_rights" msgid="6989074725969164383">"‏تم اكتشاف حقوق DRM غير كافية."</string>
     <string name="copy_message_text" msgid="4296252229544252834">"نسخ النص"</string>
     <string name="message_options" msgid="6838806653341967550">"خيارات الرسائل"</string>
     <string name="slideshow_options" msgid="3501759384739796431">"خيارات عرض الشرائح"</string>
@@ -87,7 +87,7 @@
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"اكتب رسالة"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"فتح لوحة المفاتيح لكتابة رسالة"</string>
     <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"تم تعطيل الإرسال"</string>
-    <string name="compose_disabled_toast" msgid="1838175321052707875">"يتعذر إنشاء الرسالة. التطبيق ليس التطبيق الافتراضي للرسائل القصيرة SMS."</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"‏يتعذر إنشاء الرسالة. التطبيق ليس التطبيق الافتراضي للرسائل القصيرة SMS."</string>
     <string name="compressing" msgid="1961357529661045180">"حجم الصورة أكبر من اللازم. جارٍ الضغط..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"تنسيق <xliff:g id="NAME">%1$s</xliff:g> غير متوافق."</string>
     <string name="select_different_media" msgid="6241623357299382183">"اختر <xliff:g id="NAME">%1$s</xliff:g> مختلفًا."</string>
@@ -98,7 +98,7 @@
     <string name="resize_image_error_information" msgid="3783200130776554475">"هذه الصورة أكبر مما ينبغي بحيث لا يمكن إرسالها، حتى عند تغيير حجمها."</string>
     <string name="forward_prefix" msgid="276280492803486464">"إعادة توجيه: "</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"سيتم إلغاء الرسالة لأنها لا تحتوي على أية مستلمين صالحين."</string>
-    <string name="has_invalid_recipient" msgid="1485388396900997383">"المستلمون غير الصالحون: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
+    <string name="has_invalid_recipient" msgid="1485388396900997383">"‏المستلمون غير الصالحون: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"عنوان الوجهة غير صالح."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"لم يتم تنشيط الخدمة على الشبكة."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"الرسالة غير متاحة أو انتهت صلاحيتها."</string>
@@ -106,7 +106,7 @@
     <string name="invalid_recipient_message" msgid="6465343105010999068">"صحح المستلمين وإلا فلن يتلقوا الرسالة."</string>
     <string name="cannot_send_message" msgid="3414307479833622644">"لا يمكن إرسال الرسالة"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"لا تشتمل رسالتك على مستلمين صالحين."</string>
-    <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"لا يمكن إعادة توجيه كائن DRM المضمن في الرسالة."</string>
+    <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"‏لا يمكن إعادة توجيه كائن DRM المضمن في الرسالة."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"جارٍ التحويل إلى رسالة وسائط متعددة…"</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"لا يمكن إضافة مزيد من الشرائح."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"لا يمكن إضافة فيديو وصورة إلى شريحة واحدة."</string>
@@ -155,21 +155,21 @@
     <string name="preferences_title" msgid="6650089610332670157">"الإعدادات"</string>
     <string name="restore_default" msgid="7165341506551155053">"استعادة الإعدادات الافتراضية"</string>
     <string name="pref_notification_settings_title" msgid="6420782563630369776">"اشعارات"</string>
-    <string name="pref_mms_settings_title" msgid="55618772118264355">"رسائل الوسائط المتعددة (MMS)"</string>
-    <string name="pref_sms_settings_title" msgid="5173078369851066881">"الرسائل النصية (SMS)"</string>
+    <string name="pref_mms_settings_title" msgid="55618772118264355">"‏رسائل الوسائط المتعددة (MMS)"</string>
+    <string name="pref_sms_settings_title" msgid="5173078369851066881">"‏الرسائل النصية (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"وحدة التخزين"</string>
-    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"تم تعطيل الرسائل القصيرة SMS"</string>
-    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"المس لجعل تطبيق المراسلة يعمل باعتباره تطبيق الرسائل القصيرة SMS الافتراضي"</string>
-    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"تم تمكين الرسائل القصيرة SMS"</string>
-    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"المس لتغيير تطبيق الرسائل القصيرة SMS الافتراضي"</string>
-    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"إدارة الرسائل المخزنة على بطاقة SIM"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"‏تم تعطيل الرسائل القصيرة SMS"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"‏المس لجعل تطبيق المراسلة يعمل باعتباره تطبيق الرسائل القصيرة SMS الافتراضي"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"‏تم تمكين الرسائل القصيرة SMS"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"‏المس لتغيير تطبيق الرسائل القصيرة SMS الافتراضي"</string>
+    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"‏إدارة الرسائل المخزنة على بطاقة SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"طلب تقرير تسليم لكل رسالة ترسلها"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"طلب تقرير قراءة لكل رسالة ترسلها"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"طلب تقرير تسليم لكل رسالة ترسلها"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"حذف الرسائل القديمة عند بلوغ الحدود"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> من الرسائل في كل محادثة"</string>
     <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"يمكنك استخدام رسائل الوسائط المتعددة لإرسال رسالة واحدة عندما يكون هناك عدة مستلمين"</string>
-    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"إدارة رسائل بطاقة SIM"</string>
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"‏إدارة رسائل بطاقة SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"تقارير التسليم"</string>
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"المراسلة الجماعية"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"قراءة التقارير"</string>
@@ -196,8 +196,8 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"سيتم حذف جميع السلاسل."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"سيتم حذف الرسالة."</string>
     <string name="confirm_delete_locked_message" msgid="7203411948190100955">"هل تريد حذف هذه الرسالة المؤمنة؟"</string>
-    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"سيتم حذف كل الرسائل من بطاقة SIM."</string>
-    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"سيتم حذف هذه الرسالة من بطاقة SIM."</string>
+    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"‏سيتم حذف كل الرسائل من بطاقة SIM."</string>
+    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"‏سيتم حذف هذه الرسالة من بطاقة SIM."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"حذف الرسائل المؤمنة"</string>
     <string name="delete" msgid="1409973060081564612">"حذف"</string>
     <string name="select_conversations" msgid="7816517565640002844">"اختيار المحادثات"</string>
@@ -230,9 +230,9 @@
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"نسخ إلى ذاكرة الجهاز اللوحي"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"نسخ إلى ذاكرة الهاتف"</string>
     <string name="sim_delete" msgid="610790510655316922">"حذف"</string>
-    <string name="sim_manage_messages_title" msgid="3989147182100584333">"الرسائل النصية على بطاقة SIM"</string>
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"‏الرسائل النصية على بطاقة SIM"</string>
     <string name="sim_view" msgid="1997173541766393706">"عرض"</string>
-    <string name="sim_empty" msgid="2356766833071636297">"لا رسائل على بطاقة SIM."</string>
+    <string name="sim_empty" msgid="2356766833071636297">"‏لا رسائل على بطاقة SIM."</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"التقرير"</string>
     <string name="status_none" msgid="8253075950774894961">"(لا شيء)"</string>
     <string name="status_pending" msgid="2739860824607984892">"في انتظار المراجعة"</string>
@@ -253,12 +253,12 @@
     <string name="attach_slideshow" msgid="3497422151091037063">"عرض الشرائح"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"النص في الأسفل"</string>
     <string name="select_top_text" msgid="6734183477539197815">"النص في الأعلى"</string>
-    <string name="delivery_toast_body" msgid="5960519861835727013">"تم تلقي الرسالة بواسطة %s."</string>
+    <string name="delivery_toast_body" msgid="5960519861835727013">"‏تم تلقي الرسالة بواسطة %s."</string>
     <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> من الرسائل غير المقروءة."</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"رسائل جديدة"</string>
     <string name="notification_failed_multiple" msgid="6192531993698497229">"تعذر إرسال <xliff:g id="COUNT">%s</xliff:g> من الرسائل"</string>
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"لم يتم إرسال الرسائل"</string>
-    <string name="sim_full_title" msgid="1809829051697702810">"بطاقة SIM ممتلئة"</string>
+    <string name="sim_full_title" msgid="1809829051697702810">"‏بطاقة SIM ممتلئة"</string>
     <string name="sim_full_body" msgid="6241664980790322925">"احذف بعض الرسائل لإفراغ مساحة لمزيد من الرسائل."</string>
     <string name="sms_full_title" msgid="6041287140125011854">"ذاكرة الرسائل النصية ممتلئة"</string>
     <string name="sms_full_body" msgid="4885861852397651868">"تم رفض الرسالة الواردة نظرًا لأن الذاكرة ممتلئة. احذف بعض الرسائل القديمة."</string>
@@ -280,7 +280,7 @@
     <string name="message_send_failed_title" msgid="3469894907399046372">"لم يتم إرسال الرسالة"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"المس لمراجعة الرسالة والمحاولة مرة أخرى."</string>
     <string name="download_later" msgid="5531365714424360903">"لا يمكن التنزيل الآن. حاول مرة أخرى لاحقًا."</string>
-    <string name="no_apn" msgid="505932916503312015">"لم يتم تحديد APN على هذا الجهاز."</string>
+    <string name="no_apn" msgid="505932916503312015">"‏لم يتم تحديد APN على هذا الجهاز."</string>
     <string name="select_audio" msgid="3528161449756771832">"اختيار الصوت"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"حفظ المرفق"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"تم حفظ المرفق."</string>
@@ -335,7 +335,7 @@
     <item quantity="other" msgid="1393002799298501480">"+<xliff:g id="NUMBER">%1$s</xliff:g> من الرسائل الأخرى"</item>
   </plurals>
     <string name="error_state" msgid="5177386717626893507">"حالة غير متسقة"</string>
-    <string name="error_state_text" msgid="7918866106335387710">"حالة سلاسل المحادثات والمستلمين غير متسقة. الرجاء إعداد تقرير للإبلاغ عن خلل وإرساله إلى http://go/droidanizer"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"‏حالة سلاسل المحادثات والمستلمين غير متسقة. الرجاء إعداد تقرير للإبلاغ عن خلل وإرساله إلى http://go/droidanizer"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> من الأشخاص"</item>
   </plurals>
@@ -349,10 +349,10 @@
     <string name="enumeration_comma" msgid="213598026698964628">"، "</string>
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"تخزين الهاتف مكتمل"</string>
-    <string name="storage_warning_content" msgid="1100367816649962354">"لن تتلقى أية رسائل قصيرة SMS/رسائل وسائط متعددة جديدة"</string>
+    <string name="storage_warning_content" msgid="1100367816649962354">"‏لن تتلقى أية رسائل قصيرة SMS/رسائل وسائط متعددة جديدة"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"تنبيه رسائل الوسائط المتعددة"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"إرسال جميع رسائل الوسائط المتعددة من البريد الصادر إلى الشبكة"</string>
-    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"المراسلة ليس تطبيقك للرسائل القصيرة SMS"</string>
-    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> هو تطبيق الرسائل القصيرة SMS"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"‏المراسلة ليس تطبيقك للرسائل القصيرة SMS"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"‏<xliff:g id="APPNAME">%s</xliff:g> هو تطبيق الرسائل القصيرة SMS"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"يمكنك تغيير ذلك من الإعدادات"</string>
 </resources>

@@ -51,9 +51,9 @@
     <string name="menu_forward" msgid="9026858380050046756">"هدایت"</string>
     <string name="download" msgid="4488877642230207631">"دانلود"</string>
     <string name="downloading" msgid="1779557575565350637">"در حال دانلود"</string>
-    <string name="inline_subject" msgid="4057621785274119260">"&lt;موضوع: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
-    <string name="drm_protected_text" msgid="1396394157870730742">"* متن محافظت شده با DRM *"</string>
-    <string name="insufficient_drm_rights" msgid="6989074725969164383">"حقوق DRM ناکافی شناسایی شد."</string>
+    <string name="inline_subject" msgid="4057621785274119260">"‏&lt;موضوع: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="drm_protected_text" msgid="1396394157870730742">"‏* متن محافظت شده با DRM *"</string>
+    <string name="insufficient_drm_rights" msgid="6989074725969164383">"‏حقوق DRM ناکافی شناسایی شد."</string>
     <string name="copy_message_text" msgid="4296252229544252834">"کپی متن"</string>
     <string name="message_options" msgid="6838806653341967550">"گزینه‌های پیام"</string>
     <string name="slideshow_options" msgid="3501759384739796431">"گزینه‌های نمایش اسلاید"</string>
@@ -98,7 +98,7 @@
     <string name="resize_image_error_information" msgid="3783200130776554475">"این عکس حتی پس از تغییر اندازه خیلی بزرگ است و ارسال نمی‌شود."</string>
     <string name="forward_prefix" msgid="276280492803486464">"هدایت: "</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"از پیام شما به علت نداشتن گیرندگان معتبر صرفنظر می‌شود."</string>
-    <string name="has_invalid_recipient" msgid="1485388396900997383">"گیرنده (گیرندگان) نامعتبر : &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
+    <string name="has_invalid_recipient" msgid="1485388396900997383">"‏گیرنده (گیرندگان) نامعتبر : &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"آدرس مقصد نامعتبر است."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"سرویس در شبکه فعال نشده است."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"پیام منقضی شده یا در دسترس نیست."</string>
@@ -106,7 +106,7 @@
     <string name="invalid_recipient_message" msgid="6465343105010999068">"گیرنده (گیرندگان) را تصحیح کنید در غیر این صورت آن‌ها پیام را دریافت نمی‌کنند."</string>
     <string name="cannot_send_message" msgid="3414307479833622644">"ارسال پیام امکان‌پذیر نیست"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"پیام شما هیچ گیرنده معتبری ندارد."</string>
-    <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"شیء DRM موجود در پیام باز ارسال نمی‌شود."</string>
+    <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"‏شیء DRM موجود در پیام باز ارسال نمی‌شود."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"در حال تبدیل به پیام چند رسانه‌ای..."</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"افزودن اسلایدهای بیشتر امکان‌پذیر نیست."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"افزودن ویدئو و عکس به یک اسلاید امکان‌پذیر نیست."</string>
@@ -155,7 +155,7 @@
     <string name="preferences_title" msgid="6650089610332670157">"تنظیمات"</string>
     <string name="restore_default" msgid="7165341506551155053">"بازیابی تنظیمات پیش‌فرض"</string>
     <string name="pref_notification_settings_title" msgid="6420782563630369776">"اعلان‌ها"</string>
-    <string name="pref_mms_settings_title" msgid="55618772118264355">"پیام‌های چند رسانه‌ای (MMS)"</string>
+    <string name="pref_mms_settings_title" msgid="55618772118264355">"‏پیام‌های چند رسانه‌ای (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"پیام‌های نوشتاری (پیامک)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"محل ذخیره"</string>
     <string name="pref_title_sms_disabled" msgid="1441894740130104326">"پیامک غیرفعال شد"</string>
@@ -168,7 +168,7 @@
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"درخواست یک گزارش تحویل برای هر پیامی که ارسال می‌کنید"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"حذف پیام‌های قدیمی به دلیل بیشتر شدن از حداکثر مجاز"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> پیام در هر گفتگو"</string>
-    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"در صورت وجود چند گیرنده، برای ارسال یک پیام، از MMS استفاده کنید"</string>
+    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"‏در صورت وجود چند گیرنده، برای ارسال یک پیام، از MMS استفاده کنید"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"مدیریت پیام‌های سیم کارت"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"گزارش‌های تحویل"</string>
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"پیام‌رسانی گروهی"</string>
@@ -282,7 +282,7 @@
     <string name="message_send_failed_title" msgid="3469894907399046372">"پیام ارسال نشد"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"برای مرور پیام لمس کنید و دوباره سعی کنید."</string>
     <string name="download_later" msgid="5531365714424360903">"در حال حاضر نمی‌توانید دانلود کنید. در فرصتی دیگر دوباره سعی کنید."</string>
-    <string name="no_apn" msgid="505932916503312015">"هیچ APN در دستگاه مشخص نشده است."</string>
+    <string name="no_apn" msgid="505932916503312015">"‏هیچ APN در دستگاه مشخص نشده است."</string>
     <string name="select_audio" msgid="3528161449756771832">"انتخاب صدا"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"ذخیره پیوست"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"پیوست ذخیره شد."</string>
@@ -337,7 +337,7 @@
     <item quantity="other" msgid="1393002799298501480">"+<xliff:g id="NUMBER">%1$s</xliff:g> پیام دیگر"</item>
   </plurals>
     <string name="error_state" msgid="5177386717626893507">"وضعیت ناهماهنگ"</string>
-    <string name="error_state_text" msgid="7918866106335387710">"وضعیت رشته‌ها و گیرندگان ناهماهنگ است. لطفاً گزارش اشکال‌ را تهیه و آن را از طریق http://go/droidanizer گزارش دهید"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"‏وضعیت رشته‌ها و گیرندگان ناهماهنگ است. لطفاً گزارش اشکال‌ را تهیه و آن را از طریق http://go/droidanizer گزارش دهید"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> نفر"</item>
   </plurals>
@@ -351,10 +351,10 @@
     <string name="enumeration_comma" msgid="213598026698964628">"، "</string>
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"فضای ذخیره‌سازی تلفن شما پر است"</string>
-    <string name="storage_warning_content" msgid="1100367816649962354">"‫شما پیامک/پیام MMS جدیدی دریافت نمی‌کنید"</string>
-    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"بیدارباش MMS"</string>
-    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"همه MMSها را از صندوق ارسال به شبکه ارسال می‌کند"</string>
-    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Messaging برنامه پیامک شما نیست"</string>
+    <string name="storage_warning_content" msgid="1100367816649962354">"‏‫شما پیامک/پیام MMS جدیدی دریافت نمی‌کنید"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"‏بیدارباش MMS"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"‏همه MMSها را از صندوق ارسال به شبکه ارسال می‌کند"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"‏Messaging برنامه پیامک شما نیست"</string>
     <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> برنامه پیامک شما است"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"می‌توانید این مورد را در تنظیمات تغییر دهید"</string>
 </resources>

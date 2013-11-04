@@ -51,9 +51,9 @@
     <string name="menu_forward" msgid="9026858380050046756">"העבר"</string>
     <string name="download" msgid="4488877642230207631">"הורד"</string>
     <string name="downloading" msgid="1779557575565350637">"מוריד"</string>
-    <string name="inline_subject" msgid="4057621785274119260">"&lt;נושא: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
-    <string name="drm_protected_text" msgid="1396394157870730742">"* טקסט המוגן באמצעות DRM *"</string>
-    <string name="insufficient_drm_rights" msgid="6989074725969164383">"לא אותרו מספיק זכויות DRM."</string>
+    <string name="inline_subject" msgid="4057621785274119260">"‏&lt;נושא: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="drm_protected_text" msgid="1396394157870730742">"‏* טקסט המוגן באמצעות DRM *"</string>
+    <string name="insufficient_drm_rights" msgid="6989074725969164383">"‏לא אותרו מספיק זכויות DRM."</string>
     <string name="copy_message_text" msgid="4296252229544252834">"העתק טקסט"</string>
     <string name="message_options" msgid="6838806653341967550">"אפשרויות הודעה"</string>
     <string name="slideshow_options" msgid="3501759384739796431">"אפשרויות מצגת"</string>
@@ -82,12 +82,12 @@
     <string name="remove" msgid="4625444913256213175">"הסר"</string>
     <string name="send" msgid="4589898724889248486">"שלח"</string>
     <string name="mms" msgid="1587631213714914559">"MMS"</string>
-    <string name="send_mms" msgid="2933162044872550662">"שלח MMS"</string>
+    <string name="send_mms" msgid="2933162044872550662">"‏שלח MMS"</string>
     <string name="all_threads" msgid="2663426830306307194">"כל השרשורים"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"הקלד הודעה"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"פתח מקלדת להקלדת הודעה"</string>
     <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"השליחה מושבתת"</string>
-    <string name="compose_disabled_toast" msgid="1838175321052707875">"לא ניתן לכתוב. זו אינה האפליקציה המוגדרת כברירת מחדל עבור SMS."</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"‏לא ניתן לכתוב. זו אינה האפליקציה המוגדרת כברירת מחדל עבור SMS."</string>
     <string name="compressing" msgid="1961357529661045180">"תמונה גדולה מדי. דוחס..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"פורמט <xliff:g id="NAME">%1$s</xliff:g> שאינו נתמך."</string>
     <string name="select_different_media" msgid="6241623357299382183">"בחר <xliff:g id="NAME">%1$s</xliff:g> שונה."</string>
@@ -98,7 +98,7 @@
     <string name="resize_image_error_information" msgid="3783200130776554475">"תמונה זו גדולה מדי לשליחה, גם לאחר שינוי הגודל."</string>
     <string name="forward_prefix" msgid="276280492803486464">"העבר: "</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"ההודעה תימחק כיוון שאין לה נמענים חוקיים."</string>
-    <string name="has_invalid_recipient" msgid="1485388396900997383">"נמענים לא חוקיים: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
+    <string name="has_invalid_recipient" msgid="1485388396900997383">"‏נמענים לא חוקיים: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"כתובת יעד לא חוקית."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"השירות לא הופעל ברשת."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"התוקף של ההודעה פג או שהיא לא זמינה."</string>
@@ -106,7 +106,7 @@
     <string name="invalid_recipient_message" msgid="6465343105010999068">"עליך לתקן את הנמענים, אחרת הם לא יקבלו את ההודעה."</string>
     <string name="cannot_send_message" msgid="3414307479833622644">"אין אפשרות לשלוח את הודעה"</string>
     <string name="cannot_send_message_reason" msgid="8745080126044054343">"להודעה אין נמענים חוקיים."</string>
-    <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"לא ניתן להעביר הלאה את אובייקט ה-DRM שכלול בהודעה."</string>
+    <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"‏לא ניתן להעביר הלאה את אובייקט ה-DRM שכלול בהודעה."</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"ממיר להודעת מולטימדיה..."</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"אין אפשרות להוסיף שקופיות נוספות."</string>
     <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"אין אפשרות להוסיף סרטון ותמונה לשקופית אחת."</string>
@@ -155,21 +155,21 @@
     <string name="preferences_title" msgid="6650089610332670157">"הגדרות"</string>
     <string name="restore_default" msgid="7165341506551155053">"שחזר את הגדרות ברירת המחדל"</string>
     <string name="pref_notification_settings_title" msgid="6420782563630369776">"התראות"</string>
-    <string name="pref_mms_settings_title" msgid="55618772118264355">"הודעות מולטימדיה (MMS)"</string>
-    <string name="pref_sms_settings_title" msgid="5173078369851066881">"הודעות טקסט (SMS)"</string>
+    <string name="pref_mms_settings_title" msgid="55618772118264355">"‏הודעות מולטימדיה (MMS)"</string>
+    <string name="pref_sms_settings_title" msgid="5173078369851066881">"‏הודעות טקסט (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"אחסון"</string>
-    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS מושבת"</string>
-    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"גע כדי להפוך את \'העברת הודעות\' לאפליקציית ברירת המחדל ל-SMS"</string>
-    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS פועל"</string>
-    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"גע כדי לשנות את אפליקציית ברירת המחדל ל-SMS"</string>
-    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"נהל הודעות המאוחסנות בכרטיס ה-SIM"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"‏SMS מושבת"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"‏גע כדי להפוך את \'העברת הודעות\' לאפליקציית ברירת המחדל ל-SMS"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"‏SMS פועל"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"‏גע כדי לשנות את אפליקציית ברירת המחדל ל-SMS"</string>
+    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"‏נהל הודעות המאוחסנות בכרטיס ה-SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"בקש דוח מסירה לכל הודעה שאתה שולח"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"בקש דוח קריאה לכל הודעה שאתה שולח"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"בקש דוח מסירה לכל הודעה שאתה שולח"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"מחק הודעות ישנות עם הגעה למגבלה"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> הודעות בכל שיחה"</string>
-    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"השתמש ב-MMS לשליחת הודעה אחת לנמענים מרובים"</string>
-    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"נהל הודעות בכרטיס SIM"</string>
+    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"‏השתמש ב-MMS לשליחת הודעה אחת לנמענים מרובים"</string>
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"‏נהל הודעות בכרטיס SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"דוחות מסירה"</string>
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"העברת הודעות לקבוצה"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"דוחות קריאה"</string>
@@ -196,8 +196,8 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"כל השרשורים יימחקו."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"ההודעה תימחק."</string>
     <string name="confirm_delete_locked_message" msgid="7203411948190100955">"למחוק הודעה נעולה זו?"</string>
-    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"כל ההודעות על כרטיס ה-SIM יימחקו."</string>
-    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"הודעה זו על כרטיס ה-SIM תימחק."</string>
+    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"‏כל ההודעות על כרטיס ה-SIM יימחקו."</string>
+    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"‏הודעה זו על כרטיס ה-SIM תימחק."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"מחק הודעות נעולות"</string>
     <string name="delete" msgid="1409973060081564612">"מחק"</string>
     <string name="select_conversations" msgid="7816517565640002844">"בחר שיחות"</string>
@@ -230,9 +230,9 @@
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"העתק לזיכרון של הטאבלט"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"העתק לזיכרון הטלפון"</string>
     <string name="sim_delete" msgid="610790510655316922">"מחק"</string>
-    <string name="sim_manage_messages_title" msgid="3989147182100584333">"הודעות טקסט בכרטיס SIM"</string>
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"‏הודעות טקסט בכרטיס SIM"</string>
     <string name="sim_view" msgid="1997173541766393706">"תצוגה"</string>
-    <string name="sim_empty" msgid="2356766833071636297">"אין הודעות בכרטיס ה-SIM."</string>
+    <string name="sim_empty" msgid="2356766833071636297">"‏אין הודעות בכרטיס ה-SIM."</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"דוח"</string>
     <string name="status_none" msgid="8253075950774894961">"(ללא)"</string>
     <string name="status_pending" msgid="2739860824607984892">"בהמתנה"</string>
@@ -253,12 +253,12 @@
     <string name="attach_slideshow" msgid="3497422151091037063">"מצגת"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"טקסט בתחתית"</string>
     <string name="select_top_text" msgid="6734183477539197815">"טקסט למעלה"</string>
-    <string name="delivery_toast_body" msgid="5960519861835727013">"הודעה התקבלה על ידי %s."</string>
+    <string name="delivery_toast_body" msgid="5960519861835727013">"‏הודעה התקבלה על ידי %s."</string>
     <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> הודעות שלא נקראו."</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"הודעות חדשות"</string>
     <string name="notification_failed_multiple" msgid="6192531993698497229">"לא ניתן היה לשלוח <xliff:g id="COUNT">%s</xliff:g> הודעות"</string>
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"ההודעות לא נשלחו"</string>
-    <string name="sim_full_title" msgid="1809829051697702810">"כרטיס SIM מלא"</string>
+    <string name="sim_full_title" msgid="1809829051697702810">"‏כרטיס SIM מלא"</string>
     <string name="sim_full_body" msgid="6241664980790322925">"מחק חלק מההודעות כדי לפנות מקום להודעות אחרות."</string>
     <string name="sms_full_title" msgid="6041287140125011854">"הזיכרון של הודעות הטקסט מלא"</string>
     <string name="sms_full_body" msgid="4885861852397651868">"הודעה נכנסת נדחתה בגלל שהזיכרון מלא. מחק כמה הודעות ישנות."</string>
@@ -280,7 +280,7 @@
     <string name="message_send_failed_title" msgid="3469894907399046372">"ההודעה לא נשלחה"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"גע כדי לבדוק את ההודעה ונסה שוב."</string>
     <string name="download_later" msgid="5531365714424360903">"לא ניתן להוריד כרגע. נסה שוב מאוחר יותר."</string>
-    <string name="no_apn" msgid="505932916503312015">"לא צוין APN במכשיר."</string>
+    <string name="no_apn" msgid="505932916503312015">"‏לא צוין APN במכשיר."</string>
     <string name="select_audio" msgid="3528161449756771832">"בחר קובץ אודיו"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"שמור את הקובץ המצורף"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"הקובץ המצורף נשמר."</string>
@@ -335,7 +335,7 @@
     <item quantity="other" msgid="1393002799298501480">"+<xliff:g id="NUMBER">%1$s</xliff:g> הודעות נוספות"</item>
   </plurals>
     <string name="error_state" msgid="5177386717626893507">"מצב לא עקבי"</string>
-    <string name="error_state_text" msgid="7918866106335387710">"המצב של השרשורים והנמענים אינו עקבי. צור דוח באגים ושלח אותו באמצעות http://go/droidanizer"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"‏המצב של השרשורים והנמענים אינו עקבי. צור דוח באגים ושלח אותו באמצעות http://go/droidanizer"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> אנשים"</item>
   </plurals>
@@ -349,10 +349,10 @@
     <string name="enumeration_comma" msgid="213598026698964628">", "</string>
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"שטח האחסון בטלפון שלך מלא"</string>
-    <string name="storage_warning_content" msgid="1100367816649962354">"לא תקבל הודעות SMS/MMS חדשות"</string>
-    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"התעוררות MMS"</string>
-    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"שולח את כל הודעות ה-MMS מתיבת הדואר היוצא לרשת"</string>
-    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"\'העברת הודעות\' אינה אפליקציית ה-SMS שלך"</string>
-    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> היא אפליקציית ה-SMS שלך"</string>
+    <string name="storage_warning_content" msgid="1100367816649962354">"‏לא תקבל הודעות SMS/MMS חדשות"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"‏התעוררות MMS"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"‏שולח את כל הודעות ה-MMS מתיבת הדואר היוצא לרשת"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"‏\'העברת הודעות\' אינה אפליקציית ה-SMS שלך"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"‏<xliff:g id="APPNAME">%s</xliff:g> היא אפליקציית ה-SMS שלך"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"ניתן לשנות זאת בהגדרות"</string>
 </resources>

@@ -339,7 +339,7 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> लोग"</item>
   </plurals>
-    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"डिफ़ॉल्ट संदेश सेवा एप्स से डुप्लिकेट पाठ संदेश सूचनाएं रोकें?"</string>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"डिफ़ॉल्ट संदेश सेवा ऐप्स  से डुप्लिकेट पाठ संदेश सूचनाएं रोकें?"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"और बातचीत देखें"</string>
     <string name="attachment_audio" msgid="2867960243300539143">"ऑडियो"</string>
     <string name="attachment_slideshow" msgid="5867689101881763318">"स्लाइड शो"</string>

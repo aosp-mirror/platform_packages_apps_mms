@@ -20,7 +20,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"Mesajlaş."</string>
+    <string name="app_label" msgid="1503967887341230795">"Mesajlaşma"</string>
     <string name="new_message" msgid="1530369762346003973">"Yeni ileti"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Ara: <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"<xliff:g id="NAME">%s</xliff:g> kişisine e-posta gönder"</string>
