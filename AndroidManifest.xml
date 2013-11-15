@@ -56,6 +56,9 @@
         <service android:name=".transaction.TransactionService"
                  android:exported="false" />
 
+        <service android:name=".transaction.TransactionService2"
+                 android:exported="true" />
+
         <service android:name=".transaction.SmsReceiverService"
                  android:exported="false" />
 
@@ -215,6 +218,23 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".transaction.WapPushReceiver"
+            android:permission="android.permission.BROADCAST_WAP_PUSH">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
+                <data android:mimeType="application/vnd.wap.slc" />
+                <data android:mimeType="application/vnd.wap.sic" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".transaction.MmsSystemEventReceiver2"></receiver>
+        <receiver android:name=".transaction.MmsSystemPushMsgReceiver"
+                  android:permission="android.permission.MMS_PUSH">
+                  <intent-filter>
+                      <action android:name="android.intent.action.MMS_PUSH" />
+                  </intent-filter>
+          </receiver>
+
         <activity android:name=".ui.ManageSimMessages"
                   android:theme="@style/MmsHoloTheme"
                   android:launchMode="singleTop"
@@ -230,6 +250,9 @@
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_DELIVER" />
+            </intent-filter>
+        <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_CB_RECEIVED" />
             </intent-filter>
         </receiver>
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal" >
+
+        <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button android:id="@+id/sim_chooser_card_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/sym_action_sms_1"
+                    android:drawablePadding="2dip"
+                    android:text="@string/sim_chooser_sim_one" />
+
+        <Button android:id="@+id/sim_chooser_card_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/sym_action_sms_2"
+                    android:drawablePadding="2dip"
+                    android:text="@string/sim_chooser_sim_two" />
+
+        </LinearLayout>
+
+        <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView android:id="@+id/sim1Name"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:singleLine="false"
+            android:textStyle="bold"
+            android:gravity="left|center" />
+
+
+        <TextView android:id="@+id/sim2Name"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:singleLine="false"
+            android:textStyle="bold"
+            android:gravity="left|center" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -45,6 +45,7 @@ import android.util.Log;
 
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
+import com.android.mms.util.BrcmDualSimUtils;
 
 public class HttpUtils {
     private static final String TAG = LogTag.TRANSACTION;
@@ -176,8 +177,13 @@ public class HttpUtils {
 
             if (extraHttpParams != null) {
                 String line1Number = ((TelephonyManager)context
-                        .getSystemService(Context.TELEPHONY_SERVICE))
+                        .getSystemService(Context.TELEPHONY_SERVICE1))
                         .getLine1Number();
+                if (BrcmDualSimUtils.isSupportDualSim() && (null == line1Number)) {
+                    line1Number = ((TelephonyManager)context
+                            .getSystemService(Context.TELEPHONY_SERVICE2))
+                        .getLine1Number();
+                }
                 String line1Key = MmsConfig.getHttpParamsLine1Key();
                 String paramList[] = extraHttpParams.split("\\|");
 
@@ -199,8 +205,17 @@ public class HttpUtils {
             }
             req.addHeader(HDR_KEY_ACCEPT_LANGUAGE, HDR_VALUE_ACCEPT_LANGUAGE);
 
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                Log.d(TAG, "httpConnection: Start execute AndroidHttpClient");
+            }
+
             HttpResponse response = client.execute(target, req);
             StatusLine status = response.getStatusLine();
+
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                Log.d(TAG, "httpConnection: Http Response: status code:" + status.getStatusCode());
+            }
+
             if (status.getStatusCode() != 200) { // HTTP 200 is success.
                 throw new IOException("HTTP error: " + status.getReasonPhrase());
             }

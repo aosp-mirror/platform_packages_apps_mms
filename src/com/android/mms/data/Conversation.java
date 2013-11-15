@@ -53,7 +53,7 @@ public class Conversation {
     public static final String[] ALL_THREADS_PROJECTION = {
         Threads._ID, Threads.DATE, Threads.MESSAGE_COUNT, Threads.RECIPIENT_IDS,
         Threads.SNIPPET, Threads.SNIPPET_CHARSET, Threads.READ, Threads.ERROR,
-        Threads.HAS_ATTACHMENT
+        Threads.HAS_ATTACHMENT, Threads.SIM_ID
     };
 
     public static final String[] UNREAD_PROJECTION = {
@@ -76,7 +76,7 @@ public class Conversation {
     private static final int READ           = 6;
     private static final int ERROR          = 7;
     private static final int HAS_ATTACHMENT = 8;
-
+    private static final int SIM_ID         = 9;
 
     private final Context mContext;
 
@@ -101,6 +101,8 @@ public class Conversation {
     private static Object sDeletingThreadsLock = new Object();
     private boolean mMarkAsReadBlocked;
     private boolean mMarkAsReadWaiting;
+
+    private int mSimId = -1;
 
     private Conversation(Context context) {
         mContext = context;
@@ -197,6 +199,47 @@ public class Conversation {
         return conv;
     }
 
+/**For Dual Sim**/
+    /**
+     * Find the conversation matching the provided recipient set.
+     * When called with an empty recipient list, equivalent to {@link #createNew}.
+     */
+    public static Conversation get(Context context, ContactList recipients, boolean allowQuery, int simId) {
+        if (DEBUG) {
+            Log.v(TAG, "Conversation get by recipients: " + recipients.serialize());
+        }
+        // If there are no recipients in the list, make a new conversation.
+        if (recipients.size() < 1) {
+            return createNew(context);
+        }
+
+        Conversation conv = Cache.get(recipients);
+        if (conv != null)
+            return conv;
+
+        long threadId = getOrCreateThreadId(context, recipients, simId);
+        conv = new Conversation(context, threadId, allowQuery);
+        Log.d(TAG, "Conversation.get: created new conversation " + /*conv.toString()*/ "xxxxxxx");
+
+        if (!conv.getRecipients().equals(recipients)) {
+            LogTag.error(TAG, "Conversation.get: new conv's recipients don't match input recpients "
+                    + /*recipients*/ "xxxxxxx");
+        }
+
+        try {
+            Cache.put(conv);
+        } catch (IllegalStateException e) {
+            LogTag.error("Tried to add duplicate Conversation to Cache (from recipients): " + conv);
+            if (!Cache.replace(conv)) {
+                LogTag.error("get by recipients cache.replace failed on " + conv);
+            }
+        }
+
+        return conv;
+    }
+
+/**end for Dual Sim**/
+
     /**
      * Find the conversation matching in the specified Uri.  Example
      * forms: {@value content://mms-sms/conversations/3} or
@@ -231,6 +274,46 @@ public class Conversation {
         return get(context, ContactList.getByNumbers(recipients,
                 allowQuery /* don't block */, true /* replace number */), allowQuery);
     }
+
+
+/**For Dual Sim**/
+    /**
+     * Find the conversation matching in the specified Uri.  Example
+     * forms: {@value content://mms-sms/conversations/3} or
+     * {@value sms:+12124797990}.
+     * When called with a null Uri, equivalent to {@link #createNew}.
+     */
+    public static Conversation get(Context context, Uri uri, boolean allowQuery, int simId) {
+        if (DEBUG) {
+            Log.v(TAG, "Conversation get by uri: " + uri);
+        }
+        if (uri == null) {
+            return createNew(context);
+        }
+
+        if (DEBUG) Log.v(TAG, "Conversation get URI: " + uri);
+
+        // Handle a conversation URI
+        if (uri.getPathSegments().size() >= 2) {
+            try {
+                long threadId = Long.parseLong(uri.getPathSegments().get(1));
+                if (DEBUG) {
+                    Log.v(TAG, "Conversation get threadId: " + threadId);
+                }
+                return get(context, threadId, allowQuery);
+            } catch (NumberFormatException exception) {
+                LogTag.error("Invalid URI: " + uri);
+            }
+        }
+
+        String recipients = PhoneNumberUtils.replaceUnicodeDigits(getRecipients(uri))
+                .replace(',', ';');
+        return get(context, ContactList.getByNumbers(recipients,
+                allowQuery /* don't block */, true /* replace number */), allowQuery, simId);
+    }
+
+/**end for Dual Sim**/
+
 
     /**
      * Returns true if the recipient in the uri matches the recipient list in this
@@ -457,6 +540,12 @@ public class Conversation {
         return mThreadId;
     }
 
+/**For Dual Sim**/
+    public synchronized int getSimId() {
+        return mSimId;
+    }
+/**End for Dual Sim**/
+
     /**
      * Guarantees that the conversation has been created in the database.
      * This will make a blocking database call if it hasn't.
@@ -476,6 +565,23 @@ public class Conversation {
 
         return mThreadId;
     }
+
+/**For Dual Sim**/
+    public synchronized long ensureThreadId(int simId) {
+        if (DEBUG) {
+            LogTag.debug("ensureThreadId before: " + mThreadId);
+        }
+        if (mThreadId <= 0 || ((simId == 0 || simId == 1) && simId != mSimId)) {
+            mThreadId = getOrCreateThreadId(mContext, mRecipients, simId);
+            mSimId = simId;
+        }
+        if (DEBUG) {
+            LogTag.debug("ensureThreadId after: " + mThreadId);
+        }
+
+        return mThreadId;
+    }
+/**End for Dual Sim**/
 
     public synchronized void clearThreadId() {
         // remove ourself from the cache
@@ -643,6 +749,48 @@ public class Conversation {
             return retVal;
         }
     }
+
+    /**For Dual Sim**/
+    private static long getOrCreateThreadId(Context context, ContactList list, int simId) {
+        HashSet<String> recipients = new HashSet<String>();
+        Contact cacheContact = null;
+        for (Contact c : list) {
+            cacheContact = Contact.get(c.getNumber(), false);
+            if (cacheContact != null) {
+                recipients.add(cacheContact.getNumber());
+            } else {
+                recipients.add(c.getNumber());
+            }
+        }
+        synchronized(sDeletingThreadsLock) {
+            if (DELETEDEBUG) {
+                ComposeMessageActivity.log("Conversation getOrCreateThreadId for: " +
+                        list.formatNamesAndNumbers(",") + " sDeletingThreads: " + sDeletingThreads);
+            }
+            long now = System.currentTimeMillis();
+            while (sDeletingThreads) {
+                try {
+                    sDeletingThreadsLock.wait(30000);
+                } catch (InterruptedException e) {
+                }
+                if (System.currentTimeMillis() - now > 29000) {
+                    // The deleting thread task is stuck or onDeleteComplete wasn't called.
+                    // Unjam ourselves.
+                    Log.e(TAG, "getOrCreateThreadId timed out waiting for delete to complete",
+                            new Exception());
+                    sDeletingThreads = false;
+                    break;
+                }
+            }
+            long retVal = Threads.getOrCreateThreadId(context, recipients, simId);
+            if (DELETEDEBUG || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                LogTag.debug("[Conversation] getOrCreateThreadId for (%s) returned %d",
+                        recipients, retVal);
+            }
+            return retVal;
+        }
+    }
+    /**End for Dual Sim**/
 
     public static long getOrCreateThreadId(Context context, String address) {
         synchronized(sDeletingThreadsLock) {
@@ -920,6 +1068,9 @@ public class Conversation {
             conv.setHasUnreadMessages(c.getInt(READ) == 0);
             conv.mHasError = (c.getInt(ERROR) != 0);
             conv.mHasAttachment = (c.getInt(HAS_ATTACHMENT) != 0);
+/**For Dual Sim**/
+            conv.mSimId = c.getInt(SIM_ID);
+/**End for Dual Sim**/
         }
         // Fill in as much of the conversation as we can before doing the slow stuff of looking
         // up the contacts associated with this conversation.

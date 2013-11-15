@@ -23,12 +23,10 @@ import java.util.ArrayList;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.database.sqlite.SqliteWrapper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -40,7 +38,6 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
-import android.provider.Telephony.Mms.Sent;
 import android.provider.Telephony.MmsSms.PendingMessages;
 import android.text.TextUtils;
 import android.util.Log;
@@ -49,9 +46,7 @@ import android.widget.Toast;
 import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.LogTag;
-import com.android.mms.MmsConfig;
 import com.android.mms.R;
-import com.android.mms.util.DownloadManager;
 import com.android.mms.util.RateController;
 import com.google.android.mms.pdu.GenericPdu;
 import com.google.android.mms.pdu.NotificationInd;
@@ -67,13 +62,13 @@ import android.content.BroadcastReceiver;
 import com.android.common.NetworkConnectivityListener;
 
 /**
- * The TransactionService of the MMS Client is responsible for handling requests
+ * The TransactionService2 of the MMS Client is responsible for handling requests
  * to initiate client-transactions sent from:
  * <ul>
  * <li>The Proxy-Relay (Through Push messages)</li>
  * <li>The composer/viewer activities of the MMS Client (Through intents)</li>
  * </ul>
- * The TransactionService runs locally in the same process as the application.
+ * The TransactionService2 runs locally in the same process as the application.
  * It contains a HandlerThread to which messages are posted from the
  * intent-receivers of this application.
  * <p/>
@@ -93,19 +88,19 @@ import com.android.common.NetworkConnectivityListener;
  * the MMS transaction until the connection is established.</li>
  * </ul>
  */
-public class TransactionService extends Service implements Observer {
-    private static final String TAG = "TransactionService";
+public class TransactionService2 extends Service implements Observer {
+    private static final String TAG = "TransactionService2";
 
     /**
      * Used to identify notification intents broadcasted by the
-     * TransactionService when a Transaction is completed.
+     * TransactionService2 when a Transaction is completed.
      */
     public static final String TRANSACTION_COMPLETED_ACTION =
             "android.intent.action.TRANSACTION_COMPLETED_ACTION";
 
     /**
      * Action for the Intent which is sent by Alarm service to launch
-     * TransactionService.
+     * TransactionService2.
      */
     public static final String ACTION_ONALARM = "android.intent.action.ACTION_ONALARM";
 
@@ -117,7 +112,7 @@ public class TransactionService extends Service implements Observer {
             = "android.intent.action.ACTION_ENABLE_AUTO_RETRIEVE";
 
     /**
-     * Used as extra key in notification intents broadcasted by the TransactionService
+     * Used as extra key in notification intents broadcasted by the TransactionService2
      * when a Transaction is completed (TRANSACTION_COMPLETED_ACTION intents).
      * Allowed values for this key are: TransactionState.INITIALIZED,
      * TransactionState.SUCCESS, TransactionState.FAILED.
@@ -125,7 +120,7 @@ public class TransactionService extends Service implements Observer {
     public static final String STATE = "state";
 
     /**
-     * Used as extra key in notification intents broadcasted by the TransactionService
+     * Used as extra key in notification intents broadcasted by the TransactionService2
      * when a Transaction is completed (TRANSACTION_COMPLETED_ACTION intents).
      * Allowed values for this key are any valid content uri.
      */
@@ -140,7 +135,6 @@ public class TransactionService extends Service implements Observer {
 
     private static final int TOAST_MSG_QUEUED = 1;
     private static final int TOAST_DOWNLOAD_LATER = 2;
-    private static final int TOAST_NO_APN = 3;
     private static final int TOAST_NONE = -1;
 
     // How often to extend the use of the MMS APN while a transaction
@@ -173,12 +167,10 @@ public class TransactionService extends Service implements Observer {
                 str = getString(R.string.message_queued);
             } else if (msg.what == TOAST_DOWNLOAD_LATER) {
                 str = getString(R.string.download_later);
-            } else if (msg.what == TOAST_NO_APN) {
-                str = getString(R.string.no_apn);
-            }
+        }
 
             if (str != null) {
-                Toast.makeText(TransactionService.this, str,
+                Toast.makeText(TransactionService2.this, str,
                         Toast.LENGTH_LONG).show();
             }
         }
@@ -194,7 +186,6 @@ public class TransactionService extends Service implements Observer {
 
     //time  to see if the network switch really succuss, means the mms network is available
     private static final int DURATION_WAIT_DATA_NETWORK_TO_SWTICH = 30 * 1000;
-
     private Handler mSwitchedHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -208,15 +199,15 @@ public class TransactionService extends Service implements Observer {
 
                 case MSG_WAITING_NETWORK_SWITCH_TIME_OUT:
                     if(SystemProperties.getInt(TelephonyProperties.PROPERTY_DATA_PREFER_SIM_ID,
-                        SimCardID.ID_ZERO.toInt()) != SimCardID.ID_ZERO.toInt()){
-                         mConnMgr.switchToSim2DataNetwork();
+                        SimCardID.ID_ZERO.toInt()) != SimCardID.ID_ONE.toInt()){
+                         mConnMgr.switchToSim1DataNetwork();
                     }
-
                     final int workingMmsSimId = SystemProperties.getInt(TelephonyProperties.PROPERTY_WORKING_MMS_SIM_ID, SimCardID.ID_PROMPT.toInt());
-                    if (SimCardID.ID_ZERO.toInt() == workingMmsSimId) {
+                    if (SimCardID.ID_ONE.toInt() == workingMmsSimId) {
                         Log.d(TAG, "MSG_WAITING_NETWORK_SWITCH_TIME_OUT: working mms " + workingMmsSimId + " to -1");
                         mConnMgr.setMmsDataSim(SimCardID.ID_PROMPT.toInt());
                     }
+
                     startCommand(mSavedIntent, mSavedStartId, true);
                     SystemProperties.set(TelephonyProperties.PROPERTY_DATA_MMS_BUSY, String.valueOf(false));
                     if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE))
@@ -238,8 +229,8 @@ public class TransactionService extends Service implements Observer {
 
                 int simId = ((SimCardID)(intent.getExtra("simId", SimCardID.ID_ZERO))).toInt();
                 if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE))
-                    Log.v(TAG, "===>mSwithedDataRecevie(), simId=" + simId + ", return:"+(simId != SimCardID.ID_ZERO.toInt()));
-                if(simId != SimCardID.ID_ZERO.toInt())
+                    Log.v(TAG, "===>mSwithedDataRecevie(), simId=" + simId + ", return:"+(simId != SimCardID.ID_ONE.toInt()));
+                if(simId != SimCardID.ID_ONE.toInt())
                     return;
                 String state = intent.getStringExtra(PhoneConstants.STATE_KEY);
                 boolean noNetwork = !isNetworkAvailable();
@@ -252,29 +243,30 @@ public class TransactionService extends Service implements Observer {
                     try {
                         unregisterReceiver(mSwitchedDataReceiver);
                     } catch (IllegalArgumentException e) {
-                        // Allow un-matched register-unregister calls
+                    // Allow un-matched register-unregister calls
                     }
+                    //mSwitchedHandler.sendEmptyMessage(SWITCHED_NETWORK_CHECK);
                     mSwitchedHandler.sendEmptyMessageDelayed(MSG_SWITCHED_NETWORK_CHECK, DELAY_AFTER_SWITCHED_NETWORK_AVAILABLE);
 
-                } else {
+                }else{
                     if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE))
                         Log.v(TAG,"===>mSwithedDataRecevie onReceive(): no mms network available yet, state="+state);
                 }
             }
-            }
-        };
+        }
+    };
 
 
     @Override
     public void onCreate() {
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            Log.v(TAG, "Creating TransactionService");
+            Log.v(TAG, "Creating TransactionService2");
         }
 
         // Start up the thread running the service.  Note that we create a
         // separate thread because the service normally runs in the process's
         // main thread, which we don't want to block.
-        HandlerThread thread = new HandlerThread("TransactionService");
+        HandlerThread thread = new HandlerThread("TransactionService2");
         thread.start();
 
         mServiceLooper = thread.getLooper();
@@ -299,14 +291,7 @@ public class TransactionService extends Service implements Observer {
 
     public void onNewIntent(Intent intent, int serviceId) {
         mConnMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (mConnMgr == null || !mConnMgr.getMobileDataEnabled()
-                || !MmsConfig.isSmsEnabled(getApplicationContext())) {
-            endMmsConnectivity();
-            stopSelf(serviceId);
-            return;
-        }
-        NetworkInfo ni = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS);
-        boolean noNetwork = ni == null || !ni.isAvailable();
+        boolean noNetwork = !isNetworkAvailable();
 
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE))
             Log.v(TAG,"onStartCommand(), noNetwork:" + noNetwork);
@@ -320,23 +305,17 @@ public class TransactionService extends Service implements Observer {
             */
             if(!SystemProperties.getBoolean(TelephonyProperties.PROPERTY_DATA_MMS_BUSY, false) &&
                 SystemProperties.getInt(TelephonyProperties.PROPERTY_DATA_PREFER_SIM_ID, SimCardID.ID_ZERO.toInt())
-                        != SimCardID.ID_ZERO.toInt()){
+                        != SimCardID.ID_ONE.toInt()){
                 if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE))
-                    Log.v(TAG, "===>onStartCommand(), case 5, switch data net to SIM1");
+                    Log.v(TAG, "===>onStartCommand(), case 5, switch data net to SIM2");
                 SystemProperties.set(TelephonyProperties.PROPERTY_DATA_MMS_BUSY, String.valueOf(true));
 
-                //modified for Dual SIM,switch to MMS directly,skip default apn
+                //Switch to MMS directly,skip default apn
                 Log.d(TAG, "onNewIntent(): working mms "
                     + SystemProperties.getInt(TelephonyProperties.PROPERTY_WORKING_MMS_SIM_ID, SimCardID.ID_PROMPT.toInt())
-                    + " to 0");
-                Log.d(TAG, "TODO the network switch code is commented out for now");
-
-/* JW TODO comment out this section for now, as during data sim switch, somehow this portion of
-   code getting invoked, while there was no mms activity. This causing data sim being switched
-   back to sim1. As MMS dual sim doesn't work anyway for now, will revisit this part later
-
-        mConnMgr.setMmsDataSim(SimCardID.ID_ZERO.toInt());
-                mConnMgr.switchToSim1DataNetwork(ConnectivityManager.TYPE_MOBILE_MMS);
+                    + " to 1");
+                mConnMgr.setMmsDataSim(SimCardID.ID_ONE.toInt());
+                mConnMgr.switchToSim2DataNetwork(ConnectivityManager.TYPE_MOBILE_MMS);
                 mSwitchedHandler.sendEmptyMessageDelayed(MSG_WAITING_NETWORK_SWITCH_TIME_OUT, DURATION_WAIT_DATA_NETWORK_TO_SWTICH);
                 //Save these values, we will need them later.
                 mSavedIntent = intent;
@@ -353,16 +332,15 @@ public class TransactionService extends Service implements Observer {
 
                 this.registerReceiver(mSwitchedDataReceiver, intentFilter);
                 return;
-*/
             }
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE))
                 Log.v(TAG, "===>onStartCommand(), case 1");
             startCommand(intent, serviceId, noNetwork);
             return;
         }else {
-            //We cannot even try to switch network, we already set sim1 for data connection
+            //We cannot even try to switch network, we already set sim2 for data connection
             if(SystemProperties.getInt(TelephonyProperties.PROPERTY_DATA_PREFER_SIM_ID, SimCardID.ID_ZERO.toInt())
-                        == SimCardID.ID_ZERO.toInt()){
+                        == SimCardID.ID_ONE.toInt()){
                 if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE))
                     Log.v(TAG, "===>onStartCommand(), case 2");
                 startCommand(intent, serviceId, noNetwork);
@@ -378,22 +356,15 @@ public class TransactionService extends Service implements Observer {
             //Now we can try switching data network
             else{
                 if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE))
-                    Log.v(TAG, "===>onStartCommand(), case 4, switch data net to SIM1");
+                    Log.v(TAG, "===>onStartCommand(), case 4, switch data net to SIM2");
                 SystemProperties.set(TelephonyProperties.PROPERTY_DATA_MMS_BUSY, String.valueOf(true));
 
-                //modified for Dual SIM,switch to MMS directly,skip default apn
+                //Switch to MMS directly,skip default apn
         Log.d(TAG, "onNewIntent(): working mms "
             + SystemProperties.getInt(TelephonyProperties.PROPERTY_WORKING_MMS_SIM_ID, SimCardID.ID_PROMPT.toInt())
-            + " to 0");
-
-                Log.d(TAG, "TODO the network switch code is commented out for now");
-
-/* JW TODO comment out this section for now, as during data sim switch, somehow this portion of
-   code getting invoked, while there was no mms activity. This causing data sim being switched
-   back to sim1. As MMS dual sim doesn't work anyway for now, will revisit this part later
-
-                mConnMgr.setMmsDataSim(SimCardID.ID_ZERO.toInt());
-                mConnMgr.switchToSim1DataNetwork(ConnectivityManager.TYPE_MOBILE_MMS);
+            + " to 1");
+        mConnMgr.setMmsDataSim(SimCardID.ID_ONE.toInt());
+        mConnMgr.switchToSim2DataNetwork(ConnectivityManager.TYPE_MOBILE_MMS);
                 mSwitchedHandler.sendEmptyMessageDelayed(MSG_WAITING_NETWORK_SWITCH_TIME_OUT, DURATION_WAIT_DATA_NETWORK_TO_SWTICH);
                 //Save these values, we will need them later.
                 mSavedIntent = intent;
@@ -410,7 +381,6 @@ public class TransactionService extends Service implements Observer {
 
                 this.registerReceiver(mSwitchedDataReceiver, intentFilter);
                 return;
-*/
             }
         }
     }
@@ -427,13 +397,13 @@ public class TransactionService extends Service implements Observer {
                 (intent.getExtras() == null)) {
             // Scan database to find all pending operations.
             Cursor cursor = PduPersister.getPduPersister(this).getPendingMessages(
-                    System.currentTimeMillis(), SimCardID.ID_ZERO.toInt());
+                    System.currentTimeMillis(), SimCardID.ID_ONE.toInt());
             if (cursor != null) {
                 try {
                     int count = cursor.getCount();
 
                     if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                        Log.v(TAG, "onNewIntent: cursor.count=" + count + " action=" + action);
+                        Log.v(TAG, "onNewIntent: cursor.count=" + count);
                     }
 
                     if (count == 0) {
@@ -449,13 +419,18 @@ public class TransactionService extends Service implements Observer {
                     int columnIndexOfMsgType = cursor.getColumnIndexOrThrow(
                             PendingMessages.MSG_TYPE);
 
+                    if (noNetwork) {
+                        // Make sure we register for connection state changes.
+                        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                            Log.v(TAG, "onNewIntent: registerForConnectionStateChanges");
+                        }
+                        MmsSystemEventReceiver2.registerForConnectionStateChanges(
+                                getApplicationContext());
+                    }
+
                     while (cursor.moveToNext()) {
                         int msgType = cursor.getInt(columnIndexOfMsgType);
                         int transactionType = getTransactionType(msgType);
-                        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                            Log.v(TAG, "onNewIntent: msgType=" + msgType + " transactionType=" +
-                                    transactionType);
-                        }
                         if (noNetwork) {
                             onNetworkUnavailable(serviceId, transactionType);
                             return;
@@ -471,36 +446,12 @@ public class TransactionService extends Service implements Observer {
                                 int failureType = cursor.getInt(
                                         cursor.getColumnIndexOrThrow(
                                                 PendingMessages.ERROR_TYPE));
-                                DownloadManager downloadManager = DownloadManager.getInstance();
-                                boolean autoDownload = downloadManager.isAuto();
-                                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                                    Log.v(TAG, "onNewIntent: failureType=" + failureType +
-                                            " action=" + action + " isTransientFailure:" +
-                                            isTransientFailure(failureType) + " autoDownload=" +
-                                            autoDownload);
-                                }
-                                if (!autoDownload) {
-                                    // If autodownload is turned off, don't process the
-                                    // transaction.
-                                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                                        Log.v(TAG, "onNewIntent: skipping - autodownload off");
-                                    }
+                                if ((failureType != MmsSms.NO_ERROR ||
+                                        !ACTION_ENABLE_AUTO_RETRIEVE.equals(action)) &&
+                                        !isTransientFailure(failureType)) {
                                     break;
                                 }
-                                // Logic is twisty. If there's no failure or the failure
-                                // is a non-permanent failure, we want to process the transaction.
-                                // Otherwise, break out and skip processing this transaction.
-                                if (!(failureType == MmsSms.NO_ERROR ||
-                                        isTransientFailure(failureType))) {
-                                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                                        Log.v(TAG, "onNewIntent: skipping - permanent error");
-                                    }
-                                    break;
-                                }
-                                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                                    Log.v(TAG, "onNewIntent: falling through and processing");
-                                }
-                               // fall-through
+                                // fall-through
                             default:
                                 Uri uri = ContentUris.withAppendedId(
                                         Mms.CONTENT_URI,
@@ -508,9 +459,6 @@ public class TransactionService extends Service implements Observer {
                                 TransactionBundle args = new TransactionBundle(
                                         transactionType, uri.toString());
                                 // FIXME: We use the same startId for all MMs.
-                                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                                    Log.v(TAG, "onNewIntent: launchTransaction uri=" + uri);
-                                }
                                 launchTransaction(serviceId, args, false);
                                 break;
                         }
@@ -541,6 +489,11 @@ public class TransactionService extends Service implements Observer {
                 if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                     Log.v(TAG, "stopSelfIfIdle: STOP!");
                 }
+                // Make sure we're no longer listening for connection state changes.
+                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                    Log.v(TAG, "stopSelfIfIdle: unRegisterForConnectionStateChanges");
+                }
+                MmsSystemEventReceiver2.unRegisterForConnectionStateChanges(getApplicationContext());
 
                 stopSelf(startId);
             }
@@ -548,12 +501,11 @@ public class TransactionService extends Service implements Observer {
     }
 
     private static boolean isTransientFailure(int type) {
-
-        return type > MmsSms.NO_ERROR && type < MmsSms.ERR_TYPE_GENERIC_PERMANENT;
+        return (type < MmsSms.ERR_TYPE_GENERIC_PERMANENT) && (type > MmsSms.NO_ERROR);
     }
 
     private boolean isNetworkAvailable() {
-        NetworkInfo ni = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS, SimCardID.ID_ZERO.toInt());
+        NetworkInfo ni = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS, SimCardID.ID_ONE.toInt());
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)){
             if(ni == null){
                 Log.v(TAG,"isNetworkAvailable(), networkinfo is NULL");
@@ -616,10 +568,10 @@ public class TransactionService extends Service implements Observer {
     @Override
     public void onDestroy() {
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            Log.v(TAG, "Destroying TransactionService");
+            Log.v(TAG, "Destroying TransactionService2");
         }
         if (!mPending.isEmpty()) {
-            Log.w(TAG, "TransactionService exiting with transaction still pending");
+            Log.w(TAG, "TransactionService2 exiting with transaction still pending");
         }
 
         releaseWakeLock();
@@ -629,8 +581,8 @@ public class TransactionService extends Service implements Observer {
         mServiceHandler.sendEmptyMessage(EVENT_QUIT);
 
         /*
-        * When exit the service, unregister switch data receiver, and try to switch back
-        */
+         * When exit the service, unregister switch data receiver, and try to switch back
+         */
         try {
             this.unregisterReceiver(mSwitchedDataReceiver);
         } catch (IllegalArgumentException e) {
@@ -666,15 +618,11 @@ public class TransactionService extends Service implements Observer {
                             transaction.getConnectionSettings());
                     mServiceHandler.sendMessage(msg);
                 }
-                else if (mProcessing.isEmpty()) {
+                else if(mProcessing.size() == 0) {
                     if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                         Log.v(TAG, "update: endMmsConnectivity");
                     }
                     endMmsConnectivity();
-                } else {
-                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                        Log.v(TAG, "update: mProcessing is not empty");
-                    }
                 }
             }
 
@@ -729,7 +677,8 @@ public class TransactionService extends Service implements Observer {
             sendBroadcast(intent);
         } finally {
             transaction.detach(this);
-            stopSelfIfIdle(serviceId);
+            MmsSystemEventReceiver2.unRegisterForConnectionStateChanges(getApplicationContext());
+            stopSelf(serviceId);
         }
     }
 
@@ -745,29 +694,24 @@ public class TransactionService extends Service implements Observer {
     private void acquireWakeLock() {
         // It's okay to double-acquire this because we are not using it
         // in reference-counted mode.
-        Log.v(TAG, "mms acquireWakeLock");
         mWakeLock.acquire();
     }
 
     private void releaseWakeLock() {
         // Don't release the wake lock if it hasn't been created and acquired.
         if (mWakeLock != null && mWakeLock.isHeld()) {
-            Log.v(TAG, "mms releaseWakeLock");
             mWakeLock.release();
         }
     }
 
     protected int beginMmsConnectivity() throws IOException {
-        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-            Log.v(TAG, "beginMmsConnectivity");
-        }
         // Take a wake lock so we don't fall asleep before the message is downloaded.
         createWakeLock();
 
         Log.d(TAG, "beginMmsConnectivity(): working mms "
             + SystemProperties.getInt(TelephonyProperties.PROPERTY_WORKING_MMS_SIM_ID, SimCardID.ID_PROMPT.toInt())
-            + " to 0");
-        mConnMgr.setMmsDataSim(SimCardID.ID_ZERO.toInt());
+            + " to 1");
+        mConnMgr.setMmsDataSim(SimCardID.ID_ONE.toInt());
         int result = mConnMgr.startUsingNetworkFeature(
                 ConnectivityManager.TYPE_MOBILE, Phone.FEATURE_ENABLE_MMS);
 
@@ -800,7 +744,7 @@ public class TransactionService extends Service implements Observer {
                         ConnectivityManager.TYPE_MOBILE,
                         Phone.FEATURE_ENABLE_MMS);
                 final int workingMmsSimId = SystemProperties.getInt(TelephonyProperties.PROPERTY_WORKING_MMS_SIM_ID, SimCardID.ID_PROMPT.toInt());
-                if (SimCardID.ID_ZERO.toInt() == workingMmsSimId) {
+                if (SimCardID.ID_ONE.toInt() == workingMmsSimId) {
                     Log.d(TAG, "endMmsConnectivity(): working mms " + workingMmsSimId + " to -1");
                     mConnMgr.setMmsDataSim(SimCardID.ID_PROMPT.toInt());
                 }
@@ -913,7 +857,7 @@ public class TransactionService extends Service implements Observer {
                                     mmsc, args.getProxyAddress(), args.getProxyPort());
                         } else {
                             transactionSettings = new TransactionSettings(
-                                                    TransactionService.this, null);
+                                                    TransactionService2.this, null, SimCardID.ID_ONE.toInt());
                         }
 
                         int transactionType = args.getTransactionType();
@@ -929,7 +873,7 @@ public class TransactionService extends Service implements Observer {
                                 String uri = args.getUri();
                                 if (uri != null) {
                                     transaction = new NotificationTransaction(
-                                            TransactionService.this, serviceId,
+                                            TransactionService2.this, serviceId,
                                             transactionSettings, uri);
                                 } else {
                                     // Now it's only used for test purpose.
@@ -940,7 +884,7 @@ public class TransactionService extends Service implements Observer {
                                     int type = PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
                                     if ((ind != null) && (ind.getMessageType() == type)) {
                                         transaction = new NotificationTransaction(
-                                                TransactionService.this, serviceId,
+                                                TransactionService2.this, serviceId,
                                                 transactionSettings, (NotificationInd) ind);
                                     } else {
                                         Log.e(TAG, "Invalid PUSH data.");
@@ -951,17 +895,17 @@ public class TransactionService extends Service implements Observer {
                                 break;
                             case Transaction.RETRIEVE_TRANSACTION:
                                 transaction = new RetrieveTransaction(
-                                        TransactionService.this, serviceId,
+                                        TransactionService2.this, serviceId,
                                         transactionSettings, args.getUri());
                                 break;
                             case Transaction.SEND_TRANSACTION:
                                 transaction = new SendTransaction(
-                                        TransactionService.this, serviceId,
+                                        TransactionService2.this, serviceId,
                                         transactionSettings, args.getUri());
                                 break;
                             case Transaction.READREC_TRANSACTION:
                                 transaction = new ReadRecTransaction(
-                                        TransactionService.this, serviceId,
+                                        TransactionService2.this, serviceId,
                                         transactionSettings, args.getUri());
                                 break;
                             default:
@@ -983,7 +927,7 @@ public class TransactionService extends Service implements Observer {
 
                         if (transaction != null) {
                             try {
-                                transaction.detach(TransactionService.this);
+                                transaction.detach(TransactionService2.this);
                                 if (mProcessing.contains(transaction)) {
                                     synchronized (mProcessing) {
                                         mProcessing.remove(transaction);
@@ -1013,27 +957,6 @@ public class TransactionService extends Service implements Observer {
                 default:
                     Log.w(TAG, "what=" + msg.what);
                     return;
-            }
-        }
-
-        public void markAllPendingTransactionsAsFailed() {
-            synchronized (mProcessing) {
-                while (mPending.size() != 0) {
-                    Transaction transaction = mPending.remove(0);
-                    transaction.mTransactionState.setState(TransactionState.FAILED);
-                    if (transaction instanceof SendTransaction) {
-                        Uri uri = ((SendTransaction)transaction).mSendReqURI;
-                        transaction.mTransactionState.setContentUri(uri);
-                        int respStatus = PduHeaders.RESPONSE_STATUS_ERROR_NETWORK_PROBLEM;
-                        ContentValues values = new ContentValues(1);
-                        values.put(Mms.RESPONSE_STATUS, respStatus);
-
-                        SqliteWrapper.update(TransactionService.this,
-                                TransactionService.this.getContentResolver(),
-                                uri, values, null, null);
-                    }
-                    transaction.notifyObservers();
-                }
             }
         }
 
@@ -1140,7 +1063,7 @@ public class TransactionService extends Service implements Observer {
                 if (connectivityResult == PhoneConstants.APN_TYPE_NOT_AVAILABLE &&
                     transaction.getType() == Transaction.NOTIFICATION_TRANSACTION) {
                     mPending.add(transaction);
-                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                         Log.v(TAG, "processTransaction: connResult=APN_TYPE_NOT_AVAILABLE, transaction type=NOTIFICATION_TRANSACTION" +
                                 "defer transaction pending MMS connectivity");
                     }
@@ -1163,7 +1086,7 @@ public class TransactionService extends Service implements Observer {
             }
 
             // Attach to transaction and process it
-            transaction.attach(TransactionService.this);
+            transaction.attach(TransactionService2.this);
             transaction.process();
             return true;
         }
@@ -1188,15 +1111,11 @@ public class TransactionService extends Service implements Observer {
                 return;
             }
 
-            NetworkInfo mmsNetworkInfo = null;
+            boolean noConnectivity =
+                intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
 
-            if (mConnMgr != null && mConnMgr.getMobileDataEnabled()) {
-                mmsNetworkInfo = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS);
-            } else {
-                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                    Log.v(TAG, "mConnMgr is null, bail");
-                }
-            }
+            NetworkInfo networkInfo = (NetworkInfo)
+                intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
 
             /*
              * If we are being informed that connectivity has been established
@@ -1205,53 +1124,63 @@ public class TransactionService extends Service implements Observer {
              */
 
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                Log.v(TAG, "Handle ConnectivityBroadcastReceiver.onReceive(): " + mmsNetworkInfo);
+                Log.v(TAG, "Handle ConnectivityBroadcastReceiver.onReceive(): " + networkInfo);
             }
 
             // Check availability of the mobile network.
-            if (mmsNetworkInfo == null) {
+            if ((networkInfo == null) || (networkInfo.getType() !=
+                    ConnectivityManager.TYPE_MOBILE_MMS)) {
                 if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                    Log.v(TAG, "mms type is null or mobile data is turned off, bail");
+                    Log.v(TAG, "   type is not TYPE_MOBILE_MMS, bail");
                 }
-            } else {
                 // This is a very specific fix to handle the case where the phone receives an
                 // incoming call during the time we're trying to setup the mms connection.
                 // When the call ends, restart the process of mms connectivity.
-                if (Phone.REASON_VOICE_CALL_ENDED.equals(mmsNetworkInfo.getReason())) {
+                if (networkInfo != null &&
+                        Phone.REASON_VOICE_CALL_ENDED.equals(networkInfo.getReason())) {
                     if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                         Log.v(TAG, "   reason is " + Phone.REASON_VOICE_CALL_ENDED +
                                 ", retrying mms connectivity");
                     }
                     renewMmsConnectivity();
-                    return;
                 }
 
-                if (mmsNetworkInfo.isConnected()) {
-                    TransactionSettings settings = new TransactionSettings(
-                            TransactionService.this, mmsNetworkInfo.getExtraInfo());
-                    // If this APN doesn't have an MMSC, mark everything as failed and bail.
-                    if (TextUtils.isEmpty(settings.getMmscUrl())) {
-                        Log.v(TAG, "   empty MMSC url, bail");
-                        mToastHandler.sendEmptyMessage(TOAST_NO_APN);
-                        mServiceHandler.markAllPendingTransactionsAsFailed();
-                        endMmsConnectivity();
-                        return;
-                    }
-                    mServiceHandler.processPendingTransaction(null, settings);
-                } else {
-                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                        Log.v(TAG, "   TYPE_MOBILE_MMS not connected, bail");
-                    }
-
-                    // Retry mms connectivity once it's possible to connect
-                    if (mmsNetworkInfo.isAvailable()) {
-                        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                            Log.v(TAG, "   retrying mms connectivity for it's available");
+                if(networkInfo != null &&
+                        Phone.REASON_DATA_ATTACHED.equals(networkInfo.getReason()) &&
+                        networkInfo.getType() == ConnectivityManager.TYPE_MOBILE &&
+                        mPending.size() != 0){
+                    try {
+                        beginMmsConnectivity();
+                        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)){
+                            Log.v(TAG, "TYPE_MOBILE CONNECTIVITY_CHANGE, reason is " + Phone.REASON_DATA_ATTACHED +
+                                    ", and mPending.size()=" + mPending.size() + ", retrying mms connectivity and process pending transaction");
                         }
-                        renewMmsConnectivity();
+                    } catch (IOException e) {
+                        Log.w(TAG, e.getMessage(), e);
                     }
                 }
+
+                return;
             }
+
+            if (!networkInfo.isConnected()) {
+                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                    Log.v(TAG, "   TYPE_MOBILE_MMS not connected, bail");
+                }
+                return;
+            }
+
+            TransactionSettings settings = new TransactionSettings(
+                    TransactionService2.this, networkInfo.getExtraInfo(), SimCardID.ID_ONE.toInt());
+
+            // If this APN doesn't have an MMSC, wait for one that does.
+            if (TextUtils.isEmpty(settings.getMmscUrl())) {
+                Log.v(TAG, "   empty MMSC url, bail");
+                return;
+            }
+
+            renewMmsConnectivity();
+            mServiceHandler.processPendingTransaction(null, settings);
         }
     };
 }

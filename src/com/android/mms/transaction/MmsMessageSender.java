@@ -43,12 +43,17 @@ import com.google.android.mms.pdu.ReadRecInd;
 import com.google.android.mms.pdu.SendReq;
 import com.google.android.mms.util.SqliteWrapper;
 
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+import com.android.mms.ui.MessageUtils;
+
 public class MmsMessageSender implements MessageSender {
     private static final String TAG = "MmsMessageSender";
 
     private final Context mContext;
     private final Uri mMessageUri;
     private final long mMessageSize;
+    private final int mSimId;
 
     // Default preference values
     private static final boolean DEFAULT_DELIVERY_REPORT_MODE  = false;
@@ -61,6 +66,18 @@ public class MmsMessageSender implements MessageSender {
         mContext = context;
         mMessageUri = location;
         mMessageSize = messageSize;
+        mSimId = SimCardID.ID_ZERO.toInt();
+
+        if (mMessageUri == null) {
+            throw new IllegalArgumentException("Null message URI.");
+        }
+    }
+
+public MmsMessageSender(Context context, Uri location, long messageSize, int simId) {
+        mContext = context;
+        mMessageUri = location;
+        mMessageSize = messageSize;
+        mSimId = simId;
 
         if (mMessageUri == null) {
             throw new IllegalArgumentException("Null message URI.");
@@ -92,7 +109,8 @@ public class MmsMessageSender implements MessageSender {
 
         sendReq.setMessageSize(mMessageSize);
 
-        p.updateHeaders(mMessageUri, sendReq);
+        String simIMSI = MessageUtils.getSimSubscriberId(mSimId);
+        p.updateHeaders(mMessageUri, sendReq, (mSimId == SimCardID.ID_ONE.toInt() ? mSimId : SimCardID.ID_ZERO.toInt()), simIMSI);
 
         long messageId = ContentUris.parseId(mMessageUri);
 
@@ -103,11 +121,13 @@ public class MmsMessageSender implements MessageSender {
             // entry in the pending_msgs table which is where TransacationService looks for
             // messages to send. Normally, the entry in pending_msgs is created by the trigger:
             // insert_mms_pending_on_update, when a message is moved from drafts to the outbox.
-            ContentValues values = new ContentValues(7);
+            ContentValues values = new ContentValues(9);
 
             values.put(PendingMessages.PROTO_TYPE, MmsSms.MMS_PROTO);
             values.put(PendingMessages.MSG_ID, messageId);
             values.put(PendingMessages.MSG_TYPE, pdu.getMessageType());
+            values.put(PendingMessages.SIM_ID, (mSimId == SimCardID.ID_ONE.toInt() ? mSimId : SimCardID.ID_ZERO.toInt()));
+            values.put(PendingMessages.SIM_IMSI, simIMSI);
             values.put(PendingMessages.ERROR_TYPE, 0);
             values.put(PendingMessages.ERROR_CODE, 0);
             values.put(PendingMessages.RETRY_INDEX, 0);
@@ -121,7 +141,12 @@ public class MmsMessageSender implements MessageSender {
 
         // Start MMS transaction service
         SendingProgressTokenManager.put(messageId, token);
+
+        if(SimCardID.ID_ONE.toInt() == mSimId) {
+            mContext.startService(new Intent(mContext, TransactionService2.class));
+        } else {
         mContext.startService(new Intent(mContext, TransactionService.class));
+        }
 
         return true;
     }

@@ -40,6 +40,10 @@ import com.android.mms.util.DownloadManager;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPersister;
 
+import android.app.Service;
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+
 public class RetryScheduler implements Observer {
     private static final String TAG = "RetryScheduler";
     private static final boolean DEBUG = false;
@@ -61,11 +65,33 @@ public class RetryScheduler implements Observer {
         return sInstance;
     }
 
+    private static RetryScheduler sInstance2;
+    public static RetryScheduler getInstance2(Context context) {
+        if(sInstance2 == null) {
+            sInstance2 = new RetryScheduler(context);
+        }
+        return sInstance2;
+    }
+
     private boolean isConnected() {
         ConnectivityManager mConnMgr = (ConnectivityManager)
                 mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS);
         return (ni == null ? false : ni.isConnected());
+    }
+
+    /* dual sim */
+    private boolean isConnected(Context context) {
+        ConnectivityManager mConnMgr = (ConnectivityManager)
+                    mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo;
+        Service t = (Service)context;
+        if(t instanceof TransactionService2) {
+            networkInfo = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS, SimCardID.ID_ONE.toInt());
+        } else {
+            networkInfo = mConnMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS, SimCardID.ID_ZERO.toInt());
+        }
+        return networkInfo.isConnected();
     }
 
     public void update(Observable observable) {
@@ -95,7 +121,7 @@ public class RetryScheduler implements Observer {
                 }
             }
         } finally {
-            if (isConnected()) {
+            if (isConnected(mContext)) {
                 setRetryAlarm(mContext);
             }
         }
@@ -221,6 +247,16 @@ public class RetryScheduler implements Observer {
                     values.put(PendingMessages.RETRY_INDEX, retryIndex);
                     values.put(PendingMessages.LAST_TRY,    current);
 
+                    Service t = (Service)mContext;
+                    if ( t instanceof TransactionService2 ) {
+                        // The second sim pending message
+                        //values.put(PendingMessages.PHONE_NAME, 1);
+                        Log.d(TAG, " retryschedule for phone2");
+                    } else {
+                        //values.put(PendingMessages.PHONE_NAME, 0);
+                        Log.d(TAG, " retryschedule for phone1");
+                    }
+
                     int columnIndex = cursor.getColumnIndexOrThrow(
                             PendingMessages._ID);
                     long id = cursor.getLong(columnIndex);
@@ -275,17 +311,27 @@ public class RetryScheduler implements Observer {
     }
 
     public static void setRetryAlarm(Context context) {
-        Cursor cursor = PduPersister.getPduPersister(context).getPendingMessages(
-                Long.MAX_VALUE);
+        Cursor cursor;// = PduPersister.getPduPersister(context).getPendingMessages(Long.MAX_VALUE);
+        Service t = (Service)context;
+        if ( t instanceof TransactionService2) {
+            cursor = PduPersister.getPduPersister(context).getPendingMessages( Long.MAX_VALUE, SimCardID.ID_ONE.toInt());
+        } else {
+            cursor = PduPersister.getPduPersister(context).getPendingMessages( Long.MAX_VALUE, SimCardID.ID_ZERO.toInt());
+        }
         if (cursor != null) {
             try {
                 if (cursor.moveToFirst()) {
                     // The result of getPendingMessages() is order by due time.
                     long retryAt = cursor.getLong(cursor.getColumnIndexOrThrow(
                             PendingMessages.DUE_TIME));
-
-                    Intent service = new Intent(TransactionService.ACTION_ONALARM,
+                    Intent service;
+                    if(t instanceof TransactionService2) {
+                        service = new Intent(TransactionService.ACTION_ONALARM,
+                                        null, context, TransactionService2.class);
+                    } else {
+                        service = new Intent(TransactionService.ACTION_ONALARM,
                                         null, context, TransactionService.class);
+                    }
                     PendingIntent operation = PendingIntent.getService(
                             context, 0, service, PendingIntent.FLAG_ONE_SHOT);
                     AlarmManager am = (AlarmManager) context.getSystemService(

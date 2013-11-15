@@ -18,6 +18,9 @@ import com.android.mms.data.Conversation;
 import com.android.mms.ui.MessageUtils;
 import com.google.android.mms.MmsException;
 
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+
 public class SmsSingleRecipientSender extends SmsMessageSender {
 
     private final boolean mRequestDeliveryReport;
@@ -33,6 +36,14 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
         mUri = uri;
     }
 
+    public SmsSingleRecipientSender(Context context, String dest, String msgText, long threadId,
+            boolean requestDeliveryReport, Uri uri, int simId) {
+        super(context, null, msgText, threadId, simId);
+        mRequestDeliveryReport = requestDeliveryReport;
+        mDest = dest;
+        mUri = uri;
+    }
+
     public boolean sendMessage(long token) throws MmsException {
         if (LogTag.DEBUG_SEND) {
             Log.v(TAG, "sendMessage token: " + token);
@@ -42,7 +53,13 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
             // one.
             throw new MmsException("Null message body or have multiple destinations.");
         }
-        SmsManager smsManager = SmsManager.getDefault();
+
+        SmsManager smsManager = null;
+        if(SimCardID.ID_ONE.toInt() == mSimId) {
+            smsManager = SmsManager.getDefault(SimCardID.ID_ONE);
+        } else {
+            smsManager = SmsManager.getDefault(SimCardID.ID_ZERO);
+        }
         ArrayList<String> messages = null;
         if ((MmsConfig.getEmailGateway() != null) &&
                 (Mms.isEmailAddress(mDest) || MessageUtils.isAlias(mDest))) {

@@ -40,6 +40,10 @@ import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 import com.android.mms.data.Conversation;
 
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+import android.widget.ImageView;
+
 /**
  * This class manages the view for given conversation.
  */
@@ -54,6 +58,7 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
     private View mAttachmentView;
     private View mErrorIndicator;
     private QuickContactBadge mAvatarView;
+    private ImageView mSimView;
 
     static private Drawable sDefaultContactImage;
 
@@ -87,12 +92,20 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
         mAttachmentView = findViewById(R.id.attachment);
         mErrorIndicator = findViewById(R.id.error);
         mAvatarView = (QuickContactBadge) findViewById(R.id.avatar);
+        mSimView = (ImageView) findViewById(R.id.sim);
     }
 
     public Conversation getConversation() {
         return mConversation;
     }
 
+    public void setSimIcon(int simId) {
+       if (SimCardID.ID_ONE.toInt() == simId) {
+           mSimView.setImageResource(R.drawable.sym_action_sms_2);
+       } else {
+           mSimView.setImageResource(R.drawable.sym_action_sms_1);
+       }
+    }
     /**
      * Only used for header binding.
      */
@@ -206,7 +219,6 @@ public class ConversationListItem extends RelativeLayout implements Contact.Upda
             Log.v(TAG, "bind: contacts.addListeners " + this);
         }
         Contact.addListener(this);
-
         // Subject
         mSubjectView.setText(conversation.getSnippet());
         LayoutParams subjectLayout = (LayoutParams)mSubjectView.getLayoutParams();

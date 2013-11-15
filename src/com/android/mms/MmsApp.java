@@ -43,6 +43,8 @@ import com.android.mms.util.DraftCache;
 import com.android.mms.util.PduLoaderManager;
 import com.android.mms.util.RateController;
 import com.android.mms.util.ThumbnailManager;
+import com.android.internal.telephony.RILConstants.SimCardID;
+import com.android.mms.util.BrcmDualSimUtils;
 
 public class MmsApp extends Application {
     public static final String LOG_TAG = "Mms";
@@ -72,7 +74,11 @@ public class MmsApp extends Application {
         sMmsApp = this;
 
         // Load the default preference values
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        if (BrcmDualSimUtils.isSupportDualSim()) {
+            PreferenceManager.setDefaultValues(this, R.xml.preferences_brcm, false);
+        } else {
+            PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        }
 
         // Figure out the country *before* loading contacts and formatting numbers
         mCountryDetector = (CountryDetector) getSystemService(Context.COUNTRY_DETECTOR);
@@ -97,16 +103,17 @@ public class MmsApp extends Application {
         LayoutManager.init(this);
         MessagingNotification.init(this);
 
-        activePendingMessages();
+        int simId = SimCardID.ID_ZERO.toInt();
+        activePendingMessages(simId);
     }
 
     /**
      * Try to process all pending messages(which were interrupted by user, OOM, Mms crashing,
      * etc...) when Mms app is (re)launched.
      */
-    private void activePendingMessages() {
+    private void activePendingMessages(int simId) {
         // For Mms: try to process all pending transactions if possible
-        MmsSystemEventReceiver.wakeUpService(this);
+        MmsSystemEventReceiver.wakeUpService(this, simId);
 
         // For Sms: retry to send smses in outbox and queued box
         sendBroadcast(new Intent(SmsReceiverService.ACTION_SEND_INACTIVE_MESSAGE,
@@ -151,7 +158,7 @@ public class MmsApp extends Application {
     public TelephonyManager getTelephonyManager() {
         if (mTelephonyManager == null) {
             mTelephonyManager = (TelephonyManager)getApplicationContext()
-                    .getSystemService(Context.TELEPHONY_SERVICE);
+                    .getSystemService(Context.TELEPHONY_SERVICE1);
         }
         return mTelephonyManager;
     }

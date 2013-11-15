@@ -29,6 +29,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
@@ -46,6 +47,8 @@ import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.transaction.TransactionService;
 import com.android.mms.util.Recycler;
+import com.android.internal.telephony.RILConstants.SimCardID;
+import com.android.mms.util.BrcmDualSimUtils;
 
 /**
  * With this activity, users can set preferences for MMS and SMS and
@@ -67,6 +70,10 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     public static final String RETRIEVAL_DURING_ROAMING = "pref_key_mms_retrieval_during_roaming";
     public static final String AUTO_DELETE              = "pref_key_auto_delete";
     public static final String GROUP_MMS_MODE           = "pref_key_mms_group_mms";
+    public static final String NOTIFICATION_ENABLED_2     = "pref_key_enable_notifications_2";
+    public static final String NOTIFICATION_VIBRATE_2     = "pref_key_vibrate_2";
+    public static final String NOTIFICATION_VIBRATE_WHEN_2 = "pref_key_vibrateWhen_2";
+    public static final String NOTIFICATION_RINGTONE_2    = "pref_key_ringtone_2";
 
     // Menu entries
     private static final int MENU_RESTORE_DEFAULTS    = 1;
@@ -90,6 +97,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     private Preference mClearHistoryPref;
     private CheckBoxPreference mVibratePref;
     private CheckBoxPreference mEnableNotificationsPref;
+    private CheckBoxPreference mEnableNotificationsPref_2;
     private CheckBoxPreference mMmsAutoRetrievialPref;
     private RingtonePreference mRingtonePref;
     private Recycler mSmsRecycler;
@@ -99,6 +107,11 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     // Whether or not we are currently enabled for SMS. This field is updated in onResume to make
     // sure we notice if the user has changed the default SMS app.
     private boolean mIsSmsEnabled;
+
+    private Preference mManageSim2Pref;
+    private ListPreference mVibrateWhen2Pref;
+    private CheckBoxPreference mVibratePref_2;
+    private RingtonePreference mRingtonePref_2;
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -141,11 +154,21 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         mStoragePrefCategory.setEnabled(mIsSmsEnabled);
         mSmsPrefCategory.setEnabled(mIsSmsEnabled);
         mMmsPrefCategory.setEnabled(mIsSmsEnabled);
-        mNotificationPrefCategory.setEnabled(mIsSmsEnabled);
+        if (mNotificationPrefCategory != null)
+            mNotificationPrefCategory.setEnabled(mIsSmsEnabled);
     }
 
     private void loadPrefs() {
-        addPreferencesFromResource(R.xml.preferences);
+        if (BrcmDualSimUtils.isSupportDualSim()) {
+            addPreferencesFromResource(R.xml.preferences_brcm);
+            mManageSimPref = findPreference("pref_key_manage_sim1_messages");
+            mManageSim2Pref = findPreference("pref_key_manage_sim2_messages");
+            mEnableNotificationsPref_2 = (CheckBoxPreference) findPreference(NOTIFICATION_ENABLED_2);
+            mVibrateWhen2Pref = (ListPreference) findPreference(NOTIFICATION_VIBRATE_WHEN_2);
+        } else {
+            addPreferencesFromResource(R.xml.preferences);
+            mManageSimPref = findPreference("pref_key_manage_sim_messages");
+        }
 
         mSmsDisabledPref = findPreference("pref_key_sms_disabled");
         mSmsEnabledPref = findPreference("pref_key_sms_enabled");
@@ -156,7 +179,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         mNotificationPrefCategory =
                 (PreferenceCategory)findPreference("pref_key_notification_settings");
 
-        mManageSimPref = findPreference("pref_key_manage_sim_messages");
+
         mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
         mSmsDeliveryReportPref = findPreference("pref_key_sms_delivery_reports");
         mMmsDeliveryReportPref = findPreference("pref_key_mms_delivery_reports");
@@ -188,9 +211,16 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     }
 
     private void setMessagePreferences() {
-        if (!MmsApp.getApplication().getTelephonyManager().hasIccCard()) {
+        if (!MmsApp.getApplication().getTelephonyManager().getDefault(SimCardID.ID_ZERO).hasIccCard()) {
             // No SIM card, remove the SIM-related prefs
             mSmsPrefCategory.removePreference(mManageSimPref);
+        }
+        if (BrcmDualSimUtils.isSupportDualSim() &&
+                !MmsApp.getApplication().getTelephonyManager().getDefault(SimCardID.ID_ONE).hasIccCard()) {
+            // No SIM card, remove the SIM-related prefs
+            PreferenceCategory smsCategory =
+                (PreferenceCategory)findPreference("pref_key_sms_settings");
+            smsCategory.removePreference(mManageSim2Pref);
         }
 
         if (!MmsConfig.getSMSDeliveryReportsEnabled()) {
@@ -224,6 +254,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         // If needed, migrate vibration setting from the previous tri-state setting stored in
         // NOTIFICATION_VIBRATE_WHEN to the boolean setting stored in NOTIFICATION_VIBRATE.
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         if (sharedPreferences.contains(NOTIFICATION_VIBRATE_WHEN)) {
             String vibrateWhen = sharedPreferences.
                     getString(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN, null);
@@ -233,6 +264,17 @@ public class MessagingPreferenceActivity extends PreferenceActivity
             prefsEditor.remove(NOTIFICATION_VIBRATE_WHEN);  // remove obsolete setting
             prefsEditor.apply();
             mVibratePref.setChecked(vibrate);
+        }
+        if (BrcmDualSimUtils.isSupportDualSim() &&
+            sharedPreferences.contains(NOTIFICATION_VIBRATE_WHEN_2)) {
+            String vibrateWhen = sharedPreferences.
+                    getString(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN_2, null);
+            boolean vibrate = "always".equals(vibrateWhen);
+            SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+            prefsEditor.putBoolean(NOTIFICATION_VIBRATE_2, vibrate);
+            prefsEditor.remove(NOTIFICATION_VIBRATE_WHEN_2);  // remove obsolete setting
+            prefsEditor.apply();
+            mVibratePref_2.setChecked(vibrate);
         }
 
         mSmsRecycler = Recycler.getSmsRecycler();
@@ -253,10 +295,19 @@ public class MessagingPreferenceActivity extends PreferenceActivity
                 : getResources().getString(R.string.silent_ringtone));
     }
 
+    private void setRingtoneSummary2(String soundValue) {
+        Uri soundUri = TextUtils.isEmpty(soundValue) ? null : Uri.parse(soundValue);
+        Ringtone tone = soundUri != null ? RingtoneManager.getRingtone(this, soundUri) : null;
+        mRingtonePref_2.setSummary(tone != null ? tone.getTitle(this)
+                : getResources().getString(R.string.silent_ringtone));
+    }
+
     private void setEnabledNotificationsPref() {
         // The "enable notifications" setting is really stored in our own prefs. Read the
         // current value and set the checkbox to match.
         mEnableNotificationsPref.setChecked(getNotificationEnabled(this));
+        //Miles test
+        mEnableNotificationsPref_2.setChecked(getNotificationEnabled(this, SimCardID.ID_ONE.toInt()));
     }
 
     private void setSmsDisplayLimit() {
@@ -315,6 +366,10 @@ public class MessagingPreferenceActivity extends PreferenceActivity
                     R.string.pref_title_mms_delete).show();
         } else if (preference == mManageSimPref) {
             startActivity(new Intent(this, ManageSimMessages.class));
+        } else if(preference == mManageSim2Pref){
+            Intent intent = new Intent(this, ManageSimMessages.class);
+            intent.putExtra(ManageSimMessages.SIM_NAME_EXTRA, ManageSimMessages.STR_SIM2);
+            startActivity(intent);
         } else if (preference == mClearHistoryPref) {
             showDialog(CONFIRM_CLEAR_SEARCH_HISTORY_DIALOG);
             return true;
@@ -325,6 +380,9 @@ public class MessagingPreferenceActivity extends PreferenceActivity
             if (mMmsAutoRetrievialPref.isChecked()) {
                 startMmsDownload();
             }
+        } else if (preference == mEnableNotificationsPref_2) {
+            // Update the actual "enable notifications for SIM2" value that is stored in secure settings.
+            enableNotifications(mEnableNotificationsPref_2.isChecked(), this, SimCardID.ID_ONE.toInt());
         }
 
         return super.onPreferenceTreeClick(preferenceScreen, preference);
@@ -385,6 +443,19 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         return notificationsEnabled;
     }
 
+    public static boolean getNotificationEnabled(Context context, int simId) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean notificationsEnabled;
+        if (simId == SimCardID.ID_ONE.toInt()) {
+            notificationsEnabled =
+                prefs.getBoolean(MessagingPreferenceActivity.NOTIFICATION_ENABLED_2, true);
+        } else {
+            notificationsEnabled =
+                prefs.getBoolean(MessagingPreferenceActivity.NOTIFICATION_ENABLED, true);
+        }
+        return notificationsEnabled;
+    }
+
     public static void enableNotifications(boolean enabled, Context context) {
         // Store the value of notifications in SharedPreferences
         SharedPreferences.Editor editor =
@@ -395,14 +466,33 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         editor.apply();
     }
 
+    public static void enableNotifications(boolean enabled, Context context, int simId) {
+        // Store the value of notifications in SharedPreferences
+        SharedPreferences.Editor editor =
+            PreferenceManager.getDefaultSharedPreferences(context).edit();
+        if (simId == SimCardID.ID_ONE.toInt()) {
+            editor.putBoolean(MessagingPreferenceActivity.NOTIFICATION_ENABLED_2, enabled);
+        } else {
+            editor.putBoolean(MessagingPreferenceActivity.NOTIFICATION_ENABLED, enabled);
+        }
+        editor.apply();
+    }
+
     private void registerListeners() {
         mRingtonePref.setOnPreferenceChangeListener(this);
+
+        if (BrcmDualSimUtils.isSupportDualSim() && mRingtonePref_2 != null) {
+            mRingtonePref_2.setOnPreferenceChangeListener(this);
+        }
     }
 
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         boolean result = false;
         if (preference == mRingtonePref) {
             setRingtoneSummary((String)newValue);
+            result = true;
+        } else if (preference == mRingtonePref_2) {
+            setRingtoneSummary2((String)newValue);
             result = true;
         }
         return result;

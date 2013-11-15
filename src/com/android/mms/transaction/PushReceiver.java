@@ -48,6 +48,10 @@ import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.ReadOrigInd;
 
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+import com.android.mms.ui.MessageUtils;
+
 /**
  * Receives Intent.WAP_PUSH_RECEIVED_ACTION intents and starts the
  * TransactionService by passing the push-data to it.
@@ -68,6 +72,9 @@ public class PushReceiver extends BroadcastReceiver {
             Intent intent = intents[0];
 
             // Get raw PDU push-data from the message and parse it
+            int simId = ((SimCardID)(intent.getExtra("simId", SimCardID.ID_ZERO))).toInt();
+            String simIMSI;
+            simIMSI = MessageUtils.getSimSubscriberId(simId);
             byte[] pushData = intent.getByteArrayExtra("data");
             PduParser parser = new PduParser(pushData);
             GenericPdu pdu = parser.parse();
@@ -122,13 +129,21 @@ public class PushReceiver extends BroadcastReceiver {
                             // Save the pdu. If we can start downloading the real pdu immediately,
                             // don't allow persist() to create a thread for the notificationInd
                             // because it causes UI jank.
+                            //Uri uri = p.persist(pdu, Inbox.CONTENT_URI,
+                            //        !NotificationTransaction.allowAutoDownload(),
+                            //        MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext),
+                            //        null);
                             Uri uri = p.persist(pdu, Inbox.CONTENT_URI,
                                     !NotificationTransaction.allowAutoDownload(),
                                     MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext),
-                                    null);
+                                    null, simId, simIMSI);
 
                             // Start service to finish the notification transaction.
-                            Intent svc = new Intent(mContext, TransactionService.class);
+                            Intent svc;
+                            if(SimCardID.ID_ONE.toInt() == simId)
+                                svc = new Intent(mContext, TransactionService2.class);
+                            else
+                                svc = new Intent(mContext, TransactionService.class);
                             svc.putExtra(TransactionBundle.URI, uri.toString());
                             svc.putExtra(TransactionBundle.TRANSACTION_TYPE,
                                     Transaction.NOTIFICATION_TRANSACTION);

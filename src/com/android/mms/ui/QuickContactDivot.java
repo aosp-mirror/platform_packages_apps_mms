@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.QuickContactBadge;
 
 import com.android.mms.R;
+import com.android.mms.util.BrcmDualSimUtils;
 
 public class QuickContactDivot extends QuickContactBadge implements Divot{
     private Drawable mDrawable;
@@ -34,6 +35,9 @@ public class QuickContactDivot extends QuickContactBadge implements Divot{
 
     // The screen density.  Multiple this by dips to get pixels.
     private float mDensity;
+
+    private int mSimId;
+    private Drawable mSimIcon;
 
     public QuickContactDivot(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -99,6 +103,7 @@ public class QuickContactDivot extends QuickContactBadge implements Divot{
         c.save();
         computeBounds(c);
         mDrawable.draw(c);
+        drawSimIcon(c);
         c.restore();
     }
 
@@ -166,4 +171,43 @@ public class QuickContactDivot extends QuickContactBadge implements Divot{
         }
     }
 
+    public void setSimIcon(int simPos)
+    {
+        if ( !BrcmDualSimUtils.isSupportDualSim() ) {
+            return;
+        }
+
+        Resources r = getContext().getResources();
+        Drawable drawIcon = null;
+        if (simPos == 0) {
+            drawIcon = r.getDrawable(R.drawable.ic_brcm_sim_1);
+        }
+        else if (simPos == 1) {
+            drawIcon = r.getDrawable(R.drawable.ic_brcm_sim_2);
+        }
+        else {
+            drawIcon = null;
+        }
+        if(mSimIcon != drawIcon) {
+            mSimIcon = drawIcon;
+            invalidate();
+        }
+    }
+    private void drawSimIcon(Canvas c) {
+        if ( !BrcmDualSimUtils.isSupportDualSim() ) {
+            return;
+        }
+
+        if(mSimIcon == null) {
+            return;
+        }
+        final int nHeight = mSimIcon.getIntrinsicHeight();
+        final int nWidth = mSimIcon.getIntrinsicWidth();
+        final int left = 0;
+        final int bottom = getHeight();
+        final int top = bottom - nHeight;
+        final int right = nWidth;
+        mSimIcon.setBounds(left, top, right, bottom);
+        mSimIcon.draw(c);
+    }
 }

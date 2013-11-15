@@ -24,10 +24,17 @@
     android:background="?android:attr/activatedBackgroundIndicator"
     android:paddingRight="10dip" >
 
+    <ImageView android:id="@+id/sim"
+        android:layout_marginLeft="3dip"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true" />
+
     <android.widget.QuickContactBadge
         android:id="@+id/avatar"
         android:visibility="gone"
         android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/sim"
         style="?android:attr/quickContactBadgeStyleWindowLarge" />
 
     <TextView android:id="@+id/from"

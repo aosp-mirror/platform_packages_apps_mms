@@ -44,6 +44,10 @@ import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.RetrieveConf;
 
+import android.app.Service;
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+
 /**
  * The RetrieveTransaction is responsible for retrieving multimedia
  * messages (M-Retrieve.conf) from the MMSC server.  It:
@@ -92,7 +96,11 @@ public class RetrieveTransaction extends Transaction implements Runnable {
         }
 
         // Attach the transaction to the instance of RetryScheduler.
-        attach(RetryScheduler.getInstance(context));
+        Service t = (Service) context;
+        if( t instanceof TransactionService2 )
+            attach(RetryScheduler.getInstance2(context));
+        else
+            attach(RetryScheduler.getInstance(context));
     }
 
     private String getContentLocation(Context context, Uri uri)
@@ -148,10 +156,22 @@ public class RetrieveTransaction extends Transaction implements Runnable {
                 mTransactionState.setState(TransactionState.FAILED);
                 mTransactionState.setContentUri(mUri);
             } else {
+                /** store the simId in mms**/
+                int simId = -1;
+                Service t = (Service)mContext;
+                if(t instanceof TransactionService2)
+                    simId = SimCardID.ID_ONE.toInt();
+                else
+                    simId = SimCardID.ID_ZERO.toInt();
+                String simIMSI;
+                simIMSI = MessageUtils.getSimSubscriberId(simId);
                 // Store M-Retrieve.conf into Inbox
                 PduPersister persister = PduPersister.getPduPersister(mContext);
+                //msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI, true,
+                //        MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null);
                 msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI, true,
-                        MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null);
+                        MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null,
+                        simId, simIMSI);
 
                 // Use local time instead of PDU time
                 ContentValues values = new ContentValues(1);

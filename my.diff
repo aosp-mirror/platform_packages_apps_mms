@@ -1,0 +1,101 @@
+diff --git a/res/xml/preferences_brcm.xml b/res/xml/preferences_brcm.xml
+index e2e6b37..d2d7bc4
+--- a/res/xml/preferences_brcm.xml
++++ b/res/xml/preferences_brcm.xml
+@@ -17,7 +17,29 @@
+  * limitations under the License.
+  */
+ -->
+-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
++<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
++    android:key="pref_key_root">
++    <Preference
++        android:key="pref_key_sms_disabled"
++        android:title="@string/pref_title_sms_disabled"
++        android:summary="@string/pref_summary_sms_disabled"
++        android:persistent="false">
++        <intent
++            android:action="android.provider.Telephony.ACTION_CHANGE_DEFAULT"
++            android:targetPackage="com.android.settings">
++            <extra android:name="package" android:value="com.android.mms"/>
++        </intent>
++    </Preference>
++    <Preference
++        android:key="pref_key_sms_enabled"
++        android:title="@string/pref_title_sms_enabled"
++        android:summary="@string/pref_summary_sms_enabled"
++        android:persistent="false">
++        <intent
++            android:action="android.settings.WIRELESS_SETTINGS"
++            android:targetPackage="com.android.settings">
++        </intent>
++    </Preference>
+   <PreferenceCategory android:title="@string/pref_sms_storage_title"
+                       android:key="pref_key_storage_settings">
+ <!--
+@@ -80,35 +102,35 @@
+                         android:title="@string/pref_title_mms_retrieval_during_roaming"
+                         android:summary="@string/pref_summary_mms_retrieval_during_roaming" />
+   </PreferenceCategory>
+-  <!-- dual sim -->
+-  <PreferenceCategory android:title="@string/sim1_pref_notification_settings_title">
++  <PreferenceCategory android:title="@string/pref_notification_settings_title"
++                      android:key="pref_key_notification_settings">
+     <CheckBoxPreference android:key="pref_key_enable_notifications"
+-                        android:title="@string/pref_title_notification_enabled" />
+-    <RingtonePreference android:layout="?android:attr/preferenceLayoutChild"
+-                        android:dependency="pref_key_enable_notifications"
+-                        android:key="pref_key_ringtone"
++                        android:title="@string/pref_title_notification_enabled"
++                        android:defaultValue="true" />
++    <RingtonePreference android:key="pref_key_ringtone"
+                         android:title="@string/pref_title_notification_ringtone"
+                         android:ringtoneType="notification"
++                        android:dependency="pref_key_enable_notifications"
+                         android:defaultValue="content://settings/system/notification_sound" />
+-    <ListPreference     android:layout="?android:attr/preferenceLayoutChild"
++    <CheckBoxPreference android:key="pref_key_vibrate"
++                        android:title="@string/pref_title_notification_vibrateWhen"
+                         android:dependency="pref_key_enable_notifications"
+-                        android:key="pref_key_vibrateWhen"
+-                        android:title="@string/pref_title_notification_vibrateWhen" />
++                        android:defaultValue="false" />
+   </PreferenceCategory>
+   <!-- dual sim -->
+   <PreferenceCategory android:title="@string/sim2_pref_notification_settings_title">
++                      android:key="pref_key_notification_settings_2">
+     <CheckBoxPreference android:key="pref_key_enable_notifications_2"
+                         android:title="@string/pref_title_notification_enabled"
+                         android:defaultValue="true" />
+-    <RingtonePreference android:layout="?android:attr/preferenceLayoutChild"
+-                        android:dependency="pref_key_enable_notifications_2"
+-                        android:key="pref_key_ringtone_2"
++    <RingtonePreference android:key="pref_key_ringtone_2"
+                         android:title="@string/pref_title_notification_ringtone"
+                         android:ringtoneType="notification"
++                        android:dependency="pref_key_enable_notifications"
+                         android:defaultValue="content://settings/system/notification_sound" />
+-    <ListPreference     android:layout="?android:attr/preferenceLayoutChild"
+-                        android:dependency="pref_key_enable_notifications_2"
+-                        android:key="pref_key_vibrateWhen_2"
+-                        android:title="@string/pref_title_notification_vibrateWhen" />
++    <CheckBoxPreference android:key="pref_key_vibrate_2"
++                        android:title="@string/pref_title_notification_vibrateWhen"
++                        android:dependency="pref_key_enable_notifications"
++                        android:defaultValue="false" />
+   </PreferenceCategory>
+ </PreferenceScreen>
+diff --git a/src/com/android/mms/ui/MessagingPreferenceActivity.java b/src/com/android/mms/ui/MessagingPreferenceActivity.java
+index 9ccec09..acc33b6 100755
+--- a/src/com/android/mms/ui/MessagingPreferenceActivity.java
++++ b/src/com/android/mms/ui/MessagingPreferenceActivity.java
+@@ -159,7 +159,8 @@ public class MessagingPreferenceActivity extends PreferenceActivity
+         mStoragePrefCategory.setEnabled(mIsSmsEnabled);
+         mSmsPrefCategory.setEnabled(mIsSmsEnabled);
+         mMmsPrefCategory.setEnabled(mIsSmsEnabled);
+-        mNotificationPrefCategory.setEnabled(mIsSmsEnabled);
++        if (mNotificationPrefCategory != null)
++        	mNotificationPrefCategory.setEnabled(mIsSmsEnabled);
+     }
+ 
+     private void loadPrefs() {

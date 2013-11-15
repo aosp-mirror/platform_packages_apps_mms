@@ -75,6 +75,12 @@ import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.RetrieveConf;
 import com.google.android.mms.pdu.SendReq;
 
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+import com.android.mms.data.WorkingMessage;
+import com.android.mms.ui.ComposeMessageActivity;
+import android.telephony.TelephonyManager;
+
 /**
  * An utility class for managing messages.
  */
@@ -86,6 +92,9 @@ public class MessageUtils {
     private static final String TAG = LogTag.TAG;
     private static String sLocalNumber;
     private static String[] sNoSubjectStrings;
+
+    private static String mSimSubscriberId_1;
+    private static String mSimSubscriberId_2;
 
     // Cache of both groups of space-separated ids to their full
     // comma-separated display names, as well as individual ids to
@@ -484,6 +493,7 @@ public class MessageUtils {
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, false);
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_INCLUDE_DRM, false);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, 0); //make it to show anything music
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE,
                 activity.getString(R.string.select_audio));
         activity.startActivityForResult(intent, requestCode);
@@ -1026,6 +1036,43 @@ public class MessageUtils {
 
         // it's not a valid MMS address, return null
         return null;
+    }
+
+    /**
+     * @return Returns the SIM Subscriber ID.
+     */
+    public static String getSimSubscriberId(int simId) {
+        if (simId == SimCardID.ID_ONE.toInt()) {
+            if(mSimSubscriberId_2 == null) {
+                TelephonyManager tm = (TelephonyManager)MmsApp.getApplication().getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE2);
+                mSimSubscriberId_2 = tm.getSubscriberId();
+            }
+            return mSimSubscriberId_2;
+        }
+        else {
+            if(mSimSubscriberId_1 == null) {
+                TelephonyManager tm = (TelephonyManager)MmsApp.getApplication().getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE1);
+                mSimSubscriberId_1 = tm.getSubscriberId();
+            }
+            return mSimSubscriberId_1;
+        }
+    }
+    /**
+     * @return -1 : IMEI doesn't match current two sim, 0 : match SIM 1, 1 : match SIM 2
+     */
+    public static int checkSimSubscriberPosition(String simIMSI) {
+        if (simIMSI == null || simIMSI.isEmpty()) {
+            return -1;
+        }
+        String curSimIMSI = getSimSubscriberId( SimCardID.ID_ZERO.toInt() );
+        if (curSimIMSI != null && curSimIMSI.equals(simIMSI)) {
+            return SimCardID.ID_ZERO.toInt();
+        }
+        curSimIMSI = getSimSubscriberId( SimCardID.ID_ONE.toInt() );
+        if (curSimIMSI != null && curSimIMSI.equals(simIMSI)) {
+            return SimCardID.ID_ONE.toInt();
+        }
+        return -1;
     }
 
     private static void log(String msg) {

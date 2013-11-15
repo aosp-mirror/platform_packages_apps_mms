@@ -63,6 +63,19 @@ import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.widget.MmsWidgetProvider;
 import com.google.android.mms.MmsException;
 
+import android.os.Bundle;
+import android.telephony.CellBroadcastMessage;
+import android.telephony.SmsCbMessage;
+import static android.provider.Telephony.Sms.Intents.SMS_CB_RECEIVED_ACTION;
+
+import com.android.internal.telephony.GsmAlphabet;
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+import com.android.internal.util.HexDump;
+import android.provider.Telephony;
+import java.io.UnsupportedEncodingException;
+import com.android.mms.ui.MessageUtils;
+
 /**
  * This service essentially plays the role of a "worker thread", allowing us to store
  * incoming messages to the database, update notifications, etc. without blocking the
@@ -70,6 +83,7 @@ import com.google.android.mms.MmsException;
  */
 public class SmsReceiverService extends Service {
     private static final String TAG = "SmsReceiverService";
+    private static final boolean DBG = true;
 
     private ServiceHandler mServiceHandler;
     private Looper mServiceLooper;
@@ -93,6 +107,8 @@ public class SmsReceiverService extends Service {
         Sms.ADDRESS,    //2
         Sms.BODY,       //3
         Sms.STATUS,     //4
+        Sms.SIM_ID,     //5,
+        Sms.SIM_IMSI    //6,
 
     };
 
@@ -104,6 +120,8 @@ public class SmsReceiverService extends Service {
     private static final int SEND_COLUMN_ADDRESS    = 2;
     private static final int SEND_COLUMN_BODY       = 3;
     private static final int SEND_COLUMN_STATUS     = 4;
+    private static final int SEND_COLUMN_SIM_ID     = 5;
+    private static final int SEND_COLUMN_SIM_IMSI   = 6;
 
     private int mResultCode;
 
@@ -214,7 +232,9 @@ public class SmsReceiverService extends Service {
                     handleSendMessage();
                 } else if (ACTION_SEND_INACTIVE_MESSAGE.equals(action)) {
                     handleSendInactiveMessage();
-                }
+                }else if ((SMS_CB_RECEIVED_ACTION.equals(action))) {
+                    handleSmsCbReceived(intent);
+        }
             }
             // NOTE: We MUST not call stopSelf() directly, since we need to
             // make sure the wake lock acquired by AlertReceiver is released.
@@ -226,13 +246,194 @@ public class SmsReceiverService extends Service {
         // If service just returned, start sending out the queued messages
         ServiceState serviceState = ServiceState.newFromBundle(intent.getExtras());
         if (serviceState.getState() == ServiceState.STATE_IN_SERVICE) {
-            sendFirstQueuedMessage();
+            //Retrieve the simId, then try to send the queued msg with the correct sim card.
+            Object objSimId = intent.getExtra("simId");
+            if(objSimId != null ){
+                int simId = ((SimCardID)objSimId).toInt();
+                sendFirstQueuedMessage(simId);
+            }
         }
     }
 
     private void handleSendMessage() {
         if (!mSending) {
             sendFirstQueuedMessage();
+        }
+    }
+
+    private String getCbChannelName(int iChannelIndex, int simId) {
+        String channelName = null;
+        Uri uri = Uri.parse("content://com.broadcom.cellbroadcast/cbchannels");
+        String[] projection = {"_id","channel_name","channel_index","channel_enabled","sim_id"};
+        Cursor cursor = getApplicationContext().getContentResolver().query(uri,
+                                                                           projection,
+                                                                           "sim_id=" + simId + " AND channel_index="+iChannelIndex,
+                                                                           null,
+                                                                           null);
+
+        if ((null != cursor) && (cursor.getCount() > 0)) {
+            if (cursor.moveToFirst()) {
+                channelName = cursor.getString(1);
+            }
+            cursor.close();
+        }
+
+        return channelName;
+    }
+
+    private void handleSmsCbReceived(Intent intent) {
+        if (DBG) Log.d(TAG,"=>handleSmsCbReceived()");
+
+        Bundle extras = intent.getExtras();
+        if (extras == null) {
+            Log.e(TAG, "received SMS_CB_RECEIVED_ACTION with no extras!");
+            return;
+        }
+
+        SmsCbMessage message = (SmsCbMessage) extras.get("message");
+
+        if (message == null) {
+            Log.e(TAG, "received SMS_CB_RECEIVED_ACTION with no message extra");
+            return;
+        }
+
+        final CellBroadcastMessage cbm = new CellBroadcastMessage(message);
+
+        int messageId = cbm.getServiceCategory();
+        String messageBody = cbm.getMessageBody();
+        int simId = ((SimCardID)intent.getExtra("simId", SimCardID.ID_ZERO)).toInt();
+        String simIMSI = MessageUtils.getSimSubscriberId(simId);
+        String channelName  = getCbChannelName(messageId, simId);
+        if (null == channelName) {
+            Log.e(TAG,"handleSmsCbReceived(): failed to get channel name");
+            channelName = Integer.toString(messageId);
+        }
+
+        // Store the message in the content provider.
+        ContentValues values = new ContentValues();
+
+        // Use now for the timestamp to avoid confusion with clock
+        // drift between the handset and the SMSC.
+        values.put(Inbox.DATE, new Long(System.currentTimeMillis()));
+        values.put(Inbox.PROTOCOL, 0);
+        values.put(Inbox.READ, 0);
+        values.put(Inbox.SEEN, 0);
+        values.put(Inbox.SUBJECT, "Cell Broadcast Message");
+        values.put(Inbox.REPLY_PATH_PRESENT, false);
+        values.put(Inbox.SERVICE_CENTER, "");
+        values.put(Inbox.BODY, messageBody);
+        values.put(Inbox.ADDRESS, channelName);
+        values.put(Inbox.SIM_ID, simId);
+        values.put(Inbox.SIM_IMSI, simIMSI);
+
+        Uri uri = getApplicationContext().getContentResolver().insert(Inbox.CONTENT_URI, values);
+        if (null != uri) {
+            MessagingNotification.nonBlockingUpdateNewMessageIndicator(getApplicationContext(),
+                    MessagingNotification.THREAD_NONE, false);
+        }
+    }
+
+    private int getEncodingType(int DataCodingScheme) {
+        if ((DataCodingScheme & 0xf0) == 0x00) { /* 0000 xxxx */
+            return SmsMessage.ENCODING_7BIT;
+        } else if ((DataCodingScheme & 0xff) == 0x10) { /* 0001 0000 */
+            return SmsMessage.ENCODING_7BIT;
+        } else if ((DataCodingScheme & 0xff) == 0x11) { /* 0001 0s001 */
+            return SmsMessage.ENCODING_16BIT;
+        } else if (((DataCodingScheme & 0xf0) == 0x20) && ((DataCodingScheme & 0x0f) != 0x00)) { /* 0010 0001 ~ 0010 1111 */
+            return SmsMessage.ENCODING_7BIT;
+        } else if ((DataCodingScheme & 0xf0) == 0x30) { /* 0011 xxxx */
+            return SmsMessage.ENCODING_7BIT;
+        } else if ((DataCodingScheme & 0x40) == 0x40) { /* 01xx xxxx */
+            if ((DataCodingScheme & 0x20) == 0x20) {
+                Log.e(TAG,"getEncodingType(): Compressed Text Message Not Supported!"); /* bit 5 == 1 */
+            }
+
+            if ((DataCodingScheme & 0x0c) == 0x00) {
+                return SmsMessage.ENCODING_7BIT; /* bit 2 == 0, bit 3 == 0 */
+            } else if ((DataCodingScheme & 0x0c) == 0x04) {
+                return SmsMessage.ENCODING_8BIT; /* bit 2 == 1, bit 3 == 0 */
+            } else if ((DataCodingScheme & 0x0c) == 0x08) {
+                return SmsMessage.ENCODING_16BIT; /* bit 2 == 0, bit 3 == 1 */
+            }
+        } else if ((DataCodingScheme & 0xf0) == 0xf0) { /* 0111 xxxx */
+            if ((DataCodingScheme & 0x04) == 0x00) {
+                return SmsMessage.ENCODING_7BIT; /* bit 2 == 0 */
+            } else {
+                return SmsMessage.ENCODING_8BIT; /* bit 2 == 1 */
+            }
+        }
+
+        return SmsMessage.ENCODING_UNKNOWN;
+    }
+
+    /** dual sim
+      *Add this method only to send msg when the service state changed.  So check the queued msg with service changed sim card id, if
+      * this is the valid state change for queued msg, try to send it.
+      * unRegisterForServiceStateChanges() will be called only for "success" and "the other sim card id's queued msg is empty".
+      */
+    private synchronized void sendFirstQueuedMessage(int serviceChangedSimId) {
+        boolean success = true;
+        // get all the queued messages from the database
+        final Uri uri = Uri.parse("content://sms/queued");
+        ContentResolver resolver = getContentResolver();
+        //Added for the specific sim id
+        String where = Sms.SIM_ID+"=?";
+        String[] selectionArgs = new String[]{String.valueOf(serviceChangedSimId)};
+        Cursor c = SqliteWrapper.query(this, resolver, uri,
+                        SEND_PROJECTION, where, selectionArgs, "date ASC");   // date ASC so we send out in
+                                                                    // same order the user tried
+                                                                    // to send messages.
+        if (c != null) {
+            try {
+                if (c.moveToFirst()) {
+                    String msgText = c.getString(SEND_COLUMN_BODY);
+                    String address = c.getString(SEND_COLUMN_ADDRESS);
+                    int threadId = c.getInt(SEND_COLUMN_THREAD_ID);
+                    int status = c.getInt(SEND_COLUMN_STATUS);
+                    int simId = c.getInt(SEND_COLUMN_SIM_ID);
+
+                    int msgId = c.getInt(SEND_COLUMN_ID);
+                    Uri msgUri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgId);
+
+                    SmsMessageSender sender = new SmsSingleRecipientSender(this,
+                            address, msgText, threadId, status == Sms.STATUS_PENDING,
+                            msgUri, simId);
+
+                    if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                        Log.v(TAG, "sendFirstQueuedMessage " + msgUri +
+                                ", address: " + address +
+                                ", threadId: " + threadId +
+                                ", body: " + msgText);
+                    }
+                    try {
+                        sender.sendMessage(SendingProgressTokenManager.NO_TOKEN);;
+                        mSending = true;
+                    } catch (MmsException e) {
+                        Log.e(TAG, "sendFirstQueuedMessage: failed to send message " + msgUri
+                                + ", caught ", e);
+                        success = false;
+                    }
+
+                }
+            } finally {
+                c.close();
+            }
+        }
+        if (success) {
+
+                  // We successfully sent all the messages in the queue. We don't need to
+                  // be notified of any service changes any longer.
+
+                  String[] args = new String[]{String.valueOf(serviceChangedSimId == SimCardID.ID_ONE.toInt() ? SimCardID.ID_ZERO.toInt() : SimCardID.ID_ONE.toInt())};
+                  Cursor otherC = SqliteWrapper.query(this, resolver, uri,
+                        SEND_PROJECTION, where, args, null);
+                  if(otherC == null || !otherC.moveToFirst()){
+                                      unRegisterForServiceStateChanges();
+                  }
+                  if(otherC != null)
+                      otherC.close();
+
         }
     }
 
@@ -258,13 +459,14 @@ public class SmsReceiverService extends Service {
                     String address = c.getString(SEND_COLUMN_ADDRESS);
                     int threadId = c.getInt(SEND_COLUMN_THREAD_ID);
                     int status = c.getInt(SEND_COLUMN_STATUS);
+                    int simId = c.getInt(SEND_COLUMN_SIM_ID);
 
                     int msgId = c.getInt(SEND_COLUMN_ID);
                     Uri msgUri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgId);
 
                     SmsMessageSender sender = new SmsSingleRecipientSender(this,
                             address, msgText, threadId, status == Sms.STATUS_PENDING,
-                            msgUri);
+                            msgUri, simId);
 
                     if (LogTag.DEBUG_SEND ||
                             LogTag.VERBOSE ||
@@ -370,8 +572,8 @@ public class SmsReceiverService extends Service {
     private void handleSmsReceived(Intent intent, int error) {
         SmsMessage[] msgs = Intents.getMessagesFromIntent(intent);
         String format = intent.getStringExtra("format");
-        Uri messageUri = insertMessage(this, msgs, error, format);
-
+        int simId = ((SimCardID)intent.getExtra("simId", SimCardID.ID_ZERO)).toInt();
+        Uri messageUri = insertMessage(this, msgs, error, format, simId);
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
             SmsMessage sms = msgs[0];
             Log.v(TAG, "handleSmsReceived" + (sms.isReplace() ? "(replace)" : "") +
@@ -476,6 +678,20 @@ public class SmsReceiverService extends Service {
         }
     }
 
+    private Uri insertMessage(Context context, SmsMessage[] msgs, int error, String format, int simId) {
+        // Build the helper classes to parse the messages.
+        SmsMessage sms = msgs[0];
+
+        if (sms.getMessageClass() == SmsMessage.MessageClass.CLASS_0) {
+            displayClassZeroMessage(context, sms, format);
+            return null;
+        } else if (sms.isReplace()) {
+            return replaceMessage(context, msgs, error, simId);
+        } else {
+            return storeMessage(context, msgs, error, simId);
+        }
+    }
+
     /**
      * This method is used if this is a "replace short message" SMS.
      * We find any existing message that matches the incoming
@@ -536,6 +752,62 @@ public class SmsReceiverService extends Service {
         }
         return storeMessage(context, msgs, error);
     }
+
+    private Uri replaceMessage(Context context, SmsMessage[] msgs, int error, int simId) {
+        SmsMessage sms = msgs[0];
+        ContentValues values = extractContentValues(sms);
+        values.put(Sms.ERROR_CODE, error);
+        values.put(Inbox.SIM_ID , simId);
+        String simIMSI = MessageUtils.getSimSubscriberId(simId);
+        values.put(Inbox.SIM_IMSI, simIMSI); //Chingku
+        int pduCount = msgs.length;
+
+        if (pduCount == 1) {
+            // There is only one part, so grab the body directly.
+            values.put(Inbox.BODY, replaceFormFeeds(sms.getDisplayMessageBody()));
+        } else {
+            // Build up the body from the parts.
+            StringBuilder body = new StringBuilder();
+            for (int i = 0; i < pduCount; i++) {
+                sms = msgs[i];
+                if (sms.mWrappedSmsMessage != null) {
+                    body.append(sms.getDisplayMessageBody());
+                }
+            }
+            values.put(Inbox.BODY, replaceFormFeeds(body.toString()));
+        }
+
+        ContentResolver resolver = context.getContentResolver();
+        String originatingAddress = sms.getOriginatingAddress();
+        int protocolIdentifier = sms.getProtocolIdentifier();
+        String selection =
+                Sms.ADDRESS + " = ? AND " +
+                Sms.PROTOCOL + " = ?";
+        String[] selectionArgs = new String[] {
+            originatingAddress, Integer.toString(protocolIdentifier)
+        };
+
+        Cursor cursor = SqliteWrapper.query(context, resolver, Inbox.CONTENT_URI,
+                            REPLACE_PROJECTION, selection, selectionArgs, null);
+
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    long messageId = cursor.getLong(REPLACE_COLUMN_ID);
+                    Uri messageUri = ContentUris.withAppendedId(
+                            Sms.CONTENT_URI, messageId);
+
+                    SqliteWrapper.update(context, resolver, messageUri,
+                                        values, null, null);
+                    return messageUri;
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return storeMessage(context, msgs, error, simId);
+    }
+
 
     public static String replaceFormFeeds(String s) {
         // Some providers send formfeeds in their messages. Convert those formfeeds to newlines.
@@ -606,6 +878,76 @@ public class SmsReceiverService extends Service {
 
         // Now make sure we're not over the limit in stored messages
         Recycler.getSmsRecycler().deleteOldMessagesByThreadId(context, threadId);
+        MmsWidgetProvider.notifyDatasetChanged(context);
+
+        return insertedUri;
+    }
+
+    private Uri storeMessage(Context context, SmsMessage[] msgs, int error, int simId) {
+        SmsMessage sms = msgs[0];
+
+        // Store the message in the content provider.
+        ContentValues values = extractContentValues(sms);
+        values.put(Sms.ERROR_CODE, error);
+        values.put(Inbox.SIM_ID, simId);
+        String simIMSI = MessageUtils.getSimSubscriberId(simId);
+        values.put(Inbox.SIM_IMSI, simIMSI);
+        int pduCount = msgs.length;
+
+        if (pduCount == 1) {
+            // There is only one part, so grab the body directly.
+            values.put(Inbox.BODY, replaceFormFeeds(sms.getDisplayMessageBody()));
+        } else {
+            // Build up the body from the parts.
+            StringBuilder body = new StringBuilder();
+            for (int i = 0; i < pduCount; i++) {
+                sms = msgs[i];
+                if (sms.mWrappedSmsMessage != null) {
+                    body.append(sms.getDisplayMessageBody());
+                }
+            }
+            values.put(Inbox.BODY, replaceFormFeeds(body.toString()));
+        }
+
+        // Make sure we've got a thread id so after the insert we'll be able to delete
+        // excess messages.
+        Long threadId = values.getAsLong(Sms.THREAD_ID);
+        String address = values.getAsString(Sms.ADDRESS);
+
+        // Code for debugging and easy injection of short codes, non email addresses, etc.
+        // See Contact.isAlphaNumber() for further comments and results.
+//        switch (count++ % 8) {
+//            case 0: address = "AB12"; break;
+//            case 1: address = "12"; break;
+//            case 2: address = "Jello123"; break;
+//            case 3: address = "T-Mobile"; break;
+//            case 4: address = "Mobile1"; break;
+//            case 5: address = "Dogs77"; break;
+//            case 6: address = "****1"; break;
+//            case 7: address = "#4#5#6#"; break;
+//        }
+
+        if (!TextUtils.isEmpty(address)) {
+            Contact cacheContact = Contact.get(address,true);
+            if (cacheContact != null) {
+                address = cacheContact.getNumber();
+            }
+        } else {
+            address = getString(R.string.unknown_sender);
+            values.put(Sms.ADDRESS, address);
+        }
+
+        if (((threadId == null) || (threadId == 0)) && (address != null)) {
+            threadId = Conversation.getOrCreateThreadId(context, address);
+            values.put(Sms.THREAD_ID, threadId);
+        }
+
+        ContentResolver resolver = context.getContentResolver();
+
+        Uri insertedUri = SqliteWrapper.insert(context, resolver, Inbox.CONTENT_URI, values);
+
+        // Now make sure we're not over the limit in stored messages
+        Recycler.getSmsRecycler().deleteOldMessagesByThreadId(getApplicationContext(), threadId);
         MmsWidgetProvider.notifyDatasetChanged(context);
 
         return insertedUri;

@@ -52,6 +52,13 @@ import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 
+import android.app.Service;
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+import android.content.Intent;
+import com.android.mms.LogTag;
+import com.android.mms.ui.MessageUtils;
+
 /**
  * The NotificationTransaction is responsible for handling multimedia
  * message notifications (M-Notification.ind).  It:
@@ -96,7 +103,12 @@ public class NotificationTransaction extends Transaction implements Runnable {
         mId = mContentLocation;
 
         // Attach the transaction to the instance of RetryScheduler.
-        attach(RetryScheduler.getInstance(context));
+        Service t = (Service) context;
+        if( t instanceof TransactionService2)
+            attach(RetryScheduler.getInstance2(context));
+        else
+            attach(RetryScheduler.getInstance(context));
+
     }
 
     /**
@@ -107,12 +119,22 @@ public class NotificationTransaction extends Transaction implements Runnable {
             TransactionSettings connectionSettings, NotificationInd ind) {
         super(context, serviceId, connectionSettings);
 
+        int simId = -1;
+        Service t = (Service)context;
+        if(t instanceof TransactionService2)
+            simId = SimCardID.ID_ONE.toInt();
+        else
+            simId = SimCardID.ID_ZERO.toInt();
+        String simIMSI;
+        simIMSI = MessageUtils.getSimSubscriberId(simId);
+
         try {
             // Save the pdu. If we can start downloading the real pdu immediately, don't allow
             // persist() to create a thread for the notificationInd because it causes UI jank.
             mUri = PduPersister.getPduPersister(context).persist(
                         ind, Inbox.CONTENT_URI, !allowAutoDownload(),
-                        MessagingPreferenceActivity.getIsGroupMmsEnabled(context), null);
+                        MessagingPreferenceActivity.getIsGroupMmsEnabled(context), null,
+                        simId, simIMSI);
         } catch (MmsException e) {
             Log.e(TAG, "Failed to save NotificationInd in constructor.", e);
             throw new IllegalArgumentException();
@@ -134,8 +156,28 @@ public class NotificationTransaction extends Transaction implements Runnable {
     public static boolean allowAutoDownload() {
         DownloadManager downloadManager = DownloadManager.getInstance();
         boolean autoDownload = downloadManager.isAuto();
-        boolean dataSuspended = (MmsApp.getApplication().getTelephonyManager().getDataState() ==
+        //boolean dataSuspended = (MmsApp.getApplication().getTelephonyManager().getDataState() ==
+        //        TelephonyManager.DATA_SUSPENDED);
+        boolean dataSuspended = (MmsApp.getApplication().getTelephonyManager().getDefault(SimCardID.ID_ZERO).getDataState() ==
                 TelephonyManager.DATA_SUSPENDED);
+
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG,"autoDownload:" + autoDownload);
+            Log.v(TAG,"SIM1 data state:" + MmsApp.getApplication().getTelephonyManager().getDefault(SimCardID.ID_ZERO).getDataState());
+            Log.v(TAG,"SIM1 dataSuspended:" + dataSuspended);
+            boolean dataSuspended2 = (MmsApp.getApplication().getTelephonyManager().getDefault(SimCardID.ID_ONE).getDataState() ==
+                    TelephonyManager.DATA_SUSPENDED);
+            Log.v(TAG,"SIM1 data state:" + MmsApp.getApplication().getTelephonyManager().getDefault(SimCardID.ID_ONE).getDataState());
+            Log.v(TAG,"SIM2 dataSuspended:" + dataSuspended2);
+        }
+
+        dataSuspended &= (MmsApp.getApplication().getTelephonyManager().getDefault(SimCardID.ID_ONE).getDataState() ==
+            TelephonyManager.DATA_SUSPENDED);
+
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG,"SIM1 &= SIM2 dataSuspended:" + dataSuspended);
+        }
+
         return autoDownload && !dataSuspended;
     }
 
@@ -154,6 +196,8 @@ public class NotificationTransaction extends Transaction implements Runnable {
             // Don't try to download when data is suspended, as it will fail, so defer download
             if (!autoDownload) {
                 downloadManager.markState(mUri, DownloadManager.STATE_UNSTARTED);
+                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE))
+                    Log.v(TAG,"sendNotifyRespInd, status:" + status);
                 sendNotifyRespInd(status);
                 return;
             }
@@ -181,10 +225,23 @@ public class NotificationTransaction extends Transaction implements Runnable {
                     mTransactionState.setState(FAILED);
                     status = STATUS_UNRECOGNIZED;
                 } else {
+                    // store the phonename in mms
+                    int simId = -1;
+                    Service t = (Service)mContext;
+                    if(t instanceof TransactionService2)
+                       simId = SimCardID.ID_ONE.toInt();
+                    else
+                       simId = SimCardID.ID_ZERO.toInt();
+                    String simIMSI;
+                    simIMSI = MessageUtils.getSimSubscriberId(simId);
+
                     // Save the received PDU (must be a M-RETRIEVE.CONF).
                     PduPersister p = PduPersister.getPduPersister(mContext);
+                    //Uri uri = p.persist(pdu, Inbox.CONTENT_URI, true,
+                    //        MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null);
                     Uri uri = p.persist(pdu, Inbox.CONTENT_URI, true,
-                            MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null);
+                            MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null,
+                            simId, simIMSI);
 
                     // Use local time instead of PDU time
                     ContentValues values = new ContentValues(1);
@@ -204,6 +261,10 @@ public class NotificationTransaction extends Transaction implements Runnable {
                     // Notify observers with newly received MM.
                     mUri = uri;
                     status = STATUS_RETRIEVED;
+
+                    Intent receivedIntent = new Intent(MmsConfig.BRCM_RECEIVED);
+                    receivedIntent.putExtra(MmsConfig.BRCM_MMS_ID, uri);
+                    mContext.sendBroadcast(receivedIntent);
                 }
             }
 

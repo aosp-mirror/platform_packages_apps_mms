@@ -446,4 +446,19 @@ public class MmsConfig {
         }
     }
 
+    public static final String BRCM_SEND_NOW = "com.broadcom.bt.mms.SENDNOW";
+
+    public static final String BRCM_SENT = "com.broadcom.bt.mms.SENT";
+    public static final String BRCM_DELIVERED = "com.broadcom.bt.mms.DELIVERED";
+
+    public static final String BRCM_RECEIVED = "com.broadcom.bt.mms.RECEIVED";
+    public static final String BRCM_DELETED = "com.broadcom.bt.mms.DELETED";
+
+    public static final String BRCM_MMS_ID = "id";
+    public static final String BRCM_FOLDER_ID = "folder";
+    public static final String BRCM_REQUEST_ID = "req_id";
+
+    public static final String BRCM_SEND_SUCCESS = "com.broadcom.bt.mms.SEND_SUCCESS";
+    public static final String BRCM_SEND_ERROR = "com.broadcom.bt.mms.SEND_ERROR";
+
 }

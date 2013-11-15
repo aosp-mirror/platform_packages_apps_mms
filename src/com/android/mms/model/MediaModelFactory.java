@@ -67,6 +67,12 @@ public class MediaModelFactory {
                     part = pb.getPartByFileName(src);
                     if (part == null) {
                         part = pb.getPartByContentLocation(src);
+                        //BRCM:Improve compatibility of getting media model of MMS slides from various operator MMSC server
+                        if(part == null && src.lastIndexOf('.') != -1) {
+                            String src_OnlyFileName = src.substring(0,src.lastIndexOf('.'));
+                            Log.d(TAG,"findPart(), src:" + src + ", src_OnlyFileName:" + src_OnlyFileName);
+                            part = pb.getPartByContentLocation(src_OnlyFileName);
+                        }
                     }
                 }
             }

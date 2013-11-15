@@ -72,6 +72,12 @@ import com.android.mms.util.ThumbnailManager.ImageLoaded;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.pdu.PduHeaders;
 
+import android.widget.Toast;
+import com.android.mms.transaction.TransactionService2;
+import android.telephony.TelephonyManager;
+import com.android.internal.telephony.RILConstants.SimCardID;
+import com.android.mms.util.BrcmDualSimUtils;
+
 /**
  * This class provides view of a message in the messages list.
  */
@@ -196,6 +202,30 @@ public class MessageListItem extends LinearLayout implements
         mHandler = handler;
     }
 
+    public static boolean IsSimAvalibleForMMS(int SimId) {
+            TelephonyManager tm,tm2;
+
+            tm= (TelephonyManager)MmsApp.getApplication().getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE1);
+            tm2= (TelephonyManager)MmsApp.getApplication().getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE2);
+
+            if(SimId==SimCardID.ID_ZERO.toInt())
+            {
+                if(TelephonyManager.CALL_STATE_IDLE != tm2 .getCallState() ||
+                   (TelephonyManager.CALL_STATE_IDLE != tm .getCallState() && tm.getNetworkType() < TelephonyManager.NETWORK_TYPE_UMTS))
+                {
+                    return false;
+                }
+            } else {
+                if(TelephonyManager.CALL_STATE_IDLE != tm .getCallState()||
+                   (TelephonyManager.CALL_STATE_IDLE != tm2 .getCallState() && tm2.getNetworkType() < TelephonyManager.NETWORK_TYPE_UMTS))
+                {
+                    return false;
+                }
+            }
+
+        return true;
+    }
+
     private void bindNotifInd() {
         showMmsView(false);
 
@@ -241,7 +271,26 @@ public class MessageListItem extends LinearLayout implements
                     public void onClick(View v) {
                         mDownloadingLabel.setVisibility(View.VISIBLE);
                         mDownloadButton.setVisibility(View.GONE);
-                        Intent intent = new Intent(mContext, TransactionService.class);
+                        //check the msg is belong to SIM1 or SIM2
+                        Intent intent;
+                        if (BrcmDualSimUtils.isSupportDualSim()) {
+                            if(mMessageItem.getSimID()==0)
+                            {
+                                 if(!IsSimAvalibleForMMS(SimCardID.ID_ZERO.toInt())){
+                                    Toast.makeText(mContext, R.string.SIM1_NOT_AVALIABLE_WHILE_SIM2_ON_CALL,Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                intent = new Intent(mContext, TransactionService.class);
+                            } else {
+                                 if(!IsSimAvalibleForMMS(SimCardID.ID_ONE.toInt())){
+                                     Toast.makeText(mContext, R.string.SIM2_NOT_AVALIABLE_WHILE_SIM1_ON_CALL,Toast.LENGTH_LONG).show();
+                                     return;
+                                }
+                                intent = new Intent(mContext, TransactionService2.class);
+                            }
+                        } else {
+                            intent = new Intent(mContext, TransactionService.class);
+                        }
                         intent.putExtra(TransactionBundle.URI, mMessageItem.mMessageUri.toString());
                         intent.putExtra(TransactionBundle.TRANSACTION_TYPE,
                                 Transaction.RETRIEVE_TRANSACTION);
@@ -292,10 +341,22 @@ public class MessageListItem extends LinearLayout implements
                     mAvatar.assignContactFromPhone(contact.getNumber(), true);
                 }
             }
+            if (contact.isSimAccountType()) {
+                avatarDrawable = sDefaultContactImage;
+            }
         } else {
             avatarDrawable = sDefaultContactImage;
         }
+        updateAvatarSimIcon();
         mAvatar.setImageDrawable(avatarDrawable);
+    }
+    private void updateAvatarSimIcon() {
+        if(mMessageItem != null) {
+            //compare imsi
+            int simPos = MessageUtils.checkSimSubscriberPosition(mMessageItem.getSimIMSI());
+            //update avatar sim icon
+            mAvatar.setSimIcon(simPos);
+        }
     }
 
     private void bindCommonMessage(final boolean sameItem) {

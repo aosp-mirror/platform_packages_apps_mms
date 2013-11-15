@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * Copyright (C) 2008 Esmertec AG.
+ * Copyright (C) 2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/recipients_subject_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dip"
+        android:paddingBottom="5dip"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ViewStub android:id="@+id/recipients_editor_stub"
+            android:layout="@layout/recipients_editor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        />
+
+        <EditText android:id="@+id/subject"
+            android:textAppearance="?android:attr/textAppearanceMediumInverse"
+            android:textColor="@android:color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:capitalize="sentences"
+            android:autoText="true"
+            android:singleLine="true"
+            android:hint="@string/subject_hint"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom">
+
+        <view class="com.android.mms.ui.MessageListView"
+            style="?android:attr/listViewWhiteStyle"
+            android:id="@+id/history"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1.0"
+            android:transcriptMode="disabled"
+            android:smoothScrollbar="false"
+            android:stackFromBottom="true"
+            android:visibility="gone"
+            android:fadingEdge="none"
+            android:layout_marginBottom="1dip"
+            android:cacheColorHint="@android:color/white"
+            android:scrollbarAlwaysDrawVerticalTrack="false"
+            android:scrollbarStyle="insideOverlay"
+            android:paddingBottom="@dimen/input_text_height_adjusted"
+        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/attachment_editor_scroll_view"
+                android:layout_weight="1.0"
+                android:layout_width="match_parent"
+                android:layout_height="0dip">
+
+              <view class="com.android.mms.ui.AttachmentEditor"
+                  android:id="@+id/attachment_editor"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
+
+                  <ViewStub android:id="@+id/image_attachment_view_stub"
+                      android:layout="@layout/image_attachment_view"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
+
+                  <ViewStub android:id="@+id/video_attachment_view_stub"
+                      android:layout="@layout/video_attachment_view"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
+
+                  <ViewStub android:id="@+id/audio_attachment_view_stub"
+                      android:layout="@layout/audio_attachment_view"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
+
+                  <ViewStub android:id="@+id/slideshow_attachment_view_stub"
+                      android:layout="@layout/slideshow_attachment_view"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
+              </view>
+            </ScrollView>
+
+            <!-- Divider -->
+            <View android:background="#eeeeee"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <LinearLayout
+                android:id="@+id/bottom_panel"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff" >
+
+                <EditText
+                    android:textColor="@android:color/black"
+                    android:id="@+id/embedded_text_editor"
+                    android:layout_width="0dip"
+                    android:layout_gravity="bottom"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:layout_marginLeft="8dip"
+                    android:autoText="true"
+                    android:textSize="16sp"
+                    android:capitalize="sentences"
+                    android:nextFocusRight="@+id/send_button"
+                    android:hint="@string/type_to_compose_text_enter_to_send"
+                    android:minHeight="@dimen/input_text_height"
+                    android:maxLines="3"
+                    android:inputType="textShortMessage|textAutoCorrect|textCapSentences|textMultiLine"
+                    android:imeOptions="actionSend|flagNoEnterAction"
+                    android:maxLength="2000"
+                />
+
+           </LinearLayout>
+
+           <LinearLayout
+                android:id="@+id/bottom_send_panel"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff" >
+
+                <LinearLayout
+                    android:id="@+id/button_with_counter"
+                    android:orientation="vertical"
+                    android:layout_gravity="bottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/text_counter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal|bottom"
+                        android:textColor="#cc333333"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:paddingLeft="3dip"
+                        android:paddingRight="3dip"
+                        android:paddingBottom="5dip"
+                        android:visibility="gone"
+                    />
+
+                    <TextView
+                        android:id="@+id/send_button_mms"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:drawableBottom="@drawable/send_button_selector"
+                        android:drawablePadding="0dip"
+                        android:layout_width="wrap_content"
+                        android:textSize="11sp"
+                        android:layout_height="0dip"
+                        android:layout_weight="1.0"
+                        android:layout_marginTop="0dip"
+                        android:layout_marginLeft="4dip"
+                        android:editable="false"
+                        android:text="@string/mms"
+                        android:contentDescription="@string/send_mms"
+                        android:nextFocusLeft="@+id/embedded_text_editor" />
+
+                    <ImageButton
+                        android:id="@+id/send_button_sms"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:src="@drawable/send_button_selector"
+                        android:drawablePadding="0dip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dip"
+                        android:layout_weight="1.0"
+                        android:layout_marginLeft="4dip"
+                        android:contentDescription="@string/send"
+                        android:nextFocusLeft="@+id/embedded_text_editor" />
+
+                </LinearLayout>
+
+                <Button android:id="@+id/sim_chooser_card_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:drawableLeft="@drawable/sym_action_sms_1"
+                    android:drawablePadding="2dip"
+                    android:text="@string/sim_chooser_sim_one" />
+
+                <Button android:id="@+id/sim_chooser_card_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:drawableLeft="@drawable/sym_action_sms_2"
+                    android:drawablePadding="2dip"
+                    android:text="@string/sim_chooser_sim_two" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

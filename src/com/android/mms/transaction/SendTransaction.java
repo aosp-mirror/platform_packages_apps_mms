@@ -41,6 +41,10 @@ import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendConf;
 import com.google.android.mms.pdu.SendReq;
 
+import android.app.Service;
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+
 /**
  * The SendTransaction is responsible for sending multimedia messages
  * (M-Send.req) to the MMSC server.  It:
@@ -67,7 +71,11 @@ public class SendTransaction extends Transaction implements Runnable {
         mId = uri;
 
         // Attach the transaction to the instance of RetryScheduler.
-        attach(RetryScheduler.getInstance(context));
+        Service t = (Service) context;
+        if( t instanceof TransactionService2)
+            attach(RetryScheduler.getInstance2(context));
+        else
+            attach(RetryScheduler.getInstance(context));
     }
 
     /*
@@ -148,6 +156,16 @@ public class SendTransaction extends Transaction implements Runnable {
                 return;
             }
 
+            int simId = -1;
+            Service t = (Service)mContext;
+            if( t instanceof TransactionService2 ) {
+                simId = SimCardID.ID_ONE.toInt();
+            } else {
+                simId = SimCardID.ID_ZERO.toInt();
+            }
+            values.put(Mms.SIM_ID, simId);
+            String simIMSI = MessageUtils.getSimSubscriberId(simId);
+            values.put(Mms.SIM_IMSI, simIMSI);
             String messageId = PduPersister.toIsoString(conf.getMessageId());
             values.put(Mms.MESSAGE_ID, messageId);
             SqliteWrapper.update(mContext, mContext.getContentResolver(),

@@ -107,9 +107,15 @@ public class MessageItem {
     ColumnsMap mColumnsMap;
     private PduLoadedCallback mPduLoadedCallback;
     private ItemLoadedFuture mItemLoadedFuture;
+    int mSimID = 0;
+    String mSimIMSI;
 
     MessageItem(Context context, String type, final Cursor cursor,
-            final ColumnsMap columnsMap, Pattern highlight) throws MmsException {
+            final ColumnsMap columnsMap, Pattern highlight, int... msgSimID) throws MmsException {
+        // msgSimID parameter is optional
+        assert(msgSimID.length <= 1);
+        mSimID = ((msgSimID.length > 0) ? msgSimID[0] : 0);
+
         mContext = context;
         mMsgId = cursor.getLong(columnsMap.mColumnMsgId);
         mHighlight = highlight;
@@ -159,6 +165,8 @@ public class MessageItem {
 
             mLocked = cursor.getInt(columnsMap.mColumnSmsLocked) != 0;
             mErrorCode = cursor.getInt(columnsMap.mColumnSmsErrorCode);
+            mSimID = cursor.getInt(columnsMap.mColumnSmsSIMID);
+            mSimIMSI = cursor.getString(columnsMap.mColumnSmsIMSI);
         } else if ("mms".equals(type)) {
             mMessageUri = ContentUris.withAppendedId(Mms.CONTENT_URI, mMsgId);
             mBoxId = cursor.getInt(columnsMap.mColumnMmsMessageBox);
@@ -183,6 +191,9 @@ public class MessageItem {
             mMmsStatus = cursor.getInt(columnsMap.mColumnMmsStatus);
             mAttachmentType = cursor.getInt(columnsMap.mColumnMmsTextOnly) != 0 ?
                     WorkingMessage.TEXT : ATTACHMENT_TYPE_NOT_LOADED;
+
+            mSimID = cursor.getInt(columnsMap.mColumnMmsSIMID);
+            mSimIMSI = mCursor.getString(columnsMap.mColumnMmsIMSI);
 
             // Start an async load of the pdu. If the pdu is already loaded, the callback
             // will get called immediately
@@ -424,5 +435,22 @@ public class MessageItem {
 
     public SlideshowModel getSlideshow() {
         return mSlideshow;
+    }
+
+    public int getSimID() {
+        //For SIM swap, we need to check correct sim (sim_id) position of this message by IMSI
+        //So we can download MMS via correct SIM card
+        int Check_Msg_SimPos = MessageUtils.checkSimSubscriberPosition(mSimIMSI);
+        if (Check_Msg_SimPos != -1) {
+            if (Log.isLoggable(LogTag.APP, Log.DEBUG)) {
+                Log.v(TAG, "Download MMS via SIM_ID : " + Check_Msg_SimPos);
+            }
+            return Check_Msg_SimPos;
+        }
+        //else return original sim id which we saved into database when received this message.
+        return mSimID;
+    }
+    public String getSimIMSI() {
+        return mSimIMSI;
     }
 }

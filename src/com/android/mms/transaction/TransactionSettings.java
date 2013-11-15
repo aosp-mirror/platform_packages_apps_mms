@@ -28,6 +28,10 @@ import android.util.Log;
 import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.LogTag;
 
+import android.net.Uri;
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+
 /**
  * Container of transaction settings. Instances of this class are contained
  * within Transaction instances to allow overriding of the default APN
@@ -110,6 +114,76 @@ public class TransactionSettings {
                             }
                         }
                     }
+                }
+            }
+        } finally {
+            cursor.close();
+        }
+
+        Log.v(TAG, "APN setting: MMSC: " + mServiceCenter + " looked for: " + selection);
+
+        if (sawValidApn && TextUtils.isEmpty(mServiceCenter)) {
+            Log.e(TAG, "Invalid APN setting: MMSC is empty");
+        }
+    }
+
+    /* For fix mms sending/receiving failed issue in dual mode
+     * Constructor that uses the default settings of the MMS Client.
+     * Generally, this constructor used in dual mode
+     *
+     * @param context The context of the MMS Client
+     */
+    public TransactionSettings(Context context, String apnName, int simId) {
+        String selection = (apnName != null)?
+                Telephony.Carriers.APN + "='"+apnName.trim()+"'": null;
+
+        //In dual mode, the current carrier(saved in the database) numeric may
+        //different with the apn data we want to get, so don't query in current carrier,
+        //but query in all apn data list
+        /*
+        Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
+                            Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI, "current"),
+                            APN_PROJECTION, selection, null, null);
+        */
+        //we can use two current to differ with two sim, by jing.wang
+        Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
+                            Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI, (simId == SimCardID.ID_ONE.toInt())?"current_1":"current"),
+                            APN_PROJECTION, selection, null, null);
+
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.v(TAG, "TransactionSettings looking for " + (simId==0?"SIM1":"SIM2") + ", apn: " + selection + " returned: " +
+                    (cursor ==null ? "null cursor" : (cursor.getCount() + " hits")));
+        }
+
+        if (cursor == null) {
+            Log.e(TAG, "Apn is not found in Database!");
+            return;
+        }
+
+        boolean sawValidApn = false;
+        try {
+            while (cursor.moveToNext() && TextUtils.isEmpty(mServiceCenter)) {
+                // Read values from APN settings
+                if (isValidApnType(cursor.getString(COLUMN_TYPE), PhoneConstants.APN_TYPE_MMS)) {
+                    sawValidApn = true;
+                    mServiceCenter = NetworkUtils.trimV4AddrZeros(
+                            cursor.getString(COLUMN_MMSC).trim());
+                    mProxyAddress = NetworkUtils.trimV4AddrZeros(
+                            cursor.getString(COLUMN_MMSPROXY));
+                    if (isProxySet()) {
+                        String portString = cursor.getString(COLUMN_MMSPORT);
+                        try {
+                            mProxyPort = Integer.parseInt(portString);
+                        } catch (NumberFormatException e) {
+                            if (TextUtils.isEmpty(portString)) {
+                                Log.w(TAG, "mms port not set!");
+                            } else {
+                                Log.e(TAG, "Bad port number format: " + portString, e);
+                            }
+                        }
+                    }
+                    Log.d(TAG, "Get[simId " + simId+ "] valid mms apn name:" + apnName
+                        + ", mmsc=" + mServiceCenter+ ", proxy address=" + mProxyAddress);
                 }
             }
         } finally {

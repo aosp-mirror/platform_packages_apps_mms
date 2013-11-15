@@ -37,6 +37,8 @@ import com.android.mms.MmsApp;
 import com.android.mms.R;
 import com.android.mms.ui.MessageUtils;
 
+import android.provider.ContactsContract.RawContacts;
+
 public class Contact {
     public static final int CONTACT_METHOD_TYPE_UNKNOWN = 0;
     public static final int CONTACT_METHOD_TYPE_PHONE = 1;
@@ -49,15 +51,9 @@ public class Contact {
     private static ContactsCache sContactCache;
     private static final String SELF_ITEM_KEY = "Self_Item_Key";
 
-//    private static final ContentObserver sContactsObserver = new ContentObserver(new Handler()) {
-//        @Override
-//        public void onChange(boolean selfUpdate) {
-//            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-//                log("contact changed, invalidate cache");
-//            }
-//            invalidateCache();
-//        }
-//    };
+    public static final int ACCOUNT_TYPE_LOCAL = 0;
+    public static final int ACCOUNT_TYPE_SIM = 1;
+    public static final String ACCOUNT_TYPE_SIM_STR = "com.android.contacts.sim";
 
     private static final ContentObserver sPresenceObserver = new ContentObserver(new Handler()) {
         @Override
@@ -93,6 +89,8 @@ public class Contact {
     private boolean mIsMe;          // true if this contact is me!
     private boolean mSendToVoicemail;   // true if this contact should not put up notification
 
+    private int mAccountType;
+
     public interface UpdateListener {
         public void onUpdate(Contact updated);
     }
@@ -122,6 +120,7 @@ public class Contact {
         mPresenceResId = 0;
         mIsStale = true;
         mSendToVoicemail = false;
+        mAccountType = ACCOUNT_TYPE_LOCAL;
     }
     @Override
     public String toString() {
@@ -371,6 +370,13 @@ public class Contact {
 
     public static void dump() {
         sContactCache.dump();
+    }
+
+    public int getAccountType() {
+        return mAccountType;
+    }
+    public boolean isSimAccountType() {
+        return (mAccountType == ACCOUNT_TYPE_SIM);
     }
 
     private static class ContactsCache {
@@ -742,6 +748,7 @@ public class Contact {
                     c.mNumberE164 = entry.mNumberE164;
                     c.mName = entry.mName;
                     c.mSendToVoicemail = entry.mSendToVoicemail;
+                    c.mAccountType = entry.mAccountType;
 
                     c.notSynchronizedUpdateNameAndNumber();
 
@@ -876,6 +883,7 @@ public class Contact {
                 } finally {
                     cursor.close();
                 }
+                fillContactAccountInfo(entry);
             }
             return entry;
         }
@@ -1175,6 +1183,33 @@ public class Contact {
                         mContactsHash.remove(key);
                     }
                 }
+            }
+        }
+
+        void fillContactAccountInfo(Contact contact)
+        {
+            if(contact.mIsMe || contact.mPersonId == 0) {
+                return;
+            }
+            Cursor cursor = null;
+            String accountType = null;
+            try {
+                cursor = mContext.getContentResolver().query(RawContacts.CONTENT_URI,
+                                        new String[] {RawContacts.ACCOUNT_TYPE},
+                                        RawContacts.CONTACT_ID + "=" + contact.mPersonId,
+                                        null,
+                                        null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    accountType = cursor.getString(0);
+                }
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+            Log.d(TAG, "Contact Account type = " + accountType);
+            if( (accountType != null) && ACCOUNT_TYPE_SIM_STR.equals(accountType) ) {
+                contact.mAccountType = ACCOUNT_TYPE_SIM;
             }
         }
     }

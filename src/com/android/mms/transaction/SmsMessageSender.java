@@ -33,8 +33,14 @@ import com.android.mms.LogTag;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.google.android.mms.MmsException;
 
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+import com.android.mms.ui.MessageUtils;
+
 public class SmsMessageSender implements MessageSender {
     protected final Context mContext;
+    protected final int mSimId;
+    protected String mSimIMSI = null;
     protected final int mNumberOfDests;
     private final String[] mDests;
     protected final String mMessageText;
@@ -56,6 +62,25 @@ public class SmsMessageSender implements MessageSender {
 
     public SmsMessageSender(Context context, String[] dests, String msgText, long threadId) {
         mContext = context;
+        mSimId = -1;
+        mMessageText = msgText;
+        if (dests != null) {
+            mNumberOfDests = dests.length;
+            mDests = new String[mNumberOfDests];
+            System.arraycopy(dests, 0, mDests, 0, mNumberOfDests);
+        } else {
+            mNumberOfDests = 0;
+            mDests = null;
+        }
+        mTimestamp = System.currentTimeMillis();
+        mThreadId = threadId;
+        mServiceCenter = getOutgoingServiceCenter(mThreadId);
+    }
+
+    public SmsMessageSender(Context context, String[] dests, String msgText, long threadId, int simId) {
+        mContext = context;
+        mSimId = simId;
+        mSimIMSI = MessageUtils.getSimSubscriberId(simId);
         mMessageText = msgText;
         if (dests != null) {
             mNumberOfDests = dests.length;
@@ -97,7 +122,9 @@ public class SmsMessageSender implements MessageSender {
                         mMessageText, null, mTimestamp,
                         true /* read */,
                         requestDeliveryReport,
-                        mThreadId);
+                        mThreadId,
+                        mSimId,
+                        mSimIMSI);
             } catch (SQLiteException e) {
                 if (LogTag.DEBUG_SEND) {
                     Log.e(TAG, "queueMessage SQLiteException", e);

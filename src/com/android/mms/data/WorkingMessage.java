@@ -76,6 +76,10 @@ import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendReq;
 
+import android.telephony.SmsMessage;
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+
 /**
  * Contains all state related to a message being edited by the user.
  */
@@ -143,6 +147,9 @@ public class WorkingMessage {
     // Track whether we have drafts
     private volatile boolean mHasMmsDraft;
     private volatile boolean mHasSmsDraft;
+
+    // Set to true if don't want to save this message as Draft.
+    private boolean mSkipSaveDraft = false;
 
     // Cached value of mms enabled flag
     private static boolean sMmsEnabled = MmsConfig.getMmsEnabled();
@@ -850,6 +857,54 @@ public class WorkingMessage {
         return mMessageUri;
     }
 
+     /**
+     * Force the message to be saved as MMS and return the Uri of the message.
+     * Typically used when handing a message off to another activity.
+     */
+    public Uri saveAsMms(boolean notify, int simId) {
+        if (DEBUG) LogTag.debug("saveAsMms mConversation=%s", mConversation);
+
+        // If we have discarded the message, just bail out.
+        if (mDiscarded) {
+            LogTag.warn("saveAsMms mDiscarded: true mConversation: " + mConversation +
+                    " returning NULL uri and bailing");
+            return null;
+        }
+
+        // FORCE_MMS behaves as sort of an "invisible attachment", making
+        // the message seem non-empty (and thus not discarded).  This bit
+        // is sticky until the last other MMS bit is removed, at which
+        // point the message will fall back to SMS.
+        updateState(FORCE_MMS, true, notify);
+
+        // Collect our state to be written to disk.
+        prepareForSave(true /* notify */);
+
+        try {
+            // Make sure we are saving to the correct thread ID.
+            DraftCache.getInstance().setSavingDraft(true);
+            if (!mConversation.getRecipients().isEmpty()) {
+                mConversation.ensureThreadId(simId);
+            }
+            mConversation.setDraftState(true);
+
+            PduPersister persister = PduPersister.getPduPersister(mActivity);
+            SendReq sendReq = makeSendReq(mConversation, mSubject);
+
+            // If we don't already have a Uri lying around, make a new one.  If we do
+            // have one already, make sure it is synced to disk.
+            if (mMessageUri == null) {
+                mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow, null, mActivity, null, simId);
+            } else {
+                updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq, null, simId);
+            }
+            mHasMmsDraft = true;
+        } finally {
+            DraftCache.getInstance().setSavingDraft(false);
+        }
+        return mMessageUri;
+    }
+
     /**
      * Save this message as a draft in the conversation previously specified
      * to {@link setConversation}.
@@ -902,6 +957,53 @@ public class WorkingMessage {
         }
     }
 
+    public void saveDraft(final boolean isStopping,int simId) {
+        // If we have discarded the message, just bail out.
+        if (mDiscarded) {
+            LogTag.warn("saveDraft mDiscarded: true mConversation: " + mConversation +
+                " skipping saving draft and bailing");
+            return;
+        }
+
+        // Make sure setConversation was called.
+        if (mConversation == null) {
+            throw new IllegalStateException("saveDraft() called with no conversation");
+        }
+
+        if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("saveDraft for mConversation " + mConversation);
+        }
+
+        // Get ready to write to disk. But don't notify message status when saving draft
+        prepareForSave(false /* notify */);
+
+        if (requiresMms()) {
+            if (hasMmsContentToSave()) {
+                asyncUpdateDraftMmsMessage(mConversation, isStopping, simId);
+                mHasMmsDraft = true;
+            }
+        } else {
+            String content = mText.toString();
+
+            // bug 2169583: don't bother creating a thread id only to delete the thread
+            // because the content is empty. When we delete the thread in updateDraftSmsMessage,
+            // we didn't nullify conv.mThreadId, causing a temperary situation where conv
+            // is holding onto a thread id that isn't in the database. If a new message arrives
+            // and takes that thread id (because it's the next thread id to be assigned), the
+            // new message will be merged with the draft message thread, causing confusion!
+            if (!TextUtils.isEmpty(content)) {
+                asyncUpdateDraftSmsMessage(mConversation, content, isStopping, simId);
+                mHasSmsDraft = true;
+            } else {
+                // When there's no associated text message, we have to handle the case where there
+                // might have been a previous mms draft for this message. This can happen when a
+                // user turns an mms back into a sms, such as creating an mms draft with a picture,
+                // then removing the picture.
+                asyncDeleteDraftMmsMessage(mConversation);
+            }
+        }
+    }
+
     synchronized public void discard() {
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             LogTag.debug("[WorkingMessage] discard");
@@ -931,6 +1033,16 @@ public class WorkingMessage {
 
         mDiscarded = false;
     }
+
+    public void setSkipSaveDraftFlag(boolean skipDraft) {
+
+        mSkipSaveDraft = skipDraft;
+    }
+
+    public boolean isSkipSaveDraft() {
+        return mSkipSaveDraft;
+    }
+
 
     /**
      * Returns true if discard() has been called on this message.
@@ -1250,6 +1362,96 @@ public class WorkingMessage {
         mDiscarded = true;
     }
 
+    public void send(final String recipientsInUI, int simId) {
+        long origThreadId = mConversation.getThreadId();
+
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            LogTag.debug("send origThreadId: " + origThreadId);
+        }
+
+        removeSubjectIfEmpty(true /* notify */);
+
+        // Get ready to write to disk.
+        prepareForSave(true /* notify */);
+
+        // We need the recipient list for both SMS and MMS.
+        final Conversation conv = mConversation;
+        String msgTxt = mText.toString();
+        final int id = simId;
+
+        if (requiresMms() || addressContainsEmailToMms(conv, msgTxt)) {
+            // uaProfUrl setting in mms_config.xml must be present to send an MMS.
+            // However, SMS service will still work in the absence of a uaProfUrl address.
+            if (MmsConfig.getUaProfUrl() == null) {
+                String err = "WorkingMessage.send MMS sending failure. mms_config.xml is " +
+                        "missing uaProfUrl setting.  uaProfUrl is required for MMS service, " +
+                        "but can be absent for SMS.";
+                RuntimeException ex = new NullPointerException(err);
+                Log.e(TAG, err, ex);
+                // now, let's just crash.
+                throw ex;
+            }
+
+            // Make local copies of the bits we need for sending a message,
+            // because we will be doing it off of the main thread, which will
+            // immediately continue on to resetting some of this state.
+            final Uri mmsUri = mMessageUri;
+            final PduPersister persister = PduPersister.getPduPersister(mActivity);
+
+            final SlideshowModel slideshow = mSlideshow;
+            final CharSequence subject = mSubject;
+            final boolean textOnly = mAttachmentType == TEXT;
+
+            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                LogTag.debug("Send mmsUri: " + mmsUri);
+            }
+
+            // Do the dirty work of sending the message off of the main UI thread.
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final SendReq sendReq = makeSendReq(conv, subject);
+
+                    // Make sure the text in slide 0 is no longer holding onto a reference to
+                    // the text in the message text box.
+                    slideshow.prepareForSend();
+                    sendMmsWorker(conv, mmsUri, persister, slideshow, sendReq, textOnly, id);
+
+                    updateSendStats(conv);
+                }
+            }, "WorkingMessage.send MMS").start();
+        } else {
+            // Same rules apply as above.
+            final String msgText = mText.toString();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    preSendSmsWorker(conv, msgText, recipientsInUI, id);
+
+                    updateSendStats(conv);
+                }
+            }, "WorkingMessage.send SMS").start();
+        }
+
+        // update the Recipient cache with the new to address, if it's different
+        RecipientIdCache.updateNumbers(conv.getThreadId(), conv.getRecipients());
+
+        // Mark the message as discarded because it is "off the market" after being sent.
+        mDiscarded = true;
+    }
+
+    private void persistPhone(Uri uri, int simId) {
+         final String strSimId = String.valueOf(simId);
+        ContentValues values = new ContentValues(2);
+        values.put(Mms.SIM_ID, strSimId);
+        String simIMSI = MessageUtils.getSimSubscriberId(simId);
+        values.put(Mms.SIM_IMSI, simIMSI);
+        SqliteWrapper.update(mActivity, mContentResolver,
+                uri, values, null, null);
+        Log.d(TAG, "Davis: persist sim id " + simId);
+        return ;
+    }
+
     // Be sure to only call this on a background thread.
     private void updateSendStats(final Conversation conv) {
         String[] dests = conv.getRecipients().getNumbers();
@@ -1280,7 +1482,6 @@ public class WorkingMessage {
     }
 
     // Message sending stuff
-
     private void preSendSmsWorker(Conversation conv, String msgText, String recipientsInUI) {
         // If user tries to send the message, it's a signal the inputted text is what they wanted.
         UserHappinessSignals.userAcceptedImeText(mActivity);
@@ -1320,6 +1521,44 @@ public class WorkingMessage {
         }
     }
 
+    private void preSendSmsWorker(Conversation conv, String msgText, String recipientsInUI, int simId) {
+        // If user tries to send the message, it's a signal the inputted text is what they wanted.
+        UserHappinessSignals.userAcceptedImeText(mActivity);
+
+        mStatusListener.onPreMessageSent();
+
+        long origThreadId = conv.getThreadId();
+
+        // Make sure we are still using the correct thread ID for our recipient set.
+        long threadId = conv.ensureThreadId(simId);
+
+        String semiSepRecipients = conv.getRecipients().serialize();
+
+        // recipientsInUI can be empty when the user types in a number and hits send
+        if (LogTag.SEVERE_WARNING && ((origThreadId != 0 && origThreadId != threadId) ||
+               (!semiSepRecipients.equals(recipientsInUI) && !TextUtils.isEmpty(recipientsInUI)))) {
+            String msg = origThreadId != 0 && origThreadId != threadId ?
+                    "WorkingMessage.preSendSmsWorker threadId changed or " +
+                    "recipients changed. origThreadId: " +
+                    origThreadId + " new threadId: " + threadId +
+                    " also mConversation.getThreadId(): " +
+                    mConversation.getThreadId()
+                :
+                    "Recipients in window: \"" +
+                    recipientsInUI + "\" differ from recipients from conv: \"" +
+                    semiSepRecipients + "\"";
+
+            LogTag.warnPossibleRecipientMismatch(msg, mActivity);
+        }
+
+        // just do a regular send. We're already on a non-ui thread so no need to fire
+        // off another thread to do this work.
+        sendSmsWorker(msgText, semiSepRecipients, threadId, simId);
+
+        // Be paranoid and clean any draft SMS up.
+        deleteDraftSmsMessage(threadId);
+    }
+
     private void sendSmsWorker(String msgText, String semiSepRecipients, long threadId) {
         String[] dests = TextUtils.split(semiSepRecipients, ";");
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
@@ -1327,6 +1566,26 @@ public class WorkingMessage {
                     semiSepRecipients + ", threadId=" + threadId);
         }
         MessageSender sender = new SmsMessageSender(mActivity, dests, msgText, threadId);
+        try {
+            sender.sendMessage(threadId);
+
+            // Make sure this thread isn't over the limits in message count
+            Recycler.getSmsRecycler().deleteOldMessagesByThreadId(mActivity, threadId);
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to send SMS message, threadId=" + threadId, e);
+        }
+
+        mStatusListener.onMessageSent();
+        MmsWidgetProvider.notifyDatasetChanged(mActivity);
+    }
+
+    private void sendSmsWorker(String msgText, String semiSepRecipients, long threadId, int simId) {
+        String[] dests = TextUtils.split(semiSepRecipients, ";");
+        if (LogTag.VERBOSE || Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+            Log.d(LogTag.TRANSACTION, "sendSmsWorker sending message: recipients=" +
+                    semiSepRecipients + ", threadId=" + threadId);
+        }
+        MessageSender sender = new SmsMessageSender(mActivity, dests, msgText, threadId, simId);
         try {
             sender.sendMessage(threadId);
 
@@ -1473,6 +1732,141 @@ public class WorkingMessage {
         MmsWidgetProvider.notifyDatasetChanged(mActivity);
     }
 
+    private void sendMmsWorker(Conversation conv, Uri mmsUri, PduPersister persister,
+                               SlideshowModel slideshow, SendReq sendReq, boolean textOnly, int simId) {
+        long threadId = 0;
+        Cursor cursor = null;
+        boolean newMessage = false;
+        try {
+            // Put a placeholder message in the database first
+            DraftCache.getInstance().setSavingDraft(true);
+            mStatusListener.onPreMessageSent();
+
+            // Make sure we are still using the correct thread ID for our
+            // recipient set.
+            threadId = conv.ensureThreadId(simId);
+
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                LogTag.debug("sendMmsWorker: update draft MMS message " + mmsUri +
+                        " threadId: " + threadId);
+            }
+
+            // One last check to verify the address of the recipient.
+            String[] dests = conv.getRecipients().getNumbers(true /* scrub for MMS address */);
+            if (dests.length == 1) {
+                // verify the single address matches what's in the database. If we get a different
+                // address back, jam the new value back into the SendReq.
+                String newAddress =
+                    Conversation.verifySingleRecipient(mActivity, conv.getThreadId(), dests[0]);
+
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                    LogTag.debug("sendMmsWorker: newAddress " + newAddress +
+                            " dests[0]: " + dests[0]);
+                }
+
+                if (!newAddress.equals(dests[0])) {
+                    dests[0] = newAddress;
+                    EncodedStringValue[] encodedNumbers = EncodedStringValue.encodeStrings(dests);
+                    if (encodedNumbers != null) {
+                        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                            LogTag.debug("sendMmsWorker: REPLACING number!!!");
+                        }
+                        sendReq.setTo(encodedNumbers);
+                    }
+                }
+            }
+            newMessage = mmsUri == null;
+            if (newMessage) {
+                // Write something in the database so the new message will appear as sending
+                ContentValues values = new ContentValues();
+                values.put(Mms.MESSAGE_BOX, Mms.MESSAGE_BOX_OUTBOX);
+                values.put(Mms.THREAD_ID, threadId);
+                values.put(Mms.MESSAGE_TYPE, PduHeaders.MESSAGE_TYPE_SEND_REQ);
+                if (textOnly) {
+                    values.put(Mms.TEXT_ONLY, 1);
+                }
+                mmsUri = SqliteWrapper.insert(mActivity, mContentResolver, Mms.Outbox.CONTENT_URI,
+                        values);
+            }
+            mStatusListener.onMessageSent();
+
+            // If user tries to send the message, it's a signal the inputted text is
+            // what they wanted.
+            UserHappinessSignals.userAcceptedImeText(mActivity);
+
+            // First make sure we don't have too many outstanding unsent message.
+            cursor = SqliteWrapper.query(mActivity, mContentResolver,
+                    Mms.Outbox.CONTENT_URI, MMS_OUTBOX_PROJECTION, null, null, null);
+            if (cursor != null) {
+                long maxMessageSize = MmsConfig.getMaxSizeScaleForPendingMmsAllowed() *
+                MmsConfig.getMaxMessageSize();
+                long totalPendingSize = 0;
+                while (cursor.moveToNext()) {
+                    totalPendingSize += cursor.getLong(MMS_MESSAGE_SIZE_INDEX);
+                }
+                if (totalPendingSize >= maxMessageSize) {
+                    unDiscard();    // it wasn't successfully sent. Allow it to be saved as a draft.
+                    mStatusListener.onMaxPendingMessagesReached();
+                    markMmsMessageWithError(mmsUri);
+                    return;
+                }
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        try {
+            if (newMessage) {
+                // Create a new MMS message if one hasn't been made yet.
+                mmsUri = createDraftMmsMessage(persister, sendReq, slideshow, mmsUri,
+                        mActivity, null, simId);
+            } else {
+                // Otherwise, sync the MMS message in progress to disk.
+                updateDraftMmsMessage(mmsUri, persister, slideshow, sendReq, null, simId);
+            }
+            /* dual sim */
+            persistPhone (mmsUri, simId);
+
+            // Be paranoid and clean any draft SMS up.
+            deleteDraftSmsMessage(threadId);
+        } finally {
+            DraftCache.getInstance().setSavingDraft(false);
+        }
+
+        // Resize all the resizeable attachments (e.g. pictures) to fit
+        // in the remaining space in the slideshow.
+        int error = 0;
+        try {
+            slideshow.finalResize(mmsUri);
+        } catch (ExceedMessageSizeException e1) {
+            error = MESSAGE_SIZE_EXCEEDED;
+        } catch (MmsException e1) {
+            error = UNKNOWN_ERROR;
+        }
+        if (error != 0) {
+            markMmsMessageWithError(mmsUri);
+            mStatusListener.onAttachmentError(error);
+            return;
+        }
+        MessageSender sender = new MmsMessageSender(mActivity, mmsUri,
+                slideshow.getCurrentMessageSize(), simId);
+        try {
+            if (!sender.sendMessage(threadId)) {
+                // The message was sent through SMS protocol, we should
+                // delete the copy which was previously saved in MMS drafts.
+                SqliteWrapper.delete(mActivity, mContentResolver, mmsUri, null, null);
+            }
+
+            // Make sure this thread isn't over the limits in message count
+            Recycler.getMmsRecycler().deleteOldMessagesByThreadId(mActivity, threadId);
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to send message: " + mmsUri + ", threadId=" + threadId, e);
+        }
+        MmsWidgetProvider.notifyDatasetChanged(mActivity);
+    }
+
     private void markMmsMessageWithError(Uri mmsUri) {
         try {
             PduPersister p = PduPersister.getPduPersister(mActivity);
@@ -1587,6 +1981,28 @@ public class WorkingMessage {
         }
     }
 
+    private static Uri createDraftMmsMessage(PduPersister persister, SendReq sendReq,
+            SlideshowModel slideshow, Uri preUri, Context context,
+            HashMap<Uri, InputStream> preOpenedFiles, int simId) {
+        if (slideshow == null) {
+            return null;
+        }
+        String simIMSI;
+        simIMSI = MessageUtils.getSimSubscriberId(simId);
+        try {
+            PduBody pb = slideshow.toPduBody();
+            sendReq.setBody(pb);
+            //Uri res = persister.persist(sendReq, Mms.Draft.CONTENT_URI,simId);
+            Uri res = persister.persist(sendReq, preUri == null ? Mms.Draft.CONTENT_URI : preUri,
+                    true, MessagingPreferenceActivity.getIsGroupMmsEnabled(context),
+                    preOpenedFiles,simId,simIMSI);
+            slideshow.sync(pb);
+            return res;
+        } catch (MmsException e) {
+            return null;
+        }
+    }
+
     private void asyncUpdateDraftMmsMessage(final Conversation conv, final boolean isStopping) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             LogTag.debug("asyncUpdateDraftMmsMessage conv=%s mMessageUri=%s", conv, mMessageUri);
@@ -1628,6 +2044,48 @@ public class WorkingMessage {
         }, "WorkingMessage.asyncUpdateDraftMmsMessage").start();
     }
 
+    private void asyncUpdateDraftMmsMessage(final Conversation conv, final boolean isStopping, int simId) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("asyncUpdateDraftMmsMessage conv=%s mMessageUri=%s", conv, mMessageUri);
+        }
+        final int id = simId;
+        final HashMap<Uri, InputStream> preOpenedFiles =
+                mSlideshow.openPartFiles(mContentResolver);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    DraftCache.getInstance().setSavingDraft(true);
+
+                    final PduPersister persister = PduPersister.getPduPersister(mActivity);
+                    final SendReq sendReq = makeSendReq(conv, mSubject);
+
+                    if (mMessageUri == null) {
+                        mMessageUri = createDraftMmsMessage(persister, sendReq, mSlideshow, null,
+                                mActivity, preOpenedFiles, id);
+                    } else {
+                        updateDraftMmsMessage(mMessageUri, persister, mSlideshow, sendReq,
+                                preOpenedFiles, id);
+                    }
+                    ensureThreadIdIfNeeded(conv, isStopping);
+                    conv.setDraftState(true);
+                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                        LogTag.debug("asyncUpdateDraftMmsMessage conv: " + conv +
+                                " uri: " + mMessageUri);
+                    }
+
+                    // Be paranoid and delete any SMS drafts that might be lying around. Must do
+                    // this after ensureThreadId so conv has the correct thread id.
+                    asyncDeleteDraftSmsMessage(conv);
+                } finally {
+                    DraftCache.getInstance().setSavingDraft(false);
+                    closePreOpenedFiles(preOpenedFiles);
+                }
+            }
+        }, "WorkingMessage.asyncUpdateDraftMmsMessage").start();
+    }
+
     private static void updateDraftMmsMessage(Uri uri, PduPersister persister,
             SlideshowModel slideshow, SendReq sendReq, HashMap<Uri, InputStream> preOpenedFiles) {
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
@@ -1639,6 +2097,29 @@ public class WorkingMessage {
         }
         persister.updateHeaders(uri, sendReq);
 
+        final PduBody pb = slideshow.toPduBody();
+
+        try {
+            persister.updateParts(uri, pb, preOpenedFiles);
+        } catch (MmsException e) {
+            Log.e(TAG, "updateDraftMmsMessage: cannot update message " + uri);
+        }
+
+        slideshow.sync(pb);
+    }
+
+    private static void updateDraftMmsMessage(Uri uri, PduPersister persister,
+            SlideshowModel slideshow, SendReq sendReq, HashMap<Uri, InputStream> preOpenedFiles, int simId) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            LogTag.debug("updateDraftMmsMessage uri=%s", uri);
+        }
+        if (uri == null) {
+            Log.e(TAG, "updateDraftMmsMessage null uri");
+            return;
+        }
+        //persister.updateHeaders(uri, sendReq, simId);
+        String simIMSI = MessageUtils.getSimSubscriberId(simId);
+        persister.updateHeaders(uri, sendReq, simId, simIMSI);
         final PduBody pb = slideshow.toPduBody();
 
         try {
@@ -1732,6 +2213,29 @@ public class WorkingMessage {
 
     private void asyncUpdateDraftSmsMessage(final Conversation conv, final String contents,
             final boolean isStopping) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    DraftCache.getInstance().setSavingDraft(true);
+                    if (conv.getRecipients().isEmpty()) {
+                        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                            LogTag.debug("asyncUpdateDraftSmsMessage no recipients, not saving");
+                        }
+                        return;
+                    }
+                    ensureThreadIdIfNeeded(conv, isStopping);
+                    conv.setDraftState(true);
+                    updateDraftSmsMessage(conv, contents);
+                } finally {
+                    DraftCache.getInstance().setSavingDraft(false);
+                }
+            }
+        }, "WorkingMessage.asyncUpdateDraftSmsMessage").start();
+    }
+
+    private void asyncUpdateDraftSmsMessage(final Conversation conv, final String contents,
+            final boolean isStopping, final int simId) {
         new Thread(new Runnable() {
             @Override
             public void run() {

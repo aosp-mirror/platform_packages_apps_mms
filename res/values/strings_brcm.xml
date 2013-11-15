@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * Copyright (C) 2007-2008 Esmertec AG.
+ * Copyright (C) 2007-2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- When sending message, let user choose which sim card to send from -->
+    <string name="select_sim">Select SIM</string>
+    <!-- Sim chooser text for sim card 1 when try to send messages for dual sim phone -->
+    <string name="sim_chooser_sim_one">SIM1</string>
+    <!-- Sim chooser text for sim card 2 when try to send messages for dual sim phone -->
+    <string name="sim_chooser_sim_two">SIM2</string>
+    <!-- Settings screen, section heading for notifications -->
+    <string name="sim1_pref_notification_settings_title">SIM1 Notification settings</string>
+    <string name="sim2_pref_notification_settings_title">SIM2 Notification settings</string>
+    <!-- Settings item description for entering SIM card message screen -->
+    <string name="pref_summary_manage_sim1_messages">Manage messages stored on your SIM1 card</string>
+    <string name="pref_summary_manage_sim2_messages">Manage messages stored on your SIM2 card</string>
+    <!-- Settings item for entering SIM card message screen -->
+    <string name="pref_title_manage_sim1_messages">Manage SIM1 card messages</string>
+    <string name="pref_title_manage_sim2_messages">Manage SIM2 card messages</string>
+    <!-- Title of screen displaying messages on SIM card -->
+    <string name="sim1_manage_messages_title">Text messages on SIM1 card</string>
+    <string name="sim2_manage_messages_title">Text messages on SIM2 card</string>
+    <!-- Message of the dialog used to disable messaging notifications [CHAR LIMIT=none] -->
+    <string name="SIM1_NOT_AVALIABLE_WHILE_SIM2_ON_CALL">SIM1 cannot download MMS at this moment , please try it after call end.</string>
+    <string name="SIM2_NOT_AVALIABLE_WHILE_SIM1_ON_CALL">SIM2 cannot download MMS at this moment , please try it after call end.</string>
+    <!--  -->
+    <string name="label_mms_push">MMS Push</string>
+    <string name="desc_mms_push">Pushes MMS from outbox to the network</string>
+</resources>
+

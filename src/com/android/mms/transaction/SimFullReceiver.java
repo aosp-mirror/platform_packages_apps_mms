@@ -29,6 +29,8 @@ import android.provider.Telephony;
 import com.android.mms.R;
 import com.android.mms.ui.ManageSimMessages;
 
+import com.android.internal.telephony.RILConstants.SimCardID;
+
 /**
  * Receive Intent.SIM_FULL_ACTION.  Handle notification that SIM is full.
  */
@@ -39,13 +41,14 @@ public class SimFullReceiver extends BroadcastReceiver {
         if (Settings.Global.getInt(context.getContentResolver(),
             Settings.Global.DEVICE_PROVISIONED, 0) == 1 &&
             Telephony.Sms.Intents.SIM_FULL_ACTION.equals(intent.getAction())) {
-
+            int simId = ((SimCardID)(intent.getExtra("simId", SimCardID.ID_ZERO))).toInt();
             NotificationManager nm = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             Intent viewSimIntent = new Intent(context, ManageSimMessages.class);
             viewSimIntent.setAction(Intent.ACTION_VIEW);
             viewSimIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            viewSimIntent.putExtra(ManageSimMessages.SIM_NAME_EXTRA, (SimCardID.ID_ONE.toInt() == simId) ? "icc2":"icc");
             PendingIntent pendingIntent = PendingIntent.getActivity(
                     context, 0, viewSimIntent, 0);
 

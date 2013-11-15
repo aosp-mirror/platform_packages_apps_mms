@@ -47,6 +47,18 @@ import android.widget.TextView;
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
+import com.android.internal.telephony.IccCard;
+import com.android.internal.telephony.IccCardConstants;
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+import com.android.internal.telephony.TelephonyIntents;
+import java.util.ArrayList;
+import android.telephony.SmsMessage;
+import com.android.mms.util.BrcmDualSimUtils;
+
 /**
  * Displays a list of the SMS messages stored on the ICC.
  */
@@ -74,6 +86,11 @@ public class ManageSimMessages extends Activity
 
     public static final int SIM_FULL_NOTIFICATION_ID = 234;
 
+    static final String STR_SIM2 = "icc2";
+    private static final Uri SIM2_URI = Uri.parse("content://sms/icc2");
+    public static final String SIM_NAME_EXTRA = "com.android.mms.ui.SimName";
+    private Uri mSimUrl = ICC_URI;
+    private SimCardID mSimCardId;
     private final ContentObserver simChangeObserver =
             new ContentObserver(new Handler()) {
         @Override
@@ -107,6 +124,22 @@ public class ManageSimMessages extends Activity
     }
 
     private void init() {
+        Intent intent = getIntent();
+        if(intent.hasExtra(SIM_NAME_EXTRA)) {
+            String simName = intent.getStringExtra(SIM_NAME_EXTRA);
+            Log.d(TAG, "-------getStringExtra simName=" + simName);
+            if (STR_SIM2.equals(simName)) {
+                mSimUrl = SIM2_URI;
+                mSimCardId = SimCardID.ID_ONE;
+            } else {
+                mSimUrl = ICC_URI; // URI of SIM1
+                mSimCardId = SimCardID.ID_ZERO;
+            }
+        } else {
+            // if not explicitly stated in intent extra, use URI of SIM1
+            mSimUrl = ICC_URI;
+        }
+        Log.d(TAG, "------mSimUrl=" + mSimUrl);
         MessagingNotification.cancelNotification(getApplicationContext(),
                 SIM_FULL_NOTIFICATION_ID);
 
@@ -132,12 +165,14 @@ public class ManageSimMessages extends Activity
                     // Let user know the SIM is empty
                     updateState(SHOW_EMPTY);
                 } else if (mListAdapter == null) {
+                    final int simId = (SIM2_URI.equals(mSimUrl) ? SimCardID.ID_ONE.toInt() : SimCardID.ID_ZERO.toInt());
                     // Note that the MessageListAdapter doesn't support auto-requeries. If we
                     // want to respond to changes we'd need to add a line like:
                     //   mListAdapter.setOnDataSetChangedListener(mDataSetChangedListener);
                     // See ComposeMessageActivity for an example.
+                    Log.d(TAG, "onQueryComplete:simId: "+simId);
                     mListAdapter = new MessageListAdapter(
-                            mParent, mCursor, mSimList, false, null);
+                            mParent, mCursor, mSimList, false, null, simId);
                     mSimList.setAdapter(mListAdapter);
                     mSimList.setOnCreateContextMenuListener(mParent);
                     updateState(SHOW_LIST);
@@ -157,10 +192,12 @@ public class ManageSimMessages extends Activity
 
     private void startQuery() {
         try {
-            mQueryHandler.startQuery(0, null, ICC_URI, null, null, null, null);
+            /* Change the ICC_URI to mSimURl */
+            mQueryHandler.startQuery(0, null, mSimUrl, null, null, null, null);
         } catch (SQLiteException e) {
             SqliteWrapper.checkSQLiteException(this, e);
         }
+        updateEFSMSReadStatus();
     }
 
     private void refreshMessageList() {
@@ -220,17 +257,23 @@ public class ManageSimMessages extends Activity
     public void onResume() {
         super.onResume();
         registerSimChangeObserver();
+
+        IntentFilter intentFilter = new IntentFilter(TelephonyIntents.ACTION_SIM_STATE_CHANGED);
+        registerReceiver(mIccCardAbsentReceiver, intentFilter);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mContentResolver.unregisterContentObserver(simChangeObserver);
+
+        unregisterReceiver(mIccCardAbsentReceiver);
     }
 
     private void registerSimChangeObserver() {
+        /* Change the ICC_URI to mSimURl */
         mContentResolver.registerContentObserver(
-                ICC_URI, true, simChangeObserver);
+                mSimUrl, true, simChangeObserver);
     }
 
     private void copyToPhoneMemory(Cursor cursor) {
@@ -238,12 +281,13 @@ public class ManageSimMessages extends Activity
                 cursor.getColumnIndexOrThrow("address"));
         String body = cursor.getString(cursor.getColumnIndexOrThrow("body"));
         Long date = cursor.getLong(cursor.getColumnIndexOrThrow("date"));
+        int simId = SIM2_URI.equals(mSimUrl)? SimCardID.ID_ONE.toInt():SimCardID.ID_ZERO.toInt();
 
         try {
             if (isIncomingMessage(cursor)) {
-                Sms.Inbox.addMessage(mContentResolver, address, body, null, date, true /* read */);
+                Sms.Inbox.addMessage(mContentResolver, address, body, null, date, true /* read */, simId);
             } else {
-                Sms.Sent.addMessage(mContentResolver, address, body, null, date);
+                Sms.Sent.addMessage(mContentResolver, address, body, null, date, simId);
             }
         } catch (SQLiteException e) {
             SqliteWrapper.checkSQLiteException(this, e);
@@ -261,7 +305,8 @@ public class ManageSimMessages extends Activity
     private void deleteFromSim(Cursor cursor) {
         String messageIndexString =
                 cursor.getString(cursor.getColumnIndexOrThrow("index_on_icc"));
-        Uri simUri = ICC_URI.buildUpon().appendPath(messageIndexString).build();
+        /* Change the ICC_URI to mSimURl */
+        Uri simUri = mSimUrl.buildUpon().appendPath(messageIndexString).build();
 
         SqliteWrapper.delete(this, mContentResolver, simUri, null, null);
     }
@@ -328,24 +373,49 @@ public class ManageSimMessages extends Activity
         builder.show();
     }
 
+    private int simUri2SimId(Uri uri) {
+        if(uri.equals(SIM2_URI)) {
+            return SimCardID.ID_ONE.toInt();
+        } else {
+            return SimCardID.ID_ZERO.toInt();
+        }
+    }
+
     private void updateState(int state) {
         if (mState == state) {
             return;
         }
 
+        int simId = simUri2SimId(mSimUrl);
         mState = state;
         switch (state) {
             case SHOW_LIST:
                 mSimList.setVisibility(View.VISIBLE);
                 mMessage.setVisibility(View.GONE);
+                if(SimCardID.ID_ONE.toInt() == simId) {
+                    setTitle(getString(R.string.sim2_manage_messages_title));
+                } else {
+                    if (BrcmDualSimUtils.isSupportDualSim()) {
+                        setTitle(getString(R.string.sim1_manage_messages_title));
+                    } else {
                 setTitle(getString(R.string.sim_manage_messages_title));
+                    }
+                }
                 setProgressBarIndeterminateVisibility(false);
                 mSimList.requestFocus();
                 break;
             case SHOW_EMPTY:
                 mSimList.setVisibility(View.GONE);
                 mMessage.setVisibility(View.VISIBLE);
-                setTitle(getString(R.string.sim_manage_messages_title));
+                if(SimCardID.ID_ONE.toInt() == simId) {
+                    setTitle(getString(R.string.sim2_manage_messages_title));
+                } else {
+                    if (BrcmDualSimUtils.isSupportDualSim()) {
+                        setTitle(getString(R.string.sim1_manage_messages_title));
+                    } else {
+                        setTitle(getString(R.string.sim_manage_messages_title));
+                    }
+                }
                 setProgressBarIndeterminateVisibility(false);
                 break;
             case SHOW_BUSY:
@@ -361,6 +431,56 @@ public class ManageSimMessages extends Activity
 
     private void viewMessage(Cursor cursor) {
         // TODO: Add this.
+    }
+    private class IccReadUpdateRunnable implements Runnable {
+        public void run() {
+            final SmsManager smsMgr = SmsManager.getDefault((SIM2_URI.equals(mSimUrl) ? SimCardID.ID_ONE : SimCardID.ID_ZERO));
+            ArrayList<SmsMessage> messagesList = smsMgr.getAllMessagesFromIcc();
+            SmsMessage sms;
+
+            for(int i = messagesList.size()-1; i >= 0; --i) {
+                sms = messagesList.get(i);
+                if(SmsManager.STATUS_ON_ICC_UNREAD == sms.getStatusOnIcc()) {
+                    smsMgr.updateMessageOnIcc(sms.getIndexOnIcc(), SmsManager.STATUS_ON_ICC_READ, sms.getPdu());
+                }
+            }
+        }
+    }
+
+    // GCF 8.2.2: EF SMS read bit has to be set after it's been read
+    private void updateEFSMSReadStatus() {
+        Log.i(TAG, "updateEFSMSReadStatus");
+        // Initiate a thread for SIM SMS read status update since SIM IO may be slow
+        Thread t= new Thread(new IccReadUpdateRunnable());
+        t.start();
+    }
+
+    /**
+     * Receives SIM Absent intent.
+     * When a broadcasted intent of SIM absent is received,
+     * call setup activity of the relative SIM should be finished.
+     */
+    BroadcastReceiver mIccCardAbsentReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (TelephonyIntents.ACTION_SIM_STATE_CHANGED.equals(intent.getAction())) {
+                final String iccCardState = intent.getStringExtra(IccCardConstants.INTENT_KEY_ICC_STATE);
+                final SimCardID simCardId = (SimCardID)(intent.getExtra("simId", SimCardID.ID_ZERO));
+                if (iccCardState.equals(IccCardConstants.INTENT_VALUE_ICC_ABSENT)
+                        && mSimCardId == simCardId) {
+                    Log.d(TAG, "IccCard.MSG_SIM_STATE_ABSENT simCardId = " + simCardId);
+                    makeThisFinish();
+                }
+            }
+        }
+    };
+
+    /**
+     * Finish this activity.
+     * This is called when SIM removed.
+     */
+    private void makeThisFinish() {
+        this.finish();
     }
 }
 

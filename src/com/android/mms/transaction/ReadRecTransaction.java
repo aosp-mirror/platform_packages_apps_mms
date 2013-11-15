@@ -19,6 +19,7 @@ package com.android.mms.transaction;
 
 import java.io.IOException;
 
+import android.app.Service;
 import android.content.Context;
 import android.net.Uri;
 import android.provider.Telephony.Mms.Sent;
@@ -59,7 +60,11 @@ public class ReadRecTransaction extends Transaction implements Runnable{
         mId = uri;
 
         // Attach the transaction to the instance of RetryScheduler.
-        attach(RetryScheduler.getInstance(context));
+        Service t = (Service) context;
+        if( t instanceof TransactionService2)
+            attach(RetryScheduler.getInstance2(context));
+        else
+            attach(RetryScheduler.getInstance(context));
     }
 
     /*

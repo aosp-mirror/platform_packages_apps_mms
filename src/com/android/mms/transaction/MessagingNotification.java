@@ -81,6 +81,11 @@ import com.google.android.mms.pdu.MultimediaMessagePdu;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPersister;
 
+import android.os.PowerManager;
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.RILConstants.SimCardID;
+import com.android.mms.util.BrcmDualSimUtils;
+
 /**
  * This class is used to update the notification indicator. It will check whether
  * there are unread messages. If yes, it would show the notification indicator,
@@ -89,7 +94,7 @@ import com.google.android.mms.pdu.PduPersister;
 public class MessagingNotification {
 
     private static final String TAG = LogTag.APP;
-    private static final boolean DEBUG = false;
+    private static boolean DEBUG = false;
 
     private static final int NOTIFICATION_ID = 123;
     public static final int MESSAGE_FAILED_NOTIFICATION_ID = 789;
@@ -102,11 +107,11 @@ public class MessagingNotification {
 
     // This must be consistent with the column constants below.
     private static final String[] MMS_STATUS_PROJECTION = new String[] {
-        Mms.THREAD_ID, Mms.DATE, Mms._ID, Mms.SUBJECT, Mms.SUBJECT_CHARSET };
+        Mms.THREAD_ID, Mms.DATE, Mms._ID, Mms.SUBJECT, Mms.SUBJECT_CHARSET, Mms.SIM_ID};
 
     // This must be consistent with the column constants below.
     private static final String[] SMS_STATUS_PROJECTION = new String[] {
-        Sms.THREAD_ID, Sms.DATE, Sms.ADDRESS, Sms.SUBJECT, Sms.BODY };
+        Sms.THREAD_ID, Sms.DATE, Sms.ADDRESS, Sms.SUBJECT, Sms.BODY , Sms.SIM_ID};
 
     // These must be consistent with MMS_STATUS_PROJECTION and
     // SMS_STATUS_PROJECTION.
@@ -117,6 +122,7 @@ public class MessagingNotification {
     private static final int COLUMN_SUBJECT     = 3;
     private static final int COLUMN_SUBJECT_CS  = 4;
     private static final int COLUMN_SMS_BODY    = 4;
+    private static final int COLUMN_SIM_ID      = 5;
 
     private static final String[] SMS_THREAD_ID_PROJECTION = new String[] { Sms.THREAD_ID };
     private static final String[] MMS_THREAD_ID_PROJECTION = new String[] { Mms.THREAD_ID };
@@ -140,6 +146,7 @@ public class MessagingNotification {
 
     private static final Uri UNDELIVERED_URI = Uri.parse("content://mms-sms/undelivered");
 
+    private static final int NEW_SMS_SCREEN_ON_TIME = 5000;  //ms
 
     private final static String NOTIFICATION_DELETED_ACTION =
             "com.android.mms.NOTIFICATION_DELETED_ACTION";
@@ -178,6 +185,9 @@ public class MessagingNotification {
     }
 
     public static void init(Context context) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            DEBUG = true;
+        }
         // set up the intent filter for notification deleted action
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(NOTIFICATION_DELETED_ACTION);
@@ -365,6 +375,7 @@ public class MessagingNotification {
         public final int mAttachmentType;
         public final String mSubject;
         public final long mThreadId;
+        public int mSimId;
 
         /**
          * @param isSms true if sms, false if mms
@@ -384,7 +395,7 @@ public class MessagingNotification {
                 Intent clickIntent, String message, String subject,
                 CharSequence ticker, long timeMillis, String title,
                 Bitmap attachmentBitmap, Contact sender,
-                int attachmentType, long threadId) {
+                int attachmentType, long threadId, int simId) {
             mIsSms = isSms;
             mClickIntent = clickIntent;
             mMessage = message;
@@ -396,6 +407,7 @@ public class MessagingNotification {
             mSender = sender;
             mAttachmentType = attachmentType;
             mThreadId = threadId;
+            mSimId = simId;
         }
 
         public long getTime() {
@@ -591,7 +603,7 @@ public class MessagingNotification {
                 String subject = getMmsSubject(
                         cursor.getString(COLUMN_SUBJECT), cursor.getInt(COLUMN_SUBJECT_CS));
                 subject = MessageUtils.cleanseMmsSubject(context, subject);
-
+                int simId = cursor.getInt(COLUMN_SIM_ID);
                 long threadId = cursor.getLong(COLUMN_THREAD_ID);
                 long timeMillis = cursor.getLong(COLUMN_DATE) * 1000;
 
@@ -634,7 +646,8 @@ public class MessagingNotification {
                         timeMillis,
                         attachedPicture,
                         contact,
-                        attachmentType);
+                        attachmentType,
+                        simId);
 
                 notificationSet.add(info);
 
@@ -721,6 +734,7 @@ public class MessagingNotification {
                 }
 
                 String message = cursor.getString(COLUMN_SMS_BODY);
+                int simId = cursor.getInt(COLUMN_SIM_ID);
                 long threadId = cursor.getLong(COLUMN_THREAD_ID);
                 long timeMillis = cursor.getLong(COLUMN_DATE);
 
@@ -734,7 +748,7 @@ public class MessagingNotification {
                 NotificationInfo info = getNewMessageNotificationInfo(context, true /* isSms */,
                         address, message, null /* subject */,
                         threadId, timeMillis, null /* attachmentBitmap */,
-                        contact, WorkingMessage.TEXT);
+                        contact, WorkingMessage.TEXT, simId);
 
                 notificationSet.add(info);
 
@@ -756,7 +770,8 @@ public class MessagingNotification {
             long timeMillis,
             Bitmap attachmentBitmap,
             Contact contact,
-            int attachmentType) {
+            int attachmentType,
+            int simId) {
         Intent clickIntent = ComposeMessageActivity.createIntent(context, threadId);
         clickIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -771,7 +786,7 @@ public class MessagingNotification {
 
         return new NotificationInfo(isSms,
                 clickIntent, message, subject, ticker, timeMillis,
-                senderInfoName, attachmentBitmap, contact, attachmentType, threadId);
+                senderInfoName, attachmentBitmap, contact, attachmentType, threadId, simId);
     }
 
     public static void cancelNotification(Context context, int notificationId) {
@@ -816,17 +831,20 @@ public class MessagingNotification {
             boolean isNew,
             int uniqueThreadCount,
             SortedSet<NotificationInfo> notificationSet) {
+
+        if (DEBUG) Log.d(TAG, "updateNotification(), isNew:" + isNew);
+        // Figure out what we've got -- whether all sms's, mms's, or a mixture of both.
+        final int messageCount = notificationSet.size();
+        NotificationInfo mostRecentNotification = notificationSet.first();
+        int simId = mostRecentNotification.mSimId;
+
         // If the user has turned off notifications in settings, don't do any notifying.
-        if (!MessagingPreferenceActivity.getNotificationEnabled(context)) {
+        if (!MessagingPreferenceActivity.getNotificationEnabled(context, simId)) {
             if (DEBUG) {
                 Log.d(TAG, "updateNotification: notifications turned off in prefs, bailing");
             }
             return;
         }
-
-        // Figure out what we've got -- whether all sms's, mms's, or a mixture of both.
-        final int messageCount = notificationSet.size();
-        NotificationInfo mostRecentNotification = notificationSet.first();
 
         final Notification.Builder noti = new Notification.Builder(context)
                 .setWhen(mostRecentNotification.mTimeMillis);
@@ -887,7 +905,9 @@ public class MessagingNotification {
             taskStackBuilder.addNextIntent(mostRecentNotification.mClickIntent);
         }
         // Always have to set the small icon or the notification is ignored
-        noti.setSmallIcon(R.drawable.stat_notify_sms);
+        //noti.setSmallIcon(R.drawable.stat_notify_sms);
+        int iconRes = getNotificationResourceIcon(mostRecentNotification.mIsSms, simId);
+        noti.setSmallIcon(iconRes);
 
         NotificationManager nm = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -905,30 +925,58 @@ public class MessagingNotification {
         if (isNew) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
+            // set screen on when received new
+            // sms/mms
+            setScreenOn(context);
+
             boolean vibrate = false;
-            if (sp.contains(MessagingPreferenceActivity.NOTIFICATION_VIBRATE)) {
+            if(simId == SimCardID.ID_ONE.toInt()) {
+                if (sp.contains(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN_2)) {
                 // The most recent change to the vibrate preference is to store a boolean
                 // value in NOTIFICATION_VIBRATE. If prefs contain that preference, use that
                 // first.
-                vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE,
-                        false);
-            } else if (sp.contains(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN)) {
+                    vibrate =
+                    sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN_2, false);
+                } else if (sp.contains(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_2)) {
                 // This is to support the pre-JellyBean MR1.1 version of vibrate preferences
                 // when vibrate was a tri-state setting. As soon as the user opens the Messaging
                 // app's settings, it will migrate this setting from NOTIFICATION_VIBRATE_WHEN
                 // to the boolean value stored in NOTIFICATION_VIBRATE.
-                String vibrateWhen =
-                        sp.getString(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN, null);
+                String vibrateWhen = sp.getString(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_2, null);
                 vibrate = "always".equals(vibrateWhen);
+        }
+            } else {
+                if (sp.contains(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN)) {
+                // The most recent change to the vibrate preference is to store a boolean
+                // value in NOTIFICATION_VIBRATE. If prefs contain that preference, use that
+                // first.
+                    vibrate =
+                    sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN, false);
+                } else if (sp.contains(MessagingPreferenceActivity.NOTIFICATION_VIBRATE)) {
+                // This is to support the pre-JellyBean MR1.1 version of vibrate preferences
+                // when vibrate was a tri-state setting. As soon as the user opens the Messaging
+                // app's settings, it will migrate this setting from NOTIFICATION_VIBRATE_WHEN
+                // to the boolean value stored in NOTIFICATION_VIBRATE.
+                String vibrateWhen = sp.getString(MessagingPreferenceActivity.NOTIFICATION_VIBRATE, null);
+                vibrate = "always".equals(vibrateWhen);
+        }
             }
-            if (vibrate) {
+
+         if (vibrate) {
                 defaults |= Notification.DEFAULT_VIBRATE;
             }
 
-            String ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE,
-                    null);
+            String ringtoneStr = null;
+            if(simId == SimCardID.ID_ONE.toInt())
+                ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE_2, null);
+            else
+                ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE, null);
+
+            if (DEBUG) Log.d(TAG, "ringtoneStr:" + ringtoneStr);
             noti.setSound(TextUtils.isEmpty(ringtoneStr) ? null : Uri.parse(ringtoneStr));
-            Log.d(TAG, "updateNotification: new message, adding sound to the notification");
+            if (DEBUG) {
+                Log.d(TAG, "updateNotification: new message, adding sound to the notification");
+            }
         }
 
         defaults |= Notification.DEFAULT_LIGHTS;
@@ -1105,7 +1153,7 @@ public class MessagingNotification {
         //    thread will dismiss one undelivered notification but will still display the
         //    notification.If you select the 2nd undelivered one it will dismiss the notification.
 
-        long[] msgThreadId = {0, 1};    // Dummy initial values, just to initialize the memory
+        long[] msgThreadId = {0, 0, 0, 1};    // Dummy initial values, just to initialize the memory
         int totalFailedCount = getUndeliveredMessageCount(context, msgThreadId);
         if (totalFailedCount == 0 && !isDownload) {
             return;
@@ -1149,7 +1197,15 @@ public class MessagingNotification {
         }
         taskStackBuilder.addNextIntent(failedIntent);
 
-        notification.icon = R.drawable.stat_notify_sms_failed;
+        if(SimCardID.ID_ONE.toInt() == msgThreadId[2]) {
+             notification.icon = R.drawable.stat_notify_sms_failed_2;
+        }else{
+            if (BrcmDualSimUtils.isSupportDualSim()) {
+                notification.icon = R.drawable.stat_notify_sms_failed_1;
+            } else {
+                notification.icon = R.drawable.stat_notify_sms_failed;
+            }
+        }
 
         notification.tickerText = title;
 
@@ -1158,14 +1214,26 @@ public class MessagingNotification {
 
         if (noisy) {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-            boolean vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE,
+            boolean vibrate;
+            if(SimCardID.ID_ONE.toInt() == msgThreadId[2]) {
+                vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_2,
                     false /* don't vibrate by default */);
+            } else {
+                vibrate = sp.getBoolean(MessagingPreferenceActivity.NOTIFICATION_VIBRATE,
+                    false /* don't vibrate by default */);
+            }
+
             if (vibrate) {
                 notification.defaults |= Notification.DEFAULT_VIBRATE;
             }
 
-            String ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE,
-                    null);
+            String ringtoneStr;
+            if (SimCardID.ID_ONE.toInt() == msgThreadId[2]) {
+               ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE_2, null);
+            } else {
+               ringtoneStr = sp.getString(MessagingPreferenceActivity.NOTIFICATION_RINGTONE, null);
+            }
+
             notification.sound = TextUtils.isEmpty(ringtoneStr) ? null : Uri.parse(ringtoneStr);
         }
 
@@ -1190,7 +1258,7 @@ public class MessagingNotification {
      */
     private static int getUndeliveredMessageCount(Context context, long[] threadIdResult) {
         Cursor undeliveredCursor = SqliteWrapper.query(context, context.getContentResolver(),
-                UNDELIVERED_URI, MMS_THREAD_ID_PROJECTION, "read=0", null, null);
+                UNDELIVERED_URI, new String[] { Mms.THREAD_ID, Mms.SIM_ID }, "read=0", null, null);
         if (undeliveredCursor == null) {
             return 0;
         }
@@ -1198,6 +1266,7 @@ public class MessagingNotification {
         try {
             if (threadIdResult != null && undeliveredCursor.moveToFirst()) {
                 threadIdResult[0] = undeliveredCursor.getLong(0);
+                int simId = undeliveredCursor.getInt(1);
 
                 if (threadIdResult.length >= 2) {
                     // Test to see if all the undelivered messages belong to the same thread.
@@ -1209,6 +1278,9 @@ public class MessagingNotification {
                         }
                     }
                     threadIdResult[1] = firstId;    // non-zero if all ids are the same
+                }
+                if (threadIdResult.length >= 3) {
+                    threadIdResult[2] = simId;
                 }
             }
         } finally {
@@ -1380,5 +1452,40 @@ public class MessagingNotification {
         } finally {
             cursor.close();
         }
+    }
+
+    /**
+     * Set screen on when received new sms/mms
+     */
+    private static void setScreenOn(Context context) {
+        PowerManager.WakeLock mWakeLock;
+        PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+
+        mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+            | PowerManager.ACQUIRE_CAUSES_WAKEUP
+            | PowerManager.ON_AFTER_RELEASE, TAG);
+        mWakeLock.setReferenceCounted(false);
+
+        if (!mWakeLock.isHeld()) {
+            //Release the lock automaticly after timeout
+            mWakeLock.acquire(NEW_SMS_SCREEN_ON_TIME);
+        }
+
+    }
+    private static int getNotificationResourceIcon(boolean isSms, int simId) {
+        int iconResID;
+        if (isSms) {
+            iconResID = R.drawable.stat_notify_sms;
+            if (BrcmDualSimUtils.isSupportDualSim()) {
+                iconResID = (simId == SimCardID.ID_ONE.toInt())?R.drawable.stat_notify_sms_2:R.drawable.stat_notify_sms_1;
+            }
+        }
+        else {
+            iconResID = R.drawable.stat_notify_mms;
+            if (BrcmDualSimUtils.isSupportDualSim()) {
+                iconResID = (simId == SimCardID.ID_ONE.toInt())?R.drawable.stat_notify_mms_2:R.drawable.stat_notify_mms_1;
+            }
+        }
+        return iconResID;
     }
 }
