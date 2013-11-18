@@ -353,6 +353,6 @@
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Отправка MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Отправка всех MMS в исходящих"</string>
     <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Приложение SMS/MMS не используется для обмена SMS-сообщениями."</string>
-    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"Отправляйте SMS с помощью приложения \"<xliff:g id="APPNAME">%s</xliff:g>\""</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"Попробуйте \"<xliff:g id="APPNAME">%s</xliff:g>\" для SMS"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"Этот параметр можно изменить в настройках"</string>
 </resources>
