@@ -181,6 +181,7 @@
         <activity android:name=".ui.ClassZeroActivity"
             android:label="@string/class_0_message_activity"
             android:theme="@android:style/Theme.Translucent"
+            android:launchMode="singleTop"
             android:excludeFromRecents="true">
         </activity>
 
