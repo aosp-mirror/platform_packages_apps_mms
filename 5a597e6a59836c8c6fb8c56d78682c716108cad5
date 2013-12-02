@@ -54,6 +54,23 @@
     },
     {
       "key": {
+        "uuid": "632006df_cb9b0988",
+        "filename": "src/com/android/mms/ui/ClassZeroActivity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1024998
+      },
+      "writtenOn": "2013-12-02T18:15:25Z",
+      "side": 1,
+      "message": "This is repeating a lot. Can we refactor into a method like \"processNextMessage\"?",
+      "revId": "5a597e6a59836c8c6fb8c56d78682c716108cad5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "632006df_485f1f5a",
         "filename": "src/com/android/mms/ui/ClassZeroActivity.java",
         "patchSetId": 2
@@ -65,6 +82,23 @@
       "writtenOn": "2013-12-02T17:39:38Z",
       "side": 1,
       "message": "We\u0027ve seen cases where getMessageBody returns null. Please test for it",
+      "revId": "5a597e6a59836c8c6fb8c56d78682c716108cad5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "632006df_2be46502",
+        "filename": "src/com/android/mms/ui/ClassZeroActivity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1024998
+      },
+      "writtenOn": "2013-12-02T18:15:25Z",
+      "side": 1,
+      "message": "Refactor the above code into a method too. They are used in both onCreate and onNewIntent.",
       "revId": "5a597e6a59836c8c6fb8c56d78682c716108cad5",
       "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
       "unresolved": false
