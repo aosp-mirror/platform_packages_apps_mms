@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4325c2ed_eae407c7",
+        "filename": "src/com/android/mms/ui/ClassZeroActivity.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-12-02T18:34:24Z",
+      "side": 1,
+      "message": "You can just set this to null. TextUtils.isEmpty checks for null.",
+      "revId": "135179c7f773e4e5ca0be5ddf7e01fd79cd24b2d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
