@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "63ae4695_9b46afda",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1005602
+      },
+      "writtenOn": "2013-12-02T18:03:22Z",
+      "side": 1,
+      "message": "I hadn\u0027t tried, but just did (on top of Settings and Chrome) and it\u0027s fine; the dialog rotates along with the underlying app. I\u0027ll do the other changes in a minute",
+      "parentUuid": "4325c2ed_0a7fdb90",
+      "revId": "5a597e6a59836c8c6fb8c56d78682c716108cad5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "832b3ac2_4c8f2f10",
         "filename": "src/com/android/mms/ui/ClassZeroActivity.java",
         "patchSetId": 2
