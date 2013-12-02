@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "832b3ac2_cf11516b",
+        "filename": "src/com/android/mms/ui/ClassZeroActivity.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1024998
+      },
+      "writtenOn": "2013-12-02T18:42:23Z",
+      "side": 1,
+      "message": "I know it is from the original code. But SmsMessage.getMessageBody() returns a String. I\u0027m confused why we assign it to a CharSequence and convert it back to String. Can we fix it here since you are changing it?",
+      "revId": "135179c7f773e4e5ca0be5ddf7e01fd79cd24b2d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4325c2ed_eae407c7",
         "filename": "src/com/android/mms/ui/ClassZeroActivity.java",
         "patchSetId": 5
