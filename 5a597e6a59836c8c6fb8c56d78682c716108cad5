@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4325c2ed_0a7fdb90",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-12-02T17:39:38Z",
+      "side": 1,
+      "message": "Do we need to add android:configChanges\u003d\"orientation|screenSize|keyboardHidden\" to the attributes as well? Have you tried rotating the device when the class zero dialog is visible? Does the activity handle the rotation correctly?",
+      "revId": "5a597e6a59836c8c6fb8c56d78682c716108cad5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "832b3ac2_4c8f2f10",
+        "filename": "src/com/android/mms/ui/ClassZeroActivity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-12-02T17:39:38Z",
+      "side": 1,
+      "message": "messageQueue -\u003e mMessageQueue",
+      "revId": "5a597e6a59836c8c6fb8c56d78682c716108cad5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "632006df_485f1f5a",
+        "filename": "src/com/android/mms/ui/ClassZeroActivity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-12-02T17:39:38Z",
+      "side": 1,
+      "message": "We\u0027ve seen cases where getMessageBody returns null. Please test for it",
+      "revId": "5a597e6a59836c8c6fb8c56d78682c716108cad5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "832b3ac2_ec56e3ba",
+        "filename": "src/com/android/mms/ui/ClassZeroActivity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2013-12-02T17:39:38Z",
+      "side": 1,
+      "message": "Test for null messageChars here, too, for the case where we\u0027re getting called directly from onCreate.",
+      "revId": "5a597e6a59836c8c6fb8c56d78682c716108cad5",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
