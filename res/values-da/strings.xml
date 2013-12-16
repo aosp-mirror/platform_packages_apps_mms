@@ -280,7 +280,7 @@
     <string name="message_send_failed_title" msgid="3469894907399046372">"Beskeden er ikke sendt"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"Tryk for at se beskeden, og prøv igen."</string>
     <string name="download_later" msgid="5531365714424360903">"Der kan ikke downloades lige nu. Prøv igen senere."</string>
-    <string name="no_apn" msgid="505932916503312015">"Der er ikke angivet en APN på enheden."</string>
+    <string name="no_apn" msgid="505932916503312015">"Der er ikke angivet et adgangspunkt på enheden."</string>
     <string name="select_audio" msgid="3528161449756771832">"Vælg lyd"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Gem vedhæftet fil"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"Den vedhæftede fil blev gemt."</string>
