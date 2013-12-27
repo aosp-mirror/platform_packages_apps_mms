@@ -163,17 +163,17 @@
     <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS 사용"</string>
     <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"기본 SMS 앱을 변경하려면 터치합니다."</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"SIM 카드에 저장된 메시지 관리"</string>
-    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"메시지 전송 시 발신 알림 받기"</string>
+    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"메시지 전송 시 전송 확인 요청"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"보내는 메시지마다 읽음 여부 보고"</string>
-    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"메시지 전송 시 발신 알림 받기"</string>
+    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"메시지 전송 시 전송 확인 요청"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"한도에 도달하면 이전 메시지 삭제"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"대화당 메시지 <xliff:g id="COUNT">%1$s</xliff:g>개"</string>
     <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"수신자가 여러 명일 때 MMS를 사용하여 한 개의 메시지를 전송합니다."</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"SIM 카드 메시지 관리"</string>
-    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"발신 알림"</string>
+    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"전송 확인"</string>
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"그룹 메시지"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"읽음 여부 보고"</string>
-    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"발신 알림"</string>
+    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"전송 확인"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"이전 메시지 삭제"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"문자 메시지 한도"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"멀티미디어 메시지 한도"</string>
@@ -296,7 +296,7 @@
     <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g>초"</item>
     <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g>초"</item>
   </plurals>
-    <string name="delivery_report_activity" msgid="2957463094232916364">"발신 알림"</string>
+    <string name="delivery_report_activity" msgid="2957463094232916364">"전송 확인"</string>
     <string name="storage_limits_activity" msgid="8810530813311077716">"저장용량 한도"</string>
     <string name="change_duration_activity" msgid="7048606979485031693">"표시 기간 변경"</string>
     <string name="edit_slideshow_activity" msgid="8751493388760050529">"슬라이드쇼 편집"</string>
