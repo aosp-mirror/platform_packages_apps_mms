@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eda0655c_dc4a2d70",
+        "filename": "src/com/android/mms/data/WorkingMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2014-01-03T17:26:55Z",
+      "side": 1,
+      "message": "draftTheradId -\u003e draftThreadId",
+      "range": {
+        "startLine": 898,
+        "startChar": 13,
+        "endLine": 898,
+        "endChar": 26
+      },
+      "revId": "165161769363cb4299edac232bcfabb69b17fcd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eda0655c_3c56b11d",
+        "filename": "src/com/android/mms/data/WorkingMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2014-01-03T17:26:55Z",
+      "side": 1,
+      "message": "Tabs need to be converted to spaces.",
+      "range": {
+        "startLine": 898,
+        "startChar": 0,
+        "endLine": 898,
+        "endChar": 2
+      },
+      "revId": "165161769363cb4299edac232bcfabb69b17fcd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d94d9fd_dd4a2b70",
+        "filename": "src/com/android/mms/data/WorkingMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2014-01-03T17:26:55Z",
+      "side": 1,
+      "message": "There are a number of lines with trailing spaces. Those need to be removed.",
+      "range": {
+        "startLine": 899,
+        "startChar": 0,
+        "endLine": 899,
+        "endChar": 16
+      },
+      "revId": "165161769363cb4299edac232bcfabb69b17fcd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd9d6127_5b57031c",
+        "filename": "src/com/android/mms/data/WorkingMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2014-01-03T17:26:55Z",
+      "side": 1,
+      "message": "If subject field exists",
+      "range": {
+        "startLine": 902,
+        "startChar": 21,
+        "endLine": 902,
+        "endChar": 28
+      },
+      "revId": "165161769363cb4299edac232bcfabb69b17fcd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eda0655c_5c785da5",
+        "filename": "src/com/android/mms/data/WorkingMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2014-01-03T17:26:55Z",
+      "side": 1,
+      "message": "If there is no subject",
+      "range": {
+        "startLine": 907,
+        "startChar": 28,
+        "endLine": 907,
+        "endChar": 29
+      },
+      "revId": "165161769363cb4299edac232bcfabb69b17fcd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d441157_529ef24e",
+        "filename": "src/com/android/mms/data/WorkingMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2014-01-03T17:26:55Z",
+      "side": 1,
+      "message": "This function saveDraft is called on the UI thread. You can\u0027t call a function like readDraftMmsMessage that does database queries on the UI thread, at the risk of an ANR.  Same with loadFromUri below.",
+      "range": {
+        "startLine": 910,
+        "startChar": 26,
+        "endLine": 910,
+        "endChar": 45
+      },
+      "revId": "165161769363cb4299edac232bcfabb69b17fcd3",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
