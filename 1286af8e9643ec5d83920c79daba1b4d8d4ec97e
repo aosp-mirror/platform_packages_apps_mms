@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d3f15b6_b3fc028d",
+        "filename": "src/com/android/mms/data/WorkingMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2014-01-03T17:30:48Z",
+      "side": 1,
+      "message": "All of the tabs need to be converted to spaces.",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 242,
+        "endChar": 9
+      },
+      "revId": "1286af8e9643ec5d83920c79daba1b4d8d4ec97e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d441157_d272e271",
+        "filename": "src/com/android/mms/data/WorkingMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2014-01-03T17:30:48Z",
+      "side": 1,
+      "message": "It seems like this subject loading code is fixing a bug with loadFromUri. Why not put this code in loadFromUri so the subject will be loaded for all callers of loadFromUri?",
+      "range": {
+        "startLine": 243,
+        "startChar": 12,
+        "endLine": 243,
+        "endChar": 14
+      },
+      "revId": "1286af8e9643ec5d83920c79daba1b4d8d4ec97e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
