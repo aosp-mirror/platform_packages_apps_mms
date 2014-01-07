@@ -49,8 +49,8 @@
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Správu sa nepodarilo odoslať."</string>
     <string name="delete_thread" msgid="757258847736632791">"Odstrániť konverzáciu"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Poslať ďalej"</string>
-    <string name="download" msgid="4488877642230207631">"Prevziať"</string>
-    <string name="downloading" msgid="1779557575565350637">"Preberanie"</string>
+    <string name="download" msgid="4488877642230207631">"Stiahnuť"</string>
+    <string name="downloading" msgid="1779557575565350637">"Sťahovanie"</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Predmet: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Text je chránený DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Nemáte dostatočné práva DRM."</string>
@@ -273,13 +273,13 @@
     <string name="fdn_check_failure" msgid="7880740763778173551">"Správy je možné odosielať iba na čísla pevného vytáčania."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Bez predmetu)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Neznámy odosielateľ"</string>
-    <string name="dl_failure_notification" msgid="8097699679464396537">"Správu <xliff:g id="SUBJECT">%1$s</xliff:g> od odosielateľa <xliff:g id="FROM">%2$s</xliff:g> sa nepodarilo prevziať."</string>
+    <string name="dl_failure_notification" msgid="8097699679464396537">"Správu <xliff:g id="SUBJECT">%1$s</xliff:g> od odosielateľa <xliff:g id="FROM">%2$s</xliff:g> sa nepodarilo stiahnuť."</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"Potvrdiť"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"Odosiela sa veľký počet správ MMS. Je to v poriadku?"</string>
-    <string name="message_download_failed_title" msgid="5722226064394767921">"Správu sa nepodarilo prevziať"</string>
+    <string name="message_download_failed_title" msgid="5722226064394767921">"Správu sa nepodarilo stiahnuť"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"Správu sa nepodarilo odoslať"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"Dotykom skontrolujte správu a skúste ju odoslať znova."</string>
-    <string name="download_later" msgid="5531365714424360903">"Správu momentálne nie je možné prevziať. Skúste to znova neskôr."</string>
+    <string name="download_later" msgid="5531365714424360903">"Správu momentálne nie je možné stiahnuť. Skúste to znova neskôr."</string>
     <string name="no_apn" msgid="505932916503312015">"V zariadení nie je zadaný žiadny názov prístupového bodu (APN)."</string>
     <string name="select_audio" msgid="3528161449756771832">"Zvoliť zvuk"</string>
     <string name="copy_to_sdcard" msgid="757028609638184856">"Uložiť prílohu"</string>
