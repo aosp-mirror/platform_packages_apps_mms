@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad0e6db3_2a96df79",
+        "filename": "src/com/android/mms/util/MultiSimUtility.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1002951
+      },
+      "writtenOn": "2014-01-09T08:59:52Z",
+      "side": 1,
+      "message": "Not a contribution?",
+      "range": {
+        "startLine": 3,
+        "startChar": 9,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "cda1e56224c37f93f50630a09af8ce968ad0fd8e",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
