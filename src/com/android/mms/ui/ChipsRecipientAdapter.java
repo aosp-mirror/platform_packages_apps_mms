@@ -30,16 +30,4 @@ public class ChipsRecipientAdapter extends BaseRecipientAdapter {
         super(context, DEFAULT_PREFERRED_MAX_RESULT_COUNT, QUERY_TYPE_PHONE);
     }
 
-    /**
-     * Returns a layout id for each item inside auto-complete list.
-     *
-     * Each View must contain two TextViews (for display name and destination) and one ImageView
-     * (for photo). Ids for those should be available via {@link #getDisplayNameId()},
-     * {@link #getDestinationId()}, and {@link #getPhotoId()}.
-     */
-    @Override
-    protected int getItemLayout() {
-        return R.layout.mms_chips_recipient_dropdown_item;
-    }
-
 }
