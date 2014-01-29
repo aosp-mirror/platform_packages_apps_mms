@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:orientation="vertical"
+  android:paddingLeft="5sp"
+  android:paddingRight="5sp"
+  android:id="@+id/CustomUserAgentLinearLayout">
+  <ScrollView
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:id="@+id/CustomUserAgentScrollView">
+    <LinearLayout
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:id="@+id/ScrollViewLinearLayout"
+      android:paddingLeft="5sp"
+      android:paddingRight="5sp"
+      android:paddingBottom="2sp"
+      android:paddingTop="2sp">
+      <EditText
+        android:id="@+id/CustomUserAgentEditText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:maxLength="1000"
+        android:padding="5sp" />
+    </LinearLayout>
+  </ScrollView>
+</LinearLayout>

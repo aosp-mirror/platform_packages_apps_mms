@@ -345,4 +345,22 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"携帯端末のストレージに空き領域がありません"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"新しいSMS/MMSメッセージを受信しません"</string>
+
+    <!-- Extra Settings: -->
+    <string name="pref_extra_settings">拡張設定</string>
+
+    <!-- Custom user-agent -->
+    <string name="pref_mms_ua_default_android">Androidのデフォルト</string>
+    <string name="pref_mms_ua_nokia_n95">Nokia N95</string>
+    <string name="pref_mms_ua_iphone_3_0">iPhone (3.0)</string>
+    <string name="pref_mms_ua_blackberry_8800">BlackBerry 8800</string>
+    <string name="pref_mms_ua_sonyericsson_w800i">Sony Ericsson W800i</string>
+    <string name="pref_mms_ua_softbank_x01t">SoftBank X01T</string>
+    <string name="pref_mms_ua_softbank_myrmms">SoftBank MyrMMS</string>
+    <string name="pref_mms_ua_google_nexus5">Nexus 5</string>
+    <string name="pref_mms_ua_custom_option">カスタム\u2026</string>
+    <string name="pref_title_mms_user_agent">カスタムUser-Agent</string>
+    <string name="pref_summary_mms_user_agent">MMSクライアントのUser-Agent文字列を変更する</string>
+    <string name="pref_mms_user_agent_custom_set">設定されているUser-Agent:\n</string>
+
 </resources>

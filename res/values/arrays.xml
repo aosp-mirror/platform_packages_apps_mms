@@ -22,4 +22,28 @@
     <string-array name="empty_subject_strings">
         <item>no subject</item>
     </string-array>
+
+    <string-array name="pref_mms_user_agent_entries" translatable="false">
+        <item>@string/pref_mms_ua_default_android</item>
+        <item>@string/pref_mms_ua_nokia_n95</item>
+        <item>@string/pref_mms_ua_iphone_3_0</item>
+        <item>@string/pref_mms_ua_blackberry_8800</item>
+        <item>@string/pref_mms_ua_sonyericsson_w800i</item>
+        <item>@string/pref_mms_ua_softbank_x01t</item>
+        <item>@string/pref_mms_ua_softbank_myrmms</item>
+        <item>@string/pref_mms_ua_google_nexus5</item>
+        <item>@string/pref_mms_ua_custom_option</item>
+    </string-array>
+    <string-array name="pref_mms_user_agent_values" translatable="false">
+        <item>default</item>
+        <item>NokiaN95/11.0.026; Series60/3.1 Profile/MIDP-2.0 Configuration/CLDC-1.1</item>
+        <item>iPhoneOS/3.0 (7A341)</item>
+        <item>BlackBerry8800/4.2.1 Profile/MIDP-2.0 Configuration/CLDC-1.1 VendorID/100</item>
+        <item>SonyEricssonW800i/R1L</item>
+        <item>SoftBank/1.0/X01T/TJ001</item>
+        <item>SoftBank/1.0/Smart/MyrMMS</item>
+        <item>Nexus5</item>
+        <item>custom</item>
+    </string-array>
+
 </resources>

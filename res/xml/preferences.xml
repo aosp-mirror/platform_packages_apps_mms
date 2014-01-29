@@ -112,4 +112,14 @@
                         android:dependency="pref_key_enable_notifications"
                         android:defaultValue="false" />
   </PreferenceCategory>
+  <PreferenceCategory android:title="@string/pref_extra_settings">
+        <com.android.mms.preferences.UserAgentListPreference
+            android:key="pref_key_mms_user_agent"
+            android:defaultValue="default"
+            android:title="@string/pref_title_mms_user_agent"
+            android:summary="@string/pref_summary_mms_user_agent"
+            android:entries="@array/pref_mms_user_agent_entries"
+            android:entryValues="@array/pref_mms_user_agent_values"
+            android:dialogTitle="@string/pref_title_mms_user_agent" />
+  </PreferenceCategory>
 </PreferenceScreen>
