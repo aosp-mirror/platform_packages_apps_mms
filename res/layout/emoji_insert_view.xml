@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <GridView
+            android:id="@+id/emoji_grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/emoji_button"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:numColumns="auto_fit" 
+            android:columnWidth="50dip" />
+
+        <EditText
+            android:id="@+id/emoji_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/emoji_button"
+            android:layout_toLeftOf="@+id/emoji_button"
+            android:ems="10"
+            android:inputType="text|textNoSuggestions" />
+
+        <Button
+            android:id="@+id/emoji_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="@android:string/ok" />
+
+</RelativeLayout>

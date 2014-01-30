@@ -626,6 +626,7 @@
     <!-- Toast message on failed copying ringtone to drm provider -->
     <string name="saved_ringtone_fail">Couldn\'t save ringtone.</string>
     <!-- Menu item -->
+    <string name="menu_insert_emoji">Insert emojis</string>
     <!-- Menu item  [CHAR LIMIT=40] -->
     <string name="menu_group_participants">Group participants</string>
 
@@ -803,6 +804,10 @@
 
     <!-- Extra Settings: -->
     <string name="pref_extra_settings">Extra settings</string>
+
+    <!-- Enable emojis -->
+    <string name="pref_title_enable_emojis">Emoji support</string>
+    <string name="pref_summary_enable_emojis">Enable support for unicode emojis</string>
 
     <!-- Custom user-agent -->
     <string name="pref_mms_ua_default_android">Default Android</string>
