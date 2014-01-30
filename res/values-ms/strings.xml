@@ -282,7 +282,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Simpan sebagai nada dering"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Nada dering disimpan."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Tidak dapat menyimpan nada dering."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Masukkan smiley"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Peserta kumpulan"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Pilih tindakan"</string>
     <string name="slide_number" msgid="1923958526266726635">"Slaid <xliff:g id="NUMBER">%s</xliff:g>"</string>
