@@ -353,13 +353,17 @@
     <string name="pref_title_enable_emojis">絵文字サポート</string>
     <string name="pref_summary_enable_emojis">Unicode絵文字サポートを有功にする</string>
 
+    <!-- Enable quick emojis -->
+    <string name="pref_title_enable_quick_emojis">クイック絵文字ボタン</string>
+    <string name="pref_summary_enable_quick_emojis">絵文字を素早く入力するためにテキスト入力エリアの横に絵文字ボタンを表示する</string>
+
     <!-- Enable SoftBank emoji encoding -->
     <string name="pref_title_enable_softbank_encoding">SoftBank絵文字</string>
     <string name="pref_summary_enable_softbank_encoding">SoftBankの絵文字変換ルールを使用する</string>
 
-    <!-- Enable quick emojis -->
-    <string name="pref_title_enable_quick_emojis">クイック絵文字ボタン</string>
-    <string name="pref_summary_enable_quick_emojis">絵文字を素早く入力するためにテキスト入力エリアの横に絵文字ボタンを表示する</string>
+    <!-- Send on Enter -->
+    <string name="pref_title_mms_send_on_enter">Enterキーで送信</string>
+    <string name="pref_summary_mms_send_on_enter">Enterキーの押下でメッセージを送信するかどうか切り替える</string>
 
     <!-- Custom user-agent -->
     <string name="pref_mms_ua_default_android">Androidのデフォルト</string>
