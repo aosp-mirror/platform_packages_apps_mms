@@ -70,6 +70,8 @@ public class MessagingPreferenceActivity extends PreferenceActivity
 
     public static final String ENABLE_EMOJIS            = "pref_key_enable_emojis";
 
+    public static final String SOFTBANK_EMOJIS          = "pref_key_enable_softbank_encoding";
+
     public static final String USER_AGENT               = "pref_key_mms_user_agent";
     public static final String USER_AGENT_CUSTOM        = "pref_key_mms_user_agent_custom";
 

@@ -119,6 +119,14 @@
                         android:summary="@string/pref_summary_enable_emojis"
                         android:defaultValue="false" />
 
+        <CheckBoxPreference
+            android:key="pref_key_enable_softbank_encoding"
+            android:title="@string/pref_title_enable_softbank_encoding"
+            android:summary="@string/pref_summary_enable_softbank_encoding"
+            android:layout="?android:attr/preferenceLayoutChild"
+            android:dependency="pref_key_enable_emojis"
+            android:defaultValue="false" />
+
         <com.android.mms.preferences.UserAgentListPreference
             android:key="pref_key_mms_user_agent"
             android:defaultValue="default"

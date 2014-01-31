@@ -353,6 +353,10 @@
     <string name="pref_title_enable_emojis">絵文字サポート</string>
     <string name="pref_summary_enable_emojis">Unicode絵文字サポートを有功にする</string>
 
+    <!-- Enable SoftBank emoji encoding -->
+    <string name="pref_title_enable_softbank_encoding">SoftBank絵文字</string>
+    <string name="pref_summary_enable_softbank_encoding">SoftBankの絵文字変換ルールを使用する</string>
+
     <!-- Custom user-agent -->
     <string name="pref_mms_ua_default_android">Androidのデフォルト</string>
     <string name="pref_mms_ua_nokia_n95">Nokia N95</string>
