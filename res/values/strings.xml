@@ -809,6 +809,10 @@
     <string name="pref_title_enable_emojis">Emoji support</string>
     <string name="pref_summary_enable_emojis">Enable support for unicode emojis</string>
 
+    <!-- Enable quick emojis -->
+    <string name="pref_title_enable_quick_emojis">Quick emoji button</string>
+    <string name="pref_summary_enable_quick_emojis">Display a button next to the text-input area for quick emoji access</string>
+
     <!-- Enable SoftBank emoji encoding -->
     <string name="pref_title_enable_softbank_encoding">SoftBank emoji</string>
     <string name="pref_summary_enable_softbank_encoding">Use SoftBank emoji encoding</string>

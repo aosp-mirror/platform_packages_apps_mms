@@ -357,6 +357,10 @@
     <string name="pref_title_enable_softbank_encoding">SoftBank絵文字</string>
     <string name="pref_summary_enable_softbank_encoding">SoftBankの絵文字変換ルールを使用する</string>
 
+    <!-- Enable quick emojis -->
+    <string name="pref_title_enable_quick_emojis">クイック絵文字ボタン</string>
+    <string name="pref_summary_enable_quick_emojis">絵文字を素早く入力するためにテキスト入力エリアの横に絵文字ボタンを表示する</string>
+
     <!-- Custom user-agent -->
     <string name="pref_mms_ua_default_android">Androidのデフォルト</string>
     <string name="pref_mms_ua_nokia_n95">Nokia N95</string>
