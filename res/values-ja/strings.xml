@@ -353,6 +353,10 @@
     <!-- Extra Settings: -->
     <string name="pref_extra_settings">拡張設定</string>
 
+    <!-- Strip unicode -->
+    <string name="pref_title_strip_unicode">Unicodeを取り除く</string>
+    <string name="pref_summary_strip_unicode">半角160文字(英数字)のSMSメッセージでサポートされない一般的な文字を置き換える</string>
+
     <!-- Enable emojis -->
     <string name="pref_title_enable_emojis">絵文字サポート</string>
     <string name="pref_summary_enable_emojis">Unicode絵文字サポートを有功にする</string>
