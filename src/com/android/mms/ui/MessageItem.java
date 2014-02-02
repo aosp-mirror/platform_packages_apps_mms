@@ -102,6 +102,7 @@ public class MessageItem {
     int mMessageSize;
     int mErrorType;
     int mErrorCode;
+    boolean mFullTimestamp;
     int mMmsStatus;
     Cursor mCursor;
     ColumnsMap mColumnsMap;
@@ -109,11 +110,12 @@ public class MessageItem {
     private ItemLoadedFuture mItemLoadedFuture;
 
     MessageItem(Context context, String type, final Cursor cursor,
-            final ColumnsMap columnsMap, Pattern highlight) throws MmsException {
+            final ColumnsMap columnsMap, Pattern highlight, boolean fullTimestamp) throws MmsException {
         mContext = context;
         mMsgId = cursor.getLong(columnsMap.mColumnMsgId);
         mHighlight = highlight;
         mType = type;
+        mFullTimestamp = fullTimestamp;
         mCursor = cursor;
         mColumnsMap = columnsMap;
 
@@ -154,7 +156,7 @@ public class MessageItem {
             if (!isOutgoingMessage()) {
                 // Set "received" or "sent" time stamp
                 long date = cursor.getLong(columnsMap.mColumnSmsDate);
-                mTimestamp = MessageUtils.formatTimeStampString(context, date);
+                mTimestamp = MessageUtils.formatTimeStampString(context, date, mFullTimestamp);
             }
 
             mLocked = cursor.getInt(columnsMap.mColumnSmsLocked) != 0;
@@ -388,9 +390,9 @@ public class MessageItem {
             if (!isOutgoingMessage()) {
                 if (PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND == mMessageType) {
                     mTimestamp = mContext.getString(R.string.expire_on,
-                            MessageUtils.formatTimeStampString(mContext, timestamp));
+                            MessageUtils.formatTimeStampString(mContext, timestamp, mFullTimestamp));
                 } else {
-                    mTimestamp =  MessageUtils.formatTimeStampString(mContext, timestamp);
+                    mTimestamp =  MessageUtils.formatTimeStampString(mContext, timestamp, mFullTimestamp);
                 }
             }
             if (mPduLoadedCallback != null) {

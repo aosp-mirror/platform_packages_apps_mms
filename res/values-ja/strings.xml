@@ -365,6 +365,10 @@
     <string name="pref_title_enable_softbank_encoding">SoftBank絵文字</string>
     <string name="pref_summary_enable_softbank_encoding">SoftBankの絵文字変換ルールを使用する</string>
 
+    <!-- Full timestamps -->
+    <string name="pref_title_mms_full_timestamp">完全なタイムスタンプ</string>
+    <string name="pref_summary_mms_full_timestamp">タイムスタンプに日付と時刻の両方を表示する</string>
+
     <!-- Send on Enter -->
     <string name="pref_title_mms_send_on_enter">Enterキーで送信</string>
     <string name="pref_summary_mms_send_on_enter">Enterキーの押下でメッセージを送信するかどうか切り替える</string>

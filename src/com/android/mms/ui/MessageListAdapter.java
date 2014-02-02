@@ -20,8 +20,10 @@ package com.android.mms.ui;
 import java.util.regex.Pattern;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
@@ -121,6 +123,7 @@ public class MessageListAdapter extends CursorAdapter {
     private Handler mMsgListItemHandler;
     private Pattern mHighlight;
     private Context mContext;
+    private boolean mFullTimestamp;
     private boolean mIsGroupConversation;
 
     public MessageListAdapter(
@@ -139,6 +142,9 @@ public class MessageListAdapter extends CursorAdapter {
         } else {
             mColumnsMap = new ColumnsMap(c);
         }
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        mFullTimestamp = prefs.getBoolean(MessagingPreferenceActivity.FULL_TIMESTAMP, false);
 
         listView.setRecyclerListener(new AbsListView.RecyclerListener() {
             @Override
@@ -232,7 +238,7 @@ public class MessageListAdapter extends CursorAdapter {
         MessageItem item = mMessageItemCache.get(getKey(type, msgId));
         if (item == null && c != null && isCursorValid(c)) {
             try {
-                item = new MessageItem(mContext, type, c, mColumnsMap, mHighlight);
+                item = new MessageItem(mContext, type, c, mColumnsMap, mHighlight, mFullTimestamp);
                 mMessageItemCache.put(getKey(item.mType, item.mMsgId), item);
             } catch (MmsException e) {
                 Log.e(TAG, "getCachedMessageItem: ", e);

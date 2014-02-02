@@ -73,6 +73,8 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     public static final String ENABLE_QUICK_EMOJIS      = "pref_key_enable_quick_emojis";
     public static final String SOFTBANK_EMOJIS          = "pref_key_enable_softbank_encoding";
 
+    public static final String FULL_TIMESTAMP           = "pref_key_mms_full_timestamp";
+
     public static final String SEND_ON_ENTER            = "pref_key_mms_send_on_enter";
 
     public static final String MESSAGE_FONT_SIZE        = "pref_key_mms_message_font_size";

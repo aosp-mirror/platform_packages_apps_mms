@@ -826,6 +826,10 @@ if the received location is not a valid file name -->
     <string name="pref_title_enable_softbank_encoding">SoftBank emoji</string>
     <string name="pref_summary_enable_softbank_encoding">Use SoftBank emoji encoding</string>
 
+    <!-- Full timestamps -->
+    <string name="pref_title_mms_full_timestamp">Full timestamps</string>
+    <string name="pref_summary_mms_full_timestamp">Enable to show both date and time in message timestamps</string>
+
     <!-- Send on enter -->
     <string name="pref_title_mms_send_on_enter">Send on Enter</string>
     <string name="pref_summary_mms_send_on_enter">Enable/disable send message when Enter key pressed</string>
