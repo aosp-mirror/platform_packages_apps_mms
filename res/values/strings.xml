@@ -385,6 +385,9 @@
     <!-- Settings item description for boolean MMS auto-retrieve while roaming option -->
     <string name="pref_summary_mms_retrieval_during_roaming">Automatically retrieve messages while roaming</string>
 
+    <!-- Setting item for folder to save MMS Attachments to -->
+    <string name="pref_title_save_location">Attachment save folder</string>
+
     <!-- Confirm Delete -->
     <!-- Delete confirmation dialog title -->
     <string name="confirm_dialog_title">Delete?</string>

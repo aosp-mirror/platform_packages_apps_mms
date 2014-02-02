@@ -148,6 +148,7 @@ import com.android.mms.model.SlideshowModel;
 import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageListView.OnSizeChangedListener;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
+import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.EmojiParser;
@@ -1553,7 +1554,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     /**
-     * Copies media from an Mms to the "download" directory on the SD card. If any of the parts
+     * Copies media from an Mms to a directory on the SD card. If any of the parts
      * are audio types, drm'd or not, they're copied to the "Ringtones" directory.
      * @param msgId
      */
@@ -1626,9 +1627,11 @@ public class ComposeMessageActivity extends Activity
                 // Depending on the location, there may be an
                 // extension already on the name or not. If we've got audio, put the attachment
                 // in the Ringtones directory.
+                // Get Shared Preferences and User Defined Save Location for MMS
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 String dir = Environment.getExternalStorageDirectory() + "/"
                                 + (ContentType.isAudioType(type) ? Environment.DIRECTORY_RINGTONES :
-                                    Environment.DIRECTORY_DOWNLOADS)  + "/";
+                                    prefs.getString(MessagingPreferenceActivity.MMS_SAVE_LOCATION, "Download"))  + "/";
                 String extension;
                 int index;
                 if ((index = fileName.lastIndexOf('.')) == -1) {

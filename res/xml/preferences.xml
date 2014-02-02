@@ -96,6 +96,12 @@
                         android:key="pref_key_mms_retrieval_during_roaming"
                         android:title="@string/pref_title_mms_retrieval_during_roaming"
                         android:summary="@string/pref_summary_mms_retrieval_during_roaming" />
+    <EditTextPreference
+                        android:key="pref_save_location"
+                        android:title="@string/pref_title_save_location"
+                        android:summary=""
+                        android:dialogTitle="@string/pref_title_save_location"
+                        android:defaultValue="Download" />
   </PreferenceCategory>
   <PreferenceCategory android:title="@string/pref_notification_settings_title"
                       android:key="pref_key_notification_settings">

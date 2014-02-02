@@ -180,6 +180,10 @@
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"メッセージを自動的に取得する"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"ローミング時に自動取得"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"ローミング中にメッセージを自動的に取得する"</string>
+
+    <!-- Setting item for folder to save MMS Attachments to -->
+    <string name="pref_title_save_location">"添付ファイルの保存先"</string>
+
     <string name="confirm_dialog_title" msgid="2187213750475782725">"削除しますか？"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"ロックされたメッセージを削除しますか？"</string>
   <plurals name="confirm_delete_conversation">
