@@ -23,6 +23,26 @@
         <item>no subject</item>
     </string-array>
 
+  <string-array name="pref_mms_message_font_size_entries">
+    <item>10</item>
+    <item>12</item>
+    <item>14</item>
+    <item>16</item>
+    <item>18 (default)</item>
+    <item>20</item>
+    <item>22</item>
+  </string-array>
+
+  <string-array translatable="false" name="pref_mms_message_font_size_values">
+    <item>10</item>
+    <item>12</item>
+    <item>14</item>
+    <item>16</item>
+    <item>18</item>
+    <item>20</item>
+    <item>22</item>
+  </string-array>
+
     <string-array name="pref_mms_user_agent_entries" translatable="false">
         <item>@string/pref_mms_ua_default_android</item>
         <item>@string/pref_mms_ua_nokia_n95</item>

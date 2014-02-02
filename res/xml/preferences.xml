@@ -140,6 +140,14 @@
             android:summary="@string/pref_summary_mms_send_on_enter"
             android:defaultValue="false" />
 
+    <ListPreference android:key="pref_key_mms_message_font_size"
+                    android:defaultValue="18"
+                    android:title="@string/pref_title_mms_message_font_size"
+                    android:summary="@string/pref_summary_mms_message_font_size"
+                    android:entries="@array/pref_mms_message_font_size_entries"
+                    android:entryValues="@array/pref_mms_message_font_size_values"
+                    android:dialogTitle="@string/pref_dialogtitle_mms_message_font_size" />
+
         <com.android.mms.preferences.UserAgentListPreference
             android:key="pref_key_mms_user_agent"
             android:defaultValue="default"

@@ -827,6 +827,11 @@ if the received location is not a valid file name -->
     <string name="pref_title_mms_send_on_enter">Send on Enter</string>
     <string name="pref_summary_mms_send_on_enter">Enable/disable send message when Enter key pressed</string>
 
+    <!-- Message Font size -->
+    <string name="pref_title_mms_message_font_size">Message font size</string>
+    <string name="pref_summary_mms_message_font_size">Change font size of message view</string>
+    <string name="pref_dialogtitle_mms_message_font_size">Select font size</string>
+
     <!-- Custom user-agent -->
     <string name="pref_mms_ua_default_android">Default Android</string>
     <string name="pref_mms_ua_nokia_n95">Nokia N95</string>
