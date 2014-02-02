@@ -41,7 +41,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.MultiAutoCompleteTextView;
 
-import com.android.ex.chips.RecipientEditTextView;
+import com.android.mms.ui.chips.RecipientEditTextView;
 import com.android.mms.MmsConfig;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;

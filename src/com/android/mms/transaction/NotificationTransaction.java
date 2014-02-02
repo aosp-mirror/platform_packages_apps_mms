@@ -181,6 +181,8 @@ public class NotificationTransaction extends Transaction implements Runnable {
                     mTransactionState.setState(FAILED);
                     status = STATUS_UNRECOGNIZED;
                 } else {
+                    ConvUtils.convPduBody(pdu);
+
                     // Save the received PDU (must be a M-RETRIEVE.CONF).
                     PduPersister p = PduPersister.getPduPersister(mContext);
                     Uri uri = p.persist(pdu, Inbox.CONTENT_URI, true,
