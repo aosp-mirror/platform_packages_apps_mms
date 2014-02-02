@@ -396,4 +396,14 @@
     <string name="pref_summary_mms_user_agent">MMSクライアントのUser-Agent文字列を変更する</string>
     <string name="pref_mms_user_agent_custom_set">設定されているUser-Agent:\n</string>
 
+    <!-- Multi recipients -->
+    <string name="select_recipients">宛先を選択</string>
+    <string name="groups_header">グループ</string>
+    <string name="no_recipients">連絡先が見つかりませんでした</string>
+    <string name="no_recipients_mobile_only">連絡先が見つかりませんでした。 \'携帯電話番号のみ\' フィルターを外して再度試してください</string>
+    <string name="menu_done">完了</string>
+    <string name="menu_mobile">携帯電話番号のみ</string>
+    <string name="menu_groups">グループを表示</string>
+    <string name="fastscroll_index_groups">GR</string> <!-- CHAR LIMIT=3 -->
+
 </resources>

@@ -37,6 +37,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -193,6 +194,8 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_ADD_CONTACT      = 108;
     public static final int REQUEST_CODE_PICK             = 109;
 
+    public static final int REQUEST_CODE_ADD_RECIPIENTS   = 111;
+
     private static final String TAG = "Mms/compose";
 
     private static final boolean DEBUG = false;
@@ -298,6 +301,7 @@ public class ComposeMessageActivity extends Activity
 
     private RecipientsEditor mRecipientsEditor;  // UI control for editing recipients
     private ImageButton mRecipientsPicker;       // UI control for recipients picker
+    private ImageButton mRecipientsSelector;     // UI control for recipients selector
 
     // For HW keyboard, 'mIsKeyboardOpen' indicates if the HW keyboard is open.
     // For SW keyboard, 'mIsKeyboardOpen' should always be true.
@@ -1929,12 +1933,17 @@ public class ComposeMessageActivity extends Activity
             View stubView = stub.inflate();
             mRecipientsEditor = (RecipientsEditor) stubView.findViewById(R.id.recipients_editor);
             mRecipientsPicker = (ImageButton) stubView.findViewById(R.id.recipients_picker);
+            mRecipientsSelector = (ImageButton) stubView.findViewById(R.id.recipients_selector);
+            mRecipientsSelector.setVisibility(View.VISIBLE);
         } else {
             mRecipientsEditor = (RecipientsEditor)findViewById(R.id.recipients_editor);
             mRecipientsEditor.setVisibility(View.VISIBLE);
             mRecipientsPicker = (ImageButton)findViewById(R.id.recipients_picker);
+            mRecipientsSelector = (ImageButton)findViewById(R.id.recipients_selector);
+            mRecipientsSelector.setVisibility(View.VISIBLE);
         }
         mRecipientsPicker.setOnClickListener(this);
+        mRecipientsSelector.setOnClickListener(this);
 
         mRecipientsEditor.setAdapter(new ChipsRecipientAdapter(this));
         mRecipientsEditor.populate(recipients);
@@ -3204,10 +3213,27 @@ public class ComposeMessageActivity extends Activity
                 }
                 break;
 
+            case REQUEST_CODE_ADD_RECIPIENTS:
+                insertNumbersIntoRecipientsEditor(
+                        data.getStringArrayListExtra(SelectRecipientsList.EXTRA_RECIPIENTS));
+                break;
+
             default:
                 if (LogTag.VERBOSE) log("bail due to unknown requestCode=" + requestCode);
                 break;
         }
+    }
+
+    private void insertNumbersIntoRecipientsEditor(final ArrayList<String> numbers) {
+        ContactList list = ContactList.getByNumbers(numbers, true);
+        ContactList existing = mRecipientsEditor.constructContactsFromInput(true);
+        for (Contact contact : existing) {
+            if (!contact.existsInDatabase()) {
+                list.add(contact);
+            }
+        }
+        mRecipientsEditor.setText(null);
+        mRecipientsEditor.populate(list);
     }
 
     private void processPickResult(final Intent data) {
@@ -3572,11 +3598,15 @@ public class ComposeMessageActivity extends Activity
     public void onClick(View v) {
         if ((v == mSendButtonSms || v == mSendButtonMms) && isPreparedForSending()) {
             confirmSendMessageIfNeeded();
-        } else if ((v == mRecipientsPicker)) {
+        } else if (v == mRecipientsPicker) {
             launchMultiplePhonePicker();
-        }
-        else if((v == mQuickEmoji)) {
+        } else if (v == mQuickEmoji) {
             showEmojiDialog();
+        } else if (v == mRecipientsSelector) {
+            Intent intent = new Intent(ComposeMessageActivity.this, SelectRecipientsList.class);
+            ContactList contacts = mRecipientsEditor.constructContactsFromInput(false);
+            intent.putExtra(SelectRecipientsList.EXTRA_RECIPIENTS, contacts.getNumbers());
+            startActivityForResult(intent, REQUEST_CODE_ADD_RECIPIENTS);
         }
     }
 

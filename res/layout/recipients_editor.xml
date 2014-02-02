@@ -19,8 +19,8 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="horizontal">
 
     <com.android.mms.ui.RecipientsEditor
@@ -29,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textFilter"
+        android:nextFocusRight="@+id/select_recipients_button"
         android:layout_weight="1"
         android:textColor="#000000"
     />
@@ -37,9 +38,19 @@
         android:src="@mipmap/ic_launcher_contacts"
         android:layout_marginLeft="5dip"
         android:layout_width="50dip"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_weight="0"
         android:visibility="gone"
+    />
+
+    <ImageButton
+        android:id="@+id/recipients_selector"
+        android:nextFocusLeft="@+id/recipients_editor"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="12dip"
+        android:src="@drawable/ic_recipients_add"
     />
 
 </LinearLayout>
