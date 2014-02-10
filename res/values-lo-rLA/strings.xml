@@ -144,7 +144,7 @@
     <item msgid="7786079681602275449">"ອື່ນໆ"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"ເບິ່ງລາຍຊື່ຜູ່ຕິດຕໍ່"</string>
-    <string name="menu_add_to_contacts" msgid="1258127580972228970">"ເພີ່ມໃສ່ຄົນ"</string>
+    <string name="menu_add_to_contacts" msgid="1258127580972228970">"ເພີ່ມ​ໃສ່​ລາຍ​ຊື່​ຜູ່​ຕິດ​ຕໍ່"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"ທີ່ຢູ່ຜູ່ສົ່ງຖືກເຊື່ອງໄວ້"</string>
     <string name="yes" msgid="3246158147503160811">"ຕົກລົງ"</string>
     <string name="no" msgid="4289742508556913860">"ຍົກເລີກ"</string>
