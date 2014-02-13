@@ -105,7 +105,6 @@ public class SmsReceiverService extends Service {
     private static final int SEND_COLUMN_BODY       = 3;
     private static final int SEND_COLUMN_STATUS     = 4;
 
-    private int mResultCode;
 
     @Override
     public void onCreate() {
@@ -128,11 +127,11 @@ public class SmsReceiverService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Temporarily removed for this duplicate message track down.
 
-        mResultCode = intent != null ? intent.getIntExtra("result", 0) : 0;
+        resultCode = intent != null ? intent.getIntExtra("result", 0) : 0;
 
-        if (mResultCode != 0) {
-            Log.v(TAG, "onStart: #" + startId + " mResultCode: " + mResultCode +
-                    " = " + translateResultCode(mResultCode));
+        if (resultCode != 0) {
+            Log.v(TAG, "onStart: #" + startId + " resultCode: " + resultCode +
+                    " = " + translateResultCode(resultCode));
         }
 
         Message msg = mServiceHandler.obtainMessage();
@@ -306,14 +305,15 @@ public class SmsReceiverService extends Service {
         Uri uri = intent.getData();
         mSending = false;
         boolean sendNextMsg = intent.getBooleanExtra(EXTRA_MESSAGE_SENT_SEND_NEXT, false);
+        int resultCode = intent.getIntExtra("result", 0);
 
         if (LogTag.DEBUG_SEND) {
             Log.v(TAG, "handleSmsSent uri: " + uri + " sendNextMsg: " + sendNextMsg +
-                    " mResultCode: " + mResultCode +
-                    " = " + translateResultCode(mResultCode) + " error: " + error);
+                    " resultCode: " + resultCode +
+                    " = " + translateResultCode(resultCode) + " error: " + error);
         }
 
-        if (mResultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             if (LogTag.DEBUG_SEND || Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleSmsSent move message to sent folder uri: " + uri);
             }
@@ -326,8 +326,8 @@ public class SmsReceiverService extends Service {
 
             // Update the notification for failed messages since they may be deleted.
             MessagingNotification.nonBlockingUpdateSendFailedNotification(this);
-        } else if ((mResultCode == SmsManager.RESULT_ERROR_RADIO_OFF) ||
-                (mResultCode == SmsManager.RESULT_ERROR_NO_SERVICE)) {
+        } else if ((resultCode == SmsManager.RESULT_ERROR_RADIO_OFF) ||
+                (resultCode == SmsManager.RESULT_ERROR_NO_SERVICE)) {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleSmsSent: no service, queuing message w/ uri: " + uri);
             }
@@ -343,8 +343,8 @@ public class SmsReceiverService extends Service {
                             Toast.LENGTH_SHORT).show();
                 }
             });
-        } else if (mResultCode == SmsManager.RESULT_ERROR_FDN_CHECK_FAILURE) {
-            messageFailedToSend(uri, mResultCode);
+        } else if (resultCode == SmsManager.RESULT_ERROR_FDN_CHECK_FAILURE) {
+            messageFailedToSend(uri, resultCode);
             mToastHandler.post(new Runnable() {
                 public void run() {
                     Toast.makeText(SmsReceiverService.this, getString(R.string.fdn_check_failure),
