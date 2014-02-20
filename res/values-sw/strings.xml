@@ -98,8 +98,8 @@
     <string name="resize_image_error_information" msgid="3783200130776554475">"Picha hii ni kubwa mno kutuma, hata iki badilishwa ukubwa."</string>
     <string name="forward_prefix" msgid="276280492803486464">"Sambaza: "</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"Ujumbe wako utatupwa kwa sababu hauna wapokezi halali."</string>
-    <string name="has_invalid_recipient" msgid="1485388396900997383">"Wa/mpokezi wasio halali: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
-    <string name="invalid_destination" msgid="4573835601024786416">"Anwani batili ya kikomo."</string>
+    <string name="has_invalid_recipient" msgid="1485388396900997383">"Mpokezi/wapokeaji ambao si sahihi: &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
+    <string name="invalid_destination" msgid="4573835601024786416">"Mpokeaji aliyewekwa si sahihi."</string>
     <string name="service_not_activated" msgid="9178218144019626176">"Huduma haijaamilishwa kwenye mtandao."</string>
     <string name="service_message_not_found" msgid="1908877102600048515">"Ujumbe umepitwa na wakati au haupo"</string>
     <string name="service_network_problem" msgid="4583269174855943025">"Haikutuma kwa sababu ya shida ya mtandao"</string>

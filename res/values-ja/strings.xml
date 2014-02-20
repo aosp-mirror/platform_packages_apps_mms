@@ -158,9 +158,9 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"マルチメディアメッセージ（MMS）"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"テキストメッセージ（SMS）"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"ストレージ"</string>
-    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMSの無効化"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMSが無効"</string>
     <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"タップしてSMSをデフォルトのSMSアプリとして利用する"</string>
-    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMSの有効化"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMSが有効"</string>
     <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"タップしてデフォルトのSMSアプリを変更する"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"SIMカードに保存したメッセージを管理する"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"送信するメッセージの受取確認を毎回要求する"</string>
