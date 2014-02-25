@@ -339,19 +339,10 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            SharedPreferences.Editor editor = mPrefs.edit();
-                            editor.putBoolean(MessagingPreferenceActivity.AUTO_DELETE, true);
-                            editor.apply();
+                            markCheckedMessageLimit();
                         }
                     });
                 }
-                // Remember that we don't have to do the check anymore when starting MMS.
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        markCheckedMessageLimit();
-                    }
-                });
             }
         }, "ConversationList.runOneTimeStorageLimitCheckForLegacyMessages").start();
     }
