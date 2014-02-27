@@ -25,6 +25,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SqliteWrapper;
 import android.graphics.Bitmap;
 import android.graphics.Paint.FontMetricsInt;
 import android.graphics.Typeface;
@@ -32,11 +34,14 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Telephony;
 import android.provider.ContactsContract.Profile;
 import android.provider.Telephony.Sms;
+import android.provider.Telephony.Mms;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.Html;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -57,6 +62,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.MmsApp;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
@@ -68,6 +74,7 @@ import com.android.mms.transaction.TransactionBundle;
 import com.android.mms.transaction.TransactionService;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.ItemLoadedCallback;
+import com.android.mms.util.SubStatusResolver;
 import com.android.mms.util.ThumbnailManager.ImageLoaded;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.pdu.PduHeaders;
@@ -86,6 +93,9 @@ public class MessageListItem extends LinearLayout implements
     static final int MSG_LIST_EDIT    = 1;
     static final int MSG_LIST_PLAY    = 2;
     static final int MSG_LIST_DETAILS = 3;
+    
+    private static final int PADDING_LEFT_THR = 3;
+    private static final int PADDING_LEFT_TWE = 13;
 
     private View mMmsView;
     private ImageView mImageView;
@@ -107,6 +117,7 @@ public class MessageListItem extends LinearLayout implements
     private int mPosition;      // for debugging
     private ImageLoadedCallback mImageLoadedCallback;
     private boolean mMultiRecipients;
+    private TextView mSubStatus;
 
     public MessageListItem(Context context) {
         super(context);
@@ -135,6 +146,7 @@ public class MessageListItem extends LinearLayout implements
 
         mBodyTextView = (TextView) findViewById(R.id.text_view);
         mDateView = (TextView) findViewById(R.id.date_view);
+        mSubStatus = (TextView) findViewById(R.id.sim_status);
         mLockedIndicator = (ImageView) findViewById(R.id.locked_indicator);
         mDeliveredIndicator = (ImageView) findViewById(R.id.delivered_indicator);
         mDetailsIndicator = (ImageView) findViewById(R.id.details_indicator);
@@ -210,6 +222,9 @@ public class MessageListItem extends LinearLayout implements
 
         mDateView.setText(buildTimestampLine(msgSizeText + " " + mMessageItem.mTimestamp));
 
+        mSubStatus.setVisibility(View.VISIBLE);
+        mSubStatus.setText(formatSubStatus(mMessageItem));
+
         switch (mMessageItem.getMmsDownloadStatus()) {
             case DownloadManager.STATE_PRE_DOWNLOADING:
             case DownloadManager.STATE_DOWNLOADING:
@@ -241,14 +256,60 @@ public class MessageListItem extends LinearLayout implements
                     public void onClick(View v) {
                         mDownloadingLabel.setVisibility(View.VISIBLE);
                         mDownloadButton.setVisibility(View.GONE);
-                        Intent intent = new Intent(mContext, TransactionService.class);
+                        long subId = 0;
+                        Cursor cursor = SqliteWrapper.query(mMessageItem.mContext,
+                                mMessageItem.mContext.getContentResolver(), mMessageItem.mMessageUri,
+                                new String[] { Mms.SUB_ID }, null, null, null);
+                        if (cursor != null) {
+                            try {
+                                if ((cursor.getCount() == 1) && cursor.moveToFirst()) {
+                                    subId = cursor.getLong(0);
+                                }
+                            } finally {
+                                cursor.close();
+                            }
+                        }
+                        final Intent intent = new Intent(mContext, TransactionService.class);
                         intent.putExtra(TransactionBundle.URI, mMessageItem.mMessageUri.toString());
                         intent.putExtra(TransactionBundle.TRANSACTION_TYPE,
                                 Transaction.RETRIEVE_TRANSACTION);
-                        mContext.startService(intent);
-
-                        DownloadManager.getInstance().markState(
-                                    mMessageItem.mMessageUri, DownloadManager.STATE_PRE_DOWNLOADING);
+                        intent.putExtra(PhoneConstants.SUB_ID_KEY, subId);
+                        //check if data is on this sim card and start dialog
+                        if (SubStatusResolver.isMobileDataEnabledOnSub(mMessageItem.mContext, subId)) {
+                            DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    switch (which) {
+                                        case DialogInterface.BUTTON_POSITIVE:
+                                            dialog.dismiss();
+                                            mContext.startService(intent);
+                                            DownloadManager.getInstance().markState(
+                                                        mMessageItem.mMessageUri, DownloadManager.STATE_PRE_DOWNLOADING);
+                                            break;
+                                        case DialogInterface.BUTTON_NEGATIVE:
+                                            dialog.dismiss();
+                                            mDownloadingLabel.setVisibility(View.GONE);
+                                            mDownloadButton.setVisibility(View.VISIBLE);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            };
+                            DialogInterface.OnCancelListener onCancelListener = 
+                                    new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    mDownloadingLabel.setVisibility(View.GONE);
+                                    mDownloadButton.setVisibility(View.VISIBLE);
+                                }
+                            };
+                            AllowSubDataDialog.showAllowSubDataDialog(mContext, listener, listener, 
+                                    onCancelListener, subId);
+                        } else {
+                            mContext.startService(intent);
+                            DownloadManager.getInstance().markState(
+                                        mMessageItem.mMessageUri, DownloadManager.STATE_PRE_DOWNLOADING);
+                        }
                     }
                 });
                 break;
@@ -328,12 +389,16 @@ public class MessageListItem extends LinearLayout implements
         // cache (currently of size ~50), the hit rate on avoiding the
         // expensive formatMessage() call is very high.
         CharSequence formattedMessage = mMessageItem.getCachedFormattedMessage();
+        CharSequence formattedSubStatus = mMessageItem.getCachedFormattedSubStatus();
         if (formattedMessage == null) {
             formattedMessage = formatMessage(mMessageItem,
                                              mMessageItem.mBody,
                                              mMessageItem.mSubject,
                                              mMessageItem.mHighlight,
                                              mMessageItem.mTextContentType);
+
+            formattedSubStatus = formatSubStatus(mMessageItem);
+            mMessageItem.setCachedFormattedSubStatus(formattedSubStatus);
             mMessageItem.setCachedFormattedMessage(formattedMessage);
         }
         if (!sameItem || haveLoadedPdu) {
@@ -356,6 +421,13 @@ public class MessageListItem extends LinearLayout implements
                 }
             }
             mBodyTextView.setText(mPosition + ": " + debugText);
+        }
+        
+        if (!TextUtils.isEmpty(formattedSubStatus)) {
+            mSubStatus.setVisibility(View.VISIBLE);
+            mSubStatus.setText(formattedSubStatus);
+        } else {
+            mSubStatus.setVisibility(View.GONE);
         }
 
         // If we're in the process of sending a message (i.e. pending), then we show a "SENDING..."
@@ -715,8 +787,10 @@ public class MessageListItem extends LinearLayout implements
         if (msgItem.mLocked) {
             mLockedIndicator.setImageResource(R.drawable.ic_lock_message_sms);
             mLockedIndicator.setVisibility(View.VISIBLE);
+            mSubStatus.setPadding(PADDING_LEFT_THR, 0, 0, 0);
         } else {
             mLockedIndicator.setVisibility(View.GONE);
+            mSubStatus.setPadding(PADDING_LEFT_TWE, 0, 0, 0);
         }
 
         // Delivery icon - we can show a failed icon for both sms and mms, but for an actual
@@ -832,5 +906,18 @@ public class MessageListItem extends LinearLayout implements
     public void seekVideo(int seekTo) {
         // TODO Auto-generated method stub
 
+    }
+
+    private CharSequence formatSubStatus(MessageItem msgItem) {
+        SpannableStringBuilder buffer = new SpannableStringBuilder();
+        int subInfoStart = buffer.length();
+        CharSequence subInfo = MessageUtils.getSubInfo(mContext, msgItem.mSubId);
+        if (subInfo.length() > 0) {
+            buffer.append(subInfo);
+        }
+
+        buffer.setSpan(mColorSpan, 0, subInfoStart, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return buffer;
     }
 }

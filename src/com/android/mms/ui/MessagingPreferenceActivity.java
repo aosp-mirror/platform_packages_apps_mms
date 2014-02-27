@@ -17,6 +17,8 @@
 
 package com.android.mms.ui;
 
+import java.util.List;
+
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -37,6 +39,8 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import android.provider.SearchRecentSuggestions;
+import android.telephony.SubscriptionController;
+import android.telephony.SubscriptionController.SubInfoRecord;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -67,6 +71,13 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     public static final String RETRIEVAL_DURING_ROAMING = "pref_key_mms_retrieval_during_roaming";
     public static final String AUTO_DELETE              = "pref_key_auto_delete";
     public static final String GROUP_MMS_MODE           = "pref_key_mms_group_mms";
+
+    //add for MSim
+    public static final String SMS_DELIVERY_REPORT_MSIM_MODE = "pref_key_sms_delivery_reports_msim";
+    public static final String MMS_DELIVERY_REPORT_MSIM_MODE = "pref_key_mms_delivery_reports_msim";
+    public static final String READ_REPORT_MSIM_MODE         = "pref_key_mms_read_reports_msim";
+    public static final String MANAGE_SIM_MESSAGE_MODE       = "pref_key_manage_sim_messages";
+    public static final String PREFERENCE_KEY                = "PREFERENCE_KEY";
 
     // Menu entries
     private static final int MENU_RESTORE_DEFAULTS    = 1;
@@ -168,6 +179,21 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         mMmsAutoRetrievialPref = (CheckBoxPreference) findPreference(AUTO_RETRIEVAL);
         mVibratePref = (CheckBoxPreference) findPreference(NOTIFICATION_VIBRATE);
         mRingtonePref = (RingtonePreference) findPreference(NOTIFICATION_RINGTONE);
+        // add for MSim
+        int simCount = MmsApp.getApplication().getTelephonyManager().getSimCount();
+        if (simCount > 1) {
+            mSmsPrefCategory.removePreference(mSmsDeliveryReportPref);
+            mMmsPrefCategory.removePreference(mMmsDeliveryReportPref);
+            mMmsPrefCategory.removePreference(mMmsReadReportPref);
+
+            mSmsDeliveryReportPref = findPreference(SMS_DELIVERY_REPORT_MSIM_MODE);
+            mMmsDeliveryReportPref = findPreference(MMS_DELIVERY_REPORT_MSIM_MODE);
+            mMmsReadReportPref = findPreference(READ_REPORT_MSIM_MODE);
+        } else {
+            mSmsPrefCategory.removePreference(findPreference(SMS_DELIVERY_REPORT_MSIM_MODE));
+            mMmsPrefCategory.removePreference(findPreference(MMS_DELIVERY_REPORT_MSIM_MODE));
+            mMmsPrefCategory.removePreference(findPreference(READ_REPORT_MSIM_MODE));
+        }
 
         setMessagePreferences();
     }
@@ -188,14 +214,14 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     }
 
     private void setMessagePreferences() {
-        if (!MmsApp.getApplication().getTelephonyManager().hasIccCard()) {
+        if (!hasActivatedSub()) {
             // No SIM card, remove the SIM-related prefs
             mSmsPrefCategory.removePreference(mManageSimPref);
         }
 
         if (!MmsConfig.getSMSDeliveryReportsEnabled()) {
             mSmsPrefCategory.removePreference(mSmsDeliveryReportPref);
-            if (!MmsApp.getApplication().getTelephonyManager().hasIccCard()) {
+            if (!hasActivatedSub()) {
                 getPreferenceScreen().removePreference(mSmsPrefCategory);
             }
         }
@@ -299,6 +325,17 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
             Preference preference) {
+        // add for MSim
+        int simCount = MmsApp.getApplication().getTelephonyManager().getSimCount();
+        if (simCount > 1 && ((preference == mManageSimPref)
+                || (preference == mSmsDeliveryReportPref)
+                || (preference == mMmsDeliveryReportPref)
+                || (preference == mMmsReadReportPref))) {
+            Intent intent = new Intent(this, SubSelectActivity.class);
+            intent.putExtra(PREFERENCE_KEY, preference.getKey());
+            startActivity(intent);
+            return true;
+        }
         if (preference == mSmsLimitPref) {
             new NumberPickerDialog(this,
                     mSmsLimitListener,
@@ -420,4 +457,10 @@ public class MessagingPreferenceActivity extends PreferenceActivity
                 groupMmsPrefOn &&
                 !TextUtils.isEmpty(MessageUtils.getLocalNumber());
     }
+
+    private boolean hasActivatedSub() {
+        List<SubInfoRecord> subList = SubscriptionController.getActivatedSubInfoList(this);
+        return subList == null ? false : subList.size() != 0;
+    }
+
 }

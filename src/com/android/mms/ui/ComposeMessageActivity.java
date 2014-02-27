@@ -53,6 +53,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -86,6 +87,9 @@ import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
+import android.telephony.TelephonyManager;
+import android.telephony.SubscriptionController;
+import android.telephony.SubscriptionController.SubInfoRecord;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputFilter.LengthFilter;
@@ -138,9 +142,11 @@ import com.android.mms.transaction.MessagingNotification;
 import com.android.mms.ui.MessageListView.OnSizeChangedListener;
 import com.android.mms.ui.MessageUtils.ResizeImageResultCallback;
 import com.android.mms.ui.RecipientsEditor.RecipientContextMenuInfo;
+import com.android.mms.ui.SubChooseAdapter.SubInfo;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.PhoneNumberFormatter;
 import com.android.mms.util.SendingProgressTokenManager;
+import com.android.mms.util.SubStatusResolver;
 import com.android.mms.widget.MmsWidgetProvider;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
@@ -344,6 +350,74 @@ public class ComposeMessageActivity extends Activity
     public final static String THREAD_ID = "thread_id";
     private final static String RECIPIENTS = "recipients";
 
+    // add for MSim
+    private AlertDialog mSubSelectDialog;
+    private int mSelectedSubId;
+    List<SubInfo> mSubListInfo = new ArrayList<SubInfo>();
+    SubChooseAdapter mSubAdapter;
+
+    private BroadcastReceiver mSimReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(TelephonyIntents.ACTION_SIMINFO_UPDATED)) {
+                if (mSubSelectDialog != null && mSubSelectDialog.isShowing()) {
+                    mSubSelectDialog.dismiss();
+                }
+            }
+        }
+    };
+
+    private void updateSubInfoList() {
+        int simCount = TelephonyManager.getDefault().getSimCount();
+        mSubListInfo.clear();
+        List<SubInfoRecord> subInfoRecords;
+        subInfoRecords = SubscriptionController.getActivatedSubInfoList(ComposeMessageActivity.this);
+        int size = 0;
+        if (subInfoRecords != null) {
+            size = subInfoRecords.size();
+            for (int i = 0; i < size; i++) {
+                SubInfo subInfo = new SubInfo();
+                subInfo.mSubInfoRecord = subInfoRecords.get(i);
+                mSubListInfo.add(subInfo);
+            }
+        }
+        if (size > 0 && simCount > size) {
+            for (int simId = 0; simId < simCount; simId++) {
+                List<SubInfoRecord> subInfoRecordInOneSim = SubscriptionController.getSubInfoUsingSimId(ComposeMessageActivity.this, simId);
+                if (subInfoRecordInOneSim == null || subInfoRecordInOneSim.size() != 0) {
+                    continue;
+                } else {
+                    SubInfo subInfoEmpty = new SubInfo();
+                    String emptySubName = ComposeMessageActivity.this.getResources().getString(
+                            R.string.default_sim_name);
+                    subInfoEmpty.mDisplay = String.format(emptySubName, simId + 1);
+                    mSubListInfo.add(subInfoEmpty);
+                }
+            }
+        }
+    }
+
+    private void showSubSelectedDialog() {
+        updateSubInfoList();
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        mSubAdapter = new SubChooseAdapter(this, mSubListInfo);
+        b.setAdapter(mSubAdapter, new DialogInterface.OnClickListener() {
+            @SuppressWarnings("unchecked")
+            public final void onClick(DialogInterface dialog, int which) {
+                SubInfoRecord subInfoRecord = mSubListInfo.get(which).mSubInfoRecord;
+                if (subInfoRecord != null) {
+                    mSelectedSubId = (int) subInfoRecord.mSubId;
+                    confirmSendMmsNeedChangeSubData(ComposeMessageActivity.this, mSelectedSubId);
+                }
+            }
+        });
+        mSubSelectDialog = b.create();
+        mSubSelectDialog.show();
+    }
+
+    // MSim end
+
     @SuppressWarnings("unused")
     public static void log(String logMsg) {
         Thread current = Thread.currentThread();
@@ -397,7 +471,7 @@ public class ComposeMessageActivity extends Activity
                 }
                 case AttachmentEditor.MSG_SEND_SLIDESHOW: {
                     if (isPreparedForSending()) {
-                        ComposeMessageActivity.this.confirmSendMessageIfNeeded();
+                        showSubSelectedDialog();
                     }
                     break;
                 }
@@ -730,6 +804,31 @@ public class ComposeMessageActivity extends Activity
             ContactList contacts = mRecipientsEditor.constructContactsFromInput(false);
             mDebugRecipients = contacts.serialize();
             sendMessage(true);
+        }
+    }
+
+    private void confirmSendMmsNeedChangeSubData(Context context, long subId) {
+        if (mWorkingMessage.requiresMms() && SubStatusResolver.isMobileDataEnabledOnSub(context, subId)) {
+            OnClickListener positiveListener = new OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    confirmSendMessageIfNeeded();
+                }
+            };
+            OnClickListener negativeListener = new CancelSendingListener();
+            OnCancelListener onCancelListener = new OnCancelListener() {
+
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    if (isRecipientsEditorVisible()) {
+                        mRecipientsEditor.requestFocus();
+                    }
+                }
+            };
+            AllowSubDataDialog.showAllowSubDataDialog(context, positiveListener, negativeListener,
+                    onCancelListener, subId);
+        } else {
+            confirmSendMessageIfNeeded();
         }
     }
 
@@ -1882,6 +1981,9 @@ public class ComposeMessageActivity extends Activity
         if (TRACE) {
             android.os.Debug.startMethodTracing("compose");
         }
+        /// M: add for update sim state dynamically.
+        IntentFilter intentFilter = new IntentFilter(TelephonyIntents.ACTION_SIMINFO_UPDATED);
+        this.registerReceiver(mSimReceiver, intentFilter);
     }
 
     private void showSubjectEditor(boolean show) {
@@ -2120,6 +2222,12 @@ public class ComposeMessageActivity extends Activity
             invalidateOptionsMenu();
         }
 
+        if (!mIsSmsEnabled) {
+            if (mSubSelectDialog != null && mSubSelectDialog.isShowing()) {
+                mSubSelectDialog.dismiss();
+            }
+        }
+
         initFocus();
 
         // Register a BroadcastReceiver to listen on HTTP I/O process.
@@ -2353,7 +2461,7 @@ public class ComposeMessageActivity extends Activity
         if (TRACE) {
             android.os.Debug.stopMethodTracing();
         }
-
+        unregisterReceiver(mSimReceiver);
         super.onDestroy();
     }
 
@@ -2447,7 +2555,7 @@ public class ComposeMessageActivity extends Activity
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
                 if (isPreparedForSending()) {
-                    confirmSendMessageIfNeeded();
+                    showSubSelectedDialog();
                     return true;
                 }
                 break;
@@ -2741,7 +2849,7 @@ public class ComposeMessageActivity extends Activity
                 break;
             case MENU_SEND:
                 if (isPreparedForSending()) {
-                    confirmSendMessageIfNeeded();
+                    showSubSelectedDialog();
                 }
                 break;
             case MENU_SEARCH:
@@ -3384,7 +3492,7 @@ public class ComposeMessageActivity extends Activity
     @Override
     public void onClick(View v) {
         if ((v == mSendButtonSms || v == mSendButtonMms) && isPreparedForSending()) {
-            confirmSendMessageIfNeeded();
+            showSubSelectedDialog();
         } else if ((v == mRecipientsPicker)) {
             launchMultiplePhonePicker();
         }
@@ -3417,7 +3525,7 @@ public class ComposeMessageActivity extends Activity
             // otherwise, the default action is to send the message.
             if (!event.isShiftPressed() && event.getAction() == KeyEvent.ACTION_DOWN) {
                 if (isPreparedForSending()) {
-                    confirmSendMessageIfNeeded();
+                    showSubSelectedDialog();
                 }
                 return true;
             }
@@ -3425,7 +3533,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (isPreparedForSending()) {
-            confirmSendMessageIfNeeded();
+            showSubSelectedDialog();
         }
         return true;
     }
@@ -3756,7 +3864,7 @@ public class ComposeMessageActivity extends Activity
             // them back once the recipient list has settled.
             removeRecipientsListeners();
 
-            mWorkingMessage.send(mDebugRecipients);
+            mWorkingMessage.send(mDebugRecipients, mSelectedSubId);
 
             mSentMessage = true;
             mSendingMessage = true;
