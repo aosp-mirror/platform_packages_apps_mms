@@ -35,6 +35,7 @@ import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.MmsSms.PendingMessages;
@@ -1173,7 +1174,7 @@ public class WorkingMessage {
      * @throws ContentRestrictionException if sending an MMS and uaProfUrl is not defined
      * in mms_config.xml.
      */
-    public void send(final String recipientsInUI) {
+    public void send(final String recipientsInUI, final long subId) {
         long origThreadId = mConversation.getThreadId();
 
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
@@ -1225,7 +1226,7 @@ public class WorkingMessage {
                     // Make sure the text in slide 0 is no longer holding onto a reference to
                     // the text in the message text box.
                     slideshow.prepareForSend();
-                    sendMmsWorker(conv, mmsUri, persister, slideshow, sendReq, textOnly);
+                    sendMmsWorker(conv, mmsUri, persister, slideshow, sendReq, textOnly, subId);
 
                     updateSendStats(conv);
                 }
@@ -1236,7 +1237,7 @@ public class WorkingMessage {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    preSendSmsWorker(conv, msgText, recipientsInUI);
+                    preSendSmsWorker(conv, msgText, recipientsInUI, subId);
 
                     updateSendStats(conv);
                 }
@@ -1281,7 +1282,7 @@ public class WorkingMessage {
 
     // Message sending stuff
 
-    private void preSendSmsWorker(Conversation conv, String msgText, String recipientsInUI) {
+    private void preSendSmsWorker(Conversation conv, String msgText, String recipientsInUI, long subId) {
         // If user tries to send the message, it's a signal the inputted text is what they wanted.
         UserHappinessSignals.userAcceptedImeText(mActivity);
 
@@ -1313,20 +1314,20 @@ public class WorkingMessage {
         }else {
             // just do a regular send. We're already on a non-ui thread so no need to fire
             // off another thread to do this work.
-            sendSmsWorker(msgText, semiSepRecipients, threadId);
+            sendSmsWorker(msgText, semiSepRecipients, threadId, subId);
 
             // Be paranoid and clean any draft SMS up.
             deleteDraftSmsMessage(threadId);
         }
     }
 
-    private void sendSmsWorker(String msgText, String semiSepRecipients, long threadId) {
+    private void sendSmsWorker(String msgText, String semiSepRecipients, long threadId, long subId) {
         String[] dests = TextUtils.split(semiSepRecipients, ";");
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.d(LogTag.TRANSACTION, "sendSmsWorker sending message: recipients=" +
                     semiSepRecipients + ", threadId=" + threadId);
         }
-        MessageSender sender = new SmsMessageSender(mActivity, dests, msgText, threadId);
+        MessageSender sender = new SmsMessageSender(mActivity, dests, msgText, threadId, subId);
         try {
             sender.sendMessage(threadId);
 
@@ -1341,7 +1342,8 @@ public class WorkingMessage {
     }
 
     private void sendMmsWorker(Conversation conv, Uri mmsUri, PduPersister persister,
-            SlideshowModel slideshow, SendReq sendReq, boolean textOnly) {
+            SlideshowModel slideshow,
+            SendReq sendReq, boolean textOnly, long subId) {
         long threadId = 0;
         Cursor cursor = null;
         boolean newMessage = false;
@@ -1390,6 +1392,7 @@ public class WorkingMessage {
                 values.put(Mms.MESSAGE_BOX, Mms.MESSAGE_BOX_OUTBOX);
                 values.put(Mms.THREAD_ID, threadId);
                 values.put(Mms.MESSAGE_TYPE, PduHeaders.MESSAGE_TYPE_SEND_REQ);
+                values.put(Telephony.BaseMmsColumns.SUB_ID, subId);
                 if (textOnly) {
                     values.put(Mms.TEXT_ONLY, 1);
                 }
@@ -1415,7 +1418,7 @@ public class WorkingMessage {
                 if (totalPendingSize >= maxMessageSize) {
                     unDiscard();    // it wasn't successfully sent. Allow it to be saved as a draft.
                     mStatusListener.onMaxPendingMessagesReached();
-                    markMmsMessageWithError(mmsUri);
+                    markMmsMessageWithError(mmsUri, subId);
                     return;
                 }
             }
@@ -1452,12 +1455,13 @@ public class WorkingMessage {
             error = UNKNOWN_ERROR;
         }
         if (error != 0) {
-            markMmsMessageWithError(mmsUri);
+            markMmsMessageWithError(mmsUri, subId);
             mStatusListener.onAttachmentError(error);
             return;
         }
         MessageSender sender = new MmsMessageSender(mActivity, mmsUri,
-                slideshow.getCurrentMessageSize());
+        slideshow.getCurrentMessageSize(), subId);
+
         try {
             if (!sender.sendMessage(threadId)) {
                 // The message was sent through SMS protocol, we should
@@ -1473,7 +1477,7 @@ public class WorkingMessage {
         MmsWidgetProvider.notifyDatasetChanged(mActivity);
     }
 
-    private void markMmsMessageWithError(Uri mmsUri) {
+    private void markMmsMessageWithError(Uri mmsUri, long subId) {
         try {
             PduPersister p = PduPersister.getPduPersister(mActivity);
             // Move the message into MMS Outbox. A trigger will create an entry in
@@ -1481,12 +1485,17 @@ public class WorkingMessage {
             p.move(mmsUri, Mms.Outbox.CONTENT_URI);
 
             // Now update the pending_msgs table with an error for that new item.
-            ContentValues values = new ContentValues(1);
+            ContentValues values = new ContentValues(2);
             values.put(PendingMessages.ERROR_TYPE, MmsSms.ERR_TYPE_GENERIC_PERMANENT);
+            values.put("pending_sub_id", subId);
             long msgId = ContentUris.parseId(mmsUri);
             SqliteWrapper.update(mActivity, mContentResolver,
                     PendingMessages.CONTENT_URI,
                     values, PendingMessages.MSG_ID + "=" + msgId, null);
+
+            ContentValues valuePduTable = new ContentValues(1);
+            valuePduTable.put(Telephony.BaseMmsColumns.SUB_ID, subId);
+            SqliteWrapper.update(mActivity, mContentResolver, mmsUri, valuePduTable, null, null);
         } catch (MmsException e) {
             // Not much we can do here. If the p.move throws an exception, we'll just
             // leave the message in the draft box.
@@ -1580,9 +1589,6 @@ public class WorkingMessage {
             slideshow.sync(pb);
             return res;
         } catch (MmsException e) {
-            return null;
-        } catch (IllegalStateException e) {
-            Log.e(TAG,"failed to create draft mms "+ e);
             return null;
         }
     }

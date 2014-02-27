@@ -34,10 +34,14 @@ import android.os.AsyncTask;
 import android.os.PowerManager;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Inbox;
+import android.provider.Telephony.MmsSms.PendingMessages;
 import android.util.Log;
 
+import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.MmsConfig;
 import com.android.mms.ui.MessagingPreferenceActivity;
+import com.android.mms.util.DownloadManager;
+import com.android.mms.util.SubStatusResolver;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.DeliveryInd;
@@ -122,16 +126,54 @@ public class PushReceiver extends BroadcastReceiver {
                             // Save the pdu. If we can start downloading the real pdu immediately,
                             // don't allow persist() to create a thread for the notificationInd
                             // because it causes UI jank.
+                            long subId = intent.getLongExtra(PhoneConstants.SUBSCRIPTION_KEY, SubStatusResolver.SUB_INDEX_ERROR);
                             Uri uri = p.persist(pdu, Inbox.CONTENT_URI,
-                                    !NotificationTransaction.allowAutoDownload(),
+                                    !NotificationTransaction.allowAutoDownload(mContext, subId),
                                     MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext),
                                     null);
-
+                            ContentValues values = new ContentValues();
+                            values.put(Mms.SUB_ID, subId);
+                            SqliteWrapper.update(mContext, cr, uri, values, null, null);
+                            //update sub_id into pending_msg table
+                            long msgId = 0;
+                            Cursor cursor = SqliteWrapper.query(mContext, mContext.getContentResolver(),
+                                    uri, new String[] {Mms._ID}, null, null, null);
+                            if (cursor != null) {
+                                try {
+                                    if (cursor.getCount() == 1 && cursor.moveToFirst()) {
+                                        msgId = cursor.getLong(0);
+                                    }
+                                } finally {
+                                    cursor.close();
+                                }
+                            }
+                            
+                            Uri.Builder uriBuilder = PendingMessages.CONTENT_URI.buildUpon();
+                            uriBuilder.appendQueryParameter("protocol", "mms");
+                            uriBuilder.appendQueryParameter("message", String.valueOf(msgId));
+                            Cursor pendingCursor = SqliteWrapper.query(mContext, mContext.getContentResolver(),
+                                    uriBuilder.build(), new String[] {PendingMessages._ID}, null, null, null);
+                            if (pendingCursor != null) {
+                                try {
+                                    if (pendingCursor.getCount() == 1 && pendingCursor.moveToFirst()) {
+                                        ContentValues valuesforPending = new ContentValues();
+                                        valuesforPending.put("pending_sub_id", subId);
+                                        long id = pendingCursor.getLong(0);
+                                        SqliteWrapper.update(mContext, mContext.getContentResolver(),
+                                                PendingMessages.CONTENT_URI,
+                                                valuesforPending, PendingMessages._ID + "=" + id, null);
+                                    }
+                                } finally {
+                                    pendingCursor.close();
+                                }
+                            }
+                            DownloadManager.getInstance().markState(uri, DownloadManager.STATE_DOWNLOADING);
                             // Start service to finish the notification transaction.
                             Intent svc = new Intent(mContext, TransactionService.class);
                             svc.putExtra(TransactionBundle.URI, uri.toString());
                             svc.putExtra(TransactionBundle.TRANSACTION_TYPE,
                                     Transaction.NOTIFICATION_TRANSACTION);
+                            svc.putExtra(PhoneConstants.SUBSCRIPTION_KEY, subId);
                             mContext.startService(svc);
                         } else if (LOCAL_LOGV) {
                             Log.v(TAG, "Skip downloading duplicate message: "
