@@ -27,7 +27,6 @@ import android.net.Uri;
 
 import com.android.mms.util.SendingProgressTokenManager;
 import com.google.android.mms.MmsException;
-
 /**
  * Transaction is an abstract class for notification transaction, send transaction
  * and other transactions described in MMS spec.
@@ -40,6 +39,7 @@ public abstract class Transaction extends Observable {
     protected String mId;
     protected TransactionState mTransactionState;
     protected TransactionSettings mTransactionSettings;
+    protected long mSubId;
 
     /**
      * Identifies push requests.
@@ -59,11 +59,12 @@ public abstract class Transaction extends Observable {
     public static final int READREC_TRANSACTION      = 3;
 
     public Transaction(Context context, int serviceId,
-            TransactionSettings settings) {
+            TransactionSettings settings, long subId) {
         mContext = context;
         mTransactionState = new TransactionState();
         mServiceId = serviceId;
         mTransactionSettings = settings;
+        mSubId = subId;
     }
 
     /**
@@ -98,6 +99,10 @@ public abstract class Transaction extends Observable {
      */
     public int getServiceId() {
         return mServiceId;
+    }
+
+    public long getSubId() {
+        return mSubId;
     }
 
     public TransactionSettings getConnectionSettings() {

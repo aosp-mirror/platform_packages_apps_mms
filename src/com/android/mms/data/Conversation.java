@@ -314,7 +314,7 @@ public class Conversation {
         }
 
         final Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
-                        Mms.Inbox.CONTENT_URI, new String[] {Mms._ID, Mms.MESSAGE_ID},
+                        Mms.Inbox.CONTENT_URI, new String[] {Mms._ID, Mms.MESSAGE_ID, Mms.SUB_ID},
                         selection, null, null);
 
         try {
@@ -328,7 +328,7 @@ public class Conversation {
                     LogTag.debug("sendReadReport: uri = " + uri);
                 }
                 MmsMessageSender.sendReadRec(context, AddressUtils.getFrom(context, uri),
-                                             c.getString(1), status);
+                                             c.getString(1), status, c.getLong(2));
             }
         } finally {
             if (c != null) {

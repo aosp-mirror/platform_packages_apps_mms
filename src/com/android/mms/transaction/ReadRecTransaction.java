@@ -53,8 +53,9 @@ public class ReadRecTransaction extends Transaction implements Runnable{
     public ReadRecTransaction(Context context,
             int transId,
             TransactionSettings connectionSettings,
-            String uri) {
-        super(context, transId, connectionSettings);
+            String uri,
+            long subId) {
+        super(context, transId, connectionSettings, subId);
         mReadReportURI = Uri.parse(uri);
         mId = uri;
 

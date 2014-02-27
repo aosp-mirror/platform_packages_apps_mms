@@ -44,6 +44,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.internal.telephony.PhoneConstants;
+
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
 
@@ -52,6 +54,7 @@ import com.android.mms.transaction.MessagingNotification;
  */
 public class ManageSimMessages extends Activity
         implements View.OnCreateContextMenuListener {
+
     private static final Uri ICC_URI = Uri.parse("content://sms/icc");
     private static final String TAG = "ManageSimMessages";
     private static final int MENU_COPY_TO_PHONE_MEMORY = 0;
@@ -71,6 +74,9 @@ public class ManageSimMessages extends Activity
     private TextView mMessage;
     private MessageListAdapter mListAdapter = null;
     private AsyncQueryHandler mQueryHandler = null;
+
+    //add for MSim
+    private long mSubId = 0;
 
     public static final int SIM_FULL_NOTIFICATION_ID = 234;
 
@@ -95,6 +101,10 @@ public class ManageSimMessages extends Activity
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        Intent it = getIntent();
+        // add for MSim
+        mSubId = it.getLongExtra(PhoneConstants.SUBSCRIPTION_KEY, 0);
 
         init();
     }
@@ -157,7 +167,10 @@ public class ManageSimMessages extends Activity
 
     private void startQuery() {
         try {
-            mQueryHandler.startQuery(0, null, ICC_URI, null, null, null, null);
+            // Add 'sub_id' for MSim.
+            Uri simUri = ICC_URI.buildUpon().appendQueryParameter(PhoneConstants.SUBSCRIPTION_KEY,
+                    String.valueOf(mSubId)).build();
+            mQueryHandler.startQuery(0, null, simUri, null, null, null, null);
         } catch (SQLiteException e) {
             SqliteWrapper.checkSQLiteException(this, e);
         }
@@ -259,10 +272,10 @@ public class ManageSimMessages extends Activity
     }
 
     private void deleteFromSim(Cursor cursor) {
-        String messageIndexString =
-                cursor.getString(cursor.getColumnIndexOrThrow("index_on_icc"));
-        Uri simUri = ICC_URI.buildUpon().appendPath(messageIndexString).build();
-
+        String messageIndexString = cursor.getString(cursor.getColumnIndexOrThrow("index_on_icc"));
+        // Add 'sub_id' for MSim.
+        Uri simUri = ICC_URI.buildUpon().appendPath(messageIndexString).appendQueryParameter(
+                PhoneConstants.SUBSCRIPTION_KEY, String.valueOf(mSubId)).build();
         SqliteWrapper.delete(this, mContentResolver, simUri, null, null);
     }
 

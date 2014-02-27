@@ -21,7 +21,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
 import android.net.NetworkUtils;
+import android.net.Uri;
 import android.provider.Telephony;
+import android.telephony.SubInfoRecord;
+import android.telephony.SubscriptionManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -46,31 +49,41 @@ public class TransactionSettings {
             Telephony.Carriers.TYPE,            // 0
             Telephony.Carriers.MMSC,            // 1
             Telephony.Carriers.MMSPROXY,        // 2
-            Telephony.Carriers.MMSPORT          // 3
+            Telephony.Carriers.MMSPORT,          // 3
+            Telephony.Carriers._ID
     };
     private static final int COLUMN_TYPE         = 0;
     private static final int COLUMN_MMSC         = 1;
     private static final int COLUMN_MMSPROXY     = 2;
     private static final int COLUMN_MMSPORT      = 3;
+    private static final int COLUMN_ID      = 4;
 
     /**
      * Constructor that uses the default settings of the MMS Client.
      *
      * @param context The context of the MMS Client
      */
-    public TransactionSettings(Context context, String apnName) {
+    public TransactionSettings(Context context, String apnName, long subIndex) {
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "TransactionSettings: apnName: " + apnName);
         }
+        SubInfoRecord subInfo = SubscriptionManager.getSubInfoUsingSubId(context, subIndex);
+        int simId = subInfo.mSimId;
         String selection = Telephony.Carriers.CURRENT + " IS NOT NULL";
         String[] selectionArgs = null;
         if (!TextUtils.isEmpty(apnName)) {
             selection += " AND " + Telephony.Carriers.APN + "=?";
             selectionArgs = new String[]{ apnName.trim() };
         }
-
+        Uri uri = null;
+        if (simId == 0) {
+            uri = Telephony.Carriers.CONTENT_URI;
+        } else {
+            simId = simId + 1;
+            uri = Uri.parse(Telephony.Carriers.CONTENT_URI.toString() + "_" + simId);
+        }
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
-                            Telephony.Carriers.CONTENT_URI,
+                            uri,
                             APN_PROJECTION, selection, selectionArgs, null);
 
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
@@ -87,17 +100,21 @@ public class TransactionSettings {
         try {
             while (cursor.moveToNext() && TextUtils.isEmpty(mServiceCenter)) {
                 // Read values from APN settings
+                Log.d(TAG, "movetoNext" + cursor.getLong(COLUMN_ID));
                 if (isValidApnType(cursor.getString(COLUMN_TYPE), PhoneConstants.APN_TYPE_MMS)) {
                     sawValidApn = true;
 
                     String mmsc = cursor.getString(COLUMN_MMSC);
+                    Log.d(TAG, "mmsc = " + mmsc);
                     if (mmsc == null) {
                         continue;
                     }
-
+                    Log.d(TAG, "input mmsc = " + mmsc.trim());
                     mServiceCenter = NetworkUtils.trimV4AddrZeros(mmsc.trim());
+                    Log.d(TAG, "mServiceCenter = " + mServiceCenter);
                     mProxyAddress = NetworkUtils.trimV4AddrZeros(
                             cursor.getString(COLUMN_MMSPROXY));
+                    Log.d(TAG, "mProxyAddress = " + mProxyAddress);
                     if (isProxySet()) {
                         String portString = cursor.getString(COLUMN_MMSPORT);
                         try {
