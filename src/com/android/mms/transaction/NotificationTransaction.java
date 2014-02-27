@@ -31,6 +31,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
+import android.net.ConnectivityManager;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Threads;
 import android.provider.Telephony.Mms.Inbox;
@@ -42,6 +43,7 @@ import com.android.mms.MmsConfig;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.Recycler;
+import com.android.mms.util.SubStatusResolver;
 import com.android.mms.widget.MmsWidgetProvider;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.GenericPdu;
@@ -79,8 +81,9 @@ public class NotificationTransaction extends Transaction implements Runnable {
 
     public NotificationTransaction(
             Context context, int serviceId,
-            TransactionSettings connectionSettings, String uriString) {
-        super(context, serviceId, connectionSettings);
+            TransactionSettings connectionSettings, String uriString,
+            long subId) {
+        super(context, serviceId, connectionSettings, subId);
 
         mUri = Uri.parse(uriString);
 
@@ -104,14 +107,15 @@ public class NotificationTransaction extends Transaction implements Runnable {
      */
     public NotificationTransaction(
             Context context, int serviceId,
-            TransactionSettings connectionSettings, NotificationInd ind) {
-        super(context, serviceId, connectionSettings);
+            TransactionSettings connectionSettings, NotificationInd ind,
+            long subId) {
+        super(context, serviceId, connectionSettings, subId);
 
         try {
             // Save the pdu. If we can start downloading the real pdu immediately, don't allow
             // persist() to create a thread for the notificationInd because it causes UI jank.
             mUri = PduPersister.getPduPersister(context).persist(
-                        ind, Inbox.CONTENT_URI, !allowAutoDownload(),
+                        ind, Inbox.CONTENT_URI, !allowAutoDownload(context, subId),
                         MessagingPreferenceActivity.getIsGroupMmsEnabled(context), null);
         } catch (MmsException e) {
             Log.e(TAG, "Failed to save NotificationInd in constructor.", e);
@@ -131,17 +135,19 @@ public class NotificationTransaction extends Transaction implements Runnable {
         new Thread(this, "NotificationTransaction").start();
     }
 
-    public static boolean allowAutoDownload() {
+    public static boolean allowAutoDownload(Context context, long subId) {
         DownloadManager downloadManager = DownloadManager.getInstance();
         boolean autoDownload = downloadManager.isAuto();
         boolean dataSuspended = (MmsApp.getApplication().getTelephonyManager().getDataState() ==
                 TelephonyManager.DATA_SUSPENDED);
-        return autoDownload && !dataSuspended;
+        boolean isSubDataEnabled = SubStatusResolver.isMobileDataEnabledOnSub(context, subId);
+        return autoDownload && !dataSuspended && isSubDataEnabled;
+
     }
 
     public void run() {
         DownloadManager downloadManager = DownloadManager.getInstance();
-        boolean autoDownload = allowAutoDownload();
+        boolean autoDownload = allowAutoDownload(mContext, mSubId);
         try {
             if (LOCAL_LOGV) {
                 Log.v(TAG, "Notification transaction launched: " + this);
@@ -187,8 +193,9 @@ public class NotificationTransaction extends Transaction implements Runnable {
                             MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null);
 
                     // Use local time instead of PDU time
-                    ContentValues values = new ContentValues(1);
+                    ContentValues values = new ContentValues(2);
                     values.put(Mms.DATE, System.currentTimeMillis() / 1000L);
+                    values.put(Mms.SUB_ID, mSubId);
                     SqliteWrapper.update(mContext, mContext.getContentResolver(),
                             uri, values, null, null);
 

@@ -24,8 +24,10 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.data.Conversation;
 import com.android.mms.transaction.SmsMessageSender;
+import com.android.mms.util.SubStatusResolver;
 
 /**
  * Respond to a special intent and send an SMS message without the user's intervention.
@@ -58,6 +60,7 @@ public class NoConfirmationSendService extends IntentService {
         }
 
         String message = extras.getString(Intent.EXTRA_TEXT);
+        long subId = extras.getLong(PhoneConstants.SUB_ID_KEY, SubStatusResolver.SUB_INDEX_ERROR);
 
         Uri intentUri = intent.getData();
         String recipients = Conversation.getRecipients(intentUri);
@@ -81,7 +84,7 @@ public class NoConfirmationSendService extends IntentService {
             // provider looks up the threadId based on the recipient(s).
             long threadId = 0;
             SmsMessageSender smsMessageSender = new SmsMessageSender(this, dests,
-                    message, threadId);
+                    message, threadId, subId);
             try {
                 // This call simply puts the message on a queue and sends a broadcast to start
                 // a service to send the message. In queing up the message, however, it does

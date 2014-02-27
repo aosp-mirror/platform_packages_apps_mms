@@ -76,9 +76,9 @@ public class RetrieveTransaction extends Transaction implements Runnable {
     static final int COLUMN_LOCKED                = 1;
 
     public RetrieveTransaction(Context context, int serviceId,
-            TransactionSettings connectionSettings, String uri)
+            TransactionSettings connectionSettings, String uri, long subId)
             throws MmsException {
-        super(context, serviceId, connectionSettings);
+        super(context, serviceId, connectionSettings, subId);
 
         if (uri.startsWith("content://")) {
             mUri = Uri.parse(uri); // The Uri of the M-Notification.ind
@@ -154,8 +154,9 @@ public class RetrieveTransaction extends Transaction implements Runnable {
                         MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null);
 
                 // Use local time instead of PDU time
-                ContentValues values = new ContentValues(1);
+                ContentValues values = new ContentValues(2);
                 values.put(Mms.DATE, System.currentTimeMillis() / 1000L);
+                values.put(Mms.SUB_ID, mSubId);
                 SqliteWrapper.update(mContext, mContext.getContentResolver(),
                         msgUri, values, null, null);
 

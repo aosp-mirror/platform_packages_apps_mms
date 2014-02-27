@@ -801,4 +801,14 @@
     <string name="banner_sms_promo_title_application"><xliff:g id="appName">%s</xliff:g> is your SMS app</string>
     <string name="banner_sms_promo_message">You can change this in Settings</string>
 
+    <!-- For MSim displaying -->
+    <string name="default_sim_name">SIM %1d</string>
+    <string name="empty_sim_name">SIM Slot %1d</string>
+
+    <!-- For showing AllowSimDataDialog -->
+    <string name="simDataDialog_title">Allown switch Data</string>
+    <string name="simDataDialog_text">Mms transaction need use data on none default sim.</string>
+    <string name="simDataDialog_positive">Allow</string>
+    <string name="simDataDialog_negative">Cancel</string>
+
 </resources>
