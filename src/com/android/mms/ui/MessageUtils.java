@@ -35,6 +35,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
+import android.graphics.drawable.Drawable;
 import android.media.CamcorderProfile;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -43,10 +44,15 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
+import android.telephony.SubInfoRecord;
+import android.telephony.SubscriptionManager;
 import android.telephony.PhoneNumberUtils;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Time;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.widget.Toast;
@@ -580,10 +586,6 @@ public class MessageUtils {
             mm = slide.getVideo();
         }
 
-        if (mm == null) {
-            return;
-        }
-
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.putExtra("SingleItemOnly", true); // So we don't see "surrounding" images in Gallery
@@ -746,14 +748,14 @@ public class MessageUtils {
         }
 
         final Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
-                        Mms.Inbox.CONTENT_URI, new String[] {Mms._ID, Mms.MESSAGE_ID},
+                        Mms.Inbox.CONTENT_URI, new String[] {Mms._ID, Mms.MESSAGE_ID, Mms.SUB_ID},
                         selectionBuilder.toString(), selectionArgs, null);
 
         if (c == null) {
             return;
         }
 
-        final Map<String, String> map = new HashMap<String, String>();
+        final Map<String, ReadRecInfo> map = new HashMap<String, ReadRecInfo>();
         try {
             if (c.getCount() == 0) {
                 if (callback != null) {
@@ -764,7 +766,8 @@ public class MessageUtils {
 
             while (c.moveToNext()) {
                 Uri uri = ContentUris.withAppendedId(Mms.CONTENT_URI, c.getLong(0));
-                map.put(c.getString(1), AddressUtils.getFrom(context, uri));
+                long subId = c.getInt(2);
+                map.put(c.getString(1), new ReadRecInfo(AddressUtils.getFrom(context, uri), subId));
             }
         } finally {
             c.close();
@@ -773,9 +776,10 @@ public class MessageUtils {
         OnClickListener positiveListener = new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                for (final Map.Entry<String, String> entry : map.entrySet()) {
-                    MmsMessageSender.sendReadRec(context, entry.getValue(),
-                                                 entry.getKey(), status);
+                for (final Map.Entry<String, ReadRecInfo> entry : map.entrySet()) {
+                    ReadRecInfo readRecInfo = entry.getValue();
+                    MmsMessageSender.sendReadRec(context, readRecInfo.getAddress(),
+                                                 entry.getKey(), status, readRecInfo.getSubIndex());
                 }
 
                 if (callback != null) {
@@ -1015,7 +1019,7 @@ public class MessageUtils {
 
         // if we are able to parse the address to a MMS compliant phone number, take that.
         String retVal = parsePhoneNumberForMms(address);
-        if (retVal != null && retVal.length() != 0) {
+        if (retVal != null) {
             return retVal;
         }
 
@@ -1031,4 +1035,67 @@ public class MessageUtils {
     private static void log(String msg) {
         Log.d(TAG, "[MsgUtils] " + msg);
     }
+    
+    private static class ReadRecInfo {
+        private String mAddress;
+        private long mSubId;
+        public ReadRecInfo(String address, long subIndex) {
+            mAddress = address;
+            mSubId = subIndex;
+        }
+
+        public String getAddress() {
+            return mAddress;
+        }
+
+        public long getSubIndex() {
+            return mSubId;
+        }
+    }
+
+
+    // Add for MSim
+
+    public static CharSequence getSubInfo(Context context, long subId) {
+        Log.d(TAG, "getSubInfo subId = " + subId);
+        if (subId == -1) {
+            return "";
+        }
+        // get sub info
+        return getSubInfoSync(context, subId);
+    }
+
+    public static CharSequence getSubInfoSync(Context context, long subId) {
+        SubInfoRecord subInfo = SubscriptionManager.getSubInfoUsingSubId(context, subId);
+        if (null != subInfo) {
+            String displayName = subInfo.mDisplayName;
+            SpannableStringBuilder buf = new SpannableStringBuilder();
+            buf.append("   ");
+
+            if (displayName == null) {
+                String defaultSubName = context.getResources().getString(R.string.default_sim_name);
+                defaultSubName = String.format(defaultSubName, subId);
+                buf.append(defaultSubName);
+            } else {
+                if (displayName.length() < 7) {
+                    buf.append(displayName);
+                } else {
+                    buf.append(displayName.substring(0, 4) + "..." + displayName.substring(displayName.length() - 1));
+                }
+            }
+            buf.append("  ");
+
+            // set background image
+            int colorRes = subInfo.mSimIconRes[1];
+            Drawable drawable = context.getResources().getDrawable(colorRes);
+            buf.setSpan(new MSubBackgroundImageSpan(colorRes, drawable), 0, buf.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            // set subInfo color
+            int color = subInfo.mColor;
+            buf.setSpan(new ForegroundColorSpan(color), 0, buf.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return buf;
+        }
+        return "";
+    }
+
 }

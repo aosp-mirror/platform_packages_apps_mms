@@ -28,6 +28,7 @@ import android.util.Log;
 
 import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
+import com.android.mms.util.SubStatusResolver;
 
 /**
  * MmsSystemEventReceiver receives the
@@ -67,7 +68,7 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
                 mConnMgr = (ConnectivityManager) context
                         .getSystemService(Context.CONNECTIVITY_SERVICE);
             }
-            if (!mConnMgr.getMobileDataEnabled()) {
+            if (!SubStatusResolver.isMobileDataEnabledOnAnySub(context)) {
                 if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                     Log.v(TAG, "mobile data turned off, bailing");
                 }
@@ -75,9 +76,6 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
             }
             NetworkInfo mmsNetworkInfo = mConnMgr
                     .getNetworkInfo(ConnectivityManager.TYPE_MOBILE_MMS);
-            if (mmsNetworkInfo == null) {
-                return;
-            }
             boolean available = mmsNetworkInfo.isAvailable();
             boolean isConnected = mmsNetworkInfo.isConnected();
 

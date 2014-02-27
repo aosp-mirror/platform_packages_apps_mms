@@ -40,6 +40,7 @@ public class SmsMessageSender implements MessageSender {
     protected final String mMessageText;
     protected final String mServiceCenter;
     protected final long mThreadId;
+    protected long mSubId;
     protected long mTimestamp;
     private static final String TAG = "SmsMessageSender";
 
@@ -54,7 +55,7 @@ public class SmsMessageSender implements MessageSender {
     private static final int COLUMN_REPLY_PATH_PRESENT = 0;
     private static final int COLUMN_SERVICE_CENTER     = 1;
 
-    public SmsMessageSender(Context context, String[] dests, String msgText, long threadId) {
+    public SmsMessageSender(Context context, String[] dests, String msgText, long threadId, long subId) {
         mContext = context;
         mMessageText = msgText;
         if (dests != null) {
@@ -67,6 +68,7 @@ public class SmsMessageSender implements MessageSender {
         }
         mTimestamp = System.currentTimeMillis();
         mThreadId = threadId;
+        mSubId = subId;
         mServiceCenter = getOutgoingServiceCenter(mThreadId);
     }
 
@@ -84,7 +86,7 @@ public class SmsMessageSender implements MessageSender {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         boolean requestDeliveryReport = prefs.getBoolean(
-                MessagingPreferenceActivity.SMS_DELIVERY_REPORT_MODE,
+                mSubId + "_" + MessagingPreferenceActivity.SMS_DELIVERY_REPORT_MSIM_MODE,
                 DEFAULT_DELIVERY_REPORT_MODE);
 
         for (int i = 0; i < mNumberOfDests; i++) {
@@ -97,7 +99,8 @@ public class SmsMessageSender implements MessageSender {
                         mMessageText, null, mTimestamp,
                         true /* read */,
                         requestDeliveryReport,
-                        mThreadId);
+                        mThreadId,
+                        mSubId);
             } catch (SQLiteException e) {
                 if (LogTag.DEBUG_SEND) {
                     Log.e(TAG, "queueMessage SQLiteException", e);
