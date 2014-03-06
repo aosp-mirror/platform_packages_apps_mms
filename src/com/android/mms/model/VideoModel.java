@@ -38,6 +38,7 @@ import com.android.mms.dom.smil.SmilMediaElementImpl;
 import com.android.mms.util.ItemLoadedCallback;
 import com.android.mms.util.ItemLoadedFuture;
 import com.android.mms.util.ThumbnailManager;
+import android.provider.Telephony.Mms.Part;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 
@@ -110,8 +111,13 @@ public class VideoModel extends RegionMediaModel {
                         path = uri.toString();
                     }
                     mSrc = path.substring(path.lastIndexOf('/') + 1);
-                    mContentType = c.getString(c.getColumnIndexOrThrow(
-                            Images.Media.MIME_TYPE));
+                    if (VideoModel.isMmsUri(uri)) {
+                        mContentType = c.getString(c.getColumnIndexOrThrow(
+                                Part.CONTENT_TYPE));
+                    } else {
+                        mContentType = c.getString(c.getColumnIndexOrThrow(
+                                Images.Media.MIME_TYPE));
+                    }
                     if (TextUtils.isEmpty(mContentType)) {
                         throw new MmsException("Type of media is unknown.");
                     }
