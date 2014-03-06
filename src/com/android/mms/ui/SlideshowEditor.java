@@ -74,7 +74,7 @@ public class SlideshowEditor {
             SlideModel slide = new SlideModel(mModel);
 
             TextModel text = new TextModel(
-                    mContext, ContentType.TEXT_PLAIN, "text_" + size + ".txt",
+                    mContext, ContentType.TEXT_PLAIN, generateTextSrc(mModel, size),
                     mModel.getLayout().getTextRegion());
             slide.add(text);
 
@@ -85,6 +85,39 @@ public class SlideshowEditor {
             return false;
         }
     }
+
+    /**
+     * Generate an unique source for TextModel
+     *
+     * @param slideshow The current slideshow model
+     * @param position The expected position for the new model
+     * @return An unique source String
+     */
+    private String generateTextSrc(SlideshowModel slideshow, int position) {
+        final String prefix = "text_";
+        final String postfix = ".txt";
+
+        StringBuilder src = new StringBuilder(prefix).append(position).append(postfix);
+        boolean hasDupSrc = false;
+
+        do {
+            for (SlideModel model : slideshow) {
+                if (model.hasText()) {
+                    String testSrc = model.getText().getSrc();
+
+                    if (testSrc != null && testSrc.equals(src.toString())) {
+                        src = new StringBuilder(prefix).append(position + 1).append(postfix);
+                        hasDupSrc |= true;
+                        break;
+                    }
+                }
+                hasDupSrc = false;
+            }
+        } while (hasDupSrc);
+
+        return src.toString();
+    }
+
     /**
      * Add an existing slide at the specified position in the message.
      *
@@ -149,7 +182,7 @@ public class SlideshowEditor {
             TextModel text = slide.getText();
             if (text == null) {
                 text = new TextModel(mContext,
-                        ContentType.TEXT_PLAIN, "text_" + position + ".txt",
+                        ContentType.TEXT_PLAIN, generateTextSrc(mModel, position),
                         mModel.getLayout().getTextRegion());
                 text.setText(newText);
                 slide.add(text);
