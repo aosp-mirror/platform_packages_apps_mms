@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9c348108_2a2f1e71",
+        "filename": "src/com/android/mms/ui/SlideshowEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2014-03-07T03:25:37Z",
+      "side": 1,
+      "message": "After reviewed the code, I found getText won\u0027t be null, but getSrc will be null if smile hasn\u0027t src attr. I will double check this.",
+      "parentUuid": "7c398d00_34166832",
+      "range": {
+        "startLine": 106,
+        "startChar": 40,
+        "endLine": 106,
+        "endChar": 46
+      },
+      "revId": "8a57c0605a13122c100cdd484177bd59e061a4ba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c348108_d613c274",
         "filename": "src/com/android/mms/ui/SlideshowEditor.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-03-07T01:27:13Z",
       "side": 1,
       "message": "Wouldn\u0027t hasDupSrc \u003d false be simpler?",
+      "range": {
+        "startLine": 112,
+        "startChar": 16,
+        "endLine": 112,
+        "endChar": 25
+      },
+      "revId": "8a57c0605a13122c100cdd484177bd59e061a4ba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca43989_91d47732",
+        "filename": "src/com/android/mms/ui/SlideshowEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2014-03-07T03:25:37Z",
+      "side": 1,
+      "message": "I agree with you and will change to set false simpler.",
+      "parentUuid": "9c348108_d613c274",
       "range": {
         "startLine": 112,
         "startChar": 16,
