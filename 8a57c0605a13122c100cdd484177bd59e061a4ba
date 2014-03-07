@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c398d00_34166832",
+        "filename": "src/com/android/mms/ui/SlideshowEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2014-03-07T01:27:13Z",
+      "side": 1,
+      "message": "Are getText() and getSrc() guaranteed to not return null?",
+      "range": {
+        "startLine": 106,
+        "startChar": 40,
+        "endLine": 106,
+        "endChar": 46
+      },
+      "revId": "8a57c0605a13122c100cdd484177bd59e061a4ba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c348108_d613c274",
+        "filename": "src/com/android/mms/ui/SlideshowEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2014-03-07T01:27:13Z",
+      "side": 1,
+      "message": "Wouldn\u0027t hasDupSrc \u003d false be simpler?",
+      "range": {
+        "startLine": 112,
+        "startChar": 16,
+        "endLine": 112,
+        "endChar": 25
+      },
+      "revId": "8a57c0605a13122c100cdd484177bd59e061a4ba",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
