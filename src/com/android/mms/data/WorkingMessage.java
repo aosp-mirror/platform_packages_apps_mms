@@ -113,6 +113,7 @@ public class WorkingMessage {
     public static final int MESSAGE_SIZE_EXCEEDED = -2;
     public static final int UNSUPPORTED_TYPE = -3;
     public static final int IMAGE_TOO_LARGE = -4;
+    public static final int CREATE_DRAFT_ERROR = -5;
 
     // Attachment types
     public static final int TEXT = 0;
@@ -1434,7 +1435,10 @@ public class WorkingMessage {
                 // Otherwise, sync the MMS message in progress to disk.
                 updateDraftMmsMessage(mmsUri, persister, slideshow, sendReq, null);
             }
-
+            if (mmsUri == null) {
+                mStatusListener.onAttachmentError(CREATE_DRAFT_ERROR);
+                return;
+            }
             // Be paranoid and clean any draft SMS up.
             deleteDraftSmsMessage(threadId);
         } finally {
