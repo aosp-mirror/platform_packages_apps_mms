@@ -3140,6 +3140,10 @@ public class ComposeMessageActivity extends Activity
                     message = res.getString(R.string.failed_to_add_media, mediaType);
                     Toast.makeText(ComposeMessageActivity.this, message, Toast.LENGTH_SHORT).show();
                     return;
+                case WorkingMessage.CREATE_DRAFT_ERROR:
+                    message = res.getString(R.string.create_draft_error);
+                    Toast.makeText(ComposeMessageActivity.this, message, Toast.LENGTH_SHORT).show();
+                    return;
                 case WorkingMessage.UNSUPPORTED_TYPE:
                     title = res.getString(R.string.unsupported_media_format, mediaType);
                     message = res.getString(R.string.select_different_media, mediaType);
