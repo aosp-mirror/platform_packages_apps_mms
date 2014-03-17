@@ -488,6 +488,43 @@ public class UriImage {
         return bitmap;
     }
 
+    private static int getOrientationByExif(Context context, Uri uri) {
+        long dur = System.currentTimeMillis();
+
+        try {
+            InputStream inputStream = context.getContentResolver().openInputStream(uri);
+            ExifInterface exif = new ExifInterface();
+            try {
+                exif.readExif(inputStream);
+                Integer val = exif.getTagIntValue(ExifInterface.TAG_ORIENTATION);
+                if (val == null){
+                    return 0;
+                }
+                int orientation =
+                        ExifInterface.getRotationForOrientationValue(val.shortValue());
+                return orientation;
+            } catch (IOException e) {
+                Log.w(TAG, "Failed to read EXIF orientation", e);
+            } finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, "Can't open uri: " + uri, e);
+        } finally {
+            dur = System.currentTimeMillis() - dur;
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                Log.v(TAG, "UriImage.getOrientation (exif path) took: " + dur + " ms");
+            }
+        }
+
+        return 0;
+    }
+
     /**
      * Returns the number of degrees to rotate the picture, based on the orientation tag in
      * the exif data or the orientation column in the database. If there's no tag or column,
@@ -497,52 +534,22 @@ public class UriImage {
      * @param uri Path to the image
      */
     public static int getOrientation(Context context, Uri uri) {
-        long dur = System.currentTimeMillis();
-        if (ContentResolver.SCHEME_FILE.equals(uri.getScheme()) ||
-                sURLMatcher.match(uri) == MMS_PART_ID) {
-            // If the uri is a file or an mms part, we have to look at the exif data in the
-            // file for the orientation because there is no column in the db for the orientation.
-            try {
-                InputStream inputStream = context.getContentResolver().openInputStream(uri);
-                ExifInterface exif = new ExifInterface();
-                try {
-                    exif.readExif(inputStream);
-                    Integer val = exif.getTagIntValue(ExifInterface.TAG_ORIENTATION);
-                    if (val == null){
-                        return 0;
-                    }
-                    int orientation =
-                            ExifInterface.getRotationForOrientationValue(val.shortValue());
-                    return orientation;
-                } catch (IOException e) {
-                    Log.w(TAG, "Failed to read EXIF orientation", e);
-                } finally {
-                    if (inputStream != null) {
-                        try {
-                            inputStream.close();
-                        } catch (IOException e) {
-                        }
-                    }
-                }
-            } catch (FileNotFoundException e) {
-                Log.e(TAG, "Can't open uri: " + uri, e);
-            } finally {
-                dur = System.currentTimeMillis() - dur;
-                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
-                    Log.v(TAG, "UriImage.getOrientation (exif path) took: " + dur + " ms");
-                }
-            }
-        } else {
+        if (!ContentResolver.SCHEME_FILE.equals(uri.getScheme()) &&
+                sURLMatcher.match(uri) != MMS_PART_ID) {
             // Try to get the orientation from the ORIENTATION column in the database. This is much
             // faster than reading all the exif tags from the file.
+            long dur = System.currentTimeMillis();
             Cursor cursor = null;
+
             try {
                 cursor = context.getContentResolver().query(uri,
                         new String[] {
                             MediaStore.Images.ImageColumns.ORIENTATION
                         },
                         null, null, null);
-                if (cursor.moveToNext()) {
+
+                // Make sure there is data for orientation column
+                if (cursor.moveToFirst() && !cursor.isNull(0)) {
                     int ori = cursor.getInt(0);
                     return ori;
                 }
@@ -558,6 +565,8 @@ public class UriImage {
                 }
             }
         }
-        return 0;
+
+        // If not found in database, read exif for orientation information
+        return getOrientationByExif(context, uri);
     }
 }
