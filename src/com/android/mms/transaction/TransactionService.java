@@ -280,6 +280,11 @@ public class TransactionService extends Service implements Observer {
                                     if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                                         Log.v(TAG, "onNewIntent: skipping - autodownload off");
                                     }
+                                    // Re-enable "download" button if auto-download is off
+                                    Uri uri = ContentUris.withAppendedId(Mms.CONTENT_URI,
+                                            cursor.getLong(columnIndexOfMsgId));
+                                    downloadManager.markState(uri,
+                                            DownloadManager.STATE_SKIP_RETRYING);
                                     break;
                                 }
                                 // Logic is twisty. If there's no failure or the failure
