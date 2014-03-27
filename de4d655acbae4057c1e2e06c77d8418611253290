@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19218395_e9c4dd51",
+        "filename": "src/com/android/mms/transaction/SmsReceiverService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1021576
+      },
+      "writtenOn": "2014-03-27T10:25:46Z",
+      "side": 1,
+      "message": "Please define resultcode before using it.\nint  resultCode \u003d intent !\u003d null ? intent.getIntExtra(\"result\", 0) : 0;",
+      "revId": "de4d655acbae4057c1e2e06c77d8418611253290",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
