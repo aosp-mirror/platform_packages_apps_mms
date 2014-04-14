@@ -51,7 +51,7 @@
     <string name="menu_forward" msgid="9026858380050046756">"ส่งต่อ"</string>
     <string name="download" msgid="4488877642230207631">"ดาวน์โหลด"</string>
     <string name="downloading" msgid="1779557575565350637">"กำลังดาวน์โหลด"</string>
-    <string name="inline_subject" msgid="4057621785274119260">"&lt;ข้อความt: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="inline_subject" msgid="4057621785274119260">"&lt;เรื่อง: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* ข้อความที่ป้องกันด้วย DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"ตรวจพบว่ามีสิทธิ์ DRM ไม่เพียงพอ"</string>
     <string name="copy_message_text" msgid="4296252229544252834">"คัดลอกข้อความ"</string>
@@ -335,7 +335,7 @@
     <item quantity="other" msgid="1393002799298501480">"อีก <xliff:g id="NUMBER">%1$s</xliff:g> ข้อความ"</item>
   </plurals>
     <string name="error_state" msgid="5177386717626893507">"สถานะไม่คงที่"</string>
-    <string name="error_state_text" msgid="7918866106335387710">"สถานะของชุดอีเมลที่เกี่ยวข้องกันและผู้รับไม่สอดคล้องกัน โปรดสร้างรายงานบั๊กและรายงานผ่านทาง http://go/droidanizer"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"สถานะของชุดอีเมลที่เกี่ยวข้องกันและผู้รับไม่สอดคล้องกัน โปรดสร้างรายงานข้อบกพร่องและรายงานผ่านทาง http://go/droidanizer"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> คน"</item>
   </plurals>
