@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Alle drade"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Skryf boodskap"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Open sleutelbord om boodskap in te voer"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Stuur gedeaktiveer"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Kan nie skryf nie. Nie verstek SMS-program nie."</string>
     <string name="compressing" msgid="1961357529661045180">"Prent te groot. Pers tans saam..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Nie-ondersteunde <xliff:g id="NAME">%1$s</xliff:g>-formaat."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Kies \'n ander <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Multimedia- (MMS) boodskappe"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Teks-(SMS) boodskappe"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Berging"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS gedeaktiveer"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Raak om Boodskappe jou verstek SMS-program te maak"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS geaktiveer"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Raak om jou verstek SMS-program te verander"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Bestuur boodskappe wat op SIM-kaart gestoor is"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Versoek \'n afleweringsverslag vir elke boodskap wat jy stuur"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Versoek \'n leesverslag vir elke boodskap wat jy stuur"</string>
@@ -282,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Stoor as luitoon"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Luitoon gestoor."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Kon nie luitoon stoor nie."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Voeg glimlaggie by"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Groepdeelnemers"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Kies \'n aksie"</string>
     <string name="slide_number" msgid="1923958526266726635">"Skyfie <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -345,4 +350,9 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"Jou foon se berging is vol"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"Jy sal nie nuwe SMS/MMS-boodskappe kry nie"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS-wekroep"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Stuur al die MMS\'e van die uitkassie af uit na die netwerk"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Boodskappe is nie jou SMS-program nie"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> is jou SMS-program"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Jy kan dit verander in Instellings"</string>
 </resources>

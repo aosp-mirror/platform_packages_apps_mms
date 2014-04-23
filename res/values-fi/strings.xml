@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Kaikki viestiketjut"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Kirjoita viesti"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Avaa näppäimistö ja kirjoita viesti"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Lähetys ei käytössä"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Tekstiviestiä ei voi kirjoittaa. Ei oletussovellus."</string>
     <string name="compressing" msgid="1961357529661045180">"Liian suuri kuva. Pakataan..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Ei-tuettu <xliff:g id="NAME">%1$s</xliff:g>muoto."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Valitse muu <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Multimediaviestit (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Tekstiviestit (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Tallennus"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS pois käytöstä"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Valitse Messaging oletustekstiviestisovellukseksi koskettamalla"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS käytössä"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Vaihda oletustekstiviestisovellus koskettamalla"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Hallinnoi SIM-kortilla olevia viestejä"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Pyydä lähetystiedot kaikista lähettämistäsi viesteistä"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Pyydä lukemistiedot kaikista lähettämistäsi viesteistä"</string>
@@ -282,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Tallenna soittoäänenä"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Soittoääni tallennettu."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Soittoäänen tallentaminen epäonnistui."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Lisää hymiö"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Ryhmän jäsenet"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Valitse toiminto"</string>
     <string name="slide_number" msgid="1923958526266726635">"Dia <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -345,4 +350,9 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"Puhelimesi tallennustila on täynnä"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"Et saa enää teksti- tai multimediaviestejä"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS-heräte"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Lähettää kaikki lähtevät multimediaviestit verkkoon"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Messaging ei ole tekstiviestisovelluksesi"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> on tekstiviestisovelluksesi"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Voit muuttaa tätä valitsemalla Asetukset"</string>
 </resources>

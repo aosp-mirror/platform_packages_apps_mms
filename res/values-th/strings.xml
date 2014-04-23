@@ -51,7 +51,7 @@
     <string name="menu_forward" msgid="9026858380050046756">"ส่งต่อ"</string>
     <string name="download" msgid="4488877642230207631">"ดาวน์โหลด"</string>
     <string name="downloading" msgid="1779557575565350637">"กำลังดาวน์โหลด"</string>
-    <string name="inline_subject" msgid="4057621785274119260">"&lt;ข้อความt: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="inline_subject" msgid="4057621785274119260">"&lt;เรื่อง: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* ข้อความที่ป้องกันด้วย DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"ตรวจพบว่ามีสิทธิ์ DRM ไม่เพียงพอ"</string>
     <string name="copy_message_text" msgid="4296252229544252834">"คัดลอกข้อความ"</string>
@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"ชุดข้อความทั้งหมด"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"พิมพ์ข้อความ"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"เปิดแป้นพิมพ์เพื่อพิมพ์ข้อความ"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"การส่งถูกปิดใช้งาน"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"ไม่สามารถเขียนได้ ไม่ใช่แอป SMS ตามค่าเริ่มต้น"</string>
     <string name="compressing" msgid="1961357529661045180">"ภาพใหญ่เกินไป กำลังบีบอัด..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"รูปแบบ <xliff:g id="NAME">%1$s</xliff:g> ไม่ได้รับการสนับสนุน"</string>
     <string name="select_different_media" msgid="6241623357299382183">"เลือก <xliff:g id="NAME">%1$s</xliff:g> อื่น"</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"ข้อความมัลติมีเดีย (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"ข้อความตัวอักษร (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"พื้นที่จัดเก็บ"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"ปิดใช้งาน SMS อยู่"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"แตะเพื่อทำให้การรับส่งข้อความเป็นแอป SMS เริ่มต้น"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"เปิดใช้งาน SMS อยู่"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"แตะเพื่อเปลี่ยนแอป SMS เริ่มต้น"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"จัดการข้อความที่จัดเก็บบนซิมการ์ด"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"ขอรายงานการส่งสำหรับแต่ละข้อความที่ส่ง"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"ขอรายงานการอ่านสำหรับแต่ละข้อความที่ส่ง"</string>
@@ -282,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"บันทึกเป็นเสียงเรียกเข้า"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"บันทึกเสียงเรียกเข้าแล้ว"</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"ไม่สามารถบันทึกเสียงเรียกเข้า"</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"ใส่รูปหน้ายิ้ม"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"ผู้เข้าร่วมของกลุ่ม"</string>
     <string name="select_link_title" msgid="3371818607625768447">"เลือกการทำงาน"</string>
     <string name="slide_number" msgid="1923958526266726635">"ภาพนิ่ง <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -330,7 +335,7 @@
     <item quantity="other" msgid="1393002799298501480">"อีก <xliff:g id="NUMBER">%1$s</xliff:g> ข้อความ"</item>
   </plurals>
     <string name="error_state" msgid="5177386717626893507">"สถานะไม่คงที่"</string>
-    <string name="error_state_text" msgid="7918866106335387710">"สถานะของชุดอีเมลที่เกี่ยวข้องกันและผู้รับไม่สอดคล้องกัน โปรดสร้างรายงานบั๊กและรายงานผ่านทาง http://go/droidanizer"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"สถานะของชุดอีเมลที่เกี่ยวข้องกันและผู้รับไม่สอดคล้องกัน โปรดสร้างรายงานข้อบกพร่องและรายงานผ่านทาง http://go/droidanizer"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> คน"</item>
   </plurals>
@@ -345,4 +350,9 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"พื้นที่จัดเก็บของโทรศัพท์ของคุณเต็ม"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"คุณจะไม่ได้รับข้อความ SMS/MMS ใหม่"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"การพุช MMS"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"ส่ง MMS ทั้งหมดจากกล่องจดหมายออกไปยังเครือข่าย"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"การรับส่งข้อความไม่ใช่แอป SMS ของคุณ"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> คือแอป SMS ของคุณ"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"คุณสามารถเปลี่ยนค่านี้ได้ในการตั้งค่า"</string>
 </resources>

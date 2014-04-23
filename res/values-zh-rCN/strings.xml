@@ -26,7 +26,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"发送电子邮件至<xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"撰写"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"设置"</string>
-    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"将 <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> 添加到联系人"</string>
+    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"将 <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> 添加到通讯录"</string>
     <string name="menu_call" msgid="5877123227307074690">"呼叫"</string>
     <string name="menu_search" msgid="2289469305728821360">"搜索"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"删除所有会话"</string>
@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"所有会话"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"键入信息"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"打开键盘键入信息"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"发送功能已停用"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"无法写短信，因为此应用不是默认的短信应用。"</string>
     <string name="compressing" msgid="1961357529661045180">"图片过大。正在压缩…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"不支持<xliff:g id="NAME">%1$s</xliff:g>格式。"</string>
     <string name="select_different_media" msgid="6241623357299382183">"选择其他<xliff:g id="NAME">%1$s</xliff:g>。"</string>
@@ -94,7 +96,7 @@
     <string name="failed_to_add_media" msgid="7207464170168708485">"您无法将此<xliff:g id="NAME">%1$s</xliff:g>添加到短信中。"</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"未调整图片大小。"</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"重新调整大小后，此照片仍然过大，因此无法发送。"</string>
-    <string name="forward_prefix" msgid="276280492803486464">"Fwd: "</string>
+    <string name="forward_prefix" msgid="276280492803486464">"转发： "</string>
     <string name="discard_message_reason" msgid="2667664943003796133">"您的信息没有有效的接收者，将被舍弃。"</string>
     <string name="has_invalid_recipient" msgid="1485388396900997383">"无效接收者：&lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
     <string name="invalid_destination" msgid="4573835601024786416">"目标地址无效。"</string>
@@ -142,7 +144,7 @@
     <item msgid="7786079681602275449">"其他"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"查看联系人"</string>
-    <string name="menu_add_to_contacts" msgid="1258127580972228970">"添加到联系人"</string>
+    <string name="menu_add_to_contacts" msgid="1258127580972228970">"添加到通讯录"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"隐藏的发送者地址"</string>
     <string name="yes" msgid="3246158147503160811">"确定"</string>
     <string name="no" msgid="4289742508556913860">"取消"</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"彩信 (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"短信 (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"存储"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"短信功能已关闭"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"触摸即可将“短信”设为您的默认短信应用"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"短信功能已开启"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"触摸即可更改您的默认短信应用"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"管理 SIM 卡中存储的信息"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"要求每次发送信息后都返回发送报告"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"要求每次发送信息后都返回已读回执"</string>
@@ -282,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"另存为铃声"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"已保存铃声。"</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"无法保存铃声。"</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"插入表情符号"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"群组参与者"</string>
     <string name="select_link_title" msgid="3371818607625768447">"选择操作"</string>
     <string name="slide_number" msgid="1923958526266726635">"幻灯片 <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -330,7 +335,7 @@
     <item quantity="other" msgid="1393002799298501480">"+<xliff:g id="NUMBER">%1$s</xliff:g> 条其他短信"</item>
   </plurals>
     <string name="error_state" msgid="5177386717626893507">"状态不一致"</string>
-    <string name="error_state_text" msgid="7918866106335387710">"会话邮件集和收件人的状态不一致。请为错误截图，并通过 http://go/droidanizer 向我们报告这一问题"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"会话和收件人的状态不一致。请为错误截图，并通过 http://go/droidanizer 向我们报告这一问题"</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> 个人"</item>
   </plurals>
@@ -345,4 +350,9 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"您手机的存储空间已满"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"您将无法收到新的短信/彩信"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"彩信激活"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"将发件箱内的所有彩信发送至网络"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"“短信”不是您的短信应用"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"“<xliff:g id="APPNAME">%s</xliff:g>”是您的短信应用"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"您可以在“设置”中更改此设置。"</string>
 </resources>

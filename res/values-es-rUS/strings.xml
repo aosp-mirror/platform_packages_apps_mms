@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Todos los artículos"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Escribir mensaje"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Abrir el teclado para escribir el mensaje"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Envío inhabilitado"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"No puedes redactar porque esta no es la aplicación de SMS predeterminada."</string>
     <string name="compressing" msgid="1961357529661045180">"Imagen demasiado grande. Comprimiendo..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Formato de <xliff:g id="NAME">%1$s</xliff:g> no admitido"</string>
     <string name="select_different_media" msgid="6241623357299382183">"Elegir un <xliff:g id="NAME">%1$s</xliff:g> diferente."</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Mensajes multimedia (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Mensajes de texto (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Almacenamiento"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS inhabilitados"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Toca para establecer el Centro de Mensajes como la aplicación de SMS predeterminada."</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS habilitados"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Toca para cambiar la aplicación de SMS predeterminada."</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Administrar mensajes almacenados en tu tarjeta SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Solicita un informe de entrega para cada mensaje que envías"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Solicita un informe de lectura para cada mensaje que envías"</string>
@@ -282,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Guardar como timbre"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Tono guardado"</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"No se pudo guardar el tono."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Insertar emoticón"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Participantes del grupo"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Elegir acción"</string>
     <string name="slide_number" msgid="1923958526266726635">"Diapositiva <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -345,4 +350,9 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"No queda espacio de almacenamiento en tu teléfono."</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"No recibirás mensajes SMS/MMS nuevos."</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Activación de MMS"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Envía todos los MMS de la carpeta Enviados a la red."</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Centro de Mensajes no es tu aplicación de SMS."</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> es tu aplicación de SMS."</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Puedes cambiar esta opción en la Configuración."</string>
 </resources>

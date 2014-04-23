@@ -20,7 +20,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"Meddelanden"</string>
+    <string name="app_label" msgid="1503967887341230795">"SMS/MMS"</string>
     <string name="new_message" msgid="1530369762346003973">"Nytt meddelande"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Ring <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Skicka e-post till <xliff:g id="NAME">%s</xliff:g>"</string>
@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Alla trådar"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Skriv ett meddelande"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Öppna tangentbordet och skriv ett meddelande"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Sändningsfunktionen har inaktiverats"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Det går inte att skriva. Det här är inte din standardapp för sms."</string>
     <string name="compressing" msgid="1961357529661045180">"Bilden är för stor. Komprimerar..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Formatet för <xliff:g id="NAME">%1$s</xliff:g> stöds inte"</string>
     <string name="select_different_media" msgid="6241623357299382183">"Välj en annan <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"MMS"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"SMS"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Lagring"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"Sms har inaktiverats"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Tryck om du vill använda Meddelanden som standardapp"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"Sms har aktiverats"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Tryck om du vill ändra standardappen för sms"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Hantera meddelanden som sparats på SIM-kortet"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Begär en leveransrapport för varje meddelande du skickar"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Begär en läsrapport för varje meddelande du skickar"</string>
@@ -282,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Spara som ringsignal"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Ringsignalen sparades."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Det gick inte att spara ringsignalen."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Infoga känsloikon"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Gruppdeltagare"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Välj åtgärd"</string>
     <string name="slide_number" msgid="1923958526266726635">"Bild <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -299,9 +304,9 @@
     <string name="edit_slide_activity" msgid="8752829671778696983">"Redigera bild"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"Bildspel"</string>
     <string name="class_0_message_activity" msgid="6631339964159861048">"Meddelande, klass 0"</string>
-    <string name="search_label" msgid="6042598929386174964">"Meddelanden"</string>
+    <string name="search_label" msgid="6042598929386174964">"SMS/MMS"</string>
     <string name="search_hint" msgid="7273727663577472044">"Sök i meddelanden"</string>
-    <string name="search" msgid="7560238620274735199">"Meddelanden"</string>
+    <string name="search" msgid="7560238620274735199">"SMS/MMS"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"Text i dina meddelanden"</string>
     <string name="search_empty" msgid="2109551478056039278">"Inga träffar."</string>
   <plurals name="search_results_title">
@@ -345,4 +350,9 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> – <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"Mobilens lagringsutrymme är fullt"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"Du kommer inte att få några nya SMS/MMS"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS-väckning"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Skickar alla MMS från utkorgen till nätverket"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Du använder inte Meddelanden som sms-app"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"Du använder <xliff:g id="APPNAME">%s</xliff:g> som sms-app"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Du kan ändra det här i Inställningar"</string>
 </resources>

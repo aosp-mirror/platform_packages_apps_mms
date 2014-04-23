@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Sve niti"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Unesite poruku"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Otvorite tipkovnicu za upis nove poruke"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Slanje je onemogućeno"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Pisanje poruke nije moguće. Nije zadana aplikacija za SMS."</string>
     <string name="compressing" msgid="1961357529661045180">"Slika je prevelika. Komprimiranje..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Nepodržani format naziva: <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Odaberite drugi naziv: <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Multimedijske (MMS) poruke"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Tekst (SMS) poruka"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Prostor za pohranu"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS je onemogućen"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Dodirnite da biste postavili Slanje poruka kao zadanu aplikaciju za SMS"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS je omogućen"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Dodirnite da biste promijenili zadanu aplikaciju za SMS"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Upravljanje porukama pohranjenim na SIM kartici"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Zahtijevajte izvješće o isporuci za svaku poslanu poruku"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Zahtijevajte izvješće o čitanju za svaku poslanu poruku"</string>
@@ -282,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Spremi kao zvuk zvona"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Melodija zvona spremljena je"</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Melodiju zvona nije moguće spremiti."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Umetni smajlić"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Grupiši sudionike"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Odabir radnje"</string>
     <string name="slide_number" msgid="1923958526266726635">"Slajd <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -345,4 +350,9 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> – <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"Pohrana telefona puna je"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"Nećete primati nove SMS/MMS poruke"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Aktiviranje MMS-a"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Pošalji sve MMS-ove iz odlazne pošte u mrežu"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Slanje poruka nije vaša aplikacija za SMS"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> je vaša aplikacija za SMS"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"To možete promijeniti u Postavkama"</string>
 </resources>

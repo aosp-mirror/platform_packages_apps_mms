@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Всички нишки"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Въведете съобщение"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Отворете клавиатурата, за да въведете съобщение"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Изпращането е деактивирано"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Не може да се създаде ново съобщение. Не е приложението за SMS по подразбиране."</string>
     <string name="compressing" msgid="1961357529661045180">"Снимката е твърде голяма. Компресира се..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Неподдържан формат <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Изберете друго: <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Мултимедийни съобщения (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Текстови съобщения (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Хранилище"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS съобщенията са деактивирани"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Докоснете, за да направите Съобщения стандартното приложение за SMS"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS съобщенията са активирани"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Докоснете, за да промените стандартното приложение за SMS"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Управление на съобщенията, съхранени на SIM картата"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Заявка за подаване на отчет за всяко изпратено от вас съобщение"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Заявка за отчет за четене за всяко изпратено от вас съобщение"</string>
@@ -282,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Запазване като мелодия"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Мелодията е запазена."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Мелодията не можа да бъде запазена."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Вмъкване на емотикон"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Участници в групата"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Избор на действие"</string>
     <string name="slide_number" msgid="1923958526266726635">"Слайд <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -345,4 +350,9 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> – <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"Хранилището на телефона ви е пълно"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"Няма да получавате нови SMS/MMS съобщения"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Активиране на MMS"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Изпраща всички MMS съобщения от изходящата поща към мрежата"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Съобщения не е приложението ви за SMS"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> е приложението ви за SMS"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Можете да промените това от „Настройки“"</string>
 </resources>

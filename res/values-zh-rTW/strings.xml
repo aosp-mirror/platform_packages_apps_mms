@@ -26,7 +26,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"傳送電子郵件給 <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"撰寫"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"設定"</string>
-    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"將 <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> 新增至「使用者」"</string>
+    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"將 <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> 新增至「聯絡人」"</string>
     <string name="menu_call" msgid="5877123227307074690">"撥打"</string>
     <string name="menu_search" msgid="2289469305728821360">"搜尋"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"刪除所有會話串"</string>
@@ -81,11 +81,13 @@
     <string name="replace" msgid="7587904998114459388">"取代"</string>
     <string name="remove" msgid="4625444913256213175">"移除"</string>
     <string name="send" msgid="4589898724889248486">"傳送"</string>
-    <string name="mms" msgid="1587631213714914559">"MMS"</string>
-    <string name="send_mms" msgid="2933162044872550662">"傳送 MMS"</string>
+    <string name="mms" msgid="1587631213714914559">"多媒體簡訊"</string>
+    <string name="send_mms" msgid="2933162044872550662">"傳送多媒體訊息"</string>
     <string name="all_threads" msgid="2663426830306307194">"所有會話群組"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"輸入訊息"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"開啟鍵盤即可輸入訊息"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"傳送功能已停用"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"這不是預設的簡訊應用程式，無法讓您撰寫訊息。"</string>
     <string name="compressing" msgid="1961357529661045180">"相片太大，壓縮中…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"不支援的<xliff:g id="NAME">%1$s</xliff:g>格式。"</string>
     <string name="select_different_media" msgid="6241623357299382183">"請選擇其他<xliff:g id="NAME">%1$s</xliff:g>。"</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"多媒體訊息 (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"簡訊 (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"儲存空間"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"簡訊已停用"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"輕觸即可將「簡訊」設為您的預設簡訊應用程式"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"簡訊功能已啟用"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"輕觸即可變更您的預設簡訊應用程式"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"管理 SIM 卡上的簡訊"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"傳送簡訊後要求傳送回條"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"傳送簡訊後要求讀取回條"</string>
@@ -282,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"儲存為鈴聲"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"已儲存鈴聲。"</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"無法儲存鈴聲。"</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"插入表情符號"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"群組參與者"</string>
     <string name="select_link_title" msgid="3371818607625768447">"選擇動作"</string>
     <string name="slide_number" msgid="1923958526266726635">"投影片 <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -344,5 +349,10 @@
     <string name="enumeration_comma" msgid="213598026698964628">"、 "</string>
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"您的手機儲存空間已滿"</string>
-    <string name="storage_warning_content" msgid="1100367816649962354">"您將無法收到新的簡訊和/或 MMS 訊息"</string>
+    <string name="storage_warning_content" msgid="1100367816649962354">"您將無法收到新的文字簡訊和/或多媒體簡訊"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS 喚醒"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"將寄件匣內的所有 MMS 傳送到網路"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"「簡訊」不是您的簡訊應用程式"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"「<xliff:g id="APPNAME">%s</xliff:g>」是您的簡訊應用程式"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"您可以在 [設定] 中變更這項設定"</string>
 </resources>

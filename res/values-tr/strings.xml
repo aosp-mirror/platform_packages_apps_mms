@@ -20,7 +20,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"Mesajlaş."</string>
+    <string name="app_label" msgid="1503967887341230795">"Mesajlaşma"</string>
     <string name="new_message" msgid="1530369762346003973">"Yeni ileti"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Ara: <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"<xliff:g id="NAME">%s</xliff:g> kişisine e-posta gönder"</string>
@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Tüm ileti dizileri"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Mesaj yazın"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Mesajı yazmak için klavyeyi açın"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Gönderme işlevi devre dışı"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Oluşturulamıyor. Varsayılan SMS uygulaması değil."</string>
     <string name="compressing" msgid="1961357529661045180">"Resim çok büyük. Sıkıştırılıyor..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Desteklenmeyen <xliff:g id="NAME">%1$s</xliff:g> biçimi."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Farklı bir <xliff:g id="NAME">%1$s</xliff:g> seçin."</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Multimedya mesajları (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Kısa mesajlar (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Depolama"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS Devre Dışı"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Mesajlaşma\'yı varsayılan SMS uygulamanız yapmak için dokunun"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS Etkin"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Varsayılan SMS uygulamanızı değiştirmek için dokunun"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"SIM kartınızda depolanan iletileri yönetin"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Gönderdiğiniz her ileti için bir iletim raporu iste"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Gönderdiğiniz her ileti için bir okundu raporu iste"</string>
@@ -282,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Zil sesi olarak kaydet"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Zil sesi kaydedildi."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Zil sesi kaydedilemedi."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"İfade ekle"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Grup katılımcıları"</string>
     <string name="select_link_title" msgid="3371818607625768447">"İşlem seçin"</string>
     <string name="slide_number" msgid="1923958526266726635">"Slayt <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -345,4 +350,9 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"Telefonunuzun depolama alanı dolu"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"Yeni SMS/MMS mesajlarını almayacaksınız"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS Uyandırma"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Giden kutusundaki tüm MMS\'leri ağa gönderir"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Mesajlaşma, SMS uygulamanız değil"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g>, SMS uygulamanızdır"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Bunu Ayarlar\'da değiştirebilirsiniz."</string>
 </resources>

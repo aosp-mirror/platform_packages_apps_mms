@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Όλα τα νήματα"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Πληκτρολογήστε το μήνυμά σας"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Ανοίξτε το πληκτρολόγιο για να πληκτρολογήσετε το μήνυμα"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Η αποστολή απενεργοποιήθηκε"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Δεν είναι δυνατή η σύνταξη. Δεν υπάρχει προεπιλεγμένη εφαρμογή SMS."</string>
     <string name="compressing" msgid="1961357529661045180">"Υπερβολικά μεγάλη εικόνα. Συμπίεση..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Μη υποστηριζόμενη μορφή <xliff:g id="NAME">%1$s</xliff:g>."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Επιλέξτε ένα διαφορετικό <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Μηνύματα πολυμέσων (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Μηνύματα κειμένου (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Χώρος αποθήκευσης"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"Η λειτουργία SMS απενεργοποιήθηκε"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Αγγίξτε για να κάνετε την \"Ανταλλαγή μηνυμάτων\" την προεπιλεγμένη εφαρμογή SMS"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"Η λειτουργία SMS ενεργοποιήθηκε"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Αγγίξτε για να αλλάξετε την προεπιλεγμένη εφαρμογή SMS"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Διαχείριση μηνυμάτων που είναι αποθηκευμένα στην κάρτα SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Αίτηση αναφοράς παράδοσης για κάθε μήνυμα που στέλνετε"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Αίτηση αναφοράς ανάγνωσης για κάθε μήνυμα που στέλνετε"</string>
@@ -282,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Αποθήκευση ως ήχος κλήσης"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Ο ήχος κλήσης αποθηκεύτηκε."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Δεν ήταν δυνατή η αποθήκευση του ήχου κλήσης."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Εισαγ.εικον.smiley"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Συμμετέχοντες ομάδας"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Επιλογή ενέργειας"</string>
     <string name="slide_number" msgid="1923958526266726635">"Διαφάνεια <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -345,4 +350,9 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"Ο αποθηκευτικός χώρος του τηλεφώνου σας είναι πλήρης"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"Δεν θα λαμβάνετε νέα μηνύματα SMS/MMS"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Αφύπνιση MMS"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Αποστέλλει όλα τα MMS από τα εξερχόμενα στο δίκτυο"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Η Ανταλλαγή μηνυμάτων δεν αποτελεί την προεπιλεγμένη εφαρμογή SMS"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> αποτελεί την εφαρμογή SMS"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Αυτό μπορείτε να το αλλάξετε στην περιοχή \"Ρυθμίσεις\"."</string>
 </resources>

@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Все цепочки"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Введите сообщение"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Откройте клавиатуру, чтобы ввести сообщение"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Отправка отключена"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Не удалось сохранить сообщение. Это приложение не используется для обмена SMS."</string>
     <string name="compressing" msgid="1961357529661045180">"Картинка слишком большая. Выполняется сжатие…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Неподдерживаемый формат (<xliff:g id="NAME">%1$s</xliff:g>)."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Выберите другой объект (<xliff:g id="NAME">%1$s</xliff:g>)."</string>
@@ -117,7 +119,7 @@
     <string name="building_slideshow_title" msgid="1232338692400726385">"Создание слайд-шоу"</string>
     <string name="cannot_play_audio" msgid="253920977253666735">"Не удалось воспроизвести аудио."</string>
     <string name="preview" msgid="5438149136136446756">"Просмотреть"</string>
-    <string name="preview_slideshow" msgid="6824095909448728427">"Предварительный просмотр"</string>
+    <string name="preview_slideshow" msgid="6824095909448728427">"Предпросмотр"</string>
     <string name="replace_image" msgid="3171240952601443619">"Заменить картинку"</string>
     <string name="duration_sec" msgid="6617032324007824096">"Продолжительность: (<xliff:g id="DURATION">%s</xliff:g> с.)"</string>
     <string name="duration_selector_title" msgid="5981097971537625852">"Продолжительность показа слайда "</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Настройки MMS"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Настройки SMS"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Память"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS-служба отключена"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Нажмите, чтобы выбрать SMS/MMS для обмена SMS-сообщениями"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS-служба включена"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Нажмите, чтобы выбрать другое приложение для обмена SMS"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Управление сообщениями, хранящимися на SIM-карте"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Запрашивать отчет о доставке для всех отправляемых сообщений"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Запрашивать отчет о прочтении для всех отправляемых сообщений"</string>
@@ -248,7 +254,7 @@
     <string name="select_bottom_text" msgid="4201966447623311931">"Текст внизу"</string>
     <string name="select_top_text" msgid="6734183477539197815">"Текст вверху"</string>
     <string name="delivery_toast_body" msgid="5960519861835727013">"%s: сообщение доставлено"</string>
-    <string name="notification_multiple" msgid="7684007285202109490">"Непрочитанных сообщений: <xliff:g id="COUNT">%s</xliff:g>"</string>
+    <string name="notification_multiple" msgid="7684007285202109490">"Новых: <xliff:g id="COUNT">%s</xliff:g>"</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"Новые сообщения"</string>
     <string name="notification_failed_multiple" msgid="6192531993698497229">"Не удалось отправить сообщения (<xliff:g id="COUNT">%s</xliff:g>)"</string>
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"Сообщения не отправлены"</string>
@@ -282,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Сохранить как мелодию звонка"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Рингтон сохранен."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Рингтон не сохранен."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Вставить смайлик"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Группировать"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Выбор действия"</string>
     <string name="slide_number" msgid="1923958526266726635">"Слайд <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -345,4 +350,9 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> – <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"Недостаточно места"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"Вы не сможете получать новые SMS и MMS."</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Отправка MMS"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Отправка всех MMS в исходящих"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Приложение SMS/MMS не используется для обмена SMS-сообщениями."</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"Попробуйте \"<xliff:g id="APPNAME">%s</xliff:g>\" для SMS"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Этот параметр можно изменить в настройках"</string>
 </resources>

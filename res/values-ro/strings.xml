@@ -72,7 +72,7 @@
     <string name="remove_music" msgid="858889733416015223">"Eliminaţi muzica"</string>
     <string name="add_video" msgid="7816866867806595144">"Adăugaţi un videoclip"</string>
     <string name="remove_video" msgid="5258603891528497799">"Eliminaţi videoclipul"</string>
-    <string name="to_hint" msgid="224029549150332986">"Pentru"</string>
+    <string name="to_hint" msgid="224029549150332986">"Către"</string>
     <string name="subject_hint" msgid="4296714962311604126">"Subiect"</string>
     <string name="add_attachment" msgid="7103751293360532684">"Ataşaţi"</string>
     <string name="add_subject" msgid="7616134948428265870">"Adăugaţi un subiect"</string>
@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"Toate firele de conversaţie"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Introduceţi mesajul"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Deschideţi tastatura pentru a introduce mesajul"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Trimiterea este dezactivată."</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Nu se poate scrie. Aceasta nu este aplicația prestabilită pentru SMS-uri."</string>
     <string name="compressing" msgid="1961357529661045180">"Imaginea este prea mare. Se comprimă..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Format <xliff:g id="NAME">%1$s</xliff:g> neacceptat."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Alegeţi alt <xliff:g id="NAME">%1$s</xliff:g>."</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"Mesaje multimedia (MMS)"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Mesaje text (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Spaţiu de stocare"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"Mesaje SMS dezactivate"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Atingeți pentru a utiliza Mesagerie ca aplicație prestabilită pentru SMS."</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"Mesaje SMS activate"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Atingeți pentru a schimba aplicația prestabilită pentru SMS."</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Gestionaţi mesajele stocate pe cardul dvs. SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Solicitaţi un raport de expediere pentru fiecare mesaj trimis"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Solicitaţi un raport de citire pentru fiecare mesaj trimis"</string>
@@ -282,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"Salvaţi ca ton de apel"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"Ton de apel salvat."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"Tonul de sonerie nu a putut fi salvat."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"Inseraţi un emoticon"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"Grupaţi participanţii"</string>
     <string name="select_link_title" msgid="3371818607625768447">"Alegeţi o acţiune"</string>
     <string name="slide_number" msgid="1923958526266726635">"Diapozitiv <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -345,4 +350,9 @@
     <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> – <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
     <string name="storage_warning_title" msgid="7124740686325942375">"Spațiul de stocare al telefonului este plin"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"Nu veți mai primi mesaje SMS/MMS"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS trezire"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Trimiteți toate mesajele MMS, din Mesaje de trimis în rețea"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Aplicația Mesagerie nu este aplicația dvs. pentru SMS-uri"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> este aplicația dvs. pentru SMS-uri."</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Puteți modifica această opțiune în Setări."</string>
 </resources>
