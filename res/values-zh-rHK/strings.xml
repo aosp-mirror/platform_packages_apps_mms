@@ -351,7 +351,7 @@
     <string name="storage_warning_title" msgid="7124740686325942375">"手機的儲存空間已滿"</string>
     <string name="storage_warning_content" msgid="1100367816649962354">"您將無法收到新的 SMS/MMS 訊息"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS 喚醒"</string>
-    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"將寄件匣內的所有 MMS 傳送到網絡"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"將寄件箱內的所有 MMS 傳送到網絡"</string>
     <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"「短訊」不是您的短訊應用程式"</string>
     <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"「<xliff:g id="APPNAME">%s</xliff:g>」是您的短訊應用程式"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"您可以在 [設定] 中變更這項設定"</string>
