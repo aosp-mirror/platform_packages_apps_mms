@@ -49,8 +49,6 @@ import java.util.ArrayList;
  * it.
  */
 public class ClassZeroActivity extends Activity {
-    private static final String BUFFER = "         ";
-    private static final int BUFFER_OFFSET = BUFFER.length() * 2;
     private static final String TAG = "display_00";
     private static final int ON_AUTO_SAVE = 1;
     private static final String[] REPLACE_PROJECTION = new String[] { Sms._ID,
@@ -157,16 +155,9 @@ public class ClassZeroActivity extends Activity {
     }
 
     private void displayZeroMessage(SmsMessage rawMessage) {
-        CharSequence messageChars = rawMessage.getMessageBody();
+        String message = rawMessage.getMessageBody();
         /* This'll be used by the save action */
         mMessage = rawMessage;
-        String message = messageChars.toString();
-
-        // TODO: The following line adds an emptry string before and after a message.
-        // This is not the correct way to layout a message. This is more of a hack
-        // to work-around a bug in AlertDialog. This needs to be fixed later when
-        // Android fixes the bug in AlertDialog.
-        if (message.length() < BUFFER_OFFSET) messageChars = BUFFER + message + BUFFER;
 
         mDialog = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK).setMessage(message)
                 .setPositiveButton(R.string.save, mSaveListener)
