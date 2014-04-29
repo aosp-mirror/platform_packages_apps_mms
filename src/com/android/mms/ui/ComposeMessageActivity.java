@@ -4171,6 +4171,13 @@ public class ComposeMessageActivity extends Activity
                     return;
 
                 case ConversationList.HAVE_LOCKED_MESSAGES_TOKEN:
+                    if (ComposeMessageActivity.this.isFinishing()) {
+                        Log.w(TAG, "ComposeMessageActivity is finished, do nothing ");
+                        if (cursor != null) {
+                            cursor.close();
+                        }
+                        return ;
+                    }
                     @SuppressWarnings("unchecked")
                     ArrayList<Long> threadIds = (ArrayList<Long>)cookie;
                     ConversationList.confirmDeleteThreadDialog(
