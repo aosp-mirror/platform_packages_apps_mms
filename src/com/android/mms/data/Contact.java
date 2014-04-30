@@ -355,6 +355,9 @@ public class Contact {
     }
 
     public static void init(final Context context) {
+        if (sContactCache != null) { // Stop previous Runnable
+            sContactCache.mTaskQueue.mWorkerThread.interrupt();
+        }
         sContactCache = new ContactsCache(context);
 
         RecipientIdCache.init(context);
@@ -503,7 +506,7 @@ public class Contact {
                                     try {
                                         mThingsToLoad.wait();
                                     } catch (InterruptedException ex) {
-                                        // nothing to do
+                                        break;  // Exception sent by Contact.init() to stop Runnable
                                     }
                                 }
                                 if (mThingsToLoad.size() > 0) {
