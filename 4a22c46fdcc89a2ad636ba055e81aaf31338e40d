@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8aba749a_cc3a4de2",
+        "filename": "src/com/android/mms/data/Conversation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1003618
+      },
+      "writtenOn": "2014-05-06T18:19:16Z",
+      "side": 1,
+      "message": "Doesn\u0027t this \"return null\" here change the logic of the function? Previously, the code would update the threadUri, fall through and setHasUnreadMessages and continue on updating the notifications. With your change, the return null in the finally will always get executed and even on a successful update, skip the rest of the code. Is that the intention?",
+      "range": {
+        "startLine": 406,
+        "startChar": 0,
+        "endLine": 406,
+        "endChar": 40
+      },
+      "revId": "4a22c46fdcc89a2ad636ba055e81aaf31338e40d",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
