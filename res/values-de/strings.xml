@@ -253,7 +253,7 @@
     <string name="attach_slideshow" msgid="3497422151091037063">"Diashow"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"Text unten"</string>
     <string name="select_top_text" msgid="6734183477539197815">"Text oben"</string>
-    <string name="delivery_toast_body" msgid="5960519861835727013">"Nachricht erhalten von %s"</string>
+    <string name="delivery_toast_body" msgid="5960519861835727013">"%s hat Ihre Nachricht erhalten."</string>
     <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> ungelesene Nachrichten"</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"Neue Nachrichten"</string>
     <string name="notification_failed_multiple" msgid="6192531993698497229">"<xliff:g id="COUNT">%s</xliff:g> Nachrichten wurden nicht gesendet."</string>
