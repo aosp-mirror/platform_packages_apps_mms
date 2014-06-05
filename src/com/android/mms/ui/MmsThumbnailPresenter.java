@@ -78,7 +78,8 @@ public class MmsThumbnailPresenter extends Presenter {
                             ((SlideViewInterface)mView).setVideoThumbnail(null,
                                     imageLoaded.mBitmap);
                         } else if (slide.hasImage() && !imageLoaded.mIsVideo) {
-                            ((SlideViewInterface)mView).setImage(null, imageLoaded.mBitmap);
+                            ((SlideViewInterface)mView).setImage(slide.getImage().getUri(),
+                                    slide.getImage().getContentType(), imageLoaded.mBitmap);
                         }
                     }
                 }

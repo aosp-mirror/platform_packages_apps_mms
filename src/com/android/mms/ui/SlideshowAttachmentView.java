@@ -70,7 +70,7 @@ public class SlideshowAttachmentView extends LinearLayout implements
         // TODO Auto-generated method stub
     }
 
-    public void setImage(String name, Bitmap bitmap) {
+    public void setImage(Uri uri, String name, Bitmap bitmap) {
         if (null == bitmap) {
             try {
                 bitmap = BitmapFactory.decodeResource(getResources(),

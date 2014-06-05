@@ -123,7 +123,7 @@ public class AudioAttachmentView extends LinearLayout implements
         mArtistView.setText((String) extras.get("artist"));
     }
 
-    public void setImage(String name, Bitmap bitmap) {
+    public void setImage(Uri uri, String name, Bitmap bitmap) {
         // TODO Auto-generated method stub
 
     }

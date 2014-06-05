@@ -26,7 +26,7 @@ import android.net.Uri;
  * Defines the interfaces of the view to show contents of a slide.
  */
 public interface SlideViewInterface extends ViewInterface {
-    void setImage(String name, Bitmap bitmap);
+    void setImage(Uri uri, String name, Bitmap bitmap);
     void setImageRegionFit(String fit);
     void setImageVisibility(boolean visible);
 

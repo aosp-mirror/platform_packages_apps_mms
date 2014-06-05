@@ -67,6 +67,14 @@ public class MediaModelFactory {
                     part = pb.getPartByFileName(src);
                     if (part == null) {
                         part = pb.getPartByContentLocation(src);
+                        if ((part == null) && (src.indexOf(".") != -1)) {
+                            String fileName = src.substring(0, src.indexOf("."));
+                            if (src.startsWith("<")) {
+                                part = pb.getPartByContentId(fileName);
+                            } else {
+                                part = pb.getPartByContentId("<" + fileName + ">");
+                            }
+                        }
                     }
                 }
             }

@@ -383,8 +383,10 @@ public class SmilPlayer implements Runnable {
         beginSmilDocument();
 
         for (int i = mCurrentSlide; i < mCurrentElement; i++) {
-            TimelineEntry entry = mAllEntries.get(i);
-            actionEntry(entry);
+            if (i < mAllEntries.size()) {
+              TimelineEntry entry = mAllEntries.get(i);
+              actionEntry(entry);
+            }
         }
         seekActiveMedia();
     }

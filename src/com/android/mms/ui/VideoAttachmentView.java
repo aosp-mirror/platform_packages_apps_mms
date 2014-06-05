@@ -66,7 +66,7 @@ public class VideoAttachmentView extends LinearLayout implements
         // TODO Auto-generated method stub
     }
 
-    public void setImage(String name, Bitmap bitmap) {
+    public void setImage(Uri uri, String name, Bitmap bitmap) {
         // TODO Auto-generated method stub
     }
 

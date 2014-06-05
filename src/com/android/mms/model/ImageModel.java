@@ -42,6 +42,7 @@ import com.android.mms.ui.UriImage;
 import com.android.mms.util.ItemLoadedCallback;
 import com.android.mms.util.ItemLoadedFuture;
 import com.android.mms.util.ThumbnailManager;
+import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
@@ -60,8 +61,7 @@ public class ImageModel extends RegionMediaModel {
      */
     private static final Set<String> SUPPORTED_MMS_IMAGE_CONTENT_TYPES =
         new HashSet<String>(Arrays.asList(new String[] {
-                "image/jpeg",
-            }));
+                ContentType.IMAGE_JPEG, ContentType.IMAGE_GIF,}));
 
     private int mWidth;
     private int mHeight;

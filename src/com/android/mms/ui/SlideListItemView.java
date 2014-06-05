@@ -82,7 +82,7 @@ public class SlideListItemView extends LinearLayout implements SlideViewInterfac
         }
     }
 
-    public void setImage(String name, Bitmap bitmap) {
+    public void setImage(Uri uri, String name, Bitmap bitmap) {
         try {
             if (null == bitmap) {
                 bitmap = BitmapFactory.decodeResource(getResources(),

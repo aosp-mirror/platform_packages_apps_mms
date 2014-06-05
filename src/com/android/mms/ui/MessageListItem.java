@@ -377,7 +377,7 @@ public class MessageListItem extends LinearLayout implements
             }
             if (mMessageItem.mAttachmentType != WorkingMessage.TEXT) {
                 if (!sameItem) {
-                    setImage(null, null);
+                    setImage(null, null, null);
                 }
                 setOnClickListener(mMessageItem);
                 drawPlaybackButton(mMessageItem);
@@ -446,7 +446,7 @@ public class MessageListItem extends LinearLayout implements
                 if (imageLoaded.mIsVideo) {
                     mListItem.setVideoThumbnail(null, imageLoaded.mBitmap);
                 } else {
-                    mListItem.setImage(null, imageLoaded.mBitmap);
+                    mListItem.setImage(null, null, imageLoaded.mBitmap);
                 }
             }
         }
@@ -468,7 +468,7 @@ public class MessageListItem extends LinearLayout implements
     }
 
     @Override
-    public void setImage(String name, Bitmap bitmap) {
+    public void setImage(Uri uri, String name, Bitmap bitmap) {
         showMmsView(true);
 
         try {

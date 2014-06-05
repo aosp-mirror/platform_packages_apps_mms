@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import android.content.Context;
+import android.drm.DrmStore;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
@@ -40,8 +41,14 @@ import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
+import com.android.mms.drm.DrmUtils;
+import com.android.mms.model.ImageModel;
+import com.android.mms.model.RegionModel;
+import com.google.android.mms.ContentType;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.layout.LayoutManager;
 
@@ -51,13 +58,11 @@ import com.android.mms.layout.LayoutManager;
 public class SlideView extends AbsoluteLayout implements
         AdaptableSlideViewInterface {
     private static final String TAG = "SlideView";
-    private static final boolean DEBUG = false;
-    private static final boolean LOCAL_LOGV = false;
     // FIXME: Need getHeight from mAudioInfoView instead of constant AUDIO_INFO_HEIGHT.
     private static final int AUDIO_INFO_HEIGHT = 82;
 
     private View mAudioInfoView;
-    private ImageView mImageView;
+    private MessagingImageView mImageView;
     private VideoView mVideoView;
     private ScrollView mScrollText;
     private TextView mTextView;
@@ -72,6 +77,7 @@ public class SlideView extends AbsoluteLayout implements
     // Indicates whether the view is in MMS conformance mode.
     private boolean mConformanceMode;
     private MediaController mMediaController;
+    private boolean mAnimationInProgress = false;
 
     MediaPlayer.OnPreparedListener mPreparedListener = new MediaPlayer.OnPreparedListener() {
         public void onPrepared(MediaPlayer mp) {
@@ -103,25 +109,76 @@ public class SlideView extends AbsoluteLayout implements
         super(context, attrs);
     }
 
-    public void setImage(String name, Bitmap bitmap) {
+    public void setImage(Uri imageUri, String contentType, Bitmap bitmap) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+            Log.v(TAG, "Slideview::setImage with model type " + contentType);
+        }
         if (mImageView == null) {
-            mImageView = new ImageView(mContext);
-            mImageView.setPadding(0, 5, 0, 5);
+            mImageView = new MessagingImageView(mContext);
             addView(mImageView, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 0, 0));
-            if (DEBUG) {
-                mImageView.setBackgroundColor(0xFFFF0000);
+        }
+        if (ContentType.IMAGE_GIF.equals(contentType)) {
+            try {
+                if (imageUri != null && contentType!=null) {
+                    if (DrmUtils.isDrmType(contentType)
+                            && !DrmUtils.haveRightsForAction(imageUri, DrmStore.Action.TRANSFER)) {
+                        Log.v(TAG, "Insufficient DRM rights.");
+                        Toast.makeText(mContext,
+                                mContext.getString(R.string.insufficient_drm_rights),
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                if (null == bitmap) {
+                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                        Log.v(TAG, "Bitmap is null: Taking default");
+                    }
+                    bitmap = BitmapFactory.decodeResource(getResources(),
+                            R.drawable.ic_missing_thumbnail_picture);
+                }
+                if (mAnimationInProgress != true) {
+                    animateImage(imageUri, contentType, bitmap);
+                }
+            } catch (java.lang.OutOfMemoryError e) {
+                Log.v(TAG, "Could not decode bitmap:Out of memory error");
+                try {
+                    if (mImageView != null && bitmap != null && !bitmap.isRecycled()) {
+                        mImageView.setImageBitmap(bitmap);
+                    }
+                } catch (Exception e1) {
+                    Log.v(TAG, "Exception while setting bitmap");
+                }
+            }
+        } else {
+            try {
+                if (null == bitmap) {
+                    if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                        Log.v(TAG, "Bitmap is null: Taking default");
+                    }
+                    bitmap = BitmapFactory.decodeResource(getResources(),
+                            R.drawable.ic_missing_thumbnail_picture);
+                }
+                if (mImageView != null) {
+                    mImageView.setVisibility(View.VISIBLE);
+                    mImageView.setImageBitmap(bitmap);
+                    mImageView.setPadding(10, 10, 10, 5);
+                }
+            } catch (java.lang.OutOfMemoryError e) {
+                Log.v(TAG, "Could not decode bitmap::Out of memory error");
             }
         }
-        try {
-            if (null == bitmap) {
-                bitmap = BitmapFactory.decodeResource(getResources(),
-                        R.drawable.ic_missing_thumbnail_picture);
+    }
+
+    private void animateImage(Uri uri, String mimeType, Bitmap alternateImage) {
+        if (mImageView != null && uri != null) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                Log.v(TAG, "Start playing GIF uri is:" + uri);
             }
-            mImageView.setVisibility(View.VISIBLE);
-            mImageView.setImageBitmap(bitmap);
-        } catch (java.lang.OutOfMemoryError e) {
-            Log.e(TAG, "setImage: out of memory: ", e);
+
+            mImageView.startPlayingGif(uri, mimeType, alternateImage);
+            mImageView.setPadding(10, 10, 10, 5);
+            mAnimationInProgress = true;
         }
     }
 
@@ -141,12 +198,12 @@ public class SlideView extends AbsoluteLayout implements
             mVideoView = new VideoView(mContext);
             addView(mVideoView, new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0));
-            if (DEBUG) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 mVideoView.setBackgroundColor(0xFFFF0000);
             }
         }
 
-        if (LOCAL_LOGV) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             Log.v(TAG, "Changing video source to " + video);
         }
         mVideoView.setVisibility(View.VISIBLE);
@@ -169,7 +226,7 @@ public class SlideView extends AbsoluteLayout implements
                 addView(mAudioInfoView, new LayoutParams(
                         LayoutParams.MATCH_PARENT, AUDIO_INFO_HEIGHT,
                         0, getHeight() - AUDIO_INFO_HEIGHT));
-                if (DEBUG) {
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     mAudioInfoView.setBackgroundColor(0xFFFF0000);
                 }
             }
@@ -196,7 +253,7 @@ public class SlideView extends AbsoluteLayout implements
             throw new IllegalArgumentException("Audio URI may not be null.");
         }
 
-        if (LOCAL_LOGV) {
+        if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             Log.v(TAG, "Changing audio source to " + audio);
         }
 
@@ -232,7 +289,7 @@ public class SlideView extends AbsoluteLayout implements
                 mScrollText.setScrollBarStyle(SCROLLBARS_OUTSIDE_INSET);
                 addView(mScrollText, new LayoutParams(
                         LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0));
-                if (DEBUG) {
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     mScrollText.setBackgroundColor(0xFF00FF00);
                 }
             }
@@ -332,7 +389,7 @@ public class SlideView extends AbsoluteLayout implements
 
     public void startVideo() {
         if (mVideoView != null) {
-            if (LOCAL_LOGV) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 Log.v(TAG, "Starting video playback.");
             }
             mVideoView.start();
@@ -341,7 +398,7 @@ public class SlideView extends AbsoluteLayout implements
 
     public void stopVideo() {
         if ((mVideoView != null)) {
-            if (LOCAL_LOGV) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 Log.v(TAG, "Stopping video playback.");
             }
             mVideoView.stopPlayback();
@@ -350,7 +407,7 @@ public class SlideView extends AbsoluteLayout implements
 
     public void pauseVideo() {
         if (mVideoView != null) {
-            if (LOCAL_LOGV) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 Log.v(TAG, "Pausing video playback.");
             }
             mVideoView.pause();
@@ -360,7 +417,7 @@ public class SlideView extends AbsoluteLayout implements
     public void seekVideo(int seekTo) {
         if (mVideoView != null) {
             if (seekTo > 0) {
-                if (LOCAL_LOGV) {
+                if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     Log.v(TAG, "Seeking video playback to " + seekTo);
                 }
                 mVideoView.seekTo(seekTo);
@@ -371,6 +428,17 @@ public class SlideView extends AbsoluteLayout implements
     public void reset() {
         if (null != mScrollText) {
             mScrollText.setVisibility(View.GONE);
+        }
+
+        // Stop animation
+        if (mAnimationInProgress && mImageView!=null) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                Log.v(TAG, "Stopping animation");
+            }
+
+            Log.v(TAG, "Stop playing animation called");
+            mImageView.stopPlayingGif();
+            mAnimationInProgress = false;
         }
 
         if (null != mImageView) {
@@ -407,7 +475,7 @@ public class SlideView extends AbsoluteLayout implements
         super.onSizeChanged(w, h, oldw, oldh);
 
         if (mSizeChangedListener != null) {
-            if (LOCAL_LOGV) {
+            if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                 Log.v(TAG, "new size=" + w + "x" + h);
             }
             mSizeChangedListener.onSizeChanged(w, h - AUDIO_INFO_HEIGHT);
@@ -524,8 +592,8 @@ public class SlideView extends AbsoluteLayout implements
         }
 
         if (imageLeft >=0 && imageTop >=0) {
-            mImageView = new ImageView(mContext);
-            mImageView.setPadding(0, 5, 0, 5);
+            mImageView = new MessagingImageView(mContext);
+            mImageView.setPadding(10, 10, 10, 5);
             viewsByPosition.put(new Position(imageLeft, imageTop), mImageView);
             // According MMS Conformance Document, the image and video should use the same
             // region. So, put the VideoView below the ImageView.

@@ -95,7 +95,7 @@ public class BasicSlideEditorView extends LinearLayout implements
         mAudioNameView.setText(name);
     }
 
-    public void setImage(String name, Bitmap bitmap) {
+    public void setImage(Uri uri, String name, Bitmap bitmap) {
         try {
             if (null == bitmap) {
                 bitmap = BitmapFactory.decodeResource(getResources(),
