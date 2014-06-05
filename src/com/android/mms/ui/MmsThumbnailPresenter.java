@@ -20,10 +20,13 @@ package com.android.mms.ui;
 import android.content.Context;
 
 import com.android.mms.model.AudioModel;
+import com.android.mms.model.ICalModel;
 import com.android.mms.model.ImageModel;
+import com.android.mms.model.MediaModel;
 import com.android.mms.model.Model;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
+import com.android.mms.model.VcardModel;
 import com.android.mms.model.VideoModel;
 import com.android.mms.util.ItemLoadedCallback;
 import com.android.mms.util.ItemLoadedFuture;
@@ -44,6 +47,18 @@ public class MmsThumbnailPresenter extends Presenter {
         SlideModel slide = ((SlideshowModel) mModel).get(0);
         if (slide != null) {
             presentFirstSlide((SlideViewInterface) mView, slide);
+        }
+
+        if (((SlideshowModel) mModel).hasAttachment()) {
+            setAttachment((SlideViewInterface) mView, ((SlideshowModel) mModel).getAttachment(0));
+        }
+    }
+
+    private void setAttachment(SlideViewInterface mView, MediaModel attachment) {
+        if (attachment instanceof VcardModel) {
+            setVCardImage(mView, (VcardModel) attachment);
+        } else if (attachment instanceof ICalModel) {
+            setICalImage(mView, (ICalModel) attachment);
         }
     }
 
@@ -92,6 +107,14 @@ public class MmsThumbnailPresenter extends Presenter {
 
     private void presentImageThumbnail(SlideViewInterface view, ImageModel image) {
         mItemLoadedFuture = image.loadThumbnailBitmap(mImageLoadedCallback);
+    }
+
+    private void setVCardImage(SlideViewInterface view, VcardModel vcardImage) {
+        view.setImage(null, null, vcardImage.getBitmap(0,0));
+    }
+
+    private void setICalImage(SlideViewInterface view, ICalModel ical) {
+        view.setImage(null, null, ical.getBitmap(0,0));
     }
 
     protected void presentAudioThumbnail(SlideViewInterface view, AudioModel audio) {

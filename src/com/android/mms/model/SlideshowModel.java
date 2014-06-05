@@ -50,6 +50,7 @@ import com.android.mms.ContentRestrictionException;
 import com.android.mms.ExceedMessageSizeException;
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
+import com.android.mms.ui.MessageUtils;
 import com.android.mms.dom.smil.parser.SmilXmlSerializer;
 import com.android.mms.layout.LayoutManager;
 import com.google.android.mms.ContentType;
@@ -78,6 +79,10 @@ public class SlideshowModel extends Model
     // amount of space to leave in a slideshow for text and overhead.
     public static final int SLIDESHOW_SLOP = 1024;
 
+    // Attachments are media elements that are not part of a slideshow. They
+    // do not have an associated region and are only related to Mms parts.
+    private List<MediaModel> mAttachments = new ArrayList<MediaModel>();
+
     private SlideshowModel(Context context) {
         mLayout = new LayoutModel();
         mSlides = new ArrayList<SlideModel>();
@@ -85,7 +90,7 @@ public class SlideshowModel extends Model
     }
 
     private SlideshowModel (
-            LayoutModel layouts, ArrayList<SlideModel> slides,
+            LayoutModel layouts, ArrayList<SlideModel> slides, List<MediaModel> attachments,
             SMILDocument documentCache, PduBody pbCache,
             Context context) {
         mLayout = layouts;
@@ -94,6 +99,7 @@ public class SlideshowModel extends Model
 
         mDocumentCache = documentCache;
         mPduBodyCache = pbCache;
+        mAttachments = attachments;
         for (SlideModel slide : mSlides) {
             increaseMessageSize(slide.getSlideSize());
             slide.setParent(this);
@@ -109,7 +115,8 @@ public class SlideshowModel extends Model
         return createFromPduBody(context, getPduBody(context, uri));
     }
 
-    public static SlideshowModel createFromPduBody(Context context, PduBody pb) throws MmsException {
+    public static SlideshowModel createFromPduBody(Context context, PduBody pb)
+            throws MmsException {
         SMILDocument document = SmilHelper.getDocument(pb);
 
         // Create root-layout model.
@@ -226,10 +233,28 @@ public class SlideshowModel extends Model
             slides.add(slide);
         }
 
-        SlideshowModel slideshow = new SlideshowModel(layouts, slides, document, pb, context);
-        slideshow.mTotalMessageSize = totalMessageSize;
-        slideshow.registerModelChangedObserver(slideshow);
-        return slideshow;
+        // Parse attachments, such as vCard and vCalendar
+        List<MediaModel> attachments = parseAttachments(context, pb);
+        if (attachments != null && attachments.size() > 0) {
+            // Remove empty slides
+            ArrayList<SlideModel> tempSlides = new ArrayList<SlideModel>(slidesNum);
+            if (slides.size() > 0) {
+                for (SlideModel model : slides) {
+                    if (!model.isEmpty()) {
+                        tempSlides.add(model);
+                    }
+                }
+                if (!tempSlides.isEmpty()) {
+                    slides = tempSlides;
+                }
+            }
+         }
+
+         SlideshowModel slideshow = new SlideshowModel(layouts, slides, attachments,
+                 document, pb, context);
+         slideshow.mTotalMessageSize = totalMessageSize;
+         slideshow.registerModelChangedObserver(slideshow);
+         return slideshow;
     }
 
     public PduBody toPduBody() {
@@ -297,6 +322,16 @@ public class SlideshowModel extends Model
             }
         }
 
+        for (MediaModel model : mAttachments) {
+            String contentType = model.getContentType();
+            if (MessageUtils.isCalendarType(contentType) || ContentType.isVCardType(contentType)) {
+                PduPart part = makeAttachmentPduPart(model);
+                if (part != null) {
+                    pb.addPart(part);
+                }
+             }
+         }
+
         // Create and insert SMIL part(as the first part) into the PduBody.
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         SmilXmlSerializer.serialize(document, out);
@@ -308,6 +343,40 @@ public class SlideshowModel extends Model
         pb.addPart(0, smilPart);
 
         return pb;
+    }
+
+    private PduPart makeAttachmentPduPart(MediaModel media) {
+        PduPart part = new PduPart();
+        // Set Content-Type.
+        part.setContentType(media.getContentType().getBytes());
+        // Set File Name.
+        part.setFilename(media.getSrc().getBytes());
+        String src = media.getSrc();
+        String location;
+        boolean startWithContentId = src.startsWith("cid:");
+        if (startWithContentId) {
+            location = src.substring("cid:".length());
+        } else {
+            location = src;
+        }
+
+        //set name
+        part.setName(location.getBytes());
+
+        // Set Content-Location.
+        part.setContentLocation(location.getBytes());
+
+        // Set Content-Id.
+        if (startWithContentId) {
+            // Keep the original Content-Id.
+            part.setContentId(location.getBytes());
+        } else {
+            int index = location.lastIndexOf(".");
+            String contentId = (index == -1) ? location : location.substring(0, index);
+            part.setContentId(contentId.getBytes());
+        }
+        part.setDataUri(media.getUri());
+        return part;
     }
 
     public HashMap<Uri, InputStream> openPartFiles(ContentResolver cr) {
@@ -431,6 +500,8 @@ public class SlideshowModel extends Model
             }
             mCurrentMessageSize = 0;
             mSlides.clear();
+            if (mAttachments != null)
+                mAttachments.clear();
             notifyModelChanged(true);
         }
     }
@@ -613,6 +684,15 @@ public class SlideshowModel extends Model
                 }
             }
         }
+
+        for (MediaModel media : mAttachments) {
+             // Depending on non ascii file name support, content location is
+             // stored encoded on messaging database.
+             PduPart part = pb.getPartByContentLocation(media.getSrc());
+             if (part != null) {
+                 media.setUri(part.getDataUri());
+             }
+        }
     }
 
     public void checkMessageSize(int increaseSize) throws ContentRestrictionException {
@@ -723,4 +803,75 @@ public class SlideshowModel extends Model
         }
     }
 
+    /**
+     * Adds an attachment to this SMIL.
+     *
+     * @param attachment
+     * @return True if the slide has been added.
+     * @throws ContentRestrictionException
+     */
+    public boolean addAttachment(MediaModel attachment) throws ContentRestrictionException {
+        if (attachment != null) {
+            if (mAttachments.add(attachment)) {
+                notifyModelChanged(true);
+                return true;
+            }
+        }
+        return false;
+     }
+
+     public void removeAttachments() {
+         if (mAttachments != null) {
+             mAttachments.clear();
+             notifyModelChanged(true);
+         }
+     }
+
+     /**
+      * Parse attachments from pdu body.
+      *
+      * @param context
+      * @param pduBody
+      *             An attachment list.
+      * @return The attachment list.
+      */
+    private static List<MediaModel> parseAttachments(Context context, PduBody pduBody) {
+        ArrayList<MediaModel> attachments = new ArrayList<MediaModel>();
+
+        int partNum = pduBody.getPartsNum();
+
+        for (int i = 0; i < partNum; i++) {
+
+            try {
+                MediaModel media = MediaModelFactory.getMediaModel(context, pduBody.getPart(i));
+
+                if (media != null) {
+                    attachments.add(media);
+                }
+            } catch (MmsException ex) {
+                Log.e(TAG, "error while creating attachment", ex);
+                continue;
+            } catch (ContentRestrictionException ex) {
+                Log.w(TAG, "attachment is not supported", ex);
+                continue;
+            }
+        }
+
+        return attachments;
+    }
+
+    public MediaModel getAttachment(int location) {
+        if (mAttachments == null)
+            return null;
+            return (location >= 0 && location < mAttachments.size())
+                    ? mAttachments.get(location) : null;
+    }
+
+    public boolean hasAttachment() {
+        if (mAttachments == null)
+            return false;
+        if (mAttachments.size() > 0)
+            return true;
+        return false;
+    }
 }

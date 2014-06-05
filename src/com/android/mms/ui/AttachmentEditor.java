@@ -30,6 +30,7 @@ import android.widget.LinearLayout;
 
 import com.android.mms.R;
 import com.android.mms.data.WorkingMessage;
+import com.android.mms.model.MediaModel;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 
@@ -50,6 +51,7 @@ public class AttachmentEditor extends LinearLayout {
     static final int MSG_PLAY_AUDIO       = 8;
     static final int MSG_VIEW_IMAGE       = 9;
     static final int MSG_REMOVE_ATTACHMENT = 10;
+    static final int MSG_VIEW_ATTACHMENT = 11;
 
     private final Context mContext;
     private Handler mHandler;
@@ -165,6 +167,11 @@ public class AttachmentEditor extends LinearLayout {
                     R.id.audio_attachment_view,
                     R.id.play_audio_button, R.id.replace_audio_button, R.id.remove_audio_button,
                     MSG_PLAY_AUDIO, MSG_REPLACE_AUDIO, MSG_REMOVE_ATTACHMENT);
+        } else if (mSlideshow.hasAttachment()) {
+            return createMediaView(
+                    R.id.image_attachment_view_stub, R.id.image_attachment_view,
+                    R.id.view_image_button, R.id.replace_image_button, R.id.remove_image_button,
+                    MSG_VIEW_ATTACHMENT, MSG_REPLACE_IMAGE, MSG_REMOVE_ATTACHMENT);
         } else {
             throw new IllegalArgumentException();
         }

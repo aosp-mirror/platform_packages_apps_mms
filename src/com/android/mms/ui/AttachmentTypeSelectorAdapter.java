@@ -39,6 +39,7 @@ public class AttachmentTypeSelectorAdapter extends IconListAdapter {
     public final static int ADD_SOUND               = 4;
     public final static int RECORD_SOUND            = 5;
     public final static int ADD_SLIDESHOW           = 6;
+    public final static int ADD_VCARD               = 7;
 
     public AttachmentTypeSelectorAdapter(Context context, int mode) {
         super(context, getData(mode, context));
@@ -74,6 +75,11 @@ public class AttachmentTypeSelectorAdapter extends IconListAdapter {
         if (mode == MODE_WITH_SLIDESHOW) {
             addItem(data, context.getString(R.string.attach_slideshow),
                     R.drawable.ic_attach_slideshow_holo_light, ADD_SLIDESHOW);
+        }
+
+        if (MmsConfig.getIsVCardEnabled()) {
+            addItem(data, context.getString(R.string.attach_vcard),
+                    R.drawable.ic_menu_contact, ADD_VCARD);
         }
 
         return data;

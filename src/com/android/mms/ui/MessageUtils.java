@@ -18,9 +18,11 @@
 package com.android.mms.ui;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -40,6 +42,8 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.ContactsContract.Contacts;
+import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.MediaStore;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
@@ -57,9 +61,12 @@ import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.TempFileProvider;
 import com.android.mms.data.WorkingMessage;
+import com.android.mms.model.ICalModel;
 import com.android.mms.model.MediaModel;
+import com.android.mms.model.Model;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
+import com.android.mms.model.VcardModel;
 import com.android.mms.transaction.MmsMessageSender;
 import com.android.mms.util.AddressUtils;
 import com.google.android.mms.ContentType;
@@ -117,6 +124,7 @@ public class MessageUtils {
         }
     }
 
+    public static final String TEXT_ICALENDAR     = "text/calendar";
 
     private MessageUtils() {
         // Forbidden being instantiated.
@@ -411,8 +419,20 @@ public class MessageUtils {
         if (numberOfSlides > 1) {
             return WorkingMessage.SLIDESHOW;
         } else if (numberOfSlides == 1) {
+            if (model.hasAttachment()) {
+                MediaModel mm = model.getAttachment(0);
+                if (mm.isVCard()) {
+                    return WorkingMessage.VCARD;
+                } else if (mm.isICal()) {
+                    return WorkingMessage.ICAL;
+                }
+            }
             // Only one slide in the slide-show.
             SlideModel slide = model.get(0);
+
+            if (slide==null) {
+                return MessageItem.ATTACHMENT_TYPE_NOT_LOADED;
+            }
             if (slide.hasVideo()) {
                 return WorkingMessage.VIDEO;
             }
@@ -567,6 +587,17 @@ public class MessageUtils {
         }
     }
 
+    /**
+     * Get the intent to pick a media based on its uri.
+     * @param data - media uri
+     * @return intent to pick a media
+     */
+    public static Intent getMediaIntent(Uri data) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setData(data);
+        return intent;
+    }
+
     public static void viewSimpleSlideshow(Context context, SlideshowModel slideshow) {
         if (!slideshow.isSimple()) {
             throw new IllegalArgumentException(
@@ -587,6 +618,14 @@ public class MessageUtils {
         String contentType;
         contentType = mm.getContentType();
         intent.setDataAndType(mm.getUri(), contentType);
+        context.startActivity(intent);
+    }
+
+    public static void viewAttachment(Context context, SlideshowModel slideshow) {
+        MediaModel mm = slideshow.getAttachment(0);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setDataAndType(mm.getUri(), mm.getContentType());
         context.startActivity(intent);
     }
 
@@ -870,6 +909,12 @@ public class MessageUtils {
 
     public static void viewMmsMessageAttachment(final Activity activity, final Uri msgUri,
             final SlideshowModel slideshow, final int requestCode, AsyncDialog asyncDialog) {
+
+        if ((slideshow != null) && slideshow.hasAttachment()) {
+            viewAttachment(activity, slideshow);
+            return;
+        }
+
         boolean isSimple = (slideshow == null) ? false : slideshow.isSimple();
         if (isSimple) {
             // In attachment-editor mode, we only ever have one slide.
@@ -1027,4 +1072,20 @@ public class MessageUtils {
     private static void log(String msg) {
         Log.d(TAG, "[MsgUtils] " + msg);
     }
+
+   public static Uri getUriWithLookupKey(Uri lookupUri) {
+       Uri uri=null;
+       List<String> val = lookupUri.getPathSegments();
+       if(val!=null && val.size()>1){
+           String lookUpKey = val.get(val.size()-2);
+           uri = Uri.withAppendedPath(Contacts.CONTENT_VCARD_URI, lookUpKey);
+       }
+       return uri;
+   }
+
+   public static boolean isCalendarType(String contentType) {
+       return (null != contentType)
+               && (contentType.equalsIgnoreCase(ContentType.TEXT_VCALENDAR) || contentType
+                       .equalsIgnoreCase(TEXT_ICALENDAR));
+   }
 }

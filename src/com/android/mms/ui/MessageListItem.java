@@ -690,6 +690,8 @@ public class MessageListItem extends LinearLayout implements
         switch(msgItem.mAttachmentType) {
             case WorkingMessage.IMAGE:
             case WorkingMessage.VIDEO:
+            case WorkingMessage.VCARD:
+            case WorkingMessage.ICAL:
                 mImageView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {

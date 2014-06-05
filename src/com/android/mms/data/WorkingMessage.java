@@ -53,14 +53,18 @@ import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.ResolutionException;
 import com.android.mms.UnsupportContentTypeException;
+import com.android.mms.model.ICalModel;
 import com.android.mms.model.ImageModel;
+import com.android.mms.model.MediaModel;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.model.TextModel;
+import com.android.mms.model.VcardModel;
 import com.android.mms.transaction.MessageSender;
 import com.android.mms.transaction.MmsMessageSender;
 import com.android.mms.transaction.SmsMessageSender;
 import com.android.mms.ui.ComposeMessageActivity;
+import com.android.mms.ui.MessageItem;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.ui.SlideshowEditor;
@@ -120,6 +124,8 @@ public class WorkingMessage {
     public static final int VIDEO = 2;
     public static final int AUDIO = 3;
     public static final int SLIDESHOW = 4;
+    public static final int VCARD = 5;
+    public static final int ICAL = 6;
 
     // Current attachment type of the message; one of the above values.
     private int mAttachmentType;
@@ -218,6 +224,13 @@ public class WorkingMessage {
         return msg;
     }
 
+    private boolean isSlideMedia(int type) {
+        if ((type == VCARD) || (type == ICAL)) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Create a new WorkingMessage from the specified data URI, which typically
      * contains an MMS message.
@@ -256,7 +269,18 @@ public class WorkingMessage {
         } else if (slideCount > 1) {
             mAttachmentType = SLIDESHOW;
         } else {
+            if (mSlideshow.hasAttachment()) {
+                MediaModel model = mSlideshow.getAttachment(0);
+                if (model.isVCard()) {
+                    mAttachmentType = VCARD;
+                } else if (model.isICal()) {
+                    mAttachmentType = ICAL;
+                }
+            }
             SlideModel slide = mSlideshow.get(0);
+            if(slide == null) {
+                mAttachmentType = MessageItem.ATTACHMENT_TYPE_NOT_LOADED;
+            }
             if (slide.hasImage()) {
                 mAttachmentType = IMAGE;
             } else if (slide.hasVideo()) {
@@ -564,6 +588,8 @@ public class WorkingMessage {
         }
         slideShowEditor.addNewSlide(0);
         SlideModel slide = mSlideshow.get(0);   // get the new empty slide
+        //Remove Vcard/Ical attachments
+        mSlideshow.removeAttachments();
         int result = OK;
 
         if (slide == null) {
@@ -582,7 +608,24 @@ public class WorkingMessage {
             return result;
         }
 
-        result = internalChangeMedia(type, uri, 0, slideShowEditor);
+        if (isSlideMedia(type)) {
+            result = internalChangeMedia(type, uri, 0, slideShowEditor);
+        } else {
+            MediaModel media = null;
+            try {
+                if (type == VCARD) {
+                    media = new VcardModel(mActivity.getApplicationContext(), uri);
+                } else if (type == ICAL) {
+                    media = new ICalModel(mActivity.getApplicationContext(), uri);
+                }
+            } catch (MmsException e) {
+                Log.e(TAG, "internalChangeMedia:", e);
+                result = UNKNOWN_ERROR;
+            }
+            if (media != null) {
+                mSlideshow.addAttachment(media);
+            }
+        }
         if (result != OK) {
             slideShowEditor.removeSlide(0);             // remove the failed slide
             if (originalSlide != null) {

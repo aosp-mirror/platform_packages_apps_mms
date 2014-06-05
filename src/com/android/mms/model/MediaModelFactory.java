@@ -30,6 +30,7 @@ import android.util.Log;
 
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
+import com.android.mms.ui.MessageUtils;
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.PduBody;
@@ -214,4 +215,26 @@ public class MediaModelFactory {
         }
         return media;
     }
-}
+
+    /**
+     * Creates MediaModel for non region media.
+     *
+     * @param context
+     * @param part
+     * @return MediaModel
+     * @throws MmsException
+     */
+    public static MediaModel getMediaModel(Context context, PduPart part) throws MmsException {
+        MediaModel media = null;
+
+        String contentType = new String(part.getContentType());
+
+        if (MessageUtils.isCalendarType(contentType)) {
+            media = new ICalModel(context, part.getDataUri());
+        } else if (ContentType.isVCardType(contentType)) {
+            media = new VcardModel(context, part.getDataUri());
+        }
+
+        return media;
+     }
+ }

@@ -87,6 +87,7 @@ public class MmsConfig {
     // message will be converted to an mms.
     private static int mSmsToMmsTextThreshold = -1;
 
+    private static boolean mIsVCardEnabled = true;
     private static boolean mEnableSlideDuration = true;
     private static boolean mEnableMMSReadReports = true;        // key: "enableMMSReadReports"
     private static boolean mEnableSMSDeliveryReports = true;    // key: "enableSMSDeliveryReports"
@@ -290,6 +291,10 @@ public class MmsConfig {
         return mEnableGroupMms;
     }
 
+    public static boolean getIsVCardEnabled() {
+        return mIsVCardEnabled;
+    }
+
     public static final void beginDocument(XmlPullParser parser, String firstElementName) throws XmlPullParserException, IOException
     {
         int type;
@@ -365,6 +370,8 @@ public class MmsConfig {
                             mEnableMMSDeliveryReports = "true".equalsIgnoreCase(text);
                         } else if ("enableGroupMms".equalsIgnoreCase(value)) {
                             mEnableGroupMms = "true".equalsIgnoreCase(text);
+                        } else if ("IsVCardEnabled".equalsIgnoreCase(value)) {
+                            mIsVCardEnabled = "true".equalsIgnoreCase(text);
                         }
                     } else if ("int".equals(tag)) {
                         // int config tags go here

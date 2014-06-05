@@ -54,6 +54,7 @@ public abstract class MediaModel extends Model implements EventListener {
     protected int mSize;
     protected int mSeekTo;
     protected boolean mMediaResizeable;
+    protected String mMediaData;
 
     private final ArrayList<MediaAction> mMediaActions;
     public static enum MediaAction {
@@ -87,6 +88,15 @@ public abstract class MediaModel extends Model implements EventListener {
         mSrc = src;
         mData = data;
         mSize = data.length;
+        mMediaActions = new ArrayList<MediaAction>();
+    }
+
+    public MediaModel(Context context, String contentType,
+            String tag, Uri uri) throws MmsException {
+        mContext = context;
+        mContentType = contentType;
+        mTag = tag;
+        mUri = uri;
         mMediaActions = new ArrayList<MediaAction>();
     }
 
@@ -309,5 +319,23 @@ public abstract class MediaModel extends Model implements EventListener {
      * @throws MmsException
      */
     protected void resizeMedia(int byteLimit, long messageId) throws MmsException {
+    }
+
+    public boolean isVCard() {
+        if (this instanceof VcardModel) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isICal() {
+        if (this instanceof ICalModel) {
+            return true;
+        }
+        return false;
+    }
+
+    public String getMediaData() {
+        return mMediaData;
     }
 }

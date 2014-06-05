@@ -132,6 +132,7 @@ import com.android.mms.data.Conversation.ConversationQueryHandler;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.data.WorkingMessage.MessageStatusListener;
 import com.android.mms.drm.DrmUtils;
+import com.android.mms.model.MediaModel;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.transaction.MessagingNotification;
@@ -176,6 +177,8 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_ECM_EXIT_DIALOG  = 107;
     public static final int REQUEST_CODE_ADD_CONTACT      = 108;
     public static final int REQUEST_CODE_PICK             = 109;
+    public static final int REQUEST_CODE_ATTACH_VCARD     = 110;
+    public static final int REQUEST_CODE_PICK_CONTACT     = 111;
 
     private static final String TAG = "Mms/compose";
 
@@ -337,6 +340,7 @@ public class ComposeMessageActivity extends Activity
     // Whether or not we are currently enabled for SMS. This field is updated in onStart to make
     // sure we notice if the user has changed the default SMS app.
     private boolean mIsSmsEnabled;
+    private int mCurrentCursorPosition;
 
     private Handler mHandler = new Handler();
 
@@ -406,6 +410,11 @@ public class ComposeMessageActivity extends Activity
                 case AttachmentEditor.MSG_PLAY_AUDIO:
                 case AttachmentEditor.MSG_PLAY_SLIDESHOW:
                     viewMmsMessageAttachment(msg.what);
+                    break;
+
+                case AttachmentEditor.MSG_VIEW_ATTACHMENT:
+                    MessageUtils.viewAttachment(ComposeMessageActivity.this,
+                            mWorkingMessage.getSlideshow());
                     break;
 
                 case AttachmentEditor.MSG_REPLACE_IMAGE:
@@ -481,6 +490,8 @@ public class ComposeMessageActivity extends Activity
                             case WorkingMessage.VIDEO:
                             case WorkingMessage.AUDIO:
                             case WorkingMessage.SLIDESHOW:
+                            case WorkingMessage.VCARD:
+                            case WorkingMessage.ICAL:
                                 MessageUtils.viewMmsMessageAttachment(ComposeMessageActivity.this,
                                         msgItem.mMessageUri, msgItem.mSlideshow,
                                         getAsyncDialog());
@@ -1100,6 +1111,8 @@ public class ComposeMessageActivity extends Activity
                 }
                 switch (msgItem.mAttachmentType) {
                     case WorkingMessage.TEXT:
+                    case WorkingMessage.VCARD:
+                    case WorkingMessage.ICAL:
                         break;
                     case WorkingMessage.VIDEO:
                     case WorkingMessage.IMAGE:
@@ -2860,6 +2873,14 @@ public class ComposeMessageActivity extends Activity
                 editSlideshow();
                 break;
 
+            case AttachmentTypeSelectorAdapter.ADD_VCARD:
+                mCurrentCursorPosition = mTextEditor.getSelectionStart();
+                Intent intentVcard = MessageUtils
+                        .getMediaIntent(ContactsContract.Contacts.CONTENT_URI);
+                intentVcard.putExtra("for_export_only", true);
+                startActivityForResult(intentVcard, REQUEST_CODE_PICK_CONTACT);
+                break;
+
             default:
                 break;
         }
@@ -3025,11 +3046,46 @@ public class ComposeMessageActivity extends Activity
                 }
                 break;
 
+             case REQUEST_CODE_PICK_CONTACT:
+                 Uri lookupUri = data.getData();
+
+                 if (lookupUri != null) {
+                     lookupUri = MessageUtils.getUriWithLookupKey(lookupUri);
+                     if (lookupUri != null) {
+                         addVcard(lookupUri);
+                         addVcardDetails(true);
+                     }
+                 }
+                 break;
+
             default:
                 if (LogTag.VERBOSE) log("bail due to unknown requestCode=" + requestCode);
                 break;
         }
     }
+
+    private void addVcardDetails(boolean insertText) {
+        SlideshowModel slideshow = mWorkingMessage.getSlideshow();
+        if (slideshow != null && slideshow.hasAttachment()) {
+            MediaModel media = slideshow.getAttachment(0);
+            String phoneDetails = media.getMediaData();
+            if (!TextUtils.isEmpty(phoneDetails)) {
+                if (insertText)
+                    insertText(phoneDetails);
+                else
+                    mWorkingMessage.setText(phoneDetails);
+            }
+         }
+      }
+
+      /**
+       * Insert text at the current cursor position or replace the current selected text.
+       */
+      private void insertText(String newText) {
+                  mTextEditor.getText().replace(mCurrentCursorPosition,
+                          mCurrentCursorPosition, newText);
+                  mTextEditor.requestFocus();
+      }
 
     private void processPickResult(final Intent data) {
         // The EXTRA_PHONE_URIS stores the phone's urls that were selected by user in the
@@ -3210,6 +3266,16 @@ public class ComposeMessageActivity extends Activity
         handleAddAttachmentError(result, R.string.type_audio);
     }
 
+    private void addVcard(Uri uri) {
+       int result = mWorkingMessage.setAttachment(WorkingMessage.VCARD, uri, false);
+       handleAddAttachmentError(result, R.string.type_vcard);
+    }
+
+    private void addICal(Uri uri) {
+        int result = mWorkingMessage.setAttachment(WorkingMessage.ICAL, uri, false);
+        handleAddAttachmentError(result, R.string.type_ical);
+    }
+
     AsyncDialog getAsyncDialog() {
         if (mAsyncDialog == null) {
             mAsyncDialog = new AsyncDialog(this);
@@ -3320,6 +3386,15 @@ public class ComposeMessageActivity extends Activity
             } else if (type.startsWith("video/") ||
                     (wildcard && uri.toString().startsWith(mVideoUri))) {
                 addVideo(uri, append);
+            } else if (ContentType.isVCardType(type)) {
+                addVcard(uri);
+                addVcardDetails(false);
+            } else if (MessageUtils.isCalendarType(type)) {
+                Bundle extras = getIntent().getExtras();
+                if (extras != null && extras.containsKey(Intent.EXTRA_TEXT)) {
+                    mWorkingMessage.setText(extras.getString(Intent.EXTRA_TEXT));
+                }
+                addICal(uri);
             }
         }
     }

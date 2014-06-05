@@ -65,10 +65,14 @@ import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.Conversation;
 import com.android.mms.data.WorkingMessage;
+import com.android.mms.model.ICalModel;
+import com.android.mms.model.MediaModel;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
+import com.android.mms.model.VcardModel;
 import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.ui.ConversationList;
+import com.android.mms.ui.MessageItem;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.AddressUtils;
@@ -533,6 +537,8 @@ public class MessagingNotification {
             case WorkingMessage.VIDEO: id = R.string.attachment_video; break;
             case WorkingMessage.SLIDESHOW: id = R.string.attachment_slideshow; break;
             case WorkingMessage.IMAGE: id = R.string.attachment_picture; break;
+            case WorkingMessage.VCARD: id = R.string.attach_vcard; break;
+            case WorkingMessage.ICAL: id = R.string.type_ical; break;
         }
         if (id > 0) {
             final SpannableString spannableString = new SpannableString(context.getString(id));
@@ -620,6 +626,20 @@ public class MessagingNotification {
                                 messageBody = firstSlide.getText().getText();
                             }
                         }
+
+                        if(slideshow.hasAttachment()) {
+                           MediaModel firstattachment = slideshow.getAttachment(0);
+                           if (firstattachment.isVCard()) {
+                               int maxDim = dp2Pixels(MAX_BITMAP_DIMEN_DP);
+                               attachedPicture = ((VcardModel)firstattachment)
+                                       .getBitmap(maxDim,maxDim);
+                           }
+                           if (firstattachment.isICal()) {
+                               int maxDim = dp2Pixels(MAX_BITMAP_DIMEN_DP);
+                               attachedPicture = ((ICalModel)firstattachment)
+                                       .getBitmap(maxDim,maxDim);
+                           }
+                        }
                     }
                 } catch (final MmsException e) {
                     Log.e(TAG, "MmsException loading uri: " + msgUri, e);
@@ -654,7 +674,18 @@ public class MessagingNotification {
         } else if (slideCount > 1) {
             return WorkingMessage.SLIDESHOW;
         } else {
+            if (slideshow.hasAttachment()) {
+                MediaModel mm = slideshow.getAttachment(0);
+                if (mm.isVCard()) {
+                    return WorkingMessage.VCARD;
+                } else if (mm.isICal()) {
+                    return WorkingMessage.ICAL;
+                }
+            }
             SlideModel slide = slideshow.get(0);
+            if(slide==null) {
+                return MessageItem.ATTACHMENT_TYPE_NOT_LOADED;
+            }
             if (slide.hasImage()) {
                 return WorkingMessage.IMAGE;
             } else if (slide.hasVideo()) {

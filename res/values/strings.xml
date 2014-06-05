@@ -801,4 +801,18 @@
     <string name="banner_sms_promo_title_application"><xliff:g id="appName">%s</xliff:g> is your SMS app</string>
     <string name="banner_sms_promo_message">You can change this in Settings</string>
 
+      <!-- Attachment type shown in notification and attachemnt option list while adding namecard -->
+    <string name="attach_vcard">Name card</string>
+    <string name="type_vcard">vcard</string>
+    <string name="type_ical">Event</string>
+    <string name="note_type">Notes :</string>
+    <string name="organization_company_and_title"><xliff:g id="company" example="Technical Program Manager">%2$s</xliff:g>, <xliff:g id="company" example="Google Inc.">%1$s</xliff:g></string>
+    <string name="phone_type_number">Phone <xliff:g id="type" example="HOME">%1$s</xliff:g> : <xliff:g id="number" example="09234567980">%2$s</xliff:g></string>
+    <string name="email_type_number">Email <xliff:g id="type" example="WORK">%1$s</xliff:g> : <xliff:g id="address" example="abc@gmail.com">%2$s</xliff:g></string>
+    <string name="im_type_number">IM <xliff:g id="type" example="AIM">%1$s</xliff:g> : <xliff:g id="address" example="im addess">%2$s</xliff:g></string>
+    <string name="address_type_number">Address <xliff:g id="type" example="HOME">%1$s</xliff:g> : <xliff:g id="address" example="home addess">%2$s</xliff:g></string>
+    <string name="nickname_type">Nickname :</string>
+    <string name="website_type">Website :</string>
+    <string name="event_type">Event Birthday :</string>
+
 </resources>
