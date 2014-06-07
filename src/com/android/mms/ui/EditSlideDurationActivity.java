@@ -30,6 +30,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 
 /**
@@ -50,7 +51,7 @@ public class EditSlideDurationActivity  extends Activity {
     private Bundle mState;
     //  State.
     private final static String STATE = "state";
-    private final static String TAG = "EditSlideDurationActivity";
+    private final static String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 

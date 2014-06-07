@@ -17,6 +17,8 @@
 
 package com.android.mms.util;
 
+import com.android.mms.LogTag;
+
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -28,7 +30,7 @@ import android.provider.Telephony.Mms.Rate;
 import android.util.Log;
 
 public class RateController {
-    private static final String TAG = "RateController";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 

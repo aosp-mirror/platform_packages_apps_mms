@@ -35,7 +35,7 @@ import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.MessagingPreferenceActivity;
 
 public class MmsConfig {
-    private static final String TAG = "MmsConfig";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = true;
     private static final boolean LOCAL_LOGV = false;
 

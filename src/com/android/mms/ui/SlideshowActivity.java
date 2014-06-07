@@ -44,6 +44,7 @@ import android.widget.MediaController;
 import android.widget.MediaController.MediaPlayerControl;
 import android.widget.SeekBar;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.dom.AttrImpl;
 import com.android.mms.dom.smil.SmilDocumentImpl;
@@ -59,7 +60,7 @@ import com.google.android.mms.MmsException;
  * Plays the given slideshow in full-screen mode with a common controller.
  */
 public class SlideshowActivity extends Activity implements EventListener {
-    private static final String TAG = "SlideshowActivity";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 

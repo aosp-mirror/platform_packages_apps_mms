@@ -177,7 +177,7 @@ public class ComposeMessageActivity extends Activity
     public static final int REQUEST_CODE_ADD_CONTACT      = 108;
     public static final int REQUEST_CODE_PICK             = 109;
 
-    private static final String TAG = "Mms/compose";
+    private static final String TAG = LogTag.TAG;
 
     private static final boolean DEBUG = false;
     private static final boolean TRACE = false;

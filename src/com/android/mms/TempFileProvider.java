@@ -20,7 +20,7 @@ import android.util.Log;
  * capturing pictures and videos and storing the data in a file in the messaging app.
  */
 public class TempFileProvider extends ContentProvider {
-    private static String TAG = "TempFileProvider";
+    private static String TAG = LogTag.TAG;
 
     /**
      * The content:// style URL for this table

@@ -59,7 +59,7 @@ import com.google.android.mms.pdu.SendReq;
  * the formatting of which is done outside this model in MessageListItem.
  */
 public class MessageItem {
-    private static String TAG = "MessageItem";
+    private static String TAG = LogTag.TAG;
 
     public enum DeliveryStatus  { NONE, INFO, FAILED, PENDING, RECEIVED }
 

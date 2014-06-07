@@ -24,7 +24,7 @@ import com.android.mms.LogTag;
 @ThreadSafe
 public class RecipientIdCache {
     private static final boolean LOCAL_DEBUG = false;
-    private static final String TAG = "Mms/cache";
+    private static final String TAG = LogTag.TAG;
 
     private static Uri sAllCanonical =
             Uri.parse("content://mms-sms/canonical-addresses");

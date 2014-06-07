@@ -40,6 +40,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.google.android.mms.pdu.PduHeaders;
 
@@ -57,7 +58,7 @@ import com.google.android.mms.pdu.PduHeaders;
  *      the report will be about.
  */
 public class DeliveryReportActivity extends ListActivity {
-    private static final String LOG_TAG = "DeliveryReportActivity";
+    private static final String LOG_TAG = LogTag.TAG;
 
     static final String[] MMS_REPORT_REQUEST_PROJECTION = new String[] {
         Mms.Addr.ADDRESS,       //0

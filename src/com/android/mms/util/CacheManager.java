@@ -16,6 +16,8 @@
 
 package com.android.mms.util;
 
+import com.android.mms.LogTag;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,7 +28,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class CacheManager {
-    private static final String TAG = "CacheManager";
+    private static final String TAG = LogTag.TAG;
     private static final String KEY_CACHE_UP_TO_DATE = "cache-up-to-date";
     private static HashMap<String, BlobCache> sCacheMap =
             new HashMap<String, BlobCache>();

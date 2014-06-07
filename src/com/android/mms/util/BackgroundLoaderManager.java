@@ -16,6 +16,8 @@
 
 package com.android.mms.util;
 
+import com.android.mms.LogTag;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -48,7 +50,7 @@ import android.util.Log;
  * Based on BooksImageManager by Virgil King.
  */
 abstract class BackgroundLoaderManager {
-    private static final String TAG = "BackgroundLoaderManager";
+    private static final String TAG = LogTag.TAG;
 
     private static final int MAX_THREADS = 2;
 

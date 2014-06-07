@@ -36,7 +36,7 @@ public class MmsWidgetProvider extends AppWidgetProvider {
     public static final String ACTION_NOTIFY_DATASET_CHANGED =
             "com.android.mms.intent.action.ACTION_NOTIFY_DATASET_CHANGED";
 
-    private static final String TAG = "MmsWidgetProvider";
+    private static final String TAG = LogTag.TAG;
 
     /**
      * Update all widgets in the list

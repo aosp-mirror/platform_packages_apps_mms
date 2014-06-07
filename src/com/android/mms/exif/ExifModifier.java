@@ -16,6 +16,8 @@
 
 package com.android.mms.exif;
 
+import com.android.mms.LogTag;
+
 import android.util.Log;
 
 import java.io.IOException;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class ExifModifier {
-    public static final String TAG = "ExifModifier";
+    public static final String TAG = LogTag.TAG;
     public static final boolean DEBUG = false;
     private final ByteBuffer mByteBuffer;
     private final ExifData mTagToModified;

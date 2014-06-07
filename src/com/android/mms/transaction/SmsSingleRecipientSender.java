@@ -23,7 +23,7 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
     private final boolean mRequestDeliveryReport;
     private String mDest;
     private Uri mUri;
-    private static final String TAG = "SmsSingleRecipientSender";
+    private static final String TAG = LogTag.TAG;
 
     public SmsSingleRecipientSender(Context context, String dest, String msgText, long threadId,
             boolean requestDeliveryReport, Uri uri) {

@@ -16,6 +16,8 @@
 
 package com.android.mms.exif;
 
+import com.android.mms.LogTag;
+
 import android.util.Log;
 
 import java.io.BufferedOutputStream;
@@ -58,7 +60,7 @@ import java.util.ArrayList;
  * </pre>
  */
 class ExifOutputStream extends FilterOutputStream {
-    private static final String TAG = "ExifOutputStream";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final int STREAMBUFFER_SIZE = 0x00010000; // 64Kb
 

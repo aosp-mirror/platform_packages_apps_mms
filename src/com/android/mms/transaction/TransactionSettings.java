@@ -34,7 +34,7 @@ import com.android.mms.LogTag;
  * settings or of the MMS Client.
  */
 public class TransactionSettings {
-    private static final String TAG = "TransactionSettings";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = true;
     private static final boolean LOCAL_LOGV = false;
 

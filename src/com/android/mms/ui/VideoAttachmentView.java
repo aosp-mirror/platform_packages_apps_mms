@@ -29,6 +29,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 // TODO: remove dependency for SDK build
 
@@ -37,7 +38,7 @@ import com.android.mms.R;
  */
 public class VideoAttachmentView extends LinearLayout implements
         SlideViewInterface {
-    private static final String TAG = "VideoAttachmentView";
+    private static final String TAG = LogTag.TAG;
 
     private ImageView mThumbnailView;
 

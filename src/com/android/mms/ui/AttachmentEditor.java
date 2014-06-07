@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.data.WorkingMessage;
 import com.android.mms.model.SlideModel;
@@ -38,7 +39,7 @@ import com.android.mms.model.SlideshowModel;
  * into a multimedia message.
  */
 public class AttachmentEditor extends LinearLayout {
-    private static final String TAG = "AttachmentEditor";
+    private static final String TAG = LogTag.TAG;
 
     static final int MSG_EDIT_SLIDESHOW   = 1;
     static final int MSG_SEND_SLIDESHOW   = 2;

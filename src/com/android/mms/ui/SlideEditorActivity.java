@@ -44,6 +44,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.mms.ExceedMessageSizeException;
+import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
@@ -67,7 +68,7 @@ import com.google.android.mms.pdu.PduPersister;
  * This activity allows user to edit the contents of a slide.
  */
 public class SlideEditorActivity extends Activity {
-    private static final String TAG = "SlideEditorActivity";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 

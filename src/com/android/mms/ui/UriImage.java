@@ -47,7 +47,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class UriImage {
-    private static final String TAG = "Mms/image";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
     private static final int MMS_PART_ID = 12;

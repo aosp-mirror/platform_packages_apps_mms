@@ -64,7 +64,7 @@ import com.android.mms.UnsupportContentTypeException;
 
 public class SlideshowModel extends Model
         implements List<SlideModel>, IModelChangedObserver {
-    private static final String TAG = "Mms/slideshow";
+    private static final String TAG = LogTag.TAG;
 
     private final LayoutModel mLayout;
     private final ArrayList<SlideModel> mSlides;

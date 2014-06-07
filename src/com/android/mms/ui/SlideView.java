@@ -42,6 +42,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.layout.LayoutManager;
 
@@ -50,7 +51,7 @@ import com.android.mms.layout.LayoutManager;
  */
 public class SlideView extends AbsoluteLayout implements
         AdaptableSlideViewInterface {
-    private static final String TAG = "SlideView";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
     // FIXME: Need getHeight from mAudioInfoView instead of constant AUDIO_INFO_HEIGHT.

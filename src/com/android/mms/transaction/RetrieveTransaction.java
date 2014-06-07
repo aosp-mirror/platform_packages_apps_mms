@@ -29,6 +29,7 @@ import android.provider.Telephony.Mms.Inbox;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.MessagingPreferenceActivity;
@@ -58,7 +59,7 @@ import com.google.android.mms.pdu.RetrieveConf;
  * </ul>
  */
 public class RetrieveTransaction extends Transaction implements Runnable {
-    private static final String TAG = "RetrieveTransaction";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 

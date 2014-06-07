@@ -46,6 +46,7 @@ import android.text.TextUtils;
 import android.util.Config;
 import android.util.Log;
 
+import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 import com.android.mms.dom.smil.SmilDocumentImpl;
 import com.android.mms.dom.smil.parser.SmilXmlParser;
@@ -56,7 +57,7 @@ import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPart;
 
 public class SmilHelper {
-    private static final String TAG = "Mms/smil";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 

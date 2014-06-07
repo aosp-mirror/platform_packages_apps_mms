@@ -48,7 +48,7 @@ import com.google.android.mms.pdu.PduPersister;
 
 
 public class ImageModel extends RegionMediaModel {
-    private static final String TAG = "Mms/image";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 

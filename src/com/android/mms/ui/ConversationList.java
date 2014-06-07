@@ -91,7 +91,7 @@ import java.util.HashSet;
  * This activity provides a list view of existing conversations.
  */
 public class ConversationList extends ListActivity implements DraftCache.OnDraftChangedListener {
-    private static final String TAG = "ConversationList";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean DEBUGCLEANUP = true;
 

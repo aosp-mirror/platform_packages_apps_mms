@@ -31,6 +31,7 @@ import android.provider.Telephony.Sms;
 import android.provider.Telephony.Sms.Conversations;
 import android.util.Log;
 
+import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.ui.MessageUtils;
 import com.android.mms.ui.MessagingPreferenceActivity;
@@ -40,7 +41,7 @@ import com.android.mms.ui.MessagingPreferenceActivity;
  */
 public abstract class Recycler {
     private static final boolean LOCAL_DEBUG = false;
-    private static final String TAG = "Recycler";
+    private static final String TAG = LogTag.TAG;
 
     // Default preference values
     private static final boolean DEFAULT_AUTO_DELETE  = false;

@@ -49,6 +49,7 @@ import android.widget.TextView;
 
 import com.android.internal.telephony.IccCardConstants;
 import com.android.internal.telephony.TelephonyIntents;
+import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
 
@@ -58,7 +59,7 @@ import com.android.mms.transaction.MessagingNotification;
 public class ManageSimMessages extends Activity
         implements View.OnCreateContextMenuListener {
     private static final Uri ICC_URI = Uri.parse("content://sms/icc");
-    private static final String TAG = "ManageSimMessages";
+    private static final String TAG = LogTag.TAG;
     private static final int MENU_COPY_TO_PHONE_MEMORY = 0;
     private static final int MENU_DELETE_FROM_SIM = 1;
     private static final int MENU_VIEW = 2;

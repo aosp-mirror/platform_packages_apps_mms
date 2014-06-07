@@ -41,7 +41,7 @@ import com.android.mms.MmsApp;
  * </ul>
  */
 public class MmsSystemEventReceiver extends BroadcastReceiver {
-    private static final String TAG = "MmsSystemEventReceiver";
+    private static final String TAG = LogTag.TAG;
     private static ConnectivityManager mConnMgr = null;
 
     public static void wakeUpService(Context context) {

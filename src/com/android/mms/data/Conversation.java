@@ -43,7 +43,7 @@ import com.google.android.mms.pdu.PduHeaders;
  * An interface for finding information about conversations and/or creating new ones.
  */
 public class Conversation {
-    private static final String TAG = "Mms/conv";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean DELETEDEBUG = false;
 

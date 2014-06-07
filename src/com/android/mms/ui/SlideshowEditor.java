@@ -21,6 +21,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.android.mms.LogTag;
 import com.android.mms.model.AudioModel;
 import com.android.mms.model.ImageModel;
 import com.android.mms.model.RegionModel;
@@ -35,7 +36,7 @@ import com.google.android.mms.MmsException;
  * An utility to edit contents of a slide.
  */
 public class SlideshowEditor {
-    private static final String TAG = "Mms:slideshow";
+    private static final String TAG = LogTag.TAG;
 
     public static final int MAX_SLIDE_NUM = 10;
 

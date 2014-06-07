@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.TelephonyProperties;
+import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.ui.MessagingPreferenceActivity;
@@ -46,7 +47,7 @@ import com.google.android.mms.pdu.NotificationInd;
 import com.google.android.mms.pdu.PduPersister;
 
 public class DownloadManager {
-    private static final String TAG = "DownloadManager";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 

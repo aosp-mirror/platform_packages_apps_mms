@@ -32,6 +32,7 @@ import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 
 /**
@@ -39,7 +40,7 @@ import com.android.mms.R;
  */
 public class AudioAttachmentView extends LinearLayout implements
         SlideViewInterface {
-    private static final String TAG = "AudioAttachmentView";
+    private static final String TAG = LogTag.TAG;
 
     private final Resources mRes;
     private TextView mNameView;

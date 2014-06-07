@@ -44,7 +44,7 @@ import com.google.android.mms.pdu.SendReq;
 import com.google.android.mms.util.SqliteWrapper;
 
 public class MmsMessageSender implements MessageSender {
-    private static final String TAG = "MmsMessageSender";
+    private static final String TAG = LogTag.TAG;
 
     private final Context mContext;
     private final Uri mMessageUri;

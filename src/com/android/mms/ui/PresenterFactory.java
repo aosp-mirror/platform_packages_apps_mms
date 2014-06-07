@@ -23,13 +23,14 @@ import java.lang.reflect.InvocationTargetException;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.mms.LogTag;
 import com.android.mms.model.Model;
 
 /**
  * The factory of concrete presenters.
  */
 public class PresenterFactory {
-    private static final String TAG = "PresenterFactory";
+    private static final String TAG = LogTag.TAG;
     private static final String PRESENTER_PACKAGE = "com.android.mms.ui.";
 
     public static Presenter getPresenter(String className, Context context,

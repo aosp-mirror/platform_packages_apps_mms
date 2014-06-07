@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 
 /**
@@ -36,7 +37,7 @@ import com.android.mms.R;
  */
 public class ImageAttachmentView extends LinearLayout implements SlideViewInterface {
     private ImageView mImageView;
-    private static final String TAG = "ImageAttachmentView";
+    private static final String TAG = LogTag.TAG;
 
     public ImageAttachmentView(Context context) {
         super(context);
