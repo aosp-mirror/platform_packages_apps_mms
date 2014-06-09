@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 
 /**
@@ -40,7 +41,7 @@ import com.android.mms.R;
  */
 public class BasicSlideEditorView extends LinearLayout implements
         SlideViewInterface {
-    private static final String TAG = "BasicSlideEditorView";
+    private static final String TAG = LogTag.TAG;
 
     private ImageView mImageView;
     private View mAudioView;

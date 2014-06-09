@@ -16,6 +16,8 @@
 
 package com.android.mms.exif;
 
+import com.android.mms.LogTag;
+
 import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
@@ -32,7 +34,7 @@ import java.util.List;
  * @see IfdData
  */
 class ExifData {
-    private static final String TAG = "ExifData";
+    private static final String TAG = LogTag.TAG;
     private static final byte[] USER_COMMENT_ASCII = {
             0x41, 0x53, 0x43, 0x49, 0x49, 0x00, 0x00, 0x00
     };

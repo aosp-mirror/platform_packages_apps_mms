@@ -37,6 +37,7 @@ import android.widget.ListView;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
@@ -47,7 +48,7 @@ import com.android.mms.data.Conversation;
  * threadId in the intent's extras.
  */
 public class RecipientListActivity extends ListActivity {
-    private final static String TAG = "RecipientListActivity";
+    private final static String TAG = LogTag.TAG;
 
     private long mThreadId;
 

@@ -65,6 +65,8 @@
 //
 package com.android.mms.util;
 
+import com.android.mms.LogTag;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
@@ -77,7 +79,7 @@ import java.util.zip.Adler32;
 import android.util.Log;
 
 public class BlobCache implements Closeable {
-    private static final String TAG = "BlobCache";
+    private static final String TAG = LogTag.TAG;
 
     private static final int MAGIC_INDEX_FILE = 0xB3273030;
     private static final int MAGIC_DATA_FILE = 0xBD248510;

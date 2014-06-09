@@ -32,11 +32,12 @@ import android.util.Config;
 import android.util.Log;
 
 import com.android.mms.ContentRestrictionException;
+import com.android.mms.LogTag;
 import com.android.mms.dom.smil.SmilParElementImpl;
 import com.google.android.mms.ContentType;
 
 public class SlideModel extends Model implements List<MediaModel>, EventListener {
-    public static final String TAG = "Mms/slideshow";
+    public static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
     private static final int DEFAULT_SLIDE_DURATION = 5000;

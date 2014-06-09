@@ -24,6 +24,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.mms.LogTag;
 import com.android.mms.data.Conversation;
 import com.android.mms.transaction.SmsMessageSender;
 
@@ -39,7 +40,7 @@ public class NoConfirmationSendService extends IntentService {
         setIntentRedelivery(true);
     }
 
-    private static final String TAG = "Mms/NoConfirmationSendService";
+    private static final String TAG = LogTag.TAG;
 
     @Override
     protected void onHandleIntent(Intent intent) {

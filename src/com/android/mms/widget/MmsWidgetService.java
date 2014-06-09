@@ -41,7 +41,7 @@ import com.android.mms.ui.ConversationListItem;
 import com.android.mms.ui.MessageUtils;
 
 public class MmsWidgetService extends RemoteViewsService {
-    private static final String TAG = "MmsWidgetService";
+    private static final String TAG = LogTag.TAG;
 
     /**
      * Lock to avoid race condition between widgets.

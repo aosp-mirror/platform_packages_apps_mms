@@ -87,7 +87,7 @@ import com.google.android.mms.pdu.PduPersister;
  * </ul>
  */
 public class TransactionService extends Service implements Observer {
-    private static final String TAG = "TransactionService";
+    private static final String TAG = LogTag.TAG;
 
     /**
      * Used to identify notification intents broadcasted by the

@@ -39,6 +39,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Window;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
 
@@ -49,7 +50,7 @@ import java.util.ArrayList;
  * it.
  */
 public class ClassZeroActivity extends Activity {
-    private static final String TAG = "display_00";
+    private static final String TAG = LogTag.TAG;
     private static final int ON_AUTO_SAVE = 1;
     private static final String[] REPLACE_PROJECTION = new String[] { Sms._ID,
             Sms.ADDRESS, Sms.PROTOCOL };

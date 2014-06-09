@@ -59,7 +59,7 @@ import java.util.Set;
  * Based on BooksImageManager by Virgil King.
  */
 public class ThumbnailManager extends BackgroundLoaderManager {
-    private static final String TAG = "ThumbnailManager";
+    private static final String TAG = LogTag.TAG;
 
     private static final boolean DEBUG_DISABLE_CACHE = false;
     private static final boolean DEBUG_DISABLE_CALLBACK = false;

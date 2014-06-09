@@ -25,10 +25,11 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import android.util.Log;
 
+import com.android.mms.LogTag;
 import com.android.mms.dom.smil.SmilDocumentImpl;
 
 public class SmilContentHandler extends DefaultHandler {
-    private static final String TAG = "SmilContentHandler";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 

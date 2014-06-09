@@ -29,11 +29,12 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.util.RateController;
 
 public class ConfirmRateLimitActivity extends Activity {
-    private static final String TAG = "ConfirmRateLimitActivity";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 

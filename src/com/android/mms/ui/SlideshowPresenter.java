@@ -21,6 +21,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
+import com.android.mms.LogTag;
 import com.android.mms.model.AudioModel;
 import com.android.mms.model.ImageModel;
 import com.android.mms.model.LayoutModel;
@@ -40,7 +41,7 @@ import com.android.mms.util.ItemLoadedCallback;
  * A basic presenter of slides.
  */
 public class SlideshowPresenter extends Presenter {
-    private static final String TAG = "SlideshowPresenter";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 

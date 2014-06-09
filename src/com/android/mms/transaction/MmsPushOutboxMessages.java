@@ -30,7 +30,7 @@ import android.util.Log;
  */
 public class MmsPushOutboxMessages extends BroadcastReceiver {
     private static final String INTENT_MMS_SEND_OUTBOX_MSG = "android.intent.action.MMS_SEND_OUTBOX_MSG";
-    private static final String TAG = "MmsPushOutboxMessages";
+    private static final String TAG = LogTag.TAG;
 
     @Override
     public void onReceive(Context context, Intent intent) {

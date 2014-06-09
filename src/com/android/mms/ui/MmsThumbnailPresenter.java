@@ -19,6 +19,7 @@ package com.android.mms.ui;
 
 import android.content.Context;
 
+import com.android.mms.LogTag;
 import com.android.mms.model.AudioModel;
 import com.android.mms.model.ImageModel;
 import com.android.mms.model.Model;
@@ -30,7 +31,7 @@ import com.android.mms.util.ItemLoadedFuture;
 import com.android.mms.util.ThumbnailManager.ImageLoaded;
 
 public class MmsThumbnailPresenter extends Presenter {
-    private static final String TAG = "MmsThumbnailPresenter";
+    private static final String TAG = LogTag.TAG;
     private ItemLoadedCallback mOnLoadedCallback;
     private ItemLoadedFuture mItemLoadedFuture;
 

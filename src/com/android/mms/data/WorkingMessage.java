@@ -80,7 +80,7 @@ import com.google.android.mms.pdu.SendReq;
  * Contains all state related to a message being edited by the user.
  */
 public class WorkingMessage {
-    private static final String TAG = "WorkingMessage";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
 
     // Public intents

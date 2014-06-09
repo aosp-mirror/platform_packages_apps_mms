@@ -17,6 +17,8 @@
 
 package com.android.mms.dom.smil;
 
+import com.android.mms.LogTag;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -40,7 +42,7 @@ import android.util.Log;
  * <li>The player runs in a different thread which intends not to block the main thread.</li>
  */
 public class SmilPlayer implements Runnable {
-    private static final String TAG = "Mms/smil";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
     private static final int TIMESLICE = 200;

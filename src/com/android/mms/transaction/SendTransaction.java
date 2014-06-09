@@ -55,7 +55,7 @@ import com.google.android.mms.pdu.SendReq;
  * </ul>
  */
 public class SendTransaction extends Transaction implements Runnable {
-    private static final String TAG = "SendTransaction";
+    private static final String TAG = LogTag.TAG;
 
     private Thread mThread;
     public final Uri mSendReqURI;

@@ -36,7 +36,7 @@ import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPart;
 
 public class MediaModelFactory {
-    private static final String TAG = "Mms:media";
+    private static final String TAG = LogTag.TAG;
 
     public static MediaModel getMediaModel(Context context,
             SMILMediaElement sme, LayoutModel layouts, PduBody pb)

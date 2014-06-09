@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.provider.Telephony.Mms.Sent;
 import android.util.Log;
 
+import com.android.mms.LogTag;
 import com.android.mms.ui.MessageUtils;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -43,7 +44,7 @@ import com.google.android.mms.pdu.ReadRecInd;
  * </ul>
  */
 public class ReadRecTransaction extends Transaction implements Runnable{
-    private static final String TAG = "ReadRecTransaction";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 

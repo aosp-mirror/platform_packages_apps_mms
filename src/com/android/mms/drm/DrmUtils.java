@@ -22,10 +22,11 @@ import android.drm.DrmStore;
 import android.net.Uri;
 import android.util.Log;
 
+import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 
 public class DrmUtils {
-    private static final String TAG = "DrmUtils";
+    private static final String TAG = LogTag.TAG;
 
     /** The MIME type of special DRM files */
     private static final String EXTENSION_ANDROID_FWDL = ".fl";

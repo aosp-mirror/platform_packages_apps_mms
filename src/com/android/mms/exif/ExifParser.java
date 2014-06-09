@@ -16,6 +16,8 @@
 
 package com.android.mms.exif;
 
+import com.android.mms.LogTag;
+
 import android.util.Log;
 
 import java.io.IOException;
@@ -68,7 +70,7 @@ import java.util.TreeMap;
  */
 public class ExifParser {
     private static final boolean LOGV = false;
-    private static final String TAG = "ExifParser";
+    private static final String TAG = LogTag.TAG;
     /**
      * When the parser reaches a new IFD area. Call {@link #getCurrentIfd()} to
      * know which IFD we are in.

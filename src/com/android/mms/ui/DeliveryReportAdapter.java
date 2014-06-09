@@ -24,13 +24,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 
 /**
  * The back-end data adapter for DeliveryReportActivity.
  */
 public class DeliveryReportAdapter extends ArrayAdapter<DeliveryReportItem> {
-    static final String LOG_TAG = "DeliveryReportAdapter";
+    static final String LOG_TAG = LogTag.TAG;
 
     public DeliveryReportAdapter(Context context, List<DeliveryReportItem> items) {
         super(context, R.layout.delivery_report_list_item, R.id.recipient, items);

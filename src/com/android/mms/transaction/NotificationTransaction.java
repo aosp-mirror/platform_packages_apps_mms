@@ -37,6 +37,7 @@ import android.provider.Telephony.Mms.Inbox;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import com.android.mms.LogTag;
 import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
 import com.android.mms.ui.MessagingPreferenceActivity;
@@ -69,7 +70,7 @@ import com.google.android.mms.pdu.PduPersister;
  * in case the client is in immediate retrieve mode.
  */
 public class NotificationTransaction extends Transaction implements Runnable {
-    private static final String TAG = "NotificationTransaction";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 

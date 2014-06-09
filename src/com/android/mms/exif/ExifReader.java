@@ -16,6 +16,8 @@
 
 package com.android.mms.exif;
 
+import com.android.mms.LogTag;
+
 import android.util.Log;
 
 import java.io.IOException;
@@ -26,7 +28,7 @@ import java.io.InputStream;
  * {@link ExifData}.
  */
 class ExifReader {
-    private static final String TAG = "ExifReader";
+    private static final String TAG = LogTag.TAG;
 
     private final ExifInterface mInterface;
 

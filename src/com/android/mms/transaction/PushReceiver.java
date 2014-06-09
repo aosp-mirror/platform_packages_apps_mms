@@ -36,6 +36,7 @@ import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Inbox;
 import android.util.Log;
 
+import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.ui.MessagingPreferenceActivity;
 import com.google.android.mms.ContentType;
@@ -53,7 +54,7 @@ import com.google.android.mms.pdu.ReadOrigInd;
  * TransactionService by passing the push-data to it.
  */
 public class PushReceiver extends BroadcastReceiver {
-    private static final String TAG = "PushReceiver";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 

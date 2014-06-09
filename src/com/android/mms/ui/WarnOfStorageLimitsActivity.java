@@ -44,8 +44,6 @@ public class WarnOfStorageLimitsActivity extends Activity implements DialogInter
      */
     protected AlertController.AlertParams mAlertParams;
 
-    private static final String LOG_TAG = "WarnOfStorageLimitsActivity";
-
     private static final int POSITIVE_BUTTON = AlertDialog.BUTTON_POSITIVE;
 
     @Override

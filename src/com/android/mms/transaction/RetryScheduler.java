@@ -41,7 +41,7 @@ import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPersister;
 
 public class RetryScheduler implements Observer {
-    private static final String TAG = "RetryScheduler";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = false;
 

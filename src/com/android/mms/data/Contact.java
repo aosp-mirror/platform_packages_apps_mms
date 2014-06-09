@@ -45,7 +45,7 @@ public class Contact {
     public static final String TEL_SCHEME = "tel";
     public static final String CONTENT_SCHEME = "content";
     private static final int CONTACT_METHOD_ID_UNKNOWN = -1;
-    private static final String TAG = "Contact";
+    private static final String TAG = LogTag.TAG;
     private static ContactsCache sContactCache;
     private static final String SELF_ITEM_KEY = "Self_Item_Key";
 

@@ -40,7 +40,7 @@ import com.google.android.mms.MmsException;
 // TODO: remove dependency for SDK build
 
 public abstract class MediaModel extends Model implements EventListener {
-    protected static final String TAG = "Mms/media";
+    protected static final String TAG = LogTag.TAG;
 
     protected Context mContext;
     protected int mBegin;

@@ -34,13 +34,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 
 /**
  * A simplified view of slide in the slides list.
  */
 public class SlideListItemView extends LinearLayout implements SlideViewInterface {
-    private static final String TAG = "SlideListItemView";
+    private static final String TAG = LogTag.TAG;
 
     private TextView mTextPreview;
     private ImageView mImagePreview;

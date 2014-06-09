@@ -38,6 +38,7 @@ import android.widget.AbsListView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 
+import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.google.android.mms.MmsException;
 
@@ -45,7 +46,7 @@ import com.google.android.mms.MmsException;
  * The back-end data adapter of a message list.
  */
 public class MessageListAdapter extends CursorAdapter {
-    private static final String TAG = "MessageListAdapter";
+    private static final String TAG = LogTag.TAG;
     private static final boolean LOCAL_LOGV = false;
 
     static final String[] PROJECTION = new String[] {

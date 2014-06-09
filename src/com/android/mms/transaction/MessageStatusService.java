@@ -37,7 +37,7 @@ import com.android.mms.LogTag;
  */
 public class MessageStatusService extends IntentService {
     private static final String[] ID_PROJECTION = new String[] { Sms._ID };
-    private static final String LOG_TAG = "MessageStatusReceiver";
+    private static final String LOG_TAG = LogTag.TAG;
     private static final Uri STATUS_URI = Uri.parse("content://sms/status");
 
     public MessageStatusService() {
