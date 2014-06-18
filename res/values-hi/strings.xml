@@ -114,7 +114,7 @@
     <string name="message_saved_as_draft" msgid="2503018972659880692">"संदेश ड्राफ़्ट के रूप में सहेजा गया."</string>
     <string name="too_many_recipients" msgid="7003415094007176931">"संदेश में बहुत अधिक प्राप्तकर्ता (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>) हैं. प्राप्तकर्ताओं की सीमा <xliff:g id="MAXLIMIT">%2$s</xliff:g> है."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"अनुलग्नकों की सीमा <xliff:g id="MAXLIMIT">%1$s</xliff:g> है. केवल पहले <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> जोड़े जाएंगे."</string>
-    <string name="adding_attachments_title" msgid="2034535554212405529">"अनुलग्नक जोड़ रहा है"</string>
+    <string name="adding_attachments_title" msgid="2034535554212405529">"अटैचमेंट जोड़ रहा है"</string>
     <string name="adding_attachments" msgid="5871373105122355632">"आइटम स्लाइड शो में जोड़े जाते समय प्रतीक्षा करें."</string>
     <string name="building_slideshow_title" msgid="1232338692400726385">"स्‍लाइडशो बना रहा है"</string>
     <string name="cannot_play_audio" msgid="253920977253666735">"ऑडियो नहीं चला सकता."</string>
@@ -282,8 +282,8 @@
     <string name="download_later" msgid="5531365714424360903">"अभी डाउनलोड नहीं कर सकता. बाद में पुन: प्रयास करें."</string>
     <string name="no_apn" msgid="505932916503312015">"उपकरण पर कोई APN निर्दिष्ट नहीं."</string>
     <string name="select_audio" msgid="3528161449756771832">"ऑडियो चुनें"</string>
-    <string name="copy_to_sdcard" msgid="757028609638184856">"अनुलग्नक सहेजें"</string>
-    <string name="copy_to_sdcard_success" msgid="7948625615155992014">"अनुलग्नक सहेजा गया."</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"अटैचमेंट सहेजें"</string>
+    <string name="copy_to_sdcard_success" msgid="7948625615155992014">"अटैचमेंट सहेजा गया."</string>
     <string name="copy_to_sdcard_fail" msgid="4944606369631916737">"अनुलग्‍नक सहेजा नहीं जा सका."</string>
     <string name="save_ringtone" msgid="2310157075045201051">"रिंगटोन के रूप में सहेजें"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"रिंगटोन सहेजी गई."</string>
