@@ -174,7 +174,7 @@
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"群发信息"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"已读报告"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"发送报告"</string>
-    <string name="pref_title_auto_delete" msgid="7227835692631701134">"删除旧信息"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"删除旧短信"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"短信限制"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"彩信限制"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"通知"</string>
