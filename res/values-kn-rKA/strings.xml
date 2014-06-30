@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/*
+ * Copyright (C) 2007-2008 Esmertec AG.
+ * Copyright (C) 2007-2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="1503967887341230795">"ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ"</string>
+    <string name="new_message" msgid="1530369762346003973">"ಹೊಸ ಸಂದೇಶ"</string>
+    <string name="menu_call_back" msgid="7538482331117914146">"<xliff:g id="NAME">%s</xliff:g> ಕರೆ ಮಾಡಿ"</string>
+    <string name="menu_send_email" msgid="671366308915241664">"ಇಮೇಲ್‌ ಅನ್ನು <xliff:g id="NAME">%s</xliff:g> ಅವರಿಗೆ ಕಳುಹಿಸಿ"</string>
+    <string name="menu_compose_new" msgid="3763437973691046238">"ರಚಿಸಿ"</string>
+    <string name="menu_preferences" msgid="4693148116114749414">"ಸೆಟ್ಟಿಂಗ್‌ಗಳು"</string>
+    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"<xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> ಜನರನ್ನು ಸೇರಿಸಿ"</string>
+    <string name="menu_call" msgid="5877123227307074690">"ಕರೆ ಮಾಡು"</string>
+    <string name="menu_search" msgid="2289469305728821360">"ಹುಡುಕು"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"ಎಲ್ಲ ಥ್ರೆಡ್‌ಗಳನ್ನು ಅಳಿಸಿ"</string>
+    <string name="menu_delete" msgid="1851666911396479006">"ಥ್ರೆಡ್ ಅಳಿಸಿ"</string>
+    <string name="menu_view" msgid="7448852683948080108">"ಥ್ರೆಡ್‌ ಅನ್ನು ವೀಕ್ಷಿಸಿ"</string>
+    <string name="menu_debug_dump" msgid="6855869130206549643">"ಡೀಬಗ್ ಡಂಪ್"</string>
+    <string name="refreshing" msgid="987335057871404222">"ರಿಫ್ರೆಶ್‌ ಮಾಡಲಾಗುತ್ತಿದೆ…"</string>
+    <string name="menu_cell_broadcasts" msgid="5646161375983084660">"ಸೆಲ್ ಪ್ರಸಾರಗಳು"</string>
+    <string name="has_draft" msgid="2487465595514636160">"ಡ್ರಾಫ್ಟ್‌"</string>
+    <string name="no_subject_view" msgid="7795086723069563537">"(ವಿಷಯ ಇಲ್ಲ)"</string>
+    <string name="messagelist_sender_self" msgid="3579016854116401602">"ನಾನು"</string>
+    <string name="view_slideshow" msgid="4990460971211388453">"ಸ್ಲೈಡ್‌ಶೋ ವೀಕ್ಷಿಸಿ"</string>
+    <string name="view_message_details" msgid="7613457646645796831">"ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಿ"</string>
+    <string name="view_delivery_report" msgid="8219095994071575215">"ವರದಿ ವೀಕ್ಷಿಸಿ"</string>
+    <string name="delete_message" msgid="6442394955910357234">"ಅಳಿಸು"</string>
+    <string name="expire_on" msgid="4436268382742593921">"ಅವಧಿ ಮುಕ್ತಾಯ: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="kilobyte" msgid="534782148965716631">"KB"</string>
+    <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"ತಲುಪದಿರುವ ಸಂದೇಶ"</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"ಈ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.\nಪ್ರಯತ್ನ: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"ಈ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ."</string>
+    <string name="delete_thread" msgid="757258847736632791">"ಥ್ರೆಡ್ ಅಳಿಸಿ"</string>
+    <string name="menu_forward" msgid="9026858380050046756">"ಫಾರ್ವರ್ಡ್ ಮಾಡು"</string>
+    <string name="download" msgid="4488877642230207631">"ಡೌನ್‌ಲೋಡ್‌"</string>
+    <string name="downloading" msgid="1779557575565350637">"ಡೌನ್‌ಲೋಡ್‌  ಮಾಡಲಾಗುತ್ತಿದೆ"</string>
+    <string name="inline_subject" msgid="4057621785274119260">"&lt;ವಿಷಯ: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="drm_protected_text" msgid="1396394157870730742">"* DRM ಸಂರಕ್ಷಿತ ಪಠ್ಯ *"</string>
+    <string name="insufficient_drm_rights" msgid="6989074725969164383">"ಅಸಮರ್ಪಕವಾದ DRM ಹಕ್ಕುಗಳನ್ನು ಪತ್ತೆಹಚ್ಚಲಾಗಿದೆ."</string>
+    <string name="copy_message_text" msgid="4296252229544252834">"ಪಠ್ಯವನ್ನು ನಕಲಿಸಿ"</string>
+    <string name="message_options" msgid="6838806653341967550">"ಸಂದೇಶದ ಆಯ್ಕೆಗಳು"</string>
+    <string name="slideshow_options" msgid="3501759384739796431">"ಸ್ಲೈಡ್‌ಶೋ ಆಯ್ಕೆಗಳು"</string>
+    <string name="done" msgid="7479926268660505871">"ಮುಗಿದಿದೆ"</string>
+    <string name="move_up" msgid="7307578107431739359">"ಮೇಲೆ ಸರಿಸು"</string>
+    <string name="move_down" msgid="6356509518429479053">"ಕೆಳಗೆ ಸರಿಸು"</string>
+    <string name="remove_slide" msgid="2225604354024914900">"ಸ್ಲೈಡ್ ತೆಗೆದುಹಾಕಿ"</string>
+    <string name="add_slide" msgid="9140721399423564187">"ಸ್ಲೈಡ್ ಸೇರಿಸು"</string>
+    <string name="add_slide_hint" msgid="7351356961076244584">"ಹೊಸ ಸ್ಲೈಡ್ ರಚಿಸಲು ಸ್ಪರ್ಶಿಸಿ."</string>
+    <string name="discard_slideshow" msgid="5054239124146413609">"ಸ್ಲೈಡ್‌ಶೋ ತಿರಸ್ಕರಿಸಿ"</string>
+    <string name="slide_show_part" msgid="5077675385448696846">"ಭಾಗ <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
+    <string name="remove_text" msgid="2164068850029476539">"ಪಠ್ಯವನ್ನು ತೆಗೆದುಹಾಕಿ"</string>
+    <string name="add_picture" msgid="7819574884962571479">"ಚಿತ್ರ ಸೇರಿಸು"</string>
+    <string name="remove_picture" msgid="6378701749074289096">"ಚಿತ್ರವನ್ನು ತೆಗೆದುಹಾಕಿ"</string>
+    <string name="add_music" msgid="3827442822987116233">"ಸಂಗೀತ ಸೇರಿಸು"</string>
+    <string name="remove_music" msgid="858889733416015223">"ಸಂಗೀತ ತೆಗೆದುಹಾಕು"</string>
+    <string name="add_video" msgid="7816866867806595144">"ವೀಡಿಯೊ ಸೇರಿಸು"</string>
+    <string name="remove_video" msgid="5258603891528497799">"ವೀಡಿಯೊ ತೆಗೆದುಹಾಕಿ"</string>
+    <string name="to_hint" msgid="224029549150332986">"ಇವರಿಗೆ"</string>
+    <string name="subject_hint" msgid="4296714962311604126">"ವಿಷಯವಸ್ತು"</string>
+    <string name="add_attachment" msgid="7103751293360532684">"ಲಗತ್ತಿಸು"</string>
+    <string name="add_subject" msgid="7616134948428265870">"ವಿಷಯ ಸೇರಿಸು"</string>
+    <string name="discard" msgid="1624800293064498479">"ತಿರಸ್ಕರಿಸು"</string>
+    <string name="view" msgid="7929667761715467136">"ವೀಕ್ಷಿಸು"</string>
+    <string name="replace" msgid="7587904998114459388">"ಸ್ಥಾನಾಂತರಿಸು"</string>
+    <string name="remove" msgid="4625444913256213175">"ತೆಗೆದುಹಾಕಿ"</string>
+    <string name="send" msgid="4589898724889248486">"ಕಳುಹಿಸು"</string>
+    <string name="mms" msgid="1587631213714914559">"MMS"</string>
+    <string name="send_mms" msgid="2933162044872550662">"MMS ಕಳುಹಿಸು"</string>
+    <string name="all_threads" msgid="2663426830306307194">"ಎಲ್ಲ ಥ್ರೆಡ್‌ಗಳು"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"ಸಂದೇಶ ಟೈಪ್ ಮಾಡಿ"</string>
+    <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"ಸಂದೇಶವನ್ನು ಟೈಪ್‌ ಮಾಡಲು ಕೀಬೋರ್ಡ್‌ ತೆರೆಯಿರಿ"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"ಕಳುಹಿಸುವುದನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"ರಚಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ಯಾವುದೇ ಡೀಫಾಲ್ಟ್‌ SMS ಅಪ್ಲಿಕೇಶನ್ ಇಲ್ಲ."</string>
+    <string name="compressing" msgid="1961357529661045180">"ಚಿತ್ರವು ತುಂಬಾ ದೊಡ್ಡದಾಗಿದೆ. ಸಂಕುಚಿಸಲಾಗುತ್ತಿದೆ…"</string>
+    <string name="unsupported_media_format" msgid="1350489690977363764">"ಬೆಂಬಲಿಸದ <xliff:g id="NAME">%1$s</xliff:g> ಸ್ವರೂಪ."</string>
+    <string name="select_different_media" msgid="6241623357299382183">"ಬೇರೆಯ <xliff:g id="NAME">%1$s</xliff:g> ಆಯ್ಕೆಮಾಡಿ."</string>
+    <string name="exceed_message_size_limitation" msgid="6027753647094742437">"ಸಂದೇಶದ ಗಾತ್ರವು ಮಿತಿಯನ್ನು ತಲುಪಿದೆ."</string>
+    <string name="message_too_big_for_video" msgid="2639367545165352543">"ವೀಡಿಯೊಗೆ ಲಗತ್ತಿಸಲು ಸಂದೇಶವು ತುಂಬಾ ದೊಡ್ಡದಾಗಿದೆ."</string>
+    <string name="failed_to_add_media" msgid="7207464170168708485">"ನಿಮ್ಮ ಸಂದೇಶಕ್ಕೆ ಈ <xliff:g id="NAME">%1$s</xliff:g> ಅನ್ನು ನೀವು ಸೇರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
+    <string name="failed_to_resize_image" msgid="5608354151631833669">"ಚಿತ್ರವನ್ನು ಮರುಗಾತ್ರಗೊಳಿಸಿಲ್ಲ."</string>
+    <string name="resize_image_error_information" msgid="3783200130776554475">"ಈ ಚಿತ್ರವನ್ನು ಮರುಗಾತ್ರಗೊಳಿಸಿದಾಗಲೂ, ಕಳುಹಿಸಲು ತುಂಬಾ ದೊಡ್ಡದಾಗಿದೆ."</string>
+    <string name="forward_prefix" msgid="276280492803486464">"ಫಾರ್ವರ್ಡ್: "</string>
+    <string name="discard_message_reason" msgid="2667664943003796133">"ನಿಮ್ಮ ಸಂದೇಶವನ್ನು ತಿರಸ್ಕರಿಸಲಾಗುತ್ತದೆ ಏಕೆಂದರೆ ಅದು ಯಾವುದೇ ಮಾನ್ಯವಾದ ಸ್ವೀಕೃತದಾರರನ್ನು ಹೊಂದಿಲ್ಲ."</string>
+    <string name="has_invalid_recipient" msgid="1485388396900997383">"ಅಮಾನ್ಯವಾದ ಸ್ವೀಕೃತದಾರ(ರು): &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
+    <string name="invalid_destination" msgid="4573835601024786416">"ಅಮಾನ್ಯವಾದ ನಿಗದಿತ ವಿಳಾಸ."</string>
+    <string name="service_not_activated" msgid="9178218144019626176">"ನೆಟ್‌ವರ್ಕ್‌ನಲ್ಲಿ ಸೇವೆಯು ಸಕ್ರಿಯಗೊಂಡಿಲ್ಲ."</string>
+    <string name="service_message_not_found" msgid="1908877102600048515">"ಸಂದೇಶದ ಅವಧಿ ಮೀರಿದೆ ಅಥವಾ ಲಭ್ಯವಿಲ್ಲ."</string>
+    <string name="service_network_problem" msgid="4583269174855943025">"ನೆಟ್‌‌ವರ್ಕ್‌ನ ಸಮಸ್ಯೆಯ ಕಾರಣದಿಂದಾಗಿ ಕಳುಹಿಸಲಾಗಲಿಲ್ಲ."</string>
+    <string name="invalid_recipient_message" msgid="6465343105010999068">"ಸ್ವೀಕೃತದಾರ(ರು) ಅನ್ನು ಸರಿಪಡಿಸಿ ಇಲ್ಲದಿದ್ದರೆ ಅವರು ಸಂದೇಶವನ್ನು ಸ್ವೀಕರಿಸುವುದಿಲ್ಲ."</string>
+    <string name="cannot_send_message" msgid="3414307479833622644">"ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ"</string>
+    <string name="cannot_send_message_reason" msgid="8745080126044054343">"ನಿಮ್ಮ ಸಂದೇಶ ಯಾವುದೇ ಮಾನ್ಯವಾದ ಸ್ವೀಕೃತದಾರರನ್ನು ಹೊಂದಿಲ್ಲ."</string>
+    <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"ಸಂದೇಶದಲ್ಲಿ DRM ವಿಷಯ ಒಳಗೊಂಡಿರುವುದರಿಂದ ರವಾನಿಸಲಾಗುವುದಿಲ್ಲ."</string>
+    <string name="converting_to_picture_message" msgid="2980023239017588627">"ಮಲ್ಟಿಮೀಡಿಯಾ ಸಂದೇಶಕ್ಕೆ ಪರಿವರ್ತಿಸಲಾಗುತ್ತಿದೆ…"</string>
+    <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"ಹೆಚ್ಚಿನ ಸ್ಲೈಡ್‌ಗಳನ್ನು ಸೇರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
+    <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"ಒಂದು ಸ್ಲೈಡ್‌ಗೆ ವೀಡಿಯೊ ಮತ್ತು ಚಿತ್ರವನ್ನು ಸೇರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
+    <string name="cannot_save_message" msgid="3375907366965264446">"ಸಂದೇಶವನ್ನು ಉಳಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
+    <string name="message_saved_as_draft" msgid="2503018972659880692">"ಡ್ರಾಫ್ಟ್‌ನ ರೂಪದಲ್ಲಿ ಸಂದೇಶವನ್ನು ಉಳಿಸಲಾಗಿದೆ."</string>
+    <string name="too_many_recipients" msgid="7003415094007176931">"ಸಂದೇಶವು ಹಲವಾರು ಸ್ವೀಕೃತದಾರರನ್ನು ಹೊಂದಿದೆ (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). ಸ್ವೀಕೃತದಾರರ ಮಿತಿಯು <xliff:g id="MAXLIMIT">%2$s</xliff:g> ಆಗಿರುತ್ತದೆ."</string>
+    <string name="too_many_attachments" msgid="3774037894899750070">"ಲಗತ್ತುಗಳ ಮಿತಿಯು <xliff:g id="MAXLIMIT">%1$s</xliff:g> ಇರುತ್ತದೆ. ಮೊದಲ <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> ಅನ್ನು ಮಾತ್ರ ಸೇರಿಸಲಾಗುತ್ತದೆ."</string>
+    <string name="adding_attachments_title" msgid="2034535554212405529">"ಲಗತ್ತುಗಳನ್ನು ಸೇರಿಸಲಾಗುತ್ತಿದೆ"</string>
+    <string name="adding_attachments" msgid="5871373105122355632">"ಸ್ಲೈಡ್‌ಶೋಗೆ ಐಟಂಗಳನ್ನು ಸೇರಿಸುತ್ತಿರುವಾಗ ಕೊಂಚ ಕಾಯಿರಿ."</string>
+    <string name="building_slideshow_title" msgid="1232338692400726385">"ಸ್ಲೈಡ್‌ಶೋ ರಚಿಸಲಾಗುತ್ತಿದೆ"</string>
+    <string name="cannot_play_audio" msgid="253920977253666735">"ಆಡಿಯೋ ಪ್ಲೇ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
+    <string name="preview" msgid="5438149136136446756">"ಪೂರ್ವವೀಕ್ಷಣೆ"</string>
+    <string name="preview_slideshow" msgid="6824095909448728427">"ಪೂರ್ವವೀಕ್ಷಣೆ"</string>
+    <string name="replace_image" msgid="3171240952601443619">"ಚಿತ್ರವನ್ನು ಸ್ಥಾನಾಂತರಿಸಿ"</string>
+    <string name="duration_sec" msgid="6617032324007824096">"ಅವಧಿ (<xliff:g id="DURATION">%s</xliff:g> ಸೆಕೆಂಡ್‌)"</string>
+    <string name="duration_selector_title" msgid="5981097971537625852">"ಸ್ಲೈಡ್‌ನ ಅವಧಿ "</string>
+    <string name="layout_selector_title" msgid="7344600117972450771">"ಸ್ಲೈಡ್‌ಶೋನ ಲೇಔಟ್‌‌ "</string>
+    <string name="layout_top" msgid="6811021650398972346">"ಲೇಔಟ್‌ (ಮೇಲೆ)"</string>
+    <string name="layout_bottom" msgid="5822765871095491843">"ಲೇಔಟ್‌ (ಕೆಳಗೆ)"</string>
+    <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"ಸಂದೇಶ ಟೈಪ್ ಮಾಡಿ ಅಥವಾ ಖಾಲಿ ಬಿಡಿ"</string>
+    <string name="duration_not_a_number" msgid="2856636898040421237">"ಅವಧಿಯು ಸಂಖ್ಯೆಯಾಗಿರಬೇಕು."</string>
+    <string name="duration_zero" msgid="3549377790195185977">"ಅವಧಿಯು ಶೂನ್ಯ ಸೆಕೆಂಡುಗಳಿಗಿಂತ ಹೆಚ್ಚು ಇರಬೇಕು."</string>
+    <string name="secs" msgid="6886003523109967972">"ಸೆಕೆಂಡುಗಳು"</string>
+  <string-array name="select_dialog_items">
+    <item msgid="4840183714016984112">"1 ಸೆಕೆಂಡು"</item>
+    <item msgid="3734955613666864447">"2 ಸೆಕೆಂಡುಗಳು"</item>
+    <item msgid="6032232473048379828">"3 ಸೆಕೆಂಡುಗಳು"</item>
+    <item msgid="5978471781525927827">"4 ಸೆಕೆಂಡುಗಳು"</item>
+    <item msgid="4888440297621208402">"5 ಸೆಕೆಂಡುಗಳು"</item>
+    <item msgid="6047246213264166841">"6 ಸೆಕೆಂಡುಗಳು"</item>
+    <item msgid="2327501250056533797">"7 ಸೆಕೆಂಡುಗಳು"</item>
+    <item msgid="3400770414689795703">"8 ಸೆಕೆಂಡುಗಳು"</item>
+    <item msgid="4358760614161107970">"9 ಸೆಕೆಂಡುಗಳು"</item>
+    <item msgid="2618179407176906471">"10 ಸೆಕೆಂಡುಗಳು"</item>
+    <item msgid="7786079681602275449">"ಇತರೆ"</item>
+  </string-array>
+    <string name="menu_view_contact" msgid="1414670584423909451">"ಸಂಪರ್ಕವನ್ನು ವೀಕ್ಷಿಸಿ"</string>
+    <string name="menu_add_to_contacts" msgid="1258127580972228970">"ಜನರನ್ನು ಸೇರಿಸಿ"</string>
+    <string name="hidden_sender_address" msgid="2776075636669924968">"ಮರೆಮಾಡಲಾದ ಕಳುಹಿಸುವವರ ವಿಳಾಸ"</string>
+    <string name="yes" msgid="3246158147503160811">"ಸರಿ"</string>
+    <string name="no" msgid="4289742508556913860">"ರದ್ದುಮಾಡು"</string>
+    <string name="set" msgid="4642365398263275979">"ಹೊಂದಿಸು"</string>
+    <string name="play" msgid="1888432400937785115">"ಪ್ಲೇ ಮಾಡು"</string>
+    <string name="edit" msgid="5912118407791492696">"ಸಂಪಾದಿಸಿ"</string>
+    <string name="try_to_send" msgid="1996751738286080976">"ಕಳುಹಿಸಲು ಪ್ರಯತ್ನಿಸಿ"</string>
+    <string name="preferences_title" msgid="6650089610332670157">"ಸೆಟ್ಟಿಂಗ್‌ಗಳು"</string>
+    <string name="restore_default" msgid="7165341506551155053">"ಡೀಫಾಲ್ಟ್‌ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಿ"</string>
+    <string name="pref_notification_settings_title" msgid="6420782563630369776">"ಅಧಿಸೂಚನೆಗಳು"</string>
+    <string name="pref_mms_settings_title" msgid="55618772118264355">"ಮಲ್ಟಿಮೀಡಿಯಾ (MMS) ಸಂದೇಶಗಳು"</string>
+    <string name="pref_sms_settings_title" msgid="5173078369851066881">"ಪಠ್ಯ (SMS) ಸಂದೇಶಗಳು"</string>
+    <string name="pref_sms_storage_title" msgid="9001233319190616445">"ಸಂಗ್ರಹಣೆ"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆಯನ್ನು ನಿಮ್ಮ ಡೀಫಾಲ್ಟ್‌ SMS ಅಪ್ಲಿಕೇಶನ್‌ ಆಗಿ ಮಾಡಲು ಸ್ಪರ್ಶಿಸಿ"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"ನಿಮ್ಮ ಡೀಫಾಲ್ಟ್‌‌ SMS ಅಪ್ಲಿಕೇಶನ್‌ ಅನ್ನು ಬದಲಾಯಿಸಲು ಸ್ಪರ್ಶಿಸಿ"</string>
+    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"ನಿಮ್ಮ SIM ಕಾರ್ಡ್‌ನಲ್ಲಿ ಸಂಗ್ರಹಿಸಿದ ಸಂದೇಶಗಳನ್ನು ನಿರ್ವಹಿಸಿ"</string>
+    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"ನೀವು ಕಳುಹಿಸುವ ಪ್ರತಿ ಸಂದೇಶಕ್ಕೂ ತಲುಪಿದ ವರದಿಯನ್ನು ವಿನಂತಿಸಿ"</string>
+    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"ನೀವು ಕಳುಹಿಸುವ ಪ್ರತಿ ಸಂದೇಶಕ್ಕೂ ಓದಿದ ವರದಿಯನ್ನು ವಿನಂತಿಸಿ"</string>
+    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"ನೀವು ಕಳುಹಿಸುವ ಪ್ರತಿ ಸಂದೇಶಕ್ಕೂ ತಲುಪಿದ ವರದಿಯನ್ನು ವಿನಂತಿಸಿ"</string>
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"ಹಳೆಯ ಸಂದೇಶಗಳು ಮಿತಿಗಳನ್ನು ತಲುಪಿದಂತೆ ಅಳಿಸಿ"</string>
+    <string name="pref_summary_delete_limit" msgid="597128041393045216">"ಪ್ರತಿ ಸಂವಾದದ <xliff:g id="COUNT">%1$s</xliff:g> ಸಂದೇಶಗಳು"</string>
+    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"ಬಹು ಸ್ವೀಕೃತದಾರರು ಇರುವಾಗ ಒಂದೇ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲು MMS ಬಳಸಿ"</string>
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"SIM ಕಾರ್ಡ್‌ ಸಂದೇಶಗಳನ್ನು ನಿರ್ವಹಿಸಿ"</string>
+    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"ತಲುಪಿದ ವರದಿಗಳು"</string>
+    <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"ಗುಂಪು ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ"</string>
+    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"ಓದಿದ ವರದಿಗಳು"</string>
+    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"ತಲುಪಿದ ವರದಿಗಳು"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"ಹಳೆಯ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ"</string>
+    <string name="pref_title_sms_delete" msgid="6890538316799296878">"ಪಠ್ಯ ಸಂದೇಶದ ಮಿತಿ"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"ಮಲ್ಟಿಮೀಡಿಯಾ ಸಂದೇಶದ ಮಿತಿ"</string>
+    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"ಅಧಿಸೂಚನೆಗಳು"</string>
+    <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"ಕಂಪಿಸು"</string>
+    <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"ಶಬ್ದ"</string>
+    <string name="pref_messages_to_save" msgid="3202539743892934926">"ಉಳಿಸಲು ಸಂದೇಶಗಳ ಸಂಖ್ಯೆಯನ್ನು ಹೊಂದಿಸಿ"</string>
+    <string name="silent_ringtone" msgid="7981237991326592780">"ಶಾಂತ"</string>
+    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"ಸ್ವಯಂ-ಹಿಂಪಡೆಯುವಿಕೆ"</string>
+    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"ಸಂದೇಶಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಹಿಂಪಡೆಯಿರಿ"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"ರೋಮಿಂಗ್‌‌ನಲ್ಲಿರುವಾಗ ಸ್ವಯಂ-ಹಿಂಪಡೆಯುವಿಕೆ"</string>
+    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"ರೋಮಿಂಗ್‌ನಲ್ಲಿರುವಾಗ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಸಂದೇಶಗಳನ್ನು ಹಿಂಪಡೆಯಿರಿ"</string>
+    <string name="confirm_dialog_title" msgid="2187213750475782725">"ಅಳಿಸುವುದೇ?"</string>
+    <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"ಲಾಕ್‌ಮಾಡಲಾದ ಸಂದೇಶವನ್ನು ಅಳಿಸುವುದೇ?"</string>
+  <plurals name="confirm_delete_conversation">
+    <item quantity="one" msgid="7509396981963472833">"ಒಂದು ಸಂವಾದವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ."</item>
+    <item quantity="other" msgid="4076915774012081811">"<xliff:g id="NUMBER">%1$s</xliff:g> ಸಂವಾದಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ."</item>
+  </plurals>
+    <string name="confirm_delete_conversation" msgid="6115966687389279855">"ಸಂಪೂರ್ಣ ಥ್ರೆಡ್‌ ಅನ್ನು ಅಳಿಸಲಾಗುವುದು."</string>
+    <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"ಎಲ್ಲ ಥ್ರೆಡ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗುವುದು."</string>
+    <string name="confirm_delete_message" msgid="9121480656609809591">"ಸಂದೇಶವನ್ನು ಅಳಿಸಲಾಗುವುದು."</string>
+    <string name="confirm_delete_locked_message" msgid="7203411948190100955">"ಲಾಕ್‌ಮಾಡಲಾದ ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸುವುದೇ?"</string>
+    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"SIM ಕಾರ್ಡ್‌ನಲ್ಲಿನ ಎಲ್ಲ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಲಾಗುವುದು."</string>
+    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"SIM ಕಾರ್ಡ್‌ನಲ್ಲಿನ ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸಲಾಗುವುದು."</string>
+    <string name="delete_unlocked" msgid="7545321606698162261">"ಲಾಕ್‌ಮಾಡಿದ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ"</string>
+    <string name="delete" msgid="1409973060081564612">"ಅಳಿಸು"</string>
+    <string name="select_conversations" msgid="7816517565640002844">"ಸಂವಾದಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ"</string>
+    <string name="no_conversations" msgid="6773767655149258445">"ಯಾವುದೇ ಸಂವಾದಗಳಿಲ್ಲ."</string>
+    <string name="loading_conversations" msgid="5510430408235967094">"ಸಂವಾದಗಳನ್ನು ಲೋಡ್‌ ಮಾಡಲಾಗುತ್ತಿದೆ."</string>
+    <string name="cannot_get_details" msgid="850292987983026806">"ವಿವರಗಳನ್ನು ಪಡೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
+    <string name="message_details_title" msgid="9223295113731634528">"ಸಂದೇಶದ ವಿವರಗಳು"</string>
+    <string name="message_type_label" msgid="7975373966795945566">"ಪ್ರಕಾರ: "</string>
+    <string name="text_message" msgid="8196464345251877972">"ಪಠ್ಯ ಸಂದೇಶ"</string>
+    <string name="multimedia_message" msgid="1512644521083533071">"ಮಲ್ಟಿಮೀಡಿಯಾ ಸಂದೇಶ"</string>
+    <string name="multimedia_notification" msgid="4124031788554972308">"ಮಲ್ಟಿಮೀಡಿಯಾ ಸಂದೇಶ ಅಧಿಸೂಚನೆ"</string>
+    <string name="from_label" msgid="2055117571548171397">"ಇಂದ: "</string>
+    <string name="to_address_label" msgid="5837363600471845801">"ಗೆ: "</string>
+    <string name="bcc_label" msgid="530867161453958774">"Bcc: "</string>
+    <string name="sent_label" msgid="2722190650145251584">"ಕಳುಹಿಸಲಾಗಿದೆ: "</string>
+    <string name="received_label" msgid="8618029024731693906">"ಸ್ವೀಕರಿಸಲಾಗಿದೆ: "</string>
+    <string name="saved_label" msgid="4183160415593488207">"ಉಳಿಸಲಾಗಿದೆ: "</string>
+    <string name="subject_label" msgid="8721241914144101631">"ವಿಷಯ: "</string>
+    <string name="message_size_label" msgid="4698016210013319786">"ಸಂದೇಶದ ಗಾತ್ರ: "</string>
+    <string name="priority_label" msgid="7397600367853359607">"ಆದ್ಯತೆ: "</string>
+    <string name="priority_high" msgid="5627897207952009214">"ಹೆಚ್ಚು"</string>
+    <string name="priority_normal" msgid="5715227727384683550">"ಸಾಮಾನ್ಯ"</string>
+    <string name="priority_low" msgid="8928782666023373987">"ಕಡಿಮೆ"</string>
+    <string name="message_class_label" msgid="5115748690481550562">"ಸಂದೇಶದ ವರ್ಗ: "</string>
+    <string name="error_code_label" msgid="5810068247647058769">"ದೋಷದ ಕೋಡ್‌: "</string>
+    <string name="menu_edit" msgid="3056513240155967777">"ಸಂಪಾದಿಸಿ"</string>
+    <string name="menu_delete_messages" msgid="2610286783513247420">"ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ"</string>
+    <string name="menu_lock" msgid="7603793126077557472">"ಲಾಕ್ ಮಾಡಿ"</string>
+    <string name="menu_unlock" msgid="6662865558677424039">"ಅನ್‌ಲಾಕ್"</string>
+    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"ಟ್ಯಾಬ್ಲೆಟ್‌ ಸ್ಮರಣೆಗೆ ನಕಲಿಸಿ"</string>
+    <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"ಫೋನ್‌ ಸ್ಮರಣೆಗೆ ನಕಲಿಸಿ"</string>
+    <string name="sim_delete" msgid="610790510655316922">"ಅಳಿಸು"</string>
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"SIM ಕಾರ್ಡ್‌ನಲ್ಲಿ ಪಠ್ಯ ಸಂದೇಶಗಳು"</string>
+    <string name="sim_view" msgid="1997173541766393706">"ವೀಕ್ಷಿಸು"</string>
+    <string name="sim_empty" msgid="2356766833071636297">"SIM ಕಾರ್ಡ್‌ನಲ್ಲಿ ಯಾವುದೇ ಸಂದೇಶಗಳಿಲ್ಲ."</string>
+    <string name="delivery_header_title" msgid="5361719578869045764">"ವರದಿ ಮಾಡು"</string>
+    <string name="status_none" msgid="8253075950774894961">"(ಯಾವುದೂ ಇಲ್ಲ)"</string>
+    <string name="status_pending" msgid="2739860824607984892">"ಬಾಕಿ ಉಳಿದಿರುವುದು"</string>
+    <string name="status_read" msgid="7576195253780627332">"ಓದಲಾಗಿದೆ"</string>
+    <string name="status_received" msgid="7264334589461906965">"ಸ್ವೀಕರಿಸಲಾಗಿದೆ"</string>
+    <string name="status_failed" msgid="1998776666856593544">"ವಿಫಲಗೊಂಡಿದೆ"</string>
+    <string name="status_unread" msgid="8555305495998700198">"ಓದದಿರುವುದು"</string>
+    <string name="status_rejected" msgid="2613641949065942678">"ನಿರಾಕರಿಸಲಾಗಿದೆ"</string>
+    <string name="recipient_label" msgid="3922667485312634446">"ಸ್ವೀಕೃತದಾರರು: "</string>
+    <string name="status_label" msgid="7283375460919181660">"ಸ್ಥಿತಿ: "</string>
+    <string name="delivered_label" msgid="3514011729156932928">"ತಲುಪಿಸಲಾಗಿದೆ: "</string>
+    <string name="attach_image" msgid="6439985727687107742">"ಚಿತ್ರಗಳು"</string>
+    <string name="attach_take_photo" msgid="4280601313184373837">"ಚಿತ್ರ ಸೆರೆಹಿಡಿಯಿರಿ"</string>
+    <string name="attach_video" msgid="4264272693501538294">"ವೀಡಿಯೊಗಳು"</string>
+    <string name="attach_record_video" msgid="3099814114743078615">"ವೀಡಿಯೊ ಸೆರೆಹಿಡಿಯಿರಿ"</string>
+    <string name="attach_sound" msgid="3149325985970669609">"ಆಡಿಯೋ"</string>
+    <string name="attach_record_sound" msgid="6011431304469858929">"ಆಡಿಯೋ ರೆಕಾರ್ಡ್‌ ಮಾಡಿ"</string>
+    <string name="attach_slideshow" msgid="3497422151091037063">"ಸ್ಲೈಡ್‌ಶೋ"</string>
+    <string name="select_bottom_text" msgid="4201966447623311931">"ಕೆಳಗಿನ ಪಠ್ಯ"</string>
+    <string name="select_top_text" msgid="6734183477539197815">"ಮೇಲಿನ ಪಠ್ಯ"</string>
+    <string name="delivery_toast_body" msgid="5960519861835727013">"%s ರಿಂದ ಸಂದೇಶವನ್ನು ಸ್ವೀಕರಿಸಲಾಗಿದೆ."</string>
+    <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> ಓದದಿರುವ ಸಂದೇಶಗಳು."</string>
+    <string name="notification_multiple_title" msgid="332602028959557541">"ಹೊಸ ಸಂದೇಶಗಳು"</string>
+    <string name="notification_failed_multiple" msgid="6192531993698497229">"<xliff:g id="COUNT">%s</xliff:g> ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಲಾಗಲಿಲ್ಲ"</string>
+    <string name="notification_failed_multiple_title" msgid="1112032024904397126">"ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಲಾಗಿಲ್ಲ"</string>
+    <string name="sim_full_title" msgid="1809829051697702810">"SIM ಕಾರ್ಡ್‌ ಪೂರ್ಣಗೊಂಡಿದೆ"</string>
+    <string name="sim_full_body" msgid="6241664980790322925">"ಹೆಚ್ಚಿನ ಸ್ಥಳಾವಕಾಶಕ್ಕಾಗಿ ಕೆಲವೊಂದು ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ."</string>
+    <string name="sms_full_title" msgid="6041287140125011854">"ಪಠ್ಯ ಸಂದೇಶ ಮೆಮೊರಿಯು ಭರ್ತಿಯಾಗಿದೆ"</string>
+    <string name="sms_full_body" msgid="4885861852397651868">"ಮೆಮೊರಿ ಭರ್ತಿಯಾದ ಕಾರಣ ಒಳಬರುವ ಸಂದೇಶಗಳನ್ನು ತಿರಸ್ಕರಿಸಲಾಗಿದೆ. ಕೆಲವೊಂದು ಹಳೆಯ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ."</string>
+    <string name="sms_rejected_title" msgid="8548394922491529811">"ಪಠ್ಯ ಸಂದೇಶವನ್ನು ತಿರಸ್ಕರಿಸಲಾಗಿದೆ"</string>
+    <string name="sms_rejected_body" msgid="7813671133968158562">"ತಿಳಿಯದ ಕಾರಣದಿಂದಾಗಿ ಒಳಬರುವ ಸಂದೇಶಗಳನ್ನು ತಿರಸ್ಕರಿಸಲಾಗಿದೆ."</string>
+    <string name="type_audio" msgid="3842064092332309756">"ಆಡಿಯೋ"</string>
+    <string name="type_picture" msgid="4091928975383609443">"ಚಿತ್ರ"</string>
+    <string name="type_video" msgid="8521556159545168441">"ವೀಡಿಯೋ"</string>
+    <string name="confirm" msgid="3155110885840591914">"ದೃಢೀಕರಿಸಿ"</string>
+    <string name="message_send_read_report" msgid="6997117678914261250">"ಓದುವ ವರದಿಯನ್ನು ಕಳುಹಿಸಲಾಗುವುದು."</string>
+    <string name="message_queued" msgid="7975945623873194737">"ಪ್ರಸ್ತುತ ನಿಮ್ಮ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ಸೇವೆಯು ಲಭ್ಯವಾದಾಗ ಇದನ್ನು ಕಳುಹಿಸಲಾಗುವುದು."</string>
+    <string name="fdn_check_failure" msgid="7880740763778173551">"ನಿಮ್ಮ ಸ್ಥಿರ ಡಯಲಿಂಗ್‌ ಸಂಖ್ಯೆಗಳಿಗೆ ಮಾತ್ರ ನೀವು ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಬಹುದು."</string>
+    <string name="no_subject" msgid="4168963736134552285">"(ವಿಷಯ ಇಲ್ಲ)"</string>
+    <string name="unknown_sender" msgid="4929330613278853635">"ಕಳುಹಿಸಿದವರು ತಿಳಿದಿಲ್ಲ"</string>
+    <string name="dl_failure_notification" msgid="8097699679464396537">"<xliff:g id="FROM">%2$s</xliff:g> ರಿಂದ <xliff:g id="SUBJECT">%1$s</xliff:g> ಸಂದೇಶವನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
+    <string name="rate_limit_surpassed" msgid="1347801608211628177">"ದೃಢೀಕರಿಸಿ"</string>
+    <string name="confirm_rate_limit" msgid="234228299751243067">"ದೊಡ್ಡ ಸಂಖ್ಯೆಯ ಮಲ್ಟಿಮೀಡಿಯಾ ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಲಾಗುತ್ತದೆ. ಇದು ಸರಿಯೇ?"</string>
+    <string name="message_download_failed_title" msgid="5722226064394767921">"ಸಂದೇಶವನ್ನು ಡೌನ್‌ಲೋಡ್‌ ಮಾಡಲಾಗಿಲ್ಲ"</string>
+    <string name="message_send_failed_title" msgid="3469894907399046372">"ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿಲ್ಲ"</string>
+    <string name="message_failed_body" msgid="3421296112073915245">"ಸಂದೇಶವನ್ನು ಪರಿಶೀಲಿಸಲು ಮತ್ತು ಪುನಃ ಪ್ರಯತ್ನಿಸಲು ಸ್ಪರ್ಶಿಸಿ."</string>
+    <string name="download_later" msgid="5531365714424360903">"ಇದೀಗ ಡೌನ್‌ಲೋಡ್‌‌ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."</string>
+    <string name="no_apn" msgid="505932916503312015">"ಸಾಧನದಲ್ಲಿ ಯಾವುದೇ APN ನಿರ್ದಿಷ್ಟಪಡಿಸಲಾಗಿಲ್ಲ."</string>
+    <string name="select_audio" msgid="3528161449756771832">"ಆಡಿಯೋವನ್ನು ಆಯ್ಕೆಮಾಡಿ"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"ಲಗತ್ತನ್ನು ಉಳಿಸಿ"</string>
+    <string name="copy_to_sdcard_success" msgid="7948625615155992014">"ಲಗತ್ತನ್ನು ಉಳಿಸಲಾಗಿದೆ."</string>
+    <string name="copy_to_sdcard_fail" msgid="4944606369631916737">"ಲಗತ್ತನ್ನು ಉಳಿಸಲಾಗಲಿಲ್ಲ."</string>
+    <string name="save_ringtone" msgid="2310157075045201051">"ರಿಂಗ್‌ಟೋನ್‌ ರೂಪದಲ್ಲಿ ಉಳಿಸಿ"</string>
+    <string name="saved_ringtone" msgid="3847363932276708626">"ರಿಂಗ್‌ಟೋನ್‌ ಉಳಿಸಲಾಗಿದೆ."</string>
+    <string name="saved_ringtone_fail" msgid="4778500070919251116">"ರಿಂಗ್‌ಟೋನ್‌ ಉಳಿಸಲಾಗಲಿಲ್ಲ."</string>
+    <string name="menu_group_participants" msgid="4288356090262299071">"ಗುಂಪು ಭಾಗವಹಿಸುವವರು"</string>
+    <string name="select_link_title" msgid="3371818607625768447">"ಕ್ರಿಯೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ"</string>
+    <string name="slide_number" msgid="1923958526266726635">"ಸ್ಲೈಡ್‌ <xliff:g id="NUMBER">%s</xliff:g>"</string>
+  <plurals name="slide_duration">
+    <item quantity="one" msgid="1654101988340583935">"<xliff:g id="NUMBER">%s</xliff:g> ಸೆಕೆಂಡ್‌"</item>
+    <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g> ಸೆಕೆಂಡುಗಳು"</item>
+    <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g> ಸೆಕೆಂಡುಗಳು"</item>
+  </plurals>
+    <string name="delivery_report_activity" msgid="2957463094232916364">"ತಲುಪಿದ ವರದಿ"</string>
+    <string name="storage_limits_activity" msgid="8810530813311077716">"ಸಂಗ್ರಹಣೆಯ ಮಿತಿಗಳು"</string>
+    <string name="change_duration_activity" msgid="7048606979485031693">"ಅವಧಿಯನ್ನು ಬದಲಿಸಿ"</string>
+    <string name="edit_slideshow_activity" msgid="8751493388760050529">"ಸ್ಲೈಡ್‌ಶೋ ಸಂಪಾದಿಸಿ"</string>
+    <string name="recipient_list_activity" msgid="1254938236543727019">"ಗುಂಪು ಭಾಗವಹಿಸುವವರು"</string>
+    <string name="edit_slide_activity" msgid="8752829671778696983">"ಸ್ಲೈಡ್‌ ಅನ್ನು ಸಂಪಾದಿಸಿ"</string>
+    <string name="slideshow_activity" msgid="5658249461317434432">"ಸ್ಲೈಡ್‌ಶೋ"</string>
+    <string name="class_0_message_activity" msgid="6631339964159861048">"ವರ್ಗದಲ್ಲಿ 0 ಸಂದೇಶ"</string>
+    <string name="search_label" msgid="6042598929386174964">"ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ"</string>
+    <string name="search_hint" msgid="7273727663577472044">"ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ ಹುಡುಕಾಟ"</string>
+    <string name="search" msgid="7560238620274735199">"ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ"</string>
+    <string name="search_setting_description" msgid="4104004595086437572">"ನಿಮ್ಮ ಸಂದೇಶಗಳಲ್ಲಿ ಪಠ್ಯ"</string>
+    <string name="search_empty" msgid="2109551478056039278">"ಯಾವುದೇ ಹೊಂದಿಕೆಗಳಿಲ್ಲ."</string>
+  <plurals name="search_results_title">
+    <item quantity="one" msgid="4657073733087431350">"\"<xliff:g id="SEARCH">%2$s</xliff:g>\" ಗಾಗಿ <xliff:g id="NUMBER">%1$s</xliff:g> ಫಲಿತಾಂಶ"</item>
+    <item quantity="other" msgid="6196382287749539209">"\"<xliff:g id="SEARCH">%2$s</xliff:g>\" ಗಾಗಿ <xliff:g id="NUMBER">%1$s</xliff:g> ಫಲಿತಾಂಶಗಳು"</item>
+  </plurals>
+    <string name="search_history" msgid="4127805495662693154">"\"<xliff:g id="SEARCH">%2$s</xliff:g>\" ಗಾಗಿ <xliff:g id="COUNT">%1$s</xliff:g> ಫಲಿತಾಂಶಗಳು"</string>
+    <string name="confirm_clear_search_title" msgid="8510295993632032904">"ತೆರವುಮಾಡು"</string>
+    <string name="confirm_clear_search_text" msgid="8731877031837077478">"ಹುಡುಕಾಟ ಇತಿಹಾಸವನ್ನು ತೆರವುಗೊಳಿಸಲಾಗುವುದು."</string>
+    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"ಹುಡುಕಾಟ ಇತಿಹಾಸವನ್ನು ತೆರವುಗೊಳಿಸಿ"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"ತೋರಿಸಲಾಗುತ್ತಿರುವ ಹುಡುಕಾಟ ಬಾಕ್ಸ್‌ನಿಂದ ಹಿಂದಿನ ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ ಹುಟುಕಾಟಗಳನ್ನು ತೆರೆವುಗೊಳಿಸಿ"</string>
+    <string name="save" msgid="6847069284991531310">"ಉಳಿಸಿ"</string>
+    <string name="storage_limits_title" msgid="7074684882530693016">"ಸಂದೇಶಗಳ ಮಿತಿ"</string>
+    <string name="storage_limits_message" msgid="2010501485394745696">"ನಿಮ್ಮ ಪ್ರತಿ ಸಂವಾದವನ್ನು ಉಳಿಸಲು ಸಂದೇಶಗಳ ಸಂಖ್ಯೆಯನ್ನು ಮಿತಿಗೊಳಿಸುವುದೇ?"</string>
+    <string name="storage_limits_setting" msgid="4952781049308537373">"ಮಿತಿಗಳನ್ನು ಹೊಂದಿಸಿ"</string>
+    <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"ಯಾವುದೇ ಮಿತಿಗಳಿಲ್ಲ"</string>
+    <string name="too_many_unsent_mms" msgid="4436493698891224126">"ಇದೀಗ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ಹಲವಾರು ಕಳುಹಿಸದಿರುವ ಮಲ್ಟಿಮೀಡಿಯಾ ಸಂದೇಶಗಳು."</string>
+    <string name="sending_message" msgid="2054406576361149715">"ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ…"</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"ಹಲವಾರು ಸ್ವೀಕೃತದಾರರು"</string>
+    <string name="adding_recipients" msgid="2962810172527532357">"ಸ್ವೀಕೃತದಾರರನ್ನು ಸೇರಿಸಲಾಗುತ್ತಿದೆ…"</string>
+    <string name="draft_separator" msgid="5402575086540243019">", "</string>
+    <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
+    <string name="message_count_notification" msgid="3629968600032690007">"<xliff:g id="NUMBER">%1$s</xliff:g> ಹೊಸ ಸಂದೇಶಗಳು"</string>
+  <plurals name="message_count_notification_overflow">
+    <item quantity="one" msgid="3340591167508150806">"+<xliff:g id="NUMBER">%1$s</xliff:g> ಇತರ ಸಂದೇಶ"</item>
+    <item quantity="other" msgid="1393002799298501480">"+<xliff:g id="NUMBER">%1$s</xliff:g> ಇತರ ಸಂದೇಶಗಳು"</item>
+  </plurals>
+    <string name="error_state" msgid="5177386717626893507">"ಅಸಮಂಜಸವಾದ ಸ್ಥಿತಿ"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"ಥ್ರೆಡ್‌ಗಳು ಮತ್ತು ಸ್ವೀಕೃತದಾರರ ಸ್ಥಿತಿಯು ಅಸಮಂಜಸವಾಗಿದೆ. ದಯವಿಟ್ಟು ದೋಷದ ವರದಿಯನ್ನು ಮಾಡಿ ಮತ್ತು http://go/droidanizer ಮೂಲಕ ವರದಿಯನ್ನು ಸಲ್ಲಿಸಿ"</string>
+  <plurals name="recipient_count">
+    <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> ಜನರು"</item>
+  </plurals>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"ಡೀಫಾಲ್ಟ್‌ ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ ಅಪ್ಲಿಕೇಶನ್‌ನಿಂದ ನಕಲು ಪಠ್ಯ ಸಂದೇಶದ ಅಧಿಸೂಚನೆಗಳನ್ನು ನಿಲ್ಲಿಸುವುದೇ?"</string>
+    <string name="view_more_conversations" msgid="7275920132410734671">"ಇನ್ನಷ್ಟು ಸಂವಾದಗಳನ್ನು ವೀಕ್ಷಿಸಿ"</string>
+    <string name="attachment_audio" msgid="2867960243300539143">"ಆಡಿಯೋ"</string>
+    <string name="attachment_slideshow" msgid="5867689101881763318">"ಸ್ಲೈಡ್‌ಶೋ"</string>
+    <string name="attachment_video" msgid="4252062022156694591">"ವೀಡಿಯೊ"</string>
+    <string name="attachment_picture" msgid="3709286281567284296">"ಚಿತ್ರ"</string>
+    <string name="notification_separator" msgid="2334673105226536422">"  "</string>
+    <string name="enumeration_comma" msgid="213598026698964628">", "</string>
+    <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
+    <string name="storage_warning_title" msgid="7124740686325942375">"ನಿಮ್ಮ ಫೋನ್‌ನ ಸಂಗ್ರಹಣೆಯು ಪೂರ್ಣಗೊಂಡಿದೆ"</string>
+    <string name="storage_warning_content" msgid="1100367816649962354">"ನೀವು ಹೊಸ SMS/MMS ಸಂದೇಶಗಳನ್ನು ಸ್ವೀಕರಿಸುವುದಿಲ್ಲ"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS ವೇಕಪ್"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"ನೆಟ್‌ವರ್ಕ್‌ಗೆ ಔಟ್‌ಬಾಕ್ಸ್‌‌ನಿಂದ ಎಲ್ಲ MMS ಗಳನ್ನು ಕಳುಹಿಸುತ್ತದೆ"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ ನಿಮ್ಮ SMS ಅಪ್ಲಿಕೇಶನ್‌ ಅಲ್ಲ"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> ನಿಮ್ಮ SMS ಅಪ್ಲಿಕೇಶನ್‌ ಆಗಿದೆ"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"ನೀವು ಇದನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಬದಲಾಯಿಸಬಹುದು"</string>
+</resources>

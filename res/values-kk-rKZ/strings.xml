@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/*
+ * Copyright (C) 2007-2008 Esmertec AG.
+ * Copyright (C) 2007-2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="1503967887341230795">"Хабар алмасу"</string>
+    <string name="new_message" msgid="1530369762346003973">"Жаңа хабар"</string>
+    <string name="menu_call_back" msgid="7538482331117914146">"<xliff:g id="NAME">%s</xliff:g> нөміріне телефон шалу"</string>
+    <string name="menu_send_email" msgid="671366308915241664">"Эл.хатты <xliff:g id="NAME">%s</xliff:g> байланысына жіберу"</string>
+    <string name="menu_compose_new" msgid="3763437973691046238">"Хат жазу"</string>
+    <string name="menu_preferences" msgid="4693148116114749414">"Параметрлер"</string>
+    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"<xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> нөмірін Адамдар тізіміне қосу"</string>
+    <string name="menu_call" msgid="5877123227307074690">"Қоңырау шалу"</string>
+    <string name="menu_search" msgid="2289469305728821360">"Іздеу"</string>
+    <string name="menu_delete_all" msgid="808729454898114735">"Барлық тізбектерді жою"</string>
+    <string name="menu_delete" msgid="1851666911396479006">"Тізбекті жою"</string>
+    <string name="menu_view" msgid="7448852683948080108">"Тізбекті көру"</string>
+    <string name="menu_debug_dump" msgid="6855869130206549643">"DEBUG DUMP"</string>
+    <string name="refreshing" msgid="987335057871404222">"Жаңалауда…"</string>
+    <string name="menu_cell_broadcasts" msgid="5646161375983084660">"Ұялы хабар таратылым"</string>
+    <string name="has_draft" msgid="2487465595514636160">"Жоба"</string>
+    <string name="no_subject_view" msgid="7795086723069563537">"(Тақырыпсыз)"</string>
+    <string name="messagelist_sender_self" msgid="3579016854116401602">"Мен"</string>
+    <string name="view_slideshow" msgid="4990460971211388453">"Слайдшоуды көру"</string>
+    <string name="view_message_details" msgid="7613457646645796831">"Егжей-тегжейін көру"</string>
+    <string name="view_delivery_report" msgid="8219095994071575215">"Баянатты көру"</string>
+    <string name="delete_message" msgid="6442394955910357234">"Жою"</string>
+    <string name="expire_on" msgid="4436268382742593921">"Аяқталу мерзімі: <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="kilobyte" msgid="534782148965716631">"КБ"</string>
+    <string name="undelivered_msg_dialog_title" msgid="7479433403599785755">"Жеткізілмеген хабар"</string>
+    <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Бұл хабарды жіберу мүмкін болмады. \nӘрекеттену: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
+    <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Бұл хабарды жіберу мүмкін болмады."</string>
+    <string name="delete_thread" msgid="757258847736632791">"Тізбекті жою"</string>
+    <string name="menu_forward" msgid="9026858380050046756">"Бағыттау"</string>
+    <string name="download" msgid="4488877642230207631">"Жүктеу"</string>
+    <string name="downloading" msgid="1779557575565350637">"Жүктеуде"</string>
+    <string name="inline_subject" msgid="4057621785274119260">"&lt;Тақырып: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
+    <string name="drm_protected_text" msgid="1396394157870730742">"* DRM қорғалған мәтін *"</string>
+    <string name="insufficient_drm_rights" msgid="6989074725969164383">"Жеткіліксіз DRM құқықтары анықталды."</string>
+    <string name="copy_message_text" msgid="4296252229544252834">"Мәтінді көшіру"</string>
+    <string name="message_options" msgid="6838806653341967550">"Хабар опциялары"</string>
+    <string name="slideshow_options" msgid="3501759384739796431">"Слайдшоу опциялары"</string>
+    <string name="done" msgid="7479926268660505871">"Орындалды"</string>
+    <string name="move_up" msgid="7307578107431739359">"Жоғары қарай жылжыту"</string>
+    <string name="move_down" msgid="6356509518429479053">"Төмен қарай жылжыту"</string>
+    <string name="remove_slide" msgid="2225604354024914900">"Слайдты алу"</string>
+    <string name="add_slide" msgid="9140721399423564187">"Слайд қосу"</string>
+    <string name="add_slide_hint" msgid="7351356961076244584">"Жаңа слайд жасау үшін түрту"</string>
+    <string name="discard_slideshow" msgid="5054239124146413609">"Слайдшоуды өшіру."</string>
+    <string name="slide_show_part" msgid="5077675385448696846">"Бөлім <xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
+    <string name="remove_text" msgid="2164068850029476539">"Мәтінді алу"</string>
+    <string name="add_picture" msgid="7819574884962571479">"Фотосурет қосу"</string>
+    <string name="remove_picture" msgid="6378701749074289096">"Фотосуретті алу"</string>
+    <string name="add_music" msgid="3827442822987116233">"Музыка қосу"</string>
+    <string name="remove_music" msgid="858889733416015223">"Музыканы алу"</string>
+    <string name="add_video" msgid="7816866867806595144">"Видео қосу"</string>
+    <string name="remove_video" msgid="5258603891528497799">"Видеоны алу"</string>
+    <string name="to_hint" msgid="224029549150332986">"Кімге"</string>
+    <string name="subject_hint" msgid="4296714962311604126">"Тақырып"</string>
+    <string name="add_attachment" msgid="7103751293360532684">"Бекіту"</string>
+    <string name="add_subject" msgid="7616134948428265870">"Тақырып қосу"</string>
+    <string name="discard" msgid="1624800293064498479">"Өшіру"</string>
+    <string name="view" msgid="7929667761715467136">"Көрініс"</string>
+    <string name="replace" msgid="7587904998114459388">"Алмастыру"</string>
+    <string name="remove" msgid="4625444913256213175">"Алып тастау"</string>
+    <string name="send" msgid="4589898724889248486">"Жіберу"</string>
+    <string name="mms" msgid="1587631213714914559">"MMS (мультимедиялық хабар жіберу қызметі)"</string>
+    <string name="send_mms" msgid="2933162044872550662">"MMS жіберу"</string>
+    <string name="all_threads" msgid="2663426830306307194">"Барлық тізбектер"</string>
+    <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Хабарды теру"</string>
+    <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Хабарды теру үшін пернетақтаны ашу"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Жіберу өшірулі"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Жасақтау мүмкін емес. Бастапқы SMS қолданбасы емес."</string>
+    <string name="compressing" msgid="1961357529661045180">"Тым үлкен фотосурет. Ықшамдауда…"</string>
+    <string name="unsupported_media_format" msgid="1350489690977363764">"<xliff:g id="NAME">%1$s</xliff:g> форматының қолдауы жоқ."</string>
+    <string name="select_different_media" msgid="6241623357299382183">"Басқа <xliff:g id="NAME">%1$s</xliff:g> таңдау."</string>
+    <string name="exceed_message_size_limitation" msgid="6027753647094742437">"Хабар өлшемі шектеуден асып кетті."</string>
+    <string name="message_too_big_for_video" msgid="2639367545165352543">"Бұл хабар видео бекіту үшін тым үлкен."</string>
+    <string name="failed_to_add_media" msgid="7207464170168708485">"<xliff:g id="NAME">%1$s</xliff:g> элементін хабарыңызға қосу мүмкін болмайды."</string>
+    <string name="failed_to_resize_image" msgid="5608354151631833669">"Фотосурет өлшемі өзгертілмеген."</string>
+    <string name="resize_image_error_information" msgid="3783200130776554475">"Бұл фотосурет жіберу үшін тым үлкен, өлшемі өзгертілсе де."</string>
+    <string name="forward_prefix" msgid="276280492803486464">"Бғт: "</string>
+    <string name="discard_message_reason" msgid="2667664943003796133">"Хабарыңыз өшіріледі, себебі хабар жіберілетін байланыстар жарамсыз."</string>
+    <string name="has_invalid_recipient" msgid="1485388396900997383">"Жарамсыз нөмір(лер): &lt;<xliff:g id="NAME">%1$s</xliff:g>&gt;"</string>
+    <string name="invalid_destination" msgid="4573835601024786416">"Жеткізу мекенжайы жарамсыз."</string>
+    <string name="service_not_activated" msgid="9178218144019626176">"Қызмет желіде қосылмаған."</string>
+    <string name="service_message_not_found" msgid="1908877102600048515">"Хабар мерзімі аяқталған немесе қол жетімсіз."</string>
+    <string name="service_network_problem" msgid="4583269174855943025">"Желі мәселесіне орай жіберу мүмкін болмады."</string>
+    <string name="invalid_recipient_message" msgid="6465343105010999068">"Хабар алушыларды жөндеңіз немесе олар хабарды алмайды."</string>
+    <string name="cannot_send_message" msgid="3414307479833622644">"Хабарды жіберу мүмкін емес."</string>
+    <string name="cannot_send_message_reason" msgid="8745080126044054343">"Хабарыңыз жіберілетін байланыстар жарамсыз."</string>
+    <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"Хабардағы DRM элементін басқа мекенжайға жіберу мүмкін емес."</string>
+    <string name="converting_to_picture_message" msgid="2980023239017588627">"Мультимедиа хабарына өзгертілуде…"</string>
+    <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"Басқа слайдтар қосу мүмкін емес."</string>
+    <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"Видео және фотосуретті бір слайдқа қосу мүмкін болмады."</string>
+    <string name="cannot_save_message" msgid="3375907366965264446">"Хабарды сақтау мүмкін емес."</string>
+    <string name="message_saved_as_draft" msgid="2503018972659880692">"Хабар жоба ретінде сақталды."</string>
+    <string name="too_many_recipients" msgid="7003415094007176931">"Хабар алушылар тым көп (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>). <xliff:g id="MAXLIMIT">%2$s</xliff:g> хабар алушыға шектелген."</string>
+    <string name="too_many_attachments" msgid="3774037894899750070">"Бекітпелер шектеуі <xliff:g id="MAXLIMIT">%1$s</xliff:g>. Алғашқы <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> ғана қосылады."</string>
+    <string name="adding_attachments_title" msgid="2034535554212405529">"Бекітпелер қосуда"</string>
+    <string name="adding_attachments" msgid="5871373105122355632">"Слайдшоуға слайдтар қосылғанша күтіңіз."</string>
+    <string name="building_slideshow_title" msgid="1232338692400726385">"Слайдшоу құру"</string>
+    <string name="cannot_play_audio" msgid="253920977253666735">"Аудионы ойнату мүмкін емес."</string>
+    <string name="preview" msgid="5438149136136446756">"Алдын ала көру"</string>
+    <string name="preview_slideshow" msgid="6824095909448728427">"Алдын ала көру"</string>
+    <string name="replace_image" msgid="3171240952601443619">"Фотосуретті алмастыру"</string>
+    <string name="duration_sec" msgid="6617032324007824096">"Ұзақтығы (<xliff:g id="DURATION">%s</xliff:g> сек)"</string>
+    <string name="duration_selector_title" msgid="5981097971537625852">"Слайд ұзақтығы "</string>
+    <string name="layout_selector_title" msgid="7344600117972450771">"Слайдшоудың орналасуы "</string>
+    <string name="layout_top" msgid="6811021650398972346">"Орналасуы (жоғарғы жағы)"</string>
+    <string name="layout_bottom" msgid="5822765871095491843">"Орналасуы (төменгі жағы)"</string>
+    <string name="type_to_compose_text_or_leave_blank" msgid="7769792471457574059">"Хабар теру немесе бос қалдыру"</string>
+    <string name="duration_not_a_number" msgid="2856636898040421237">"Ұзақтығы санмен көрсетілуі тиіс."</string>
+    <string name="duration_zero" msgid="3549377790195185977">"Ұзақтығы нөл секундтан артық болуы тиіс."</string>
+    <string name="secs" msgid="6886003523109967972">"секундтар"</string>
+  <string-array name="select_dialog_items">
+    <item msgid="4840183714016984112">"1 секунд"</item>
+    <item msgid="3734955613666864447">"2 секунд"</item>
+    <item msgid="6032232473048379828">"3 секунд"</item>
+    <item msgid="5978471781525927827">"4 секунд"</item>
+    <item msgid="4888440297621208402">"5 секунд"</item>
+    <item msgid="6047246213264166841">"6 секунд"</item>
+    <item msgid="2327501250056533797">"7 секунд"</item>
+    <item msgid="3400770414689795703">"8 секунд"</item>
+    <item msgid="4358760614161107970">"9 секунд"</item>
+    <item msgid="2618179407176906471">"10 секунд"</item>
+    <item msgid="7786079681602275449">"Басқа"</item>
+  </string-array>
+    <string name="menu_view_contact" msgid="1414670584423909451">"Контактіні көру"</string>
+    <string name="menu_add_to_contacts" msgid="1258127580972228970">"Адамдар тізіміне қосу"</string>
+    <string name="hidden_sender_address" msgid="2776075636669924968">"Жіберуші мекенжайы жасырын"</string>
+    <string name="yes" msgid="3246158147503160811">"Жарайды"</string>
+    <string name="no" msgid="4289742508556913860">"Өшіру"</string>
+    <string name="set" msgid="4642365398263275979">"Параметрлер"</string>
+    <string name="play" msgid="1888432400937785115">"Ойнату"</string>
+    <string name="edit" msgid="5912118407791492696">"Өзгерту"</string>
+    <string name="try_to_send" msgid="1996751738286080976">"Жіберіп көру"</string>
+    <string name="preferences_title" msgid="6650089610332670157">"Параметрлер"</string>
+    <string name="restore_default" msgid="7165341506551155053">"Бастапқы параметрлерді қалпына келтіру"</string>
+    <string name="pref_notification_settings_title" msgid="6420782563630369776">"Хабарлар"</string>
+    <string name="pref_mms_settings_title" msgid="55618772118264355">"Mультимедиа (MMS) хабарлары"</string>
+    <string name="pref_sms_settings_title" msgid="5173078369851066881">"Мәтін (SMS) хабарлары"</string>
+    <string name="pref_sms_storage_title" msgid="9001233319190616445">"Жад"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS өшірулі"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Хабар алмастыруды бастапқы SMS қолданбасы ретінде реттеу үшін түрту"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS қосулы"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Бастапқы SMS қолданбасы өзгерту үшін түрту"</string>
+    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"SIM картасында сақталған хабарларды басқару"</string>
+    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Жіберілген әр хабарды жеткізу туралы баянат өтіну"</string>
+    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Жіберілген әр хабардың оқылғаны жайлы баянат өтіну"</string>
+    <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Жіберілген әр хабарды жеткізу туралы баянат өтіну"</string>
+    <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Шектеуден асқанда ескі хабарларды жою"</string>
+    <string name="pref_summary_delete_limit" msgid="597128041393045216">"Әр әңігімеге <xliff:g id="COUNT">%1$s</xliff:g> хабардан"</string>
+    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"Бірнеше байланысқа бір хабар жіберу үшін MMS қолдану"</string>
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"SIM картасының хабарларын басқару"</string>
+    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Жеткізу баянаттары"</string>
+    <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"Топ болып хабар алмастыру"</string>
+    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Баянаттарды оқу"</string>
+    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Жеткізу баянаттары"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"Ескі хабарларды жою"</string>
+    <string name="pref_title_sms_delete" msgid="6890538316799296878">"Мәтін хабары шектеуі"</string>
+    <string name="pref_title_mms_delete" msgid="7265878070847351664">"Mультимедиа хабарлар шектеуі"</string>
+    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Хабарлар"</string>
+    <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Тербеліс"</string>
+    <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Дыбыс"</string>
+    <string name="pref_messages_to_save" msgid="3202539743892934926">"Сақталатын хабарлар санын анықтау"</string>
+    <string name="silent_ringtone" msgid="7981237991326592780">"Үнсіз"</string>
+    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Авто шығарып алу"</string>
+    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Хабарларды автоматты түрде шығарып алу"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Роуминг кезінде авто шығарып алу"</string>
+    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Роуминг кезінде хабарларды автоматты түрде шығарып алу"</string>
+    <string name="confirm_dialog_title" msgid="2187213750475782725">"Жойылсын ба?"</string>
+    <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Бекітілген хабар жойылсын ба?"</string>
+  <plurals name="confirm_delete_conversation">
+    <item quantity="one" msgid="7509396981963472833">"Бір әңгіме алынып тасталады."</item>
+    <item quantity="other" msgid="4076915774012081811">"<xliff:g id="NUMBER">%1$s</xliff:g> әңгімелер алынып тасталады."</item>
+  </plurals>
+    <string name="confirm_delete_conversation" msgid="6115966687389279855">"Бүкіл тізбек жойылады."</string>
+    <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"Барлық тізбектер жойылады."</string>
+    <string name="confirm_delete_message" msgid="9121480656609809591">"Бұл хабар жойылады."</string>
+    <string name="confirm_delete_locked_message" msgid="7203411948190100955">"Осы бекітілген хабар жойылсын ба?"</string>
+    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"SIM картасындағы барлық хабарлар жойылады."</string>
+    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"SIM картасындағы бұл хабар жойылады."</string>
+    <string name="delete_unlocked" msgid="7545321606698162261">"Бекітілген хабарларды жою"</string>
+    <string name="delete" msgid="1409973060081564612">"Жою"</string>
+    <string name="select_conversations" msgid="7816517565640002844">"Әңгімелерді таңдау"</string>
+    <string name="no_conversations" msgid="6773767655149258445">"Ешқандай әңгімелер жоқ."</string>
+    <string name="loading_conversations" msgid="5510430408235967094">"Әңгімелерді жүктеуде."</string>
+    <string name="cannot_get_details" msgid="850292987983026806">"Деректерге ие болу мүмкін емес."</string>
+    <string name="message_details_title" msgid="9223295113731634528">"Хабар деректері"</string>
+    <string name="message_type_label" msgid="7975373966795945566">"Tүрі: "</string>
+    <string name="text_message" msgid="8196464345251877972">"Мәтін-хабар"</string>
+    <string name="multimedia_message" msgid="1512644521083533071">"Mультимедиа хабары"</string>
+    <string name="multimedia_notification" msgid="4124031788554972308">"Mультимедиа хабары туралы ескерту"</string>
+    <string name="from_label" msgid="2055117571548171397">"Кімнен: "</string>
+    <string name="to_address_label" msgid="5837363600471845801">"Кімге: "</string>
+    <string name="bcc_label" msgid="530867161453958774">"Bcc "</string>
+    <string name="sent_label" msgid="2722190650145251584">"Жіберілді: "</string>
+    <string name="received_label" msgid="8618029024731693906">"Қабылданды: "</string>
+    <string name="saved_label" msgid="4183160415593488207">"Сақталды: "</string>
+    <string name="subject_label" msgid="8721241914144101631">"Тақырып: "</string>
+    <string name="message_size_label" msgid="4698016210013319786">"Хабар өлшемі: "</string>
+    <string name="priority_label" msgid="7397600367853359607">"Маңызды: "</string>
+    <string name="priority_high" msgid="5627897207952009214">"Жоғары"</string>
+    <string name="priority_normal" msgid="5715227727384683550">"Орташа"</string>
+    <string name="priority_low" msgid="8928782666023373987">"Төмен"</string>
+    <string name="message_class_label" msgid="5115748690481550562">"Хабар санаты: "</string>
+    <string name="error_code_label" msgid="5810068247647058769">"Қателік коды: "</string>
+    <string name="menu_edit" msgid="3056513240155967777">"Өзгерту"</string>
+    <string name="menu_delete_messages" msgid="2610286783513247420">"Хабарларды жою"</string>
+    <string name="menu_lock" msgid="7603793126077557472">"Бекітпе"</string>
+    <string name="menu_unlock" msgid="6662865558677424039">"Бекітпесін ашу"</string>
+    <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"Планшет жадына көшіру"</string>
+    <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"Телефон жадына көшіру"</string>
+    <string name="sim_delete" msgid="610790510655316922">"Жою"</string>
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"SIM картадағы мәтін-хабарлар"</string>
+    <string name="sim_view" msgid="1997173541766393706">"Көрініс"</string>
+    <string name="sim_empty" msgid="2356766833071636297">"SIM картасында хабарлар жоқ."</string>
+    <string name="delivery_header_title" msgid="5361719578869045764">"Баяндау"</string>
+    <string name="status_none" msgid="8253075950774894961">"(Ешқандай)"</string>
+    <string name="status_pending" msgid="2739860824607984892">"Күтуде"</string>
+    <string name="status_read" msgid="7576195253780627332">"Оқылған"</string>
+    <string name="status_received" msgid="7264334589461906965">"Қабылданған"</string>
+    <string name="status_failed" msgid="1998776666856593544">"Сәтсіз"</string>
+    <string name="status_unread" msgid="8555305495998700198">"Оқылмаған"</string>
+    <string name="status_rejected" msgid="2613641949065942678">"Қабылданбаған"</string>
+    <string name="recipient_label" msgid="3922667485312634446">"Хабар алушы: "</string>
+    <string name="status_label" msgid="7283375460919181660">"Күйі: "</string>
+    <string name="delivered_label" msgid="3514011729156932928">"Жеткізілді: "</string>
+    <string name="attach_image" msgid="6439985727687107742">"Фотосуреттер"</string>
+    <string name="attach_take_photo" msgid="4280601313184373837">"Фотосурет түсіру"</string>
+    <string name="attach_video" msgid="4264272693501538294">"Видеолар"</string>
+    <string name="attach_record_video" msgid="3099814114743078615">"Видео түсіру"</string>
+    <string name="attach_sound" msgid="3149325985970669609">"Aудио"</string>
+    <string name="attach_record_sound" msgid="6011431304469858929">"Аудио жазу"</string>
+    <string name="attach_slideshow" msgid="3497422151091037063">"Слайдшоу"</string>
+    <string name="select_bottom_text" msgid="4201966447623311931">"Мәтін төменгі жағында"</string>
+    <string name="select_top_text" msgid="6734183477539197815">"Мәтін үстіңгі жағында"</string>
+    <string name="delivery_toast_body" msgid="5960519861835727013">"Хабарды алған %s."</string>
+    <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> оқылмаған хабарлар."</string>
+    <string name="notification_multiple_title" msgid="332602028959557541">"Жаңа хабарлар"</string>
+    <string name="notification_failed_multiple" msgid="6192531993698497229">"<xliff:g id="COUNT">%s</xliff:g> хабарларын жіберу мүмкін болмады."</string>
+    <string name="notification_failed_multiple_title" msgid="1112032024904397126">"Хабарлар жіберілмеді."</string>
+    <string name="sim_full_title" msgid="1809829051697702810">"SIM картасы толы"</string>
+    <string name="sim_full_body" msgid="6241664980790322925">"Жаңа хабарларға орын босату үшін кейбір хабарларды жою."</string>
+    <string name="sms_full_title" msgid="6041287140125011854">"Мәтін хабарлар жады толы"</string>
+    <string name="sms_full_body" msgid="4885861852397651868">"Жад толы болғандықтан келген жаңа хабар қабылданбады. Ескі хабарлардың кейбіреуін жойыңыз."</string>
+    <string name="sms_rejected_title" msgid="8548394922491529811">"Мәтін-хабар қабылданбады."</string>
+    <string name="sms_rejected_body" msgid="7813671133968158562">"Келген жаңа хабар белгісіз себеппен қабылданбады."</string>
+    <string name="type_audio" msgid="3842064092332309756">"aудио"</string>
+    <string name="type_picture" msgid="4091928975383609443">"фотосурет"</string>
+    <string name="type_video" msgid="8521556159545168441">"видео"</string>
+    <string name="confirm" msgid="3155110885840591914">"Растау"</string>
+    <string name="message_send_read_report" msgid="6997117678914261250">"Оқылғаны туралы жіберіледі."</string>
+    <string name="message_queued" msgid="7975945623873194737">"Қазір сіздің хабарыңызды жіберу мүмкін емес. Қызмет қол жетімді болғанда жіберіледі."</string>
+    <string name="fdn_check_failure" msgid="7880740763778173551">"Сіз хабарларды бекітілген теру нөмірлеріне ғана жібере аласыз."</string>
+    <string name="no_subject" msgid="4168963736134552285">"(Тақырыпсыз)"</string>
+    <string name="unknown_sender" msgid="4929330613278853635">"Белгісіз хабар жіберуші"</string>
+    <string name="dl_failure_notification" msgid="8097699679464396537">"<xliff:g id="SUBJECT">%1$s</xliff:g> хабарын <xliff:g id="FROM">%2$s</xliff:g> арқылы жүктеу мүмкін болмады."</string>
+    <string name="rate_limit_surpassed" msgid="1347801608211628177">"Растау"</string>
+    <string name="confirm_rate_limit" msgid="234228299751243067">"Көп мөлшердегі мультимедиа хабарлары жіберілуде. Жарай ма?"</string>
+    <string name="message_download_failed_title" msgid="5722226064394767921">"Хабар жүктелмеген"</string>
+    <string name="message_send_failed_title" msgid="3469894907399046372">"Хабар жіберілген жоқ."</string>
+    <string name="message_failed_body" msgid="3421296112073915245">"Хабарды шолу үшін түртіңіз және қайта әрекеттеніңіз."</string>
+    <string name="download_later" msgid="5531365714424360903">"Қазір жүктеу мүмкін емес. Кейінірек қайта әркеттеніңіз."</string>
+    <string name="no_apn" msgid="505932916503312015">"Құрылғыда ешқандай APN (кіру нүкт. атауы) анықталмаған."</string>
+    <string name="select_audio" msgid="3528161449756771832">"Аудио таңдау"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"Бекітпені сақтау"</string>
+    <string name="copy_to_sdcard_success" msgid="7948625615155992014">"Бекітпе сақталды."</string>
+    <string name="copy_to_sdcard_fail" msgid="4944606369631916737">"Бекітпені сақтау мүмкін болмады."</string>
+    <string name="save_ringtone" msgid="2310157075045201051">"Рингтон ретінде сақтау"</string>
+    <string name="saved_ringtone" msgid="3847363932276708626">"Рингтон сақталды."</string>
+    <string name="saved_ringtone_fail" msgid="4778500070919251116">"Рингтонды сақтау мүмкін болмады."</string>
+    <string name="menu_group_participants" msgid="4288356090262299071">"Топ қатысушылары"</string>
+    <string name="select_link_title" msgid="3371818607625768447">"Әрекет таңдаңыз"</string>
+    <string name="slide_number" msgid="1923958526266726635">"<xliff:g id="NUMBER">%s</xliff:g> слайд"</string>
+  <plurals name="slide_duration">
+    <item quantity="one" msgid="1654101988340583935">"<xliff:g id="NUMBER">%s</xliff:g> сек"</item>
+    <item quantity="few" msgid="7887190171856293871">"<xliff:g id="NUMBER">%s</xliff:g> сек"</item>
+    <item quantity="other" msgid="3736425355579939863">"<xliff:g id="NUMBER">%s</xliff:g> сек"</item>
+  </plurals>
+    <string name="delivery_report_activity" msgid="2957463094232916364">"Жеткізу туралы баяндау"</string>
+    <string name="storage_limits_activity" msgid="8810530813311077716">"Жад шектеулері"</string>
+    <string name="change_duration_activity" msgid="7048606979485031693">"Өзгерту ұзақтығы"</string>
+    <string name="edit_slideshow_activity" msgid="8751493388760050529">"Слайдшоуды жөндеу"</string>
+    <string name="recipient_list_activity" msgid="1254938236543727019">"Топ қатысушылары"</string>
+    <string name="edit_slide_activity" msgid="8752829671778696983">"Слайдты жөндеу"</string>
+    <string name="slideshow_activity" msgid="5658249461317434432">"Слайдшоу"</string>
+    <string name="class_0_message_activity" msgid="6631339964159861048">"Санаты 0 хабар"</string>
+    <string name="search_label" msgid="6042598929386174964">"Хабар алмасу"</string>
+    <string name="search_hint" msgid="7273727663577472044">"Хабар алмасуды іздеу"</string>
+    <string name="search" msgid="7560238620274735199">"Хабар алмасу"</string>
+    <string name="search_setting_description" msgid="4104004595086437572">"Хабар алмасудағы мәтін"</string>
+    <string name="search_empty" msgid="2109551478056039278">"Сәйкестіктер жоқ."</string>
+  <plurals name="search_results_title">
+    <item quantity="one" msgid="4657073733087431350">"<xliff:g id="NUMBER">%1$s</xliff:g> нәтиже \"<xliff:g id="SEARCH">%2$s</xliff:g>\" үшін"</item>
+    <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> нәтижелер \"<xliff:g id="SEARCH">%2$s</xliff:g>\" үшін"</item>
+  </plurals>
+    <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> нәтижелер \"<xliff:g id="SEARCH">%2$s</xliff:g>\" үшін"</string>
+    <string name="confirm_clear_search_title" msgid="8510295993632032904">"Өшіру"</string>
+    <string name="confirm_clear_search_text" msgid="8731877031837077478">"Іздеу тарихы өшіріледі."</string>
+    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"Іздеу тарихын өшіру"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"Іздеу терезесінен көрінбеу үшін алдыңғы хабар алмастыру іздеулерін өшіру"</string>
+    <string name="save" msgid="6847069284991531310">"Сақтау"</string>
+    <string name="storage_limits_title" msgid="7074684882530693016">"Хабарларды шектеу"</string>
+    <string name="storage_limits_message" msgid="2010501485394745696">"Әр әңгіме үшін сақталатын хабарлар саны шектелсін бе?"</string>
+    <string name="storage_limits_setting" msgid="4952781049308537373">"Шектеу"</string>
+    <string name="storage_limits_setting_dismiss" msgid="1433841310158458034">"Шектеусіз"</string>
+    <string name="too_many_unsent_mms" msgid="4436493698891224126">"Қазір хабар жіберу мүмкін емес. Жіберілмеген мультимедиа хабарлары тым көп."</string>
+    <string name="sending_message" msgid="2054406576361149715">"ЖІБЕРУДЕ…"</string>
+    <string name="pick_too_many_recipients" msgid="650087588867628044">"Хабар алушылар тым көп"</string>
+    <string name="adding_recipients" msgid="2962810172527532357">"Алушылар қосуда..."</string>
+    <string name="draft_separator" msgid="5402575086540243019">", "</string>
+    <string name="message_count_format" msgid="4434763220590778012">" <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
+    <string name="message_count_notification" msgid="3629968600032690007">"<xliff:g id="NUMBER">%1$s</xliff:g> жаңа хабарлар"</string>
+  <plurals name="message_count_notification_overflow">
+    <item quantity="one" msgid="3340591167508150806">"+<xliff:g id="NUMBER">%1$s</xliff:g> басқа хабар"</item>
+    <item quantity="other" msgid="1393002799298501480">"+<xliff:g id="NUMBER">%1$s</xliff:g> басқа хабарлар"</item>
+  </plurals>
+    <string name="error_state" msgid="5177386717626893507">"Тұрақсыз күй"</string>
+    <string name="error_state_text" msgid="7918866106335387710">"Тізбектер және хабар алушылар күйі тұрақсыз. Қателік хабарын көшіріп, http://go/droidanizer арқылы баяндаңыз."</string>
+  <plurals name="recipient_count">
+    <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> адамдар"</item>
+  </plurals>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Мәтін хабарлары туралы ескертулерді бастапқы хабар алмастыру қолданбасынан көшіру тоқтатылсын ба?"</string>
+    <string name="view_more_conversations" msgid="7275920132410734671">"Басқа әңгімелерді көру"</string>
+    <string name="attachment_audio" msgid="2867960243300539143">"Aудио"</string>
+    <string name="attachment_slideshow" msgid="5867689101881763318">"Слайдшоу"</string>
+    <string name="attachment_video" msgid="4252062022156694591">"Видео"</string>
+    <string name="attachment_picture" msgid="3709286281567284296">"Фотосурет"</string>
+    <string name="notification_separator" msgid="2334673105226536422">"  "</string>
+    <string name="enumeration_comma" msgid="213598026698964628">", "</string>
+    <string name="message_timestamp_format" msgid="4188999027493614617">"<xliff:g id="STRING_0">%1$s</xliff:g> - <xliff:g id="STRING_1">%2$s</xliff:g>"</string>
+    <string name="storage_warning_title" msgid="7124740686325942375">"Телефоныңыздың жады толы"</string>
+    <string name="storage_warning_content" msgid="1100367816649962354">"Жаңа SMS/MMS хабарларын алмайсыз"</string>
+    <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS ояту"</string>
+    <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"MMS хабарларын шығыс жәшігінен желіге жібереді"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Хабар алмастыру сіздің SMS қолданбаңыз емес"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> - сіздің SMS қолданбаңыз"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"Бұны параметрлер арқылы өзгертуге болады"</string>
+</resources>

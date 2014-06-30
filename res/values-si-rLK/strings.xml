@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"සියලුම පොටවල්"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"පණිවිඩයක් ටයිප් කරන්න"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"පණිවිඩයක් ටයිප් කිරීමට යතුරු පුවරුව විවෘත කරන්න"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"යැවීම අබලයි"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"රචනා කළ නොහැක. සුපුරුදු SMS යෙදුම නොවේ."</string>
     <string name="compressing" msgid="1961357529661045180">"පින්තූරය විශාල වැඩියි. සම්පීඩනය කරමින්..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"සහාය නොදක්වන <xliff:g id="NAME">%1$s</xliff:g> ආකෘතිය."</string>
     <string name="select_different_media" msgid="6241623357299382183">"වෙනත් <xliff:g id="NAME">%1$s</xliff:g> තෝරන්න."</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"බහු මාධ්‍ය (MMS) පණිවිඩ"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"කෙටි (SMS) පණිවිඩ"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"ආචයනය"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS අබල කර ඇත"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"ඔබගේ සුපුරුදු SMS යෙදුම පණිවිඩකරණය බවට පත් කිරීමට ස්පර්ශ කරන්න"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS සබල කර ඇත"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"ඔබගේ සුපුරුදු SMS යෙදුම වෙනස් කිරීමට ස්පර්ශ කරන්න"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"ඔබගේ SIM කාඩ් පතෙහි ආචය වී තිබෙන පණිවිඩ කළමනාකරණය කරන්න"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"ඔබ යවන ලද සෑම පණිවිඩයකටම යැවීමේ වාර්තාවක් ඉල්ලන්න"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"ඔබ යවන ලද සෑම පණිවිඩයකටම කියවීමේ වාර්තාවක් ඉල්ලන්න"</string>
@@ -282,7 +288,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"රිංග්ටෝනයක් ලෙස සුරකින්න"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"රිංග්ටෝන් සුරැකිණි."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"රිංග්ටෝන් සුරැකිය නොහැකි විය."</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"සිනාසිමක් ඇතුලත් කරන්න"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"කණ්ඩායම් සාමාජිකයින්"</string>
     <string name="select_link_title" msgid="3371818607625768447">"ක්‍රියාව තෝරන්න"</string>
     <string name="slide_number" msgid="1923958526266726635">"කදාව <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -347,4 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"ඔබට නව SMS/MMS පණිවිඩ නොලැබෙයි"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS අවදි කිරීම"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"සියලු MMSs යන ලිපි වෙතින් ජාලය වෙත යවයි"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"පනිවිඩකරණය ඔබගේ SMS යෙදුම නොවේ"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"ඔබගේ SMS යෙදුම <xliff:g id="APPNAME">%s</xliff:g> ය"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"ඔබට මෙය සැකසීම් තුළ වෙනස් කළ හැක"</string>
 </resources>

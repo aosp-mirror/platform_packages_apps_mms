@@ -19,6 +19,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string-array name="empty_subject_strings">
-    <item msgid="7691141505407124426">"කාරණාවක් නොමැත"</item>
+    <item msgid="7691141505407124426">"ekkert efni"</item>
   </string-array>
 </resources>
