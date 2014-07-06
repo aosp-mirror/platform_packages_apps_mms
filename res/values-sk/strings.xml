@@ -353,6 +353,6 @@
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Prebudenie správou MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Odošle všetky správy MMS z pošty na odoslanie do siete"</string>
     <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Aplikácia SMS a MMS nie je vašou aplikáciou pre správy SMS"</string>
-    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> je vaša aplikácia pre správy SMS"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> je vaša aplikácia SMS"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"Zmeniť to môžete v Nastaveniach"</string>
 </resources>

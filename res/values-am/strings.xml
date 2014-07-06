@@ -147,7 +147,7 @@
     <string name="menu_add_to_contacts" msgid="1258127580972228970">"ወደ ሰዎች አክል"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"የተደበቀ የላኪ አድራሻ"</string>
     <string name="yes" msgid="3246158147503160811">"እሺ"</string>
-    <string name="no" msgid="4289742508556913860">"ሰርዝ"</string>
+    <string name="no" msgid="4289742508556913860">"ይቅር"</string>
     <string name="set" msgid="4642365398263275979">"አዘጋጅ"</string>
     <string name="play" msgid="1888432400937785115">"ተጫወት"</string>
     <string name="edit" msgid="5912118407791492696">"አርትዕ"</string>
@@ -314,10 +314,10 @@
     <item quantity="other" msgid="6196382287749539209">"<xliff:g id="NUMBER">%1$s</xliff:g> ውጤቶች ለ \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</item>
   </plurals>
     <string name="search_history" msgid="4127805495662693154">"<xliff:g id="COUNT">%1$s</xliff:g> ውጤቶች ለ \"<xliff:g id="SEARCH">%2$s</xliff:g>\""</string>
-    <string name="confirm_clear_search_title" msgid="8510295993632032904">"አጥራ"</string>
+    <string name="confirm_clear_search_title" msgid="8510295993632032904">"አጽዳ"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"የፍለጋ ታሪክ ይሰረዛሉ።"</string>
-    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"ፍለጋ ታሪክ አጥራ"</string>
-    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"የቀደመ ፍለጋ መልዕክት በፍለጋ ሣጥን ውስጥ ከማሳየት አጥራ"</string>
+    <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"ፍለጋ ታሪክ አጽዳ"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"የቀደመ ፍለጋ መልዕክት በፍለጋ ሣጥን ውስጥ ከማሳየት አጽዳ"</string>
     <string name="save" msgid="6847069284991531310">"አስቀምጥ"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"መልዕክቶች ወስን"</string>
     <string name="storage_limits_message" msgid="2010501485394745696">"በእያንዳንዱ ውይይትህ ማስቀመጥ የምትፈልጋቸውን መልዕክቶች ቁጥር ትወስናለህ?"</string>

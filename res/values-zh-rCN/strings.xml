@@ -174,7 +174,7 @@
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"群发信息"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"已读报告"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"发送报告"</string>
-    <string name="pref_title_auto_delete" msgid="7227835692631701134">"删除旧信息"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"删除旧短信"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"短信限制"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"彩信限制"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"通知"</string>
@@ -253,7 +253,7 @@
     <string name="attach_slideshow" msgid="3497422151091037063">"幻灯片"</string>
     <string name="select_bottom_text" msgid="4201966447623311931">"底部文本"</string>
     <string name="select_top_text" msgid="6734183477539197815">"顶部文本"</string>
-    <string name="delivery_toast_body" msgid="5960519861835727013">"%s 收到了短信。"</string>
+    <string name="delivery_toast_body" msgid="5960519861835727013">"%s收到了短信。"</string>
     <string name="notification_multiple" msgid="7684007285202109490">"<xliff:g id="COUNT">%s</xliff:g> 条未读信息。"</string>
     <string name="notification_multiple_title" msgid="332602028959557541">"新信息"</string>
     <string name="notification_failed_multiple" msgid="6192531993698497229">"<xliff:g id="COUNT">%s</xliff:g> 条短信无法发送"</string>

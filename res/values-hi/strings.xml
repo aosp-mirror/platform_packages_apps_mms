@@ -87,7 +87,7 @@
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"संदेश लि‍खें"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"संदेश लि‍खने के लि‍ए कीबोर्ड खोलें"</string>
     <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"भेजा जाना अक्षम हो गया"</string>
-    <string name="compose_disabled_toast" msgid="1838175321052707875">"लिख नहीं सकते. डिफ़ॉल्ट SMS एप्लिकेशन नहीं."</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"लिख नहीं सकते. डिफ़ॉल्ट SMS ऐप्लिकेशन नहीं."</string>
     <string name="compressing" msgid="1961357529661045180">"चित्र बहुत बड़ा है. संपीड़ित कर रहा है..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"असमर्थित <xliff:g id="NAME">%1$s</xliff:g> प्रारूप."</string>
     <string name="select_different_media" msgid="6241623357299382183">"कोई भिन्‍न <xliff:g id="NAME">%1$s</xliff:g> चुनें."</string>
@@ -114,7 +114,7 @@
     <string name="message_saved_as_draft" msgid="2503018972659880692">"संदेश ड्राफ़्ट के रूप में सहेजा गया."</string>
     <string name="too_many_recipients" msgid="7003415094007176931">"संदेश में बहुत अधिक प्राप्तकर्ता (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>) हैं. प्राप्तकर्ताओं की सीमा <xliff:g id="MAXLIMIT">%2$s</xliff:g> है."</string>
     <string name="too_many_attachments" msgid="3774037894899750070">"अनुलग्नकों की सीमा <xliff:g id="MAXLIMIT">%1$s</xliff:g> है. केवल पहले <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> जोड़े जाएंगे."</string>
-    <string name="adding_attachments_title" msgid="2034535554212405529">"अनुलग्नक जोड़ रहा है"</string>
+    <string name="adding_attachments_title" msgid="2034535554212405529">"अटैचमेंट जोड़ रहा है"</string>
     <string name="adding_attachments" msgid="5871373105122355632">"आइटम स्लाइड शो में जोड़े जाते समय प्रतीक्षा करें."</string>
     <string name="building_slideshow_title" msgid="1232338692400726385">"स्‍लाइडशो बना रहा है"</string>
     <string name="cannot_play_audio" msgid="253920977253666735">"ऑडियो नहीं चला सकता."</string>
@@ -159,9 +159,9 @@
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"पाठ (SMS) संदेश"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"संग्रहण"</string>
     <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS अक्षम"</string>
-    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"संदेश सेवा को अपना डिफ़ॉल्ट SMS एप्लिकेशन बनाने के लिए स्पर्श करें"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"संदेश सेवा को अपना डिफ़ॉल्ट SMS ऐप्लिकेशन बनाने के लिए स्पर्श करें"</string>
     <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS सक्षम"</string>
-    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"अपना डिफ़ॉल्ट SMS एप्लिकेशन बदलने के लिए स्पर्श करें"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"अपना डिफ़ॉल्ट SMS ऐप्लिकेशन बदलने के लिए स्पर्श करें"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"अपने सिम कार्ड पर संग्रहीत संदेश प्रबंधित करें"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"आपके द्वारा भेजे गए प्रत्येक संदेश की वितरण रिपोर्ट का अनुरोध करें"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"आपके द्वारा भेजे जाने वाले प्रत्येक संदेश के लिए पठन रिपोर्ट का अनुरोध करें"</string>
@@ -282,8 +282,8 @@
     <string name="download_later" msgid="5531365714424360903">"अभी डाउनलोड नहीं कर सकता. बाद में पुन: प्रयास करें."</string>
     <string name="no_apn" msgid="505932916503312015">"उपकरण पर कोई APN निर्दिष्ट नहीं."</string>
     <string name="select_audio" msgid="3528161449756771832">"ऑडियो चुनें"</string>
-    <string name="copy_to_sdcard" msgid="757028609638184856">"अनुलग्नक सहेजें"</string>
-    <string name="copy_to_sdcard_success" msgid="7948625615155992014">"अनुलग्नक सहेजा गया."</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"अटैचमेंट सहेजें"</string>
+    <string name="copy_to_sdcard_success" msgid="7948625615155992014">"अटैचमेंट सहेजा गया."</string>
     <string name="copy_to_sdcard_fail" msgid="4944606369631916737">"अनुलग्‍नक सहेजा नहीं जा सका."</string>
     <string name="save_ringtone" msgid="2310157075045201051">"रिंगटोन के रूप में सहेजें"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"रिंगटोन सहेजी गई."</string>
@@ -352,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"आपको नए SMS/MMS संदेश प्राप्त नहीं होंगे"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS सक्रिय"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"आउट बॉक्स से सभी MMS को नेटवर्क पर भेजता है"</string>
-    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"संदेश सेवा आपका SMS एप्लिकेशन नहीं है"</string>
-    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> आपका SMS एप्लिकेशन है"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"संदेश सेवा आपका SMS ऐप्लिकेशन नहीं है"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> आपका SMS ऐप्लिकेशन है"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"आप इसे सेटिंग में बदल सकते हैं"</string>
 </resources>
