@@ -20,7 +20,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"መልዕክት በመላክ ላይ"</string>
+    <string name="app_label" msgid="1503967887341230795">"መልዕክት መላኪያ"</string>
     <string name="new_message" msgid="1530369762346003973">"አዲስ መልዕክት"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"<xliff:g id="NAME">%s</xliff:g> ደውል"</string>
     <string name="menu_send_email" msgid="671366308915241664">"ኢሜይል ወደ<xliff:g id="NAME">%s</xliff:g> ላክ"</string>
@@ -304,9 +304,9 @@
     <string name="edit_slide_activity" msgid="8752829671778696983">"ስላይድ አርትዕ"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"ስላይድ ትዕይንት"</string>
     <string name="class_0_message_activity" msgid="6631339964159861048">"የክፍል 0 መልዕክት"</string>
-    <string name="search_label" msgid="6042598929386174964">"መልዕክት በመላክ ላይ"</string>
+    <string name="search_label" msgid="6042598929386174964">"መልዕክት መላኪያ"</string>
     <string name="search_hint" msgid="7273727663577472044">"መልዕክት ፍለጋ"</string>
-    <string name="search" msgid="7560238620274735199">"መልዕክት በመላክ ላይ"</string>
+    <string name="search" msgid="7560238620274735199">"መልዕክት መላኪያ"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"በመልዕክቶችዎ ውስጥ ፅሁፍ"</string>
     <string name="search_empty" msgid="2109551478056039278">"ምንም ተመሳሳይ የለም።"</string>
   <plurals name="search_results_title">
