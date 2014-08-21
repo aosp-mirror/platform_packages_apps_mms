@@ -129,7 +129,7 @@ public class RecipientsEditor extends RecipientEditTextView {
 
         setDropdownChipLayouter(new DropdownChipLayouter(LayoutInflater.from(context), context) {
             @Override
-            protected int getItemLayoutResId() {
+            protected int getItemLayoutResId(AdapterType type) {
                 return R.layout.mms_chips_recipient_dropdown_item;
             }
         });
