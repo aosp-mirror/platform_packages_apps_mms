@@ -24,7 +24,7 @@
     <string name="new_message" msgid="1530369762346003973">"Nová zpráva"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"Volat kontakt <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Odeslat e-mail adresátovi <xliff:g id="NAME">%s</xliff:g>"</string>
-    <string name="menu_compose_new" msgid="3763437973691046238">"Napsat"</string>
+    <string name="menu_compose_new" msgid="3763437973691046238">"Nová zpráva"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Nastavení"</string>
     <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"Přidat <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> do aplikace Lidé"</string>
     <string name="menu_call" msgid="5877123227307074690">"Volat"</string>
@@ -34,7 +34,7 @@
     <string name="menu_view" msgid="7448852683948080108">"Zobrazit konverzaci"</string>
     <string name="menu_debug_dump" msgid="6855869130206549643">"DEBUG DUMP"</string>
     <string name="refreshing" msgid="987335057871404222">"Aktualizace..."</string>
-    <string name="menu_cell_broadcasts" msgid="5646161375983084660">"Hrom. zas. zpráv v rámci buňky"</string>
+    <string name="menu_cell_broadcasts" msgid="5646161375983084660">"Zprávy informačních služeb"</string>
     <string name="has_draft" msgid="2487465595514636160">"Koncept"</string>
     <string name="no_subject_view" msgid="7795086723069563537">"(Předmět neuveden)"</string>
     <string name="messagelist_sender_self" msgid="3579016854116401602">"Já"</string>

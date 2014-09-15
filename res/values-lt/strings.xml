@@ -335,7 +335,7 @@
     <item quantity="other" msgid="1393002799298501480">"ir dar <xliff:g id="NUMBER">%1$s</xliff:g> praneš."</item>
   </plurals>
     <string name="error_state" msgid="5177386717626893507">"Nepastovi būsena"</string>
-    <string name="error_state_text" msgid="7918866106335387710">"Gijų ir gavėjų būsena nenuosekli. Sukurkite trikčių ataskaitą ir pateikite ją adresu http://go/droidanizer."</string>
+    <string name="error_state_text" msgid="7918866106335387710">"Gijų ir gavėjų būsena nenuosekli. Sukurkite riktų ataskaitą ir pateikite ją adresu http://go/droidanizer."</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> žm."</item>
   </plurals>

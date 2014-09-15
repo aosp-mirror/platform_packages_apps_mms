@@ -217,7 +217,7 @@
     <string name="saved_label" msgid="4183160415593488207">"已儲存： "</string>
     <string name="subject_label" msgid="8721241914144101631">"主旨： "</string>
     <string name="message_size_label" msgid="4698016210013319786">"訊息大小： "</string>
-    <string name="priority_label" msgid="7397600367853359607">"優先順序： "</string>
+    <string name="priority_label" msgid="7397600367853359607">"重要： "</string>
     <string name="priority_high" msgid="5627897207952009214">"高"</string>
     <string name="priority_normal" msgid="5715227727384683550">"標準"</string>
     <string name="priority_low" msgid="8928782666023373987">"低"</string>
