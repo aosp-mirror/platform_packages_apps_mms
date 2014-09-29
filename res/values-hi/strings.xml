@@ -154,7 +154,7 @@
     <string name="try_to_send" msgid="1996751738286080976">"भेजने का प्रयास करें"</string>
     <string name="preferences_title" msgid="6650089610332670157">"सेटिंग"</string>
     <string name="restore_default" msgid="7165341506551155053">"डिफ़ॉल्ट सेटिंग पुनर्स्थापित करें"</string>
-    <string name="pref_notification_settings_title" msgid="6420782563630369776">"सूचनाएं"</string>
+    <string name="pref_notification_settings_title" msgid="6420782563630369776">"नोटिफिकेशन"</string>
     <string name="pref_mms_settings_title" msgid="55618772118264355">"मल्‍टीमीडिया (MMS) संदेश"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"लेख (SMS) संदेश"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"मेमोरी"</string>
@@ -177,7 +177,7 @@
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"पुराने संदेश हटाएं"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"लेख संदेश सीमा"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"मल्टीमीडिया संदेश सीमा"</string>
-    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"सूचनाएं"</string>
+    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"नोटिफिकेशन"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"कंपन"</string>
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"ध्वनि"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"सहेजने के लिए संदेशों की संख्या सेट करें"</string>
@@ -208,7 +208,7 @@
     <string name="message_type_label" msgid="7975373966795945566">"प्रकार: "</string>
     <string name="text_message" msgid="8196464345251877972">"लेख संदेश"</string>
     <string name="multimedia_message" msgid="1512644521083533071">"मल्टीमीडिया संदेश"</string>
-    <string name="multimedia_notification" msgid="4124031788554972308">"मल्टीमीडिया संदेश सूचना"</string>
+    <string name="multimedia_notification" msgid="4124031788554972308">"मल्टीमीडिया संदेश नोटिफिकेशन"</string>
     <string name="from_label" msgid="2055117571548171397">"प्रेषक: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"प्रति: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Bcc: "</string>
@@ -282,10 +282,10 @@
     <string name="download_later" msgid="5531365714424360903">"अभी डाउनलोड नहीं कर सकता. बाद में पुन: प्रयास करें."</string>
     <string name="no_apn" msgid="505932916503312015">"डिवाइस पर कोई APN निर्दिष्ट नहीं."</string>
     <string name="select_audio" msgid="3528161449756771832">"ऑडियो चुनें"</string>
-    <string name="copy_to_sdcard" msgid="757028609638184856">"अटैचमेंट सहेजें"</string>
+    <string name="copy_to_sdcard" msgid="757028609638184856">"अटैचमेंट जोड़ें"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"अटैचमेंट सहेजा गया."</string>
     <string name="copy_to_sdcard_fail" msgid="4944606369631916737">"अटैचमेंट सहेजा नहीं जा सका."</string>
-    <string name="save_ringtone" msgid="2310157075045201051">"रिंगटोन के रूप में सहेजें"</string>
+    <string name="save_ringtone" msgid="2310157075045201051">"रिंगटोन के रूप में जोड़ें"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"रिंगटोन सहेजी गई."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"रिंगटोन नहीं सहेज सका."</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"समूह के प्रतिभागी"</string>
@@ -318,7 +318,7 @@
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"खोज इतिहास साफ़ कर दिया जाएगा."</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"खोज इतिहास साफ़ करें"</string>
     <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"खोज बॉक्स में पिछली संदेश सेवा खोज प्रदर्शन साफ़ करें"</string>
-    <string name="save" msgid="6847069284991531310">"सहेजें"</string>
+    <string name="save" msgid="6847069284991531310">"जोड़ें"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"संदेश सीमित करें"</string>
     <string name="storage_limits_message" msgid="2010501485394745696">"प्रति बातचीत सहेजे जाने वाले संदेशों की संख्या सीमित करें?"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"सीमाएं सेट करें"</string>
@@ -339,7 +339,7 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> लोग"</item>
   </plurals>
-    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"डिफ़ॉल्ट संदेश सेवा ऐप्स  से डुप्लिकेट लेख संदेश सूचनाएं रोकें?"</string>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"डिफ़ॉल्ट संदेश सेवा ऐप्स  से डुप्लिकेट लेख संदेश नोटिफिकेशन रोकें?"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"और बातचीत देखें"</string>
     <string name="attachment_audio" msgid="2867960243300539143">"ऑडियो"</string>
     <string name="attachment_slideshow" msgid="5867689101881763318">"स्लाइड शो"</string>
