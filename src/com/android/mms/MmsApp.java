@@ -44,6 +44,8 @@ import com.android.mms.util.PduLoaderManager;
 import com.android.mms.util.RateController;
 import com.android.mms.util.ThumbnailManager;
 
+import java.util.Locale;
+
 public class MmsApp extends Application {
     public static final String LOG_TAG = LogTag.TAG;
 
@@ -174,9 +176,13 @@ public class MmsApp extends Application {
     public String getCurrentCountryIso() {
         if (mCountryIso == null) {
             Country country = mCountryDetector.detectCountry();
-            if (country != null) {
-                mCountryIso = country.getCountryIso();
+
+            if (country == null) {
+                // Fallback to Locale if there are issues with CountryDetector
+                return Locale.getDefault().getCountry();
             }
+
+            mCountryIso = country.getCountryIso();
         }
         return mCountryIso;
     }
