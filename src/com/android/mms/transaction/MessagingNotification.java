@@ -61,6 +61,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.mms.LogTag;
+import com.android.mms.MmsConfig;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.Conversation;
@@ -74,6 +75,7 @@ import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.AddressUtils;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.widget.MmsWidgetProvider;
+
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.GenericPdu;
@@ -249,6 +251,16 @@ public class MessagingNotification {
             Contact.logWithTrace(TAG, "blockingUpdateNewMessageIndicator: newMsgThreadId: " +
                     newMsgThreadId);
         }
+        final boolean isDefaultSmsApp = MmsConfig.isSmsEnabled(context);
+        if (!isDefaultSmsApp) {
+            cancelNotification(context, NOTIFICATION_ID);
+            if (DEBUG || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
+                Log.d(TAG, "blockingUpdateNewMessageIndicator: not the default sms app - skipping "
+                        + "notification");
+            }
+            return;
+        }
+
         // notificationSet is kept sorted by the incoming message delivery time, with the
         // most recent message first.
         SortedSet<NotificationInfo> notificationSet =
