@@ -17,8 +17,6 @@
 
 package com.android.mms.dom.smil;
 
-import com.android.mms.LogTag;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,6 +33,8 @@ import org.w3c.dom.smil.Time;
 import org.w3c.dom.smil.TimeList;
 
 import android.util.Log;
+
+import com.android.mms.LogTag;
 
 /**
  * The SmilPlayer is responsible for playing, stopping, pausing and resuming a SMIL tree.
@@ -384,7 +384,8 @@ public class SmilPlayer implements Runnable {
         mActiveElements.clear();
         beginSmilDocument();
 
-        for (int i = mCurrentSlide; i < mCurrentElement; i++) {
+        int size = mAllEntries.size();
+        for (int i = mCurrentSlide; i < mCurrentElement && i < size; i++) {
             TimelineEntry entry = mAllEntries.get(i);
             actionEntry(entry);
         }
@@ -397,7 +398,8 @@ public class SmilPlayer implements Runnable {
     }
 
     private synchronized double getOffsetTime(ElementTime element) {
-        for (int i = mCurrentSlide; i < mCurrentElement; i++) {
+        int size = mAllEntries.size();
+        for (int i = mCurrentSlide; i < mCurrentElement && i < size; i++) {
             TimelineEntry entry = mAllEntries.get(i);
             if (element.equals(entry.getElement())) {
                 return entry.getOffsetTime() * 1000;  // in ms

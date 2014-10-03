@@ -182,6 +182,8 @@
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Звук"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Задайте броя съобщения за запазване"</string>
     <string name="silent_ringtone" msgid="7981237991326592780">"Тих режим"</string>
+    <string name="pref_summary_sim_ask" msgid="5815190975933015621">"Да се извежда запитване коя SIM карта да се използва при всяко изпращане на съобщение"</string>
+    <string name="pref_title_sim_ask" msgid="4794530561349736162">"Няколко SIM карти"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Автоматично извличане"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Автоматично извличане на съобщения"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Автоматично извличане при роуминг"</string>
@@ -355,4 +357,11 @@
     <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Съобщения не е приложението ви за SMS"</string>
     <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> е приложението ви за SMS"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"Можете да промените това от „Настройки“"</string>
+    <string name="sub_select_dialog_title" msgid="8210168935409702285">"Избиране на SIM карта"</string>
+    <string name="default_sim_name" msgid="903290497566800216">"SIM карта <xliff:g id="SUBID">%1$d</xliff:g>"</string>
+    <string name="empty_sim_name" msgid="1008631117599170591">"Слот <xliff:g id="SUBID">%1$d</xliff:g> за SIM карта"</string>
+    <string name="subSelect_negative" msgid="6139403806707801822">"Отказ"</string>
+    <string name="sub_name_container" msgid="4802195955108231738">"   <xliff:g id="SUBNAME">%1$s</xliff:g>  "</string>
+    <string name="sub_name_ellipsis" msgid="2475475055178768223">"…"</string>
+    <string name="selected_sim_invalid" msgid="2309319911434202998">"Понастоящем избраната SIM карта не е налице. Изберете стандартната си от системните настройки."</string>
 </resources>

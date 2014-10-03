@@ -21,13 +21,10 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.AsyncQueryHandler;
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
@@ -37,6 +34,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Telephony.Sms;
 import android.telephony.SmsManager;
+import android.telephony.SubscriptionManager;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -47,11 +45,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.internal.telephony.IccCardConstants;
-import com.android.internal.telephony.TelephonyIntents;
+import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
+import com.android.mms.transaction.SimFullReceiver;
 
 /**
  * Displays a list of the SMS messages stored on the ICC.
@@ -78,20 +76,9 @@ public class ManageSimMessages extends Activity
     private MessageListAdapter mListAdapter = null;
     private AsyncQueryHandler mQueryHandler = null;
 
-    public static final int SIM_FULL_NOTIFICATION_ID = 234;
+    private long mSubId = 0;
 
-    protected BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-            if (TelephonyIntents.ACTION_SIM_STATE_CHANGED.equals(intent.getAction())) {
-                String stateExtra = intent.getStringExtra(IccCardConstants.INTENT_KEY_ICC_STATE);
-                if (stateExtra != null
-                        && ((IccCardConstants.INTENT_VALUE_ICC_ABSENT.equals(stateExtra)
-                        || IccCardConstants.INTENT_VALUE_ICC_UNKNOWN.equals(stateExtra)))) {
-                    updateState(SHOW_EMPTY);
-                }
-            }
-        }
-    };
+    public static final int SIM_FULL_NOTIFICATION_ID = 234;
 
     private final ContentObserver simChangeObserver =
             new ContentObserver(new Handler()) {
@@ -115,6 +102,9 @@ public class ManageSimMessages extends Activity
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        mSubId = getIntent().getLongExtra(PhoneConstants.SUBSCRIPTION_KEY,
+                SubscriptionManager.getDefaultSmsSubId());
+
         init();
     }
 
@@ -126,8 +116,10 @@ public class ManageSimMessages extends Activity
     }
 
     private void init() {
-        MessagingNotification.cancelNotification(getApplicationContext(),
-                SIM_FULL_NOTIFICATION_ID);
+        Intent intent= new Intent();
+        intent.setAction(SimFullReceiver.SIM_FULL_VIEWED_ACTION);
+        intent.putExtra(PhoneConstants.SUBSCRIPTION_KEY, mSubId);
+        sendBroadcast(intent);
 
         updateState(SHOW_BUSY);
         startQuery();
@@ -176,7 +168,9 @@ public class ManageSimMessages extends Activity
 
     private void startQuery() {
         try {
-            mQueryHandler.startQuery(0, null, ICC_URI, null, null, null, null);
+            Uri simUri = ICC_URI.buildUpon().appendQueryParameter(PhoneConstants.SUBSCRIPTION_KEY,
+                    String.valueOf(mSubId)).build();
+            mQueryHandler.startQuery(0, null, simUri, null, null, null, null);
         } catch (SQLiteException e) {
             SqliteWrapper.checkSQLiteException(this, e);
         }
@@ -244,16 +238,12 @@ public class ManageSimMessages extends Activity
     @Override
     public void onPause() {
         super.onPause();
-        unregisterReceiver(mBroadcastReceiver);
         mContentResolver.unregisterContentObserver(simChangeObserver);
     }
 
     private void registerSimChangeObserver() {
         mContentResolver.registerContentObserver(
                 ICC_URI, true, simChangeObserver);
-        final IntentFilter intentFilter =
-                new IntentFilter(TelephonyIntents.ACTION_SIM_STATE_CHANGED);
-        registerReceiver(mBroadcastReceiver, intentFilter);
     }
 
     private void copyToPhoneMemory(Cursor cursor) {
@@ -264,9 +254,10 @@ public class ManageSimMessages extends Activity
 
         try {
             if (isIncomingMessage(cursor)) {
-                Sms.Inbox.addMessage(mContentResolver, address, body, null, date, true /* read */);
+                Sms.Inbox.addMessage(mSubId, mContentResolver, address, body, null, date,
+                        true /* read */);
             } else {
-                Sms.Sent.addMessage(mContentResolver, address, body, null, date);
+                Sms.Sent.addMessage(mSubId, mContentResolver, address, body, null, date);
             }
         } catch (SQLiteException e) {
             SqliteWrapper.checkSQLiteException(this, e);
@@ -282,10 +273,9 @@ public class ManageSimMessages extends Activity
     }
 
     private void deleteFromSim(Cursor cursor) {
-        String messageIndexString =
-                cursor.getString(cursor.getColumnIndexOrThrow("index_on_icc"));
-        Uri simUri = ICC_URI.buildUpon().appendPath(messageIndexString).build();
-
+        String messageIndexString = cursor.getString(cursor.getColumnIndexOrThrow("index_on_icc"));
+        Uri simUri = ICC_URI.buildUpon().appendPath(messageIndexString).appendQueryParameter(
+                PhoneConstants.SUBSCRIPTION_KEY, String.valueOf(mSubId)).build();
         SqliteWrapper.delete(this, mContentResolver, simUri, null, null);
     }
 

@@ -17,11 +17,11 @@
 
 package com.android.mms.util;
 
-import com.android.mms.LogTag;
-
 import java.util.HashMap;
 
 import android.util.Log;
+
+import com.android.mms.LogTag;
 
 public class SendingProgressTokenManager {
     private static final String TAG = LogTag.TAG;

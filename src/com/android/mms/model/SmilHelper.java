@@ -51,6 +51,7 @@ import com.android.mms.MmsApp;
 import com.android.mms.dom.smil.SmilDocumentImpl;
 import com.android.mms.dom.smil.parser.SmilXmlParser;
 import com.android.mms.dom.smil.parser.SmilXmlSerializer;
+
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.PduBody;

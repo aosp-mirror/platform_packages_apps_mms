@@ -24,6 +24,7 @@ import android.net.NetworkUtils;
 import android.provider.Telephony;
 import android.text.TextUtils;
 import android.util.Log;
+import android.net.Uri;
 
 import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.LogTag;
@@ -58,20 +59,24 @@ public class TransactionSettings {
      *
      * @param context The context of the MMS Client
      */
-    public TransactionSettings(Context context, String apnName) {
+    public TransactionSettings(Context context, String apnName, long subIndex) {
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "TransactionSettings: apnName: " + apnName);
         }
-        String selection = Telephony.Carriers.CURRENT + " IS NOT NULL";
+
+        // FIXME This code is workaround to make MMS work on both subscriptions.
+        // The actual fix may be in frameworks/opt git project.
+        // String selection = Telephony.Carriers.CURRENT + " IS NOT NULL";
+        String selection = "";
         String[] selectionArgs = null;
         if (!TextUtils.isEmpty(apnName)) {
-            selection += " AND " + Telephony.Carriers.APN + "=?";
+            selection += Telephony.Carriers.APN + "=?";
             selectionArgs = new String[]{ apnName.trim() };
         }
 
         Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
-                            Telephony.Carriers.CONTENT_URI,
-                            APN_PROJECTION, selection, selectionArgs, null);
+                    Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI, "/subId/" + subIndex),
+                    APN_PROJECTION, selection, selectionArgs, null);
 
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "TransactionSettings looking for apn: " + selection + " returned: " +

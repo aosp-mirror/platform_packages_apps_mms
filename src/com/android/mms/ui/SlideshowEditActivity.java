@@ -44,6 +44,7 @@ import com.android.mms.model.IModelChangedObserver;
 import com.android.mms.model.Model;
 import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
+
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduPersister;

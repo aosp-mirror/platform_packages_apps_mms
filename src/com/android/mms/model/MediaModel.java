@@ -28,19 +28,19 @@ import org.w3c.dom.events.EventListener;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.util.Log;
 
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
-
 import com.google.android.mms.MmsException;
 // TODO: remove dependency for SDK build
 
 public abstract class MediaModel extends Model implements EventListener {
     protected static final String TAG = LogTag.TAG;
+
+    private final static String MUSIC_SERVICE_ACTION = "com.android.music.musicservicecommand";
 
     protected Context mContext;
     protected int mBegin;
@@ -297,8 +297,9 @@ public abstract class MediaModel extends Model implements EventListener {
             Log.d(TAG, "pauseMusicPlayer");
         }
 
-        AudioManager am = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        Intent i = new Intent(MUSIC_SERVICE_ACTION);
+        i.putExtra("command", "pause");
+        mContext.sendBroadcast(i);
     }
 
     /**

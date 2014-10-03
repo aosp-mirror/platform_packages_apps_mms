@@ -72,6 +72,7 @@
                     android:layout_marginBottom="8dip"
                     android:paddingRight="@dimen/message_item_text_padding_left_right"
                     android:gravity="right"
+                    android:baselineAligned="true"
                     android:orientation="horizontal" >
 
                     <ImageView
@@ -97,6 +98,16 @@
                         android:paddingRight="3dip"
                         android:src="@drawable/ic_sms_mms_details"
                         android:visibility="gone" />
+
+                    <TextView android:id="@+id/sim_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:linksClickable="false"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#ffffffff"
+                        android:textSize="9dip"
+                        android:layout_marginRight="6dip"
+                        android:layout_gravity="bottom" />
 
                     <TextView android:id="@+id/date_view"
                         android:background="@drawable/listitem_background"
