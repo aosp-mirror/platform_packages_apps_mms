@@ -27,6 +27,7 @@ import android.util.Log;
 
 import com.android.mms.LogTag;
 import com.android.mms.dom.smil.SmilMediaElementImpl;
+
 import com.google.android.mms.pdu.CharacterSets;
 
 public class TextModel extends RegionMediaModel {

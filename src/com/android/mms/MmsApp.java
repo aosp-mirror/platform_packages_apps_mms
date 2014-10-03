@@ -181,7 +181,6 @@ public class MmsApp extends Application {
                 // Fallback to Locale if there are issues with CountryDetector
                 return Locale.getDefault().getCountry();
             }
-
             mCountryIso = country.getCountryIso();
         }
         return mCountryIso;

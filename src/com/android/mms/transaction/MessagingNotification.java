@@ -230,7 +230,7 @@ public class MessagingNotification {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                blockingUpdateNewMessageIndicator(context, newMsgThreadId, isStatusMessage);
+                blockingUpdateNewMessageIndicator(context, newMsgThreadId, isStatusMessage, null);
             }
         }, "MessagingNotification.nonBlockingUpdateNewMessageIndicator").start();
     }
@@ -244,9 +244,10 @@ public class MessagingNotification {
      *  no new message, use THREAD_NONE. If we should notify about multiple or unknown thread IDs,
      *  use THREAD_ALL.
      * @param isStatusMessage
+     * @param statusMessageUri Specify uri of statusMessage for showing delivery toast.
      */
     public static void blockingUpdateNewMessageIndicator(Context context, long newMsgThreadId,
-            boolean isStatusMessage) {
+            boolean isStatusMessage, Uri statusMessageUri) {
         if (DEBUG) {
             Contact.logWithTrace(TAG, "blockingUpdateNewMessageIndicator: newMsgThreadId: " +
                     newMsgThreadId);
@@ -300,7 +301,7 @@ public class MessagingNotification {
 
         // And deals with delivery reports (which use Toasts). It's safe to call in a worker
         // thread because the toast will eventually get posted to a handler.
-        MmsSmsDeliveryInfo delivery = getSmsNewDeliveryInfo(context);
+        MmsSmsDeliveryInfo delivery = getSmsNewDeliveryInfo(context, statusMessageUri);
         if (delivery != null) {
             delivery.deliver(context, isStatusMessage);
         }
@@ -682,9 +683,16 @@ public class MessagingNotification {
         return (int) (dip * sScreenDensity + 0.5f);
     }
 
-    private static final MmsSmsDeliveryInfo getSmsNewDeliveryInfo(Context context) {
+    private static final MmsSmsDeliveryInfo getSmsNewDeliveryInfo(
+            Context context,
+            Uri statusMessageUri) {
+        // Using statusMessageUri can avoid showing wrong number in toast when
+        // multi delivery report coming at the same time
+        if (statusMessageUri == null) {
+            statusMessageUri = Sms.CONTENT_URI;
+        }
         ContentResolver resolver = context.getContentResolver();
-        Cursor cursor = SqliteWrapper.query(context, resolver, Sms.CONTENT_URI,
+        Cursor cursor = SqliteWrapper.query(context, resolver, statusMessageUri,
                     SMS_STATUS_PROJECTION, NEW_DELIVERY_SM_CONSTRAINT,
                     null, Sms.DATE);
 
@@ -895,7 +903,7 @@ public class MessagingNotification {
                 }
             }
 
-            taskStackBuilder.addParentStack(ComposeMessageActivity.class);
+            taskStackBuilder.addNextIntent(new Intent(context, ConversationList.class));
             taskStackBuilder.addNextIntent(mostRecentNotification.mClickIntent);
         }
         // Always have to set the small icon or the notification is ignored
@@ -1155,7 +1163,7 @@ public class MessagingNotification {
                 failedIntent.putExtra("undelivered_flag", true);
             }
             failedIntent.putExtra("thread_id", threadId);
-            taskStackBuilder.addParentStack(ComposeMessageActivity.class);
+            taskStackBuilder.addNextIntent(new Intent(context, ConversationList.class));
         } else {
             failedIntent = new Intent(context, ConversationList.class);
         }

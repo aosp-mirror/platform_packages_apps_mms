@@ -18,6 +18,7 @@
 package com.android.mms.ui;
 
 import static com.android.mms.util.RateController.RATE_LIMIT_CONFIRMED_ACTION;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

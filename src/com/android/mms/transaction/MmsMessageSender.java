@@ -22,6 +22,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.Telephony.Mms;
@@ -49,6 +50,7 @@ public class MmsMessageSender implements MessageSender {
     private final Context mContext;
     private final Uri mMessageUri;
     private final long mMessageSize;
+    private final long mSubId;
 
     // Default preference values
     private static final boolean DEFAULT_DELIVERY_REPORT_MODE  = false;
@@ -57,10 +59,11 @@ public class MmsMessageSender implements MessageSender {
     private static final int     DEFAULT_PRIORITY        = PduHeaders.PRIORITY_NORMAL;
     private static final String  DEFAULT_MESSAGE_CLASS   = PduHeaders.MESSAGE_CLASS_PERSONAL_STR;
 
-    public MmsMessageSender(Context context, Uri location, long messageSize) {
+    public MmsMessageSender(Context context, Uri location, long messageSize, long subId) {
         mContext = context;
         mMessageUri = location;
         mMessageSize = messageSize;
+        mSubId = subId;
 
         if (mMessageUri == null) {
             throw new IllegalArgumentException("Null message URI.");
@@ -96,6 +99,7 @@ public class MmsMessageSender implements MessageSender {
 
         long messageId = ContentUris.parseId(mMessageUri);
 
+        Uri sendUri = null;
         // Move the message into MMS Outbox.
         if (!mMessageUri.toString().startsWith(Mms.Draft.CONTENT_URI.toString())) {
             // If the message is already in the outbox (most likely because we created a "primed"
@@ -115,10 +119,11 @@ public class MmsMessageSender implements MessageSender {
 
             SqliteWrapper.insert(mContext, mContext.getContentResolver(),
                     PendingMessages.CONTENT_URI, values);
+            sendUri = mMessageUri;
         } else {
-            p.move(mMessageUri, Mms.Outbox.CONTENT_URI);
+            sendUri = p.move(mMessageUri, Mms.Outbox.CONTENT_URI);
         }
-
+        updateSubIdForSend(mContext, sendUri, mSubId);
         // Start MMS transaction service
         SendingProgressTokenManager.put(messageId, token);
         mContext.startService(new Intent(mContext, TransactionService.class));
@@ -138,17 +143,19 @@ public class MmsMessageSender implements MessageSender {
         sendReq.setPriority(prefs.getInt(MessagingPreferenceActivity.PRIORITY, DEFAULT_PRIORITY));
 
         // Delivery report.
-        boolean dr = prefs.getBoolean(MessagingPreferenceActivity.MMS_DELIVERY_REPORT_MODE,
+        boolean dr = prefs.getBoolean(mSubId + "_" +
+                MessagingPreferenceActivity.MMS_DELIVERY_REPORT_MSIM_MODE,
                 DEFAULT_DELIVERY_REPORT_MODE);
         sendReq.setDeliveryReport(dr?PduHeaders.VALUE_YES:PduHeaders.VALUE_NO);
 
         // Read report.
-        boolean rr = prefs.getBoolean(MessagingPreferenceActivity.READ_REPORT_MODE,
+        boolean rr = prefs.getBoolean(mSubId + "_" +
+                MessagingPreferenceActivity.READ_REPORT_MSIM_MODE,
                 DEFAULT_READ_REPORT_MODE);
         sendReq.setReadReport(rr?PduHeaders.VALUE_YES:PduHeaders.VALUE_NO);
     }
 
-    public static void sendReadRec(Context context, String to, String messageId, int status) {
+    public static void sendReadRec(Context context, String to, String messageId, int status, long subId) {
         EncodedStringValue[] sender = new EncodedStringValue[1];
         sender[0] = new EncodedStringValue(to);
 
@@ -162,13 +169,44 @@ public class MmsMessageSender implements MessageSender {
 
             readRec.setDate(System.currentTimeMillis() / 1000);
 
-            PduPersister.getPduPersister(context).persist(readRec, Mms.Outbox.CONTENT_URI, true,
+            Uri uri = PduPersister.getPduPersister(context).persist(readRec, Mms.Outbox.CONTENT_URI, true,
                     MessagingPreferenceActivity.getIsGroupMmsEnabled(context), null);
+            updateSubIdForSend(context, uri, subId);
             context.startService(new Intent(context, TransactionService.class));
         } catch (InvalidHeaderValueException e) {
             Log.e(TAG, "Invalide header value", e);
         } catch (MmsException e) {
             Log.e(TAG, "Persist message failed", e);
+        }
+    }
+
+    private static void updateSubIdForSend(Context context, Uri sendUri, long subId) {
+        long msgId = ContentUris.parseId(sendUri);
+        //insert sim index in pdu table
+        ContentValues values = new ContentValues(1);
+        values.put(Mms.SUB_ID, subId);
+        SqliteWrapper.update(context, context.getContentResolver(), sendUri, values, null, null);
+        //insert sim index in pending_msgs table
+        Uri.Builder uriBuilder = PendingMessages.CONTENT_URI.buildUpon();
+        uriBuilder.appendQueryParameter("protocol", "mms");
+        uriBuilder.appendQueryParameter("message", String.valueOf(msgId));
+        Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
+                uriBuilder.build(), new String[] { PendingMessages._ID }, null, null, null);
+        if (cursor != null) {
+            try {
+                if (cursor.getCount() == 1 && cursor.moveToFirst()) {
+                    ContentValues valuesforPending = new ContentValues();
+                    valuesforPending.put(PendingMessages.SUB_ID, subId);
+                    long id = cursor.getLong(0);
+                    SqliteWrapper.update(context, context.getContentResolver(),
+                            PendingMessages.CONTENT_URI, valuesforPending, PendingMessages._ID
+                            + "=" + id, null);
+                } else {
+                    Log.e(TAG, "get PendingMessage has error");
+                }
+            } finally {
+                cursor.close();
+            }
         }
     }
 }

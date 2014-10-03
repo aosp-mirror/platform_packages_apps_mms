@@ -61,7 +61,7 @@ public class MessageStatusService extends IntentService {
         // Called on a background thread, so it's OK to block.
         if (message != null && message.getStatus() < Sms.STATUS_PENDING) {
             MessagingNotification.blockingUpdateNewMessageIndicator(this,
-                    MessagingNotification.THREAD_NONE, message.isStatusReportMessage());
+                    MessagingNotification.THREAD_NONE, message.isStatusReportMessage(), messageUri);
         }
     }
 
