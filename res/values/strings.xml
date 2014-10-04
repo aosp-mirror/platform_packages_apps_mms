@@ -114,7 +114,7 @@
     <!-- Menu item in slideshow edit screen for moving the selected slide down in the order -->
     <string name="move_down">Move down</string>
     <!-- Menu item in slideshow edit screen for removing the selected slide from the slideshow -->
-    <string name="remove_slide">Remove slide</string> 
+    <string name="remove_slide">Remove slide</string>
     <!-- Menu item in slideshow edit screen for adding a new slide to the slideshow -->
     <string name="add_slide">Add slide</string>
     <!-- Text displayed below "Add slide" item in slideshow edit screen -->
@@ -370,6 +370,10 @@
     <string name="pref_messages_to_save">Set number of messages to save</string>
     <!-- Settings screen, what to display for Ringtone when the user chooses "silent" [CHAR LIMIT=100]-->
     <string name="silent_ringtone">Silent</string>
+    <!-- Settings item description for multi-sim, whether to ask the user which sim to use when sending -->
+    <string name="pref_summary_sim_ask">Ask which SIM to use every time a message is sent</string>
+    <!-- Settings item for multi-sim, whether to ask the user which sim to use when sending -->
+    <string name="pref_title_sim_ask">Multi-SIM</string>
 
     <!-- The value to use when migrating from old versions for a true vibrate setting -->
     <string translatable="false" name="prefDefault_vibrate_true">always</string>
@@ -800,5 +804,19 @@
     <string name="banner_sms_promo_title_initial">Messaging is not your SMS app</string>
     <string name="banner_sms_promo_title_application"><xliff:g id="appName">%s</xliff:g> is your SMS app</string>
     <string name="banner_sms_promo_message">You can change this in Settings</string>
+
+    <!-- For MSim displaying -->
+    <string name="sub_select_dialog_title">Select SIM</string>
+    <string name="default_sim_name">SIM <xliff:g id="subId" example="2">%1$d</xliff:g></string>
+    <string name="empty_sim_name">SIM Slot <xliff:g id="subId" example="2">%1$d</xliff:g></string>
+    <string name="subSelect_negative">Cancel</string>
+
+    <!-- For showing sub name in MessageItem, need add some space to fill background color of sub name -->
+    <string name="sub_name_container">\u0020\u0020\u0020<xliff:g id="subName" example="SUB 01">%1$s</xliff:g>\u0020\u0020</string>
+
+    <!-- If sub name is too long, just use ... to installed some character -->
+    <string name="sub_name_ellipsis">\u2026</string>
+
+    <string name="selected_sim_invalid">Current selected SIM is not present. Choose your default SIM in system settings.</string>
 
 </resources>

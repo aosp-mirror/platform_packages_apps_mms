@@ -17,8 +17,6 @@
 
 package com.android.mms.dom.events;
 
-import com.android.mms.LogTag;
-
 import java.util.ArrayList;
 
 import org.w3c.dom.events.Event;
@@ -27,6 +25,8 @@ import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
 import android.util.Log;
+
+import com.android.mms.LogTag;
 
 public class EventTargetImpl implements EventTarget {
     private static final String TAG = LogTag.TAG;

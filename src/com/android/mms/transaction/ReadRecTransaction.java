@@ -26,6 +26,7 @@ import android.util.Log;
 
 import com.android.mms.LogTag;
 import com.android.mms.ui.MessageUtils;
+
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.PduComposer;
@@ -54,8 +55,9 @@ public class ReadRecTransaction extends Transaction implements Runnable{
     public ReadRecTransaction(Context context,
             int transId,
             TransactionSettings connectionSettings,
-            String uri) {
-        super(context, transId, connectionSettings);
+            String uri,
+            long subId) {
+        super(context, transId, connectionSettings, subId);
         mReadReportURI = Uri.parse(uri);
         mId = uri;
 

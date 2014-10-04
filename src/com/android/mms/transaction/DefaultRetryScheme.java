@@ -17,11 +17,11 @@
 
 package com.android.mms.transaction;
 
-import com.android.mms.LogTag;
-
 import android.content.Context;
 import android.util.Config;
 import android.util.Log;
+
+import com.android.mms.LogTag;
 
 /**
  * Default retry scheme, based on specs.

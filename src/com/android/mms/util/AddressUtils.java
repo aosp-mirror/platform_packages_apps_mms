@@ -32,6 +32,7 @@ import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPersister;
 
 public class AddressUtils {
+    private static final String TAG = "AddressUtils";
     private static PhoneNumberUtil mPhoneNumberUtil;
 
     private AddressUtils() {

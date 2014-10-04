@@ -65,7 +65,7 @@ public class PduLoaderManager extends BackgroundLoaderManager {
     public PduLoaderManager(final Context context) {
         super(context);
 
-        mSlideshowCache = new SimpleCache<Uri, SlideshowModel>(8, 16, 0.75f, false);
+        mSlideshowCache = new SimpleCache<Uri, SlideshowModel>(8, 16, 0.75f, true);
         mPduCache = PduCache.getInstance();
         mPduPersister = PduPersister.getPduPersister(context);
         mContext = context;

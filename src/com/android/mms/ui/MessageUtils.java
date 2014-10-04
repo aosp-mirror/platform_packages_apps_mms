@@ -35,6 +35,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
+import android.graphics.drawable.Drawable;
 import android.media.CamcorderProfile;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -43,10 +44,15 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
+import android.telephony.SubInfoRecord;
+import android.telephony.SubscriptionManager;
 import android.telephony.PhoneNumberUtils;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Time;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.widget.Toast;
@@ -746,14 +752,14 @@ public class MessageUtils {
         }
 
         final Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
-                        Mms.Inbox.CONTENT_URI, new String[] {Mms._ID, Mms.MESSAGE_ID},
+                        Mms.Inbox.CONTENT_URI, new String[] {Mms._ID, Mms.MESSAGE_ID, Mms.SUB_ID},
                         selectionBuilder.toString(), selectionArgs, null);
 
         if (c == null) {
             return;
         }
 
-        final Map<String, String> map = new HashMap<String, String>();
+        final Map<String, ReadRecInfo> map = new HashMap<String, ReadRecInfo>();
         try {
             if (c.getCount() == 0) {
                 if (callback != null) {
@@ -764,7 +770,8 @@ public class MessageUtils {
 
             while (c.moveToNext()) {
                 Uri uri = ContentUris.withAppendedId(Mms.CONTENT_URI, c.getLong(0));
-                map.put(c.getString(1), AddressUtils.getFrom(context, uri));
+                long subId = c.getInt(2);
+                map.put(c.getString(1), new ReadRecInfo(AddressUtils.getFrom(context, uri), subId));
             }
         } finally {
             c.close();
@@ -773,9 +780,10 @@ public class MessageUtils {
         OnClickListener positiveListener = new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                for (final Map.Entry<String, String> entry : map.entrySet()) {
-                    MmsMessageSender.sendReadRec(context, entry.getValue(),
-                                                 entry.getKey(), status);
+                for (final Map.Entry<String, ReadRecInfo> entry : map.entrySet()) {
+                    ReadRecInfo readRecInfo = entry.getValue();
+                    MmsMessageSender.sendReadRec(context, readRecInfo.getAddress(),
+                                                 entry.getKey(), status, readRecInfo.getSubIndex());
                 }
 
                 if (callback != null) {
@@ -1015,7 +1023,7 @@ public class MessageUtils {
 
         // if we are able to parse the address to a MMS compliant phone number, take that.
         String retVal = parsePhoneNumberForMms(address);
-        if (retVal != null && retVal.length() != 0) {
+        if (retVal != null) {
             return retVal;
         }
 
@@ -1031,4 +1039,66 @@ public class MessageUtils {
     private static void log(String msg) {
         Log.d(TAG, "[MsgUtils] " + msg);
     }
+
+    private static class ReadRecInfo {
+        private String mAddress;
+        private long mSubId;
+        public ReadRecInfo(String address, long subIndex) {
+            mAddress = address;
+            mSubId = subIndex;
+        }
+
+        public String getAddress() {
+            return mAddress;
+        }
+
+        public long getSubIndex() {
+            return mSubId;
+        }
+    }
+
+    public static CharSequence getSubInfo(Context context, long subId) {
+        Log.d(TAG, "getSubInfo subId = " + subId);
+        if (!SubscriptionManager.isValidSubId(subId)) {
+            return "";
+        }
+        // get sub info
+        return getSubInfoSync(context, subId);
+    }
+
+    public static CharSequence getSubInfoSync(Context context, long subId) {
+        SubInfoRecord subInfo = SubscriptionManager.getSubInfoForSubscriber(subId);
+        if (null == subInfo) {
+            return "";
+        }
+
+        String displayName = subInfo.displayName;
+        SpannableStringBuilder buf = new SpannableStringBuilder();
+        Resources res = context.getResources();
+        String subNameContainer = res.getString(R.string.sub_name_container);
+        if (displayName == null) {
+            displayName = res.getString(R.string.default_sim_name);
+            displayName = String.format(displayName, subId);
+        } else if (displayName.length() > 7) {
+            displayName = displayName.substring(0, 4)
+                    + res.getString(R.string.sub_name_ellipsis)
+                    + displayName.substring(displayName.length() - 1);
+        }
+
+        buf.append(String.format(subNameContainer, displayName));
+        // set background image
+        int colorRes = subInfo.simIconRes[1];
+        int slotId = SubscriptionManager.getSlotId(subId);
+        // slotId being larger than 0 means this SIM card is inserted
+        Drawable drawable = context.getResources().getDrawable(
+                slotId >= 0 ? colorRes : R.drawable.sim_background_locked);
+        buf.setSpan(new MSubBackgroundImageSpan(colorRes, drawable), 0, buf.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        // set subInfo color
+        int color = subInfo.color;
+        buf.setSpan(new ForegroundColorSpan(color), 0, buf.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return buf;
+    }
+
 }

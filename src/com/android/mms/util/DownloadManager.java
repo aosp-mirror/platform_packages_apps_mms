@@ -41,6 +41,7 @@ import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.ui.MessagingPreferenceActivity;
+
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.NotificationInd;
@@ -59,8 +60,6 @@ public class DownloadManager {
     public static final int STATE_TRANSIENT_FAILURE = 0x82;
     public static final int STATE_PERMANENT_FAILURE = 0x87;
     public static final int STATE_PRE_DOWNLOADING   = 0x88;
-    // TransactionService will skip downloading Mms if auto-download is off
-    public static final int STATE_SKIP_RETRYING     = 0x89;
 
     private final Context mContext;
     private final Handler mHandler;
