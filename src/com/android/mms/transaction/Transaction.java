@@ -40,6 +40,7 @@ public abstract class Transaction extends Observable {
     protected String mId;
     protected TransactionState mTransactionState;
     protected TransactionSettings mTransactionSettings;
+    protected long mSubId;
 
     /**
      * Identifies push requests.
@@ -59,11 +60,12 @@ public abstract class Transaction extends Observable {
     public static final int READREC_TRANSACTION      = 3;
 
     public Transaction(Context context, int serviceId,
-            TransactionSettings settings) {
+            TransactionSettings settings, long subId) {
         mContext = context;
         mTransactionState = new TransactionState();
         mServiceId = serviceId;
         mTransactionSettings = settings;
+        mSubId = subId;
     }
 
     /**
@@ -98,6 +100,10 @@ public abstract class Transaction extends Observable {
      */
     public int getServiceId() {
         return mServiceId;
+    }
+
+    public long getSubId() {
+        return mSubId;
     }
 
     public TransactionSettings getConnectionSettings() {

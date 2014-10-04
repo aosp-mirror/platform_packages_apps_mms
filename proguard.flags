@@ -1,7 +1,3 @@
  -keep class com.android.mms.ui.MmsThumbnailPresenter {
 *;
 }
-
--keep class com.android.mms.ui.SlideshowPresenter {
-*;
-}

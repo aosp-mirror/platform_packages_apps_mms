@@ -191,6 +191,10 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/preferences_title" />
 
+        <activity android:name=".ui.SubSelectActivity"
+            android:theme="@style/MmsHoloTheme"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+
         <receiver android:name=".transaction.PushReceiver"
             android:permission="android.permission.BROADCAST_WAP_PUSH">
             <intent-filter>
@@ -261,6 +265,9 @@
         <receiver android:name=".transaction.SimFullReceiver">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SIM_FULL" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.android.mms.ui.SIM_FULL_VIEWED" />
             </intent-filter>
         </receiver>
 

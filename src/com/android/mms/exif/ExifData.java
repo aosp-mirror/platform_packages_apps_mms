@@ -16,9 +16,9 @@
 
 package com.android.mms.exif;
 
-import com.android.mms.LogTag;
-
 import android.util.Log;
+
+import com.android.mms.LogTag;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteOrder;

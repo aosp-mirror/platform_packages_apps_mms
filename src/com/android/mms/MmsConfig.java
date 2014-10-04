@@ -42,7 +42,7 @@ public class MmsConfig {
     private static final String DEFAULT_HTTP_KEY_X_WAP_PROFILE = "x-wap-profile";
     private static final String DEFAULT_USER_AGENT = "Android-Mms/2.0";
 
-    private static final String MMS_APP_PACKAGE = "com.android.mms";
+    private static String sMmsAppPackage;
 
     private static final String SMS_PROMO_DISMISSED_KEY = "sms_promo_dismissed_key";
 
@@ -68,7 +68,7 @@ public class MmsConfig {
     private static int mDefaultSMSMessagesPerThread = 10000;    // default value
     private static int mDefaultMMSMessagesPerThread = 1000;     // default value
     private static int mMinMessageCountPerThread = 2;           // default value
-    private static int mMaxMessageCountPerThread = 5000;        // default value
+    private static int mMaxMessageCountPerThread = 20000;       // default value
     private static int mHttpSocketTimeout = 60*1000;            // default to 1 min
     private static int mMinimumSlideElementDuration = 7;        // default to 7 sec
     private static boolean mNotifyWapMMSC = false;
@@ -120,13 +120,15 @@ public class MmsConfig {
         Log.v(TAG, "mnc/mcc: " +
                 android.os.SystemProperties.get(TelephonyProperties.PROPERTY_ICC_OPERATOR_NUMERIC));
 
+        sMmsAppPackage = context.getApplicationContext().getPackageName();
+
         loadMmsSettings(context);
     }
 
     public static boolean isSmsEnabled(Context context) {
         String defaultSmsApplication = Telephony.Sms.getDefaultSmsPackage(context);
 
-        if (defaultSmsApplication != null && defaultSmsApplication.equals(MMS_APP_PACKAGE)) {
+        if (defaultSmsApplication != null && defaultSmsApplication.equals(sMmsAppPackage)) {
             return true;
         }
         return false;
@@ -146,7 +148,7 @@ public class MmsConfig {
 
     public static Intent getRequestDefaultSmsAppActivity() {
         final Intent intent = new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
-        intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, MMS_APP_PACKAGE);
+        intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, sMmsAppPackage);
         return intent;
     }
 
@@ -227,6 +229,13 @@ public class MmsConfig {
     }
 
     public static int getMaxMessageCountPerThread() {
+        // We bumped the defaultSMSMessagesPerThread in various mms_config.xml's without
+        // bumping the corresponding maxMessageCountPerThread. Return a reasonable value if
+        // the value appears out of date.
+        if (mMaxMessageCountPerThread < mDefaultMMSMessagesPerThread ||
+                mDefaultMMSMessagesPerThread < mDefaultSMSMessagesPerThread) {
+            return 2 * Math.max(mDefaultMMSMessagesPerThread, mDefaultSMSMessagesPerThread);
+        }
         return mMaxMessageCountPerThread;
     }
 
@@ -293,12 +302,12 @@ public class MmsConfig {
     public static final void beginDocument(XmlPullParser parser, String firstElementName) throws XmlPullParserException, IOException
     {
         int type;
-        while ((type=parser.next()) != XmlPullParser.START_TAG
-                   && type != XmlPullParser.END_DOCUMENT) {
+        while ((type=parser.next()) != parser.START_TAG
+                   && type != parser.END_DOCUMENT) {
             ;
         }
 
-        if (type != XmlPullParser.START_TAG) {
+        if (type != parser.START_TAG) {
             throw new XmlPullParserException("No start tag found");
         }
 
@@ -311,8 +320,8 @@ public class MmsConfig {
     public static final void nextElement(XmlPullParser parser) throws XmlPullParserException, IOException
     {
         int type;
-        while ((type=parser.next()) != XmlPullParser.START_TAG
-                   && type != XmlPullParser.END_DOCUMENT) {
+        while ((type=parser.next()) != parser.START_TAG
+                   && type != parser.END_DOCUMENT) {
             ;
         }
     }

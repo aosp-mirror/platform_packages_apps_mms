@@ -42,6 +42,7 @@ import android.widget.ListView;
 
 import com.android.mms.LogTag;
 import com.android.mms.R;
+
 import com.google.android.mms.pdu.PduHeaders;
 
 /**

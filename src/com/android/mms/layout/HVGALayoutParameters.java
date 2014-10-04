@@ -17,10 +17,10 @@
 
 package com.android.mms.layout;
 
-import com.android.mms.LogTag;
-
 import android.content.Context;
 import android.util.Log;
+
+import com.android.mms.LogTag;
 
 public class HVGALayoutParameters implements LayoutParameters {
     private static final String TAG = LogTag.TAG;

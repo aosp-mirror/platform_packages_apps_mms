@@ -20,10 +20,12 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.LogTag;
 import com.android.mms.data.Conversation;
 import com.android.mms.transaction.SmsMessageSender;
@@ -59,6 +61,12 @@ public class NoConfirmationSendService extends IntentService {
         }
 
         String message = extras.getString(Intent.EXTRA_TEXT);
+        long subId = extras.getLong(PhoneConstants.SUBSCRIPTION_KEY,
+                SubscriptionManager.INVALID_SUB_ID);
+        if (!SubscriptionManager.isValidSubId(subId)) {
+            Log.e(TAG, "subId is invalid");
+            return;
+        }
 
         Uri intentUri = intent.getData();
         String recipients = Conversation.getRecipients(intentUri);
@@ -82,7 +90,7 @@ public class NoConfirmationSendService extends IntentService {
             // provider looks up the threadId based on the recipient(s).
             long threadId = 0;
             SmsMessageSender smsMessageSender = new SmsMessageSender(this, dests,
-                    message, threadId);
+                    message, threadId, subId);
             try {
                 // This call simply puts the message on a queue and sends a broadcast to start
                 // a service to send the message. In queing up the message, however, it does

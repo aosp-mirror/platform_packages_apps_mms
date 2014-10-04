@@ -182,6 +182,8 @@
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Bunyi"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Tetapkan bilangan mesej untuk disimpan"</string>
     <string name="silent_ringtone" msgid="7981237991326592780">"Senyap"</string>
+    <string name="pref_summary_sim_ask" msgid="5815190975933015621">"Tanya SIM untuk digunakan setiap kali mesej dihantar"</string>
+    <string name="pref_title_sim_ask" msgid="4794530561349736162">"Berbilang SIM"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Auto dapat kembali"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Dapatkan semula mesej secara automatik"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Auto dapat kembali perayauan"</string>
@@ -355,4 +357,11 @@
     <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Pemesejan bukan apl SMS anda"</string>
     <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> ialah apl SMS anda"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"Anda boleh menukar ini dalam Tetapan"</string>
+    <string name="sub_select_dialog_title" msgid="8210168935409702285">"Pilih SIM"</string>
+    <string name="default_sim_name" msgid="903290497566800216">"SIM <xliff:g id="SUBID">%1$d</xliff:g>"</string>
+    <string name="empty_sim_name" msgid="1008631117599170591">"Slot SIM <xliff:g id="SUBID">%1$d</xliff:g>"</string>
+    <string name="subSelect_negative" msgid="6139403806707801822">"Batal"</string>
+    <string name="sub_name_container" msgid="4802195955108231738">"   <xliff:g id="SUBNAME">%1$s</xliff:g>  "</string>
+    <string name="sub_name_ellipsis" msgid="2475475055178768223">"…"</string>
+    <string name="selected_sim_invalid" msgid="2309319911434202998">"SIM pilihan semasa tidak ada. Pilih SIM lalai anda dalam tetapan sistem."</string>
 </resources>
