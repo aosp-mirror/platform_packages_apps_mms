@@ -163,17 +163,17 @@
     <string name="pref_title_sms_enabled" msgid="1857849790200375277">"短訊已啟用"</string>
     <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"輕觸即可變更預設短訊應用程式"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"管理儲存在 SIM 卡上的訊息"</string>
-    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"發送短訊後要求送遞回條"</string>
+    <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"每次發送短訊後要求發送報告"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"傳送短訊後要求讀取回條"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"傳送短訊後要求傳送回條"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"達到數量上限時刪除舊訊息"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"每個會話群組包含 <xliff:g id="COUNT">%1$s</xliff:g> 則訊息"</string>
-    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"寄給多位收件者時，使用 MMS 只需發送一則短訊"</string>
+    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"有多位收件者時只發送一則 MMS 訊息"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"管理 SIM 卡訊息"</string>
-    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"送遞報告"</string>
+    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"發送報告"</string>
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"群組短訊"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"讀取回條"</string>
-    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"送遞報告"</string>
+    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"發送報告"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"刪除舊訊息"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"訊息限制"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"多媒體訊息限制"</string>
@@ -219,7 +219,7 @@
     <string name="saved_label" msgid="4183160415593488207">"已儲存： "</string>
     <string name="subject_label" msgid="8721241914144101631">"主旨： "</string>
     <string name="message_size_label" msgid="4698016210013319786">"訊息大小： "</string>
-    <string name="priority_label" msgid="7397600367853359607">"優先順序： "</string>
+    <string name="priority_label" msgid="7397600367853359607">"重要： "</string>
     <string name="priority_high" msgid="5627897207952009214">"高"</string>
     <string name="priority_normal" msgid="5715227727384683550">"標準"</string>
     <string name="priority_low" msgid="8928782666023373987">"低"</string>
