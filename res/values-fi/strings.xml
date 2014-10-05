@@ -161,14 +161,14 @@
     <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS pois käytöstä"</string>
     <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Valitse Messaging oletustekstiviestisovellukseksi koskettamalla"</string>
     <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS käytössä"</string>
-    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Vaihda oletustekstiviestisovellus koskettamalla"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Vaihda oletussovellus koskettamalla"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Hallinnoi SIM-kortilla olevia viestejä"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Pyydä lähetystiedot kaikista lähettämistäsi viesteistä"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Pyydä lukemistiedot kaikista lähettämistäsi viesteistä"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Pyydä lähetystiedot kaikista lähettämistäsi viesteistä"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Poista vanhat viestit, kun rajoitukset tulevat vastaan"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> viestiä keskustelussa"</string>
-    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"Lähetä yksi viesti useille vastaanottajille käyttämällä multimediaviestiä"</string>
+    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"Jaa yksi multimediaviesti useille vastaanottajille"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Hallinnoi SIM-kortilla olevia viestejä"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Lähetystiedot"</string>
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"Ryhmäviestit"</string>
