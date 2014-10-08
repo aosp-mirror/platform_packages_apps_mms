@@ -920,6 +920,14 @@ public class MessagingNotification {
             .setPriority(Notification.PRIORITY_DEFAULT);     // TODO: set based on contact coming
                                                              // from a favorite.
 
+        // Tag notification with all senders.
+        for (NotificationInfo info : notificationSet) {
+            Uri peopleReferenceUri = info.mSender.getPeopleReferenceUri();
+            if (peopleReferenceUri != null) {
+                noti.addPerson(peopleReferenceUri.toString());
+            }
+        }
+
         int defaults = 0;
 
         if (isNew) {
