@@ -20,7 +20,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"सन्देश पठाउँदै"</string>
+    <string name="app_label" msgid="1503967887341230795">"सन्देश"</string>
     <string name="new_message" msgid="1530369762346003973">"नयाँ सन्देश"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"कल <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"<xliff:g id="NAME">%s</xliff:g>मा इमेल पठाउनुहोस्"</string>
@@ -86,6 +86,8 @@
     <string name="all_threads" msgid="2663426830306307194">"सबै थ्रेडहरू"</string>
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"सन्देश टाइप गर्नुहोस्"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"सन्देश टाइप गर्न किबोर्ड खोल्नुहोस्"</string>
+    <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"पठाउन अक्षम गरियो"</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"रचना गर्न सकिदैन। SMS अनुप्रयोग पूर्वनिर्धारित होइन।"</string>
     <string name="compressing" msgid="1961357529661045180">"तस्बिर एकदमै ठूलो। कम्प्रेस गर्दै..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"असमर्थित <xliff:g id="NAME">%1$s</xliff:g> ढाँचा।"</string>
     <string name="select_different_media" msgid="6241623357299382183">"एक भिन्न <xliff:g id="NAME">%1$s</xliff:g> छनौट गर्नुहोस्।"</string>
@@ -156,6 +158,10 @@
     <string name="pref_mms_settings_title" msgid="55618772118264355">"मल्टिमिडिया (MMS) सन्देश"</string>
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"पाठ (SMS) सन्देश"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"भण्डारण"</string>
+    <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS अक्षम गरियो"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"मेसेजिंगलाई तपाईंको पूर्वनिर्धारित SMS अनुप्रयोग बनाउनको लागि टच गर्नुहोस्"</string>
+    <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS सक्षम गरियो"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"तपाईंको पूर्वनिर्धारित SMS अनुप्रयोग परिवर्तन गर्न टच गर्नुहोस्"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"तपाईंको SIM कार्डमा संग्रहित सन्देश प्रबन्ध गर्नुहोस्"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"तपाईंले पठाउनुभएको प्रत्येक सन्देशको लागि डेलिभरी अनुरोध गर्नुहोस्"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"तपाईंले पठाउनुभएको हरेक सन्देशको लागि पढेको रिपोर्ट अनुरोध गर्नुहोस्"</string>
@@ -176,6 +182,8 @@
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"ध्वनि"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"बचत गर्न सन्देशका संख्याहरू मिलाउनुहोस्"</string>
     <string name="silent_ringtone" msgid="7981237991326592780">"मौन"</string>
+    <string name="pref_summary_sim_ask" msgid="5815190975933015621">"सन्देश पठाउनुभएको हरेक समय कुन सिम प्रयोग गर्ने सोध्नुहोस्"</string>
+    <string name="pref_title_sim_ask" msgid="4794530561349736162">"बहु-सिम"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"स्वतः पुनःप्राप्ति"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"सन्देश स्वतः रूपमा पुनःप्राप्त गर्नुहोस्"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"स्वत: पुनः प्राप्ति रोमिङ"</string>
@@ -282,7 +290,6 @@
     <string name="save_ringtone" msgid="2310157075045201051">"रिङटोनको रूपमा बचत गर्नुहोस्"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"रिङटोन बचत गरियो।"</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"रिङटोन बचत गर्न सकेन।"</string>
-    <string name="menu_insert_smiley" msgid="4964504393061025071">"स्माइली घुसाउनुहोस्"</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"समूह सहभागीहरू"</string>
     <string name="select_link_title" msgid="3371818607625768447">"कार्य छनौट गर्नुहोस्"</string>
     <string name="slide_number" msgid="1923958526266726635">"स्लाइड <xliff:g id="NUMBER">%s</xliff:g>"</string>
@@ -347,4 +354,14 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"तपाईँले कुनै पनि नयाँ SMS/MMS सन्देशहरू प्राप्त गर्नु हुने छैन"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS वेकअप"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"सबै MMS हरू आउटबक्सबाट नेटवर्कमा पठाउँछ"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"सन्देशन तपाईँको SMS अनुप्रयोग होइन"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> तपाईँको SMS अनुप्रयोग हो"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"तपाईँ यसलाई सेटिङहरूमा बदल्न सक्नु हुन्छ"</string>
+    <string name="sub_select_dialog_title" msgid="8210168935409702285">"SIM चयन गर्नुहोस्"</string>
+    <string name="default_sim_name" msgid="903290497566800216">"सिम <xliff:g id="SUBID">%1$d</xliff:g>"</string>
+    <string name="empty_sim_name" msgid="1008631117599170591">"सिम स्लट <xliff:g id="SUBID">%1$d</xliff:g>"</string>
+    <string name="subSelect_negative" msgid="6139403806707801822">"रद्द गर्नुहोस्"</string>
+    <string name="sub_name_container" msgid="4802195955108231738">"   <xliff:g id="SUBNAME">%1$s</xliff:g>"</string>
+    <string name="sub_name_ellipsis" msgid="2475475055178768223">"..."</string>
+    <string name="selected_sim_invalid" msgid="2309319911434202998">"हालैमा चयन गरिएको SIM छैन। प्रणाली सेटिङहरूमा तपाईँ पूर्वनिर्धारित SIM छान्नुहोस्।"</string>
 </resources>
