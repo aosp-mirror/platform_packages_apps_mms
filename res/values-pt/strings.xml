@@ -50,7 +50,7 @@
     <string name="delete_thread" msgid="757258847736632791">"Excluir conversa"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Encaminhar"</string>
     <string name="download" msgid="4488877642230207631">"Download"</string>
-    <string name="downloading" msgid="1779557575565350637">"Download em andamento"</string>
+    <string name="downloading" msgid="1779557575565350637">"Fazendo download..."</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Assunto: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Texto protegido por DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Direitos DRM insuficientes detectados."</string>
