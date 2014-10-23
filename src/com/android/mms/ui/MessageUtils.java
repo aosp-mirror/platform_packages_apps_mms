@@ -770,7 +770,7 @@ public class MessageUtils {
 
             while (c.moveToNext()) {
                 Uri uri = ContentUris.withAppendedId(Mms.CONTENT_URI, c.getLong(0));
-                long subId = c.getInt(2);
+                int subId = c.getInt(2);
                 map.put(c.getString(1), new ReadRecInfo(AddressUtils.getFrom(context, uri), subId));
             }
         } finally {
@@ -1042,8 +1042,8 @@ public class MessageUtils {
 
     private static class ReadRecInfo {
         private String mAddress;
-        private long mSubId;
-        public ReadRecInfo(String address, long subIndex) {
+        private int mSubId;
+        public ReadRecInfo(String address, int subIndex) {
             mAddress = address;
             mSubId = subIndex;
         }
@@ -1052,12 +1052,12 @@ public class MessageUtils {
             return mAddress;
         }
 
-        public long getSubIndex() {
+        public int getSubIndex() {
             return mSubId;
         }
     }
 
-    public static CharSequence getSubInfo(Context context, long subId) {
+    public static CharSequence getSubInfo(Context context, int subId) {
         Log.d(TAG, "getSubInfo subId = " + subId);
         if (!SubscriptionManager.isValidSubId(subId)) {
             return "";
@@ -1066,7 +1066,7 @@ public class MessageUtils {
         return getSubInfoSync(context, subId);
     }
 
-    public static CharSequence getSubInfoSync(Context context, long subId) {
+    public static CharSequence getSubInfoSync(Context context, int subId) {
         SubInfoRecord subInfo = SubscriptionManager.getSubInfoForSubscriber(subId);
         if (null == subInfo) {
             return "";

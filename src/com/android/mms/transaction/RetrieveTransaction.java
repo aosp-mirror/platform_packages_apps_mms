@@ -78,7 +78,7 @@ public class RetrieveTransaction extends Transaction implements Runnable {
     static final int COLUMN_LOCKED                = 1;
 
     public RetrieveTransaction(Context context, int serviceId,
-            TransactionSettings connectionSettings, String uri, long subId)
+            TransactionSettings connectionSettings, String uri, int subId)
             throws MmsException {
         super(context, serviceId, connectionSettings, subId);
 

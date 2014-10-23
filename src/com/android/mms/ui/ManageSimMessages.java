@@ -76,7 +76,7 @@ public class ManageSimMessages extends Activity
     private MessageListAdapter mListAdapter = null;
     private AsyncQueryHandler mQueryHandler = null;
 
-    private long mSubId = 0;
+    private int mSubId = 0;
 
     public static final int SIM_FULL_NOTIFICATION_ID = 234;
 
@@ -102,7 +102,7 @@ public class ManageSimMessages extends Activity
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mSubId = getIntent().getLongExtra(PhoneConstants.SUBSCRIPTION_KEY,
+        mSubId = getIntent().getIntExtra(PhoneConstants.SUBSCRIPTION_KEY,
                 SubscriptionManager.getDefaultSmsSubId());
 
         init();

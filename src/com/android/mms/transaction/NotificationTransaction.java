@@ -84,7 +84,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
     public NotificationTransaction(
             Context context, int serviceId,
             TransactionSettings connectionSettings, String uriString,
-            long subId) {
+            int subId) {
         super(context, serviceId, connectionSettings, subId);
 
         mUri = Uri.parse(uriString);
@@ -110,7 +110,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
     public NotificationTransaction(
             Context context, int serviceId,
             TransactionSettings connectionSettings, NotificationInd ind,
-            long subId) {
+            int subId) {
         super(context, serviceId, connectionSettings, subId);
 
         try {
@@ -137,7 +137,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
         new Thread(this, "NotificationTransaction").start();
     }
 
-    public static boolean allowAutoDownload(Context context, long subId) {
+    public static boolean allowAutoDownload(Context context, int subId) {
         DownloadManager downloadManager = DownloadManager.getInstance();
         boolean autoDownload = downloadManager.isAuto();
         boolean dataSuspended = (MmsApp.getApplication().getTelephonyManager().getDataState() ==

@@ -351,7 +351,7 @@ public class ComposeMessageActivity extends Activity
     private final static String RECIPIENTS = "recipients";
 
     private AlertDialog mSubSelectDialog;
-    private long mSelectedSubId;
+    private int mSelectedSubId;
     private List<SubInfoRecord> mSubListInfo = new ArrayList<SubInfoRecord>();
     private List<SubInfoRecord> mEmptySubListInfo = new ArrayList<SubInfoRecord>();
     private SubChooseAdapter mSubAdapter;

@@ -50,7 +50,7 @@ public class MmsMessageSender implements MessageSender {
     private final Context mContext;
     private final Uri mMessageUri;
     private final long mMessageSize;
-    private final long mSubId;
+    private final int mSubId;
 
     // Default preference values
     private static final boolean DEFAULT_DELIVERY_REPORT_MODE  = false;
@@ -59,7 +59,7 @@ public class MmsMessageSender implements MessageSender {
     private static final int     DEFAULT_PRIORITY        = PduHeaders.PRIORITY_NORMAL;
     private static final String  DEFAULT_MESSAGE_CLASS   = PduHeaders.MESSAGE_CLASS_PERSONAL_STR;
 
-    public MmsMessageSender(Context context, Uri location, long messageSize, long subId) {
+    public MmsMessageSender(Context context, Uri location, long messageSize, int subId) {
         mContext = context;
         mMessageUri = location;
         mMessageSize = messageSize;
@@ -155,7 +155,7 @@ public class MmsMessageSender implements MessageSender {
         sendReq.setReadReport(rr?PduHeaders.VALUE_YES:PduHeaders.VALUE_NO);
     }
 
-    public static void sendReadRec(Context context, String to, String messageId, int status, long subId) {
+    public static void sendReadRec(Context context, String to, String messageId, int status, int subId) {
         EncodedStringValue[] sender = new EncodedStringValue[1];
         sender[0] = new EncodedStringValue(to);
 
@@ -180,7 +180,7 @@ public class MmsMessageSender implements MessageSender {
         }
     }
 
-    private static void updateSubIdForSend(Context context, Uri sendUri, long subId) {
+    private static void updateSubIdForSend(Context context, Uri sendUri, int subId) {
         long msgId = ContentUris.parseId(sendUri);
         //insert sim index in pdu table
         ContentValues values = new ContentValues(1);

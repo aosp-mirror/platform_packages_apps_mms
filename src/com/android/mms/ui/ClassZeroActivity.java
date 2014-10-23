@@ -93,7 +93,7 @@ public class ClassZeroActivity extends Activity {
     private boolean queueMsgFromIntent(Intent msgIntent) {
         byte[] pdu = msgIntent.getByteArrayExtra("pdu");
         String format = msgIntent.getStringExtra("format");
-        long subId = msgIntent.getLongExtra(PhoneConstants.SUBSCRIPTION_KEY,
+        int subId = msgIntent.getIntExtra(PhoneConstants.SUBSCRIPTION_KEY,
                 SubscriptionManager.INVALID_SUB_ID);
         SmsMessage rawMessage = SmsMessage.createFromPdu(pdu, format);
         rawMessage.setSubId(subId);
@@ -251,7 +251,7 @@ public class ClassZeroActivity extends Activity {
 
     private Uri replaceMessage(SmsMessage sms) {
         ContentValues values = extractContentValues(sms);
-        long subId = sms.getSubId();
+        int subId = sms.getSubId();
 
         values.put(Inbox.BODY, sms.getMessageBody());
 
@@ -285,7 +285,7 @@ public class ClassZeroActivity extends Activity {
 
     private Uri storeMessage(SmsMessage sms) {
         // Store the message in the content provider.
-        long subId = sms.getSubId();
+        int subId = sms.getSubId();
         ContentValues values = extractContentValues(sms);
         ContentResolver resolver = getContentResolver();
         if (false) {

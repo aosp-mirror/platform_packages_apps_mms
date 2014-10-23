@@ -61,7 +61,7 @@ public class NoConfirmationSendService extends IntentService {
         }
 
         String message = extras.getString(Intent.EXTRA_TEXT);
-        long subId = extras.getLong(PhoneConstants.SUBSCRIPTION_KEY,
+        int subId = extras.getInt(PhoneConstants.SUBSCRIPTION_KEY,
                 SubscriptionManager.INVALID_SUB_ID);
         if (!SubscriptionManager.isValidSubId(subId)) {
             Log.e(TAG, "subId is invalid");

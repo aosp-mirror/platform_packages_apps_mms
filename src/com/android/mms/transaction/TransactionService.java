@@ -150,7 +150,7 @@ public class TransactionService extends Service implements Observer {
     private ConnectivityBroadcastReceiver mReceiver;
 
     private PowerManager.WakeLock mWakeLock;
-    private long mMmsDatasubId = SubscriptionManager.INVALID_SUB_ID;
+    private int mMmsDatasubId = SubscriptionManager.INVALID_SUB_ID;
 
     public Handler mToastHandler = new Handler() {
         @Override
@@ -311,7 +311,7 @@ public class TransactionService extends Service implements Observer {
                                 if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                                     Log.v(TAG, "onNewIntent: launchTransaction uri=" + uri);
                                 }
-                                launchTransaction(serviceId, args, false, cursor.getLong(columnIndexOfSubIndex));
+                                launchTransaction(serviceId, args, false, cursor.getInt(columnIndexOfSubIndex));
                                 break;
                         }
                     }
@@ -333,7 +333,7 @@ public class TransactionService extends Service implements Observer {
             TransactionBundle args = new TransactionBundle(intent.getIntExtra(
                     TransactionBundle.TRANSACTION_TYPE, Transaction.READREC_TRANSACTION),
                     intent.getStringExtra(TransactionBundle.URI));
-            long subId = intent.getLongExtra(PhoneConstants.SUBSCRIPTION_KEY,
+            int subId = intent.getIntExtra(PhoneConstants.SUBSCRIPTION_KEY,
                     SubscriptionManager.INVALID_SUB_ID);
             if (!SubscriptionManager.isValidSubId(subId)) {
                 Log.e(TAG, "onNewIntent subId error, " + args.toString());
@@ -373,7 +373,7 @@ public class TransactionService extends Service implements Observer {
         }
     }
 
-    private void launchTransaction(int serviceId, TransactionBundle txnBundle, boolean noNetwork, long subId) {
+    private void launchTransaction(int serviceId, TransactionBundle txnBundle, boolean noNetwork, int subId) {
         if (noNetwork) {
             Log.w(TAG, "launchTransaction: no network error!");
             onNetworkUnavailable(serviceId, txnBundle.getTransactionType());
@@ -547,7 +547,7 @@ public class TransactionService extends Service implements Observer {
         }
     }
 
-    protected int beginMmsConnectivity(long subId) throws IOException {
+    protected int beginMmsConnectivity(int subId) throws IOException {
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "beginMmsConnectivity, subId = " + subId);
         }
@@ -572,7 +572,7 @@ public class TransactionService extends Service implements Observer {
         throw new IOException("Cannot establish MMS connectivity");
     }
 
-    protected void endMmsConnectivity(long subId) {
+    protected void endMmsConnectivity(int subId) {
         try {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "endMmsConnectivity");
@@ -671,12 +671,12 @@ public class TransactionService extends Service implements Observer {
                     }
 
                     // Restart timer
-                    renewMmsConnectivity((long) (msg.arg2));
+                    renewMmsConnectivity(msg.arg2);
                     return;
 
                 case EVENT_TRANSACTION_REQUEST:
                     int serviceId = msg.arg1;
-                    long subId = msg.arg2;
+                    int subId = msg.arg2;
                     try {
                         TransactionBundle args = (TransactionBundle) msg.obj;
                         TransactionSettings transactionSettings;
@@ -798,7 +798,7 @@ public class TransactionService extends Service implements Observer {
             }
         }
 
-        public void markAllPendingTransactionsAsFailed(long subId) {
+        public void markAllPendingTransactionsAsFailed(int subId) {
             synchronized (mProcessing) {
                 ArrayList<Transaction> pendingList = (ArrayList<Transaction>) mPending.clone();
                 for (Transaction transaction : pendingList) {
@@ -958,7 +958,7 @@ public class TransactionService extends Service implements Observer {
         }
     }
 
-    private void renewMmsConnectivity(long subId) {
+    private void renewMmsConnectivity(int subId) {
         // Set a timer to keep renewing our "lease" on the MMS connection
         mServiceHandler.sendMessageDelayed(
                 mServiceHandler.obtainMessage(EVENT_CONTINUE_MMS_CONNECTIVITY, 0,
@@ -970,7 +970,7 @@ public class TransactionService extends Service implements Observer {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            long subId = intent.getLongExtra(PhoneConstants.SUBSCRIPTION_KEY,
+            int subId = intent.getIntExtra(PhoneConstants.SUBSCRIPTION_KEY,
                     SubscriptionManager.INVALID_SUB_ID);
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.w(TAG, "ConnectivityBroadcastReceiver.onReceive() action: " + action);
