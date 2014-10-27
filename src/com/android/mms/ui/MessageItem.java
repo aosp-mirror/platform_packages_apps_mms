@@ -108,7 +108,7 @@ public class MessageItem {
     ColumnsMap mColumnsMap;
     private PduLoadedCallback mPduLoadedCallback;
     private ItemLoadedFuture mItemLoadedFuture;
-    long mSubId;
+    int mSubId;
 
     MessageItem(Context context, String type, final Cursor cursor,
             final ColumnsMap columnsMap, Pattern highlight) throws MmsException {
@@ -161,7 +161,7 @@ public class MessageItem {
 
             mLocked = cursor.getInt(columnsMap.mColumnSmsLocked) != 0;
             mErrorCode = cursor.getInt(columnsMap.mColumnSmsErrorCode);
-            mSubId = cursor.getLong(columnsMap.mColumnSmsSubId);
+            mSubId = cursor.getInt(columnsMap.mColumnSmsSubId);
 
         } else if ("mms".equals(type)) {
             mMessageUri = ContentUris.withAppendedId(Mms.CONTENT_URI, mMsgId);
@@ -187,7 +187,7 @@ public class MessageItem {
             mMmsStatus = cursor.getInt(columnsMap.mColumnMmsStatus);
             mAttachmentType = cursor.getInt(columnsMap.mColumnMmsTextOnly) != 0 ?
                     WorkingMessage.TEXT : ATTACHMENT_TYPE_NOT_LOADED;
-            mSubId = cursor.getLong(columnsMap.mColumnMmsSubId);
+            mSubId = cursor.getInt(columnsMap.mColumnMmsSubId);
 
             // Start an async load of the pdu. If the pdu is already loaded, the callback
             // will get called immediately

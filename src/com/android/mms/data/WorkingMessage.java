@@ -1174,7 +1174,7 @@ public class WorkingMessage {
      * @throws ContentRestrictionException if sending an MMS and uaProfUrl is not defined
      * in mms_config.xml.
      */
-    public void send(final String recipientsInUI, final long subId) {
+    public void send(final String recipientsInUI, final int subId) {
         long origThreadId = mConversation.getThreadId();
 
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
@@ -1282,7 +1282,7 @@ public class WorkingMessage {
 
     // Message sending stuff
 
-    private void preSendSmsWorker(Conversation conv, String msgText, String recipientsInUI, long subId) {
+    private void preSendSmsWorker(Conversation conv, String msgText, String recipientsInUI, int subId) {
         // If user tries to send the message, it's a signal the inputted text is what they wanted.
         UserHappinessSignals.userAcceptedImeText(mActivity);
 
@@ -1321,7 +1321,7 @@ public class WorkingMessage {
         }
     }
 
-    private void sendSmsWorker(String msgText, String semiSepRecipients, long threadId, long subId) {
+    private void sendSmsWorker(String msgText, String semiSepRecipients, long threadId, int subId) {
         String[] dests = TextUtils.split(semiSepRecipients, ";");
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.d(LogTag.TRANSACTION, "sendSmsWorker sending message: recipients=" +
@@ -1343,7 +1343,7 @@ public class WorkingMessage {
 
     private void sendMmsWorker(Conversation conv, Uri mmsUri, PduPersister persister,
             SlideshowModel slideshow,
-            SendReq sendReq, boolean textOnly, long subId) {
+            SendReq sendReq, boolean textOnly, int subId) {
         long threadId = 0;
         Cursor cursor = null;
         boolean newMessage = false;
@@ -1476,7 +1476,7 @@ public class WorkingMessage {
         MmsWidgetProvider.notifyDatasetChanged(mActivity);
     }
 
-    private void markMmsMessageWithError(Uri mmsUri, long subId) {
+    private void markMmsMessageWithError(Uri mmsUri, int subId) {
         try {
             PduPersister p = PduPersister.getPduPersister(mActivity);
             // Move the message into MMS Outbox. A trigger will create an entry in

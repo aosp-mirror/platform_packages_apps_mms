@@ -113,7 +113,7 @@ public class SmsReceiverService extends Service {
 
     private int mResultCode;
 
-    private static HashSet<Long> sNoServiceSimSet = new HashSet<Long>();
+    private static HashSet<Integer> sNoServiceSimSet = new HashSet<Integer>();
 
     @Override
     public void onCreate() {
@@ -233,7 +233,7 @@ public class SmsReceiverService extends Service {
     private void handleServiceStateChanged(Intent intent) {
         // If service just returned, start sending out the queued messages
         ServiceState serviceState = ServiceState.newFromBundle(intent.getExtras());
-        long subId = intent.getLongExtra(PhoneConstants.SUBSCRIPTION_KEY,
+        int subId = intent.getIntExtra(PhoneConstants.SUBSCRIPTION_KEY,
                 SubscriptionManager.INVALID_SUB_ID);
         if (!SubscriptionManager.isValidSubId(subId)) {
             Log.e(TAG, "subId in handleServiceStateChanged() is invalid!");
@@ -279,7 +279,7 @@ public class SmsReceiverService extends Service {
                     String address = c.getString(SEND_COLUMN_ADDRESS);
                     int threadId = c.getInt(SEND_COLUMN_THREAD_ID);
                     int status = c.getInt(SEND_COLUMN_STATUS);
-                    long subId = c.getLong(SEND_COLUMN_SUB_ID);
+                    int subId = c.getInt(SEND_COLUMN_SUB_ID);
 
                     int msgId = c.getInt(SEND_COLUMN_ID);
                     Uri msgUri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgId);
@@ -335,7 +335,7 @@ public class SmsReceiverService extends Service {
                     " = " + translateResultCode(mResultCode) + " error: " + error);
         }
 
-        long subId = intent.getLongExtra(PhoneConstants.SUBSCRIPTION_KEY,
+        int subId = intent.getIntExtra(PhoneConstants.SUBSCRIPTION_KEY,
                 SubscriptionManager.INVALID_SUB_ID);
         if (!SubscriptionManager.isValidSubId(subId)) {
             Log.e(TAG, "subId in handleSmsSent() is invalid!");
@@ -538,7 +538,7 @@ public class SmsReceiverService extends Service {
         ContentResolver resolver = context.getContentResolver();
         String originatingAddress = sms.getOriginatingAddress();
         int protocolIdentifier = sms.getProtocolIdentifier();
-        long subId = sms.getSubId();
+        int subId = sms.getSubId();
         if (!SubscriptionManager.isValidSubId(subId)) {
             Log.e(TAG, "subId is invalid in replaceMessage()!");
             return null;
@@ -632,7 +632,7 @@ public class SmsReceiverService extends Service {
             values.put(Sms.ADDRESS, address);
         }
 
-        long subId = sms.getSubId();
+        int subId = sms.getSubId();
         if (!SubscriptionManager.isValidSubId(subId)) {
             Log.e(TAG, "subId in storeMessage() is invalid!");
             return null;
@@ -702,7 +702,7 @@ public class SmsReceiverService extends Service {
     private void displayClassZeroMessage(Context context, SmsMessage sms, String format) {
         // Using NEW_TASK here is necessary because we're calling
         // startActivity from outside an activity.
-        long subId = sms.getSubId();
+        int subId = sms.getSubId();
         if (!SubscriptionManager.isValidSubId(subId)) {
             Log.e(TAG, "subId is invalid in displayClassZeroMessage()");
             return;
@@ -717,7 +717,7 @@ public class SmsReceiverService extends Service {
         context.startActivity(smsDialogIntent);
     }
 
-    private void registerForServiceStateChanges(long subId) {
+    private void registerForServiceStateChanges(int subId) {
         if (sNoServiceSimSet.isEmpty()) {
             Context context = getApplicationContext();
             unRegisterForServiceStateChanges();
@@ -749,7 +749,7 @@ public class SmsReceiverService extends Service {
 
     private String getNoServiceSimString() {
         StringBuilder stringBuilder = new StringBuilder();
-        Iterator<Long> noServiceIterator = sNoServiceSimSet.iterator();
+        Iterator<Integer> noServiceIterator = sNoServiceSimSet.iterator();
         while (noServiceIterator.hasNext()) {
             if (stringBuilder.length() != 0) {
                 stringBuilder.append(",");

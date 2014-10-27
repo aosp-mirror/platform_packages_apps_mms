@@ -61,7 +61,7 @@ public class SendTransaction extends Transaction implements Runnable {
     public final Uri mSendReqURI;
 
     public SendTransaction(Context context,
-            int transId, TransactionSettings connectionSettings, String uri, long subId) {
+            int transId, TransactionSettings connectionSettings, String uri, int subId) {
         super(context, transId, connectionSettings, subId);
         mSendReqURI = Uri.parse(uri);
         mId = uri;

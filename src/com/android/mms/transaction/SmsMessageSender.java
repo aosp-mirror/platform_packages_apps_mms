@@ -40,7 +40,7 @@ public class SmsMessageSender implements MessageSender {
     protected final String mMessageText;
     protected final String mServiceCenter;
     protected final long mThreadId;
-    protected long mSubId;
+    protected int mSubId;
     protected long mTimestamp;
     private static final String TAG = LogTag.TAG;
 
@@ -55,7 +55,7 @@ public class SmsMessageSender implements MessageSender {
     private static final int COLUMN_REPLY_PATH_PRESENT = 0;
     private static final int COLUMN_SERVICE_CENTER     = 1;
 
-    public SmsMessageSender(Context context, String[] dests, String msgText, long threadId, long subId) {
+    public SmsMessageSender(Context context, String[] dests, String msgText, long threadId, int subId) {
         mContext = context;
         mMessageText = msgText;
         if (dests != null) {
