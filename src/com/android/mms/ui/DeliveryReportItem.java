@@ -25,10 +25,12 @@ public class DeliveryReportItem {
     String recipient;
     String status;
     String deliveryDate;
+    int subId;
 
-    public DeliveryReportItem(String recipient, String status, String deliveryDate) {
+    public DeliveryReportItem(String recipient, String status, String deliveryDate, int subId) {
         this.recipient = recipient;
         this.status = status;
         this.deliveryDate = deliveryDate;
+        this.subId = subId;
     }
 }

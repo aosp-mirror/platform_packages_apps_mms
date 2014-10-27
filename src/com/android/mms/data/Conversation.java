@@ -24,6 +24,7 @@ import android.provider.Telephony.Sms.Conversations;
 import android.provider.Telephony.Threads;
 import android.provider.Telephony.ThreadsColumns;
 import android.telephony.PhoneNumberUtils;
+import android.telephony.SubscriptionManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -163,9 +164,11 @@ public class Conversation {
      * Find the conversation matching the provided recipient set.
      * When called with an empty recipient list, equivalent to {@link #createNew}.
      */
-    public static Conversation get(Context context, ContactList recipients, boolean allowQuery) {
+    public static Conversation get(Context context, ContactList recipients, boolean allowQuery,
+            int subId) {
         if (DEBUG) {
-            Log.v(TAG, "Conversation get by recipients: " + recipients.serialize());
+            Log.v(TAG, "Conversation get by recipients: " +
+                    recipients.serialize(SubscriptionManager.getDefaultSmsSubId()));
         }
         // If there are no recipients in the list, make a new conversation.
         if (recipients.size() < 1) {
@@ -176,7 +179,7 @@ public class Conversation {
         if (conv != null)
             return conv;
 
-        long threadId = getOrCreateThreadId(context, recipients);
+        long threadId = getOrCreateThreadId(context, recipients, subId);
         conv = new Conversation(context, threadId, allowQuery);
         Log.d(TAG, "Conversation.get: created new conversation " + /*conv.toString()*/ "xxxxxxx");
 
@@ -203,7 +206,7 @@ public class Conversation {
      * {@value sms:+12124797990}.
      * When called with a null Uri, equivalent to {@link #createNew}.
      */
-    public static Conversation get(Context context, Uri uri, boolean allowQuery) {
+    public static Conversation get(Context context, Uri uri, boolean allowQuery, int subId) {
         if (DEBUG) {
             Log.v(TAG, "Conversation get by uri: " + uri);
         }
@@ -229,14 +232,14 @@ public class Conversation {
         String recipients = PhoneNumberUtils.replaceUnicodeDigits(getRecipients(uri))
                 .replace(',', ';');
         return get(context, ContactList.getByNumbers(recipients,
-                allowQuery /* don't block */, true /* replace number */), allowQuery);
+                allowQuery /* don't block */, true /* replace number */, subId), allowQuery, subId);
     }
 
     /**
      * Returns true if the recipient in the uri matches the recipient list in this
      * conversation.
      */
-    public boolean sameRecipient(Uri uri, Context context) {
+    public boolean sameRecipient(Uri uri, Context context, int subId) {
         int size = mRecipients.size();
         if (size > 1) {
             return false;
@@ -247,7 +250,7 @@ public class Conversation {
         ContactList incomingRecipient = null;
         if (uri.getPathSegments().size() >= 2) {
             // it's a thread id for a conversation
-            Conversation otherConv = get(context, uri, false);
+            Conversation otherConv = get(context, uri, false, subId);
             if (otherConv == null) {
                 return false;
             }
@@ -255,7 +258,7 @@ public class Conversation {
         } else {
             String recipient = getRecipients(uri);
             incomingRecipient = ContactList.getByNumbers(recipient,
-                    false /* don't block */, false /* don't replace number */);
+                    false /* don't block */, false /* don't replace number */, subId);
         }
         if (DEBUG) Log.v(TAG, "sameRecipient incomingRecipient: " + incomingRecipient +
                 " mRecipients: " + mRecipients);
@@ -463,12 +466,12 @@ public class Conversation {
      *
      * @return The thread ID of this conversation in the database
      */
-    public synchronized long ensureThreadId() {
+    public synchronized long ensureThreadId(int subId) {
         if (DEBUG || DELETEDEBUG) {
             LogTag.debug("ensureThreadId before: " + mThreadId);
         }
         if (mThreadId <= 0) {
-            mThreadId = getOrCreateThreadId(mContext, mRecipients);
+            mThreadId = getOrCreateThreadId(mContext, mRecipients, subId);
         }
         if (DEBUG || DELETEDEBUG) {
             LogTag.debug("ensureThreadId after: " + mThreadId);
@@ -604,11 +607,11 @@ public class Conversation {
         mIsChecked = isChecked;
     }
 
-    private static long getOrCreateThreadId(Context context, ContactList list) {
+    private static long getOrCreateThreadId(Context context, ContactList list, int subId) {
         HashSet<String> recipients = new HashSet<String>();
         Contact cacheContact = null;
         for (Contact c : list) {
-            cacheContact = Contact.get(c.getNumber(), false);
+            cacheContact = Contact.get(c.getNumber(), false, subId);
             if (cacheContact != null) {
                 recipients.add(cacheContact.getNumber());
             } else {
@@ -696,7 +699,8 @@ public class Conversation {
 
     @Override
     public synchronized String toString() {
-        return String.format("[%s] (tid %d)", mRecipients.serialize(), mThreadId);
+        return String.format("[%s] (tid %d)",
+                mRecipients.serialize(SubscriptionManager.getDefaultSmsSubId()), mThreadId);
     }
 
     /**
@@ -924,7 +928,8 @@ public class Conversation {
         // Fill in as much of the conversation as we can before doing the slow stuff of looking
         // up the contacts associated with this conversation.
         String recipientIds = c.getString(RECIPIENT_IDS);
-        ContactList recipients = ContactList.getByIds(recipientIds, allowQuery);
+        ContactList recipients = ContactList.getByIds(recipientIds, allowQuery,
+                SubscriptionManager.getDefaultSmsSubId());
         synchronized (conv) {
             conv.mRecipients = recipients;
         }
@@ -1305,7 +1310,7 @@ public class Conversation {
         Cache.dumpCache();
     }
 
-    public static void dumpThreadsTable(Context context) {
+    public static void dumpThreadsTable(Context context, int subId) {
         LogTag.debug("**** Dump of threads table ****");
         Cursor c = context.getContentResolver().query(sAllThreadsUri,
                 ALL_THREADS_PROJECTION, null, null, "date ASC");
@@ -1322,8 +1327,9 @@ public class Conversation {
                         " " + ThreadsColumns.HAS_ATTACHMENT + " : " + c.getInt(HAS_ATTACHMENT) +
                         " " + ThreadsColumns.RECIPIENT_IDS + " : " + c.getString(RECIPIENT_IDS));
 
-                ContactList recipients = ContactList.getByIds(c.getString(RECIPIENT_IDS), false);
-                Log.d(TAG, "----recipients: " + recipients.serialize());
+                ContactList recipients = ContactList.getByIds(c.getString(RECIPIENT_IDS), false,
+                        subId);
+                Log.d(TAG, "----recipients: " + recipients.serialize(subId));
             }
         } finally {
             c.close();
@@ -1391,10 +1397,10 @@ public class Conversation {
      * @return the verified number or email of the recipient
      */
     public static String verifySingleRecipient(final Context context,
-            final long threadId, final String recipientStr) {
+            final long threadId, final String recipientStr, int subId) {
         if (threadId <= 0) {
             LogTag.error("verifySingleRecipient threadId is ZERO, recipient: " + recipientStr);
-            LogTag.dumpInternalTables(context);
+            LogTag.dumpInternalTables(context, subId);
             return recipientStr;
         }
         Cursor c = context.getContentResolver().query(sAllThreadsUri, ALL_THREADS_PROJECTION,
@@ -1402,7 +1408,7 @@ public class Conversation {
         if (c == null) {
             LogTag.error("verifySingleRecipient threadId: " + threadId +
                     " resulted in NULL cursor , recipient: " + recipientStr);
-            LogTag.dumpInternalTables(context);
+            LogTag.dumpInternalTables(context, subId);
             return recipientStr;
         }
         String address = recipientStr;
@@ -1411,7 +1417,7 @@ public class Conversation {
             if (!c.moveToFirst()) {
                 LogTag.error("verifySingleRecipient threadId: " + threadId +
                         " can't moveToFirst , recipient: " + recipientStr);
-                LogTag.dumpInternalTables(context);
+                LogTag.dumpInternalTables(context, subId);
                 return recipientStr;
             }
             recipientIds = c.getString(RECIPIENT_IDS);
@@ -1434,7 +1440,7 @@ public class Conversation {
             LogTag.error("verifySingleRecipient threadId: " + threadId +
                     " getSingleNumberFromCanonicalAddresses returned empty number for: " +
                     ids[0] + " recipientIds: " + recipientIds);
-            LogTag.dumpInternalTables(context);
+            LogTag.dumpInternalTables(context, subId);
             return recipientStr;
         }
         if (PhoneNumberUtils.compareLoosely(recipientStr, address)) {
@@ -1450,9 +1456,9 @@ public class Conversation {
         if (context instanceof Activity) {
             LogTag.warnPossibleRecipientMismatch("verifySingleRecipient for threadId: " +
                     threadId + " original recipient: " + recipientStr +
-                    " recipient from DB: " + address, (Activity)context);
+                    " recipient from DB: " + address, (Activity)context, subId);
         }
-        LogTag.dumpInternalTables(context);
+        LogTag.dumpInternalTables(context, subId);
         if (Log.isLoggable(LogTag.THREAD_CACHE, Log.VERBOSE)) {
             LogTag.debug("verifySingleRecipient for threadId: " +
                     threadId + " original recipient: " + recipientStr +

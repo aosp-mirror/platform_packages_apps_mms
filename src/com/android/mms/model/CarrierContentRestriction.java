@@ -19,6 +19,7 @@ package com.android.mms.model;
 import java.util.ArrayList;
 
 import android.content.ContentResolver;
+import android.telephony.SmsManager;
 import android.util.Log;
 
 import com.android.mms.ContentRestrictionException;
@@ -27,6 +28,7 @@ import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.ResolutionException;
 import com.android.mms.UnsupportContentTypeException;
+
 import com.google.android.mms.ContentType;
 
 public class CarrierContentRestriction implements ContentRestriction {
@@ -49,7 +51,8 @@ public class CarrierContentRestriction implements ContentRestriction {
         if (DEBUG) {
             Log.d(LogTag.APP, "CarrierContentRestriction.checkMessageSize messageSize: " +
                         messageSize + " increaseSize: " + increaseSize +
-                        " MmsConfig.getMaxMessageSize: " + MmsConfig.getMaxMessageSize());
+                        " MmsConfig.getMaxMessageSize: " +
+                        MmsConfig.getInt(SmsManager.MMS_CONFIG_MAX_MESSAGE_SIZE));
         }
         if ( (messageSize < 0) || (increaseSize < 0) ) {
             throw new ContentRestrictionException("Negative message size"
@@ -57,13 +60,15 @@ public class CarrierContentRestriction implements ContentRestriction {
         }
         int newSize = messageSize + increaseSize;
 
-        if ( (newSize < 0) || (newSize > MmsConfig.getMaxMessageSize()) ) {
+        if ( (newSize < 0) ||
+                (newSize > MmsConfig.getInt(SmsManager.MMS_CONFIG_MAX_MESSAGE_SIZE)) ) {
             throw new ExceedMessageSizeException("Exceed message size limitation");
         }
     }
 
     public void checkResolution(int width, int height) throws ContentRestrictionException {
-        if ( (width > MmsConfig.getMaxImageWidth()) || (height > MmsConfig.getMaxImageHeight()) ) {
+        if ( (width > MmsConfig.getInt(SmsManager.MMS_CONFIG_MAX_IMAGE_WIDTH) ||
+                (height > MmsConfig.getInt(SmsManager.MMS_CONFIG_MAX_IMAGE_HEIGHT))) ) {
             throw new ResolutionException("content resolution exceeds restriction.");
         }
     }

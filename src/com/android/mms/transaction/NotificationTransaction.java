@@ -35,6 +35,7 @@ import android.net.ConnectivityManager;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Threads;
 import android.provider.Telephony.Mms.Inbox;
+import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -118,7 +119,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
             // persist() to create a thread for the notificationInd because it causes UI jank.
             mUri = PduPersister.getPduPersister(context).persist(
                         ind, Inbox.CONTENT_URI, !allowAutoDownload(context, subId),
-                        MessagingPreferenceActivity.getIsGroupMmsEnabled(context), null);
+                        MessagingPreferenceActivity.getIsGroupMmsEnabled(context, subId), null);
         } catch (MmsException e) {
             Log.e(TAG, "Failed to save NotificationInd in constructor.", e);
             throw new IllegalArgumentException();
@@ -160,12 +161,12 @@ public class NotificationTransaction extends Transaction implements Runnable {
             int status = STATUS_DEFERRED;
             // Don't try to download when data is suspended, as it will fail, so defer download
             if (!autoDownload) {
-                downloadManager.markState(mUri, DownloadManager.STATE_UNSTARTED);
+                downloadManager.markState(mUri, DownloadManager.STATE_UNSTARTED, mSubId);
                 sendNotifyRespInd(status);
                 return;
             }
 
-            downloadManager.markState(mUri, DownloadManager.STATE_DOWNLOADING);
+            downloadManager.markState(mUri, DownloadManager.STATE_DOWNLOADING, mSubId);
 
             if (LOCAL_LOGV) {
                 Log.v(TAG, "Content-Location: " + mContentLocation);
@@ -191,7 +192,8 @@ public class NotificationTransaction extends Transaction implements Runnable {
                     // Save the received PDU (must be a M-RETRIEVE.CONF).
                     PduPersister p = PduPersister.getPduPersister(mContext);
                     Uri uri = p.persist(pdu, Inbox.CONTENT_URI, true,
-                            MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null);
+                            MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext, mSubId),
+                                null);
 
                     // Use local time instead of PDU time
                     ContentValues values = new ContentValues(2);
@@ -262,7 +264,7 @@ public class NotificationTransaction extends Transaction implements Runnable {
                 status);
 
         // Pack M-NotifyResp.ind and send it
-        if(MmsConfig.getNotifyWapMMSC()) {
+        if(MmsConfig.getBoolean(mSubId, SmsManager.MMS_CONFIG_NOTIFY_WAP_MMSC_ENABLED)) {
             sendPdu(new PduComposer(mContext, notifyRespInd).make(), mContentLocation);
         } else {
             sendPdu(new PduComposer(mContext, notifyRespInd).make());
