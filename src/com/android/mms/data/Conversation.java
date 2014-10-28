@@ -328,7 +328,7 @@ public class Conversation {
                     LogTag.debug("sendReadReport: uri = " + uri);
                 }
                 MmsMessageSender.sendReadRec(context, AddressUtils.getFrom(context, uri),
-                                             c.getString(1), status, c.getLong(2));
+                                             c.getString(1), status, c.getInt(2));
             }
         } finally {
             if (c != null) {
