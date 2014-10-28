@@ -129,7 +129,7 @@ public class PushReceiver extends BroadcastReceiver {
                             // Save the pdu. If we can start downloading the real pdu immediately,
                             // don't allow persist() to create a thread for the notificationInd
                             // because it causes UI jank.
-                            long subId = intent.getLongExtra(PhoneConstants.SUBSCRIPTION_KEY,
+                            int subId = intent.getIntExtra(PhoneConstants.SUBSCRIPTION_KEY,
                                     SubscriptionManager.INVALID_SUB_ID);
                             if (!SubscriptionManager.isValidSubId(subId)) {
                                 Log.e(TAG, "subId is invalid");

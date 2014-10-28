@@ -57,7 +57,7 @@ public class SubSelectActivity extends ListActivity {
     private int mPreferenceTitleId;
     private SubSelectAdapter mAdapter;
     private int mOldSubCount = 0;
-    private long[] mAppointedSubArray = null;
+    private int[] mAppointedSubArray = null;
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -91,7 +91,7 @@ public class SubSelectActivity extends ListActivity {
         super.onNewIntent(intent);
         getExtraValues(intent);
         setTitle(mPreferenceTitleId);
-        mAppointedSubArray = intent.getLongArrayExtra(EXTRA_APPOINTED_SUBS);
+        mAppointedSubArray = intent.getIntArrayExtra(EXTRA_APPOINTED_SUBS);
         refreshAdapter();
     }
 
@@ -99,7 +99,7 @@ public class SubSelectActivity extends ListActivity {
         mPreferenceKey = intent.getStringExtra(MessagingPreferenceActivity.PREFERENCE_KEY);
         mPreferenceTitleId = intent
                 .getIntExtra(MessagingPreferenceActivity.PREFERENCE_TITLE_ID, -1);
-        mAppointedSubArray = intent.getLongArrayExtra(EXTRA_APPOINTED_SUBS);
+        mAppointedSubArray = intent.getIntArrayExtra(EXTRA_APPOINTED_SUBS);
     }
 
     private void initialSubInfoList() {
@@ -194,8 +194,8 @@ public class SubSelectActivity extends ListActivity {
         }
     };
 
-    private boolean isSubIdInNeededShowArray(long subId) {
-        for (long id : mAppointedSubArray) {
+    private boolean isSubIdInNeededShowArray(int subId) {
+        for (int id : mAppointedSubArray) {
             if (subId == id) {
                 return true;
             }

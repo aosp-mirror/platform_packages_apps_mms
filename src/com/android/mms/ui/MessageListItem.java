@@ -264,7 +264,7 @@ public class MessageListItem extends LinearLayout implements
                     public void onClick(View v) {
                         mDownloadingLabel.setVisibility(View.VISIBLE);
                         mDownloadButton.setVisibility(View.GONE);
-                        long subId = mMessageItem.mSubId;
+                        int subId = mMessageItem.mSubId;
                         final Intent intent = new Intent(mContext, TransactionService.class);
                         intent.putExtra(TransactionBundle.URI, mMessageItem.mMessageUri.toString());
                         intent.putExtra(TransactionBundle.TRANSACTION_TYPE,

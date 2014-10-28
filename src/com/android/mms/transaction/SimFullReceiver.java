@@ -48,7 +48,7 @@ public class SimFullReceiver extends BroadcastReceiver {
     // from SIM-FULL notification
     public static final String SIM_FULL_VIEWED_ACTION = "com.android.mms.ui.SIM_FULL_VIEWED";
     // Store SMS full SIM cards in a Set
-    private static TreeSet<Long> sFullSubIdSet = null;
+    private static TreeSet<Integer> sFullSubIdSet = null;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -58,14 +58,14 @@ public class SimFullReceiver extends BroadcastReceiver {
             NotificationManager nm = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
             String action = intent.getAction();
-            long subId = intent.getLongExtra(PhoneConstants.SUBSCRIPTION_KEY,
+            int subId = intent.getIntExtra(PhoneConstants.SUBSCRIPTION_KEY,
                     SubscriptionManager.INVALID_SUB_ID);
             if (!SubscriptionManager.isValidSubId(subId)) {
                 Log.e(TAG, "subId is invalid");
                 return;
             }
             if (sFullSubIdSet == null) {
-                sFullSubIdSet = new TreeSet<Long>();
+                sFullSubIdSet = new TreeSet<Integer>();
             }
             // prepare full Subs list to refresh SIM full notification
             if (Telephony.Sms.Intents.SIM_FULL_ACTION.equals(action)) {
@@ -99,7 +99,7 @@ public class SimFullReceiver extends BroadcastReceiver {
                         MessagingPreferenceActivity.MANAGE_SIM_MESSAGE_MODE);
                 selectSubIntent.putExtra(MessagingPreferenceActivity.PREFERENCE_TITLE_ID,
                         R.string.pref_summary_manage_sim_messages);
-                long[] fullSubArray = getLongArrayFromSet(sFullSubIdSet);
+                int[] fullSubArray = getIntArrayFromSet(sFullSubIdSet);
                 selectSubIntent.putExtra(SubSelectActivity.EXTRA_APPOINTED_SUBS,
                         fullSubArray);
                 pendingIntent = PendingIntent.getActivity(context, 0, selectSubIntent,
@@ -121,10 +121,10 @@ public class SimFullReceiver extends BroadcastReceiver {
         }
     }
 
-    private long[] getLongArrayFromSet(Set<Long> set) {
+    private int[] getIntArrayFromSet(Set<Integer> set) {
         int size = set.size();
-        long[] result = new long[size];
-        Iterator<Long> interator = set.iterator();
+        int[] result = new int[size];
+        Iterator<Integer> interator = set.iterator();
         for (int i = 0; i < size; i++) {
             result[i] = interator.next();
         }
