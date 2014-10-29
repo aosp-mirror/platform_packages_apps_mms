@@ -207,7 +207,7 @@ public class TransactionService extends Service implements Observer {
     public void onNewIntent(Intent intent, int serviceId) {
         mConnMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (mConnMgr == null || !SubStatusResolver.isMobileDataEnabledOnAnySub(getApplicationContext())
-                || !MmsConfig.isSmsEnabled(getApplicationContext())) {
+                || !MmsConfig.isSmsEnabled()) {
             endMmsConnectivity(mMmsDatasubId);
             stopSelf(serviceId);
             return;
@@ -971,13 +971,16 @@ public class TransactionService extends Service implements Observer {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             int subId = intent.getIntExtra(PhoneConstants.SUBSCRIPTION_KEY,
-                    SubscriptionManager.INVALID_SUB_ID);
+                    SubscriptionManager.getDefaultSmsSubId());
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
-                Log.w(TAG, "ConnectivityBroadcastReceiver.onReceive() action: " + action);
+                Log.w(TAG, "ConnectivityBroadcastReceiver.onReceive() action: " + action +
+                        " subId: " + subId);
             }
-
             if (!action.equals(ConnectivityManager.CONNECTIVITY_ACTION)
                     || !SubscriptionManager.isValidSubId(subId)) {
+                if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
+                    Log.v(TAG, "onReceive: bailing because of non-valid subId: " + subId);
+                }
                 return;
             }
 

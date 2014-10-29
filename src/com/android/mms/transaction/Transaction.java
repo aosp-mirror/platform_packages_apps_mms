@@ -183,7 +183,8 @@ public abstract class Transaction extends Observable {
                 pdu, HttpUtils.HTTP_POST_METHOD,
                 mTransactionSettings.isProxySet(),
                 mTransactionSettings.getProxyAddress(),
-                mTransactionSettings.getProxyPort());
+                mTransactionSettings.getProxyPort(),
+                mSubId);
     }
 
     /**
@@ -202,7 +203,8 @@ public abstract class Transaction extends Observable {
                 url, null, HttpUtils.HTTP_GET_METHOD,
                 mTransactionSettings.isProxySet(),
                 mTransactionSettings.getProxyAddress(),
-                mTransactionSettings.getProxyPort());
+                mTransactionSettings.getProxyPort(),
+                mSubId);
     }
 
     /**

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.telephony.SmsManager;
 
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
@@ -43,7 +44,7 @@ public class AttachmentTypeSelectorAdapter extends IconListAdapter {
     public AttachmentTypeSelectorAdapter(Context context, int mode) {
         super(context, getData(mode, context));
     }
-    
+
     public int buttonToCommand(int whichButton) {
         AttachmentListItem item = (AttachmentListItem)getItem(whichButton);
         return item.getCommand();
@@ -63,7 +64,7 @@ public class AttachmentTypeSelectorAdapter extends IconListAdapter {
         addItem(data, context.getString(R.string.attach_record_video),
                 R.drawable.ic_attach_capture_video_holo_light, RECORD_VIDEO);
 
-        if (MmsConfig.getAllowAttachAudio()) {
+        if (MmsConfig.getBoolean(SmsManager.MMS_CONFIG_ALLOW_ATTACH_AUDIO)) {
             addItem(data, context.getString(R.string.attach_sound),
                     R.drawable.ic_attach_audio_holo_light, ADD_SOUND);
         }
@@ -84,7 +85,7 @@ public class AttachmentTypeSelectorAdapter extends IconListAdapter {
         AttachmentListItem temp = new AttachmentListItem(title, resource, command);
         data.add(temp);
     }
-    
+
     public static class AttachmentListItem extends IconListAdapter.IconListItem {
         private int mCommand;
 

@@ -22,10 +22,10 @@ import java.util.Random;
 
 import com.android.mms.data.Contact;
 import com.android.mms.util.Recycler;
+
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
 import android.provider.Telephony.Sms.Inbox;
-
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -35,6 +35,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.provider.Telephony.Sms.Conversations;
+import android.telephony.SubscriptionManager;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.util.Log;
@@ -159,7 +160,7 @@ public class RecyclerTest extends AndroidTestCase {
         // Make sure we've got a thread id so after the insert we'll be able to delete
         // excess messages.
         Long threadId = 0L;
-        Contact cacheContact = Contact.get(address,true);
+        Contact cacheContact = Contact.get(address, true, SubscriptionManager.DEFAULT_SUB_ID);
         if (cacheContact != null) {
             address = cacheContact.getNumber();
         }

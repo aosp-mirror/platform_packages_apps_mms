@@ -186,7 +186,7 @@ public class DownloadManager {
         return "true".equals(roaming);
     }
 
-    public void markState(final Uri uri, int state) {
+    public void markState(final Uri uri, int state, final int subId) {
         // Notify user if the message has expired.
         try {
             NotificationInd nInd = (NotificationInd) PduPersister.getPduPersister(mContext)
@@ -212,7 +212,7 @@ public class DownloadManager {
             mHandler.post(new Runnable() {
                 public void run() {
                     try {
-                        Toast.makeText(mContext, getMessage(uri),
+                        Toast.makeText(mContext, getMessage(uri, subId),
                                 Toast.LENGTH_LONG).show();
                     } catch (MmsException e) {
                         Log.e(TAG, e.getMessage(), e);
@@ -244,7 +244,7 @@ public class DownloadManager {
         });
     }
 
-    private String getMessage(Uri uri) throws MmsException {
+    private String getMessage(Uri uri, int subId) throws MmsException {
         NotificationInd ind = (NotificationInd) PduPersister
                 .getPduPersister(mContext).load(uri);
 
@@ -254,7 +254,7 @@ public class DownloadManager {
 
         v = ind.getFrom();
         String from = (v != null)
-                ? Contact.get(v.getString(), false).getName()
+                ? Contact.get(v.getString(), false, subId).getName()
                 : mContext.getString(R.string.unknown_sender);
 
         return mContext.getString(R.string.dl_failure_notification, subject, from);

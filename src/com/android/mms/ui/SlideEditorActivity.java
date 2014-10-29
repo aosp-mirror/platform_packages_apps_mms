@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.telephony.SmsManager;
 import android.text.InputFilter;
 import android.text.InputFilter.LengthFilter;
 import android.text.TextUtils;
@@ -151,8 +152,10 @@ public class SlideEditorActivity extends Activity {
         mRemoveSlide.setOnClickListener(mOnRemoveSlide);
 
         mTextEditor = (EditText) findViewById(R.id.text_message);
-        mTextEditor.setFilters(new InputFilter[] {
-                new LengthFilter(MmsConfig.getMaxTextLimit())});
+        final int maxTextLength = MmsConfig.getInt(SmsManager.MMS_CONFIG_MESSAGE_TEXT_MAX_SIZE);
+        if (maxTextLength > 0) {
+            mTextEditor.setFilters(new InputFilter[] {new LengthFilter(maxTextLength)});
+        }
 
         mDone = (Button) findViewById(R.id.done_button);
         mDone.setOnClickListener(mDoneClickListener);
@@ -378,7 +381,7 @@ public class SlideEditorActivity extends Activity {
             menu.add(0, MENU_DEL_AUDIO, 0, R.string.remove_music).setIcon(
                     R.drawable.ic_menu_remove_sound);
         } else if (!slide.hasVideo()) {
-            if (MmsConfig.getAllowAttachAudio()) {
+            if (MmsConfig.getBoolean(SmsManager.MMS_CONFIG_ALLOW_ATTACH_AUDIO)) {
                 SubMenu subMenu = menu.addSubMenu(0, MENU_SUB_AUDIO, 0, R.string.add_music)
                     .setIcon(R.drawable.ic_menu_add_sound);
                 subMenu.add(0, MENU_ADD_AUDIO, 0, R.string.attach_sound);
