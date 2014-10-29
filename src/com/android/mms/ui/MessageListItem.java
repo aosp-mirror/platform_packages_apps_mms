@@ -38,6 +38,7 @@ import android.provider.ContactsContract.Profile;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Mms;
 import android.telephony.PhoneNumberUtils;
+import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.text.Spannable;
@@ -272,7 +273,8 @@ public class MessageListItem extends LinearLayout implements
                         intent.putExtra(PhoneConstants.SUBSCRIPTION_KEY, subId);
                         mContext.startService(intent);
                         DownloadManager.getInstance().markState(
-                                mMessageItem.mMessageUri, DownloadManager.STATE_PRE_DOWNLOADING);
+                                mMessageItem.mMessageUri, DownloadManager.STATE_PRE_DOWNLOADING,
+                                subId);
                     }
                 });
                 break;
@@ -304,7 +306,8 @@ public class MessageListItem extends LinearLayout implements
     private void updateAvatarView(String addr, boolean isSelf) {
         Drawable avatarDrawable;
         if (isSelf || !TextUtils.isEmpty(addr)) {
-            Contact contact = isSelf ? Contact.getMe(false) : Contact.get(addr, false);
+            Contact contact = isSelf ? Contact.getMe(false, mMessageItem.mSubId) :
+                        Contact.get(addr, false, mMessageItem.mSubId);
             avatarDrawable = contact.getAvatar(mContext, sDefaultContactImage);
 
             if (isSelf) {

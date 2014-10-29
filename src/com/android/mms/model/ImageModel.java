@@ -29,6 +29,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -42,6 +43,7 @@ import com.android.mms.ui.UriImage;
 import com.android.mms.util.ItemLoadedCallback;
 import com.android.mms.util.ItemLoadedFuture;
 import com.android.mms.util.ThumbnailManager;
+
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
@@ -186,8 +188,8 @@ public class ImageModel extends RegionMediaModel {
     protected void resizeMedia(int byteLimit, long messageId) throws MmsException {
         UriImage image = new UriImage(mContext, getUri());
 
-        int widthLimit = MmsConfig.getMaxImageWidth();
-        int heightLimit = MmsConfig.getMaxImageHeight();
+        int widthLimit = MmsConfig.getInt(SmsManager.MMS_CONFIG_MAX_IMAGE_WIDTH);
+        int heightLimit = MmsConfig.getInt(SmsManager.MMS_CONFIG_MAX_IMAGE_HEIGHT);
         int size = getMediaSize();
         // In mms_config.xml, the max width has always been declared larger than the max height.
         // Swap the width and height limits if necessary so we scale the picture as little as

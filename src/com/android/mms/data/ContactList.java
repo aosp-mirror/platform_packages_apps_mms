@@ -14,11 +14,11 @@ import com.android.mms.ui.MessageUtils;
 public class ContactList extends ArrayList<Contact>  {
     private static final long serialVersionUID = 1L;
 
-    public static ContactList getByNumbers(Iterable<String> numbers, boolean canBlock) {
+    public static ContactList getByNumbers(Iterable<String> numbers, boolean canBlock, int subId) {
         ContactList list = new ContactList();
         for (String number : numbers) {
             if (!TextUtils.isEmpty(number)) {
-                list.add(Contact.get(number, canBlock));
+                list.add(Contact.get(number, canBlock, subId));
             }
         }
         return list;
@@ -26,11 +26,12 @@ public class ContactList extends ArrayList<Contact>  {
 
     public static ContactList getByNumbers(String semiSepNumbers,
                                            boolean canBlock,
-                                           boolean replaceNumber) {
+                                           boolean replaceNumber,
+                                           int subId) {
         ContactList list = new ContactList();
         for (String number : semiSepNumbers.split(";")) {
             if (!TextUtils.isEmpty(number)) {
-                Contact contact = Contact.get(number, canBlock);
+                Contact contact = Contact.get(number, canBlock, subId);
                 if (replaceNumber) {
                     contact.setNumber(number);
                 }
@@ -46,14 +47,15 @@ public class ContactList extends ArrayList<Contact>  {
      * for the numbers don't belong to any contact.
      *
      * @param uris phone URI to create the ContactList
+     * @param subId subscription for contact
      */
-    public static ContactList blockingGetByUris(Parcelable[] uris) {
+    public static ContactList blockingGetByUris(Parcelable[] uris, int subId) {
         ContactList list = new ContactList();
         if (uris != null && uris.length > 0) {
             for (Parcelable p : uris) {
                 Uri uri = (Uri) p;
                 if ("tel".equals(uri.getScheme())) {
-                    Contact contact = Contact.get(uri.getSchemeSpecificPart(), true);
+                    Contact contact = Contact.get(uri.getSchemeSpecificPart(), true, subId);
                     list.add(contact);
                 }
             }
@@ -69,11 +71,11 @@ public class ContactList extends ArrayList<Contact>  {
      * Returns a ContactList for the corresponding recipient ids passed in. This method will
      * create the contact if it doesn't exist, and would inject the recipient id into the contact.
      */
-    public static ContactList getByIds(String spaceSepIds, boolean canBlock) {
+    public static ContactList getByIds(String spaceSepIds, boolean canBlock, int subId) {
         ContactList list = new ContactList();
         for (RecipientIdCache.Entry entry : RecipientIdCache.getAddresses(spaceSepIds)) {
             if (entry != null && !TextUtils.isEmpty(entry.number)) {
-                Contact contact = Contact.get(entry.number, canBlock);
+                Contact contact = Contact.get(entry.number, canBlock, subId);
                 contact.setRecipientId(entry.id);
                 list.add(contact);
             }
@@ -107,8 +109,8 @@ public class ContactList extends ArrayList<Contact>  {
         return TextUtils.join(separator, nans);
     }
 
-    public String serialize() {
-        return TextUtils.join(";", getNumbers());
+    public String serialize(int subId) {
+        return TextUtils.join(";", getNumbers(subId));
     }
 
     public boolean containsEmail() {
@@ -120,11 +122,11 @@ public class ContactList extends ArrayList<Contact>  {
         return false;
     }
 
-    public String[] getNumbers() {
-        return getNumbers(false /* don't scrub for MMS address */);
+    public String[] getNumbers(int subId) {
+        return getNumbers(false /* don't scrub for MMS address */, subId);
     }
 
-    public String[] getNumbers(boolean scrubForMmsAddress) {
+    public String[] getNumbers(boolean scrubForMmsAddress, int subId) {
         List<String> numbers = new ArrayList<String>();
         String number;
         for (Contact c : this) {
@@ -135,7 +137,7 @@ public class ContactList extends ArrayList<Contact>  {
                 // could be null if it's not a valid MMS address. We don't want to send
                 // a message to an invalid number, as the network may do its own stripping,
                 // and end up sending the message to a different number!
-                number = MessageUtils.parseMmsAddress(number);
+                number = MessageUtils.parseMmsAddress(number, subId);
             }
 
             // Don't add duplicate numbers. This can happen if a contact name has a comma.

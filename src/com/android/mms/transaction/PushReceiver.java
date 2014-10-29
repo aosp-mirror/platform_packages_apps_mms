@@ -36,6 +36,7 @@ import android.os.PowerManager;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Inbox;
 import android.provider.Telephony.MmsSms.PendingMessages;
+import android.telephony.SmsManager;
 import android.telephony.SubscriptionManager;
 import android.util.Log;
 
@@ -88,6 +89,8 @@ public class PushReceiver extends BroadcastReceiver {
             ContentResolver cr = mContext.getContentResolver();
             int type = pdu.getMessageType();
             long threadId = -1;
+            final int subId = intent.getIntExtra(PhoneConstants.SUBSCRIPTION_KEY,
+                    SubscriptionManager.getDefaultSmsSubId());
 
             try {
                 switch (type) {
@@ -101,7 +104,8 @@ public class PushReceiver extends BroadcastReceiver {
                         }
 
                         Uri uri = p.persist(pdu, Inbox.CONTENT_URI, true,
-                                MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null);
+                                MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext, subId),
+                                    null);
                         // Update thread ID for ReadOrigInd & DeliveryInd.
                         ContentValues values = new ContentValues(1);
                         values.put(Mms.THREAD_ID, threadId);
@@ -111,7 +115,8 @@ public class PushReceiver extends BroadcastReceiver {
                     case MESSAGE_TYPE_NOTIFICATION_IND: {
                         NotificationInd nInd = (NotificationInd) pdu;
 
-                        if (MmsConfig.getTransIdEnabled()) {
+                        if (MmsConfig.getBoolean(subId,
+                                SmsManager.MMS_CONFIG_APPEND_TRANSACTION_ID)) {
                             byte [] contentLocation = nInd.getContentLocation();
                             if ('=' == contentLocation[contentLocation.length - 1]) {
                                 byte [] transactionId = nInd.getTransactionId();
@@ -129,16 +134,14 @@ public class PushReceiver extends BroadcastReceiver {
                             // Save the pdu. If we can start downloading the real pdu immediately,
                             // don't allow persist() to create a thread for the notificationInd
                             // because it causes UI jank.
-                            int subId = intent.getIntExtra(PhoneConstants.SUBSCRIPTION_KEY,
-                                    SubscriptionManager.INVALID_SUB_ID);
                             if (!SubscriptionManager.isValidSubId(subId)) {
                                 Log.e(TAG, "subId is invalid");
                                 break;
                             }
                             Uri uri = p.persist(pdu, Inbox.CONTENT_URI,
                                     !NotificationTransaction.allowAutoDownload(mContext, subId),
-                                    MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext),
-                                    null);
+                                    MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext,
+                                            subId), null);
                             // TODO remove updating subId of Mms after refactor
                             ContentValues values = new ContentValues();
                             values.put(Mms.SUB_ID, subId);
@@ -177,7 +180,8 @@ public class PushReceiver extends BroadcastReceiver {
                                     pendingCursor.close();
                                 }
                             }
-                            DownloadManager.getInstance().markState(uri, DownloadManager.STATE_DOWNLOADING);
+                            DownloadManager.getInstance().markState(uri,
+                                    DownloadManager.STATE_DOWNLOADING, subId);
                             // Start service to finish the notification transaction.
                             Intent svc = new Intent(mContext, TransactionService.class);
                             svc.putExtra(TransactionBundle.URI, uri.toString());

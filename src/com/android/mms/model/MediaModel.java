@@ -30,10 +30,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.telephony.SmsManager;
 import android.util.Log;
 
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
+
 import com.google.android.mms.MmsException;
 // TODO: remove dependency for SDK build
 
@@ -241,9 +243,10 @@ public abstract class MediaModel extends Model implements EventListener {
                 // does below, but that turns out to be very slow. We'll deal with a zero size
                 // when we resize the media.
 
-                if (isVideo() && mSize > MmsConfig.getMaxMessageSize()) {
+                final int maxMessageSize = MmsConfig.getInt(SmsManager.MMS_CONFIG_MAX_MESSAGE_SIZE);
+                if (isVideo() && mSize > maxMessageSize) {
                     Log.w(TAG, "initMediaSize: Video size: f.getChannel().size(): " + mSize +
-                            " larger than max message size: " + MmsConfig.getMaxMessageSize());
+                            " larger than max message size: " + maxMessageSize);
                 }
             } else {
                 while (-1 != input.read()) {

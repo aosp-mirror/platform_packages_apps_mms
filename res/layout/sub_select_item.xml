@@ -21,7 +21,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <com.android.internal.widget.SubscriptionView
+    <com.android.mms.ui.SubscriptionView
         android:id="@+id/subItem"
         android:layout_width="0dp"
         android:layout_height="match_parent"

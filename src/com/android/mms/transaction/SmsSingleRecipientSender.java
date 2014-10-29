@@ -51,11 +51,13 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
         }
         SmsManager smsManager = SmsManager.getSmsManagerForSubscriber(mSubId);
         ArrayList<String> messages = null;
-        if ((MmsConfig.getEmailGateway() != null) &&
-                (Mms.isEmailAddress(mDest) || MessageUtils.isAlias(mDest))) {
+        final String emailGateway =
+                MmsConfig.getString(mSubId, SmsManager.MMS_CONFIG_EMAIL_GATEWAY_NUMBER);
+        if ((emailGateway != null) &&
+                (Mms.isEmailAddress(mDest) || MessageUtils.isAlias(mDest, mSubId))) {
             String msgText;
             msgText = mDest + " " + mMessageText;
-            mDest = MmsConfig.getEmailGateway();
+            mDest = emailGateway;
             messages = smsManager.divideMessage(msgText);
         } else {
             messages = smsManager.divideMessage(mMessageText);
@@ -63,7 +65,7 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
             // (e.g. "801 555 1212" -> "8015551212")
             // (e.g. "+8211-123-4567" -> "+82111234567")
             mDest = PhoneNumberUtils.stripSeparators(mDest);
-            mDest = Conversation.verifySingleRecipient(mContext, mThreadId, mDest);
+            mDest = Conversation.verifySingleRecipient(mContext, mThreadId, mDest, mSubId);
         }
         int messageCount = messages.size();
 

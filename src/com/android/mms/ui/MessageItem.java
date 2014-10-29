@@ -141,6 +141,7 @@ public class MessageItem {
             // Set contact and message body
             mBoxId = cursor.getInt(columnsMap.mColumnSmsType);
             mAddress = cursor.getString(columnsMap.mColumnSmsAddress);
+            mSubId = cursor.getInt(columnsMap.mColumnSmsSubId);
             if (Sms.isOutgoingFolder(mBoxId)) {
                 String meString = context.getString(
                         R.string.messagelist_sender_self);
@@ -148,7 +149,7 @@ public class MessageItem {
                 mContact = meString;
             } else {
                 // For incoming messages, the ADDRESS field contains the sender.
-                mContact = Contact.get(mAddress, false).getName();
+                mContact = Contact.get(mAddress, false, mSubId).getName();
             }
             mBody = cursor.getString(columnsMap.mColumnSmsBody);
 
@@ -161,7 +162,6 @@ public class MessageItem {
 
             mLocked = cursor.getInt(columnsMap.mColumnSmsLocked) != 0;
             mErrorCode = cursor.getInt(columnsMap.mColumnSmsErrorCode);
-            mSubId = cursor.getInt(columnsMap.mColumnSmsSubId);
 
         } else if ("mms".equals(type)) {
             mMessageUri = ContentUris.withAppendedId(Mms.CONTENT_URI, mMsgId);
@@ -212,7 +212,8 @@ public class MessageItem {
             // notification system uses.
             mAddress = AddressUtils.getFrom(mContext, messageUri);
         }
-        mContact = TextUtils.isEmpty(mAddress) ? "" : Contact.get(mAddress, false).getName();
+        mContact = TextUtils.isEmpty(mAddress) ? "" :
+            Contact.get(mAddress, false, mSubId).getName();
     }
 
     public boolean isMms() {

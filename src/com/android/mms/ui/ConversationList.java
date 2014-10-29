@@ -47,6 +47,7 @@ import android.provider.ContactsContract.Contacts;
 import android.provider.Telephony;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Threads;
+import android.telephony.SubscriptionManager;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.ContextMenu;
@@ -81,6 +82,7 @@ import com.android.mms.transaction.SmsRejectedReceiver;
 import com.android.mms.util.DraftCache;
 import com.android.mms.util.Recycler;
 import com.android.mms.widget.MmsWidgetProvider;
+
 import com.google.android.mms.pdu.PduHeaders;
 
 import java.util.ArrayList;
@@ -200,7 +202,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     @Override
     protected void onResume() {
         super.onResume();
-        boolean isSmsEnabled = MmsConfig.isSmsEnabled(this);
+        boolean isSmsEnabled = MmsConfig.isSmsEnabled();
         if (isSmsEnabled != mIsSmsEnabled) {
             mIsSmsEnabled = isSmsEnabled;
             invalidateOptionsMenu();
@@ -215,7 +217,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
         }
 
         // Show or hide the SMS promo banner
-        if (mIsSmsEnabled || MmsConfig.isSmsPromoDismissed(this)) {
+        if (mIsSmsEnabled || MmsConfig.isSmsPromoDismissed()) {
             mSmsPromoBannerView.setVisibility(View.GONE);
         } else {
             initSmsPromoBanner();
@@ -561,7 +563,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                 startActivityIfNeeded(intent, -1);
                 break;
             case R.id.action_debug_dump:
-                LogTag.dumpInternalTables(this);
+                LogTag.dumpInternalTables(this, SubscriptionManager.getDefaultSmsSubId());
                 break;
             case R.id.action_cell_broadcasts:
                 Intent cellBroadcastIntent = new Intent(Intent.ACTION_MAIN);
@@ -957,7 +959,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
                     if (conv != null) {
                         ContactList recipients = conv.getRecipients();
                         for (Contact contact : recipients) {
-                            contact.removeFromCache();
+                            contact.removeFromCache(SubscriptionManager.getDefaultSmsSubId());
                         }
                     }
                 }
