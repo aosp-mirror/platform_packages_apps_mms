@@ -168,12 +168,12 @@
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Potwierdzaj dostarczenie każdej wysłanej wiadomości"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Usuń stare wiadomości po osiągnięciu limitu"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> wiadomości w wątku"</string>
-    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"Użyj MMS-ów, by wysłać jedną wiadomość do wielu odbiorców"</string>
+    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"Używaj MMS-ów, gdy chcę wysłać jedną wiadomość do wielu odbiorców"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Wiadomości na karcie SIM"</string>
-    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Raporty dostarczenia"</string>
+    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Raporty o dostarczeniu"</string>
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"Wiadomości grupowe"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Raporty przeczytania"</string>
-    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Raporty dostarczenia"</string>
+    <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Raporty o dostarczeniu"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Usuń stare wiadomości"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Limit wiadomości tekstowych"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Limit wiadomości MMS"</string>
@@ -183,9 +183,9 @@
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Ustaw liczbę zapisywanych wiadomości"</string>
     <string name="silent_ringtone" msgid="7981237991326592780">"Wyciszony"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Autoodbieranie"</string>
-    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Odbierz wiadomości automatycznie"</string>
+    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Pobieraj wiadomości automatycznie"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"W roamingu"</string>
-    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Odbierz wiadomości automatycznie w roamingu"</string>
+    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Pobieraj wiadomości automatycznie w roamingu"</string>
     <string name="confirm_dialog_title" msgid="2187213750475782725">"Usunąć?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Czy usunąć zablokowaną wiadomość?"</string>
   <plurals name="confirm_delete_conversation">
@@ -212,7 +212,7 @@
     <string name="from_label" msgid="2055117571548171397">"Od: "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Do: "</string>
     <string name="bcc_label" msgid="530867161453958774">"Udw: "</string>
-    <string name="sent_label" msgid="2722190650145251584">"Wysłane: "</string>
+    <string name="sent_label" msgid="2722190650145251584">"Wysłano: "</string>
     <string name="received_label" msgid="8618029024731693906">"Odebrano: "</string>
     <string name="saved_label" msgid="4183160415593488207">"Zapisano: "</string>
     <string name="subject_label" msgid="8721241914144101631">"Temat: "</string>

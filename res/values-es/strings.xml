@@ -87,7 +87,7 @@
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Escribir mensaje"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Abrir teclado para escribir mensaje"</string>
     <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Envío deshabilitado"</string>
-    <string name="compose_disabled_toast" msgid="1838175321052707875">"No se puede escribir, porque esta no es la aplicación de SMS predeterminada."</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"No se puede escribir porque esta no es la aplicación de SMS predeterminada."</string>
     <string name="compressing" msgid="1961357529661045180">"La imagen es demasiado grande. Comprimiendo…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Formato de <xliff:g id="NAME">%1$s</xliff:g> no admitido"</string>
     <string name="select_different_media" msgid="6241623357299382183">"Seleccionar otro <xliff:g id="NAME">%1$s</xliff:g>"</string>
@@ -168,11 +168,11 @@
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"Solicitar un informe de entrega cada vez que se envíe un mensaje"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"Eliminar mensajes antiguos al superar el límite de mensajes"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> mensajes por conversación"</string>
-    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"Utiliza MMS para enviar un único mensaje a varios destinatarios."</string>
+    <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"Utilizar MMS para enviar un único mensaje a varios destinatarios"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Administrar mensajes de SIM"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Informes de entrega"</string>
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"Mensaje de grupo"</string>
-    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Informes de leídos"</string>
+    <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Informe de mensajes leídos"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Informes de entrega"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Borrar mensajes antiguos"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Límite de mensajes de texto"</string>
@@ -182,7 +182,7 @@
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Sonido"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Elige el número de mensajes que quieres guardar"</string>
     <string name="silent_ringtone" msgid="7981237991326592780">"Silencio"</string>
-    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Recuperar automáticamente"</string>
+    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Autorrecuperar"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Recuperar mensajes automáticamente"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"En itinerancia"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Recuperar mensajes automáticamente en itinerancia"</string>

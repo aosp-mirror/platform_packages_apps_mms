@@ -149,7 +149,7 @@
     <string name="yes" msgid="3246158147503160811">"OK"</string>
     <string name="no" msgid="4289742508556913860">"Скасувати"</string>
     <string name="set" msgid="4642365398263275979">"Устан."</string>
-    <string name="play" msgid="1888432400937785115">"Відтвор."</string>
+    <string name="play" msgid="1888432400937785115">"Відтворити"</string>
     <string name="edit" msgid="5912118407791492696">"Редаг."</string>
     <string name="try_to_send" msgid="1996751738286080976">"Спроб. надісл."</string>
     <string name="preferences_title" msgid="6650089610332670157">"Налаштування"</string>

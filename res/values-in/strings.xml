@@ -22,7 +22,7 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="1503967887341230795">"Perpesanan"</string>
     <string name="new_message" msgid="1530369762346003973">"Pesan baru"</string>
-    <string name="menu_call_back" msgid="7538482331117914146">"Panggil <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_call_back" msgid="7538482331117914146">"Telepon <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_send_email" msgid="671366308915241664">"Kirim email ke <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Tulis"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Setelan"</string>
@@ -116,7 +116,7 @@
     <string name="too_many_attachments" msgid="3774037894899750070">"Ada batas <xliff:g id="MAXLIMIT">%1$s</xliff:g> lampiran. Hanya <xliff:g id="CURRENTCOUNT">%2$s</xliff:g> pertama yang akan ditambahkan."</string>
     <string name="adding_attachments_title" msgid="2034535554212405529">"Menambahkan lampiran"</string>
     <string name="adding_attachments" msgid="5871373105122355632">"Tunggu sementara item ditambahkan ke rangkai slide."</string>
-    <string name="building_slideshow_title" msgid="1232338692400726385">"Membuat slideshow"</string>
+    <string name="building_slideshow_title" msgid="1232338692400726385">"Membuat rangkai slide"</string>
     <string name="cannot_play_audio" msgid="253920977253666735">"Tidak dapat memutar audio."</string>
     <string name="preview" msgid="5438149136136446756">"Pratinjau"</string>
     <string name="preview_slideshow" msgid="6824095909448728427">"Pratinjau"</string>
@@ -342,7 +342,7 @@
     <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Hentikan pemberitahuan pesan teks rangkap dari apl Perpesanan default?"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"Lihat percakapan lainnya"</string>
     <string name="attachment_audio" msgid="2867960243300539143">"Audio"</string>
-    <string name="attachment_slideshow" msgid="5867689101881763318">"Slideshow"</string>
+    <string name="attachment_slideshow" msgid="5867689101881763318">"Rangkai Slide"</string>
     <string name="attachment_video" msgid="4252062022156694591">"Video"</string>
     <string name="attachment_picture" msgid="3709286281567284296">"Gambar"</string>
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>

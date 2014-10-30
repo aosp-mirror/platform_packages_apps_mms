@@ -48,7 +48,7 @@
     <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Não foi possível enviar esta mensagem.\nTentativa efetuada: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Não é possível enviar esta mensagem."</string>
     <string name="delete_thread" msgid="757258847736632791">"Eliminar tópico"</string>
-    <string name="menu_forward" msgid="9026858380050046756">"Reencaminhar"</string>
+    <string name="menu_forward" msgid="9026858380050046756">"Encaminhar"</string>
     <string name="download" msgid="4488877642230207631">"Transferir"</string>
     <string name="downloading" msgid="1779557575565350637">"A transferir"</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Assunto: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>

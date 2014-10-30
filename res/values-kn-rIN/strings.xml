@@ -162,14 +162,14 @@
     <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆಯನ್ನು ನಿಮ್ಮ ಡೀಫಾಲ್ಟ್‌ SMS ಅಪ್ಲಿಕೇಶನ್‌ ಆಗಿ ಮಾಡಲು ಸ್ಪರ್ಶಿಸಿ"</string>
     <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"</string>
     <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"ನಿಮ್ಮ ಡೀಫಾಲ್ಟ್‌‌ SMS ಅಪ್ಲಿಕೇಶನ್‌ ಅನ್ನು ಬದಲಾಯಿಸಲು ಸ್ಪರ್ಶಿಸಿ"</string>
-    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"ನಿಮ್ಮ SIM ಕಾರ್ಡ್‌ನಲ್ಲಿ ಸಂಗ್ರಹಿಸಿದ ಸಂದೇಶಗಳನ್ನು ನಿರ್ವಹಿಸಿ"</string>
+    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"ನಿಮ್ಮ ಸಿಮ್‌ ಕಾರ್ಡ್‌ನಲ್ಲಿ ಸಂಗ್ರಹಿಸಿದ ಸಂದೇಶಗಳನ್ನು ನಿರ್ವಹಿಸಿ"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"ನೀವು ಕಳುಹಿಸುವ ಪ್ರತಿ ಸಂದೇಶಕ್ಕೂ ತಲುಪಿದ ವರದಿಯನ್ನು ವಿನಂತಿಸಿ"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"ನೀವು ಕಳುಹಿಸುವ ಪ್ರತಿ ಸಂದೇಶಕ್ಕೂ ಓದಿದ ವರದಿಯನ್ನು ವಿನಂತಿಸಿ"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"ನೀವು ಕಳುಹಿಸುವ ಪ್ರತಿ ಸಂದೇಶಕ್ಕೂ ತಲುಪಿದ ವರದಿಯನ್ನು ವಿನಂತಿಸಿ"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"ಹಳೆಯ ಸಂದೇಶಗಳು ಮಿತಿಗಳನ್ನು ತಲುಪಿದಂತೆ ಅಳಿಸಿ"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"ಪ್ರತಿ ಸಂವಾದದ <xliff:g id="COUNT">%1$s</xliff:g> ಸಂದೇಶಗಳು"</string>
     <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"ಬಹು ಸ್ವೀಕೃತದಾರರು ಇರುವಾಗ ಒಂದೇ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲು MMS ಬಳಸಿ"</string>
-    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"SIM ಕಾರ್ಡ್‌ ಸಂದೇಶಗಳನ್ನು ನಿರ್ವಹಿಸಿ"</string>
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"ಸಿಮ್‌ ಕಾರ್ಡ್‌ ಸಂದೇಶಗಳನ್ನು ನಿರ್ವಹಿಸಿ"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"ತಲುಪಿದ ವರದಿಗಳು"</string>
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"ಗುಂಪು ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"ಓದಿದ ವರದಿಗಳು"</string>
@@ -196,8 +196,8 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"ಎಲ್ಲ ಥ್ರೆಡ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗುವುದು."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"ಸಂದೇಶವನ್ನು ಅಳಿಸಲಾಗುವುದು."</string>
     <string name="confirm_delete_locked_message" msgid="7203411948190100955">"ಲಾಕ್‌ಮಾಡಲಾದ ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸುವುದೇ?"</string>
-    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"SIM ಕಾರ್ಡ್‌ನಲ್ಲಿನ ಎಲ್ಲ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಲಾಗುವುದು."</string>
-    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"SIM ಕಾರ್ಡ್‌ನಲ್ಲಿನ ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸಲಾಗುವುದು."</string>
+    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"ಸಿಮ್‌ ಕಾರ್ಡ್‌ನಲ್ಲಿನ ಎಲ್ಲ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಲಾಗುವುದು."</string>
+    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"ಸಿಮ್‌ ಕಾರ್ಡ್‌ನಲ್ಲಿನ ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸಲಾಗುವುದು."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"ಲಾಕ್‌ಮಾಡಿದ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ"</string>
     <string name="delete" msgid="1409973060081564612">"ಅಳಿಸು"</string>
     <string name="select_conversations" msgid="7816517565640002844">"ಸಂವಾದಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ"</string>
@@ -230,9 +230,9 @@
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"ಟ್ಯಾಬ್ಲೆಟ್‌ ಸ್ಮರಣೆಗೆ ನಕಲಿಸಿ"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"ಫೋನ್‌ ಸ್ಮರಣೆಗೆ ನಕಲಿಸಿ"</string>
     <string name="sim_delete" msgid="610790510655316922">"ಅಳಿಸು"</string>
-    <string name="sim_manage_messages_title" msgid="3989147182100584333">"SIM ಕಾರ್ಡ್‌ನಲ್ಲಿ ಪಠ್ಯ ಸಂದೇಶಗಳು"</string>
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"ಸಿಮ್‌ ಕಾರ್ಡ್‌ನಲ್ಲಿ ಪಠ್ಯ ಸಂದೇಶಗಳು"</string>
     <string name="sim_view" msgid="1997173541766393706">"ವೀಕ್ಷಿಸು"</string>
-    <string name="sim_empty" msgid="2356766833071636297">"SIM ಕಾರ್ಡ್‌ನಲ್ಲಿ ಯಾವುದೇ ಸಂದೇಶಗಳಿಲ್ಲ."</string>
+    <string name="sim_empty" msgid="2356766833071636297">"ಸಿಮ್‌ ಕಾರ್ಡ್‌ನಲ್ಲಿ ಯಾವುದೇ ಸಂದೇಶಗಳಿಲ್ಲ."</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"ವರದಿ ಮಾಡು"</string>
     <string name="status_none" msgid="8253075950774894961">"(ಯಾವುದೂ ಇಲ್ಲ)"</string>
     <string name="status_pending" msgid="2739860824607984892">"ಬಾಕಿ ಉಳಿದಿರುವುದು"</string>
@@ -258,7 +258,7 @@
     <string name="notification_multiple_title" msgid="332602028959557541">"ಹೊಸ ಸಂದೇಶಗಳು"</string>
     <string name="notification_failed_multiple" msgid="6192531993698497229">"<xliff:g id="COUNT">%s</xliff:g> ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಲಾಗಲಿಲ್ಲ"</string>
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಲಾಗಿಲ್ಲ"</string>
-    <string name="sim_full_title" msgid="1809829051697702810">"SIM ಕಾರ್ಡ್‌ ಪೂರ್ಣಗೊಂಡಿದೆ"</string>
+    <string name="sim_full_title" msgid="1809829051697702810">"ಸಿಮ್‌ ಕಾರ್ಡ್‌ ಪೂರ್ಣಗೊಂಡಿದೆ"</string>
     <string name="sim_full_body" msgid="6241664980790322925">"ಹೆಚ್ಚಿನ ಸ್ಥಳಾವಕಾಶಕ್ಕಾಗಿ ಕೆಲವೊಂದು ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ."</string>
     <string name="sms_full_title" msgid="6041287140125011854">"ಪಠ್ಯ ಸಂದೇಶ ಮೆಮೊರಿಯು ಭರ್ತಿಯಾಗಿದೆ"</string>
     <string name="sms_full_body" msgid="4885861852397651868">"ಮೆಮೊರಿ ಭರ್ತಿಯಾದ ಕಾರಣ ಒಳಬರುವ ಸಂದೇಶಗಳನ್ನು ತಿರಸ್ಕರಿಸಲಾಗಿದೆ. ಕೆಲವೊಂದು ಹಳೆಯ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ."</string>

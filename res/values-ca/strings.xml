@@ -170,7 +170,7 @@
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"<xliff:g id="COUNT">%1$s</xliff:g> missatges per conversa"</string>
     <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"Utilitza MMS per enviar un sol missatge quan hi ha diversos destinataris"</string>
     <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"Gestiona els missatges de la targeta SIM"</string>
-    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Informes de lliurament"</string>
+    <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"Informes d\'entrega"</string>
     <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"Missatgeria en grup"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"Informes de lectura"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"Informes de lliurament"</string>
@@ -339,7 +339,7 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> persones"</item>
   </plurals>
-    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Vols deixar de duplicar les notificacions de missatges de text de l\'aplicació Missatgeria predeterminada?"</string>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Vols deixar de rebre notificacions de missatges de text duplicades procedents de l\'aplicació Missatgeria?"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"Mostra més converses"</string>
     <string name="attachment_audio" msgid="2867960243300539143">"Àudio"</string>
     <string name="attachment_slideshow" msgid="5867689101881763318">"Presentació de diapositives"</string>

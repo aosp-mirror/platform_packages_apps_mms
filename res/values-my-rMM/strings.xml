@@ -76,7 +76,7 @@
     <string name="subject_hint" msgid="4296714962311604126">"အကြောင်းအရာ"</string>
     <string name="add_attachment" msgid="7103751293360532684">"ပူးတွဲ ထည့်ရန်"</string>
     <string name="add_subject" msgid="7616134948428265870">"အကြောင်းအရာ ထည့်ရန်"</string>
-    <string name="discard" msgid="1624800293064498479">"လွှတ်လိုက်ရန်"</string>
+    <string name="discard" msgid="1624800293064498479">"ထားလိုက်တော့"</string>
     <string name="view" msgid="7929667761715467136">"မြင်ကွင်း"</string>
     <string name="replace" msgid="7587904998114459388">"အစားထိုးမည်"</string>
     <string name="remove" msgid="4625444913256213175">"ဖယ်ရှားရန်"</string>
@@ -146,8 +146,8 @@
     <string name="menu_view_contact" msgid="1414670584423909451">"အဆက်အသွယ်အား ကြည့်ရန်"</string>
     <string name="menu_add_to_contacts" msgid="1258127580972228970">"လူ ထဲသို့ထည့်မည်"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"စာပို့သူလိပ်စာအား ဝှက်ထားမည်"</string>
-    <string name="yes" msgid="3246158147503160811">"သဘောတူသည်"</string>
-    <string name="no" msgid="4289742508556913860">"ပယ်ဖျက်သည်"</string>
+    <string name="yes" msgid="3246158147503160811">"ကောင်းပြီ"</string>
+    <string name="no" msgid="4289742508556913860">"ထားတော့"</string>
     <string name="set" msgid="4642365398263275979">"အတည်ပြုရန်"</string>
     <string name="play" msgid="1888432400937785115">"ဖွင့်မည်"</string>
     <string name="edit" msgid="5912118407791492696">"ပြင်ဆင်ရန်"</string>
@@ -201,8 +201,8 @@
     <string name="delete_unlocked" msgid="7545321606698162261">"သော့ချထားသောစာကို ဖျက်မည်"</string>
     <string name="delete" msgid="1409973060081564612">"ဖျက်ပစ်ရန်"</string>
     <string name="select_conversations" msgid="7816517565640002844">"စကားပြောဆက်သွယ်မှုကို ရွေးရန်"</string>
-    <string name="no_conversations" msgid="6773767655149258445">"စကားပြောဆက်သွယ်ထားခြင်းမရှိပါ"</string>
-    <string name="loading_conversations" msgid="5510430408235967094">"စကားပြောဆက်သွယ်ထားခြင်းများကို တင်နေပါသည်"</string>
+    <string name="no_conversations" msgid="6773767655149258445">"စကားပြောဆိုထားခြင်း မရှိသေးပါ"</string>
+    <string name="loading_conversations" msgid="5510430408235967094">"စကားပြောဆိုထားခြင်းများကို ဆွဲတင်နေပါတယ်"</string>
     <string name="cannot_get_details" msgid="850292987983026806">"အသေးစိတ်များ မရနိုင်ပါ"</string>
     <string name="message_details_title" msgid="9223295113731634528">"စာ၏အသေးစိတ်"</string>
     <string name="message_type_label" msgid="7975373966795945566">"အမျိုးအစား - "</string>
@@ -318,7 +318,7 @@
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"ရှာဖွေချက်မှတ်တမ်းကိုံ ရှင်းလင်းနေသည်"</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"ရှာဖွေထားသည့်မှတ်တမ်းကို ရှင်းလင်းနေသည်။"</string>
     <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"ရှာဖွေရန် အကွက်ထဲတွင် ယခင်စာများ ရှာဖွေထားခြင်းများ ပေါ်လာခြင်းကို ဖယ်ရှင်းမည်"</string>
-    <string name="save" msgid="6847069284991531310">"သိမ်းဆည်းရန်"</string>
+    <string name="save" msgid="6847069284991531310">"သိမ်းပါ"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"စာအရေအတွက်ကို ကန့်သတ်မည်"</string>
     <string name="storage_limits_message" msgid="2010501485394745696">"စာဆက်သွယ်မှုတစ်ခုတွင် စာဘယ်နှစ်စောင်သိမ်းဆည်းမည်ကို ကန့်သတ်မည်"</string>
     <string name="storage_limits_setting" msgid="4952781049308537373">"ကန့်သတ်ချက်ကို သတ်မှတ်မည်"</string>

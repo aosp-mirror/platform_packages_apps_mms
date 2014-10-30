@@ -50,7 +50,7 @@
     <string name="delete_thread" msgid="757258847736632791">"Excluir conversa"</string>
     <string name="menu_forward" msgid="9026858380050046756">"Encaminhar"</string>
     <string name="download" msgid="4488877642230207631">"Download"</string>
-    <string name="downloading" msgid="1779557575565350637">"Download em andamento"</string>
+    <string name="downloading" msgid="1779557575565350637">"Fazendo download..."</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Assunto: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
     <string name="drm_protected_text" msgid="1396394157870730742">"* Texto protegido por DRM *"</string>
     <string name="insufficient_drm_rights" msgid="6989074725969164383">"Direitos DRM insuficientes detectados."</string>
@@ -87,7 +87,7 @@
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"Digite a mensagem"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"Abra o teclado para digitar a mensagem"</string>
     <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"Envio desativado"</string>
-    <string name="compose_disabled_toast" msgid="1838175321052707875">"Não é possível escrever. Não é o aplicativo de SMS padrão."</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"Não é possível escrever. Não é o app de SMS padrão."</string>
     <string name="compressing" msgid="1961357529661045180">"Imagem muito grande. Comprimindo..."</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"Formato de <xliff:g id="NAME">%1$s</xliff:g> não suportado."</string>
     <string name="select_different_media" msgid="6241623357299382183">"Selecionar um <xliff:g id="NAME">%1$s</xliff:g> diferente."</string>
@@ -159,9 +159,9 @@
     <string name="pref_sms_settings_title" msgid="5173078369851066881">"Mensagens de texto (SMS)"</string>
     <string name="pref_sms_storage_title" msgid="9001233319190616445">"Armazenamento"</string>
     <string name="pref_title_sms_disabled" msgid="1441894740130104326">"SMS desativado"</string>
-    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Toque para tornar as Mensagens o aplicativo de SMS padrão"</string>
+    <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"Toque para tornar as Mensagens o app de SMS padrão"</string>
     <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS ativado"</string>
-    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Toque para alterar o aplicativo de SMS padrão"</string>
+    <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"Toque para alterar o app de SMS padrão"</string>
     <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"Gerencia mensagens armazenadas no seu cartão SIM"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"Solicita um relatório de entrega para cada mensagem enviada"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"Solicita um relatório de leitura para cada mensagem enviada"</string>
@@ -339,7 +339,7 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> pessoas"</item>
   </plurals>
-    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Interromper notificações duplicadas de mensagem de texto do aplicativo padrão Mensagens?"</string>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Interromper notificações duplicadas de mensagem de texto do app padrão Mensagens?"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"Visualizar mais conversas"</string>
     <string name="attachment_audio" msgid="2867960243300539143">"Áudio"</string>
     <string name="attachment_slideshow" msgid="5867689101881763318">"Apresentação de slides"</string>
@@ -352,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"Você não receberá novas mensagens SMS/MMS"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"Ativação de MMS"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"Envia todas as mensagens MMS da caixa de saída para a rede"</string>
-    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"O Mensagens não é seu aplicativo de SMS"</string>
-    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"O <xliff:g id="APPNAME">%s</xliff:g> é seu aplicativo de SMS"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"O Mensagens não é seu app de SMS"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"O <xliff:g id="APPNAME">%s</xliff:g> é seu app de SMS"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"Você pode alterar isto em \"Configurações\""</string>
 </resources>
