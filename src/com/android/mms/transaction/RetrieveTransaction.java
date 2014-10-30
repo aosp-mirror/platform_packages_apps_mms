@@ -26,6 +26,7 @@ import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Inbox;
+import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -132,7 +133,7 @@ public class RetrieveTransaction extends Transaction implements Runnable {
         try {
             // Change the downloading state of the M-Notification.ind.
             DownloadManager.getInstance().markState(
-                    mUri, DownloadManager.STATE_DOWNLOADING);
+                    mUri, DownloadManager.STATE_DOWNLOADING, mSubId);
 
             // Send GET request to MMSC and retrieve the response data.
             byte[] resp = getPdu(mContentLocation);
@@ -153,7 +154,7 @@ public class RetrieveTransaction extends Transaction implements Runnable {
                 // Store M-Retrieve.conf into Inbox
                 PduPersister persister = PduPersister.getPduPersister(mContext);
                 msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI, true,
-                        MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null);
+                        MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext, mSubId), null);
 
                 // Use local time instead of PDU time
                 ContentValues values = new ContentValues(2);
@@ -279,11 +280,11 @@ public class RetrieveTransaction extends Transaction implements Runnable {
                     PduHeaders.CURRENT_MMS_VERSION, tranId);
 
             // insert the 'from' address per spec
-            String lineNumber = MessageUtils.getLocalNumber();
+            String lineNumber = MessageUtils.getLocalNumber(mSubId);
             acknowledgeInd.setFrom(new EncodedStringValue(lineNumber));
 
             // Pack M-Acknowledge.ind and send it
-            if(MmsConfig.getNotifyWapMMSC()) {
+            if(MmsConfig.getBoolean(mSubId, SmsManager.MMS_CONFIG_NOTIFY_WAP_MMSC_ENABLED)) {
                 sendPdu(new PduComposer(mContext, acknowledgeInd).make(), mContentLocation);
             } else {
                 sendPdu(new PduComposer(mContext, acknowledgeInd).make());

@@ -201,7 +201,7 @@ public class SmsReceiverService extends Service {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleMessage serviceId: " + serviceId + " intent: " + intent);
             }
-            if (intent != null && MmsConfig.isSmsEnabled(getApplicationContext())) {
+            if (intent != null && MmsConfig.isSmsEnabled()) {
                 String action = intent.getAction();
 
                 int error = intent.getIntExtra("errorCode", 0);
@@ -622,8 +622,9 @@ public class SmsReceiverService extends Service {
 //            case 7: address = "#4#5#6#"; break;
 //        }
 
+        int subId = sms.getSubId();
         if (!TextUtils.isEmpty(address)) {
-            Contact cacheContact = Contact.get(address,true);
+            Contact cacheContact = Contact.get(address, true, subId);
             if (cacheContact != null) {
                 address = cacheContact.getNumber();
             }
@@ -632,7 +633,6 @@ public class SmsReceiverService extends Service {
             values.put(Sms.ADDRESS, address);
         }
 
-        int subId = sms.getSubId();
         if (!SubscriptionManager.isValidSubId(subId)) {
             Log.e(TAG, "subId in storeMessage() is invalid!");
             return null;

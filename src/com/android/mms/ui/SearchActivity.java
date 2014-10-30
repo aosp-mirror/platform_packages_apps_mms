@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.provider.Telephony;
+import android.telephony.SubscriptionManager;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.style.StyleSpan;
@@ -316,7 +317,8 @@ public class SearchActivity extends ListActivity
                         final TextViewSnippet snippet = (TextViewSnippet)(view.findViewById(R.id.subtitle));
 
                         String address = cursor.getString(addressPos);
-                        Contact contact = address != null ? Contact.get(address, false) : null;
+                        Contact contact = address != null ? Contact.get(address, false,
+                                SubscriptionManager.getDefaultSmsSubId()) : null;
 
                         String titleString = contact != null ? contact.getNameAndNumber() : "";
                         title.setText(titleString);

@@ -40,6 +40,7 @@ import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import android.provider.SearchRecentSuggestions;
 import android.provider.Telephony;
+import android.telephony.SmsManager;
 import android.telephony.SubInfoRecord;
 import android.telephony.SubscriptionManager;
 import android.text.TextUtils;
@@ -127,7 +128,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     @Override
     protected void onResume() {
         super.onResume();
-        boolean isSmsEnabled = MmsConfig.isSmsEnabled(this);
+        boolean isSmsEnabled = MmsConfig.isSmsEnabled();
         if (isSmsEnabled != mIsSmsEnabled) {
             mIsSmsEnabled = isSmsEnabled;
             invalidateOptionsMenu();
@@ -229,6 +230,19 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         return subInfoRecords != null ? subInfoRecords.size() : 0;
     }
 
+    private static boolean isAnySubscriptionValueSet(String configValue) {
+        List<SubInfoRecord> subInfoRecords = SubscriptionManager.getActiveSubInfoList();
+        if (subInfoRecords == null) {
+            return false;
+        }
+        for (final SubInfoRecord subInfo : subInfoRecords) {
+             if (MmsConfig.getBoolean(subInfo.subId, configValue)) {
+                 return true;
+             }
+        }
+        return false;
+    }
+
     private void restoreDefaultPreferences() {
         PreferenceManager.getDefaultSharedPreferences(this).edit().clear().apply();
         setPreferenceScreen(null);
@@ -251,28 +265,28 @@ public class MessagingPreferenceActivity extends PreferenceActivity
             mSmsPrefCategory.removePreference(mManageSimPref);
         }
 
-        if (!MmsConfig.getSMSDeliveryReportsEnabled()) {
+        if (!isAnySubscriptionValueSet(SmsManager.MMS_CONFIG_SMS_DELIVERY_REPORT_ENABLED)) {
             mSmsPrefCategory.removePreference(mSmsDeliveryReportPref);
             if (!isHasActivatedSub) {
                 getPreferenceScreen().removePreference(mSmsPrefCategory);
             }
         }
 
-        if (!MmsConfig.getMmsEnabled()) {
+        if (!isAnySubscriptionValueSet(SmsManager.MMS_CONFIG_MMS_ENABLED)) {
             // No Mms, remove all the mms-related preferences
             getPreferenceScreen().removePreference(mMmsPrefCategory);
 
             mStoragePrefCategory.removePreference(findPreference("pref_key_mms_delete_limit"));
         } else {
-            if (!MmsConfig.getMMSDeliveryReportsEnabled()) {
+            if (!MmsConfig.getBoolean(SmsManager.MMS_CONFIG_MMS_DELIVERY_REPORT_ENABLED)) {
                 mMmsPrefCategory.removePreference(mMmsDeliveryReportPref);
             }
-            if (!MmsConfig.getMMSReadReportsEnabled()) {
+            if (!MmsConfig.getBoolean(SmsManager.MMS_CONFIG_MMS_READ_REPORT_ENABLED)) {
                 mMmsPrefCategory.removePreference(mMmsReadReportPref);
             }
             // If the phone's SIM doesn't know it's own number, disable group mms.
-            if (!MmsConfig.getGroupMmsEnabled() ||
-                    TextUtils.isEmpty(MessageUtils.getLocalNumber())) {
+            if (!MmsConfig.getBoolean(SmsManager.MMS_CONFIG_GROUP_MMS_ENABLED) ||
+                    !MessageUtils.simHasNumber()) {
                 mMmsPrefCategory.removePreference(mMmsGroupMmsPref);
             }
         }
@@ -482,13 +496,13 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     //  1. the feature is enabled in mms_config.xml (currently on by default)
     //  2. the feature is enabled in the mms settings page
     //  3. the SIM knows its own phone number
-    public static boolean getIsGroupMmsEnabled(Context context) {
+    public static boolean getIsGroupMmsEnabled(Context context, int subId) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean groupMmsPrefOn = prefs.getBoolean(
                 MessagingPreferenceActivity.GROUP_MMS_MODE, true);
-        return MmsConfig.getGroupMmsEnabled() &&
+        return MmsConfig.getBoolean(SmsManager.MMS_CONFIG_GROUP_MMS_ENABLED) &&
                 groupMmsPrefOn &&
-                !TextUtils.isEmpty(MessageUtils.getLocalNumber());
+                !TextUtils.isEmpty(MessageUtils.getLocalNumber(subId));
     }
 
     private boolean hasActivatedSub() {

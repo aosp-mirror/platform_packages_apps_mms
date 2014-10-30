@@ -83,7 +83,7 @@ public class ReadRecTransaction extends Transaction implements Runnable{
             ReadRecInd readRecInd = (ReadRecInd) persister.load(mReadReportURI);
 
             // insert the 'from' address per spec
-            String lineNumber = MessageUtils.getLocalNumber();
+            String lineNumber = MessageUtils.getLocalNumber(mSubId);
             readRecInd.setFrom(new EncodedStringValue(lineNumber));
 
             // Pack M-read-rec.ind and send it

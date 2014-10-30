@@ -104,11 +104,11 @@ public class MessagingNotification {
 
     // This must be consistent with the column constants below.
     private static final String[] MMS_STATUS_PROJECTION = new String[] {
-        Mms.THREAD_ID, Mms.DATE, Mms._ID, Mms.SUBJECT, Mms.SUBJECT_CHARSET };
+        Mms.THREAD_ID, Mms.DATE, Mms._ID, Mms.SUBJECT, Mms.SUBJECT_CHARSET, Mms.SUB_ID };
 
     // This must be consistent with the column constants below.
     private static final String[] SMS_STATUS_PROJECTION = new String[] {
-        Sms.THREAD_ID, Sms.DATE, Sms.ADDRESS, Sms.SUBJECT, Sms.BODY };
+        Sms.THREAD_ID, Sms.DATE, Sms.ADDRESS, Sms.SUBJECT, Sms.BODY, Sms.SUB_ID };
 
     // These must be consistent with MMS_STATUS_PROJECTION and
     // SMS_STATUS_PROJECTION.
@@ -119,6 +119,7 @@ public class MessagingNotification {
     private static final int COLUMN_SUBJECT     = 3;
     private static final int COLUMN_SUBJECT_CS  = 4;
     private static final int COLUMN_SMS_BODY    = 4;
+    private static final int COLUMN_SUB_ID      = 5;
 
     private static final String[] SMS_THREAD_ID_PROJECTION = new String[] { Sms.THREAD_ID };
     private static final String[] MMS_THREAD_ID_PROJECTION = new String[] { Mms.THREAD_ID };
@@ -252,7 +253,7 @@ public class MessagingNotification {
             Contact.logWithTrace(TAG, "blockingUpdateNewMessageIndicator: newMsgThreadId: " +
                     newMsgThreadId);
         }
-        final boolean isDefaultSmsApp = MmsConfig.isSmsEnabled(context);
+        final boolean isDefaultSmsApp = MmsConfig.isSmsEnabled();
         if (!isDefaultSmsApp) {
             cancelNotification(context, NOTIFICATION_ID);
             if (DEBUG || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
@@ -594,8 +595,9 @@ public class MessagingNotification {
                 Uri msgUri = Mms.CONTENT_URI.buildUpon().appendPath(
                         Long.toString(msgId)).build();
                 String address = AddressUtils.getFrom(context, msgUri);
+                int subId = cursor.getInt(COLUMN_SUB_ID);
 
-                Contact contact = Contact.get(address, false);
+                Contact contact = Contact.get(address, false, subId);
                 if (contact.getSendToVoicemail()) {
                     // don't notify, skip this one
                     continue;
@@ -647,7 +649,8 @@ public class MessagingNotification {
                         timeMillis,
                         attachedPicture,
                         contact,
-                        attachmentType);
+                        attachmentType,
+                        subId);
 
                 notificationSet.add(info);
 
@@ -707,8 +710,9 @@ public class MessagingNotification {
 
             String address = cursor.getString(COLUMN_SMS_ADDRESS);
             long timeMillis = 3000;
+            int subId = cursor.getInt(COLUMN_SUB_ID);
 
-            Contact contact = Contact.get(address, false);
+            Contact contact = Contact.get(address, false, subId);
             String name = contact.getNameAndNumber();
 
             return new MmsSmsDeliveryInfo(context.getString(R.string.delivery_toast_body, name),
@@ -733,8 +737,9 @@ public class MessagingNotification {
         try {
             while (cursor.moveToNext()) {
                 String address = cursor.getString(COLUMN_SMS_ADDRESS);
+                int subId = cursor.getInt(COLUMN_SUB_ID);
 
-                Contact contact = Contact.get(address, false);
+                Contact contact = Contact.get(address, false, subId);
                 if (contact.getSendToVoicemail()) {
                     // don't notify, skip this one
                     continue;
@@ -754,7 +759,7 @@ public class MessagingNotification {
                 NotificationInfo info = getNewMessageNotificationInfo(context, true /* isSms */,
                         address, message, null /* subject */,
                         threadId, timeMillis, null /* attachmentBitmap */,
-                        contact, WorkingMessage.TEXT);
+                        contact, WorkingMessage.TEXT, subId);
 
                 notificationSet.add(info);
 
@@ -776,18 +781,19 @@ public class MessagingNotification {
             long timeMillis,
             Bitmap attachmentBitmap,
             Contact contact,
-            int attachmentType) {
+            int attachmentType,
+            int subId) {
         Intent clickIntent = ComposeMessageActivity.createIntent(context, threadId);
         clickIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP
                 | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         String senderInfo = buildTickerMessage(
-                context, address, null, null).toString();
+                context, address, null, null, subId).toString();
         String senderInfoName = senderInfo.substring(
                 0, senderInfo.length() - 2);
         CharSequence ticker = buildTickerMessage(
-                context, address, subject, message);
+                context, address, subject, message, subId);
 
         return new NotificationInfo(isSms,
                 clickIntent, message, subject, ticker, timeMillis,
@@ -1073,8 +1079,8 @@ public class MessagingNotification {
     }
 
     protected static CharSequence buildTickerMessage(
-            Context context, String address, String subject, String body) {
-        String displayAddress = Contact.get(address, true).getName();
+            Context context, String address, String subject, String body, int subId) {
+        String displayAddress = Contact.get(address, true, subId).getName();
 
         StringBuilder buf = new StringBuilder(
                 displayAddress == null

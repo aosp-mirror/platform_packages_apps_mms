@@ -90,7 +90,6 @@ public class MmsApp extends Application {
         mPduLoaderManager = new PduLoaderManager(context);
         mThumbnailManager = new ThumbnailManager(context);
 
-        MmsConfig.init(this);
         Contact.init(this);
         DraftCache.init(this);
         Conversation.init(this);

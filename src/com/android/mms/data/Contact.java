@@ -158,16 +158,16 @@ public class Contact {
         Log.d(tag, sb.toString());
     }
 
-    public static Contact get(String number, boolean canBlock) {
-        return sContactCache.get(number, canBlock);
+    public static Contact get(String number, boolean canBlock, int subId) {
+        return sContactCache.get(number, canBlock, subId);
     }
 
-    public static Contact getMe(boolean canBlock) {
-        return sContactCache.getMe(canBlock);
+    public static Contact getMe(boolean canBlock, int subId) {
+        return sContactCache.getMe(canBlock, subId);
     }
 
-    public void removeFromCache() {
-        sContactCache.remove(this);
+    public void removeFromCache(int subId) {
+        sContactCache.remove(this, subId);
     }
 
     public static List<Contact> getByPhoneUris(Parcelable[] uris) {
@@ -224,9 +224,9 @@ public class Contact {
         }
     }
 
-    public synchronized void reload() {
+    public synchronized void reload(int subId) {
         mIsStale = true;
-        sContactCache.get(mNumber, false);
+        sContactCache.get(mNumber, false, subId);
     }
 
     public synchronized String getNumber() {
@@ -537,15 +537,15 @@ public class Contact {
             mTaskQueue.push(r);
         }
 
-        public Contact getMe(boolean canBlock) {
-            return get(SELF_ITEM_KEY, true, canBlock);
+        public Contact getMe(boolean canBlock, int subId) {
+            return get(SELF_ITEM_KEY, true, canBlock, subId);
         }
 
-        public Contact get(String number, boolean canBlock) {
-            return get(number, false, canBlock);
+        public Contact get(String number, boolean canBlock, int subId) {
+            return get(number, false, canBlock, subId);
         }
 
-        private Contact get(String number, boolean isMe, boolean canBlock) {
+        private Contact get(String number, boolean isMe, boolean canBlock, final int subId) {
             if (Log.isLoggable(LogTag.CONTACT, Log.DEBUG)) {
                 logWithTrace(TAG, "get(%s, %s, %s)", number, isMe, canBlock);
             }
@@ -559,7 +559,7 @@ public class Contact {
 
             // Always return a Contact object, if if we don't have an actual contact
             // in the contacts db.
-            Contact contact = internalGet(number, isMe);
+            Contact contact = internalGet(number, isMe, subId);
             Runnable r = null;
 
             synchronized (contact) {
@@ -587,7 +587,7 @@ public class Contact {
                     r = new Runnable() {
                         @Override
                         public void run() {
-                            updateContact(c);
+                            updateContact(c, subId);
                         }
                     };
 
@@ -723,12 +723,12 @@ public class Contact {
             return false;
         }
 
-        private void updateContact(final Contact c) {
+        private void updateContact(final Contact c, int subId) {
             if (c == null) {
                 return;
             }
 
-            Contact entry = getContactInfo(c);
+            Contact entry = getContactInfo(c, subId);
             synchronized (c) {
                 if (contactChanged(c, entry)) {
                     if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
@@ -783,12 +783,12 @@ public class Contact {
         /**
          * Returns the caller info in Contact.
          */
-        private Contact getContactInfo(Contact c) {
+        private Contact getContactInfo(Contact c, int subId) {
             if (c.mIsMe) {
                 return getContactInfoForSelf();
             } else if (Mms.isEmailAddress(c.mNumber)) {
                 return getContactInfoForEmailAddress(c.mNumber);
-            } else if (isAlphaNumber(c.mNumber)) {
+            } else if (isAlphaNumber(c.mNumber, subId)) {
                 // first try to look it up in the email field
                 Contact contact = getContactInfoForEmailAddress(c.mNumber);
                 if (contact.existsInDatabase()) {
@@ -817,7 +817,7 @@ public class Contact {
         //    "#4#5#6#"  -> true   [it is considered to be the address "#4#5#6#"]
         //    "AB12"     -> true   [2 digits, it is considered to be the address "AB12"]
         //    "12"       -> true   [2 digits, it is considered to be the address "12"]
-        private boolean isAlphaNumber(String number) {
+        private boolean isAlphaNumber(String number, int subId) {
             // TODO: PhoneNumberUtils.isWellFormedSmsAddress() only check if the number is a valid
             // GSM SMS address. If the address contains a dialable char, it considers it a well
             // formed SMS addr. CDMA doesn't work that way and has a different parser for SMS
@@ -826,7 +826,7 @@ public class Contact {
                 // The example "T-Mobile" will exit here because there are no numbers.
                 return true;        // we're not an sms address, consider it an alpha number
             }
-            if (MessageUtils.isAlias(number)) {
+            if (MessageUtils.isAlias(number, subId)) {
                 return true;
             }
             number = PhoneNumberUtils.extractNetworkPortion(number);
@@ -1102,12 +1102,12 @@ public class Contact {
         static final int STATIC_KEY_BUFFER_MAXIMUM_LENGTH = 5;
         static CharBuffer sStaticKeyBuffer = CharBuffer.allocate(STATIC_KEY_BUFFER_MAXIMUM_LENGTH);
 
-        private Contact internalGet(String numberOrEmail, boolean isMe) {
+        private Contact internalGet(String numberOrEmail, boolean isMe, int subId) {
             synchronized (ContactsCache.this) {
                 // See if we can find "number" in the hashtable.
                 // If so, just return the result.
                 final boolean isNotRegularPhoneNumber = isMe || Mms.isEmailAddress(numberOrEmail) ||
-                        MessageUtils.isAlias(numberOrEmail);
+                        MessageUtils.isAlias(numberOrEmail, subId);
                 final String key = isNotRegularPhoneNumber ?
                         numberOrEmail : key(numberOrEmail, sStaticKeyBuffer);
 
@@ -1154,12 +1154,12 @@ public class Contact {
         }
 
         // Remove a contact from the ContactsCache based on the number or email address
-        private void remove(Contact contact) {
+        private void remove(Contact contact, int subId) {
             synchronized (ContactsCache.this) {
                 String number = contact.getNumber();
                 final boolean isNotRegularPhoneNumber = contact.isMe() ||
                                     Mms.isEmailAddress(number) ||
-                                    MessageUtils.isAlias(number);
+                                    MessageUtils.isAlias(number, subId);
                 final String key = isNotRegularPhoneNumber ?
                         number : key(number, sStaticKeyBuffer);
                 ArrayList<Contact> candidates = mContactsHash.get(key);
