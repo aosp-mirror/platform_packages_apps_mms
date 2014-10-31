@@ -236,7 +236,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
             return false;
         }
         for (final SubInfoRecord subInfo : subInfoRecords) {
-             if (MmsConfig.getBoolean(subInfo.subId, configValue)) {
+             if (MmsConfig.getBoolean(subInfo.getSubscriptionId(), configValue)) {
                  return true;
              }
         }

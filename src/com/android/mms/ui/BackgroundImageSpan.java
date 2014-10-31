@@ -18,8 +18,10 @@ package com.android.mms.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Paint.FontMetricsInt;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.text.ParcelableSpan;
@@ -34,8 +36,8 @@ import android.util.Log;
  */
 public class BackgroundImageSpan extends ReplacementSpan implements ParcelableSpan {
     private static final String TAG = "BackgroundImageSpan";
+    private Bitmap mBitmap;
     private Drawable mDrawable;
-    private int mImageId;
     private int mWidth = -1;
 
     /**
@@ -45,8 +47,7 @@ public class BackgroundImageSpan extends ReplacementSpan implements ParcelableSp
      * @internal
      * @hide
      */
-    public BackgroundImageSpan(int id, Drawable drawable) {
-        mImageId = id;
+    public BackgroundImageSpan(Drawable drawable) {
         mDrawable = drawable;
     }
 
@@ -55,7 +56,7 @@ public class BackgroundImageSpan extends ReplacementSpan implements ParcelableSp
      * @internal
      */
     public BackgroundImageSpan(Parcel src) {
-        mImageId = src.readInt();
+        mBitmap = Bitmap.CREATOR.createFromParcel(src);
     }
 
     /**
@@ -107,7 +108,7 @@ public class BackgroundImageSpan extends ReplacementSpan implements ParcelableSp
      * @Override
      */
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mImageId);
+        dest.writeParcelable(mBitmap, flags);
     }
 
     /**
@@ -116,7 +117,7 @@ public class BackgroundImageSpan extends ReplacementSpan implements ParcelableSp
      */
     public void convertToDrawable(Context context) {
         if (mDrawable == null) {
-            mDrawable = context.getResources().getDrawable(mImageId);
+            mDrawable = new BitmapDrawable(context.getResources(), mBitmap);
         }
     }
 
