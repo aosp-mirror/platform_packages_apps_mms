@@ -20,5 +20,6 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string-array name="empty_subject_strings">
     <item msgid="7691141505407124426">"nessun oggetto"</item>
+    <item msgid="2214945158821871846">"nosubject"</item>
   </string-array>
 </resources>
