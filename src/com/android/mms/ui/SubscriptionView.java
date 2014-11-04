@@ -94,10 +94,10 @@ public class SubscriptionView extends LinearLayout {
 
     /**
      * Set Sub color view
-     * @param resId The color res Id getting from SubInfoRecord of subscription
+     * @param color The color value from SubInfoRecord of subscription
      */
-    public void setSubColor(int resId) {
-        mSubColorView.setBackgroundResource(resId);
+    public void setSubColor(int color) {
+        mSubColorView.setBackgroundColor(color);
     }
 
     /**
