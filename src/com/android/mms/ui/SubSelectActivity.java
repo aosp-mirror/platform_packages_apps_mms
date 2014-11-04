@@ -115,7 +115,8 @@ public class SubSelectActivity extends ListActivity {
                 for (int i = 0; i < subInfoRecordInOneSim.size(); i++) {
                     infoRecord = subInfoRecordInOneSim.get(i);
                     // mNeedShowSubArray == null means intent isn't specified
-                    if (mAppointedSubArray == null || isSubIdInNeededShowArray(infoRecord.subId)) {
+                    if (mAppointedSubArray == null || isSubIdInNeededShowArray(
+                            infoRecord.getSubscriptionId())) {
                         mSubInfoList.add(infoRecord);
                     }
                 }
@@ -149,8 +150,8 @@ public class SubSelectActivity extends ListActivity {
             boolean isChecked =  mAdapter.isChecked(position);
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this)
                     .edit();
-            editor.putBoolean(Long.toString((mSubInfoList.get(position)).subId) + "_"
-                    + mPreferenceKey, (!isChecked));
+            editor.putBoolean(Integer.toString(mSubInfoList.get(position).getSubscriptionId())
+                    + "_" + mPreferenceKey, (!isChecked));
             editor.apply();
             CheckBox subCheckBox = (CheckBox) v.findViewById(R.id.subCheckBox);
             subCheckBox.setChecked(!isChecked);
@@ -160,7 +161,7 @@ public class SubSelectActivity extends ListActivity {
     public void startManageSimMessages(int position) {
         Intent it = new Intent();
         it.setClass(this, ManageSimMessages.class);
-        it.putExtra(PhoneConstants.SUBSCRIPTION_KEY, mSubInfoList.get(position).subId);
+        it.putExtra(PhoneConstants.SUBSCRIPTION_KEY, mSubInfoList.get(position).getSubscriptionId());
         startActivity(it);
     }
 

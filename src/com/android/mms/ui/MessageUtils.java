@@ -730,7 +730,7 @@ public class MessageUtils {
     public static boolean simHasNumber() {
         List<SubInfoRecord> subList = SubscriptionManager.getActiveSubInfoList();
         for (SubInfoRecord sub : subList) {
-            if (!TextUtils.isEmpty(sub.number)) {
+            if (!TextUtils.isEmpty(sub.getNumber())) {
                 return true;
             }
         }
@@ -1087,7 +1087,7 @@ public class MessageUtils {
             return "";
         }
 
-        String displayName = subInfo.displayName;
+        String displayName = subInfo.getDisplayName().toString();
         SpannableStringBuilder buf = new SpannableStringBuilder();
         Resources res = context.getResources();
         String subNameContainer = res.getString(R.string.sub_name_container);
@@ -1102,15 +1102,17 @@ public class MessageUtils {
 
         buf.append(String.format(subNameContainer, displayName));
         // set background image
-        int colorRes = subInfo.simIconRes[1];
-        int slotId = SubscriptionManager.getSlotId(subId);
-        // slotId being larger than 0 means this SIM card is inserted
-        Drawable drawable = context.getResources().getDrawable(
-                slotId >= 0 ? colorRes : R.drawable.sim_background_locked);
-        buf.setSpan(new MSubBackgroundImageSpan(colorRes, drawable), 0, buf.length(),
+        Drawable drawable;
+        if (subInfo.getSimSlotIndex() >= 0) {
+            // slotId being >= 0 means this SIM card is inserted
+            drawable = subInfo.getIcon();
+        } else {
+            drawable = context.getResources().getDrawable(R.drawable.sim_background_locked);
+        }
+        buf.setSpan(new BackgroundImageSpan(drawable), 0, buf.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         // set subInfo color
-        int color = subInfo.color;
+        int color = subInfo.getColor();
         buf.setSpan(new ForegroundColorSpan(color), 0, buf.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return buf;

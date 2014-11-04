@@ -347,7 +347,6 @@ public class ComposeMessageActivity extends Activity
     private AlertDialog mSubSelectDialog;
     private int mSelectedSubId = SubscriptionManager.getDefaultSmsSubId();
     private List<SubInfoRecord> mSubListInfo = new ArrayList<SubInfoRecord>();
-    private List<SubInfoRecord> mEmptySubListInfo = new ArrayList<SubInfoRecord>();
     private SubChooseAdapter mSubAdapter;
 
     private BroadcastReceiver mSimReceiver = new BroadcastReceiver() {
@@ -363,31 +362,8 @@ public class ComposeMessageActivity extends Activity
     };
 
     private void updateSubInfoList() {
-        int simCount = TelephonyManager.getDefault().getSimCount();
         mSubListInfo.clear();
-        mEmptySubListInfo.clear();
-        for (int slotId = 0; slotId < simCount; slotId++) {
-            List<SubInfoRecord> subInfoRecordInOneSim = SubscriptionManager.getSubInfoUsingSlotId(
-                    slotId);
-            if (subInfoRecordInOneSim != null && subInfoRecordInOneSim.size() > 0) {
-                for (int i = 0; i < subInfoRecordInOneSim.size(); i++) {
-                    SubInfoRecord infoRecord = subInfoRecordInOneSim.get(i);
-                    mSubListInfo.add(infoRecord);
-                }
-            } else {
-                SubInfoRecord infoRecord = new SubInfoRecord();
-                infoRecord.displayName = String.format(
-                        getResources().getString(R.string.empty_sim_name), slotId + 1);
-                infoRecord.slotId = SubscriptionManager.SIM_NOT_INSERTED;
-                mEmptySubListInfo.add(infoRecord);
-            }
-        }
-        if (mSubListInfo == null || mSubListInfo.size() == 0) {
-            return;
-        }
-        for(int i = 0 ; i < mEmptySubListInfo.size(); i++) {
-            mSubListInfo.add(mEmptySubListInfo.get(i));
-        }
+        mSubListInfo.addAll(SubscriptionManager.getActiveSubInfoList());
     }
 
     private void showSubSelectedDialog(boolean overridePref) {
@@ -409,7 +385,7 @@ public class ComposeMessageActivity extends Activity
                     public final void onClick(DialogInterface dialog, int which) {
                         SubInfoRecord subInfoRecord = mSubListInfo.get(which);
                         if (subInfoRecord != null) {
-                            mSelectedSubId = subInfoRecord.subId;
+                            mSelectedSubId = subInfoRecord.getSubscriptionId();
                             confirmSendMessageIfNeeded();
                         }
                     }

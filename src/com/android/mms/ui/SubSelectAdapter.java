@@ -85,8 +85,8 @@ public class SubSelectAdapter extends BaseAdapter {
      */
     public boolean isChecked(int position) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        return prefs.getBoolean(Long.toString((mList.get(position)).subId) + "_" + mPreferenceKey,
-                false);
+        return prefs.getBoolean(Integer.toString(mList.get(position).getSubscriptionId())
+                + "_" + mPreferenceKey, false);
     }
 
     /**

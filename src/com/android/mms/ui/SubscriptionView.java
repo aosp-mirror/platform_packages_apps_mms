@@ -84,10 +84,11 @@ public class SubscriptionView extends LinearLayout {
      */
     public void setSubInfo(SubInfoRecord subInfo) {
         if (subInfo != null) {
-            setSubColor(subInfo.simIconRes[mThemeType]);
-            setSubName(subInfo.displayName);
-            setSubNum(subInfo.number);
-            setSubShortNum(subInfo.displayNumberFormat, subInfo.number);
+            setSubColor(subInfo.getColor());
+            setSubName(subInfo.getDisplayName().toString());
+            setSubNum(subInfo.getNumber());
+            // TODO currently fixed to the default
+            setSubShortNum(SubscriptionManager.DISPLAY_NUMBER_DEFAULT, subInfo.getNumber());
         }
     }
 
