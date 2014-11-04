@@ -53,9 +53,11 @@ import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
+import com.android.mms.ui.ComposeMessageActivity;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.RateController;
 import com.android.mms.util.SubStatusResolver;
+
 import com.google.android.mms.pdu.GenericPdu;
 import com.google.android.mms.pdu.NotificationInd;
 import com.google.android.mms.pdu.PduHeaders;
@@ -205,6 +207,11 @@ public class TransactionService extends Service implements Observer {
     }
 
     public void onNewIntent(Intent intent, int serviceId) {
+        if (!MmsConfig.isSmsEnabled()) {
+            Log.d(TAG, "TransactionService: is not the default sms app");
+            stopSelf(serviceId);
+            return;
+        }
         mConnMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (mConnMgr == null || !SubStatusResolver.isMobileDataEnabledOnAnySub(getApplicationContext())
                 || !MmsConfig.isSmsEnabled()) {

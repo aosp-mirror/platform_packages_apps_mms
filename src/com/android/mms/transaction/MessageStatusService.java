@@ -17,6 +17,7 @@
 package com.android.mms.transaction;
 
 import android.app.IntentService;
+import android.app.Service;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -30,6 +31,7 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 
 import com.android.mms.LogTag;
+import com.android.mms.MmsConfig;
 
 /**
  * Service that gets started by the MessageStatusReceiver when a message status report is
@@ -50,6 +52,10 @@ public class MessageStatusService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        if (!MmsConfig.isSmsEnabled()) {
+            Log.d(LOG_TAG, "MessageStatusService: is not the default sms app");
+            return;
+        }
         // This method is called on a worker thread.
 
         Uri messageUri = intent.getData();

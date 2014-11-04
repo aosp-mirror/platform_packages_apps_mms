@@ -134,6 +134,10 @@ public class SmsReceiverService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (!MmsConfig.isSmsEnabled()) {
+            Log.d(TAG, "SmsReceiverService: is not the default sms app");
+            return Service.START_NOT_STICKY;
+        }
         // Temporarily removed for this duplicate message track down.
 
         mResultCode = intent != null ? intent.getIntExtra("result", 0) : 0;
