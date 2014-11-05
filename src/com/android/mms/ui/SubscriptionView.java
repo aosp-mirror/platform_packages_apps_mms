@@ -85,7 +85,7 @@ public class SubscriptionView extends LinearLayout {
     public void setSubInfo(SubInfoRecord subInfo) {
         if (subInfo != null) {
             setSubColor(subInfo.getColor());
-            setSubName(subInfo.getDisplayName().toString());
+            setSubName(subInfo.getDisplayName());
             setSubNum(subInfo.getNumber());
             // TODO currently fixed to the default
             setSubShortNum(SubscriptionManager.DISPLAY_NUMBER_DEFAULT, subInfo.getNumber());
@@ -124,7 +124,7 @@ public class SubscriptionView extends LinearLayout {
      * Set subscription number view
      * @param num The number of subscription
      */
-    public void setSubNum(String num) {
+    public void setSubNum(CharSequence num) {
         if (num != null) {
             mSubNumView.setText(num);
         }
@@ -135,7 +135,7 @@ public class SubscriptionView extends LinearLayout {
      * Set subscription name view
      * @param name The name of subscription
      */
-    public void setSubName(String name) {
+    public void setSubName(CharSequence name) {
         if (name != null) {
             mSubNameView.setText(name);
         }

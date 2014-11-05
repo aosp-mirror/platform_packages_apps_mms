@@ -1087,17 +1087,19 @@ public class MessageUtils {
             return "";
         }
 
-        String displayName = subInfo.getDisplayName().toString();
+        CharSequence displayName = subInfo.getDisplayName();
         SpannableStringBuilder buf = new SpannableStringBuilder();
         Resources res = context.getResources();
         String subNameContainer = res.getString(R.string.sub_name_container);
         if (displayName == null) {
-            displayName = res.getString(R.string.default_sim_name);
-            displayName = String.format(displayName, subId);
-        } else if (displayName.length() > 7) {
-            displayName = displayName.substring(0, 4)
-                    + res.getString(R.string.sub_name_ellipsis)
-                    + displayName.substring(displayName.length() - 1);
+            displayName = res.getString(R.string.default_sim_name, subId);
+        } else {
+            int len = displayName.length();
+            if (len > 7) {
+                displayName = displayName.subSequence(0, 4)
+                        + res.getString(R.string.sub_name_ellipsis)
+                        + displayName.subSequence(len - 1, len);
+            }
         }
 
         buf.append(String.format(subNameContainer, displayName));
