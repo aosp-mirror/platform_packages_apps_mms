@@ -27,6 +27,7 @@ import android.util.Log;
 
 import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.LogTag;
+import com.android.mms.MmsConfig;
 import com.android.mms.data.Conversation;
 import com.android.mms.transaction.SmsMessageSender;
 
@@ -47,6 +48,11 @@ public class NoConfirmationSendService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         ComposeMessageActivity.log("NoConfirmationSendService onHandleIntent");
+
+        if (!MmsConfig.isSmsEnabled()) {
+            ComposeMessageActivity.log("NoConfirmationSendService is not the default sms app");
+            return;
+        }
 
         String action = intent.getAction();
         if (!TelephonyManager.ACTION_RESPOND_VIA_MESSAGE.equals(action)) {
