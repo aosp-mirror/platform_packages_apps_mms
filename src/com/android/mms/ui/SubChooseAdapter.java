@@ -66,7 +66,7 @@ public class SubChooseAdapter extends BaseAdapter {
         // Set theme of the item is LIGHT
         subView.setThemeType(SubscriptionView.LIGHT_THEME);
         if (subRecord.getSimSlotIndex() == SubscriptionManager.SIM_NOT_INSERTED) {
-            subView.setSubName(subRecord.getDisplayName().toString());
+            subView.setSubName(subRecord.getDisplayName());
             subView.setSubNum(null);
             subView.findViewById(R.id.sub_color).setVisibility(View.GONE);
             subView.setClickable(true);
