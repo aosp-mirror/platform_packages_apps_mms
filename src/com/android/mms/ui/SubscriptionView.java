@@ -84,7 +84,7 @@ public class SubscriptionView extends LinearLayout {
      */
     public void setSubInfo(SubInfoRecord subInfo) {
         if (subInfo != null) {
-            setSubColor(subInfo.getColor());
+            setSubIconTint(subInfo.getIconTint());
             setSubName(subInfo.getDisplayName());
             setSubNum(subInfo.getNumber());
             // TODO currently fixed to the default
@@ -93,11 +93,11 @@ public class SubscriptionView extends LinearLayout {
     }
 
     /**
-     * Set Sub color view
-     * @param color The color value from SubInfoRecord of subscription
+     * Set Sub icon tint color view
+     * @param tint The icon tint color from SubInfoRecord of subscription
      */
-    public void setSubColor(int color) {
-        mSubColorView.setBackgroundColor(color);
+    public void setSubIconTint(int tint) {
+        mSubColorView.setBackgroundColor(tint);
     }
 
     /**
