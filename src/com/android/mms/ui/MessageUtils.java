@@ -36,6 +36,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.CamcorderProfile;
 import android.media.RingtoneManager;
@@ -70,7 +71,6 @@ import com.android.mms.model.SlideModel;
 import com.android.mms.model.SlideshowModel;
 import com.android.mms.transaction.MmsMessageSender;
 import com.android.mms.util.AddressUtils;
-
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.CharacterSets;
@@ -1105,17 +1105,18 @@ public class MessageUtils {
         buf.append(String.format(subNameContainer, displayName));
         // set background image
         Drawable drawable;
+        Resources resources = context.getResources();
         if (subInfo.getSimSlotIndex() >= 0) {
             // slotId being >= 0 means this SIM card is inserted
-            drawable = subInfo.getIcon();
+            drawable = new BitmapDrawable(resources, subInfo.createIconBitmap(context));
         } else {
-            drawable = context.getResources().getDrawable(R.drawable.sim_background_locked);
+            drawable = resources.getDrawable(R.drawable.sim_background_locked);
         }
         buf.setSpan(new BackgroundImageSpan(drawable), 0, buf.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        // set subInfo color
-        int color = subInfo.getColor();
-        buf.setSpan(new ForegroundColorSpan(color), 0, buf.length(),
+        // set subInfo icon tint color
+        int tint = subInfo.getIconTint();
+        buf.setSpan(new ForegroundColorSpan(tint), 0, buf.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return buf;
     }
