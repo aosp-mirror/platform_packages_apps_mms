@@ -84,8 +84,9 @@ import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
+import android.telephony.SubscriptionListener;
 import android.telephony.TelephonyManager;
-import android.telephony.SubInfoRecord;
+import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -141,7 +142,6 @@ import com.android.mms.util.DraftCache;
 import com.android.mms.util.PhoneNumberFormatter;
 import com.android.mms.util.SendingProgressTokenManager;
 import com.android.mms.widget.MmsWidgetProvider;
-
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -346,24 +346,22 @@ public class ComposeMessageActivity extends Activity
 
     private AlertDialog mSubSelectDialog;
     private int mSelectedSubId = SubscriptionManager.getDefaultSmsSubId();
-    private List<SubInfoRecord> mSubListInfo = new ArrayList<SubInfoRecord>();
+    private List<SubscriptionInfo> mSubListInfo = new ArrayList<SubscriptionInfo>();
     private SubChooseAdapter mSubAdapter;
 
-    private BroadcastReceiver mSimReceiver = new BroadcastReceiver() {
+    private final SubscriptionListener mSubscriptionListener = new SubscriptionListener() {
         @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(TelephonyIntents.ACTION_SUBINFO_RECORD_UPDATED)) {
-                if (mSubSelectDialog != null && mSubSelectDialog.isShowing()) {
-                    mSubSelectDialog.dismiss();
-                }
+        public void onSubscriptionInfoChanged() {
+            if (mSubSelectDialog != null && mSubSelectDialog.isShowing()) {
+                mSubSelectDialog.dismiss();
             }
         }
     };
 
+
     private void updateSubInfoList() {
         mSubListInfo.clear();
-        mSubListInfo.addAll(SubscriptionManager.getActiveSubInfoList());
+        mSubListInfo.addAll(SubscriptionManager.getActiveSubscriptionInfoList());
     }
 
     private void showSubSelectedDialog(boolean overridePref) {
@@ -383,7 +381,7 @@ public class ComposeMessageActivity extends Activity
                 b.setAdapter(mSubAdapter, new DialogInterface.OnClickListener() {
                     @SuppressWarnings("unchecked")
                     public final void onClick(DialogInterface dialog, int which) {
-                        SubInfoRecord subInfoRecord = mSubListInfo.get(which);
+                        SubscriptionInfo subInfoRecord = mSubListInfo.get(which);
                         if (subInfoRecord != null) {
                             mSelectedSubId = subInfoRecord.getSubscriptionId();
                             confirmSendMessageIfNeeded();
@@ -1946,9 +1944,10 @@ public class ComposeMessageActivity extends Activity
         if (TRACE) {
             android.os.Debug.startMethodTracing("compose");
         }
-        /// M: add for update sim state dynamically.
-        IntentFilter intentFilter = new IntentFilter(TelephonyIntents.ACTION_SUBINFO_RECORD_UPDATED);
-        this.registerReceiver(mSimReceiver, intentFilter);
+        // Register for SubscriptionInfo list changes which is guaranteed
+        // to invoke onSubscriptionInfoChanged the first time.
+        SubscriptionManager.register(getBaseContext(), mSubscriptionListener,
+                SubscriptionListener.LISTEN_SUBSCRIPTION_INFO_LIST_CHANGED);
     }
 
     private void showSubjectEditor(boolean show) {
@@ -2428,7 +2427,7 @@ public class ComposeMessageActivity extends Activity
         if (TRACE) {
             android.os.Debug.stopMethodTracing();
         }
-        unregisterReceiver(mSimReceiver);
+        SubscriptionManager.unregister(getBaseContext(), mSubscriptionListener);
         super.onDestroy();
     }
 

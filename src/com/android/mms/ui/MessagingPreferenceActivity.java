@@ -41,7 +41,7 @@ import android.preference.RingtonePreference;
 import android.provider.SearchRecentSuggestions;
 import android.provider.Telephony;
 import android.telephony.SmsManager;
-import android.telephony.SubInfoRecord;
+import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -226,16 +226,16 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     }
 
     public static int getActiveSimCount() {
-        List<SubInfoRecord> subInfoRecords = SubscriptionManager.getActiveSubInfoList();
+        List<SubscriptionInfo> subInfoRecords = SubscriptionManager.getActiveSubscriptionInfoList();
         return subInfoRecords != null ? subInfoRecords.size() : 0;
     }
 
     private static boolean isAnySubscriptionValueSet(String configValue) {
-        List<SubInfoRecord> subInfoRecords = SubscriptionManager.getActiveSubInfoList();
+        List<SubscriptionInfo> subInfoRecords = SubscriptionManager.getActiveSubscriptionInfoList();
         if (subInfoRecords == null) {
             return false;
         }
-        for (final SubInfoRecord subInfo : subInfoRecords) {
+        for (final SubscriptionInfo subInfo : subInfoRecords) {
              if (MmsConfig.getBoolean(subInfo.getSubscriptionId(), configValue)) {
                  return true;
              }
@@ -506,7 +506,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     }
 
     private boolean hasActivatedSub() {
-        List<SubInfoRecord> subList = SubscriptionManager.getActiveSubInfoList();
+        List<SubscriptionInfo> subList = SubscriptionManager.getActiveSubscriptionInfoList();
         return subList == null ? false : subList.size() != 0;
     }
 

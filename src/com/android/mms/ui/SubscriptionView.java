@@ -18,7 +18,7 @@ package com.android.mms.ui;
 
 import android.content.Context;
 import android.telephony.SubscriptionManager;
-import android.telephony.SubInfoRecord;
+import android.telephony.SubscriptionInfo;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -82,7 +82,7 @@ public class SubscriptionView extends LinearLayout {
      * Update Sub name / number / color / shortNumber views
      * @param subInfo The SubInfoRecord of subscription
      */
-    public void setSubInfo(SubInfoRecord subInfo) {
+    public void setSubInfo(SubscriptionInfo subInfo) {
         if (subInfo != null) {
             setSubIconTint(subInfo.getIconTint());
             setSubName(subInfo.getDisplayName());
