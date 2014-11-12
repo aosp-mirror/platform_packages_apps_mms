@@ -19,7 +19,7 @@ package com.android.mms.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.provider.Settings;
-import android.telephony.SubInfoRecord;
+import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.util.Log;
 
@@ -33,9 +33,9 @@ public class SubStatusResolver {
     public static boolean isMobileDataEnabledOnAnySub(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.
                 getSystemService(Context.CONNECTIVITY_SERVICE);
-        List<SubInfoRecord> subInfoList = SubscriptionManager.getActiveSubInfoList();
+        List<SubscriptionInfo> subInfoList = SubscriptionManager.getActiveSubscriptionInfoList();
         if (subInfoList != null) {
-            for (SubInfoRecord subInfo : subInfoList) {
+            for (SubscriptionInfo subInfo : subInfoList) {
                 if (connectivityManager.getMobileDataEnabled(/* TODO subInfo.subId*/)) {
                     return true;
                 }
