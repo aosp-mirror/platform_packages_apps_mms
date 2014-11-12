@@ -21,7 +21,7 @@ import android.R.string;
 import java.util.List;
 
 import android.content.Context;
-import android.telephony.SubInfoRecord;
+import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -34,8 +34,8 @@ import com.android.mms.R;
 public class SubChooseAdapter extends BaseAdapter {
 
     Context mContext;
-    List<SubInfoRecord> mList;
-    public SubChooseAdapter(Context context, List<SubInfoRecord> list) {
+    List<SubscriptionInfo> mList;
+    public SubChooseAdapter(Context context, List<SubscriptionInfo> list) {
         mContext = context;
         mList = list;
     }
@@ -62,7 +62,7 @@ public class SubChooseAdapter extends BaseAdapter {
         } else {
             subView = (SubscriptionView) convertView;
         }
-        SubInfoRecord subRecord = mList.get(position);
+        SubscriptionInfo subRecord = mList.get(position);
         // Set theme of the item is LIGHT
         subView.setThemeType(SubscriptionView.LIGHT_THEME);
         if (subRecord.getSimSlotIndex() == SubscriptionManager.SIM_NOT_INSERTED) {
@@ -78,7 +78,7 @@ public class SubChooseAdapter extends BaseAdapter {
         return subView;
     }
 
-    public void setAdapterData(List<SubInfoRecord> list) {
+    public void setAdapterData(List<SubscriptionInfo> list) {
         mList = list;
     }
 

@@ -28,7 +28,8 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.telephony.SubInfoRecord;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionListener;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -38,7 +39,6 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.android.internal.telephony.PhoneConstants;
-
 import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.transaction.SimFullReceiver;
@@ -52,12 +52,23 @@ public class SubSelectActivity extends ListActivity {
     // only show subs in the longArrayExtra. If intent doesn't has the extra
     // value,activity will show all active subs.
     public static final String EXTRA_APPOINTED_SUBS = "subsArray";
-    private List<SubInfoRecord> mSubInfoList = new ArrayList<SubInfoRecord>();
+    private List<SubscriptionInfo> mSubInfoList = new ArrayList<SubscriptionInfo>();
     private String mPreferenceKey;
     private int mPreferenceTitleId;
     private SubSelectAdapter mAdapter;
     private int mOldSubCount = 0;
     private int[] mAppointedSubArray = null;
+
+    private final SubscriptionListener mSubscriptionListener = new SubscriptionListener() {
+        @Override
+        public void onSubscriptionInfoChanged() {
+            List<SubscriptionInfo> nowSubList = SubscriptionManager.getActiveSubscriptionInfoList();
+            if (nowSubList == null || nowSubList.size() != mOldSubCount) {
+                Log.d(TAG, "sub count changed");
+                finish();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -70,20 +81,24 @@ public class SubSelectActivity extends ListActivity {
         //add action bar
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        registerReceiver(mSimStateReceiver,
-                new IntentFilter(TelephonyIntents.ACTION_SUBINFO_RECORD_UPDATED));
-        List<SubInfoRecord> oldSubList = SubscriptionManager
-                        .getActiveSubInfoList();
+
+        List<SubscriptionInfo> oldSubList = SubscriptionManager.getActiveSubscriptionInfoList();
         if (oldSubList != null) {
             mOldSubCount = oldSubList.size();
         }
+
+        // Register for SubscriptionInfo list changes which is guaranteed
+        // to invoke onSubscriptionInfoChanged the first time.
+        SubscriptionManager.register(getBaseContext(), mSubscriptionListener,
+                SubscriptionListener.LISTEN_SUBSCRIPTION_INFO_LIST_CHANGED);
+
         setAdapter();
     }
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(mSimStateReceiver);
         super.onDestroy();
+        SubscriptionManager.unregister(getBaseContext(), mSubscriptionListener);
     }
 
     @Override
@@ -106,12 +121,12 @@ public class SubSelectActivity extends ListActivity {
         int simCount = TelephonyManager.getDefault().getSimCount();
         mSubInfoList.clear();
         for (int slotId = 0; slotId < simCount; slotId++) {
-            List<SubInfoRecord> subInfoRecordInOneSim = SubscriptionManager.getSubInfoUsingSlotId(
+            List<SubscriptionInfo> subInfoRecordInOneSim = SubscriptionManager.getSubscriptionInfoUsingSlotId(
                     slotId);
             if (subInfoRecordInOneSim == null || subInfoRecordInOneSim.size() == 0) {
                 continue;
             } else {
-                SubInfoRecord infoRecord;
+                SubscriptionInfo infoRecord;
                 for (int i = 0; i < subInfoRecordInOneSim.size(); i++) {
                     infoRecord = subInfoRecordInOneSim.get(i);
                     // mNeedShowSubArray == null means intent isn't specified
@@ -176,24 +191,6 @@ public class SubSelectActivity extends ListActivity {
         }
         return false;
     }
-
-    /**
-     *  listen SIM hot plug action, finish this activity if SIM count changed.
-     */
-    private final BroadcastReceiver mSimStateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(TelephonyIntents.ACTION_SUBINFO_RECORD_UPDATED)) {
-                List<SubInfoRecord> nowSubList = SubscriptionManager
-                        .getActiveSubInfoList();
-                if (nowSubList == null || nowSubList.size() != mOldSubCount) {
-                    Log.d(TAG, "sub count changed");
-                    finish();
-                }
-            }
-        }
-    };
 
     private boolean isSubIdInNeededShowArray(int subId) {
         for (int id : mAppointedSubArray) {

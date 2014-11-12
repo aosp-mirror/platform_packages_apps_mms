@@ -47,7 +47,7 @@ import android.provider.MediaStore;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.SmsManager;
-import android.telephony.SubInfoRecord;
+import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
 import android.telephony.PhoneNumberUtils;
 import android.text.Spannable;
@@ -728,8 +728,8 @@ public class MessageUtils {
     }
 
     public static boolean simHasNumber() {
-        List<SubInfoRecord> subList = SubscriptionManager.getActiveSubInfoList();
-        for (SubInfoRecord sub : subList) {
+        List<SubscriptionInfo> subList = SubscriptionManager.getActiveSubscriptionInfoList();
+        for (SubscriptionInfo sub : subList) {
             if (!TextUtils.isEmpty(sub.getNumber())) {
                 return true;
             }
@@ -1082,7 +1082,7 @@ public class MessageUtils {
     }
 
     public static CharSequence getSubInfoSync(Context context, int subId) {
-        SubInfoRecord subInfo = SubscriptionManager.getSubInfoForSubscriber(subId);
+        SubscriptionInfo subInfo = SubscriptionManager.getSubscriptionInfoForSubscriber(subId);
         if (null == subInfo) {
             return "";
         }

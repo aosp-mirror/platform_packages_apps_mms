@@ -21,7 +21,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.telephony.SubInfoRecord;
+import android.telephony.SubscriptionInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +33,9 @@ public class SubSelectAdapter extends BaseAdapter {
     private LayoutInflater mInf;
     private String mPreferenceKey;
     private Context mContext;
-    private List<SubInfoRecord> mList;
+    private List<SubscriptionInfo> mList;
 
-    public SubSelectAdapter(Context context, String preferenceKey, List<SubInfoRecord> list) {
+    public SubSelectAdapter(Context context, String preferenceKey, List<SubscriptionInfo> list) {
         mInf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContext = context;
         mPreferenceKey = preferenceKey;
