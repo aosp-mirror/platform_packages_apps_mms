@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
 /*
  * Copyright (C) 2007-2008 Esmertec AG.
  * Copyright (C) 2007-2008 The Android Open Source Project
@@ -357,11 +357,4 @@
     <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"सन्देशन तपाईँको SMS अनुप्रयोग होइन"</string>
     <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> तपाईँको SMS अनुप्रयोग हो"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"तपाईँ यसलाई सेटिङहरूमा बदल्न सक्नु हुन्छ"</string>
-    <string name="sub_select_dialog_title" msgid="8210168935409702285">"SIM चयन गर्नुहोस्"</string>
-    <string name="default_sim_name" msgid="903290497566800216">"सिम <xliff:g id="SUBID">%1$d</xliff:g>"</string>
-    <string name="empty_sim_name" msgid="1008631117599170591">"सिम स्लट <xliff:g id="SUBID">%1$d</xliff:g>"</string>
-    <string name="subSelect_negative" msgid="6139403806707801822">"रद्द गर्नुहोस्"</string>
-    <string name="sub_name_container" msgid="4802195955108231738">"   <xliff:g id="SUBNAME">%1$s</xliff:g>"</string>
-    <string name="sub_name_ellipsis" msgid="2475475055178768223">"..."</string>
-    <string name="selected_sim_invalid" msgid="2309319911434202998">"हालैमा चयन गरिएको SIM छैन। प्रणाली सेटिङहरूमा तपाईँ पूर्वनिर्धारित SIM छान्नुहोस्।"</string>
 </resources>

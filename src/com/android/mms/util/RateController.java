@@ -17,6 +17,8 @@
 
 package com.android.mms.util;
 
+import com.android.mms.LogTag;
+
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -26,8 +28,6 @@ import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
 import android.provider.Telephony.Mms.Rate;
 import android.util.Log;
-
-import com.android.mms.LogTag;
 
 public class RateController {
     private static final String TAG = LogTag.TAG;
@@ -81,6 +81,7 @@ public class RateController {
 
         if (sInstance != null) {
             Log.w(TAG, "Already initialized.");
+            return;
         }
         sInstance = new RateController(context);
     }

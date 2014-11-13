@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
 /*
  * Copyright (C) 2007-2008 Esmertec AG.
  * Copyright (C) 2007-2008 The Android Open Source Project
@@ -20,7 +20,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"സന്ദേശം"</string>
+    <string name="app_label" msgid="1503967887341230795">"സന്ദേശമയയ്‌ക്കൽ"</string>
     <string name="new_message" msgid="1530369762346003973">"പുതിയ സന്ദേശം"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"<xliff:g id="NAME">%s</xliff:g> എന്നതിൽ വിളിക്കുക"</string>
     <string name="menu_send_email" msgid="671366308915241664">"<xliff:g id="NAME">%s</xliff:g> എന്നതിലേക്ക് ഇമെയിൽ അയയ്‌ക്കുക"</string>
@@ -87,7 +87,7 @@
     <string name="type_to_compose_text_enter_to_send" msgid="3539985471008581265">"സന്ദേശം ടൈപ്പുചെയ്യുക"</string>
     <string name="open_keyboard_to_compose_message" msgid="7860109685511253191">"സന്ദേശം ടൈപ്പുചെയ്യാൻ കീബോർഡ് തുറക്കുക"</string>
     <string name="sending_disabled_not_default_app" msgid="6685337318181265136">"അയയ്‌ക്കൽ പ്രവർത്തനരഹിതമാക്കി"</string>
-    <string name="compose_disabled_toast" msgid="1838175321052707875">"SMS എഴുതാൻ അപ്ലിക്കേഷനില്ലാത്തതിനാൽ എഴുതിത്തുടങ്ങാനാവില്ല."</string>
+    <string name="compose_disabled_toast" msgid="1838175321052707875">"രചിക്കാനാകില്ല. സ്ഥിര SMS അപ്ലിക്കേഷനല്ല."</string>
     <string name="compressing" msgid="1961357529661045180">"ചിത്രം വളരെ വലുതാണ്. കംപ്രസ്സുചെയ്യുന്നു…"</string>
     <string name="unsupported_media_format" msgid="1350489690977363764">"പിന്തുണയ്‌ക്കാത്ത <xliff:g id="NAME">%1$s</xliff:g> ഫോർമാറ്റ്."</string>
     <string name="select_different_media" msgid="6241623357299382183">"മറ്റൊരു <xliff:g id="NAME">%1$s</xliff:g> തിരഞ്ഞെടുക്കുക."</string>
@@ -162,19 +162,19 @@
     <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"സന്ദേശമയയ്‌ക്കൽ, നിങ്ങളുടെ സ്ഥിര SMS അപ്ലിക്കേഷനാക്കാൻ സ്‌പർശിക്കുക"</string>
     <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS പ്രവർത്തനക്ഷമമാക്കി"</string>
     <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"നിങ്ങളുടെ സ്ഥിര SMS അപ്ലിക്കേഷൻ മാറ്റാൻ സ്‌പർശിക്കുക"</string>
-    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"നിങ്ങളുടെ സിം കാർഡിൽ സംഭരിച്ചിരിക്കുന്ന സന്ദേശങ്ങൾ നിയന്ത്രിക്കുക"</string>
+    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"നിങ്ങളുടെ SIM കാർഡിൽ സംഭരിച്ചിരിക്കുന്ന സന്ദേശങ്ങൾ നിയന്ത്രിക്കുക"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"നിങ്ങൾ അയയ്‌ക്കുന്ന ഓരോ സന്ദേശത്തിനായും ഒരു ഡെലിവറി റിപ്പോർട്ട് അഭ്യർത്ഥിക്കുക"</string>
-    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"അയയ്ക്കുന്ന ഓരോ സന്ദേശത്തിനും റീഡ് റിപ്പോർട്ട് ആവശ്യപ്പെടുക"</string>
+    <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"നിങ്ങൾ അയയ്‌ക്കുന്ന ഓരോ സന്ദേശത്തിനായും ഒരു റീഡ് റിപ്പോർട്ട് അഭ്യർത്ഥിക്കുക"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"നിങ്ങൾ അയയ്‌ക്കുന്ന ഓരോ സന്ദേശത്തിനായും ഒരു ഡെലിവറി റിപ്പോർട്ട് അഭ്യർത്ഥിക്കുക"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"പരിധിയിലെത്തിച്ചേർന്നതിനാൽ പഴയ സന്ദേശങ്ങൾ ഇല്ലാതാക്കുക"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"ഓരോ സംഭാഷണത്തിനും <xliff:g id="COUNT">%1$s</xliff:g> സന്ദേശങ്ങൾ"</string>
     <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"ഒന്നിലധികം സ്വീകർത്താക്കൾ ഉള്ളപ്പോൾ ഒരൊറ്റ സന്ദേശം അയയ്‌ക്കാൻ MMS ഉപയോഗിക്കുക."</string>
-    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"സിം കാർഡ് സന്ദേശങ്ങൾ നിയന്ത്രിക്കുക"</string>
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"SIM കാർഡ് സന്ദേശങ്ങൾ നിയന്ത്രിക്കുക"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"ഡെലിവറി റിപ്പോർട്ടുകൾ"</string>
-    <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"ഗ്രൂപ്പ് സന്ദേശം"</string>
+    <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"ഗ്രൂപ്പ് സന്ദേശമയയ്‌ക്കൽ"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"റീഡ് റിപ്പോർട്ടുകൾ"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"ഡെലിവറി റിപ്പോർട്ടുകൾ"</string>
-    <string name="pref_title_auto_delete" msgid="7227835692631701134">"പഴയ സന്ദേശങ്ങൾ കളയുക"</string>
+    <string name="pref_title_auto_delete" msgid="7227835692631701134">"പഴയ സന്ദേശങ്ങൾ ഇല്ലാതാക്കുക"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"വാചക സന്ദേശ പരിധി"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"മൾട്ടിമീഡിയ സന്ദേശ പരിധി"</string>
     <string name="pref_title_notification_enabled" msgid="9118792213953729414">"അറിയിപ്പുകൾ"</string>
@@ -182,12 +182,10 @@
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"ശബ്ദം"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"സംരക്ഷിക്കേണ്ട സന്ദേശങ്ങളുടെ എണ്ണം സജ്ജമാക്കുക"</string>
     <string name="silent_ringtone" msgid="7981237991326592780">"നിശബ്‌ദം"</string>
-    <string name="pref_summary_sim_ask" msgid="5815190975933015621">"സന്ദേശം അയയ്ക്കുമ്പോഴെല്ലാം ഏത് സിം ആണ് ഉപയോഗിക്കേണ്ടതെന്ന് ചോദിക്കുക"</string>
-    <string name="pref_title_sim_ask" msgid="4794530561349736162">"മൾട്ടി സിം"</string>
-    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"യാന്ത്രികമായി ലഭ്യമാക്കുക"</string>
-    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"സന്ദേശങ്ങൾ യാന്ത്രികമായി ലഭ്യമാക്കുക"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"റോമിംഗിൽ യാന്ത്രികമായി ലഭ്യമാക്കുക"</string>
-    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"റോമിംഗിൽ സന്ദേശങ്ങൾ യാന്ത്രികമായി ലഭ്യമാക്കുക"</string>
+    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"യാന്ത്രികമായി വീണ്ടെടുക്കുക"</string>
+    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"സന്ദേശങ്ങൾ യാന്ത്രികമായി വീണ്ടെടുക്കുക"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"റോമിംഗിൽ യാന്ത്രികമായി വീണ്ടെടുക്കുക"</string>
+    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"റോമിംഗിലായിരിക്കുമ്പോൾ സന്ദേശങ്ങൾ യാന്ത്രികമായി വീണ്ടെടുക്കുക"</string>
     <string name="confirm_dialog_title" msgid="2187213750475782725">"ഇല്ലാതാക്കണോ?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"ലോക്കുചെയ്‌ത സന്ദേശം ഇല്ലാതാക്കണോ?"</string>
   <plurals name="confirm_delete_conversation">
@@ -198,8 +196,8 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"എല്ലാ ത്രെഡുകളും ഇല്ലാതാക്കും."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"സന്ദേശം ഇല്ലാതാക്കും."</string>
     <string name="confirm_delete_locked_message" msgid="7203411948190100955">"ലോക്കുചെയ്‌ത ഈ സന്ദേശം ഇല്ലാതാക്കണോ?"</string>
-    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"സിം കാർഡിലെ എല്ലാ സന്ദേശങ്ങളും ഇല്ലാതാക്കും."</string>
-    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"സിം കാർഡിലെ ഈ സന്ദേശം ഇല്ലാതാക്കും."</string>
+    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"SIM കാർഡിലെ എല്ലാ സന്ദേശങ്ങളും ഇല്ലാതാക്കും."</string>
+    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"SIM കാർഡിലെ ഈ സന്ദേശം ഇല്ലാതാക്കും."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"ലോക്കുചെയ്‌ത സന്ദേശങ്ങൾ ഇല്ലാതാക്കുക"</string>
     <string name="delete" msgid="1409973060081564612">"ഇല്ലാതാക്കുക"</string>
     <string name="select_conversations" msgid="7816517565640002844">"സംഭാഷണങ്ങൾ തിരഞ്ഞെടുക്കുക"</string>
@@ -219,7 +217,7 @@
     <string name="saved_label" msgid="4183160415593488207">"സംരക്ഷിച്ചവ: "</string>
     <string name="subject_label" msgid="8721241914144101631">"വിഷയം: "</string>
     <string name="message_size_label" msgid="4698016210013319786">"സന്ദേശ വലുപ്പം: "</string>
-    <string name="priority_label" msgid="7397600367853359607">"പ്രധാനപ്പെട്ടവ: "</string>
+    <string name="priority_label" msgid="7397600367853359607">"മുൻഗണന: "</string>
     <string name="priority_high" msgid="5627897207952009214">"ഉയർന്നത്"</string>
     <string name="priority_normal" msgid="5715227727384683550">"സാധാരണം"</string>
     <string name="priority_low" msgid="8928782666023373987">"കുറഞ്ഞത്"</string>
@@ -232,9 +230,9 @@
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"ടാബ്‌ലെറ്റ് മെമ്മറിയിലേക്ക് പകർത്തുക"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"ഫോൺ മെമ്മറിയിലേക്ക് പകർത്തുക"</string>
     <string name="sim_delete" msgid="610790510655316922">"ഇല്ലാതാക്കുക"</string>
-    <string name="sim_manage_messages_title" msgid="3989147182100584333">"സിം കാർഡിലെ വാചക സന്ദേശങ്ങൾ"</string>
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"SIM കാർഡിലെ വാചക സന്ദേശങ്ങൾ"</string>
     <string name="sim_view" msgid="1997173541766393706">"കാണുക"</string>
-    <string name="sim_empty" msgid="2356766833071636297">"സിം കാർഡിൽ സന്ദേശങ്ങളൊന്നുമില്ല."</string>
+    <string name="sim_empty" msgid="2356766833071636297">"SIM കാർഡിൽ സന്ദേശങ്ങളൊന്നുമില്ല."</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"റിപ്പോര്‍ട്ടുചെയ്യുക"</string>
     <string name="status_none" msgid="8253075950774894961">"(ഒന്നുമില്ല)"</string>
     <string name="status_pending" msgid="2739860824607984892">"തീര്‍ച്ചപ്പെടുത്താത്തവ"</string>
@@ -260,10 +258,10 @@
     <string name="notification_multiple_title" msgid="332602028959557541">"പുതിയ സന്ദേശങ്ങൾ"</string>
     <string name="notification_failed_multiple" msgid="6192531993698497229">"<xliff:g id="COUNT">%s</xliff:g> സന്ദേശങ്ങൾ അയയ്‌ക്കാനായില്ല"</string>
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"സന്ദേശങ്ങൾ അയയ്‌ക്കാനായില്ല"</string>
-    <string name="sim_full_title" msgid="1809829051697702810">"സിം കാർഡ് നിറഞ്ഞു"</string>
+    <string name="sim_full_title" msgid="1809829051697702810">"SIM കാർഡ് നിറഞ്ഞു"</string>
     <string name="sim_full_body" msgid="6241664980790322925">"റൂമിൽ കൂടുതൽ ഇടം കണ്ടെത്തുന്നതിന് ചില സന്ദേശങ്ങൾ ഇല്ലാതാക്കുക."</string>
     <string name="sms_full_title" msgid="6041287140125011854">"വാചക സന്ദേശ മെമ്മറി നിറഞ്ഞു"</string>
-    <string name="sms_full_body" msgid="4885861852397651868">"മെമ്മറി നിറഞ്ഞതിനാൽ ഒരു ഇൻകമിംഗ് സന്ദേശം നിരസിക്കപ്പെട്ടു. കുറച്ച് പഴയ സന്ദേശങ്ങൾ ഇല്ലാതാക്കുക."</string>
+    <string name="sms_full_body" msgid="4885861852397651868">"മെമ്മറി നിറഞ്ഞതിനാൽ ഒരു ഇൻകമിംഗ് സന്ദേശം നിരസിക്കപ്പെട്ടു. ചില പഴയ സന്ദേശങ്ങൾ ഇല്ലാതാക്കുക."</string>
     <string name="sms_rejected_title" msgid="8548394922491529811">"വാചക സന്ദേശം നിരസിക്കപ്പെട്ടു"</string>
     <string name="sms_rejected_body" msgid="7813671133968158562">"ഒരു അജ്ഞാത കാരണത്താൽ ഒരു ഇൻകമിംഗ് സന്ദേശം നിരസിക്കപ്പെട്ടു."</string>
     <string name="type_audio" msgid="3842064092332309756">"ഓഡിയോ"</string>
@@ -306,9 +304,9 @@
     <string name="edit_slide_activity" msgid="8752829671778696983">"സ്ലൈഡ് എഡിറ്റുചെയ്യുക"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"സ്ലൈഡ്ഷോ"</string>
     <string name="class_0_message_activity" msgid="6631339964159861048">"ക്ലാസ് 0 സന്ദേശം"</string>
-    <string name="search_label" msgid="6042598929386174964">"സന്ദേശം"</string>
-    <string name="search_hint" msgid="7273727663577472044">"സന്ദേശങ്ങൾ തിരയുക"</string>
-    <string name="search" msgid="7560238620274735199">"സന്ദേശം"</string>
+    <string name="search_label" msgid="6042598929386174964">"സന്ദേശമയയ്‌ക്കൽ"</string>
+    <string name="search_hint" msgid="7273727663577472044">"സന്ദേശമയയ്‌ക്കൽ തിരയുക"</string>
+    <string name="search" msgid="7560238620274735199">"സന്ദേശമയയ്‌ക്കൽ"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"നിങ്ങളുടെ സന്ദേശങ്ങളിലെ വാചകം"</string>
     <string name="search_empty" msgid="2109551478056039278">"പൊരുത്തങ്ങളൊന്നുമില്ല."</string>
   <plurals name="search_results_title">
@@ -356,12 +354,5 @@
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"ഔട്ട്‌ബോക്‌സിൽ നിന്നും എല്ലാ MMS-കളും നെറ്റ്‌വർക്കിലേക്ക് അയയ്‌ക്കുക"</string>
     <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"സന്ദേശമയയ്‌ക്കൽ നിങ്ങളുടെ SMS അപ്ലിക്കേഷനല്ല"</string>
     <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> ആണ് നിങ്ങളുടെ SMS അപ്ലിക്കേഷൻ"</string>
-    <string name="banner_sms_promo_message" msgid="3536714414252763826">"ഇത് ക്രമീകരണങ്ങളിൽ മാറ്റാനാകും"</string>
-    <string name="sub_select_dialog_title" msgid="8210168935409702285">"സിം തിരഞ്ഞെടുക്കുക"</string>
-    <string name="default_sim_name" msgid="903290497566800216">"സിം <xliff:g id="SUBID">%1$d</xliff:g>"</string>
-    <string name="empty_sim_name" msgid="1008631117599170591">"സിം സ്ലോട്ട് <xliff:g id="SUBID">%1$d</xliff:g>"</string>
-    <string name="subSelect_negative" msgid="6139403806707801822">"റദ്ദാക്കുക"</string>
-    <string name="sub_name_container" msgid="4802195955108231738">"   <xliff:g id="SUBNAME">%1$s</xliff:g>  "</string>
-    <string name="sub_name_ellipsis" msgid="2475475055178768223">"..."</string>
-    <string name="selected_sim_invalid" msgid="2309319911434202998">"തിരഞ്ഞെടുത്ത സിം നിലവിലില്ല. സിസ്‌റ്റം ക്രമീകരണങ്ങളിൽ നിങ്ങളുടെ സ്ഥിര സിം തിരഞ്ഞെടുക്കുക."</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"നിങ്ങൾക്ക് ഇത് ക്രമീകരണങ്ങളിൽ മാറ്റാനാകും"</string>
 </resources>

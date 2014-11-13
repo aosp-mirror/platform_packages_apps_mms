@@ -24,6 +24,11 @@
         android:title="@string/pref_title_sms_disabled"
         android:summary="@string/pref_summary_sms_disabled"
         android:persistent="false">
+        <intent
+            android:action="android.provider.Telephony.ACTION_CHANGE_DEFAULT"
+            android:targetPackage="com.android.settings">
+            <extra android:name="package" android:value="com.android.mms"/>
+        </intent>
     </Preference>
     <Preference
         android:key="pref_key_sms_enabled"
@@ -35,12 +40,6 @@
             android:targetPackage="com.android.settings">
         </intent>
     </Preference>
-
-    <CheckBoxPreference android:defaultValue="@bool/sim_ask_preference_default_value"
-                      android:key="pref_key_ask_sim"
-                      android:summary="@string/pref_summary_sim_ask"
-                      android:title="@string/pref_title_sim_ask" />
-
     <PreferenceCategory android:title="@string/pref_sms_storage_title"
                       android:key="pref_key_storage_settings">
 <!--
@@ -48,7 +47,7 @@
                       android:title="@string/pref_mms_clear_search_history_title"
                       android:summary="@string/pref_mms_clear_search_history_summary" />
 -->
-    <CheckBoxPreference android:defaultValue="false"
+     <CheckBoxPreference android:defaultValue="false"
                       android:key="pref_key_auto_delete"
                       android:summary="@string/pref_summary_auto_delete"
                       android:title="@string/pref_title_auto_delete" />
@@ -69,11 +68,6 @@
                       android:key="pref_key_sms_delivery_reports"
                       android:summary="@string/pref_summary_sms_delivery_reports"
                       android:title="@string/pref_title_sms_delivery_reports" />
-    <!-- add for MSim-->
-    <Preference android:defaultValue="false"
-                      android:key="pref_key_sms_delivery_reports_msim"
-                      android:summary="@string/pref_summary_sms_delivery_reports"
-                      android:title="@string/pref_title_sms_delivery_reports" />
     <Preference android:key="pref_key_manage_sim_messages"
                       android:summary="@string/pref_summary_manage_sim_messages"
                       android:title="@string/pref_title_manage_sim_messages" />
@@ -88,18 +82,8 @@
                       android:key="pref_key_mms_delivery_reports"
                       android:summary="@string/pref_summary_mms_delivery_reports"
                       android:title="@string/pref_title_mms_delivery_reports" />
-    <!-- add for MSim-->
-    <Preference       android:defaultValue="false"
-                      android:key="pref_key_mms_delivery_reports_msim"
-                      android:summary="@string/pref_summary_mms_delivery_reports"
-                      android:title="@string/pref_title_mms_delivery_reports" />
     <CheckBoxPreference android:defaultValue="false"
                       android:key="pref_key_mms_read_reports"
-                      android:summary="@string/pref_summary_mms_read_reports"
-                      android:title="@string/pref_title_mms_read_reports" />
-    <!-- add for MSim-->
-    <Preference       android:defaultValue="false"
-                      android:key="pref_key_mms_read_reports_msim"
                       android:summary="@string/pref_summary_mms_read_reports"
                       android:title="@string/pref_title_mms_read_reports" />
     <CheckBoxPreference android:defaultValue="true"

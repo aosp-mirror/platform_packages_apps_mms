@@ -81,12 +81,11 @@ public class MessageItem {
     String mTextContentType; // ContentType of text of MMS.
     Pattern mHighlight; // portion of message to highlight (from search)
 
-    // The only two non-immutable fields.  Not synchronized, as access
-    // will only be from the main GUI thread.  Worst case if accessed
-    // from another thread is they'll return null and be set again from
-    // that thread.
+    // The only non-immutable field.  Not synchronized, as access will
+    // only be from the main GUI thread.  Worst case if accessed from
+    // another thread is it'll return null and be set again from that
+    // thread.
     CharSequence mCachedFormattedMessage;
-    CharSequence mCachedFormattedSubStatus;
 
     // The last message is cached above in mCachedFormattedMessage. In the latest design, we
     // show "Sending..." in place of the timestamp when a message is being sent. mLastSendingState
@@ -108,7 +107,6 @@ public class MessageItem {
     ColumnsMap mColumnsMap;
     private PduLoadedCallback mPduLoadedCallback;
     private ItemLoadedFuture mItemLoadedFuture;
-    int mSubId;
 
     MessageItem(Context context, String type, final Cursor cursor,
             final ColumnsMap columnsMap, Pattern highlight) throws MmsException {
@@ -141,7 +139,6 @@ public class MessageItem {
             // Set contact and message body
             mBoxId = cursor.getInt(columnsMap.mColumnSmsType);
             mAddress = cursor.getString(columnsMap.mColumnSmsAddress);
-            mSubId = cursor.getInt(columnsMap.mColumnSmsSubId);
             if (Sms.isOutgoingFolder(mBoxId)) {
                 String meString = context.getString(
                         R.string.messagelist_sender_self);
@@ -149,7 +146,7 @@ public class MessageItem {
                 mContact = meString;
             } else {
                 // For incoming messages, the ADDRESS field contains the sender.
-                mContact = Contact.get(mAddress, false, mSubId).getName();
+                mContact = Contact.get(mAddress, false).getName();
             }
             mBody = cursor.getString(columnsMap.mColumnSmsBody);
 
@@ -162,7 +159,6 @@ public class MessageItem {
 
             mLocked = cursor.getInt(columnsMap.mColumnSmsLocked) != 0;
             mErrorCode = cursor.getInt(columnsMap.mColumnSmsErrorCode);
-
         } else if ("mms".equals(type)) {
             mMessageUri = ContentUris.withAppendedId(Mms.CONTENT_URI, mMsgId);
             mBoxId = cursor.getInt(columnsMap.mColumnMmsMessageBox);
@@ -187,7 +183,6 @@ public class MessageItem {
             mMmsStatus = cursor.getInt(columnsMap.mColumnMmsStatus);
             mAttachmentType = cursor.getInt(columnsMap.mColumnMmsTextOnly) != 0 ?
                     WorkingMessage.TEXT : ATTACHMENT_TYPE_NOT_LOADED;
-            mSubId = cursor.getInt(columnsMap.mColumnMmsSubId);
 
             // Start an async load of the pdu. If the pdu is already loaded, the callback
             // will get called immediately
@@ -212,8 +207,7 @@ public class MessageItem {
             // notification system uses.
             mAddress = AddressUtils.getFrom(mContext, messageUri);
         }
-        mContact = TextUtils.isEmpty(mAddress) ? "" :
-            Contact.get(mAddress, false, mSubId).getName();
+        mContact = TextUtils.isEmpty(mAddress) ? "" : Contact.get(mAddress, false).getName();
     }
 
     public boolean isMms() {
@@ -281,19 +275,6 @@ public class MessageItem {
         return mCachedFormattedMessage;
     }
 
-    public void setCachedFormattedSubStatus(CharSequence formattedSubStatus) {
-        mCachedFormattedSubStatus = formattedSubStatus;
-    }
-
-    public CharSequence getCachedFormattedSubStatus() {
-        boolean isSending = isSending();
-        if (isSending != mLastSendingState) {
-            mLastSendingState = isSending;
-            mCachedFormattedSubStatus = null;
-        }
-        return mCachedFormattedSubStatus;
-    }
-
     public int getBoxId() {
         return mBoxId;
     }
@@ -310,7 +291,6 @@ public class MessageItem {
     public String toString() {
         return "type: " + mType +
             " box: " + mBoxId +
-            " subId: " + mSubId +
             " uri: " + mMessageUri +
             " address: " + mAddress +
             " contact: " + mContact +

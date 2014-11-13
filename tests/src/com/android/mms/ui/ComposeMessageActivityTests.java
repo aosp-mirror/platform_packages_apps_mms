@@ -26,7 +26,6 @@ import com.android.mms.ui.MessageListAdapter.ColumnsMap;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.telephony.SubscriptionManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -195,23 +194,19 @@ public class ComposeMessageActivityTests
     // the threads directly to the mms provider's threads table.
     @LargeTest
     public void testCreateManyThreads() {
-        final int subId = SubscriptionManager.getDefaultSmsSubId();
         for (int i = 0; i < 10; i++) {
             String phoneNum = String.format("424-123-%04d", i);
-            ContactList contactList = ContactList.getByNumbers(phoneNum, false, false,
-                    SubscriptionManager.DEFAULT_SUB_ID);
-            Conversation conv = Conversation.get(mActivity, contactList, false,
-                    SubscriptionManager.DEFAULT_SUB_ID);
+            ContactList contactList = ContactList.getByNumbers(phoneNum, false, false);
+            Conversation conv = Conversation.get(mActivity, contactList, false);
 
-            WorkingMessage workingMsg = WorkingMessage.loadDraft(mActivity, conv, null,
-                    SubscriptionManager.DEFAULT_SUB_ID);
-            workingMsg.setConversation(conv, subId);
+            WorkingMessage workingMsg = WorkingMessage.loadDraft(mActivity, conv, null);
+            workingMsg.setConversation(conv);
             workingMsg.setText("This is test #" + i + " thread id: " + conv.getThreadId());
 
 //            Log.i(TAG, "[testCreateManyThreads] workingMsg: ");
 //            workingMsg.dump();
 
-            workingMsg.saveDraft(false, subId);
+            workingMsg.saveDraft(false);
         }
     }
 }

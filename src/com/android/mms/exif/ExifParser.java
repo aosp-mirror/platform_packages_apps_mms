@@ -16,9 +16,9 @@
 
 package com.android.mms.exif;
 
-import android.util.Log;
-
 import com.android.mms.LogTag;
+
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;

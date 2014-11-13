@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
 /*
  * Copyright (C) 2007-2008 Esmertec AG.
  * Copyright (C) 2007-2008 The Android Open Source Project
@@ -182,8 +182,6 @@
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"ध्वनि"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"सहेजने के लिए संदेशों की संख्या सेट करें"</string>
     <string name="silent_ringtone" msgid="7981237991326592780">"मौन"</string>
-    <string name="pref_summary_sim_ask" msgid="5815190975933015621">"प्रत्येक बार संदेश भेजे जाने पर पूछें कि कौन सी सिम का उपयोग करना है"</string>
-    <string name="pref_title_sim_ask" msgid="4794530561349736162">"एकाधिक-सिम"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"स्वतः पुनर्प्राप्ति"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"संदेशों को अपने आप पुनर्प्राप्त करें"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"रोमिंग स्वतः पुनर्प्राप्ति"</string>
@@ -287,7 +285,7 @@
     <string name="copy_to_sdcard" msgid="757028609638184856">"अटैचमेंट जोड़ें"</string>
     <string name="copy_to_sdcard_success" msgid="7948625615155992014">"अटैचमेंट सहेजा गया."</string>
     <string name="copy_to_sdcard_fail" msgid="4944606369631916737">"अटैचमेंट सहेजा नहीं जा सका."</string>
-    <string name="save_ringtone" msgid="2310157075045201051">"रिंगटोन के रूप में जोड़ें"</string>
+    <string name="save_ringtone" msgid="2310157075045201051">"रिंगटोन के रूप में सहेजें"</string>
     <string name="saved_ringtone" msgid="3847363932276708626">"रिंगटोन सहेजी गई."</string>
     <string name="saved_ringtone_fail" msgid="4778500070919251116">"रिंगटोन नहीं सहेज सका."</string>
     <string name="menu_group_participants" msgid="4288356090262299071">"समूह के प्रतिभागी"</string>
@@ -357,11 +355,4 @@
     <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"संदेश सेवा आपका SMS ऐप्लिकेशन नहीं है"</string>
     <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> आपका SMS ऐप्लिकेशन है"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"आप इसे सेटिंग में बदल सकते हैं"</string>
-    <string name="sub_select_dialog_title" msgid="8210168935409702285">"सिम चुनें"</string>
-    <string name="default_sim_name" msgid="903290497566800216">"सिम <xliff:g id="SUBID">%1$d</xliff:g>"</string>
-    <string name="empty_sim_name" msgid="1008631117599170591">"सिम स्लॉट <xliff:g id="SUBID">%1$d</xliff:g>"</string>
-    <string name="subSelect_negative" msgid="6139403806707801822">"रहने दें"</string>
-    <string name="sub_name_container" msgid="4802195955108231738">"   <xliff:g id="SUBNAME">%1$s</xliff:g>"</string>
-    <string name="sub_name_ellipsis" msgid="2475475055178768223">"…"</string>
-    <string name="selected_sim_invalid" msgid="2309319911434202998">"वर्तमान में चयनित सिम मौजूद नहीं है. सिस्टम सेटिंग में अपनी डिफ़ॉल्ट सिम चुनें."</string>
 </resources>

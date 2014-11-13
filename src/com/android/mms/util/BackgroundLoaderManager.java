@@ -16,6 +16,8 @@
 
 package com.android.mms.util;
 
+import com.android.mms.LogTag;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,8 +33,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
-
-import com.android.mms.LogTag;
 
 /**
  * Base class {@link BackgroundLoaderManager} used by {@link MessagingApplication} for loading

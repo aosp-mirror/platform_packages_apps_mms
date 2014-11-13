@@ -182,8 +182,6 @@
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Sound"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Set number of messages to save"</string>
     <string name="silent_ringtone" msgid="7981237991326592780">"Silent"</string>
-    <string name="pref_summary_sim_ask" msgid="5815190975933015621">"Ask which SIM to use every time a message is sent"</string>
-    <string name="pref_title_sim_ask" msgid="4794530561349736162">"Multi-SIM"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Auto-retrieve"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Automatically retrieve messages"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Roaming auto-retrieve"</string>
@@ -357,11 +355,4 @@
     <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Messaging is not your SMS app"</string>
     <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> is your SMS app"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"You can change this in Settings"</string>
-    <string name="sub_select_dialog_title" msgid="8210168935409702285">"Select SIM"</string>
-    <string name="default_sim_name" msgid="903290497566800216">"SIM <xliff:g id="SUBID">%1$d</xliff:g>"</string>
-    <string name="empty_sim_name" msgid="1008631117599170591">"SIM Slot <xliff:g id="SUBID">%1$d</xliff:g>"</string>
-    <string name="subSelect_negative" msgid="6139403806707801822">"Cancel"</string>
-    <string name="sub_name_container" msgid="4802195955108231738">"   <xliff:g id="SUBNAME">%1$s</xliff:g>  "</string>
-    <string name="sub_name_ellipsis" msgid="2475475055178768223">"…"</string>
-    <string name="selected_sim_invalid" msgid="2309319911434202998">"Current selected SIM is not present. Choose your default SIM in system settings."</string>
 </resources>

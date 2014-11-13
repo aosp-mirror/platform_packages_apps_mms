@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
  * Copyright (C) 2008 Esmertec AG.
  * Copyright (C) 2008 The Android Open Source Project
  *
@@ -20,6 +20,5 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string-array name="empty_subject_strings">
     <item msgid="7691141505407124426">"शीर्षक नभएको"</item>
-    <item msgid="2214945158821871846">"विषय छैन"</item>
   </string-array>
 </resources>
