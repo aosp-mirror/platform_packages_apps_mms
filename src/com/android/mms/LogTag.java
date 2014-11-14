@@ -90,7 +90,7 @@ public class LogTag {
         Log.e(TAG, logFormat(format, args));
     }
 
-    public static void dumpInternalTables(final Context context, final int subId) {
+    public static void dumpInternalTables(final Context context) {
         if (!ALLOW_DUMP_IN_LOGS) {
             return;
         }
@@ -98,7 +98,7 @@ public class LogTag {
             public void run() {
                 RecipientIdCache.canonicalTableDump();
                 RecipientIdCache.dump();
-                Conversation.dumpThreadsTable(context, subId);
+                Conversation.dumpThreadsTable(context);
                 Conversation.dump();
                 Conversation.dumpSmsTable(context);
                 Contact.dump();
@@ -106,12 +106,11 @@ public class LogTag {
         }).start();
     }
 
-    public static void warnPossibleRecipientMismatch(final String msg, final Activity activity,
-            final int subId) {
+    public static void warnPossibleRecipientMismatch(final String msg, final Activity activity) {
         Log.e(TAG, "WARNING!!!! " + msg, new RuntimeException());
 
         if (SHOW_SEVERE_WARNING_DIALOG) {
-            dumpInternalTables(activity, subId);
+            dumpInternalTables(activity);
             activity.runOnUiThread(new Runnable() {
                 public void run() {
                     new AlertDialog.Builder(activity)

@@ -22,8 +22,6 @@ import static android.provider.Telephony.Sms.Intents.SMS_DELIVER_ACTION;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.Iterator;
 
 import android.app.Activity;
 import android.app.Service;
@@ -49,13 +47,11 @@ import android.provider.Telephony.Sms.Outbox;
 import android.telephony.ServiceState;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
-import android.telephony.SubscriptionManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.android.internal.telephony.TelephonyIntents;
-import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.R;
@@ -97,7 +93,6 @@ public class SmsReceiverService extends Service {
         Sms.ADDRESS,    //2
         Sms.BODY,       //3
         Sms.STATUS,     //4
-        Sms.SUB_ID,     //5
 
     };
 
@@ -109,11 +104,8 @@ public class SmsReceiverService extends Service {
     private static final int SEND_COLUMN_ADDRESS    = 2;
     private static final int SEND_COLUMN_BODY       = 3;
     private static final int SEND_COLUMN_STATUS     = 4;
-    private static final int SEND_COLUMN_SUB_ID     = 5;
 
     private int mResultCode;
-
-    private static HashSet<Integer> sNoServiceSimSet = new HashSet<Integer>();
 
     @Override
     public void onCreate() {
@@ -134,7 +126,7 @@ public class SmsReceiverService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (!MmsConfig.isSmsEnabled()) {
+        if (!MmsConfig.isSmsEnabled(this)) {
             Log.d(TAG, "SmsReceiverService: is not the default sms app");
             return Service.START_NOT_STICKY;
         }
@@ -205,7 +197,7 @@ public class SmsReceiverService extends Service {
             if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleMessage serviceId: " + serviceId + " intent: " + intent);
             }
-            if (intent != null && MmsConfig.isSmsEnabled()) {
+            if (intent != null && MmsConfig.isSmsEnabled(getApplicationContext())) {
                 String action = intent.getAction();
 
                 int error = intent.getIntExtra("errorCode", 0);
@@ -237,18 +229,8 @@ public class SmsReceiverService extends Service {
     private void handleServiceStateChanged(Intent intent) {
         // If service just returned, start sending out the queued messages
         ServiceState serviceState = ServiceState.newFromBundle(intent.getExtras());
-        int subId = intent.getIntExtra(PhoneConstants.SUBSCRIPTION_KEY,
-                SubscriptionManager.INVALID_SUB_ID);
-        if (!SubscriptionManager.isValidSubId(subId)) {
-            Log.e(TAG, "subId in handleServiceStateChanged() is invalid!");
-            return;
-        }
-        if (serviceState.getState() == ServiceState.STATE_IN_SERVICE
-                && sNoServiceSimSet.contains(subId)) {
-            sNoServiceSimSet.remove(subId);
-            if (!mSending) {
-                sendFirstQueuedMessage();
-            }
+        if (serviceState.getState() == ServiceState.STATE_IN_SERVICE) {
+            sendFirstQueuedMessage();
         }
     }
 
@@ -268,12 +250,9 @@ public class SmsReceiverService extends Service {
         boolean success = true;
         // get all the queued messages from the database
         final Uri uri = Uri.parse("content://sms/queued");
-        //Add for avoiding to send message on No Service Sim card
-        String selection = Sms.SUB_ID + " NOT IN " + "(" + getNoServiceSimString() + ")";
-
         ContentResolver resolver = getContentResolver();
         Cursor c = SqliteWrapper.query(this, resolver, uri,
-                        SEND_PROJECTION, selection, null, "date ASC");   // date ASC so we send out in
+                        SEND_PROJECTION, null, null, "date ASC");   // date ASC so we send out in
                                                                     // same order the user tried
                                                                     // to send messages.
         if (c != null) {
@@ -283,14 +262,13 @@ public class SmsReceiverService extends Service {
                     String address = c.getString(SEND_COLUMN_ADDRESS);
                     int threadId = c.getInt(SEND_COLUMN_THREAD_ID);
                     int status = c.getInt(SEND_COLUMN_STATUS);
-                    int subId = c.getInt(SEND_COLUMN_SUB_ID);
 
                     int msgId = c.getInt(SEND_COLUMN_ID);
                     Uri msgUri = ContentUris.withAppendedId(Sms.CONTENT_URI, msgId);
 
                     SmsMessageSender sender = new SmsSingleRecipientSender(this,
                             address, msgText, threadId, status == Sms.STATUS_PENDING,
-                            msgUri, subId);
+                            msgUri);
 
                     if (LogTag.DEBUG_SEND ||
                             LogTag.VERBOSE ||
@@ -339,13 +317,6 @@ public class SmsReceiverService extends Service {
                     " = " + translateResultCode(mResultCode) + " error: " + error);
         }
 
-        int subId = intent.getIntExtra(PhoneConstants.SUBSCRIPTION_KEY,
-                SubscriptionManager.INVALID_SUB_ID);
-        if (!SubscriptionManager.isValidSubId(subId)) {
-            Log.e(TAG, "subId in handleSmsSent() is invalid!");
-            return;
-        }
-
         if (mResultCode == Activity.RESULT_OK) {
             if (LogTag.DEBUG_SEND || Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
                 Log.v(TAG, "handleSmsSent move message to sent folder uri: " + uri);
@@ -367,7 +338,7 @@ public class SmsReceiverService extends Service {
             // We got an error with no service or no radio. Register for state changes so
             // when the status of the connection/radio changes, we can try to send the
             // queued up messages.
-            registerForServiceStateChanges(subId);
+            registerForServiceStateChanges();
             // We couldn't send the message, put in the queue to retry later.
             Sms.moveMessageToFolder(this, uri, Sms.MESSAGE_TYPE_QUEUED, error);
             mToastHandler.post(new Runnable() {
@@ -417,7 +388,7 @@ public class SmsReceiverService extends Service {
             long threadId = MessagingNotification.getSmsThreadId(this, messageUri);
             // Called off of the UI thread so ok to block.
             Log.d(TAG, "handleSmsReceived messageUri: " + messageUri + " threadId: " + threadId);
-            MessagingNotification.blockingUpdateNewMessageIndicator(this, threadId, false, null);
+            MessagingNotification.blockingUpdateNewMessageIndicator(this, threadId, false);
         }
     }
 
@@ -435,7 +406,7 @@ public class SmsReceiverService extends Service {
 
         // Called off of the UI thread so ok to block.
         MessagingNotification.blockingUpdateNewMessageIndicator(
-                this, MessagingNotification.THREAD_ALL, false, null);
+                this, MessagingNotification.THREAD_ALL, false);
     }
 
     /**
@@ -542,19 +513,11 @@ public class SmsReceiverService extends Service {
         ContentResolver resolver = context.getContentResolver();
         String originatingAddress = sms.getOriginatingAddress();
         int protocolIdentifier = sms.getProtocolIdentifier();
-        int subId = sms.getSubId();
-        if (!SubscriptionManager.isValidSubId(subId)) {
-            Log.e(TAG, "subId is invalid in replaceMessage()!");
-            return null;
-        }
-
         String selection =
                 Sms.ADDRESS + " = ? AND " +
-                Sms.PROTOCOL + " = ? AND " +
-                Sms.SUB_ID + " = ?";
+                Sms.PROTOCOL + " = ?";
         String[] selectionArgs = new String[] {
-            originatingAddress, Integer.toString(protocolIdentifier),
-            Long.toString(subId)
+            originatingAddress, Integer.toString(protocolIdentifier)
         };
 
         Cursor cursor = SqliteWrapper.query(context, resolver, Inbox.CONTENT_URI,
@@ -626,9 +589,8 @@ public class SmsReceiverService extends Service {
 //            case 7: address = "#4#5#6#"; break;
 //        }
 
-        int subId = sms.getSubId();
         if (!TextUtils.isEmpty(address)) {
-            Contact cacheContact = Contact.get(address, true, subId);
+            Contact cacheContact = Contact.get(address,true);
             if (cacheContact != null) {
                 address = cacheContact.getNumber();
             }
@@ -636,12 +598,6 @@ public class SmsReceiverService extends Service {
             address = getString(R.string.unknown_sender);
             values.put(Sms.ADDRESS, address);
         }
-
-        if (!SubscriptionManager.isValidSubId(subId)) {
-            Log.e(TAG, "subId in storeMessage() is invalid!");
-            return null;
-        }
-        values.put(Sms.SUB_ID, subId);
 
         if (((threadId == null) || (threadId == 0)) && (address != null)) {
             threadId = Conversation.getOrCreateThreadId(context, address);
@@ -706,35 +662,26 @@ public class SmsReceiverService extends Service {
     private void displayClassZeroMessage(Context context, SmsMessage sms, String format) {
         // Using NEW_TASK here is necessary because we're calling
         // startActivity from outside an activity.
-        int subId = sms.getSubId();
-        if (!SubscriptionManager.isValidSubId(subId)) {
-            Log.e(TAG, "subId is invalid in displayClassZeroMessage()");
-            return;
-        }
         Intent smsDialogIntent = new Intent(context, ClassZeroActivity.class)
                 .putExtra("pdu", sms.getPdu())
                 .putExtra("format", format)
-                .putExtra(PhoneConstants.SUBSCRIPTION_KEY, subId)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                           | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
         context.startActivity(smsDialogIntent);
     }
 
-    private void registerForServiceStateChanges(int subId) {
-        if (sNoServiceSimSet.isEmpty()) {
-            Context context = getApplicationContext();
-            unRegisterForServiceStateChanges();
+    private void registerForServiceStateChanges() {
+        Context context = getApplicationContext();
+        unRegisterForServiceStateChanges();
 
-            IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED);
-            if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
-                Log.v(TAG, "registerForServiceStateChanges");
-            }
-
-            context.registerReceiver(SmsReceiver.getInstance(), intentFilter);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(TelephonyIntents.ACTION_SERVICE_STATE_CHANGED);
+        if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE) || LogTag.DEBUG_SEND) {
+            Log.v(TAG, "registerForServiceStateChanges");
         }
-        sNoServiceSimSet.add(subId);
+
+        context.registerReceiver(SmsReceiver.getInstance(), intentFilter);
     }
 
     private void unRegisterForServiceStateChanges() {
@@ -742,26 +689,11 @@ public class SmsReceiverService extends Service {
             Log.v(TAG, "unRegisterForServiceStateChanges");
         }
         try {
-            if (sNoServiceSimSet.isEmpty()) {
-                Context context = getApplicationContext();
-                context.unregisterReceiver(SmsReceiver.getInstance());
-            }
+            Context context = getApplicationContext();
+            context.unregisterReceiver(SmsReceiver.getInstance());
         } catch (IllegalArgumentException e) {
             // Allow un-matched register-unregister calls
         }
-    }
-
-    private String getNoServiceSimString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        Iterator<Integer> noServiceIterator = sNoServiceSimSet.iterator();
-        while (noServiceIterator.hasNext()) {
-            if (stringBuilder.length() != 0) {
-                stringBuilder.append(",");
-            }
-            stringBuilder.append(noServiceIterator.next());
-        }
-        String result = stringBuilder.toString();
-        return result;
     }
 }
 

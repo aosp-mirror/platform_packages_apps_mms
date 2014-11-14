@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,8 +35,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.CamcorderProfile;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -46,16 +43,10 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
-import android.telephony.SmsManager;
-import android.telephony.SubscriptionInfo;
-import android.telephony.SubscriptionManager;
 import android.telephony.PhoneNumberUtils;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Time;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.widget.Toast;
@@ -93,6 +84,7 @@ public class MessageUtils {
     }
 
     private static final String TAG = LogTag.TAG;
+    private static String sLocalNumber;
     private static String[] sNoSubjectStrings;
 
     // Cache of both groups of space-separated ids to their full
@@ -663,8 +655,8 @@ public class MessageUtils {
                 final PduPart part;
                 try {
                     UriImage image = new UriImage(context, imageUri);
-                    int widthLimit = MmsConfig.getInt(SmsManager.MMS_CONFIG_MAX_IMAGE_WIDTH);
-                    int heightLimit = MmsConfig.getInt(SmsManager.MMS_CONFIG_MAX_IMAGE_HEIGHT);
+                    int widthLimit = MmsConfig.getMaxImageWidth();
+                    int heightLimit = MmsConfig.getMaxImageHeight();
                     // In mms_config.xml, the max width has always been declared larger than the max
                     // height. Swap the width and height limits if necessary so we scale the picture
                     // as little as possible.
@@ -677,8 +669,7 @@ public class MessageUtils {
                     part = image.getResizedImageAsPart(
                         widthLimit,
                         heightLimit,
-                        MmsConfig.getInt(SmsManager.MMS_CONFIG_MAX_MESSAGE_SIZE) -
-                            MESSAGE_OVERHEAD);
+                        MmsConfig.getMaxMessageSize() - MESSAGE_OVERHEAD);
                 } finally {
                     // Cancel pending show of the progress toast if necessary.
                     handler.removeCallbacks(showProgress);
@@ -703,15 +694,14 @@ public class MessageUtils {
                 .show();
     }
 
-    public static String getLocalNumber(int subId) {
-        final boolean validSubId = SubscriptionManager.isUsableSubIdValue(subId);
-        if (!validSubId) {
-            subId = SubscriptionManager.getDefaultSmsSubId();
+    public static String getLocalNumber() {
+        if (null == sLocalNumber) {
+            sLocalNumber = MmsApp.getApplication().getTelephonyManager().getLine1Number();
         }
-        return MmsApp.getApplication().getTelephonyManager().getLine1NumberForSubscriber(subId);
+        return sLocalNumber;
     }
 
-    public static boolean isLocalNumber(String number, int subId) {
+    public static boolean isLocalNumber(String number) {
         if (number == null) {
             return false;
         }
@@ -724,17 +714,7 @@ public class MessageUtils {
             return false;
         }
 
-        return PhoneNumberUtils.compare(number, getLocalNumber(subId));
-    }
-
-    public static boolean simHasNumber() {
-        List<SubscriptionInfo> subList = SubscriptionManager.getActiveSubscriptionInfoList();
-        for (SubscriptionInfo sub : subList) {
-            if (!TextUtils.isEmpty(sub.getNumber())) {
-                return true;
-            }
-        }
-        return false;
+        return PhoneNumberUtils.compare(number, getLocalNumber());
     }
 
     public static void handleReadReport(final Context context,
@@ -766,14 +746,14 @@ public class MessageUtils {
         }
 
         final Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
-                        Mms.Inbox.CONTENT_URI, new String[] {Mms._ID, Mms.MESSAGE_ID, Mms.SUB_ID},
+                        Mms.Inbox.CONTENT_URI, new String[] {Mms._ID, Mms.MESSAGE_ID},
                         selectionBuilder.toString(), selectionArgs, null);
 
         if (c == null) {
             return;
         }
 
-        final Map<String, ReadRecInfo> map = new HashMap<String, ReadRecInfo>();
+        final Map<String, String> map = new HashMap<String, String>();
         try {
             if (c.getCount() == 0) {
                 if (callback != null) {
@@ -784,8 +764,7 @@ public class MessageUtils {
 
             while (c.moveToNext()) {
                 Uri uri = ContentUris.withAppendedId(Mms.CONTENT_URI, c.getLong(0));
-                int subId = c.getInt(2);
-                map.put(c.getString(1), new ReadRecInfo(AddressUtils.getFrom(context, uri), subId));
+                map.put(c.getString(1), AddressUtils.getFrom(context, uri));
             }
         } finally {
             c.close();
@@ -794,10 +773,9 @@ public class MessageUtils {
         OnClickListener positiveListener = new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                for (final Map.Entry<String, ReadRecInfo> entry : map.entrySet()) {
-                    ReadRecInfo readRecInfo = entry.getValue();
-                    MmsMessageSender.sendReadRec(context, readRecInfo.getAddress(),
-                                                 entry.getKey(), status, readRecInfo.getSubIndex());
+                for (final Map.Entry<String, String> entry : map.entrySet()) {
+                    MmsMessageSender.sendReadRec(context, entry.getValue(),
+                                                 entry.getKey(), status);
                 }
 
                 if (callback != null) {
@@ -961,15 +939,14 @@ public class MessageUtils {
     // An alias (or commonly called "nickname") is:
     // Nickname must begin with a letter.
     // Only letters a-z, numbers 0-9, or . are allowed in Nickname field.
-    public static boolean isAlias(String string, int subId) {
-        if (!MmsConfig.getBoolean(subId, SmsManager.MMS_CONFIG_ALIAS_ENABLED)) {
+    public static boolean isAlias(String string) {
+        if (!MmsConfig.isAliasEnabled()) {
             return false;
         }
 
         int len = string == null ? 0 : string.length();
 
-        if (len < MmsConfig.getInt(subId, SmsManager.MMS_CONFIG_ALIAS_MIN_CHARS) ||
-                len > MmsConfig.getInt(subId, SmsManager.MMS_CONFIG_ALIAS_MAX_CHARS)) {
+        if (len < MmsConfig.getAliasMinChars() || len > MmsConfig.getAliasMaxChars()) {
             return false;
         }
 
@@ -1019,8 +996,8 @@ public class MessageUtils {
     /**
      * Returns true if the address passed in is a valid MMS address.
      */
-    public static boolean isValidMmsAddress(String address, int subId) {
-        String retVal = parseMmsAddress(address, subId);
+    public static boolean isValidMmsAddress(String address) {
+        String retVal = parseMmsAddress(address);
         return (retVal != null);
     }
 
@@ -1030,7 +1007,7 @@ public class MessageUtils {
      * - if the address can be parsed into a valid MMS phone number, return the parsed number.
      * - if the address is a compliant alias address, leave it as is.
      */
-    public static String parseMmsAddress(String address, int subId) {
+    public static String parseMmsAddress(String address) {
         // if it's a valid Email address, use that.
         if (Mms.isEmailAddress(address)) {
             return address;
@@ -1038,12 +1015,12 @@ public class MessageUtils {
 
         // if we are able to parse the address to a MMS compliant phone number, take that.
         String retVal = parsePhoneNumberForMms(address);
-        if (retVal != null) {
+        if (retVal != null && retVal.length() != 0) {
             return retVal;
         }
 
         // if it's an alias compliant address, use that.
-        if (isAlias(address, subId)) {
+        if (isAlias(address)) {
             return address;
         }
 
@@ -1054,71 +1031,4 @@ public class MessageUtils {
     private static void log(String msg) {
         Log.d(TAG, "[MsgUtils] " + msg);
     }
-
-    private static class ReadRecInfo {
-        private String mAddress;
-        private int mSubId;
-        public ReadRecInfo(String address, int subIndex) {
-            mAddress = address;
-            mSubId = subIndex;
-        }
-
-        public String getAddress() {
-            return mAddress;
-        }
-
-        public int getSubIndex() {
-            return mSubId;
-        }
-    }
-
-    public static CharSequence getSubInfo(Context context, int subId) {
-        Log.d(TAG, "getSubInfo subId = " + subId);
-        if (!SubscriptionManager.isValidSubId(subId)) {
-            return "";
-        }
-        // get sub info
-        return getSubInfoSync(context, subId);
-    }
-
-    public static CharSequence getSubInfoSync(Context context, int subId) {
-        SubscriptionInfo subInfo = SubscriptionManager.getSubscriptionInfoForSubscriber(subId);
-        if (null == subInfo) {
-            return "";
-        }
-
-        CharSequence displayName = subInfo.getDisplayName();
-        SpannableStringBuilder buf = new SpannableStringBuilder();
-        Resources res = context.getResources();
-        String subNameContainer = res.getString(R.string.sub_name_container);
-        if (displayName == null) {
-            displayName = res.getString(R.string.default_sim_name, subId);
-        } else {
-            int len = displayName.length();
-            if (len > 7) {
-                displayName = displayName.subSequence(0, 4)
-                        + res.getString(R.string.sub_name_ellipsis)
-                        + displayName.subSequence(len - 1, len);
-            }
-        }
-
-        buf.append(String.format(subNameContainer, displayName));
-        // set background image
-        Drawable drawable;
-        Resources resources = context.getResources();
-        if (subInfo.getSimSlotIndex() >= 0) {
-            // slotId being >= 0 means this SIM card is inserted
-            drawable = new BitmapDrawable(resources, subInfo.createIconBitmap(context));
-        } else {
-            drawable = resources.getDrawable(R.drawable.sim_background_locked);
-        }
-        buf.setSpan(new BackgroundImageSpan(drawable), 0, buf.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        // set subInfo icon tint color
-        int tint = subInfo.getIconTint();
-        buf.setSpan(new ForegroundColorSpan(tint), 0, buf.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return buf;
-    }
-
 }

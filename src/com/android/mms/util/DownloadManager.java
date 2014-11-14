@@ -41,7 +41,6 @@ import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.ui.MessagingPreferenceActivity;
-
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.NotificationInd;
@@ -60,6 +59,8 @@ public class DownloadManager {
     public static final int STATE_TRANSIENT_FAILURE = 0x82;
     public static final int STATE_PERMANENT_FAILURE = 0x87;
     public static final int STATE_PRE_DOWNLOADING   = 0x88;
+    // TransactionService will skip downloading Mms if auto-download is off
+    public static final int STATE_SKIP_RETRYING     = 0x89;
 
     private final Context mContext;
     private final Handler mHandler;
@@ -186,7 +187,7 @@ public class DownloadManager {
         return "true".equals(roaming);
     }
 
-    public void markState(final Uri uri, int state, final int subId) {
+    public void markState(final Uri uri, int state) {
         // Notify user if the message has expired.
         try {
             NotificationInd nInd = (NotificationInd) PduPersister.getPduPersister(mContext)
@@ -212,7 +213,7 @@ public class DownloadManager {
             mHandler.post(new Runnable() {
                 public void run() {
                     try {
-                        Toast.makeText(mContext, getMessage(uri, subId),
+                        Toast.makeText(mContext, getMessage(uri),
                                 Toast.LENGTH_LONG).show();
                     } catch (MmsException e) {
                         Log.e(TAG, e.getMessage(), e);
@@ -244,7 +245,7 @@ public class DownloadManager {
         });
     }
 
-    private String getMessage(Uri uri, int subId) throws MmsException {
+    private String getMessage(Uri uri) throws MmsException {
         NotificationInd ind = (NotificationInd) PduPersister
                 .getPduPersister(mContext).load(uri);
 
@@ -254,7 +255,7 @@ public class DownloadManager {
 
         v = ind.getFrom();
         String from = (v != null)
-                ? Contact.get(v.getString(), false, subId).getName()
+                ? Contact.get(v.getString(), false).getName()
                 : mContext.getString(R.string.unknown_sender);
 
         return mContext.getString(R.string.dl_failure_notification, subject, from);

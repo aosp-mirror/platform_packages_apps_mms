@@ -18,7 +18,6 @@ package com.android.mms.util;
 
 import android.content.Context;
 import android.provider.Telephony.Threads;
-import android.telephony.SubscriptionManager;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
@@ -51,13 +50,11 @@ public class VerifyRecipientUnitTests extends AndroidTestCase {
      */
     public void testVerifyRecipients() {
         assertEquals("Numbers aren't equal",
-                Conversation.verifySingleRecipient(getContext(), mThreadId1, "(415) 232-4567",
-                        SubscriptionManager.DEFAULT_SUB_ID),
+                Conversation.verifySingleRecipient(getContext(), mThreadId1, "(415) 232-4567"),
                 "(415) 232-4567");
 
         assertEquals("Numbers aren't equal",
-                Conversation.verifySingleRecipient(getContext(), mThreadId1, " 232-4567",
-                        SubscriptionManager.DEFAULT_SUB_ID),
+                Conversation.verifySingleRecipient(getContext(), mThreadId1, " 232-4567"),
                 "232-4567");
     }
 }

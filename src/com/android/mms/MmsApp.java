@@ -90,6 +90,7 @@ public class MmsApp extends Application {
         mPduLoaderManager = new PduLoaderManager(context);
         mThumbnailManager = new ThumbnailManager(context);
 
+        MmsConfig.init(this);
         Contact.init(this);
         DraftCache.init(this);
         Conversation.init(this);
@@ -180,6 +181,7 @@ public class MmsApp extends Application {
                 // Fallback to Locale if there are issues with CountryDetector
                 return Locale.getDefault().getCountry();
             }
+
             mCountryIso = country.getCountryIso();
         }
         return mCountryIso;

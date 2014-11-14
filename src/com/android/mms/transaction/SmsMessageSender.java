@@ -40,7 +40,6 @@ public class SmsMessageSender implements MessageSender {
     protected final String mMessageText;
     protected final String mServiceCenter;
     protected final long mThreadId;
-    protected int mSubId;
     protected long mTimestamp;
     private static final String TAG = LogTag.TAG;
 
@@ -55,7 +54,7 @@ public class SmsMessageSender implements MessageSender {
     private static final int COLUMN_REPLY_PATH_PRESENT = 0;
     private static final int COLUMN_SERVICE_CENTER     = 1;
 
-    public SmsMessageSender(Context context, String[] dests, String msgText, long threadId, int subId) {
+    public SmsMessageSender(Context context, String[] dests, String msgText, long threadId) {
         mContext = context;
         mMessageText = msgText;
         if (dests != null) {
@@ -68,7 +67,6 @@ public class SmsMessageSender implements MessageSender {
         }
         mTimestamp = System.currentTimeMillis();
         mThreadId = threadId;
-        mSubId = subId;
         mServiceCenter = getOutgoingServiceCenter(mThreadId);
     }
 
@@ -86,7 +84,7 @@ public class SmsMessageSender implements MessageSender {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         boolean requestDeliveryReport = prefs.getBoolean(
-                mSubId + "_" + MessagingPreferenceActivity.SMS_DELIVERY_REPORT_MSIM_MODE,
+                MessagingPreferenceActivity.SMS_DELIVERY_REPORT_MODE,
                 DEFAULT_DELIVERY_REPORT_MODE);
 
         for (int i = 0; i < mNumberOfDests; i++) {
@@ -94,8 +92,7 @@ public class SmsMessageSender implements MessageSender {
                 if (LogTag.DEBUG_SEND) {
                     Log.v(TAG, "queueMessage mDests[i]: " + mDests[i] + " mThreadId: " + mThreadId);
                 }
-                Sms.addMessageToUri(mSubId,
-                        mContext.getContentResolver(),
+                Sms.addMessageToUri(mContext.getContentResolver(),
                         Uri.parse("content://sms/queued"), mDests[i],
                         mMessageText, null, mTimestamp,
                         true /* read */,

@@ -52,7 +52,7 @@ public class MessageStatusService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        if (!MmsConfig.isSmsEnabled()) {
+        if (!MmsConfig.isSmsEnabled(this)) {
             Log.d(LOG_TAG, "MessageStatusService: is not the default sms app");
             return;
         }
@@ -67,7 +67,7 @@ public class MessageStatusService extends IntentService {
         // Called on a background thread, so it's OK to block.
         if (message != null && message.getStatus() < Sms.STATUS_PENDING) {
             MessagingNotification.blockingUpdateNewMessageIndicator(this,
-                    MessagingNotification.THREAD_NONE, message.isStatusReportMessage(), messageUri);
+                    MessagingNotification.THREAD_NONE, message.isStatusReportMessage());
         }
     }
 

@@ -23,8 +23,6 @@ import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -40,8 +38,9 @@ import org.apache.http.params.HttpProtocolParams;
 
 import android.content.Context;
 import android.net.http.AndroidHttpClient;
-import android.telephony.SmsManager;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Config;
 import android.util.Log;
 
 import com.android.mms.LogTag;
@@ -51,6 +50,7 @@ public class HttpUtils {
     private static final String TAG = LogTag.TRANSACTION;
 
     private static final boolean DEBUG = false;
+    private static final boolean LOCAL_LOGV = DEBUG ? Config.LOGD : Config.LOGV;
 
     public static final int HTTP_POST_METHOD = 1;
     public static final int HTTP_GET_METHOD = 2;
@@ -93,7 +93,7 @@ public class HttpUtils {
      */
     protected static byte[] httpConnection(Context context, long token,
             String url, byte[] pdu, int method, boolean isProxySet,
-            String proxyHost, int proxyPort, int subId) throws IOException {
+            String proxyHost, int proxyPort) throws IOException {
         if (url == null) {
             throw new IllegalArgumentException("URL must not be null.");
         }
@@ -121,7 +121,7 @@ public class HttpUtils {
                     hostUrl.getHost(), hostUrl.getPort(),
                     HttpHost.DEFAULT_SCHEME_NAME);
 
-            client = createHttpClient(context, subId);
+            client = createHttpClient(context);
             HttpRequest req = null;
             switch(method) {
                 case HTTP_POST_METHOD:
@@ -155,10 +155,8 @@ public class HttpUtils {
             // Set necessary HTTP headers for MMS transmission.
             req.addHeader(HDR_KEY_ACCEPT, HDR_VALUE_ACCEPT);
             {
-                String xWapProfileTagName =
-                        MmsConfig.getString(subId, SmsManager.MMS_CONFIG_UA_PROF_TAG_NAME);
-                String xWapProfileUrl =
-                        MmsConfig.getString(subId, SmsManager.MMS_CONFIG_UA_PROF_URL);
+                String xWapProfileTagName = MmsConfig.getUaProfTagName();
+                String xWapProfileUrl = MmsConfig.getUaProfUrl();
 
                 if (xWapProfileUrl != null) {
                     if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
@@ -173,19 +171,26 @@ public class HttpUtils {
             // Separate each pair by the first occurrence of ':' to obtain a name and
             // value. Replace the occurrence of the string returned by
             // MmsConfig.getHttpParamsLine1Key() with the users telephone number inside
-            // the value. And replace the occurrence of the string returned by
-            // MmsConfig.getHttpParamsNaiKey() with the users NAI(Network Access Identifier)
-            // inside the value.
-            String extraHttpParams = MmsConfig.getString(subId, SmsManager.MMS_CONFIG_HTTP_PARAMS);
+            // the value.
+            String extraHttpParams = MmsConfig.getHttpParams();
 
             if (extraHttpParams != null) {
-                // Parse the parameter list
+                String line1Number = ((TelephonyManager)context
+                        .getSystemService(Context.TELEPHONY_SERVICE))
+                        .getLine1Number();
+                String line1Key = MmsConfig.getHttpParamsLine1Key();
                 String paramList[] = extraHttpParams.split("\\|");
+
                 for (String paramPair : paramList) {
                     String splitPair[] = paramPair.split(":", 2);
+
                     if (splitPair.length == 2) {
-                        final String name = splitPair[0].trim();
-                        final String value = resolveMacro(splitPair[1].trim(), subId);
+                        String name = splitPair[0].trim();
+                        String value = splitPair[1].trim();
+
+                        if (line1Key != null) {
+                            value = value.replace(line1Key, line1Number);
+                        }
                         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(value)) {
                             req.addHeader(name, value);
                         }
@@ -219,8 +224,7 @@ public class HttpUtils {
                     }
                     if (entity.isChunked()) {
                         Log.v(TAG, "httpConnection: transfer encoding is chunked");
-                        int bytesTobeRead =
-                                MmsConfig.getInt(subId, SmsManager.MMS_CONFIG_MAX_MESSAGE_SIZE);
+                        int bytesTobeRead = MmsConfig.getMaxMessageSize();
                         byte[] tempBody = new byte[bytesTobeRead];
                         DataInputStream dis = new DataInputStream(entity.getContent());
                         try {
@@ -294,14 +298,14 @@ public class HttpUtils {
         throw e;
     }
 
-    private static AndroidHttpClient createHttpClient(Context context, int subId) {
-        String userAgent = MmsConfig.getString(subId, SmsManager.MMS_CONFIG_USER_AGENT);
+    private static AndroidHttpClient createHttpClient(Context context) {
+        String userAgent = MmsConfig.getUserAgent();
         AndroidHttpClient client = AndroidHttpClient.newInstance(userAgent, context);
         HttpParams params = client.getParams();
         HttpProtocolParams.setContentCharset(params, "UTF-8");
 
         // set the socket timeout
-        int soTimeout = MmsConfig.getInt(SmsManager.MMS_CONFIG_HTTP_SOCKET_TIMEOUT);
+        int soTimeout = MmsConfig.getHttpSocketTimeout();
 
         if (Log.isLoggable(LogTag.TRANSACTION, Log.DEBUG)) {
             Log.d(TAG, "[HttpUtils] createHttpClient w/ socket timeout " + soTimeout + " ms, "
@@ -365,43 +369,5 @@ public class HttpUtils {
                 builder.append(country);
             }
         }
-    }
-
-    private static final Pattern MACRO_P = Pattern.compile("##(\\S+)##");
-    /**
-     * Resolve the macro in HTTP param value text
-     * For example, "something##LINE1##something" is resolved to "something9139531419something"
-     *
-     * @param value The HTTP param value possibly containing macros
-     * @return The HTTP param with macro resolved to real value
-     */
-    private static String resolveMacro(String value, int subId) {
-        if (TextUtils.isEmpty(value)) {
-            return value;
-        }
-        final Matcher matcher = MACRO_P.matcher(value);
-        int nextStart = 0;
-        StringBuilder replaced = null;
-        while (matcher.find()) {
-            if (replaced == null) {
-                replaced = new StringBuilder();
-            }
-            final int matchedStart = matcher.start();
-            if (matchedStart > nextStart) {
-                replaced.append(value.substring(nextStart, matchedStart));
-            }
-            final String macro = matcher.group(1);
-            final String macroValue = MmsConfig.getHttpParamMacro(macro, subId);
-            if (macroValue != null) {
-                replaced.append(macroValue);
-            } else {
-                Log.w(TAG, "HttpUtils: invalid macro " + macro);
-            }
-            nextStart = matcher.end();
-        }
-        if (replaced != null && nextStart < value.length()) {
-            replaced.append(value.substring(nextStart));
-        }
-        return replaced == null ? value : replaced.toString();
     }
 }

@@ -28,9 +28,9 @@ import org.w3c.dom.events.EventListener;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.telephony.SmsManager;
 import android.util.Log;
 
 import com.android.mms.LogTag;
@@ -41,8 +41,6 @@ import com.google.android.mms.MmsException;
 
 public abstract class MediaModel extends Model implements EventListener {
     protected static final String TAG = LogTag.TAG;
-
-    private final static String MUSIC_SERVICE_ACTION = "com.android.music.musicservicecommand";
 
     protected Context mContext;
     protected int mBegin;
@@ -243,10 +241,9 @@ public abstract class MediaModel extends Model implements EventListener {
                 // does below, but that turns out to be very slow. We'll deal with a zero size
                 // when we resize the media.
 
-                final int maxMessageSize = MmsConfig.getInt(SmsManager.MMS_CONFIG_MAX_MESSAGE_SIZE);
-                if (isVideo() && mSize > maxMessageSize) {
+                if (isVideo() && mSize > MmsConfig.getMaxMessageSize()) {
                     Log.w(TAG, "initMediaSize: Video size: f.getChannel().size(): " + mSize +
-                            " larger than max message size: " + maxMessageSize);
+                            " larger than max message size: " + MmsConfig.getMaxMessageSize());
                 }
             } else {
                 while (-1 != input.read()) {
@@ -300,9 +297,8 @@ public abstract class MediaModel extends Model implements EventListener {
             Log.d(TAG, "pauseMusicPlayer");
         }
 
-        Intent i = new Intent(MUSIC_SERVICE_ACTION);
-        i.putExtra("command", "pause");
-        mContext.sendBroadcast(i);
+        AudioManager am = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
     }
 
     /**

@@ -17,19 +17,20 @@
 
 package com.android.mms.ui;
 
-import java.util.List;
-
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -39,13 +40,12 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import android.provider.SearchRecentSuggestions;
-import android.provider.Telephony;
-import android.telephony.SmsManager;
-import android.telephony.SubscriptionInfo;
-import android.telephony.SubscriptionManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.android.internal.telephony.IccCardConstants;
+import com.android.internal.telephony.TelephonyIntents;
 
 import com.android.mms.MmsApp;
 import com.android.mms.MmsConfig;
@@ -73,14 +73,6 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     public static final String RETRIEVAL_DURING_ROAMING = "pref_key_mms_retrieval_during_roaming";
     public static final String AUTO_DELETE              = "pref_key_auto_delete";
     public static final String GROUP_MMS_MODE           = "pref_key_mms_group_mms";
-    public static final String MULTI_SIM_ASK            = "pref_key_ask_sim";
-
-    public static final String SMS_DELIVERY_REPORT_MSIM_MODE = "pref_key_sms_delivery_reports_msim";
-    public static final String MMS_DELIVERY_REPORT_MSIM_MODE = "pref_key_mms_delivery_reports_msim";
-    public static final String READ_REPORT_MSIM_MODE         = "pref_key_mms_read_reports_msim";
-    public static final String MANAGE_SIM_MESSAGE_MODE       = "pref_key_manage_sim_messages";
-    public static final String PREFERENCE_KEY                = "PREFERENCE_KEY";
-    public static final String PREFERENCE_TITLE_ID           = "PREFERENCE_TITLE";
 
     // Menu entries
     private static final int MENU_RESTORE_DEFAULTS    = 1;
@@ -105,7 +97,6 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     private CheckBoxPreference mVibratePref;
     private CheckBoxPreference mEnableNotificationsPref;
     private CheckBoxPreference mMmsAutoRetrievialPref;
-    private CheckBoxPreference mAlwaysAskSimPref;
     private RingtonePreference mRingtonePref;
     private Recycler mSmsRecycler;
     private Recycler mMmsRecycler;
@@ -114,6 +105,23 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     // Whether or not we are currently enabled for SMS. This field is updated in onResume to make
     // sure we notice if the user has changed the default SMS app.
     private boolean mIsSmsEnabled;
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (TelephonyIntents.ACTION_SIM_STATE_CHANGED.equals(action)) {
+                String stateExtra = intent.getStringExtra(IccCardConstants.INTENT_KEY_ICC_STATE);
+                if (stateExtra != null
+                        && IccCardConstants.INTENT_VALUE_ICC_ABSENT.equals(stateExtra)) {
+                    PreferenceCategory smsCategory =
+                            (PreferenceCategory)findPreference("pref_key_sms_settings");
+                    if (smsCategory != null) {
+                        smsCategory.removePreference(mManageSimPref);
+                    }
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -128,7 +136,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     @Override
     protected void onResume() {
         super.onResume();
-        boolean isSmsEnabled = MmsConfig.isSmsEnabled();
+        boolean isSmsEnabled = MmsConfig.isSmsEnabled(this);
         if (isSmsEnabled != mIsSmsEnabled) {
             mIsSmsEnabled = isSmsEnabled;
             invalidateOptionsMenu();
@@ -157,27 +165,25 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         mSmsPrefCategory.setEnabled(mIsSmsEnabled);
         mMmsPrefCategory.setEnabled(mIsSmsEnabled);
         mNotificationPrefCategory.setEnabled(mIsSmsEnabled);
-        mAlwaysAskSimPref.setEnabled(mIsSmsEnabled);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mReceiver);
     }
 
     private void loadPrefs() {
-        boolean isHasActivatedSub = hasActivatedSub();
         addPreferencesFromResource(R.xml.preferences);
 
         mSmsDisabledPref = findPreference("pref_key_sms_disabled");
-        Intent intent = new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.setPackage("com.android.settings");
-        intent.putExtra("package", getApplicationContext().getPackageName());
-        mSmsDisabledPref.setIntent(intent);
-
         mSmsEnabledPref = findPreference("pref_key_sms_enabled");
 
-        mStoragePrefCategory = (PreferenceCategory) findPreference("pref_key_storage_settings");
-        mSmsPrefCategory = (PreferenceCategory) findPreference("pref_key_sms_settings");
-        mMmsPrefCategory = (PreferenceCategory) findPreference("pref_key_mms_settings");
-        mNotificationPrefCategory = (PreferenceCategory) findPreference(
-                "pref_key_notification_settings");
+        mStoragePrefCategory = (PreferenceCategory)findPreference("pref_key_storage_settings");
+        mSmsPrefCategory = (PreferenceCategory)findPreference("pref_key_sms_settings");
+        mMmsPrefCategory = (PreferenceCategory)findPreference("pref_key_mms_settings");
+        mNotificationPrefCategory =
+                (PreferenceCategory)findPreference("pref_key_notification_settings");
 
         mManageSimPref = findPreference("pref_key_manage_sim_messages");
         mSmsLimitPref = findPreference("pref_key_sms_delete_limit");
@@ -190,57 +196,14 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         mEnableNotificationsPref = (CheckBoxPreference) findPreference(NOTIFICATION_ENABLED);
         mMmsAutoRetrievialPref = (CheckBoxPreference) findPreference(AUTO_RETRIEVAL);
         mVibratePref = (CheckBoxPreference) findPreference(NOTIFICATION_VIBRATE);
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (mVibratePref != null && (vibrator == null || !vibrator.hasVibrator())) {
+            mNotificationPrefCategory.removePreference(mVibratePref);
+            mVibratePref = null;
+        }
         mRingtonePref = (RingtonePreference) findPreference(NOTIFICATION_RINGTONE);
-        mAlwaysAskSimPref = (CheckBoxPreference) findPreference(MULTI_SIM_ASK);
 
-
-        if (!isHasActivatedSub) {
-            mSmsPrefCategory.removePreference(mSmsDeliveryReportPref);
-            mMmsPrefCategory.removePreference(mMmsDeliveryReportPref);
-            mMmsPrefCategory.removePreference(mMmsReadReportPref);
-            mSmsPrefCategory.removePreference(findPreference(SMS_DELIVERY_REPORT_MSIM_MODE));
-            mMmsPrefCategory.removePreference(findPreference(MMS_DELIVERY_REPORT_MSIM_MODE));
-            mMmsPrefCategory.removePreference(findPreference(READ_REPORT_MSIM_MODE));
-            getPreferenceScreen().removePreference(mAlwaysAskSimPref);
-        } else {
-            int activeSimCount = getActiveSimCount();
-            int simCount = MmsApp.getApplication().getTelephonyManager().getSimCount();
-            if (simCount > 1) {
-                mSmsPrefCategory.removePreference(mSmsDeliveryReportPref);
-                mMmsPrefCategory.removePreference(mMmsDeliveryReportPref);
-                mMmsPrefCategory.removePreference(mMmsReadReportPref);
-
-                mSmsDeliveryReportPref = findPreference(SMS_DELIVERY_REPORT_MSIM_MODE);
-                mMmsDeliveryReportPref = findPreference(MMS_DELIVERY_REPORT_MSIM_MODE);
-                mMmsReadReportPref = findPreference(READ_REPORT_MSIM_MODE);
-            } else {
-                mSmsPrefCategory.removePreference(findPreference(SMS_DELIVERY_REPORT_MSIM_MODE));
-                mMmsPrefCategory.removePreference(findPreference(MMS_DELIVERY_REPORT_MSIM_MODE));
-                mMmsPrefCategory.removePreference(findPreference(READ_REPORT_MSIM_MODE));
-            }
-            if (activeSimCount <= 1) {
-                getPreferenceScreen().removePreference(mAlwaysAskSimPref);
-            }
-        }
         setMessagePreferences();
-    }
-
-    public static int getActiveSimCount() {
-        List<SubscriptionInfo> subInfoRecords = SubscriptionManager.getActiveSubscriptionInfoList();
-        return subInfoRecords != null ? subInfoRecords.size() : 0;
-    }
-
-    private static boolean isAnySubscriptionValueSet(String configValue) {
-        List<SubscriptionInfo> subInfoRecords = SubscriptionManager.getActiveSubscriptionInfoList();
-        if (subInfoRecords == null) {
-            return false;
-        }
-        for (final SubscriptionInfo subInfo : subInfoRecords) {
-             if (MmsConfig.getBoolean(subInfo.getSubscriptionId(), configValue)) {
-                 return true;
-             }
-        }
-        return false;
     }
 
     private void restoreDefaultPreferences() {
@@ -259,34 +222,33 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     }
 
     private void setMessagePreferences() {
-        boolean isHasActivatedSub = hasActivatedSub();
-        if (!isHasActivatedSub) {
+        if (!MmsApp.getApplication().getTelephonyManager().hasIccCard()) {
             // No SIM card, remove the SIM-related prefs
             mSmsPrefCategory.removePreference(mManageSimPref);
         }
 
-        if (!isAnySubscriptionValueSet(SmsManager.MMS_CONFIG_SMS_DELIVERY_REPORT_ENABLED)) {
+        if (!MmsConfig.getSMSDeliveryReportsEnabled()) {
             mSmsPrefCategory.removePreference(mSmsDeliveryReportPref);
-            if (!isHasActivatedSub) {
+            if (!MmsApp.getApplication().getTelephonyManager().hasIccCard()) {
                 getPreferenceScreen().removePreference(mSmsPrefCategory);
             }
         }
 
-        if (!isAnySubscriptionValueSet(SmsManager.MMS_CONFIG_MMS_ENABLED)) {
+        if (!MmsConfig.getMmsEnabled()) {
             // No Mms, remove all the mms-related preferences
             getPreferenceScreen().removePreference(mMmsPrefCategory);
 
             mStoragePrefCategory.removePreference(findPreference("pref_key_mms_delete_limit"));
         } else {
-            if (!MmsConfig.getBoolean(SmsManager.MMS_CONFIG_MMS_DELIVERY_REPORT_ENABLED)) {
+            if (!MmsConfig.getMMSDeliveryReportsEnabled()) {
                 mMmsPrefCategory.removePreference(mMmsDeliveryReportPref);
             }
-            if (!MmsConfig.getBoolean(SmsManager.MMS_CONFIG_MMS_READ_REPORT_ENABLED)) {
+            if (!MmsConfig.getMMSReadReportsEnabled()) {
                 mMmsPrefCategory.removePreference(mMmsReadReportPref);
             }
             // If the phone's SIM doesn't know it's own number, disable group mms.
-            if (!MmsConfig.getBoolean(SmsManager.MMS_CONFIG_GROUP_MMS_ENABLED) ||
-                    !MessageUtils.simHasNumber()) {
+            if (!MmsConfig.getGroupMmsEnabled() ||
+                    TextUtils.isEmpty(MessageUtils.getLocalNumber())) {
                 mMmsPrefCategory.removePreference(mMmsGroupMmsPref);
             }
         }
@@ -296,7 +258,7 @@ public class MessagingPreferenceActivity extends PreferenceActivity
         // If needed, migrate vibration setting from the previous tri-state setting stored in
         // NOTIFICATION_VIBRATE_WHEN to the boolean setting stored in NOTIFICATION_VIBRATE.
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPreferences.contains(NOTIFICATION_VIBRATE_WHEN)) {
+        if (mVibratePref != null && sharedPreferences.contains(NOTIFICATION_VIBRATE_WHEN)) {
             String vibrateWhen = sharedPreferences.
                     getString(MessagingPreferenceActivity.NOTIFICATION_VIBRATE_WHEN, null);
             boolean vibrate = "always".equals(vibrateWhen);
@@ -371,18 +333,6 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
             Preference preference) {
-
-        int simCount = MmsApp.getApplication().getTelephonyManager().getSimCount();
-        if (simCount > 1 && ((preference == mManageSimPref)
-                || (preference == mSmsDeliveryReportPref)
-                || (preference == mMmsDeliveryReportPref)
-                || (preference == mMmsReadReportPref))) {
-            Intent intent = new Intent(this, SubSelectActivity.class);
-            intent.putExtra(PREFERENCE_KEY, preference.getKey());
-            intent.putExtra(PREFERENCE_TITLE_ID, preference.getTitleRes());
-            startActivity(intent);
-            return true;
-        }
         if (preference == mSmsLimitPref) {
             new NumberPickerDialog(this,
                     mSmsLimitListener,
@@ -481,6 +431,9 @@ public class MessagingPreferenceActivity extends PreferenceActivity
 
     private void registerListeners() {
         mRingtonePref.setOnPreferenceChangeListener(this);
+        final IntentFilter intentFilter =
+                new IntentFilter(TelephonyIntents.ACTION_SIM_STATE_CHANGED);
+        registerReceiver(mReceiver, intentFilter);
     }
 
     public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -496,23 +449,12 @@ public class MessagingPreferenceActivity extends PreferenceActivity
     //  1. the feature is enabled in mms_config.xml (currently on by default)
     //  2. the feature is enabled in the mms settings page
     //  3. the SIM knows its own phone number
-    public static boolean getIsGroupMmsEnabled(Context context, int subId) {
+    public static boolean getIsGroupMmsEnabled(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean groupMmsPrefOn = prefs.getBoolean(
                 MessagingPreferenceActivity.GROUP_MMS_MODE, true);
-        return MmsConfig.getBoolean(SmsManager.MMS_CONFIG_GROUP_MMS_ENABLED) &&
+        return MmsConfig.getGroupMmsEnabled() &&
                 groupMmsPrefOn &&
-                !TextUtils.isEmpty(MessageUtils.getLocalNumber(subId));
-    }
-
-    private boolean hasActivatedSub() {
-        List<SubscriptionInfo> subList = SubscriptionManager.getActiveSubscriptionInfoList();
-        return subList == null ? false : subList.size() != 0;
-    }
-
-    public static boolean isMultiSimAskEnabled(Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getBoolean(MULTI_SIM_ASK,
-                context.getResources().getBoolean(R.bool.sim_ask_preference_default_value));
+                !TextUtils.isEmpty(MessageUtils.getLocalNumber());
     }
 }

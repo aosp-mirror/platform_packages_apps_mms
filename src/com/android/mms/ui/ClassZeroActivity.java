@@ -32,20 +32,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.provider.Telephony;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Sms.Inbox;
 import android.telephony.SmsMessage;
-import android.telephony.SubscriptionManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Window;
 
-import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.LogTag;
 import com.android.mms.R;
 import com.android.mms.transaction.MessagingNotification;
-import com.android.mms.util.SubStatusResolver;
 
 import java.util.ArrayList;
 
@@ -93,10 +89,7 @@ public class ClassZeroActivity extends Activity {
     private boolean queueMsgFromIntent(Intent msgIntent) {
         byte[] pdu = msgIntent.getByteArrayExtra("pdu");
         String format = msgIntent.getStringExtra("format");
-        int subId = msgIntent.getIntExtra(PhoneConstants.SUBSCRIPTION_KEY,
-                SubscriptionManager.INVALID_SUB_ID);
         SmsMessage rawMessage = SmsMessage.createFromPdu(pdu, format);
-        rawMessage.setSubId(subId);
         String message = rawMessage.getMessageBody();
         if (TextUtils.isEmpty(message)) {
             if (mMessageQueue.size() == 0) {
@@ -124,7 +117,6 @@ public class ClassZeroActivity extends Activity {
         } else {
             messageUri = storeMessage(mMessage);
         }
-
         if (!mRead && messageUri != null) {
             MessagingNotification.nonBlockingUpdateNewMessageIndicator(
                     this,
@@ -168,7 +160,7 @@ public class ClassZeroActivity extends Activity {
         /* This'll be used by the save action */
         mMessage = rawMessage;
 
-        mDialog = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT).setMessage(message)
+        mDialog = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK).setMessage(message)
                 .setPositiveButton(R.string.save, mSaveListener)
                 .setNegativeButton(android.R.string.cancel, mCancelListener)
                 .setCancelable(false).show();
@@ -251,18 +243,15 @@ public class ClassZeroActivity extends Activity {
 
     private Uri replaceMessage(SmsMessage sms) {
         ContentValues values = extractContentValues(sms);
-        int subId = sms.getSubId();
 
         values.put(Inbox.BODY, sms.getMessageBody());
 
         ContentResolver resolver = getContentResolver();
         String originatingAddress = sms.getOriginatingAddress();
         int protocolIdentifier = sms.getProtocolIdentifier();
-        String selection = Sms.ADDRESS + " = ? AND " + Sms.PROTOCOL + " = ? AND "
-                + Sms.SUB_ID + " = ?";
+        String selection = Sms.ADDRESS + " = ? AND " + Sms.PROTOCOL + " = ?";
         String[] selectionArgs = new String[] { originatingAddress,
-                Integer.toString(protocolIdentifier),
-                Long.toString(subId) };
+                Integer.toString(protocolIdentifier) };
 
         Cursor cursor = SqliteWrapper.query(this, resolver, Inbox.CONTENT_URI,
                 REPLACE_PROJECTION, selection, selectionArgs, null);
@@ -285,18 +274,12 @@ public class ClassZeroActivity extends Activity {
 
     private Uri storeMessage(SmsMessage sms) {
         // Store the message in the content provider.
-        int subId = sms.getSubId();
         ContentValues values = extractContentValues(sms);
+        values.put(Inbox.BODY, sms.getDisplayMessageBody());
         ContentResolver resolver = getContentResolver();
         if (false) {
             Log.d(TAG, "storeMessage " + this.toString());
         }
-        return Telephony.Sms.Inbox.addMessage(subId,
-                resolver,
-                values.getAsString(Inbox.ADDRESS),
-                sms.getDisplayMessageBody(),
-                values.getAsString(Inbox.SUBJECT),
-                values.getAsLong(Inbox.DATE),
-                values.getAsInteger(Inbox.READ) > 0);
+        return SqliteWrapper.insert(this, resolver, Inbox.CONTENT_URI, values);
     }
 }

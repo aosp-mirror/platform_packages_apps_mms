@@ -43,7 +43,6 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.net.Uri;
-import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -53,7 +52,6 @@ import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.dom.smil.parser.SmilXmlSerializer;
 import com.android.mms.layout.LayoutManager;
-
 import com.google.android.mms.ContentType;
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.GenericPdu;
@@ -62,7 +60,6 @@ import com.google.android.mms.pdu.PduBody;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduPart;
 import com.google.android.mms.pdu.PduPersister;
-
 import com.android.mms.UnsupportContentTypeException;
 
 public class SlideshowModel extends Model
@@ -681,14 +678,13 @@ public class SlideshowModel extends Model
                 }
             }
         }
-        final int maxMessageSize = MmsConfig.getInt(SmsManager.MMS_CONFIG_MAX_MESSAGE_SIZE);
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             Log.v(TAG, "finalResize: original message size: " + getCurrentMessageSize() +
-                    " getMaxMessageSize: " + maxMessageSize +
+                    " getMaxMessageSize: " + MmsConfig.getMaxMessageSize() +
                     " fixedSizeTotal: " + fixedSizeTotal);
         }
         if (resizableCnt > 0) {
-            int remainingSize = maxMessageSize - fixedSizeTotal - SLIDESHOW_SLOP;
+            int remainingSize = MmsConfig.getMaxMessageSize() - fixedSizeTotal - SLIDESHOW_SLOP;
             if (remainingSize <= 0) {
                 throw new ExceedMessageSizeException("No room for pictures");
             }
@@ -713,7 +709,7 @@ public class SlideshowModel extends Model
                 Log.v(TAG, "finalResize: new message size: " + totalSize);
             }
 
-            if (totalSize > maxMessageSize) {
+            if (totalSize > MmsConfig.getMaxMessageSize()) {
                 throw new ExceedMessageSizeException("After compressing pictures, message too big");
             }
             setCurrentMessageSize(totalSize);

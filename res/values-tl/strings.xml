@@ -182,8 +182,6 @@
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Tunog"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Itakda ang bilang ng mga mensaheng ise-save"</string>
     <string name="silent_ringtone" msgid="7981237991326592780">"Tahimik"</string>
-    <string name="pref_summary_sim_ask" msgid="5815190975933015621">"Itanong kung aling SIM ang gagamitin sa tuwing magpapadala ng mensahe"</string>
-    <string name="pref_title_sim_ask" msgid="4794530561349736162">"Multi-SIM"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"I-auto-retrieve"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Awtomatikong bawiin ang mga mensahe"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Niro-roam ang auto-retrieve"</string>
@@ -357,11 +355,4 @@
     <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Ang Pagmemensahe ay hindi ang iyong SMS app"</string>
     <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"Ang <xliff:g id="APPNAME">%s</xliff:g> ay ang iyong SMS app"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"Mababago mo ito sa Mga Setting"</string>
-    <string name="sub_select_dialog_title" msgid="8210168935409702285">"Pumili ng SIM"</string>
-    <string name="default_sim_name" msgid="903290497566800216">"SIM <xliff:g id="SUBID">%1$d</xliff:g>"</string>
-    <string name="empty_sim_name" msgid="1008631117599170591">"SIM Slot <xliff:g id="SUBID">%1$d</xliff:g>"</string>
-    <string name="subSelect_negative" msgid="6139403806707801822">"Kanselahin"</string>
-    <string name="sub_name_container" msgid="4802195955108231738">"   <xliff:g id="SUBNAME">%1$s</xliff:g>  "</string>
-    <string name="sub_name_ellipsis" msgid="2475475055178768223">"…"</string>
-    <string name="selected_sim_invalid" msgid="2309319911434202998">"Wala ang kasalukuyang piniling SIM. Piliin ang iyong default na SIM sa mga setting ng system."</string>
 </resources>

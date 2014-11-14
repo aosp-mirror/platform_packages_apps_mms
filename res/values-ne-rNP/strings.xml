@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
 /*
  * Copyright (C) 2007-2008 Esmertec AG.
  * Copyright (C) 2007-2008 The Android Open Source Project
@@ -347,4 +347,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"तपाईँले कुनै पनि नयाँ SMS/MMS सन्देशहरू प्राप्त गर्नु हुने छैन"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS वेकअप"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"सबै MMS हरू आउटबक्सबाट नेटवर्कमा पठाउँछ"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"सन्देशन तपाईँको SMS अनुप्रयोग होइन"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> तपाईँको SMS अनुप्रयोग हो"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"तपाईँ यसलाई सेटिङहरूमा बदल्न सक्नु हुन्छ"</string>
 </resources>

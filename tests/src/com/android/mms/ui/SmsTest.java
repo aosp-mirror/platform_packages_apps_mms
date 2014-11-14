@@ -26,7 +26,6 @@ import com.android.mms.SmsTestRunner;
 
 import android.database.Cursor;
 import android.content.Context;
-import android.telephony.SubscriptionManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.view.ViewStub;
@@ -94,7 +93,7 @@ public class SmsTest
         if (mInst.mRecipient != null) {
             mRecipient = mInst.mRecipient;
         } else {
-            mRecipient = getLocalNumber(SubscriptionManager.getDefaultSmsSubId());
+            mRecipient = getLocalNumber();
         }
         if (mInst.mReceiveTimer > 0) {
             mReceiveTimer = mInst.mReceiveTimer;
@@ -209,8 +208,8 @@ public class SmsTest
     /**
      * @return the local number for this test device
      */
-    protected String getLocalNumber(int subId) {
-        return MessageUtils.getLocalNumber(subId);
+    protected String getLocalNumber() {
+        return MessageUtils.getLocalNumber();
     }
 
     /**

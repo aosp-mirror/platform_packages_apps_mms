@@ -120,9 +120,6 @@ public class RetryScheduler implements Observer {
                     int retryIndex = cursor.getInt(cursor.getColumnIndexOrThrow(
                             PendingMessages.RETRY_INDEX)) + 1; // Count this time.
 
-                    int subId = cursor.getInt(cursor.getColumnIndexOrThrow(
-                            PendingMessages.SUB_ID));
-
                     // TODO Should exactly understand what was happened.
                     int errorType = MmsSms.ERR_TYPE_GENERIC;
 
@@ -184,7 +181,7 @@ public class RetryScheduler implements Observer {
                         if (isRetryDownloading) {
                             // Downloading process is transiently failed.
                             DownloadManager.getInstance().markState(
-                                    uri, DownloadManager.STATE_TRANSIENT_FAILURE, subId);
+                                    uri, DownloadManager.STATE_TRANSIENT_FAILURE);
                         }
                     } else {
                         errorType = MmsSms.ERR_TYPE_GENERIC_PERMANENT;
@@ -209,7 +206,7 @@ public class RetryScheduler implements Observer {
                             }
 
                             DownloadManager.getInstance().markState(
-                                    uri, DownloadManager.STATE_PERMANENT_FAILURE, subId);
+                                    uri, DownloadManager.STATE_PERMANENT_FAILURE);
                         } else {
                             // Mark the failed message as unread.
                             ContentValues readValues = new ContentValues(1);
