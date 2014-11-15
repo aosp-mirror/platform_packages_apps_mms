@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
 /*
  * Copyright (C) 2007-2008 Esmertec AG.
  * Copyright (C) 2007-2008 The Android Open Source Project
@@ -347,4 +347,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"ඔබට නව SMS/MMS පණිවිඩ නොලැබෙයි"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS අවදි කිරීම"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"සියලු MMSs යන ලිපි වෙතින් ජාලය වෙත යවයි"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"පනිවිඩකරණය ඔබගේ SMS යෙදුම නොවේ"</string>
+    <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"ඔබගේ SMS යෙදුම <xliff:g id="APPNAME">%s</xliff:g> ය"</string>
+    <string name="banner_sms_promo_message" msgid="3536714414252763826">"ඔබට මෙය සැකසීම් තුළ වෙනස් කළ හැක"</string>
 </resources>

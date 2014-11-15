@@ -34,8 +34,10 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import android.app.ActionBar;
@@ -60,6 +62,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SqliteWrapper;
 import android.drm.DrmStore;
+import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -82,12 +85,7 @@ import android.provider.Settings;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
-import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
-import android.telephony.SubscriptionListener;
-import android.telephony.TelephonyManager;
-import android.telephony.SubscriptionInfo;
-import android.telephony.SubscriptionManager;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputFilter.LengthFilter;
@@ -114,7 +112,9 @@ import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -165,7 +165,7 @@ import com.google.android.mms.pdu.SendReq;
  */
 public class ComposeMessageActivity extends Activity
         implements View.OnClickListener, TextView.OnEditorActionListener,
-        MessageStatusListener, Contact.UpdateListener  {
+        MessageStatusListener, Contact.UpdateListener {
     public static final int REQUEST_CODE_ATTACH_IMAGE     = 100;
     public static final int REQUEST_CODE_TAKE_PICTURE     = 101;
     public static final int REQUEST_CODE_ATTACH_VIDEO     = 102;
@@ -344,60 +344,6 @@ public class ComposeMessageActivity extends Activity
     public final static String THREAD_ID = "thread_id";
     private final static String RECIPIENTS = "recipients";
 
-    private AlertDialog mSubSelectDialog;
-    private int mSelectedSubId = SubscriptionManager.getDefaultSmsSubId();
-    private List<SubscriptionInfo> mSubListInfo = new ArrayList<SubscriptionInfo>();
-    private SubChooseAdapter mSubAdapter;
-
-    private final SubscriptionListener mSubscriptionListener = new SubscriptionListener() {
-        @Override
-        public void onSubscriptionInfoChanged() {
-            if (mSubSelectDialog != null && mSubSelectDialog.isShowing()) {
-                mSubSelectDialog.dismiss();
-            }
-        }
-    };
-
-
-    private void updateSubInfoList() {
-        mSubListInfo.clear();
-        mSubListInfo.addAll(SubscriptionManager.getActiveSubscriptionInfoList());
-    }
-
-    private void showSubSelectedDialog(boolean overridePref) {
-        final int activeSimCount =
-                MessagingPreferenceActivity.getActiveSimCount();
-        if (activeSimCount == 0) {
-            return;
-        } else {
-            if (activeSimCount > 1 &&
-                    (overridePref || MessagingPreferenceActivity.isMultiSimAskEnabled(this))) {
-                // SUB selection, always ask, show select SIM dialog even only 1 SIM
-                // inserted.
-                updateSubInfoList();
-                AlertDialog.Builder b = new AlertDialog.Builder(this);
-                mSubAdapter = new SubChooseAdapter(this, mSubListInfo);
-                b.setTitle(R.string.sub_select_dialog_title);
-                b.setAdapter(mSubAdapter, new DialogInterface.OnClickListener() {
-                    @SuppressWarnings("unchecked")
-                    public final void onClick(DialogInterface dialog, int which) {
-                        SubscriptionInfo subInfoRecord = mSubListInfo.get(which);
-                        if (subInfoRecord != null) {
-                            mSelectedSubId = subInfoRecord.getSubscriptionId();
-                            confirmSendMessageIfNeeded();
-                        }
-                    }
-                });
-                b.setNegativeButton(R.string.subSelect_negative, new CancelSendingListener());
-                mSubSelectDialog = b.create();
-                mSubSelectDialog.show();
-            } else {
-                mSelectedSubId = SubscriptionManager.getDefaultSmsSubId();
-                confirmSendMessageIfNeeded();
-            }
-        }
-    }
-
     @SuppressWarnings("unused")
     public static void log(String logMsg) {
         Thread current = Thread.currentThread();
@@ -423,7 +369,7 @@ public class ComposeMessageActivity extends Activity
             @Override
             public void run() {
                 // This runnable gets run in a background thread.
-                mTempMmsUri = mWorkingMessage.saveAsMms(false, mSelectedSubId);
+                mTempMmsUri = mWorkingMessage.saveAsMms(false);
             }
         }, new Runnable() {
             @Override
@@ -451,7 +397,7 @@ public class ComposeMessageActivity extends Activity
                 }
                 case AttachmentEditor.MSG_SEND_SLIDESHOW: {
                     if (isPreparedForSending()) {
-                        showSubSelectedDialog(false);
+                        ComposeMessageActivity.this.confirmSendMessageIfNeeded();
                     }
                     break;
                 }
@@ -469,7 +415,7 @@ public class ComposeMessageActivity extends Activity
                     break;
 
                 case AttachmentEditor.MSG_REMOVE_ATTACHMENT:
-                    mWorkingMessage.removeAttachment(true, mSelectedSubId);
+                    mWorkingMessage.removeAttachment(true);
                     break;
 
                 default:
@@ -496,7 +442,7 @@ public class ComposeMessageActivity extends Activity
                 @Override
                 public void run() {
                     // This runnable gets run in a background thread.
-                    mTempMmsUri = mWorkingMessage.saveAsMms(false, mSelectedSubId);
+                    mTempMmsUri = mWorkingMessage.saveAsMms(false);
                 }
             }, new Runnable() {
                 @Override
@@ -575,7 +521,7 @@ public class ComposeMessageActivity extends Activity
             // When the subject editor is empty, press "DEL" to hide the input field.
             if ((keyCode == KeyEvent.KEYCODE_DEL) && (mSubjectTextEditor.length() == 0)) {
                 showSubjectEditor(false);
-                mWorkingMessage.setSubject(null, true, mSelectedSubId);
+                mWorkingMessage.setSubject(null, true);
                 return true;
             }
             return false;
@@ -636,15 +582,13 @@ public class ComposeMessageActivity extends Activity
         int msgCount = params[0];
         int remainingInCurrentMessage = params[2];
 
-        if (!MmsConfig.getBoolean(mSelectedSubId, SmsManager.MMS_CONFIG_MULTIPART_SMS_ENABLED)) {
+        if (!MmsConfig.getMultipartSmsEnabled()) {
             // The provider doesn't support multi-part sms's so as soon as the user types
             // an sms longer than one segment, we have to turn the message into an mms.
-            mWorkingMessage.setLengthRequiresMms(msgCount > 1, true, mSelectedSubId);
+            mWorkingMessage.setLengthRequiresMms(msgCount > 1, true);
         } else {
-            int threshold = MmsConfig.getInt(mSelectedSubId,
-                    SmsManager.MMS_CONFIG_SMS_TO_MMS_TEXT_LENGTH_THRESHOLD);
-            mWorkingMessage.setLengthRequiresMms(threshold > 0 && msgCount > threshold, true,
-                    mSelectedSubId);
+            int threshold = MmsConfig.getSmsToMmsTextThreshold();
+            mWorkingMessage.setLengthRequiresMms(threshold > 0 && msgCount > threshold, true);
         }
 
         // Show the counter only if:
@@ -762,10 +706,10 @@ public class ComposeMessageActivity extends Activity
         }
 
         boolean isMms = mWorkingMessage.requiresMms();
-        if (mRecipientsEditor.hasInvalidRecipient(isMms, mSelectedSubId)) {
-            if (mRecipientsEditor.hasValidRecipient(isMms, mSelectedSubId)) {
+        if (mRecipientsEditor.hasInvalidRecipient(isMms)) {
+            if (mRecipientsEditor.hasValidRecipient(isMms)) {
                 String title = getResourcesString(R.string.has_invalid_recipient,
-                        mRecipientsEditor.formatInvalidNumbers(isMms, mSelectedSubId));
+                        mRecipientsEditor.formatInvalidNumbers(isMms));
                 new AlertDialog.Builder(this)
                     .setTitle(title)
                     .setMessage(R.string.invalid_recipient_message)
@@ -783,9 +727,8 @@ public class ComposeMessageActivity extends Activity
         } else {
             // The recipients editor is still open. Make sure we use what's showing there
             // as the destination.
-            ContactList contacts = mRecipientsEditor.constructContactsFromInput(false,
-                    mSelectedSubId);
-            mDebugRecipients = contacts.serialize(mSelectedSubId);
+            ContactList contacts = mRecipientsEditor.constructContactsFromInput(false);
+            mDebugRecipients = contacts.serialize();
             sendMessage(true);
         }
     }
@@ -828,8 +771,8 @@ public class ComposeMessageActivity extends Activity
             mWorkingMessage.setWorkingRecipients(numbers);
             boolean multiRecipients = numbers != null && numbers.size() > 1;
             mMsgListAdapter.setIsGroupConversation(multiRecipients);
-            mWorkingMessage.setHasMultipleRecipients(multiRecipients, true, mSelectedSubId);
-            mWorkingMessage.setHasEmail(mRecipientsEditor.containsEmail(), true, mSelectedSubId);
+            mWorkingMessage.setHasMultipleRecipients(multiRecipients, true);
+            mWorkingMessage.setHasEmail(mRecipientsEditor.containsEmail(), true);
 
             checkForTooManyRecipients();
 
@@ -841,8 +784,7 @@ public class ComposeMessageActivity extends Activity
                     continue;
 
                 if (c == ',') {
-                    ContactList contacts = mRecipientsEditor.constructContactsFromInput(false,
-                            mSelectedSubId);
+                    ContactList contacts = mRecipientsEditor.constructContactsFromInput(false);
                     updateTitle(contacts);
                 }
 
@@ -855,8 +797,7 @@ public class ComposeMessageActivity extends Activity
     };
 
     private void checkForTooManyRecipients() {
-        final int recipientLimit =
-                MmsConfig.getInt(mSelectedSubId, SmsManager.MMS_CONFIG_RECIPIENT_LIMIT);
+        final int recipientLimit = MmsConfig.getRecipientLimit();
         if (recipientLimit != Integer.MAX_VALUE && recipientLimit > 0) {
             final int recipientCount = recipientCount();
             boolean tooMany = recipientCount > recipientLimit;
@@ -1088,7 +1029,7 @@ public class ComposeMessageActivity extends Activity
     }
 
     private Uri getContactUriForPhoneNumber(String phoneNumber) {
-        Contact contact = Contact.get(phoneNumber, false, mSelectedSubId);
+        Contact contact = Contact.get(phoneNumber, false);
         if (contact.existsInDatabase()) {
             return contact.getUri();
         }
@@ -1244,8 +1185,7 @@ public class ComposeMessageActivity extends Activity
 
     private void editMmsMessageItem(MessageItem msgItem) {
         // Load the selected message in as the working message.
-        WorkingMessage newWorkingMessage = WorkingMessage.load(this, msgItem.mMessageUri,
-                mSelectedSubId);
+        WorkingMessage newWorkingMessage = WorkingMessage.load(this, msgItem.mMessageUri);
         if (newWorkingMessage == null) {
             return;
         }
@@ -1254,14 +1194,14 @@ public class ComposeMessageActivity extends Activity
         mWorkingMessage.discard();
 
         mWorkingMessage = newWorkingMessage;
-        mWorkingMessage.setConversation(mConversation, mSelectedSubId);
+        mWorkingMessage.setConversation(mConversation);
 
         drawTopPanel(false);
 
         // WorkingMessage.load() above only loads the slideshow. Set the
         // subject here because we already know what it is and avoid doing
         // another DB lookup in load() just to get it.
-        mWorkingMessage.setSubject(msgItem.mSubject, false, mSelectedSubId);
+        mWorkingMessage.setSubject(msgItem.mSubject, false);
 
         if (mWorkingMessage.hasSubject()) {
             showSubjectEditor(true);
@@ -1300,8 +1240,7 @@ public class ComposeMessageActivity extends Activity
                         // Copy the parts of the message here.
                         mTempMmsUri = persister.persist(sendReq, Mms.Draft.CONTENT_URI, true,
                                 MessagingPreferenceActivity
-                                    .getIsGroupMmsEnabled(ComposeMessageActivity.this,
-                                            mSelectedSubId), null);
+                                    .getIsGroupMmsEnabled(ComposeMessageActivity.this), null);
                         mTempThreadId = MessagingNotification.getThreadId(
                                 ComposeMessageActivity.this, mTempMmsUri);
                     } catch (MmsException e) {
@@ -1824,7 +1763,7 @@ public class ComposeMessageActivity extends Activity
                 break;
             }
         }
-        mDebugRecipients = list.serialize(mSelectedSubId);
+        mDebugRecipients = list.serialize();
 
         ActionBar actionBar = getActionBar();
         actionBar.setTitle(title);
@@ -1888,7 +1827,7 @@ public class ComposeMessageActivity extends Activity
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     RecipientsEditor editor = (RecipientsEditor) v;
-                    ContactList contacts = editor.constructContactsFromInput(false, mSelectedSubId);
+                    ContactList contacts = editor.constructContactsFromInput(false);
                     updateTitle(contacts);
                 }
             }
@@ -1925,7 +1864,7 @@ public class ComposeMessageActivity extends Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mIsSmsEnabled = MmsConfig.isSmsEnabled();
+        mIsSmsEnabled = MmsConfig.isSmsEnabled(this);
         super.onCreate(savedInstanceState);
 
         resetConfiguration(getResources().getConfiguration());
@@ -1944,10 +1883,6 @@ public class ComposeMessageActivity extends Activity
         if (TRACE) {
             android.os.Debug.startMethodTracing("compose");
         }
-        // Register for SubscriptionInfo list changes which is guaranteed
-        // to invoke onSubscriptionInfoChanged the first time.
-        SubscriptionManager.register(getBaseContext(), mSubscriptionListener,
-                SubscriptionListener.LISTEN_SUBSCRIPTION_INFO_LIST_CHANGED);
     }
 
     private void showSubjectEditor(boolean show) {
@@ -1963,8 +1898,7 @@ public class ComposeMessageActivity extends Activity
             }
             mSubjectTextEditor = (EditText)findViewById(R.id.subject);
             mSubjectTextEditor.setFilters(new InputFilter[] {
-                    new LengthFilter(MmsConfig.getInt(mSelectedSubId,
-                            SmsManager.MMS_CONFIG_SUBJECT_MAX_LENGTH))});
+                    new LengthFilter(MmsConfig.getMaxSubjectLength())});
         }
 
         mSubjectTextEditor.setOnKeyListener(show ? mSubjectKeyListener : null);
@@ -1996,7 +1930,7 @@ public class ComposeMessageActivity extends Activity
         if (LogTag.SEVERE_WARNING && originalThreadId != 0 &&
                 originalThreadId == mConversation.getThreadId()) {
             LogTag.warnPossibleRecipientMismatch("ComposeMessageActivity.initialize: " +
-                    " threadId didn't change from: " + originalThreadId, this, mSelectedSubId);
+                    " threadId didn't change from: " + originalThreadId, this);
         }
 
         log("savedInstanceState = " + savedInstanceState +
@@ -2026,7 +1960,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         // Let the working message know what conversation it belongs to
-        mWorkingMessage.setConversation(mConversation, mSelectedSubId);
+        mWorkingMessage.setConversation(mConversation);
 
         // Show the recipients editor if we don't have a valid thread. Hide it otherwise.
         if (mConversation.getThreadId() <= 0) {
@@ -2090,7 +2024,7 @@ public class ComposeMessageActivity extends Activity
                 // We've got a draft. Make sure the working recipients are synched
                 // to the conversation so when we compare conversations later in this function,
                 // the compare will work.
-                mWorkingMessage.syncWorkingRecipients(mSelectedSubId);
+                mWorkingMessage.syncWorkingRecipients();
             }
             // Get the "real" conversation based on the intentUri. The intentUri might specify
             // the conversation by a phone number or by a thread id. We'll typically get a threadId
@@ -2101,7 +2035,7 @@ public class ComposeMessageActivity extends Activity
             // the database and the corresponding entry made in the threads table. The code should
             // use the real conversation as soon as it can rather than finding out the threadId
             // when sending with "ensureThreadId".
-            conversation = Conversation.get(this, intentUri, false, mSelectedSubId);
+            conversation = Conversation.get(this, intentUri, false);
         }
 
         if (LogTag.VERBOSE || Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
@@ -2123,7 +2057,7 @@ public class ComposeMessageActivity extends Activity
             log("onNewIntent: same conversation");
             if (mConversation.getThreadId() == 0) {
                 mConversation = conversation;
-                mWorkingMessage.setConversation(mConversation, mSelectedSubId);
+                mWorkingMessage.setConversation(mConversation);
                 updateThreadIdIfRunning();
                 invalidateOptionsMenu();
             }
@@ -2143,7 +2077,7 @@ public class ComposeMessageActivity extends Activity
             LogTag.warnPossibleRecipientMismatch(
                     "ComposeMessageActivity: mWorkingMessage.mConversation=" +
                     mWorkingMessage.getConversation() + ", mConversation=" +
-                    mConversation + ", MISMATCH!", this, mSelectedSubId);
+                    mConversation + ", MISMATCH!", this);
         }
     }
 
@@ -2181,16 +2115,10 @@ public class ComposeMessageActivity extends Activity
     @Override
     protected void onStart() {
         super.onStart();
-        boolean isSmsEnabled = MmsConfig.isSmsEnabled();
+        boolean isSmsEnabled = MmsConfig.isSmsEnabled(this);
         if (isSmsEnabled != mIsSmsEnabled) {
             mIsSmsEnabled = isSmsEnabled;
             invalidateOptionsMenu();
-        }
-
-        if (!mIsSmsEnabled) {
-            if (mSubSelectDialog != null && mSubSelectDialog.isShowing()) {
-                mSubSelectDialog.dismiss();
-            }
         }
 
         initFocus();
@@ -2238,7 +2166,7 @@ public class ComposeMessageActivity extends Activity
         // Update the fasttrack info in case any of the recipients' contact info changed
         // while we were paused. This can happen, for example, if a user changes or adds
         // an avatar associated with a contact.
-        mWorkingMessage.syncWorkingRecipients(mSelectedSubId);
+        mWorkingMessage.syncWorkingRecipients();
 
         if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
             log("update title, mConversation=" + mConversation.toString());
@@ -2303,7 +2231,7 @@ public class ComposeMessageActivity extends Activity
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString(RECIPIENTS, getRecipients().serialize(mSelectedSubId));
+        outState.putString(RECIPIENTS, getRecipients().serialize());
 
         mWorkingMessage.writeStateToBundle(outState);
 
@@ -2337,8 +2265,7 @@ public class ComposeMessageActivity extends Activity
             @Override
             public void run() {
                 ContactList recipients = isRecipientsEditorVisible() ?
-                        mRecipientsEditor.constructContactsFromInput(false, mSelectedSubId) :
-                            getRecipients();
+                        mRecipientsEditor.constructContactsFromInput(false) : getRecipients();
                 updateTitle(recipients);
             }
         }, 100);
@@ -2427,7 +2354,7 @@ public class ComposeMessageActivity extends Activity
         if (TRACE) {
             android.os.Debug.stopMethodTracing();
         }
-        SubscriptionManager.unregister(getBaseContext(), mSubscriptionListener);
+
         super.onDestroy();
     }
 
@@ -2521,7 +2448,7 @@ public class ComposeMessageActivity extends Activity
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
                 if (isPreparedForSending()) {
-                    showSubSelectedDialog(false);
+                    confirmSendMessageIfNeeded();
                     return true;
                 }
                 break;
@@ -2547,8 +2474,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (isRecipientsEditorVisible() &&
-                !mRecipientsEditor.hasValidRecipient(mWorkingMessage.requiresMms(),
-                        mSelectedSubId)) {
+                !mRecipientsEditor.hasValidRecipient(mWorkingMessage.requiresMms())) {
             MessageUtils.showDiscardDraftConfirmDialog(this, new DiscardDraftListener());
             return;
         }
@@ -2721,7 +2647,10 @@ public class ComposeMessageActivity extends Activity
             return true;
         }
 
-        if (isRecipientCallable()) {
+        // Don't show the call icon if the device don't support voice calling.
+        boolean voiceCapable =
+                getResources().getBoolean(com.android.internal.R.bool.config_voice_capable);
+        if (isRecipientCallable() && voiceCapable) {
             MenuItem item = menu.add(0, MENU_CALL_RECIPIENT, 0, R.string.menu_call)
                 .setIcon(R.drawable.ic_menu_call)
                 .setTitle(R.string.menu_call);
@@ -2731,8 +2660,7 @@ public class ComposeMessageActivity extends Activity
             }
         }
 
-        if (MmsConfig.getBoolean(mSelectedSubId, SmsManager.MMS_CONFIG_MMS_ENABLED) &&
-                mIsSmsEnabled) {
+        if (MmsConfig.getMmsEnabled() && mIsSmsEnabled) {
             if (!isSubjectEditorVisible()) {
                 menu.add(0, MENU_ADD_SUBJECT, 0, R.string.add_subject).setIcon(
                         R.drawable.ic_menu_edit);
@@ -2803,7 +2731,7 @@ public class ComposeMessageActivity extends Activity
         switch (item.getItemId()) {
             case MENU_ADD_SUBJECT:
                 showSubjectEditor(true);
-                mWorkingMessage.setSubject("", true, mSelectedSubId);
+                mWorkingMessage.setSubject("", true);
                 updateSendButtonState();
                 mSubjectTextEditor.requestFocus();
                 break;
@@ -2817,7 +2745,7 @@ public class ComposeMessageActivity extends Activity
                 break;
             case MENU_SEND:
                 if (isPreparedForSending()) {
-                    showSubSelectedDialog(false);
+                    confirmSendMessageIfNeeded();
                 }
                 break;
             case MENU_SEARCH:
@@ -2869,7 +2797,7 @@ public class ComposeMessageActivity extends Activity
             case MENU_DEBUG_DUMP:
                 mWorkingMessage.dump();
                 Conversation.dump();
-                LogTag.dumpInternalTables(this, mSelectedSubId);
+                LogTag.dumpInternalTables(this);
                 break;
         }
 
@@ -2943,8 +2871,7 @@ public class ComposeMessageActivity extends Activity
 
     public static long computeAttachmentSizeLimit(SlideshowModel slideShow, int currentSlideSize) {
         // Computer attachment size limit. Subtract 1K for some text.
-        long sizeLimit = MmsConfig.getInt(SmsManager.MMS_CONFIG_MAX_MESSAGE_SIZE) -
-                SlideshowModel.SLIDESHOW_SLOP;
+        long sizeLimit = MmsConfig.getMaxMessageSize() - SlideshowModel.SLIDESHOW_SLOP;
         if (slideShow != null) {
             sizeLimit -= slideShow.getCurrentMessageSize();
 
@@ -2989,7 +2916,7 @@ public class ComposeMessageActivity extends Activity
         if (mWorkingMessage.isFakeMmsForDraft()) {
             // We no longer have to fake the fact we're an Mms. At this point we are or we aren't,
             // based on attachments and other Mms attrs.
-            mWorkingMessage.removeFakeMmsForDraft(mSelectedSubId);
+            mWorkingMessage.removeFakeMmsForDraft();
         }
 
         if (requestCode == REQUEST_CODE_PICK) {
@@ -3012,9 +2939,9 @@ public class ComposeMessageActivity extends Activity
                         mAddContactIntent.getStringExtra(ContactsContract.Intents.Insert.PHONE);
                 }
                 if (address != null) {
-                    Contact contact = Contact.get(address, false, mSelectedSubId);
+                    Contact contact = Contact.get(address, false);
                     if (contact != null) {
-                        contact.reload(mSelectedSubId);
+                        contact.reload();
                     }
                 }
             }
@@ -3028,11 +2955,10 @@ public class ComposeMessageActivity extends Activity
         switch (requestCode) {
             case REQUEST_CODE_CREATE_SLIDESHOW:
                 if (data != null) {
-                    WorkingMessage newMessage = WorkingMessage.load(this, data.getData(),
-                            mSelectedSubId);
+                    WorkingMessage newMessage = WorkingMessage.load(this, data.getData());
                     if (newMessage != null) {
                         mWorkingMessage = newMessage;
-                        mWorkingMessage.setConversation(mConversation, mSelectedSubId);
+                        mWorkingMessage.setConversation(mConversation);
                         updateThreadIdIfRunning();
                         drawTopPanel(false);
                         updateSendButtonState();
@@ -3066,12 +2992,12 @@ public class ComposeMessageActivity extends Activity
                 // Remove the old captured video's thumbnail from the cache
                 MmsApp.getApplication().getThumbnailManager().removeThumbnail(videoUri);
 
-                addVideoAsync(videoUri, false, mSelectedSubId);      // can handle null videoUri
+                addVideoAsync(videoUri, false);      // can handle null videoUri
                 break;
 
             case REQUEST_CODE_ATTACH_VIDEO:
                 if (data != null) {
-                    addVideoAsync(data.getData(), false, mSelectedSubId);
+                    addVideoAsync(data.getData(), false);
                 }
                 break;
 
@@ -3080,13 +3006,13 @@ public class ComposeMessageActivity extends Activity
                 if (Settings.System.DEFAULT_RINGTONE_URI.equals(uri)) {
                     break;
                 }
-                addAudio(uri, mSelectedSubId);
+                addAudio(uri);
                 break;
             }
 
             case REQUEST_CODE_RECORD_SOUND:
                 if (data != null) {
-                    addAudio(data.getData(), mSelectedSubId);
+                    addAudio(data.getData());
                 }
                 break;
 
@@ -3117,8 +3043,7 @@ public class ComposeMessageActivity extends Activity
 
         final int recipientCount = uris != null ? uris.length : 0;
 
-        final int recipientLimit =
-                MmsConfig.getInt(recipientCount, SmsManager.MMS_CONFIG_RECIPIENT_LIMIT);
+        final int recipientLimit = MmsConfig.getRecipientLimit();
         if (recipientLimit != Integer.MAX_VALUE && recipientCount > recipientLimit) {
             new AlertDialog.Builder(this)
                     .setMessage(getString(R.string.too_many_recipients, recipientCount, recipientLimit))
@@ -3149,7 +3074,7 @@ public class ComposeMessageActivity extends Activity
             public void run() {
                 final ContactList list;
                  try {
-                    list = ContactList.blockingGetByUris(uris, mSelectedSubId);
+                    list = ContactList.blockingGetByUris(uris);
                 } finally {
                     handler.removeCallbacks(showProgress);
                     progressDialog.dismiss();
@@ -3181,15 +3106,14 @@ public class ComposeMessageActivity extends Activity
             PduPersister persister = PduPersister.getPduPersister(context);
             int result;
 
-            Uri messageUri = mWorkingMessage.saveAsMms(true, mSelectedSubId);
+            Uri messageUri = mWorkingMessage.saveAsMms(true);
             if (messageUri == null) {
                 result = WorkingMessage.UNKNOWN_ERROR;
             } else {
                 try {
                     Uri dataUri = persister.persistPart(part,
                             ContentUris.parseId(messageUri), null);
-                    result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, dataUri, append,
-                            mSelectedSubId);
+                    result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, dataUri, append);
                     if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                         log("ResizeImageResultCallback: dataUri=" + dataUri);
                     }
@@ -3255,8 +3179,7 @@ public class ComposeMessageActivity extends Activity
             log("addImage: append=" + append + ", uri=" + uri);
         }
 
-        int result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, uri, append,
-                mSelectedSubId);
+        int result = mWorkingMessage.setAttachment(WorkingMessage.IMAGE, uri, append);
 
         if (result == WorkingMessage.IMAGE_TOO_LARGE ||
             result == WorkingMessage.MESSAGE_SIZE_EXCEEDED) {
@@ -3270,24 +3193,24 @@ public class ComposeMessageActivity extends Activity
         handleAddAttachmentError(result, R.string.type_picture);
     }
 
-    private void addVideoAsync(final Uri uri, final boolean append, final int subId) {
+    private void addVideoAsync(final Uri uri, final boolean append) {
         getAsyncDialog().runAsync(new Runnable() {
             @Override
             public void run() {
-                addVideo(uri, append, subId);
+                addVideo(uri, append);
             }
         }, null, R.string.adding_attachments_title);
     }
 
-    private void addVideo(Uri uri, boolean append, int subId) {
+    private void addVideo(Uri uri, boolean append) {
         if (uri != null) {
-            int result = mWorkingMessage.setAttachment(WorkingMessage.VIDEO, uri, append, subId);
+            int result = mWorkingMessage.setAttachment(WorkingMessage.VIDEO, uri, append);
             handleAddAttachmentError(result, R.string.type_video);
         }
     }
 
-    private void addAudio(Uri uri, int subId) {
-        int result = mWorkingMessage.setAttachment(WorkingMessage.AUDIO, uri, false, subId);
+    private void addAudio(Uri uri) {
+        int result = mWorkingMessage.setAttachment(WorkingMessage.AUDIO, uri, false);
         handleAddAttachmentError(result, R.string.type_audio);
     }
 
@@ -3314,8 +3237,8 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (uri != null) {
-            mWorkingMessage = WorkingMessage.load(this, uri, mSelectedSubId);
-            mWorkingMessage.setSubject(intent.getStringExtra("subject"), false, mSelectedSubId);
+            mWorkingMessage = WorkingMessage.load(this, uri);
+            mWorkingMessage.setSubject(intent.getStringExtra("subject"), false);
         } else {
             mWorkingMessage.setText(intent.getStringExtra("sms_body"));
         }
@@ -3400,7 +3323,7 @@ public class ComposeMessageActivity extends Activity
                 addImage(uri, append);
             } else if (type.startsWith("video/") ||
                     (wildcard && uri.toString().startsWith(mVideoUri))) {
-                addVideo(uri, append, mSelectedSubId);
+                addVideo(uri, append);
             }
         }
     }
@@ -3464,9 +3387,8 @@ public class ComposeMessageActivity extends Activity
 
     @Override
     public void onClick(View v) {
-        log("onClick");
         if ((v == mSendButtonSms || v == mSendButtonMms) && isPreparedForSending()) {
-            showSubSelectedDialog(false);
+            confirmSendMessageIfNeeded();
         } else if ((v == mRecipientsPicker)) {
             launchMultiplePhonePicker();
         }
@@ -3477,7 +3399,7 @@ public class ComposeMessageActivity extends Activity
         intent.addCategory("android.intent.category.DEFAULT");
         intent.setType(Phone.CONTENT_TYPE);
         // We have to wait for the constructing complete.
-        ContactList contacts = mRecipientsEditor.constructContactsFromInput(true, mSelectedSubId);
+        ContactList contacts = mRecipientsEditor.constructContactsFromInput(true);
         int urisCount = 0;
         Uri[] uris = new Uri[contacts.size()];
         urisCount = 0;
@@ -3499,7 +3421,7 @@ public class ComposeMessageActivity extends Activity
             // otherwise, the default action is to send the message.
             if (!event.isShiftPressed() && event.getAction() == KeyEvent.ACTION_DOWN) {
                 if (isPreparedForSending()) {
-                    showSubSelectedDialog(false);
+                    confirmSendMessageIfNeeded();
                 }
                 return true;
             }
@@ -3507,7 +3429,7 @@ public class ComposeMessageActivity extends Activity
         }
 
         if (isPreparedForSending()) {
-            showSubSelectedDialog(false);
+            confirmSendMessageIfNeeded();
         }
         return true;
     }
@@ -3563,7 +3485,7 @@ public class ComposeMessageActivity extends Activity
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mWorkingMessage.setSubject(s, true, mSelectedSubId);
+            mWorkingMessage.setSubject(s, true);
             updateSendButtonState();
         }
 
@@ -3612,37 +3534,13 @@ public class ComposeMessageActivity extends Activity
         mTextEditor = (EditText) findViewById(R.id.embedded_text_editor);
         mTextEditor.setOnEditorActionListener(this);
         mTextEditor.addTextChangedListener(mTextEditorWatcher);
-        final int maxLengthText = MmsConfig.getInt(mSelectedSubId,
-                SmsManager.MMS_CONFIG_MESSAGE_TEXT_MAX_SIZE);
-        if (maxLengthText > 0) {
-            mTextEditor.setFilters(new InputFilter[] {new LengthFilter(maxLengthText)});
-        }
+        mTextEditor.setFilters(new InputFilter[] {
+                new LengthFilter(MmsConfig.getMaxTextLimit())});
         mTextCounter = (TextView) findViewById(R.id.text_counter);
-
         mSendButtonMms = (TextView) findViewById(R.id.send_button_mms);
         mSendButtonSms = (ImageButton) findViewById(R.id.send_button_sms);
-
-        final int activeSimCount =
-                MessagingPreferenceActivity.getActiveSimCount();
-        if (activeSimCount > 1) {
-            View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
-                public boolean onLongClick(View v) {
-                    // If the user long-presses the send button with multiple sims, allow them to
-                    // pick the sim used to send the message.
-                    log("onLongClick");
-                    if ((v == mSendButtonSms || v == mSendButtonMms) && isPreparedForSending()) {
-                        showSubSelectedDialog(true);
-                        return true;
-                    }
-                    return false;
-                }
-            };
-            mSendButtonMms.setOnLongClickListener(longClickListener);
-            mSendButtonSms.setOnLongClickListener(longClickListener);
-        }
         mSendButtonMms.setOnClickListener(this);
         mSendButtonSms.setOnClickListener(this);
-
         mTopPanel = findViewById(R.id.recipients_subject_linear);
         mTopPanel.setFocusable(false);
         mAttachmentEditor = (AttachmentEditor) findViewById(R.id.attachment_editor);
@@ -3762,12 +3660,11 @@ public class ComposeMessageActivity extends Activity
                         drawBottomPanel();
                         updateSendButtonState();
                     }
-                },
-                mSelectedSubId);
+                });
 
         // WorkingMessage.loadDraft() can return a new WorkingMessage object that doesn't
         // have its conversation set. Make sure it is set.
-        mWorkingMessage.setConversation(mConversation, mSelectedSubId);
+        mWorkingMessage.setConversation(mConversation);
 
         return true;
     }
@@ -3793,7 +3690,7 @@ public class ComposeMessageActivity extends Activity
             return;
         }
 
-        mWorkingMessage.saveDraft(isStopping, mSelectedSubId);
+        mWorkingMessage.saveDraft(isStopping);
 
         if (mToastForDraftSave) {
             Toast.makeText(this, R.string.message_saved_as_draft,
@@ -3805,8 +3702,7 @@ public class ComposeMessageActivity extends Activity
         int recipientCount = recipientCount();
 
         return recipientCount > 0 &&
-                recipientCount <=
-                    MmsConfig.getInt(mSelectedSubId, SmsManager.MMS_CONFIG_RECIPIENT_LIMIT) &&
+                recipientCount <= MmsConfig.getRecipientLimit() &&
                 mIsSmsEnabled &&
                 (mWorkingMessage.hasAttachment() || mWorkingMessage.hasText() ||
                     mWorkingMessage.hasSubject());
@@ -3844,26 +3740,17 @@ public class ComposeMessageActivity extends Activity
             }
         }
 
-        // Remind user if the current selected SIM is removed. The code will continue
-        // and the lower level code will mark the message as failed. User can then
-        // click to retry.
-        if (!SubscriptionManager.isValidSubId(mSelectedSubId)) {
-            Log.e(TAG, "The selected SIM is not valid anymore");
-            Toast.makeText(this, R.string.selected_sim_invalid, Toast.LENGTH_LONG).show();
-        }
-
         if (!mSendingMessage) {
             if (LogTag.SEVERE_WARNING) {
-                String sendingRecipients = mConversation.getRecipients().serialize(mSelectedSubId);
+                String sendingRecipients = mConversation.getRecipients().serialize();
                 if (!sendingRecipients.equals(mDebugRecipients)) {
-                    String workingRecipients = mWorkingMessage.getWorkingRecipients(mSelectedSubId);
+                    String workingRecipients = mWorkingMessage.getWorkingRecipients();
                     if (!mDebugRecipients.equals(workingRecipients)) {
                         LogTag.warnPossibleRecipientMismatch("ComposeMessageActivity.sendMessage" +
                                 " recipients in window: \"" +
                                 mDebugRecipients + "\" differ from recipients from conv: \"" +
                                 sendingRecipients + "\" and working recipients: " +
-                                workingRecipients, this,
-                                mSelectedSubId);
+                                workingRecipients, this);
                     }
                 }
                 sanityCheckConversation();
@@ -3873,7 +3760,7 @@ public class ComposeMessageActivity extends Activity
             // them back once the recipient list has settled.
             removeRecipientsListeners();
 
-            mWorkingMessage.send(mDebugRecipients, mSelectedSubId);
+            mWorkingMessage.send(mDebugRecipients);
 
             mSentMessage = true;
             mSendingMessage = true;
@@ -3913,7 +3800,7 @@ public class ComposeMessageActivity extends Activity
 
         mWorkingMessage.clearConversation(mConversation, false);
         mWorkingMessage = WorkingMessage.createEmpty(this);
-        mWorkingMessage.setConversation(mConversation, mSelectedSubId);
+        mWorkingMessage.setConversation(mConversation);
 
         hideRecipientEditor();
         drawBottomPanel();
@@ -3987,8 +3874,7 @@ public class ComposeMessageActivity extends Activity
             if (LogTag.VERBOSE) log("get mConversation by recipients " + recipients);
             mConversation = Conversation.get(this,
                     ContactList.getByNumbers(recipients,
-                            false /* don't block */, true /* replace number */, mSelectedSubId),
-                            false, mSelectedSubId);
+                            false /* don't block */, true /* replace number */), false);
             addRecipientsListeners();
             mSendDiscreetMode = bundle.getBoolean(KEY_EXIT_ON_SENT, false);
             mForwardMessageMode = bundle.getBoolean(KEY_FORWARDED_MESSAGE, false);
@@ -3996,7 +3882,7 @@ public class ComposeMessageActivity extends Activity
             if (mSendDiscreetMode) {
                 mMsgListView.setVisibility(View.INVISIBLE);
             }
-            mWorkingMessage.readStateFromBundle(bundle, mSelectedSubId);
+            mWorkingMessage.readStateFromBundle(bundle);
 
             return;
         }
@@ -4011,7 +3897,7 @@ public class ComposeMessageActivity extends Activity
             if (intentData != null) {
                 // try to get a conversation based on the data URI passed to our intent.
                 if (LogTag.VERBOSE) log("get mConversation by intentData " + intentData);
-                mConversation = Conversation.get(this, intentData, false, mSelectedSubId);
+                mConversation = Conversation.get(this, intentData, false);
                 mWorkingMessage.setText(getBody(intentData));
             } else {
                 // special intent extra parameter to specify the address
@@ -4019,8 +3905,7 @@ public class ComposeMessageActivity extends Activity
                 if (!TextUtils.isEmpty(address)) {
                     if (LogTag.VERBOSE) log("get mConversation by address " + address);
                     mConversation = Conversation.get(this, ContactList.getByNumbers(address,
-                            false /* don't block */, true /* replace number */, mSelectedSubId),
-                            false, mSelectedSubId);
+                            false /* don't block */, true /* replace number */), false);
                 } else {
                     if (LogTag.VERBOSE) log("create new conversation");
                     mConversation = Conversation.createNew(this);
@@ -4038,7 +3923,7 @@ public class ComposeMessageActivity extends Activity
         if (intent.hasExtra("sms_body")) {
             mWorkingMessage.setText(intent.getStringExtra("sms_body"));
         }
-        mWorkingMessage.setSubject(intent.getStringExtra("subject"), false, mSelectedSubId);
+        mWorkingMessage.setSubject(intent.getStringExtra("subject"), false);
     }
 
     private void initFocus() {
@@ -4287,6 +4172,13 @@ public class ComposeMessageActivity extends Activity
                     return;
 
                 case ConversationList.HAVE_LOCKED_MESSAGES_TOKEN:
+                    if (ComposeMessageActivity.this.isFinishing()) {
+                        Log.w(TAG, "ComposeMessageActivity is finished, do nothing ");
+                        if (cursor != null) {
+                            cursor.close();
+                        }
+                        return ;
+                    }
                     @SuppressWarnings("unchecked")
                     ArrayList<Long> threadIds = (ArrayList<Long>)cookie;
                     ConversationList.confirmDeleteThreadDialog(
@@ -4369,7 +4261,7 @@ public class ComposeMessageActivity extends Activity
                 // when we init all Conversations below.
                 if (recipients != null) {
                     for (Contact contact : recipients) {
-                        contact.removeFromCache(mSelectedSubId);
+                        contact.removeFromCache();
                     }
                 }
 
@@ -4392,8 +4284,7 @@ public class ComposeMessageActivity extends Activity
             @Override
             public void run() {
                 ContactList recipients = isRecipientsEditorVisible() ?
-                        mRecipientsEditor.constructContactsFromInput(false, mSelectedSubId) :
-                            getRecipients();
+                        mRecipientsEditor.constructContactsFromInput(false) : getRecipients();
                 if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
                     log("[CMA] onUpdate contact updated: " + updated);
                     log("[CMA] onUpdate recipients: " + recipients);

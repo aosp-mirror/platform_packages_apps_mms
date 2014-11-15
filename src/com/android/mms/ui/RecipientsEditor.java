@@ -23,8 +23,6 @@ import java.util.List;
 import android.content.Context;
 import android.provider.Telephony.Mms;
 import android.telephony.PhoneNumberUtils;
-import android.telephony.SmsManager;
-import android.telephony.SubscriptionManager;
 import android.text.Annotation;
 import android.text.Editable;
 import android.text.Layout;
@@ -37,14 +35,17 @@ import android.text.util.Rfc822Token;
 import android.text.util.Rfc822Tokenizer;
 import android.util.AttributeSet;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.MultiAutoCompleteTextView;
 
+import com.android.ex.chips.DropdownChipLayouter;
 import com.android.ex.chips.RecipientEditTextView;
 import com.android.mms.MmsConfig;
+import com.android.mms.R;
 import com.android.mms.data.Contact;
 import com.android.mms.data.ContactList;
 
@@ -125,6 +126,13 @@ public class RecipientsEditor extends RecipientEditTextView {
                 mAffected = null;
             }
         });
+
+        setDropdownChipLayouter(new DropdownChipLayouter(LayoutInflater.from(context), context) {
+            @Override
+            protected int getItemLayoutResId(AdapterType type) {
+                return R.layout.mms_chips_recipient_dropdown_item;
+            }
+        });
     }
 
     @Override
@@ -165,20 +173,20 @@ public class RecipientsEditor extends RecipientEditTextView {
         return mTokenizer.getNumbers();
     }
 
-    public ContactList constructContactsFromInput(boolean blocking, int subId) {
+    public ContactList constructContactsFromInput(boolean blocking) {
         List<String> numbers = mTokenizer.getNumbers();
         ContactList list = new ContactList();
         for (String number : numbers) {
-            Contact contact = Contact.get(number, blocking, subId);
+            Contact contact = Contact.get(number, blocking);
             contact.setNumber(number);
             list.add(contact);
         }
         return list;
     }
 
-    private boolean isValidAddress(String number, boolean isMms, int subId) {
+    private boolean isValidAddress(String number, boolean isMms) {
         if (isMms) {
-            return MessageUtils.isValidMmsAddress(number, subId);
+            return MessageUtils.isValidMmsAddress(number);
         } else {
             // TODO: PhoneNumberUtils.isWellFormedSmsAddress() only check if the number is a valid
             // GSM SMS address. If the address contains a dialable char, it considers it a well
@@ -189,20 +197,20 @@ public class RecipientsEditor extends RecipientEditTextView {
         }
     }
 
-    public boolean hasValidRecipient(boolean isMms, int subId) {
+    public boolean hasValidRecipient(boolean isMms) {
         for (String number : mTokenizer.getNumbers()) {
-            if (isValidAddress(number, isMms, subId))
+            if (isValidAddress(number, isMms))
                 return true;
         }
         return false;
     }
 
-    public boolean hasInvalidRecipient(boolean isMms, int subId) {
+    public boolean hasInvalidRecipient(boolean isMms) {
         for (String number : mTokenizer.getNumbers()) {
-            if (!isValidAddress(number, isMms, subId)) {
-                if (MmsConfig.getString(SmsManager.MMS_CONFIG_EMAIL_GATEWAY_NUMBER) == null) {
+            if (!isValidAddress(number, isMms)) {
+                if (MmsConfig.getEmailGateway() == null) {
                     return true;
-                } else if (!MessageUtils.isAlias(number, subId)) {
+                } else if (!MessageUtils.isAlias(number)) {
                     return true;
                 }
             }
@@ -210,10 +218,10 @@ public class RecipientsEditor extends RecipientEditTextView {
         return false;
     }
 
-    public String formatInvalidNumbers(boolean isMms, int subId) {
+    public String formatInvalidNumbers(boolean isMms) {
         StringBuilder sb = new StringBuilder();
         for (String number : mTokenizer.getNumbers()) {
-            if (!isValidAddress(number, isMms, subId)) {
+            if (!isValidAddress(number, isMms)) {
                 if (sb.length() != 0) {
                     sb.append(", ");
                 }
@@ -325,8 +333,7 @@ public class RecipientsEditor extends RecipientEditTextView {
 
                 if (end != start) {
                     String number = getNumberAt(getText(), start, end, getContext());
-                    Contact c = Contact.get(number, false,
-                            SubscriptionManager.getDefaultSmsSubId());
+                    Contact c = Contact.get(number, false);
                     return new RecipientContextMenuInfo(c);
                 }
             }

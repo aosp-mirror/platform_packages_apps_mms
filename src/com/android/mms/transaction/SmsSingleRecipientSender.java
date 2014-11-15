@@ -10,26 +10,24 @@ import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
-import android.telephony.SubscriptionManager;
 import android.util.Log;
 
-import com.android.internal.telephony.PhoneConstants;
 import com.android.mms.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.data.Conversation;
 import com.android.mms.ui.MessageUtils;
-
 import com.google.android.mms.MmsException;
 
 public class SmsSingleRecipientSender extends SmsMessageSender {
+
     private final boolean mRequestDeliveryReport;
     private String mDest;
     private Uri mUri;
     private static final String TAG = LogTag.TAG;
 
     public SmsSingleRecipientSender(Context context, String dest, String msgText, long threadId,
-            boolean requestDeliveryReport, Uri uri, int subId) {
-        super(context, null, msgText, threadId, subId);
+            boolean requestDeliveryReport, Uri uri) {
+        super(context, null, msgText, threadId);
         mRequestDeliveryReport = requestDeliveryReport;
         mDest = dest;
         mUri = uri;
@@ -44,20 +42,13 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
             // one.
             throw new MmsException("Null message body or have multiple destinations.");
         }
-        if (!SubscriptionManager.isValidSubId(mSubId)) {
-            // Make last check of the validity of current SIM. It is possible that
-            // it is removed.
-            throw new MmsException("Current selected SIM is not valid");
-        }
-        SmsManager smsManager = SmsManager.getSmsManagerForSubscriber(mSubId);
+        SmsManager smsManager = SmsManager.getDefault();
         ArrayList<String> messages = null;
-        final String emailGateway =
-                MmsConfig.getString(mSubId, SmsManager.MMS_CONFIG_EMAIL_GATEWAY_NUMBER);
-        if ((emailGateway != null) &&
-                (Mms.isEmailAddress(mDest) || MessageUtils.isAlias(mDest, mSubId))) {
+        if ((MmsConfig.getEmailGateway() != null) &&
+                (Mms.isEmailAddress(mDest) || MessageUtils.isAlias(mDest))) {
             String msgText;
             msgText = mDest + " " + mMessageText;
-            mDest = emailGateway;
+            mDest = MmsConfig.getEmailGateway();
             messages = smsManager.divideMessage(msgText);
         } else {
             messages = smsManager.divideMessage(mMessageText);
@@ -65,7 +56,7 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
             // (e.g. "801 555 1212" -> "8015551212")
             // (e.g. "+8211-123-4567" -> "+82111234567")
             mDest = PhoneNumberUtils.stripSeparators(mDest);
-            mDest = Conversation.verifySingleRecipient(mContext, mThreadId, mDest, mSubId);
+            mDest = Conversation.verifySingleRecipient(mContext, mThreadId, mDest);
         }
         int messageCount = messages.size();
 
@@ -98,8 +89,7 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
                                 MessageStatusReceiver.MESSAGE_STATUS_RECEIVED_ACTION,
                                 mUri,
                                 mContext,
-                                MessageStatusReceiver.class)
-                                        .putExtra(PhoneConstants.SUBSCRIPTION_KEY, mSubId),
+                                MessageStatusReceiver.class),
                                 0));
             } else {
                 deliveryIntents.add(null);
@@ -120,12 +110,10 @@ public class SmsSingleRecipientSender extends SmsMessageSender {
             if (LogTag.DEBUG_SEND) {
                 Log.v(TAG, "sendMessage sendIntent: " + intent);
             }
-            intent.putExtra(PhoneConstants.SUBSCRIPTION_KEY, mSubId);
             sentIntents.add(PendingIntent.getBroadcast(mContext, requestCode, intent, 0));
         }
         try {
-            smsManager.sendMultipartTextMessage(mDest, mServiceCenter, messages,
-                    sentIntents, deliveryIntents);
+            smsManager.sendMultipartTextMessage(mDest, mServiceCenter, messages, sentIntents, deliveryIntents);
         } catch (Exception ex) {
             Log.e(TAG, "SmsMessageSender.sendMessage: caught", ex);
             throw new MmsException("SmsMessageSender.sendMessage: caught " + ex +

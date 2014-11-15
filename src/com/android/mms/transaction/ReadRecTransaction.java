@@ -26,7 +26,6 @@ import android.util.Log;
 
 import com.android.mms.LogTag;
 import com.android.mms.ui.MessageUtils;
-
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.EncodedStringValue;
 import com.google.android.mms.pdu.PduComposer;
@@ -55,9 +54,8 @@ public class ReadRecTransaction extends Transaction implements Runnable{
     public ReadRecTransaction(Context context,
             int transId,
             TransactionSettings connectionSettings,
-            String uri,
-            int subId) {
-        super(context, transId, connectionSettings, subId);
+            String uri) {
+        super(context, transId, connectionSettings);
         mReadReportURI = Uri.parse(uri);
         mId = uri;
 
@@ -83,7 +81,7 @@ public class ReadRecTransaction extends Transaction implements Runnable{
             ReadRecInd readRecInd = (ReadRecInd) persister.load(mReadReportURI);
 
             // insert the 'from' address per spec
-            String lineNumber = MessageUtils.getLocalNumber(mSubId);
+            String lineNumber = MessageUtils.getLocalNumber();
             readRecInd.setFrom(new EncodedStringValue(lineNumber));
 
             // Pack M-read-rec.ind and send it

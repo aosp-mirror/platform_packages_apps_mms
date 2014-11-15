@@ -158,16 +158,16 @@ public class Contact {
         Log.d(tag, sb.toString());
     }
 
-    public static Contact get(String number, boolean canBlock, int subId) {
-        return sContactCache.get(number, canBlock, subId);
+    public static Contact get(String number, boolean canBlock) {
+        return sContactCache.get(number, canBlock);
     }
 
-    public static Contact getMe(boolean canBlock, int subId) {
-        return sContactCache.getMe(canBlock, subId);
+    public static Contact getMe(boolean canBlock) {
+        return sContactCache.getMe(canBlock);
     }
 
-    public void removeFromCache(int subId) {
-        sContactCache.remove(this, subId);
+    public void removeFromCache() {
+        sContactCache.remove(this);
     }
 
     public static List<Contact> getByPhoneUris(Parcelable[] uris) {
@@ -224,9 +224,9 @@ public class Contact {
         }
     }
 
-    public synchronized void reload(int subId) {
+    public synchronized void reload() {
         mIsStale = true;
-        sContactCache.get(mNumber, false, subId);
+        sContactCache.get(mNumber, false);
     }
 
     public synchronized String getNumber() {
@@ -360,6 +360,9 @@ public class Contact {
     }
 
     public static void init(final Context context) {
+        if (sContactCache != null) { // Stop previous Runnable
+            sContactCache.mTaskQueue.mWorkerThread.interrupt();
+        }
         sContactCache = new ContactsCache(context);
 
         RecipientIdCache.init(context);
@@ -508,7 +511,7 @@ public class Contact {
                                     try {
                                         mThingsToLoad.wait();
                                     } catch (InterruptedException ex) {
-                                        // nothing to do
+                                        break;  // Exception sent by Contact.init() to stop Runnable
                                     }
                                 }
                                 if (mThingsToLoad.size() > 0) {
@@ -537,15 +540,15 @@ public class Contact {
             mTaskQueue.push(r);
         }
 
-        public Contact getMe(boolean canBlock, int subId) {
-            return get(SELF_ITEM_KEY, true, canBlock, subId);
+        public Contact getMe(boolean canBlock) {
+            return get(SELF_ITEM_KEY, true, canBlock);
         }
 
-        public Contact get(String number, boolean canBlock, int subId) {
-            return get(number, false, canBlock, subId);
+        public Contact get(String number, boolean canBlock) {
+            return get(number, false, canBlock);
         }
 
-        private Contact get(String number, boolean isMe, boolean canBlock, final int subId) {
+        private Contact get(String number, boolean isMe, boolean canBlock) {
             if (Log.isLoggable(LogTag.CONTACT, Log.DEBUG)) {
                 logWithTrace(TAG, "get(%s, %s, %s)", number, isMe, canBlock);
             }
@@ -559,7 +562,7 @@ public class Contact {
 
             // Always return a Contact object, if if we don't have an actual contact
             // in the contacts db.
-            Contact contact = internalGet(number, isMe, subId);
+            Contact contact = internalGet(number, isMe);
             Runnable r = null;
 
             synchronized (contact) {
@@ -587,7 +590,7 @@ public class Contact {
                     r = new Runnable() {
                         @Override
                         public void run() {
-                            updateContact(c, subId);
+                            updateContact(c);
                         }
                     };
 
@@ -723,12 +726,12 @@ public class Contact {
             return false;
         }
 
-        private void updateContact(final Contact c, int subId) {
+        private void updateContact(final Contact c) {
             if (c == null) {
                 return;
             }
 
-            Contact entry = getContactInfo(c, subId);
+            Contact entry = getContactInfo(c);
             synchronized (c) {
                 if (contactChanged(c, entry)) {
                     if (Log.isLoggable(LogTag.APP, Log.VERBOSE)) {
@@ -783,12 +786,12 @@ public class Contact {
         /**
          * Returns the caller info in Contact.
          */
-        private Contact getContactInfo(Contact c, int subId) {
+        private Contact getContactInfo(Contact c) {
             if (c.mIsMe) {
                 return getContactInfoForSelf();
             } else if (Mms.isEmailAddress(c.mNumber)) {
                 return getContactInfoForEmailAddress(c.mNumber);
-            } else if (isAlphaNumber(c.mNumber, subId)) {
+            } else if (isAlphaNumber(c.mNumber)) {
                 // first try to look it up in the email field
                 Contact contact = getContactInfoForEmailAddress(c.mNumber);
                 if (contact.existsInDatabase()) {
@@ -817,7 +820,7 @@ public class Contact {
         //    "#4#5#6#"  -> true   [it is considered to be the address "#4#5#6#"]
         //    "AB12"     -> true   [2 digits, it is considered to be the address "AB12"]
         //    "12"       -> true   [2 digits, it is considered to be the address "12"]
-        private boolean isAlphaNumber(String number, int subId) {
+        private boolean isAlphaNumber(String number) {
             // TODO: PhoneNumberUtils.isWellFormedSmsAddress() only check if the number is a valid
             // GSM SMS address. If the address contains a dialable char, it considers it a well
             // formed SMS addr. CDMA doesn't work that way and has a different parser for SMS
@@ -826,7 +829,7 @@ public class Contact {
                 // The example "T-Mobile" will exit here because there are no numbers.
                 return true;        // we're not an sms address, consider it an alpha number
             }
-            if (MessageUtils.isAlias(number, subId)) {
+            if (MessageUtils.isAlias(number)) {
                 return true;
             }
             number = PhoneNumberUtils.extractNetworkPortion(number);
@@ -1102,12 +1105,12 @@ public class Contact {
         static final int STATIC_KEY_BUFFER_MAXIMUM_LENGTH = 5;
         static CharBuffer sStaticKeyBuffer = CharBuffer.allocate(STATIC_KEY_BUFFER_MAXIMUM_LENGTH);
 
-        private Contact internalGet(String numberOrEmail, boolean isMe, int subId) {
+        private Contact internalGet(String numberOrEmail, boolean isMe) {
             synchronized (ContactsCache.this) {
                 // See if we can find "number" in the hashtable.
                 // If so, just return the result.
                 final boolean isNotRegularPhoneNumber = isMe || Mms.isEmailAddress(numberOrEmail) ||
-                        MessageUtils.isAlias(numberOrEmail, subId);
+                        MessageUtils.isAlias(numberOrEmail);
                 final String key = isNotRegularPhoneNumber ?
                         numberOrEmail : key(numberOrEmail, sStaticKeyBuffer);
 
@@ -1154,12 +1157,12 @@ public class Contact {
         }
 
         // Remove a contact from the ContactsCache based on the number or email address
-        private void remove(Contact contact, int subId) {
+        private void remove(Contact contact) {
             synchronized (ContactsCache.this) {
                 String number = contact.getNumber();
                 final boolean isNotRegularPhoneNumber = contact.isMe() ||
                                     Mms.isEmailAddress(number) ||
-                                    MessageUtils.isAlias(number, subId);
+                                    MessageUtils.isAlias(number);
                 final String key = isNotRegularPhoneNumber ?
                         number : key(number, sStaticKeyBuffer);
                 ArrayList<Contact> candidates = mContactsHash.get(key);

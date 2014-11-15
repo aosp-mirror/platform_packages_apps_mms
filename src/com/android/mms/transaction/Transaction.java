@@ -40,7 +40,6 @@ public abstract class Transaction extends Observable {
     protected String mId;
     protected TransactionState mTransactionState;
     protected TransactionSettings mTransactionSettings;
-    protected int mSubId;
 
     /**
      * Identifies push requests.
@@ -60,12 +59,11 @@ public abstract class Transaction extends Observable {
     public static final int READREC_TRANSACTION      = 3;
 
     public Transaction(Context context, int serviceId,
-            TransactionSettings settings, int subId) {
+            TransactionSettings settings) {
         mContext = context;
         mTransactionState = new TransactionState();
         mServiceId = serviceId;
         mTransactionSettings = settings;
-        mSubId = subId;
     }
 
     /**
@@ -100,10 +98,6 @@ public abstract class Transaction extends Observable {
      */
     public int getServiceId() {
         return mServiceId;
-    }
-
-    public int getSubId() {
-        return mSubId;
     }
 
     public TransactionSettings getConnectionSettings() {
@@ -183,8 +177,7 @@ public abstract class Transaction extends Observable {
                 pdu, HttpUtils.HTTP_POST_METHOD,
                 mTransactionSettings.isProxySet(),
                 mTransactionSettings.getProxyAddress(),
-                mTransactionSettings.getProxyPort(),
-                mSubId);
+                mTransactionSettings.getProxyPort());
     }
 
     /**
@@ -203,8 +196,7 @@ public abstract class Transaction extends Observable {
                 url, null, HttpUtils.HTTP_GET_METHOD,
                 mTransactionSettings.isProxySet(),
                 mTransactionSettings.getProxyAddress(),
-                mTransactionSettings.getProxyPort(),
-                mSubId);
+                mTransactionSettings.getProxyPort());
     }
 
     /**

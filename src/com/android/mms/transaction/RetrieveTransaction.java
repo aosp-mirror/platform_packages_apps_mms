@@ -26,7 +26,6 @@ import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Mms.Inbox;
-import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -37,7 +36,6 @@ import com.android.mms.ui.MessagingPreferenceActivity;
 import com.android.mms.util.DownloadManager;
 import com.android.mms.util.Recycler;
 import com.android.mms.widget.MmsWidgetProvider;
-
 import com.google.android.mms.MmsException;
 import com.google.android.mms.pdu.AcknowledgeInd;
 import com.google.android.mms.pdu.EncodedStringValue;
@@ -79,9 +77,9 @@ public class RetrieveTransaction extends Transaction implements Runnable {
     static final int COLUMN_LOCKED                = 1;
 
     public RetrieveTransaction(Context context, int serviceId,
-            TransactionSettings connectionSettings, String uri, int subId)
+            TransactionSettings connectionSettings, String uri)
             throws MmsException {
-        super(context, serviceId, connectionSettings, subId);
+        super(context, serviceId, connectionSettings);
 
         if (uri.startsWith("content://")) {
             mUri = Uri.parse(uri); // The Uri of the M-Notification.ind
@@ -133,7 +131,7 @@ public class RetrieveTransaction extends Transaction implements Runnable {
         try {
             // Change the downloading state of the M-Notification.ind.
             DownloadManager.getInstance().markState(
-                    mUri, DownloadManager.STATE_DOWNLOADING, mSubId);
+                    mUri, DownloadManager.STATE_DOWNLOADING);
 
             // Send GET request to MMSC and retrieve the response data.
             byte[] resp = getPdu(mContentLocation);
@@ -154,12 +152,11 @@ public class RetrieveTransaction extends Transaction implements Runnable {
                 // Store M-Retrieve.conf into Inbox
                 PduPersister persister = PduPersister.getPduPersister(mContext);
                 msgUri = persister.persist(retrieveConf, Inbox.CONTENT_URI, true,
-                        MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext, mSubId), null);
+                        MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null);
 
                 // Use local time instead of PDU time
-                ContentValues values = new ContentValues(2);
+                ContentValues values = new ContentValues(1);
                 values.put(Mms.DATE, System.currentTimeMillis() / 1000L);
-                values.put(Mms.SUB_ID, mSubId);
                 SqliteWrapper.update(mContext, mContext.getContentResolver(),
                         msgUri, values, null, null);
 
@@ -280,11 +277,11 @@ public class RetrieveTransaction extends Transaction implements Runnable {
                     PduHeaders.CURRENT_MMS_VERSION, tranId);
 
             // insert the 'from' address per spec
-            String lineNumber = MessageUtils.getLocalNumber(mSubId);
+            String lineNumber = MessageUtils.getLocalNumber();
             acknowledgeInd.setFrom(new EncodedStringValue(lineNumber));
 
             // Pack M-Acknowledge.ind and send it
-            if(MmsConfig.getBoolean(mSubId, SmsManager.MMS_CONFIG_NOTIFY_WAP_MMSC_ENABLED)) {
+            if(MmsConfig.getNotifyWapMMSC()) {
                 sendPdu(new PduComposer(mContext, acknowledgeInd).make(), mContentLocation);
             } else {
                 sendPdu(new PduComposer(mContext, acknowledgeInd).make());

@@ -182,8 +182,6 @@
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Ääni"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Aseta tallennettavien viestien lukumäärä"</string>
     <string name="silent_ringtone" msgid="7981237991326592780">"Äänetön"</string>
-    <string name="pref_summary_sim_ask" msgid="5815190975933015621">"Tarkista käytettävä SIM-kortti ennen jokaisen viestin lähettämistä"</string>
-    <string name="pref_title_sim_ask" msgid="4794530561349736162">"Monta SIM-korttia"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Automaattilataus"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Lataa viestit automaattisesti"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Automaattilataus roaming-tilassa"</string>
@@ -357,11 +355,4 @@
     <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"Messaging ei ole tekstiviestisovelluksesi"</string>
     <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g> on tekstiviestisovelluksesi"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"Voit muuttaa tätä valitsemalla Asetukset"</string>
-    <string name="sub_select_dialog_title" msgid="8210168935409702285">"Valitse SIM"</string>
-    <string name="default_sim_name" msgid="903290497566800216">"SIM <xliff:g id="SUBID">%1$d</xliff:g>"</string>
-    <string name="empty_sim_name" msgid="1008631117599170591">"SIM-korttipaikka <xliff:g id="SUBID">%1$d</xliff:g>"</string>
-    <string name="subSelect_negative" msgid="6139403806707801822">"Peruuta"</string>
-    <string name="sub_name_container" msgid="4802195955108231738">"   <xliff:g id="SUBNAME">%1$s</xliff:g>  "</string>
-    <string name="sub_name_ellipsis" msgid="2475475055178768223">"…"</string>
-    <string name="selected_sim_invalid" msgid="2309319911434202998">"Nyt valittua SIM-korttia ei ole. Valitse oletus-SIM järjestelmäasetuksista."</string>
 </resources>

@@ -22,9 +22,6 @@ import java.nio.ByteBuffer;
 import android.content.Context;
 
 public class ImageCacheService {
-    @SuppressWarnings("unused")
-    private static final String TAG = "ImageCacheService";
-
     public static final String IMAGE_CACHE_FILE = "imgcache";
     private static final int IMAGE_CACHE_MAX_ENTRIES = 500;
     private static final int IMAGE_CACHE_MAX_BYTES = 20 * 1024 * 1024;

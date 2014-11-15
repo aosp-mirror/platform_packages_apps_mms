@@ -33,7 +33,6 @@ import android.os.Bundle;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.telephony.PhoneNumberUtils;
-import android.telephony.SubscriptionManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,7 +42,6 @@ import android.widget.ListView;
 
 import com.android.mms.LogTag;
 import com.android.mms.R;
-
 import com.google.android.mms.pdu.PduHeaders;
 
 /**
@@ -71,16 +69,14 @@ public class DeliveryReportActivity extends ListActivity {
     static final String[] MMS_REPORT_STATUS_PROJECTION = new String[] {
         Mms.Addr.ADDRESS,       //0
         "delivery_status",      //1
-        "read_status",          //2
-        Mms.SUB_ID              //3
+        "read_status"           //2
     };
 
     static final String[] SMS_REPORT_STATUS_PROJECTION = new String[] {
         Sms.ADDRESS,            //0
         Sms.STATUS,             //1
         Sms.DATE_SENT,          //2
-        Sms.SUB_ID,             //3
-        Sms.TYPE                //4
+        Sms.TYPE                //3
     };
 
     // These indices must sync up with the projections above.
@@ -90,8 +86,7 @@ public class DeliveryReportActivity extends ListActivity {
     static final int COLUMN_DELIVERY_STATUS     = 1;
     static final int COLUMN_READ_STATUS         = 2;
     static final int COLUMN_DATE_SENT           = 2;
-    static final int COLUMN_SUB_ID              = 3;
-    static final int COLUMN_MESSAGE_TYPE        = 4;
+    static final int COLUMN_MESSAGE_TYPE        = 3;
 
     private long mMessageId;
     private String mMessageType;
@@ -121,8 +116,7 @@ public class DeliveryReportActivity extends ListActivity {
         List<DeliveryReportItem> items = getReportItems();
         if (items == null) {
             items = new ArrayList<DeliveryReportItem>(1);
-            items.add(new DeliveryReportItem("", getString(R.string.status_none), null,
-                    SubscriptionManager.DEFAULT_SUB_ID));
+            items.add(new DeliveryReportItem("", getString(R.string.status_none), null));
             Log.w(LOG_TAG, "cursor == null");
         }
         setListAdapter(new DeliveryReportAdapter(this, items));
@@ -195,7 +189,6 @@ public class DeliveryReportActivity extends ListActivity {
                 // date_sent column (see MessageStatusReceiver).
                 String deliveryDateString = null;
                 long deliveryDate = c.getLong(COLUMN_DATE_SENT);
-                int subId = c.getInt(COLUMN_SUB_ID);
                 int messageType = c.getInt(COLUMN_MESSAGE_TYPE);
                 if (messageType == Sms.MESSAGE_TYPE_SENT && deliveryDate > 0) {
                     deliveryDateString = getString(R.string.delivered_label) +
@@ -207,7 +200,7 @@ public class DeliveryReportActivity extends ListActivity {
                                 getString(R.string.recipient_label) + c.getString(COLUMN_RECIPIENT),
                                 getString(R.string.status_label) +
                                         getSmsStatusText(c.getInt(COLUMN_DELIVERY_STATUS)),
-                                        deliveryDateString, subId));
+                                        deliveryDateString));
             }
             return items;
         } finally {
@@ -290,8 +283,7 @@ public class DeliveryReportActivity extends ListActivity {
             String statusText = getString(R.string.status_label) +
                 getMmsReportStatusText(reportReq, reportStatus);
             items.add(new DeliveryReportItem(getString(R.string.recipient_label) +
-                    reportReq.getRecipient(), statusText, null,
-                    SubscriptionManager.DEFAULT_SUB_ID));
+                    reportReq.getRecipient(), statusText, null));
         }
         return items;
     }
