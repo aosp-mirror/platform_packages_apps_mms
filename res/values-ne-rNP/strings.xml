@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
+<!-- 
 /*
  * Copyright (C) 2007-2008 Esmertec AG.
  * Copyright (C) 2007-2008 The Android Open Source Project
@@ -182,8 +182,6 @@
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"ध्वनि"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"बचत गर्न सन्देशका संख्याहरू मिलाउनुहोस्"</string>
     <string name="silent_ringtone" msgid="7981237991326592780">"मौन"</string>
-    <string name="pref_summary_sim_ask" msgid="5815190975933015621">"सन्देश पठाउनुभएको हरेक समय कुन सिम प्रयोग गर्ने सोध्नुहोस्"</string>
-    <string name="pref_title_sim_ask" msgid="4794530561349736162">"बहु-सिम"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"स्वतः पुनःप्राप्ति"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"सन्देश स्वतः रूपमा पुनःप्राप्त गर्नुहोस्"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"स्वत: पुनः प्राप्ति रोमिङ"</string>
