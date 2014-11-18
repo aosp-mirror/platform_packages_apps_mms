@@ -706,7 +706,9 @@ public class TransactionService extends Service implements Observer {
                                 } else {
                                     // Now it's only used for test purpose.
                                     byte[] pushData = args.getPushData();
-                                    PduParser parser = new PduParser(pushData);
+                                    PduParser parser = new PduParser(
+                                            pushData,
+                                            PduParserUtil.shouldParseContentDisposition());
                                     GenericPdu ind = parser.parse();
 
                                     int type = PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND;
