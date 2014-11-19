@@ -24,16 +24,13 @@ import static com.google.android.mms.pdu.PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF;
 import static com.google.android.mms.pdu.PduHeaders.STATUS_DEFERRED;
 import static com.google.android.mms.pdu.PduHeaders.STATUS_RETRIEVED;
 import static com.google.android.mms.pdu.PduHeaders.STATUS_UNRECOGNIZED;
-
-import java.io.IOException;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SqliteWrapper;
 import android.net.Uri;
 import android.provider.Telephony.Mms;
-import android.provider.Telephony.Threads;
 import android.provider.Telephony.Mms.Inbox;
+import android.provider.Telephony.Threads;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -52,6 +49,8 @@ import com.google.android.mms.pdu.PduComposer;
 import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
+
+import java.io.IOException;
 
 /**
  * The NotificationTransaction is responsible for handling multimedia
@@ -175,7 +174,8 @@ public class NotificationTransaction extends Transaction implements Runnable {
             }
 
             if (retrieveConfData != null) {
-                GenericPdu pdu = new PduParser(retrieveConfData).parse();
+                GenericPdu pdu = new PduParser(
+                        retrieveConfData, PduParserUtil.shouldParseContentDisposition()).parse();
                 if ((pdu == null) || (pdu.getMessageType() != MESSAGE_TYPE_RETRIEVE_CONF)) {
                     Log.e(TAG, "Invalid M-RETRIEVE.CONF PDU. " +
                             (pdu != null ? "message type: " + pdu.getMessageType() : "null pdu"));

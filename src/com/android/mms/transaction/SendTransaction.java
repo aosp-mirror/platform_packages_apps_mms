@@ -17,8 +17,6 @@
 
 package com.android.mms.transaction;
 
-import java.util.Arrays;
-
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -40,6 +38,8 @@ import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.SendConf;
 import com.google.android.mms.pdu.SendReq;
+
+import java.util.Arrays;
 
 /**
  * The SendTransaction is responsible for sending multimedia messages
@@ -119,7 +119,8 @@ public class SendTransaction extends Transaction implements Runnable {
                 Log.d(TAG, "[SendTransaction] run: send mms msg (" + mId + "), resp=" + respStr);
             }
 
-            SendConf conf = (SendConf) new PduParser(response).parse();
+            SendConf conf = (SendConf) new PduParser(
+                    response, PduParserUtil.shouldParseContentDisposition()).parse();
             if (conf == null) {
                 Log.e(TAG, "No M-Send.conf received.");
             }

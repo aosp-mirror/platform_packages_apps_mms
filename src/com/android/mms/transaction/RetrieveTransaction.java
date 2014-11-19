@@ -17,8 +17,6 @@
 
 package com.android.mms.transaction;
 
-import java.io.IOException;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -44,6 +42,8 @@ import com.google.android.mms.pdu.PduHeaders;
 import com.google.android.mms.pdu.PduParser;
 import com.google.android.mms.pdu.PduPersister;
 import com.google.android.mms.pdu.RetrieveConf;
+
+import java.io.IOException;
 
 /**
  * The RetrieveTransaction is responsible for retrieving multimedia
@@ -137,7 +137,8 @@ public class RetrieveTransaction extends Transaction implements Runnable {
             byte[] resp = getPdu(mContentLocation);
 
             // Parse M-Retrieve.conf
-            RetrieveConf retrieveConf = (RetrieveConf) new PduParser(resp).parse();
+            RetrieveConf retrieveConf = (RetrieveConf) new PduParser(
+                    resp, PduParserUtil.shouldParseContentDisposition()).parse();
             if (null == retrieveConf) {
                 throw new MmsException("Invalid M-Retrieve.conf PDU.");
             }
