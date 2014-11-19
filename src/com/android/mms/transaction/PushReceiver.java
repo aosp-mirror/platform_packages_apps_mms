@@ -70,7 +70,8 @@ public class PushReceiver extends BroadcastReceiver {
 
             // Get raw PDU push-data from the message and parse it
             byte[] pushData = intent.getByteArrayExtra("data");
-            PduParser parser = new PduParser(pushData);
+            PduParser parser = new PduParser(
+                    pushData, PduParserUtil.shouldParseContentDisposition());
             GenericPdu pdu = parser.parse();
 
             if (null == pdu) {
