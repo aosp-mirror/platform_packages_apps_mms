@@ -211,7 +211,7 @@
     <string name="multimedia_notification" msgid="4124031788554972308">"Մուլտիմեդիա հաղորդագրության ծանուցում"</string>
     <string name="from_label" msgid="2055117571548171397">"Ուղարկող՝ "</string>
     <string name="to_address_label" msgid="5837363600471845801">"Ստացող՝ "</string>
-    <string name="bcc_label" msgid="530867161453958774">"Ծածկպտճ՝ "</string>
+    <string name="bcc_label" msgid="530867161453958774">"Ծպճ՝ "</string>
     <string name="sent_label" msgid="2722190650145251584">"Ուղարկվել է՝ "</string>
     <string name="received_label" msgid="8618029024731693906">"Ստացվել է՝ "</string>
     <string name="saved_label" msgid="4183160415593488207">"Պահված է` "</string>
