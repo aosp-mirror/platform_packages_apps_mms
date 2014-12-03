@@ -146,8 +146,8 @@
     <string name="menu_view_contact" msgid="1414670584423909451">"មើល​ទំនាក់ទំនង"</string>
     <string name="menu_add_to_contacts" msgid="1258127580972228970">"បញ្ចូល​ទៅ​មនុស្ស"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"បាន​លាក់​អាសយដ្ឋាន​​អ្នក​ផ្ញើ"</string>
-    <string name="yes" msgid="3246158147503160811">"យល់​ព្រម"</string>
-    <string name="no" msgid="4289742508556913860">"បោះ​បង់"</string>
+    <string name="yes" msgid="3246158147503160811">"យល់​ព្រម​"</string>
+    <string name="no" msgid="4289742508556913860">"បោះ​បង់​"</string>
     <string name="set" msgid="4642365398263275979">"​កំណត់"</string>
     <string name="play" msgid="1888432400937785115">"បើក"</string>
     <string name="edit" msgid="5912118407791492696">"កែ"</string>
@@ -237,7 +237,7 @@
     <string name="status_none" msgid="8253075950774894961">"(គ្មាន)"</string>
     <string name="status_pending" msgid="2739860824607984892">"មិន​ទាន់​សម្រេច"</string>
     <string name="status_read" msgid="7576195253780627332">"អាន"</string>
-    <string name="status_received" msgid="7264334589461906965">"បាន​ទទួល"</string>
+    <string name="status_received" msgid="7264334589461906965">"បាន​ទទួល​"</string>
     <string name="status_failed" msgid="1998776666856593544">"មិន​ជោគជ័យ"</string>
     <string name="status_unread" msgid="8555305495998700198">"មិន​ទាន់​អាន"</string>
     <string name="status_rejected" msgid="2613641949065942678">"បាន​ច្រាន​ចោល"</string>
@@ -276,7 +276,7 @@
     <string name="dl_failure_notification" msgid="8097699679464396537">"មិន​អាច​ទាញ​យក​សារ <xliff:g id="SUBJECT">%1$s</xliff:g> ពី <xliff:g id="FROM">%2$s</xliff:g> បាន​ទេ។"</string>
     <string name="rate_limit_surpassed" msgid="1347801608211628177">"បញ្ជាក់"</string>
     <string name="confirm_rate_limit" msgid="234228299751243067">"នឹង​ផ្ញើ​ចំនួន​សារ​ពហុ​មេឌៀ​​ជាច្រើន។ យល់ព្រម?"</string>
-    <string name="message_download_failed_title" msgid="5722226064394767921">"មិន​​បាន​ទាញ​យក​សារ"</string>
+    <string name="message_download_failed_title" msgid="5722226064394767921">"មិន​​បាន​ទាញ​យក​សារ​"</string>
     <string name="message_send_failed_title" msgid="3469894907399046372">"មិន​បាន​ផ្ញើ​សារ"</string>
     <string name="message_failed_body" msgid="3421296112073915245">"ប៉ះ​ដើម្បី​ពិនិត្យ​មើល​​សារ​ឡើងវិញ​ ហើយ​​ព្យាយាម​ម្ដង​ទៀត​។"</string>
     <string name="download_later" msgid="5531365714424360903">"មិន​អាច​ទាញ​យក​ក្នុង​ពេល​ឥឡូវ​នេះ​។ សូម​ព្យាយាម​ម្ដង​ទៀត​នៅ​ពេល​ក្រោយ​។"</string>
@@ -343,7 +343,7 @@
     <string name="view_more_conversations" msgid="7275920132410734671">"មើល​ការ​សន្ទនា​ជា​​ច្រើន"</string>
     <string name="attachment_audio" msgid="2867960243300539143">"សំឡេង"</string>
     <string name="attachment_slideshow" msgid="5867689101881763318">"បញ្ចាំង​ស្លាយ"</string>
-    <string name="attachment_video" msgid="4252062022156694591">"វីដេអូ"</string>
+    <string name="attachment_video" msgid="4252062022156694591">"វីដេអូ​"</string>
     <string name="attachment_picture" msgid="3709286281567284296">"រូបភាព"</string>
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">", "</string>
