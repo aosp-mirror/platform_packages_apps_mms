@@ -35,6 +35,8 @@ import android.telephony.ServiceState;
 import android.util.Log;
 import android.widget.Toast;
 
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.telephony.TelephonyProperties;
 import com.android.mms.LogTag;
@@ -178,13 +180,15 @@ public class DownloadManager {
     }
 
     static boolean isRoaming() {
-        // TODO: fix and put in Telephony layer
-        String roaming = SystemProperties.get(
-                TelephonyProperties.PROPERTY_OPERATOR_ISROAMING, null);
-        if (LOCAL_LOGV) {
-            Log.v(TAG, "roaming ------> " + roaming);
+        return isRoaming(SubscriptionManager.getDefaultSmsSubId());
+    }
+
+    static boolean isRoaming(int subId) {
+        TelephonyManager teleMgr = TelephonyManager.getDefault();
+        if (teleMgr == null) {
+            return false;
         }
-        return "true".equals(roaming);
+        return teleMgr.isNetworkRoaming(subId);
     }
 
     public void markState(final Uri uri, int state) {
