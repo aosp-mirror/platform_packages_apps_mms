@@ -196,11 +196,10 @@ public class DeliveryReportActivity extends ListActivity {
                                     deliveryDate, true);
                 }
 
-                items.add(new DeliveryReportItem(
-                                getString(R.string.recipient_label) + c.getString(COLUMN_RECIPIENT),
-                                getString(R.string.status_label) +
-                                        getSmsStatusText(c.getInt(COLUMN_DELIVERY_STATUS)),
-                                        deliveryDateString));
+                items.add(new DeliveryReportItem(c.getString(COLUMN_RECIPIENT),
+                                getString(R.string.status_label)
+                                + getSmsStatusText(c.getInt(COLUMN_DELIVERY_STATUS)),
+                                deliveryDateString));
             }
             return items;
         } finally {
@@ -282,8 +281,8 @@ public class DeliveryReportActivity extends ListActivity {
         for (MmsReportRequest reportReq : reportReqs) {
             String statusText = getString(R.string.status_label) +
                 getMmsReportStatusText(reportReq, reportStatus);
-            items.add(new DeliveryReportItem(getString(R.string.recipient_label) +
-                    reportReq.getRecipient(), statusText, null));
+            items.add(new DeliveryReportItem(reportReq.getRecipient(),
+                    statusText, null));
         }
         return items;
     }

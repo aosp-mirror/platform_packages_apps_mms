@@ -59,7 +59,8 @@ public class DeliveryReportListItem extends LinearLayout {
     public final void bind(String recipient, String status, String deliveryDate) {
         // Recipient
         if (!TextUtils.isEmpty(recipient)) {
-            mRecipientView.setText(Contact.get(recipient, false).getName());
+            mRecipientView.setText(getContext().getString(R.string.recipient_label)
+                    + Contact.get(recipient, false).getName());
         } else {
             mRecipientView.setText("");
         }
