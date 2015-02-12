@@ -183,9 +183,9 @@
     <string name="pref_messages_to_save" msgid="3202539743892934926">"സംരക്ഷിക്കേണ്ട സന്ദേശങ്ങളുടെ എണ്ണം സജ്ജമാക്കുക"</string>
     <string name="silent_ringtone" msgid="7981237991326592780">"നിശബ്‌ദം"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"യാന്ത്രികമായി ലഭ്യമാക്കുക"</string>
-    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"സന്ദേശങ്ങൾ യാന്ത്രികമായി ലഭ്യമാക്കുക"</string>
+    <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"സന്ദേശങ്ങൾ സ്വയമേവ ലഭ്യമാക്കുക"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"റോമിംഗിൽ യാന്ത്രികമായി ലഭ്യമാക്കുക"</string>
-    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"റോമിംഗിൽ സന്ദേശങ്ങൾ യാന്ത്രികമായി ലഭ്യമാക്കുക"</string>
+    <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"റോമിംഗിൽ സന്ദേശങ്ങൾ സ്വയമേവ ലഭ്യമാക്കുക"</string>
     <string name="confirm_dialog_title" msgid="2187213750475782725">"ഇല്ലാതാക്കണോ?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"ലോക്കുചെയ്‌ത സന്ദേശം ഇല്ലാതാക്കണോ?"</string>
   <plurals name="confirm_delete_conversation">

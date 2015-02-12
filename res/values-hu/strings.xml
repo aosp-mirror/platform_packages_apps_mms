@@ -184,7 +184,7 @@
     <string name="silent_ringtone" msgid="7981237991326592780">"Néma"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Automatikus letöltés"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Üzenetek automatikus letöltése"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Automatikus letöltés barangolás során"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Auto. letöltés barangoláskor"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Üzenetek automatikus letöltése barangolás közben"</string>
     <string name="confirm_dialog_title" msgid="2187213750475782725">"Törli?"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Zárolt üzenetet törlése?"</string>

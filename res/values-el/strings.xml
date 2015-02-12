@@ -184,7 +184,7 @@
     <string name="silent_ringtone" msgid="7981237991326592780">"Σίγαση"</string>
     <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Αυτόματη ανάκτηση"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Αυτόματη ανάκτηση μηνυμάτων"</string>
-    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Αυτόματη ανάκτηση περιαγωγής"</string>
+    <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"Αυ/τη ανάκτηση περιαγ."</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Αυτόματη ανάκτηση μηνυμάτων κατά την περιαγωγή"</string>
     <string name="confirm_dialog_title" msgid="2187213750475782725">"Διαγραφή;"</string>
     <string name="confirm_dialog_locked_title" msgid="8179085718150932242">"Διαγραφή κλειδωμένου μηνύματος;"</string>
@@ -270,7 +270,7 @@
     <string name="confirm" msgid="3155110885840591914">"Επιβεβαίωση"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"Θα γίνει αποστολή αναφοράς ανάγνωσης."</string>
     <string name="message_queued" msgid="7975945623873194737">"Δεν είναι δυνατή η αποστολή του μηνύματός σας αυτήν τη στιγμή. Η αποστολή θα πραγματοποιηθεί όταν η υπηρεσία θα είναι διαθέσιμη."</string>
-    <string name="fdn_check_failure" msgid="7880740763778173551">"Μπορείτε να στείλετε μηνύματα μόνο σε καθορισμένους αριθμούς κλήσης."</string>
+    <string name="fdn_check_failure" msgid="7880740763778173551">"Μπορείτε να στείλετε μηνύματα μόνο σε προκαθορισμένους αριθμούς κλήσης."</string>
     <string name="no_subject" msgid="4168963736134552285">"(Χωρίς θέμα)"</string>
     <string name="unknown_sender" msgid="4929330613278853635">"Άγνωστος αποστολέας"</string>
     <string name="dl_failure_notification" msgid="8097699679464396537">"Δεν ήταν δυνατή η λήψη του μηνύματος <xliff:g id="SUBJECT">%1$s</xliff:g> από <xliff:g id="FROM">%2$s</xliff:g>."</string>

@@ -63,7 +63,7 @@
     <string name="remove_slide" msgid="2225604354024914900">"ስላይድ አስወግድ"</string>
     <string name="add_slide" msgid="9140721399423564187">"ስላይድ አክል"</string>
     <string name="add_slide_hint" msgid="7351356961076244584">"አዲስ ስላይድ ለመፍጠር ንካ።"</string>
-    <string name="discard_slideshow" msgid="5054239124146413609">"የስላይድ ትዕይንት አስወግድ"</string>
+    <string name="discard_slideshow" msgid="5054239124146413609">"የስላይድ ትዕይንት ጣለው"</string>
     <string name="slide_show_part" msgid="5077675385448696846">"ክፍል<xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text" msgid="2164068850029476539">"ፅሁፍ አስወግድ"</string>
     <string name="add_picture" msgid="7819574884962571479">"ፎቶ አክል"</string>
@@ -76,7 +76,7 @@
     <string name="subject_hint" msgid="4296714962311604126">"ርዕሰ ጉዳይ"</string>
     <string name="add_attachment" msgid="7103751293360532684">"አያይዝ"</string>
     <string name="add_subject" msgid="7616134948428265870">"ርዕሰጉዳይ አክል"</string>
-    <string name="discard" msgid="1624800293064498479">"አስወግድ"</string>
+    <string name="discard" msgid="1624800293064498479">"ጣለው"</string>
     <string name="view" msgid="7929667761715467136">"ዕይታ"</string>
     <string name="replace" msgid="7587904998114459388">"ተካ"</string>
     <string name="remove" msgid="4625444913256213175">"አስወግድ"</string>

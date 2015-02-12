@@ -182,7 +182,7 @@
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Dźwięk"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Ustaw liczbę zapisywanych wiadomości"</string>
     <string name="silent_ringtone" msgid="7981237991326592780">"Wyciszony"</string>
-    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Autoodbieranie"</string>
+    <string name="pref_title_mms_auto_retrieval" msgid="4021878285474431355">"Autopobieranie"</string>
     <string name="pref_summary_mms_auto_retrieval" msgid="925163257363757048">"Pobieraj wiadomości automatycznie"</string>
     <string name="pref_title_mms_retrieval_during_roaming" msgid="6016227402731817804">"W roamingu"</string>
     <string name="pref_summary_mms_retrieval_during_roaming" msgid="2427892806582531020">"Pobieraj wiadomości automatycznie w roamingu"</string>

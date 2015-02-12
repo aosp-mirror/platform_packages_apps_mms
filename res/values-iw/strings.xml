@@ -68,8 +68,8 @@
     <string name="remove_text" msgid="2164068850029476539">"הסר טקסט"</string>
     <string name="add_picture" msgid="7819574884962571479">"הוסף תמונה"</string>
     <string name="remove_picture" msgid="6378701749074289096">"הסר תמונה"</string>
-    <string name="add_music" msgid="3827442822987116233">"הוסף מוסיקה"</string>
-    <string name="remove_music" msgid="858889733416015223">"הסר מוסיקה"</string>
+    <string name="add_music" msgid="3827442822987116233">"הוסף מוזיקה"</string>
+    <string name="remove_music" msgid="858889733416015223">"הסר מוזיקה"</string>
     <string name="add_video" msgid="7816866867806595144">"הוסף וידאו"</string>
     <string name="remove_video" msgid="5258603891528497799">"הסר וידאו"</string>
     <string name="to_hint" msgid="224029549150332986">"אל"</string>
