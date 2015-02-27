@@ -27,7 +27,7 @@
     <string name="menu_compose_new" msgid="3763437973691046238">"Новое сообщение"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Настройки"</string>
     <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"Сохранить номер <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g>"</string>
-    <string name="menu_call" msgid="5877123227307074690">"Позвонить"</string>
+    <string name="menu_call" msgid="5877123227307074690">"Вызов"</string>
     <string name="menu_search" msgid="2289469305728821360">"Поиск"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Удалить все цепочки"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Удалить цепочку"</string>

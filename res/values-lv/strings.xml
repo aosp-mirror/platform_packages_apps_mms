@@ -243,7 +243,7 @@
     <string name="status_rejected" msgid="2613641949065942678">"Noraidīts"</string>
     <string name="recipient_label" msgid="3922667485312634446">"Adresāts: "</string>
     <string name="status_label" msgid="7283375460919181660">"Statuss: "</string>
-    <string name="delivered_label" msgid="3514011729156932928">"Nosūtīta "</string>
+    <string name="delivered_label" msgid="3514011729156932928">"Piegādāts: "</string>
     <string name="attach_image" msgid="6439985727687107742">"Attēli"</string>
     <string name="attach_take_photo" msgid="4280601313184373837">"Tvert attēlu"</string>
     <string name="attach_video" msgid="4264272693501538294">"Video"</string>

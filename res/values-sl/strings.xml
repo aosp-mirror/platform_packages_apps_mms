@@ -26,7 +26,7 @@
     <string name="menu_send_email" msgid="671366308915241664">"Pošlji e-poštno sporočilo <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"Novo"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Nastavitve"</string>
-    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"Dodaj <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> v program Ljudje"</string>
+    <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"Dodaj <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> v aplikacijo Ljudje"</string>
     <string name="menu_call" msgid="5877123227307074690">"Pokliči"</string>
     <string name="menu_search" msgid="2289469305728821360">"Iskanje"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Izbriši vse niti"</string>
@@ -144,7 +144,7 @@
     <item msgid="7786079681602275449">"Drugo"</item>
   </string-array>
     <string name="menu_view_contact" msgid="1414670584423909451">"Ogled stika"</string>
-    <string name="menu_add_to_contacts" msgid="1258127580972228970">"Dodaj v program Ljudje"</string>
+    <string name="menu_add_to_contacts" msgid="1258127580972228970">"Dodaj v aplikacijo Ljudje"</string>
     <string name="hidden_sender_address" msgid="2776075636669924968">"Skrit naslov pošiljatelja"</string>
     <string name="yes" msgid="3246158147503160811">"V redu"</string>
     <string name="no" msgid="4289742508556913860">"Prekliči"</string>
@@ -339,7 +339,7 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"Št. oseb: <xliff:g id="NUMBER">%1$s</xliff:g>"</item>
   </plurals>
-    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Ali želite v privzetem programu za sporočanje ustaviti podvojena obvestila SMS?"</string>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"Ali želite v privzeti aplikaciji za sporočanje ustaviti podvojena obvestila SMS?"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"Več pogovorov"</string>
     <string name="attachment_audio" msgid="2867960243300539143">"Zvok"</string>
     <string name="attachment_slideshow" msgid="5867689101881763318">"Diaprojekcija"</string>

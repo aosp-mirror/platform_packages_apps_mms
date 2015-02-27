@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
+<!-- 
 /*
  * Copyright (C) 2007-2008 Esmertec AG.
  * Copyright (C) 2007-2008 The Android Open Source Project
@@ -335,7 +335,7 @@
     <item quantity="other" msgid="1393002799298501480">"+ beste <xliff:g id="NUMBER">%1$s</xliff:g> mezu"</item>
   </plurals>
     <string name="error_state" msgid="5177386717626893507">"Egoera inkoherentea"</string>
-    <string name="error_state_text" msgid="7918866106335387710">"Elkarrizketa-hariek eta hartzaileek egoera inkoherentea dute. Sortu programa-akatsen txosten bat eta eman horren berri http://go/droidanizer bidez."</string>
+    <string name="error_state_text" msgid="7918866106335387710">"Elkarrizketa-hariek eta hartzaileek egoera inkoherentea dute. Sortu akatsen txosten bat eta eman horren berri http://go/droidanizer bidez."</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> pertsona"</item>
   </plurals>

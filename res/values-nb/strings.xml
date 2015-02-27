@@ -177,7 +177,7 @@
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Slett gamle meldinger"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"SMS-meldingsgrense"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"MMS-meldingsgrense"</string>
-    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Varslinger"</string>
+    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Varsler"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibrering"</string>
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Lyd"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Angi antall meldinger som skal lagres"</string>

@@ -20,7 +20,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"መልዕክት በመላክ ላይ"</string>
+    <string name="app_label" msgid="1503967887341230795">"መልዕክት መላኪያ"</string>
     <string name="new_message" msgid="1530369762346003973">"አዲስ መልዕክት"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"<xliff:g id="NAME">%s</xliff:g> ደውል"</string>
     <string name="menu_send_email" msgid="671366308915241664">"ኢሜይል ወደ<xliff:g id="NAME">%s</xliff:g> ላክ"</string>
@@ -63,20 +63,20 @@
     <string name="remove_slide" msgid="2225604354024914900">"ስላይድ አስወግድ"</string>
     <string name="add_slide" msgid="9140721399423564187">"ስላይድ አክል"</string>
     <string name="add_slide_hint" msgid="7351356961076244584">"አዲስ ስላይድ ለመፍጠር ንካ።"</string>
-    <string name="discard_slideshow" msgid="5054239124146413609">"የስላይድ ትዕይንት አስወግድ"</string>
+    <string name="discard_slideshow" msgid="5054239124146413609">"የስላይድ ትዕይንት ጣለው"</string>
     <string name="slide_show_part" msgid="5077675385448696846">"ክፍል<xliff:g id="PART">%1$s</xliff:g>/<xliff:g id="TOTAL">%2$s</xliff:g>"</string>
     <string name="remove_text" msgid="2164068850029476539">"ፅሁፍ አስወግድ"</string>
     <string name="add_picture" msgid="7819574884962571479">"ፎቶ አክል"</string>
     <string name="remove_picture" msgid="6378701749074289096">"ፎቶ አስወግድ"</string>
     <string name="add_music" msgid="3827442822987116233">"ሙዚቃ አክል"</string>
     <string name="remove_music" msgid="858889733416015223">"ሙዚቃ አስወግድ"</string>
-    <string name="add_video" msgid="7816866867806595144">"ቪዲዮ አክል"</string>
-    <string name="remove_video" msgid="5258603891528497799">"ቪዲዮ አስወግድ"</string>
+    <string name="add_video" msgid="7816866867806595144">"ቪድዮ አክል"</string>
+    <string name="remove_video" msgid="5258603891528497799">"ቪድዮ አስወግድ"</string>
     <string name="to_hint" msgid="224029549150332986">"ወደ"</string>
     <string name="subject_hint" msgid="4296714962311604126">"ርዕሰ ጉዳይ"</string>
     <string name="add_attachment" msgid="7103751293360532684">"አያይዝ"</string>
     <string name="add_subject" msgid="7616134948428265870">"ርዕሰጉዳይ አክል"</string>
-    <string name="discard" msgid="1624800293064498479">"አስወግድ"</string>
+    <string name="discard" msgid="1624800293064498479">"ጣለው"</string>
     <string name="view" msgid="7929667761715467136">"ዕይታ"</string>
     <string name="replace" msgid="7587904998114459388">"ተካ"</string>
     <string name="remove" msgid="4625444913256213175">"አስወግድ"</string>
@@ -92,7 +92,7 @@
     <string name="unsupported_media_format" msgid="1350489690977363764">"የማይደገፍ  የ<xliff:g id="NAME">%1$s</xliff:g> ቅርፀት"</string>
     <string name="select_different_media" msgid="6241623357299382183">"የተለየ<xliff:g id="NAME">%1$s</xliff:g>ምረጥ።"</string>
     <string name="exceed_message_size_limitation" msgid="6027753647094742437">"የመልዕክት መጠን ወሰን ደርሷል።"</string>
-    <string name="message_too_big_for_video" msgid="2639367545165352543">"ቪዲዮ ለማያያዝ መልዕክቱ በጣም ትልቅ ነው።"</string>
+    <string name="message_too_big_for_video" msgid="2639367545165352543">"ቪድዮ ለማያያዝ መልዕክቱ በጣም ትልቅ ነው።"</string>
     <string name="failed_to_add_media" msgid="7207464170168708485">"ይቅርታ፣ ይህን <xliff:g id="NAME">%1$s</xliff:g> ወደ መልዕክትህ ማከል አትችልም  ።"</string>
     <string name="failed_to_resize_image" msgid="5608354151631833669">"የፎቶመጠን አልተቀየረም"</string>
     <string name="resize_image_error_information" msgid="3783200130776554475">"መጠኑ ተስተካክሎ እንኳን ፣ይህ ስዕል ለመላክ በጣም ትልቅ ነው ፡፡"</string>
@@ -109,7 +109,7 @@
     <string name="cannot_forward_drm_obj" msgid="5047623751430559077">"በመልዕክት ውስጥ የታከለው የDRM ነገር መተላለፍ አይችልም።"</string>
     <string name="converting_to_picture_message" msgid="2980023239017588627">"ወደ ማህደረ ብዙ መረጃመልዕክት በመገልበጥ ላይ...."</string>
     <string name="cannot_add_slide_anymore" msgid="4631404749618820994">"ተጨማሪ ስላይድ ማከል አልተቻለም።"</string>
-    <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"ቪዲዮ እና ምስል አንድ ስላይድ ላይ ማከል አይቻልም።"</string>
+    <string name="cannot_add_picture_and_video" msgid="4954353772391381447">"ቪድዮ እና ምስል አንድ ስላይድ ላይ ማከል አይቻልም።"</string>
     <string name="cannot_save_message" msgid="3375907366965264446">"መልዕክት ማስቀመጥ አልተቻለም"</string>
     <string name="message_saved_as_draft" msgid="2503018972659880692">"መልዕክት እንደ ረቂቅ ተቀምጧል።"</string>
     <string name="too_many_recipients" msgid="7003415094007176931">"ይህ መልዕክት ብዙ ተቀባዮች (<xliff:g id="CURRENTCOUNT">%1$s</xliff:g>)አሉት። የ <xliff:g id="MAXLIMIT">%2$s</xliff:g> ተቀባዮች ወሰን አለ።"</string>
@@ -247,7 +247,7 @@
     <string name="attach_image" msgid="6439985727687107742">"ፎቶዎች"</string>
     <string name="attach_take_photo" msgid="4280601313184373837">"ፎቶ አንሳ"</string>
     <string name="attach_video" msgid="4264272693501538294">"ቪዲዮዎች"</string>
-    <string name="attach_record_video" msgid="3099814114743078615">"ቪዲዮ አንሳ"</string>
+    <string name="attach_record_video" msgid="3099814114743078615">"ቪድዮ አንሳ"</string>
     <string name="attach_sound" msgid="3149325985970669609">"ኦዲዮ"</string>
     <string name="attach_record_sound" msgid="6011431304469858929">"ኦዲዮ ይቅዱ"</string>
     <string name="attach_slideshow" msgid="3497422151091037063">"ስላይድ ትዕይንት"</string>
@@ -266,7 +266,7 @@
     <string name="sms_rejected_body" msgid="7813671133968158562">"ገቢ መልዕክት ባልታወቀ ምክንያት ተቀባይነት አላገኝም።"</string>
     <string name="type_audio" msgid="3842064092332309756">"ኦዲዮ"</string>
     <string name="type_picture" msgid="4091928975383609443">"ፎቶ"</string>
-    <string name="type_video" msgid="8521556159545168441">"ቪዲዮ"</string>
+    <string name="type_video" msgid="8521556159545168441">"ቪድዮ"</string>
     <string name="confirm" msgid="3155110885840591914">"አረጋግጥ"</string>
     <string name="message_send_read_report" msgid="6997117678914261250">"የሪፖርት አንብብ ይላካል።"</string>
     <string name="message_queued" msgid="7975945623873194737">"በአሁኑ ጊዜ መልዕክት መላክ አልተቻለም። አገልግሎቱ ሲገኝይላካል።"</string>
@@ -304,9 +304,9 @@
     <string name="edit_slide_activity" msgid="8752829671778696983">"ስላይድ አርትዕ"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"ስላይድ ትዕይንት"</string>
     <string name="class_0_message_activity" msgid="6631339964159861048">"የክፍል 0 መልዕክት"</string>
-    <string name="search_label" msgid="6042598929386174964">"መልዕክት በመላክ ላይ"</string>
+    <string name="search_label" msgid="6042598929386174964">"መልዕክት መላኪያ"</string>
     <string name="search_hint" msgid="7273727663577472044">"መልዕክት ፍለጋ"</string>
-    <string name="search" msgid="7560238620274735199">"መልዕክት በመላክ ላይ"</string>
+    <string name="search" msgid="7560238620274735199">"መልዕክት መላኪያ"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"በመልዕክቶችዎ ውስጥ ፅሁፍ"</string>
     <string name="search_empty" msgid="2109551478056039278">"ምንም ተመሳሳይ የለም።"</string>
   <plurals name="search_results_title">
@@ -343,7 +343,7 @@
     <string name="view_more_conversations" msgid="7275920132410734671">"ተጨማሪ ውይይቶችን ዕይ"</string>
     <string name="attachment_audio" msgid="2867960243300539143">"ድምጽ"</string>
     <string name="attachment_slideshow" msgid="5867689101881763318">"ተንሸራታች ትዕይንት"</string>
-    <string name="attachment_video" msgid="4252062022156694591">"ቪዲዮ"</string>
+    <string name="attachment_video" msgid="4252062022156694591">"ቪድዮ"</string>
     <string name="attachment_picture" msgid="3709286281567284296">"ስዕል"</string>
     <string name="notification_separator" msgid="2334673105226536422">"  "</string>
     <string name="enumeration_comma" msgid="213598026698964628">"፣ "</string>

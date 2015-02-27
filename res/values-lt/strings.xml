@@ -48,7 +48,7 @@
     <string name="undelivered_msg_dialog_body" msgid="4789268239627694551">"Nepavyko išsiųsti šio pranešimo.\nBandyta: <xliff:g id="MESSAGE">%s</xliff:g>."</string>
     <string name="undelivered_sms_dialog_body" msgid="4203703285563450868">"Nepavyko išsiųsti šio pranešimo."</string>
     <string name="delete_thread" msgid="757258847736632791">"Ištrinti giją"</string>
-    <string name="menu_forward" msgid="9026858380050046756">"Persiųsti"</string>
+    <string name="menu_forward" msgid="9026858380050046756">"Peradresuoti"</string>
     <string name="download" msgid="4488877642230207631">"Atsisiųsti"</string>
     <string name="downloading" msgid="1779557575565350637">"Atsisiunčiama"</string>
     <string name="inline_subject" msgid="4057621785274119260">"&lt;Tema: <xliff:g id="SUBJECT">%s</xliff:g>&gt;"</string>
@@ -177,7 +177,7 @@
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"Ištrinti senus pranešimus"</string>
     <string name="pref_title_sms_delete" msgid="6890538316799296878">"Teksto pranešimo apribojimas"</string>
     <string name="pref_title_mms_delete" msgid="7265878070847351664">"Daugialypės terpės pranešimo apribojimas"</string>
-    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Įspėjimai"</string>
+    <string name="pref_title_notification_enabled" msgid="9118792213953729414">"Pranešimai"</string>
     <string name="pref_title_notification_vibrateWhen" msgid="4251208067092761057">"Vibruoti"</string>
     <string name="pref_title_notification_ringtone" msgid="8667533917574559659">"Garsas"</string>
     <string name="pref_messages_to_save" msgid="3202539743892934926">"Nustatyti išsaugomų pranešimų skaičių"</string>
@@ -335,7 +335,7 @@
     <item quantity="other" msgid="1393002799298501480">"ir dar <xliff:g id="NUMBER">%1$s</xliff:g> praneš."</item>
   </plurals>
     <string name="error_state" msgid="5177386717626893507">"Nepastovi būsena"</string>
-    <string name="error_state_text" msgid="7918866106335387710">"Gijų ir gavėjų būsena nenuosekli. Sukurkite trikčių ataskaitą ir pateikite ją adresu http://go/droidanizer."</string>
+    <string name="error_state_text" msgid="7918866106335387710">"Gijų ir gavėjų būsena nenuosekli. Sukurkite riktų ataskaitą ir pateikite ją adresu http://go/droidanizer."</string>
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> žm."</item>
   </plurals>

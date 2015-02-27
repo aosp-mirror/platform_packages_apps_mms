@@ -23,7 +23,7 @@
     <string name="app_label" msgid="1503967887341230795">"סמס"</string>
     <string name="new_message" msgid="1530369762346003973">"הודעה חדשה"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"התקשר אל <xliff:g id="NAME">%s</xliff:g>"</string>
-    <string name="menu_send_email" msgid="671366308915241664">"שלח דוא\"ל אל <xliff:g id="NAME">%s</xliff:g>"</string>
+    <string name="menu_send_email" msgid="671366308915241664">"שלח אימייל אל <xliff:g id="NAME">%s</xliff:g>"</string>
     <string name="menu_compose_new" msgid="3763437973691046238">"כתוב הודעה"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"הגדרות"</string>
     <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"הוסף <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> אל אנשי הקשר"</string>
@@ -68,8 +68,8 @@
     <string name="remove_text" msgid="2164068850029476539">"הסר טקסט"</string>
     <string name="add_picture" msgid="7819574884962571479">"הוסף תמונה"</string>
     <string name="remove_picture" msgid="6378701749074289096">"הסר תמונה"</string>
-    <string name="add_music" msgid="3827442822987116233">"הוסף מוסיקה"</string>
-    <string name="remove_music" msgid="858889733416015223">"הסר מוסיקה"</string>
+    <string name="add_music" msgid="3827442822987116233">"הוסף מוזיקה"</string>
+    <string name="remove_music" msgid="858889733416015223">"הסר מוזיקה"</string>
     <string name="add_video" msgid="7816866867806595144">"הוסף וידאו"</string>
     <string name="remove_video" msgid="5258603891528497799">"הסר וידאו"</string>
     <string name="to_hint" msgid="224029549150332986">"אל"</string>

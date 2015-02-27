@@ -27,7 +27,7 @@
     <string name="menu_compose_new" msgid="3763437973691046238">"Написати"</string>
     <string name="menu_preferences" msgid="4693148116114749414">"Налаштування"</string>
     <string name="menu_add_address_to_contacts" msgid="4491980950419914944">"Додати <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> в програму \"Люди\""</string>
-    <string name="menu_call" msgid="5877123227307074690">"Набрати"</string>
+    <string name="menu_call" msgid="5877123227307074690">"Виклик"</string>
     <string name="menu_search" msgid="2289469305728821360">"Пошук"</string>
     <string name="menu_delete_all" msgid="808729454898114735">"Видал. всі ланцюжки"</string>
     <string name="menu_delete" msgid="1851666911396479006">"Видал. ланцюжок"</string>
@@ -149,7 +149,7 @@
     <string name="yes" msgid="3246158147503160811">"OK"</string>
     <string name="no" msgid="4289742508556913860">"Скасувати"</string>
     <string name="set" msgid="4642365398263275979">"Устан."</string>
-    <string name="play" msgid="1888432400937785115">"Відтвор."</string>
+    <string name="play" msgid="1888432400937785115">"Відтворити"</string>
     <string name="edit" msgid="5912118407791492696">"Редаг."</string>
     <string name="try_to_send" msgid="1996751738286080976">"Спроб. надісл."</string>
     <string name="preferences_title" msgid="6650089610332670157">"Налаштування"</string>

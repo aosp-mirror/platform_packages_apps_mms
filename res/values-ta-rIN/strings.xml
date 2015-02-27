@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
+<!-- 
 /*
  * Copyright (C) 2007-2008 Esmertec AG.
  * Copyright (C) 2007-2008 The Android Open Source Project
@@ -20,7 +20,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1503967887341230795">"செய்தியிடல்"</string>
+    <string name="app_label" msgid="1503967887341230795">"மெசேஜ்"</string>
     <string name="new_message" msgid="1530369762346003973">"புதிய செய்தி"</string>
     <string name="menu_call_back" msgid="7538482331117914146">"<xliff:g id="NAME">%s</xliff:g> ஐ அழை"</string>
     <string name="menu_send_email" msgid="671366308915241664">"<xliff:g id="NAME">%s</xliff:g> க்கு மின்னஞ்சல் அனுப்பு"</string>
@@ -162,16 +162,16 @@
     <string name="pref_summary_sms_disabled" msgid="8975773722051230744">"செய்தியிடலை உங்கள் இயல்புநிலை SMS பயன்பாடாக உருவாக்குவதற்குத் தொடவும்"</string>
     <string name="pref_title_sms_enabled" msgid="1857849790200375277">"SMS இயக்கப்பட்டது"</string>
     <string name="pref_summary_sms_enabled" msgid="2106125420361911250">"உங்கள் இயல்புநிலை SMS பயன்பாட்டை மாற்ற தொடவும்"</string>
-    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"உங்கள் SIM கார்டில் சேமிக்கப்பட்ட செய்திகளை நிர்வகி"</string>
+    <string name="pref_summary_manage_sim_messages" msgid="4141349892597640864">"உங்கள் சிம் கார்டில் சேமிக்கப்பட்ட செய்திகளை நிர்வகி"</string>
     <string name="pref_summary_mms_delivery_reports" msgid="4874657984217756112">"நீங்கள் அனுப்பும் ஒவ்வொரு செய்திக்கும் வழங்கல் அறிக்கையைக் கோரு"</string>
     <string name="pref_summary_mms_read_reports" msgid="2748323864008907440">"நீங்கள் அனுப்பும் ஒவ்வொரு செய்திக்கும் படித்த அறிக்கையைக் கோரவும்"</string>
     <string name="pref_summary_sms_delivery_reports" msgid="5852207702358546129">"நீங்கள் அனுப்பும் ஒவ்வொரு செய்திக்கும் வழங்கல் அறிக்கையைக் கோரவும்"</string>
     <string name="pref_summary_auto_delete" msgid="7719538116486177613">"வரம்புகளை அடைந்தவுடன் பழைய செய்திகளை நீக்கு"</string>
     <string name="pref_summary_delete_limit" msgid="597128041393045216">"உரையாடலுக்கு <xliff:g id="COUNT">%1$s</xliff:g> செய்திகள்"</string>
     <string name="pref_summary_mms_group_mms" msgid="2266928687440696745">"செய்தியைப் பல பெறுநர்களுக்கு அனுப்புவதற்கு MMS ஐப் பயன்படுத்து"</string>
-    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"SIM கார்டின் செய்திகளை நிர்வகி"</string>
+    <string name="pref_title_manage_sim_messages" msgid="7820895261757881177">"சிம் கார்டின் செய்திகளை நிர்வகி"</string>
     <string name="pref_title_mms_delivery_reports" msgid="6666857926679451910">"வழங்கல் அறிக்கைகள்"</string>
-    <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"குழு செய்தியிடல்"</string>
+    <string name="pref_title_mms_group_mms" msgid="1251698526583908432">"குழு மெசேஜ்"</string>
     <string name="pref_title_mms_read_reports" msgid="4882179829495828541">"படித்தற்கான அறிக்கைகள்"</string>
     <string name="pref_title_sms_delivery_reports" msgid="876064208254451038">"வழங்கல் அறிக்கைகள்"</string>
     <string name="pref_title_auto_delete" msgid="7227835692631701134">"பழைய செய்திகளை நீக்கு"</string>
@@ -196,8 +196,8 @@
     <string name="confirm_delete_all_conversations" msgid="9036166685235092757">"எல்லா தொடரிழைகளும் நீக்கப்படும்."</string>
     <string name="confirm_delete_message" msgid="9121480656609809591">"செய்தி நீக்கப்படும்."</string>
     <string name="confirm_delete_locked_message" msgid="7203411948190100955">"பூட்டிய செய்தியை நீக்கவா?"</string>
-    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"SIM கார்டில் உள்ள எல்லா செய்திகளும் நீக்கப்படும்."</string>
-    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"SIM கார்டில் உள்ள இந்தச் செய்தி நீக்கப்படும்."</string>
+    <string name="confirm_delete_all_SIM_messages" msgid="8693652297557966665">"சிம் கார்டில் உள்ள எல்லா செய்திகளும் நீக்கப்படும்."</string>
+    <string name="confirm_delete_SIM_message" msgid="8535128079045452425">"சிம் கார்டில் உள்ள இந்தச் செய்தி நீக்கப்படும்."</string>
     <string name="delete_unlocked" msgid="7545321606698162261">"பூட்டிய செய்திகளை நீக்கு"</string>
     <string name="delete" msgid="1409973060081564612">"நீக்கு"</string>
     <string name="select_conversations" msgid="7816517565640002844">"உரையாடல்களைத் தேர்வுசெய்"</string>
@@ -230,9 +230,9 @@
     <string name="sim_copy_to_phone_memory" product="tablet" msgid="3721000641648594602">"டேப்லெட் நினைவகத்தில் நகலெடு"</string>
     <string name="sim_copy_to_phone_memory" product="default" msgid="5895767417844881971">"மொபைல் நினைவகத்தில் நகலெடு"</string>
     <string name="sim_delete" msgid="610790510655316922">"நீக்கு"</string>
-    <string name="sim_manage_messages_title" msgid="3989147182100584333">"SIM கார்டில் உள்ள உரைச் செய்திகள்"</string>
+    <string name="sim_manage_messages_title" msgid="3989147182100584333">"சிம் கார்டில் உள்ள உரைச் செய்திகள்"</string>
     <string name="sim_view" msgid="1997173541766393706">"காட்டு"</string>
-    <string name="sim_empty" msgid="2356766833071636297">"SIM கார்டில் செய்திகள் இல்லை."</string>
+    <string name="sim_empty" msgid="2356766833071636297">"சிம் கார்டில் செய்திகள் இல்லை."</string>
     <string name="delivery_header_title" msgid="5361719578869045764">"அறிக்கை"</string>
     <string name="status_none" msgid="8253075950774894961">"(ஏதுமில்லை)"</string>
     <string name="status_pending" msgid="2739860824607984892">"நிலுவையிலுள்ளது"</string>
@@ -258,7 +258,7 @@
     <string name="notification_multiple_title" msgid="332602028959557541">"புதிய செய்திகள்"</string>
     <string name="notification_failed_multiple" msgid="6192531993698497229">"<xliff:g id="COUNT">%s</xliff:g> செய்திகளை அனுப்ப முடியவில்லை"</string>
     <string name="notification_failed_multiple_title" msgid="1112032024904397126">"செய்திகள் அனுப்பப்படவில்லை"</string>
-    <string name="sim_full_title" msgid="1809829051697702810">"SIM கார்டு நிரம்பியது"</string>
+    <string name="sim_full_title" msgid="1809829051697702810">"சிம் கார்டு நிரம்பியது"</string>
     <string name="sim_full_body" msgid="6241664980790322925">"கூடுதல் சேமிப்பிடத்தை உருவாக்க சில செய்திகளை நீக்கவும்."</string>
     <string name="sms_full_title" msgid="6041287140125011854">"உரைச் செய்தியின் நினைவகம் நிரம்பியது"</string>
     <string name="sms_full_body" msgid="4885861852397651868">"நினைவகம் நிரம்பியதால் உள்வரும் செய்தி நிராகரிக்கப்பட்டது. பழைய செய்திகள் சிலவற்றை நீக்கவும்."</string>
@@ -304,9 +304,9 @@
     <string name="edit_slide_activity" msgid="8752829671778696983">"ஸ்லைடை திருத்து"</string>
     <string name="slideshow_activity" msgid="5658249461317434432">"ஸ்லைடுகாட்சி"</string>
     <string name="class_0_message_activity" msgid="6631339964159861048">"கிளாஸ் 0 செய்தி"</string>
-    <string name="search_label" msgid="6042598929386174964">"செய்தியிடல்"</string>
+    <string name="search_label" msgid="6042598929386174964">"மெசேஜ்"</string>
     <string name="search_hint" msgid="7273727663577472044">"செய்தியிடலைத் தேடு"</string>
-    <string name="search" msgid="7560238620274735199">"செய்தியிடல்"</string>
+    <string name="search" msgid="7560238620274735199">"மெசேஜ்"</string>
     <string name="search_setting_description" msgid="4104004595086437572">"உங்கள் செய்திகளில் உள்ள உரை"</string>
     <string name="search_empty" msgid="2109551478056039278">"பொருத்தங்கள் ஏதுமில்லை."</string>
   <plurals name="search_results_title">
@@ -317,7 +317,7 @@
     <string name="confirm_clear_search_title" msgid="8510295993632032904">"அழி"</string>
     <string name="confirm_clear_search_text" msgid="8731877031837077478">"தேடல் வரலாறு அழிக்கப்படும்."</string>
     <string name="pref_mms_clear_search_history_title" msgid="6159758850628148164">"தேடல் வரலாற்றை அழி"</string>
-    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"முந்தைய செய்தியிடல் தேடல்களைத் தேடல் பெட்டியில் காட்டுவதிலிருந்து அழி"</string>
+    <string name="pref_mms_clear_search_history_summary" msgid="7960005384066460035">"முந்தைய மெசேஜ் தேடல்களைத் தேடல் பெட்டியில் காட்டுவதிலிருந்து அழி"</string>
     <string name="save" msgid="6847069284991531310">"சேமி"</string>
     <string name="storage_limits_title" msgid="7074684882530693016">"செய்திகளை வரம்பிடு"</string>
     <string name="storage_limits_message" msgid="2010501485394745696">"உரையாடல் ஒன்றிற்கு எத்தனை செய்திகளை நீங்கள் சேமிக்கலாம் என்பதை வரம்பிடவா?"</string>
@@ -339,7 +339,7 @@
   <plurals name="recipient_count">
     <item quantity="other" msgid="7338580381574463136">"<xliff:g id="NUMBER">%1$s</xliff:g> பேர்"</item>
   </plurals>
-    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"இயல்பான செய்தியிடல் பயன்பாட்டிலிருந்து பிரதி உரைச் செய்தி அறிவிப்புகளை நிறுத்தவா?"</string>
+    <string name="disable_notifications_dialog_message" msgid="7644011234972074096">"இயல்பான மெசேஜ் பயன்பாட்டிலிருந்து பிரதி உரைச் செய்தி அறிவிப்புகளை நிறுத்தவா?"</string>
     <string name="view_more_conversations" msgid="7275920132410734671">"மேலும் உரையாடல்களைக் காட்டு"</string>
     <string name="attachment_audio" msgid="2867960243300539143">"ஆடியோ"</string>
     <string name="attachment_slideshow" msgid="5867689101881763318">"ஸ்லைடுகாட்சி"</string>
@@ -352,7 +352,7 @@
     <string name="storage_warning_content" msgid="1100367816649962354">"புதிய SMS/MMS செய்திகளைப் பெறமாட்டீர்கள்"</string>
     <string name="label_mms_send_outbox_msg" msgid="3395185162973061099">"MMS விழிப்பு"</string>
     <string name="desc_mms_send_outbox_msg" msgid="1837156781311437148">"எல்லா MMSகளையும் அவுட்பாக்ஸிலிருந்து நெட்வொர்க்கிற்கு அனுப்புகிறது"</string>
-    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"செய்தியிடல், உங்கள் SMS பயன்பாடு இல்லை"</string>
+    <string name="banner_sms_promo_title_initial" msgid="510014388581481569">"மெசேஜ், உங்கள் SMS பயன்பாடு இல்லை"</string>
     <string name="banner_sms_promo_title_application" msgid="8123569785369713254">"<xliff:g id="APPNAME">%s</xliff:g>, உங்கள் SMS பயன்பாடாகும்"</string>
     <string name="banner_sms_promo_message" msgid="3536714414252763826">"நீங்கள் இதை அமைப்புகளில் மாற்றலாம்"</string>
 </resources>
