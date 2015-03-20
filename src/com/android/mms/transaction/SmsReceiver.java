@@ -49,7 +49,8 @@ public class SmsReceiver extends BroadcastReceiver {
         // no-permissions receiver class.  If we get an SMS_RECEIVED message that way, it
         // means someone has tried to spoof the message by delivering it outside the normal
         // permission-checked route, so we just ignore it.
-        if (!privileged && intent.getAction().equals(Intents.SMS_DELIVER_ACTION)) {
+        if (intent == null || intent.getAction() == null ||
+            !privileged && intent.getAction().equals(Intents.SMS_DELIVER_ACTION)) {
             return;
         }
 

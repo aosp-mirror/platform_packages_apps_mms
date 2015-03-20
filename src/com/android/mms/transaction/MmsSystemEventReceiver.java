@@ -59,6 +59,10 @@ public class MmsSystemEventReceiver extends BroadcastReceiver {
         }
 
         String action = intent.getAction();
+        if (action == null) {
+          return;
+        }
+
         if (action.equals(Mms.Intents.CONTENT_CHANGED_ACTION)) {
             Uri changed = (Uri) intent.getParcelableExtra(Mms.Intents.DELETED_CONTENTS);
             MmsApp.getApplication().getPduLoaderManager().removePdu(changed);

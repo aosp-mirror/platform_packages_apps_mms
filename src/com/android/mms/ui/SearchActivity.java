@@ -268,7 +268,7 @@ public class SearchActivity extends ListActivity
         setContentView(R.layout.search_activity);
         ContentResolver cr = getContentResolver();
 
-        searchStringParameter = searchStringParameter.trim();
+        //searchStringParameter = searchStringParameter.trim();
         final ListView listView = getListView();
         listView.setItemsCanFocus(true);
         listView.setFocusable(true);
