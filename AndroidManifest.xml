@@ -250,7 +250,8 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".transaction.MessageStatusReceiver">
+        <receiver android:name=".transaction.MessageStatusReceiver"
+            android:permission="android.permission.WRITE_SMS">
             <intent-filter>
                 <action android:name="com.android.mms.transaction.MessageStatusReceiver.MESSAGE_STATUS_RECEIVED" />
             </intent-filter>
