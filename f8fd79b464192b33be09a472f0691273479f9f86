@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b59b3e9_64798ad6",
+        "filename": "src/com/android/mms/transaction/MessageStatusService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1005243
+      },
+      "writtenOn": "2015-12-01T15:51:24Z",
+      "side": 1,
+      "message": "Which object maybe null?We\u0027d better to find the root cause of NPE instead of catching the whole statement, or shall we catch all Mms?QAQ",
+      "range": {
+        "startLine": 107,
+        "startChar": 23,
+        "endLine": 107,
+        "endChar": 24
+      },
+      "revId": "f8fd79b464192b33be09a472f0691273479f9f86",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889",
+      "unresolved": false
+    }
+  ]
+}
